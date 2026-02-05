@@ -5,6 +5,8 @@
 #include "src/maps/CampMap.c"
 #include "src/tiles/Hector.c"
 #include "src/tiles/Safy.c"
+#include "src/tiles/DungeonTiles.c"
+#include "src/maps/Dungeon.c"
 
 
 /* PROTOTYPES */
@@ -13,7 +15,10 @@ void move_character();
 void check_input_movement();
 uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y);
+void set_camp_map();
+void set_dungeon_map();
 /* VARS */
+
 
 int tile_id = 0;
 uint8_t x = 120;
@@ -26,49 +31,33 @@ uint8_t hp = 23;
 uint8_t attack = 7;
 uint8_t defense = 5;
 
+
+
+
+/* GAME VARS*/
 uint8_t menu_opened = 0;
-
-
+uint8_t current_location = 1; // 0 camp, 1 dungeon
+uint8_t current_floor = 0;
 
 void main(void) {
     cls();
 
 
-    set_bkg_data(0, 108, CampTiles);
+    
     set_sprite_data(0, 4, Character);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
-
-    set_bkg_tiles(0, 0, 20, 18, Camp);
+    if (current_location == 0){
+        set_camp_map();
+    }
+    else {
+        set_dungeon_map();
+    }
 
     set_sprite_tile(0, 0);
     set_sprite_tile(1, 1);
     set_sprite_tile(2, 2);
     set_sprite_tile(3, 3);
-
-    set_sprite_tile(4, 16);
-    set_sprite_tile(5, 17);
-    set_sprite_tile(6, 18);
-    set_sprite_tile(7, 19);
-
-    set_sprite_tile(8, 20);
-    set_sprite_tile(9, 21);
-    set_sprite_tile(10, 22);
-    set_sprite_tile(11, 23);
-
-
-    move_sprite(4, 40, 64);
-    move_sprite(5, 48, 64);
-    move_sprite(6, 40, 72);
-    move_sprite(7, 48, 72);
-
-    move_sprite(8, 120, 64);
-    move_sprite(9, 128, 64);
-    move_sprite(10, 120, 72);
-    move_sprite(11, 128, 72);
-
-
-
     move_character();
 
     SHOW_SPRITES;
@@ -126,9 +115,13 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
     uint16_t tile_index = (uint16_t)grid_y * 20 + grid_x;
 
     if (tile_index >= 360) return 0; 
-
+    if (current_location == 0){
     uint8_t tile_id = Camp[tile_index];
-
+    }
+    else {
+        return 1;
+    }
+        
     if (camp_collisions[tile_id] == 1) {
         return 0; // wall
     }
@@ -137,8 +130,43 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
 }
 
 uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
-    if (target_x == 120 && target_y == 64) {
-        return 1;
+    if (current_location == 0){
+        if (target_x == 120 && target_y == 64) {
+            return 1;
+        }
     }
     return 0;
+    
+}
+
+void set_camp_map(){
+    set_bkg_tiles(0, 0, 20, 18, Camp);
+    set_bkg_data(0, 108, CampTiles);
+
+
+    set_sprite_tile(4, 16);
+    set_sprite_tile(5, 17);
+    set_sprite_tile(6, 18);
+    set_sprite_tile(7, 19);
+
+    set_sprite_tile(8, 20);
+    set_sprite_tile(9, 21);
+    set_sprite_tile(10, 22);
+    set_sprite_tile(11, 23);
+
+
+    move_sprite(4, 40, 64);
+    move_sprite(5, 48, 64);
+    move_sprite(6, 40, 72);
+    move_sprite(7, 48, 72);
+
+    move_sprite(8, 120, 64);
+    move_sprite(9, 128, 64);
+    move_sprite(10, 120, 72);
+    move_sprite(11, 128, 72);
+}
+
+void set_dungeon_map(){
+    set_bkg_tiles(0, 0, 20, 18, room1);
+    set_bkg_data(0, 52, DungeonTiles);
 }
