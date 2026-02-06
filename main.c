@@ -8,6 +8,10 @@
 #include "src/tiles/DungeonTiles.c"
 #include "src/maps/Dungeon.c"
 #include "src/scripts/generate_dungeon.h"
+#include "src/tiles/textbox.c"
+#include "src/tiles/Text.c"
+#include "src/tiles/mugshot.c"
+#include "src/scripts/gui.h"
 
 /* PROTOTYPES */
 
@@ -55,6 +59,13 @@ void main(void) {
     set_sprite_data(0, 4, Character);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
+
+    set_bkg_data(128, 47, Text);
+    set_bkg_data(175, 9, Textbox);
+    set_bkg_data(184, 16, Mugshot);
+
+    set_win_tiles(0, 0, 20, 18, gui_map);
+
     if (current_location == 0){
         set_camp_map();
     }
@@ -83,6 +94,7 @@ void main(void) {
 
     SHOW_SPRITES;
     SHOW_BKG;
+    SHOW_WIN;
     DISPLAY_ON;
 
     while(1) {
