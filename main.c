@@ -7,7 +7,7 @@
 #include "src/tiles/Safy.c"
 #include "src/tiles/DungeonTiles.c"
 #include "src/maps/Dungeon.c"
-
+#include "src/scripts/generate_dungeon.h"
 
 /* PROTOTYPES */
 
@@ -17,12 +17,15 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y);
 void set_camp_map();
 void set_dungeon_map();
+void set_room(Coords coord);
 /* VARS */
 
 
 int tile_id = 0;
 uint8_t x = 120;
 uint8_t y = 112;
+
+Coords player_coords;
 
 uint8_t last_joypad = 0;
 uint8_t current_joypad = 0;
@@ -37,12 +40,13 @@ uint8_t defense = 5;
 /* GAME VARS*/
 uint8_t menu_opened = 0;
 uint8_t current_location = 1; // 0 camp, 1 dungeon
-uint8_t current_floor = 0;
+uint8_t current_floor = 1;
 
 void main(void) {
     cls();
-
-
+    // start floor
+    
+    
     
     set_sprite_data(0, 4, Character);
     set_sprite_data(16, 4, Hector);
@@ -52,6 +56,19 @@ void main(void) {
     }
     else {
         set_dungeon_map();
+        generate_dungeon(current_floor);
+        Coords start;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (dungeon[i][j] == 'S') {
+                    start.x = i;
+                    start.y = j;
+                    player_coords.x = i;
+                    player_coords.y = j;
+                }
+            }
+        }
+        set_room(start);
     }
 
     set_sprite_tile(0, 0);
@@ -167,6 +184,56 @@ void set_camp_map(){
 }
 
 void set_dungeon_map(){
-    set_bkg_tiles(0, 0, 20, 18, room1);
     set_bkg_data(0, 52, DungeonTiles);
+}
+
+void set_room(Coords coord){
+    uint8_t door = doors[coord.x][coord.y];
+    switch (door) {
+    case 1:
+        set_bkg_tiles(0, 0, 20, 18, room1);
+        break;
+    case 2:
+        set_bkg_tiles(0, 0, 20, 18, room2);
+        break;
+    case 3:
+        set_bkg_tiles(0, 0, 20, 18, room3);
+        break;
+    case 4:
+        set_bkg_tiles(0, 0, 20, 18, room4);
+        break;
+    case 5:
+        set_bkg_tiles(0, 0, 20, 18, room5);
+        break;
+    case 6:
+        set_bkg_tiles(0, 0, 20, 18, room6);
+        break;
+    case 7:
+        set_bkg_tiles(0, 0, 20, 18, room7);
+        break;
+    case 8:
+        set_bkg_tiles(0, 0, 20, 18, room8);
+        break;
+    case 9:
+        set_bkg_tiles(0, 0, 20, 18, room9);
+        break;
+    case 10:
+        set_bkg_tiles(0, 0, 20, 18, room10);
+        break;
+    case 11:
+        set_bkg_tiles(0, 0, 20, 18, room11);
+        break;
+    case 12:
+        set_bkg_tiles(0, 0, 20, 18, room12);
+        break;
+    case 13:
+        set_bkg_tiles(0, 0, 20, 18, room13);
+        break;
+    case 14:
+        set_bkg_tiles(0, 0, 20, 18, room14);
+        break;
+    case 15:
+        set_bkg_tiles(0, 0, 20, 18, room15);
+        break;
+    }
 }
