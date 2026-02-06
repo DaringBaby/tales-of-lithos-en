@@ -18,7 +18,9 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y);
 void set_camp_map();
 void set_dungeon_map();
 void set_room(Coords coord);
+void change_room();
 /* VARS */
+
 
 
 int tile_id = 0;
@@ -26,6 +28,8 @@ uint8_t x = 120;
 uint8_t y = 112;
 
 Coords player_coords;
+const unsigned char * current_room;
+
 
 uint8_t last_joypad = 0;
 uint8_t current_joypad = 0;
@@ -83,6 +87,7 @@ void main(void) {
 
     while(1) {
         check_input_movement();
+        change_room();
         wait_vbl_done();
     }
 }
@@ -126,24 +131,33 @@ void check_input_movement() {
 }
 
 uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
-    uint8_t grid_x = (new_x - 8) / 8;
-    uint8_t grid_y = (new_y - 16) / 8; 
-
-    uint16_t tile_index = (uint16_t)grid_y * 20 + grid_x;
-
-    if (tile_index >= 360) return 0; 
-    if (current_location == 0){
-    uint8_t tile_id = Camp[tile_index];
+    
+    if (current_location != 0) {
+        if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
+            return 1; 
+        }
     }
-    else {
-        return 1;
+
+    
+    int16_t gx = ((int16_t)new_x - 8) / 8;
+    int16_t gy = ((int16_t)new_y - 16) / 8;
+
+    if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
+        return 0;
     }
+
+    uint16_t tile_index = (uint16_t)gy * 20 + gx;
+
+    if (current_location == 0) { 
+        uint8_t tile_id = Camp[tile_index];             // collisioni campo
+        if (camp_collisions[tile_id] == 1) return 0;
+    } else {
         
-    if (camp_collisions[tile_id] == 1) {
-        return 0; // wall
+        uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
+        if (tile_id > 3) return 0;
     }
 
-    return 1;  // can walk
+    return 1;
 }
 
 uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
@@ -191,49 +205,74 @@ void set_room(Coords coord){
     uint8_t door = doors[coord.x][coord.y];
     switch (door) {
     case 1:
-        set_bkg_tiles(0, 0, 20, 18, room1);
+        current_room = room1;
         break;
     case 2:
-        set_bkg_tiles(0, 0, 20, 18, room2);
+        current_room = room2;
         break;
     case 3:
-        set_bkg_tiles(0, 0, 20, 18, room3);
+        current_room = room3;
         break;
     case 4:
-        set_bkg_tiles(0, 0, 20, 18, room4);
+        current_room = room4;
         break;
     case 5:
-        set_bkg_tiles(0, 0, 20, 18, room5);
+        current_room = room5;
         break;
     case 6:
-        set_bkg_tiles(0, 0, 20, 18, room6);
+        current_room = room6;
         break;
     case 7:
-        set_bkg_tiles(0, 0, 20, 18, room7);
+        current_room = room7;
         break;
     case 8:
-        set_bkg_tiles(0, 0, 20, 18, room8);
+        current_room = room8;
         break;
     case 9:
-        set_bkg_tiles(0, 0, 20, 18, room9);
+        current_room = room9;
         break;
     case 10:
-        set_bkg_tiles(0, 0, 20, 18, room10);
+        current_room = room10;
         break;
     case 11:
-        set_bkg_tiles(0, 0, 20, 18, room11);
+        current_room = room11;
         break;
     case 12:
-        set_bkg_tiles(0, 0, 20, 18, room12);
+        current_room = room12;
         break;
     case 13:
-        set_bkg_tiles(0, 0, 20, 18, room13);
+        current_room = room13;
         break;
     case 14:
-        set_bkg_tiles(0, 0, 20, 18, room14);
+        current_room = room14;
         break;
     case 15:
-        set_bkg_tiles(0, 0, 20, 18, room15);
+        current_room = room15;
         break;
     }
+    set_bkg_tiles(0, 0, 20, 18, current_room);
+}
+
+void change_room() {
+    if (x > 160 && x < 240) {
+        player_coords.x++;
+        x = 8;
+        set_room(player_coords);
+    }
+    else if (x > 240) {
+        player_coords.x--;
+        x = 152;
+        set_room(player_coords);
+    }
+    else if (y > 144) {
+        player_coords.y++;
+        y = 16;
+        set_room(player_coords);
+    }
+    else if (y < 8) {
+        player_coords.y--;
+        y = 144;
+        set_room(player_coords);
+    }
+    move_character();
 }
