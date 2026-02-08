@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 46
+  Tiles                : 0 to 50
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -29,6 +29,7 @@
 #define TextBank 0
 /* Start of tile array. */
 extern const unsigned char Text[];
+extern const unsigned char MiniGUI[];
 
 #endif
 

@@ -23,6 +23,10 @@ void set_camp_map();
 void set_dungeon_map();
 void set_room(Coords coord);
 void change_room();
+void set_stats();
+void check_open_menu();
+void clean_window();
+void set_mini_menu();
 /* VARS */
 
 
@@ -38,10 +42,29 @@ const unsigned char * current_room;
 uint8_t last_joypad = 0;
 uint8_t current_joypad = 0;
 
-uint8_t hp = 23;
-uint8_t attack = 7;
-uint8_t defense = 5;
 
+/* PLAYER STATS */
+uint8_t max_hp = 23;
+uint8_t current_hp = 23;
+uint8_t attack = 5;
+uint8_t defense = 3;
+uint8_t level = 1;
+uint8_t experience = 0;
+uint8_t sword_lvl = 1;
+uint8_t shield_lvl = 1;
+uint8_t arrow_lvl = 1;
+uint8_t quiver_lvl = 1;
+uint8_t potion_quant_lvl = 1;
+uint8_t potion_heal_lvl = 1;
+
+/* NUMBER OF ITEMS */
+uint8_t heals = 5;
+uint8_t heal_quantity = 10;
+uint8_t arrow_damage = 5;
+uint8_t num_arrows = 10;
+
+uint8_t minerals = 0;
+uint8_t exp = 0;
 
 
 
@@ -50,22 +73,23 @@ uint8_t menu_opened = 0;
 uint8_t current_location = 1; // 0 camp, 1 dungeon
 uint8_t current_floor = 1;
 
+
 void main(void) {
     cls();
     // start floor
-    
     
     
     set_sprite_data(0, 4, Character);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
 
-    set_bkg_data(128, 47, Text);
-    set_bkg_data(175, 9, Textbox);
-    set_bkg_data(184, 16, Mugshot);
+    set_bkg_data(128, 51, Text);
+    set_bkg_data(179, 9, Textbox);
+    set_bkg_data(188, 16, Mugshot);
+    set_bkg_data(220, 3, MiniGUI);
 
-    set_win_tiles(0, 0, 20, 18, gui_map);
-
+    move_win(7, 136);
+    set_mini_menu();
     if (current_location == 0){
         set_camp_map();
     }
@@ -98,7 +122,10 @@ void main(void) {
     DISPLAY_ON;
 
     while(1) {
-        check_input_movement();
+        check_open_menu();
+        if (menu_opened == 0){
+            check_input_movement();
+        }
         change_room();
         wait_vbl_done();
     }
@@ -287,4 +314,92 @@ void change_room() {
         set_room(player_coords);
     }
     move_character();
+}
+
+void set_stats() {
+    uint8_t hp[5];
+    uint8_t name[] = {146, 147, 128, 145, 138}; // per ora nome di default: Stark
+    uint8_t atk[2];
+    uint8_t def[2];
+    uint8_t exp[3];
+    uint8_t stat;
+    uint8_t mythril[2];
+    hp[0] = current_hp/10 + 154;
+    hp[1] = current_hp % 10 + 154;
+    hp[2] = 176;
+    hp[3] = max_hp/10 + 154;
+    hp[4] = max_hp % 10 + 154;
+    atk[0] = attack / 10 + 154;
+    atk[1] = attack % 10 + 154;
+    def[0] = defense / 10 + 154;
+    def[1] = defense % 10 + 154;
+    exp[0] = experience / 100 + 154;
+    exp[1] = experience % 100 / 10 + 154;
+    exp[2] = experience % 10 + 154;
+    mythril[0] = minerals / 10 + 154;
+    mythril[1] = minerals % 10 + 154;
+    set_win_tiles(12, 6, 5, 1, hp);
+    set_win_tiles(14, 4, 5, 1, name);
+    set_win_tiles(12, 8, 2, 1, atk);
+    set_win_tiles(12, 10, 2, 1, def);
+    set_win_tiles(16, 14, 3, 1, exp);
+    set_win_tiles(14, 16, 2, 1, mythril);
+    stat = sword_lvl + 154;
+    set_win_tiles(4, 12, 1, 1, &stat);
+    stat = shield_lvl + 154;
+    set_win_tiles(4, 14, 1, 1, &stat);
+    stat = arrow_lvl + 154;
+    set_win_tiles(4, 16, 1, 1, &stat);
+    stat = quiver_lvl + 154;
+    set_win_tiles(9, 12, 1, 1, &stat);
+    stat = potion_quant_lvl + 154;
+    set_win_tiles(9, 14, 1, 1, &stat);
+    stat = potion_heal_lvl + 154;
+    set_win_tiles(9, 16, 1, 1, &stat);
+    stat = level + 154;
+    set_win_tiles(15, 12, 1, 1, &stat);
+}
+
+void check_open_menu() {
+    current_joypad = joypad();
+    if ((current_joypad & J_START) && !(last_joypad & J_START)) {
+        if (menu_opened == 0){
+            move_win(7, 0);
+            set_win_tiles(0, 0, 20, 18, gui_map);
+            set_stats();
+            HIDE_SPRITES;
+            menu_opened = 1;
+        }
+        else {
+            move_win(7, 136);
+            set_mini_menu();
+            
+            SHOW_SPRITES;
+            menu_opened = 0;
+        }
+    }
+    last_joypad = current_joypad;
+}
+
+void set_mini_menu() {
+    uint8_t hp[5];
+    uint8_t n_arr[2];
+    uint8_t n_heals[2];
+    uint8_t n_floor[2];
+    hp[0] = current_hp/10 + 154;
+    hp[1] = current_hp % 10 + 154;
+    hp[2] = 176;
+    hp[3] = max_hp/10 + 154;
+    hp[4] = max_hp % 10 + 154;
+    n_arr[0] = num_arrows / 10 + 154;
+    n_arr[1] = num_arrows % 10 + 154;
+    n_heals[0] = heals / 10 + 154;
+    n_heals[1] = heals % 10 + 154;
+    n_floor[0] = current_floor / 10 + 154;
+    n_floor[1] = current_floor % 10 + 154;
+    set_win_tiles(0, 0, 20, 1, mini_gui);
+    set_win_tiles(3, 0, 5, 1, hp);
+    set_win_tiles(10, 0, 2, 1, n_arr);
+    set_win_tiles(13, 0, 2, 1, n_heals);
+    set_win_tiles(18, 0, 2, 1, n_floor);
 }
