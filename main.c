@@ -33,6 +33,9 @@ void check_input_keys();
 void check_menu_options(uint8_t chara);
 void hector_upgrades();
 void safy_upgrades();
+void go_into_dungeon();
+void hide_camp_sprites();
+void go_next_floor();
 /* VARS */
 
 int tile_id = 0;
@@ -123,20 +126,7 @@ void main(void) {
     }
 
     else {
-        set_dungeon_map();
-        generate_dungeon(current_floor);
-        Coords start;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (dungeon[i][j] == 'S') {
-                    start.x = i;
-                    start.y = j;
-                    player_coords.x = i;
-                    player_coords.y = j;
-                }
-            }
-        }
-        set_room(start);
+        go_into_dungeon();
     }
 
     set_sprite_tile(0, 0);
@@ -196,6 +186,18 @@ else if (joypad() & J_UP) {
         y -= 16;
         move_character();
         delay(100);
+        // check per entrare nel dungeon
+        if (current_location == 0 && y <= 40) {
+            current_location = 1;
+            current_floor = 1;
+            hide_camp_sprites();
+            go_into_dungeon();
+            x = 120;
+            y = 112;
+        }
+        if (current_location == 1 && dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
+            go_next_floor();
+        }
     }
 }
     else if (joypad() & J_LEFT) {
@@ -203,6 +205,10 @@ else if (joypad() & J_UP) {
             x -= 16;
             move_character();
             delay(100);
+            
+        }
+        if (current_location == 1 && dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
+            go_next_floor();
         }
     }
     else if (joypad() & J_RIGHT) {
@@ -324,6 +330,18 @@ void set_camp_map(){
     move_sprite(9, 128, 64);
     move_sprite(10, 120, 72);
     move_sprite(11, 128, 72);
+}
+
+void hide_camp_sprites() {
+    set_sprite_tile(4, 50);
+    set_sprite_tile(5, 50);
+    set_sprite_tile(6, 50);
+    set_sprite_tile(7, 50);
+
+    set_sprite_tile(8, 50);
+    set_sprite_tile(9, 50);
+    set_sprite_tile(10, 50);
+    set_sprite_tile(11, 50);
 }
 
 void set_dungeon_map(){
@@ -679,4 +697,38 @@ void safy_upgrades() {
         SHOW_SPRITES;
         set_mini_menu();
     }
+}
+
+void go_into_dungeon() {
+    set_dungeon_map();
+    generate_dungeon(current_floor);
+    Coords start;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (dungeon[i][j] == 'S') {
+                start.x = i;
+                start.y = j;
+                player_coords.x = i;
+                player_coords.y = j;
+            }
+        }
+    }
+    set_room(start);
+}
+
+void go_next_floor() {
+    current_floor++;
+    generate_dungeon(current_floor);
+    Coords start;
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (dungeon[i][j] == 'S') {
+                start.x = i;
+                start.y = j;
+                player_coords.x = i;
+                player_coords.y = j;
+            }
+        }
+    }
+    set_room(start);
 }
