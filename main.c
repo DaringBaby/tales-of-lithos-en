@@ -13,6 +13,7 @@
 #include "src/tiles/mugshot.c"
 #include "src/tiles/DungeonObjects.c"
 #include "src/tiles/Arrow.c"
+#include "src/tiles/Lock.c"
 #include "src/scripts/gui.h"
 
 /* PROTOTYPES */
@@ -36,6 +37,11 @@ void safy_upgrades();
 void go_into_dungeon();
 void hide_camp_sprites();
 void go_next_floor();
+void draw_lock_v(uint8_t x, uint8_t y);
+void draw_flip_lock_v(uint8_t x, uint8_t y);
+void draw_lock_h(uint8_t x, uint8_t y);
+void draw_flip_lock_h(uint8_t x, uint8_t y);
+void hide_door();
 /* VARS */
 
 int tile_id = 0;
@@ -97,8 +103,9 @@ const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
 const uint8_t cure_upgrade_costs[] = {7, 12, 17, 23, 29, 35, 42, 50};
 const uint8_t level_curve[] = {12, 25, 38, 52, 66, 81, 97, 113, 120, 130, 145, 160, 175, 190, 205, 220, 235, 248, 255};
 /* FLAGS */
-uint8_t key_obtained = 0;
+uint8_t key_obtained = 1;
 uint8_t treasure_obtained = 0;
+uint8_t lock_opened = 0;
 
 
 void main(void) {
@@ -110,6 +117,7 @@ void main(void) {
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
     set_sprite_data(50, 1, blank);
+    set_sprite_data(51, 8, Lock);
 
     set_bkg_data(128, 51, Text);
     set_bkg_data(179, 9, Textbox);
@@ -117,10 +125,12 @@ void main(void) {
     set_bkg_data(220, 3, MiniGUI);
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
+    
 
     move_win(7, 136);
     set_mini_menu();
 
+    
     if (current_location == 0){
         set_camp_map();
     }
@@ -134,7 +144,6 @@ void main(void) {
     set_sprite_tile(2, 2);
     set_sprite_tile(3, 3);
     move_character();
-
     SHOW_SPRITES;
     SHOW_BKG;
     SHOW_WIN;
@@ -234,6 +243,32 @@ void check_input_keys() {
                 key_obtained = 1;
                 set_bkg_tiles(8, 6, 4, 2, chest_opened);
             }
+            else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
+                switch (locked_door) {
+                    case 1:
+                        if (gx >= 8 && gx <= 11 && gy <= 4) {
+                            lock_opened = 1;
+                            hide_door();
+                            // open_door();
+                        }
+                        break;
+                    case 2:
+                        if (gy >= 8 && gy <= 9 && gx >= 16) {
+                            // open_door();
+                        }
+                        break;
+                    case 4:
+                        if (gy >= 16) {
+                            // return 0;
+                        }
+                        break;
+                    case 8:
+                        if (gx <= 1) {
+                            // return 0;
+                        }
+                        break;
+                }
+            }
         }
         else if (current_location == 0) {
             if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
@@ -286,6 +321,30 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
         if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
             if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
                 return 0;
+            }
+        }
+        if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
+            switch (locked_door) {
+                case 1:
+                    if (gy <= 1) {
+                        return 0;
+                    }
+                    break;
+                case 2:
+                    if (gx >= 18) {
+                        return 0;
+                    }
+                    break;
+                case 4:
+                    if (gy >= 16) {
+                        return 0;
+                    }
+                    break;
+                case 8:
+                    if (gx <= 1) {
+                        return 0;
+                    }
+                    break;
             }
         }
         uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
@@ -398,12 +457,31 @@ void set_room(Coords coord){
         break;
     }
     set_bkg_tiles(0, 0, 20, 18, current_room);
+    hide_door();
     if (dungeon[coord.x][coord.y] == 'K') {
         if (key_obtained == 0){
             set_bkg_tiles(8, 6, 4, 2, chest_closed);
         }
         else {
             set_bkg_tiles(8, 6, 4, 2, chest_opened);
+        }
+    }
+    else if (dungeon[coord.x][coord.y] == 'L') {
+        if (lock_opened == 0) {
+            switch (locked_door) {
+                case 1:
+                    draw_lock_v(72, 16);
+                    break;
+                case 2:
+                    draw_lock_h(152, 80);
+                    break;
+                case 4:
+                    draw_flip_lock_v(72, 144);
+                    break;
+                case 8:
+                    draw_flip_lock_h(8, 80);
+                    break;
+            }
         }
     }
     else if (dungeon[coord.x][coord.y] == 'T') {
@@ -731,4 +809,130 @@ void go_next_floor() {
         }
     }
     set_room(start);
+}
+
+
+void draw_lock_v(uint8_t x, uint8_t y) {
+    set_sprite_tile(21, 51);
+    set_sprite_prop(21, 0);
+    move_sprite(21, x, y);
+
+    set_sprite_tile(22, 55);
+    set_sprite_prop(22, 0);
+    move_sprite(22, x, y + 8);
+
+    set_sprite_tile(23, 52);
+    set_sprite_prop(23, 0);
+    move_sprite(23, x + 8, y);
+
+    set_sprite_tile(24, 56);
+    set_sprite_prop(24, 0);
+    move_sprite(24, x + 8, y + 8);
+
+    set_sprite_tile(25, 52);
+    set_sprite_prop(25, S_FLIPX);
+    move_sprite(25, x + 16, y);
+
+    set_sprite_tile(26, 56);
+    set_sprite_prop(26, S_FLIPX);
+    move_sprite(26, x + 16, y + 8);
+
+    set_sprite_tile(27, 51);
+    set_sprite_prop(27, S_FLIPX);
+    move_sprite(27, x + 24, y);
+
+    set_sprite_tile(28, 55);
+    set_sprite_prop(28, S_FLIPX);
+    move_sprite(28, x + 24, y + 8);
+}
+
+void draw_flip_lock_v(uint8_t x, uint8_t y) {
+    set_sprite_tile(21, 55);
+    set_sprite_prop(21, S_FLIPY);
+    move_sprite(21, x, y);
+
+    set_sprite_tile(22, 50);
+    set_sprite_prop(22, S_FLIPY);
+    move_sprite(22, x, y + 8);
+
+    set_sprite_tile(23, 56);
+    set_sprite_prop(23, S_FLIPY);
+    move_sprite(23, x + 8, y);
+
+    set_sprite_tile(24, 50);
+    set_sprite_prop(24, S_FLIPY);
+    move_sprite(24, x + 8, y + 8);
+
+    set_sprite_tile(25, 56);
+    set_sprite_prop(25, S_FLIPX | S_FLIPY);
+    move_sprite(25, x + 16, y);
+
+    set_sprite_tile(26, 50);
+    set_sprite_prop(26, S_FLIPX | S_FLIPY);
+    move_sprite(26, x + 16, y + 8);
+
+    set_sprite_tile(27, 55);
+    set_sprite_prop(27, S_FLIPX | S_FLIPY);
+    move_sprite(27, x + 24, y);
+
+    set_sprite_tile(28, 50);
+    set_sprite_prop(28, S_FLIPX | S_FLIPY);
+    move_sprite(28, x + 24, y + 8);
+}
+
+void draw_lock_h(uint8_t x, uint8_t y) {
+    set_sprite_tile(21, 53);
+    set_sprite_prop(21, 0);
+    move_sprite(21, x, y);
+
+    set_sprite_tile(22, 54);
+    set_sprite_prop(22, 0);
+    move_sprite(22, x + 8, y);
+
+    set_sprite_tile(23, 57);
+    set_sprite_prop(23, 0);
+    move_sprite(23, x, y + 8);
+
+    set_sprite_tile(24, 58);
+    set_sprite_prop(24, 0);
+    move_sprite(24, x + 8, y + 8);
+
+    move_sprite(25, 0, 0);
+    move_sprite(26, 0, 0);
+    move_sprite(27, 0, 0);
+    move_sprite(28, 0, 0);
+}
+
+void draw_flip_lock_h(uint8_t x, uint8_t y) {
+    set_sprite_tile(21, 53);
+    set_sprite_prop(21, S_FLIPX);
+    move_sprite(21, x + 8, y);
+
+    set_sprite_tile(22, 54);
+    set_sprite_prop(22, S_FLIPX);
+    move_sprite(22, x, y);
+
+    set_sprite_tile(23, 57);
+    set_sprite_prop(23, S_FLIPX);
+    move_sprite(23, x + 8, y + 8);
+
+    set_sprite_tile(24, 58);
+    set_sprite_prop(24, S_FLIPX);
+    move_sprite(24, x, y + 8);
+
+    move_sprite(25, 0, 0);
+    move_sprite(26, 0, 0);
+    move_sprite(27, 0, 0);
+    move_sprite(28, 0, 0);
+}
+
+void hide_door() {
+    set_sprite_tile(21, 50);
+    set_sprite_tile(22, 50);
+    set_sprite_tile(23, 50);
+    set_sprite_tile(24, 50);
+    set_sprite_tile(25, 50);
+    set_sprite_tile(26, 50);
+    set_sprite_tile(27, 50);
+    set_sprite_tile(28, 50);
 }

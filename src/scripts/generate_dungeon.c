@@ -9,6 +9,8 @@ const uint8_t max_length = 10;
 char dungeon[4][4];
 uint8_t doors[4][4];
 
+uint8_t locked_door;
+
 #define NORD 1
 #define EST 2
 #define SUD 4
@@ -97,25 +99,30 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
         uint8_t dir = directions[rand() % num_dirs];
 
         // creazione porte
+        uint8_t current_door;
         switch (dir) {
             case '1':
                 curr_y--;
                 doors[vx][vy] |= NORD;
+                current_door = NORD;
                 doors[curr_x][curr_y] |= SUD;
                 break;
             case '2':
                 curr_x++;
                 doors[vx][vy] |= EST;
+                current_door = EST;
                 doors[curr_x][curr_y] |= OVEST;
                 break;
             case '3':
                 curr_y++;
                 doors[vx][vy] |= SUD;
+                current_door = SUD;
                 doors[curr_x][curr_y] |= NORD;
                 break;
             case '4':
                 curr_x--;
                 doors[vx][vy] |= OVEST;
+                current_door = OVEST;
                 doors[curr_x][curr_y] |= EST;
                 break;
         }
@@ -128,6 +135,9 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
         }
         else if (curr_room == (int)(target_rooms / 2) + 1) {
             dungeon[curr_x][curr_y] = 'L';
+        }
+        else if (curr_room == (int)(target_rooms / 2) + 2) {
+            locked_door = current_door;
         }
         else if (curr_room < (int)(target_rooms / 2) + 1) {
             dungeon[curr_x][curr_y] = 'A';
