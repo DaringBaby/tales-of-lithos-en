@@ -30,10 +30,10 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000039  l__INITIA |    00000039  l__INITIA |    00000056  l__DATA  
      00000060  l__HEADER |    000000AB  l__HEADER |    00000200  s__CODE  
      0000086B  l__HOME   |    00002000  _rROMB0   |    00003000  _rROMB1  
-     00004000  _rMBC7_SR |    00004000  _rRAMB    |    00004E3F  l__CODE  
-     0000503F  s__HOME   |    000058AA  s__BASE   |    000058AA  s__CODE_0
-     000058AA  s__INITIA |    000058AA  s__LIT    |    000058E3  s__GSINIT
-     000058EF  s__GSFINA |    00008000  __VRAM    |    00008000  __VRAM800
+     00004000  _rMBC7_SR |    00004000  _rRAMB    |    00004EBD  l__CODE  
+     000050BD  s__HOME   |    00005928  s__BASE   |    00005928  s__CODE_0
+     00005928  s__INITIA |    00005928  s__LIT    |    00005961  s__GSINIT
+     0000596D  s__GSFINA |    00008000  __VRAM    |    00008000  __VRAM800
      00008800  __VRAM880 |    00009000  __VRAM900 |    00009800  __SCRN0  
      00009C00  __SCRN1   |    0000A000  __SRAM    |    0000A000  _rMBC7_LA
      0000A010  _rMBC7_LA |    0000A020  _rMBC7_AC |    0000A030  _rMBC7_AC
@@ -76,7 +76,7 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    00004E3F =       20031. bytes (REL,CON)
+_CODE                  00000200    00004EBD =       20157. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -94,26 +94,26 @@ _CODE                  00000200    00004E3F =       20031. bytes (REL,CON)
      00002C3B  _chest_op |    00002C43  _stairs   |    00002C47  _menu_bod
      00002C48  _upgrade_ |    00002C50  _cure_upg |    00002C58  _level_cu
      00002C6B  _move_cha |    00002CC8  _check_in |    00002E27  _check_in
-     000030B6  _check_te |    00003275  _is_sprit |    00003289  _set_camp
-     0000330F  _hide_cam |    00003338  _set_dung |    00003346  _set_room
-     0000350F  _change_r |    00003590  _set_stat |    00003767  _check_op
-     000037C7  _set_mini |    000038B8  _check_me |    000039F6  _hector_u
-     00003B8A  _safy_upg |    00003D1A  _go_into_ |    00003D96  _go_next_
-     00003E18  _draw_loc |    00003EB4  _draw_fli |    00003F50  _draw_loc
-     00003FB3  _draw_fli |    00004019  _hide_doo |    00004042  _set_text
-     00004150  _generate |    0000421C  _min_leng |    0000421D  _max_leng
-     0000421E  _empty_ar |    00004273  _create_l |    00004579  _append  
-     00004598  _add_bran |    000047E6  _find_nea |    0000491C  _shuffle_
-     000049A9  _create_d |    00004AB2  _gui_map  |    00004C1A  _mini_gui
-     00004C2E  _hector_m |    00004D46  _safy_men |    00004E5E  _obtained
-     00004EC2  _obtained |    00004F26  __divsuch |    00004F2C  __modsuch
-     00004F35  __divusch |    00004F3E  __modusch |    00004F4A  __divscha
-     00004F4F  __modscha |    00004F56  __divsint |    00004F5F  __modsint
-     00004F6B  __divucha |    00004F70  __moducha |    00004F77  __divuint
-     00004F80  __moduint |    00004F8C  .div8     |    00004F8C  .mod8    
-     00004F94  .div16    |    00004F94  .mod16    |    00004FCA  .divu8   
-     00004FCA  .modu8    |    00004FCD  .divu16   |    00004FCD  .modu16  
-     0000500D  ___memcpy |    0000500D  _memcpy  
+     0000312B  _check_te |    000032EA  _is_sprit |    000032FE  _set_camp
+     00003384  _hide_cam |    000033AD  _set_dung |    000033BB  _set_room
+     00003584  _change_r |    00003605  _set_stat |    000037DC  _check_op
+     0000383C  _set_mini |    00003936  _check_me |    00003A74  _hector_u
+     00003C08  _safy_upg |    00003D98  _go_into_ |    00003E14  _go_next_
+     00003E96  _draw_loc |    00003F32  _draw_fli |    00003FCE  _draw_loc
+     00004031  _draw_fli |    00004097  _hide_doo |    000040C0  _set_text
+     000041CE  _generate |    0000429A  _min_leng |    0000429B  _max_leng
+     0000429C  _empty_ar |    000042F1  _create_l |    000045F7  _append  
+     00004616  _add_bran |    00004864  _find_nea |    0000499A  _shuffle_
+     00004A27  _create_d |    00004B30  _gui_map  |    00004C98  _mini_gui
+     00004CAC  _hector_m |    00004DC4  _safy_men |    00004EDC  _obtained
+     00004F40  _obtained |    00004FA4  __divsuch |    00004FAA  __modsuch
+     00004FB3  __divusch |    00004FBC  __modusch |    00004FC8  __divscha
+     00004FCD  __modscha |    00004FD4  __divsint |    00004FDD  __modsint
+     00004FE9  __divucha |    00004FEE  __moducha |    00004FF5  __divuint
+     00004FFE  __moduint |    0000500A  .div8     |    0000500A  .mod8    
+     00005012  .div16    |    00005012  .mod16    |    00005048  .divu8   
+     00005048  .modu8    |    0000504B  .divu16   |    0000504B  .modu16  
+     0000508B  ___memcpy |    0000508B  _memcpy  
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -291,35 +291,35 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  0000503F    0000086B =        2155. bytes (REL,CON)
+_HOME                  000050BD    0000086B =        2155. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000503F  .memset_s |    00005048  .memcpy_s |    00005065  .display_
-     00005065  _display_ |    0000507D  _rand     |    0000507D  _randw   
-     000050A8  _initrand |    000050AA  .initrand |    000050B3  _set_win_
-     000050C7  _set_tile |    000050CC  _set_bkg_ |    000050CC  _set_win_
-     000050D4  _set_spri |    00005104  _font_loa |    0000510B  font_load
-     00005153  font_copy |    00005189  font_set  |    00005196  .put_char
-     000051AE  .out_char |    000051B4  .del_char |    0000520A  _putchar 
-     00005213  _setchar  |    0000521C  _font_loa |    0000522A  _font_set
-     00005239  _font_ini |    00005258  .cls      |    00005258  _cls     
-     0000527A  _gotoxy   |    00005285  _posx     |    00005296  _posy    
-     000052BE  .cr_curs  |    000052D3  .adv_curs |    0000532F  .tmode   
-     0000534C  .tmode_ou |    00005355  .padup    |    00005355  _waitpadu
-     00005365  .jpad     |    00005365  _joypad   |    0000538D  _waitpad 
-     0000538E  .wait_pad |    00005395  _color    |    00005395  _set_1bpp
-     000053A4  .drawing_ |    000053C1  _font_ibm |    000057A2  .add_LCD 
-     000057A2  _add_LCD  |    000057A8  .remove_L |    000057A8  _remove_L
-     000057AE  .delay    |    000057AE  _delay    |    000057DA  _set_bkg_
-     000057EE  .set_xy_w |    000057F7  .set_xy_b |    00005806  .set_xy_t
-     0000584A  _set_bkg_ |    0000584A  _set_win_ |    00005852  _set_spri
+     000050BD  .memset_s |    000050C6  .memcpy_s |    000050E3  .display_
+     000050E3  _display_ |    000050FB  _rand     |    000050FB  _randw   
+     00005126  _initrand |    00005128  .initrand |    00005131  _set_win_
+     00005145  _set_tile |    0000514A  _set_bkg_ |    0000514A  _set_win_
+     00005152  _set_spri |    00005182  _font_loa |    00005189  font_load
+     000051D1  font_copy |    00005207  font_set  |    00005214  .put_char
+     0000522C  .out_char |    00005232  .del_char |    00005288  _putchar 
+     00005291  _setchar  |    0000529A  _font_loa |    000052A8  _font_set
+     000052B7  _font_ini |    000052D6  .cls      |    000052D6  _cls     
+     000052F8  _gotoxy   |    00005303  _posx     |    00005314  _posy    
+     0000533C  .cr_curs  |    00005351  .adv_curs |    000053AD  .tmode   
+     000053CA  .tmode_ou |    000053D3  .padup    |    000053D3  _waitpadu
+     000053E3  .jpad     |    000053E3  _joypad   |    0000540B  _waitpad 
+     0000540C  .wait_pad |    00005413  _color    |    00005413  _set_1bpp
+     00005422  .drawing_ |    0000543F  _font_ibm |    00005820  .add_LCD 
+     00005820  _add_LCD  |    00005826  .remove_L |    00005826  _remove_L
+     0000582C  .delay    |    0000582C  _delay    |    00005858  _set_bkg_
+     0000586C  .set_xy_w |    00005875  .set_xy_b |    00005884  .set_xy_t
+     000058C8  _set_bkg_ |    000058C8  _set_win_ |    000058D0  _set_spri
 ASxxxx Linker V03.00/V05.40 + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           000058AA    00000039 =          57. bytes (REL,CON)
+_INITIALIZER           00005928    00000039 =          57. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -328,17 +328,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                000058E3    0000000C =          12. bytes (REL,CON)
+_GSINIT                00005961    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     000058E3  gsinit   
+     00005961  gsinit   
 ASxxxx Linker V03.00/V05.40 + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               000058EF    00000001 =           1. bytes (REL,CON)
+_GSFINAL               0000596D    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -415,11 +415,11 @@ Files Linked                              [ module(s) ]
 
 C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/crt0.o
                                           [ Runtime ]
-C:\Users\Utente\AppData\Local\Temp/lcc90640.o
+C:\Users\Utente\AppData\Local\Temp/lcc261840.o
                                           [ main ]
-C:\Users\Utente\AppData\Local\Temp/lcc90641.o
+C:\Users\Utente\AppData\Local\Temp/lcc261841.o
                                           [ generate_dungeon ]
-C:\Users\Utente\AppData\Local\Temp/lcc90642.o
+C:\Users\Utente\AppData\Local\Temp/lcc261842.o
                                           [ gui ]
 
 

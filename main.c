@@ -171,7 +171,8 @@ void main(void) {
         if (menu_opened == 0){
             check_input_movement();
             check_input_keys();
-            set_mini_menu();
+            set_mini_menu(); //sus
+            change_room();
         }
         else if (menu_opened == 2) {
             check_menu_options(0);
@@ -182,7 +183,7 @@ void main(void) {
         else if (menu_opened == 4) {
             // void
         }
-        change_room();
+        
         wait_vbl_done();
     }
 }
@@ -282,7 +283,6 @@ void check_input_keys() {
                         if (gy >= 8 && gy <= 9 && gx >= 16) {
                             lock_opened = 1;
                             hide_door();
-                            // open_door();
                         }
                         break;
                     case 4:
@@ -293,7 +293,8 @@ void check_input_keys() {
                         break;
                     case 8:
                         if (gx <= 3 && gy >= 8 && gy <= 9) {
-                            // return 0;
+                            lock_opened = 1;
+                            hide_door();
                         }
                         break;
                 }
@@ -301,6 +302,7 @@ void check_input_keys() {
         }
         else if (current_location == 0) {
             if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
+                while(joypad() & J_A) { wait_vbl_done(); }
                 menu_opened = 2;
                 HIDE_SPRITES;
                 move_win(7, 32);
@@ -309,6 +311,7 @@ void check_input_keys() {
                 delay(300);
             }
             else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
+                while(joypad() & J_A) { wait_vbl_done(); }
                 menu_opened = 3;
                 HIDE_SPRITES;
                 move_win(7, 32);
@@ -617,6 +620,9 @@ void check_open_menu() {
 }
 
 void set_mini_menu() {
+    if (menu_opened != 0) {
+        return;
+    }
     uint8_t hp[5];
     uint8_t n_arr[2];
     uint8_t n_heals[2];
@@ -765,7 +771,7 @@ void safy_upgrades() {
                 if (experience >= cost && joypad() & J_A) {
                     experience = experience - cost;
                     potion_heal_lvl++;
-                    heals = heals + 4;
+                    heal_quantity = heal_quantity + 4;
                     delay(300);
                 }
             }
