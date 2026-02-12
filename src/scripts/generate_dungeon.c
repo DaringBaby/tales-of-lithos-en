@@ -10,6 +10,7 @@ char dungeon[4][4];
 uint8_t doors[4][4];
 
 uint8_t locked_door;
+uint16_t current_seed = 3;
 
 #define NORD 1
 #define EST 2
@@ -19,43 +20,50 @@ uint8_t locked_door;
 
 
 void generate_dungeon(uint8_t current_floor) {
+    wait_vbl_done();
+    DISPLAY_OFF;
+    uint8_t dungeon_complete = 0;
     uint8_t floor = current_floor;
-    initrand(1); // seed di partenza
-    empty_array();
-    uint8_t start_x = rand() % 4;
-    uint8_t start_y = rand() % 4;
-    uint8_t length;
-    // per ora, num stanze dipende dal piano
-    switch (current_floor % 5) {
-        case 1:
-            length = 6;
-            break;
-        case 2:
-            length = 7;
-            break;
-        case 3:
-            length = 8;
-            break;
-        case 4:
-            length = 9;
-            break;
-        case 0:
-            length = 10;
-            break;
-    };
-    // crea dungeon, se non riesce a mettere il ramo chiave lo ricrea
-    dungeon[start_x][start_y] = 'S';
-    if (create_layout(start_x, start_y, length)) {
-        uint8_t key = add_branch('A', 'K');
-        if (key) {
-            add_branch('B', 'T');
+    current_seed++;
+    while (!dungeon_complete){
+        initrand(current_seed); // seed di partenza
+        empty_array();
+        uint8_t start_x = rand() % 4;
+        uint8_t start_y = rand() % 4;
+        uint8_t length;
+        // per ora, num stanze dipende dal piano
+        switch (current_floor % 5) {
+            case 1:
+                length = 6;
+                break;
+            case 2:
+                length = 7;
+                break;
+            case 3:
+                length = 8;
+                break;
+            case 4:
+                length = 9;
+                break;
+            case 0:
+                length = 10;
+                break;
+        };
+        // crea dungeon, se non riesce a mettere il ramo chiave lo ricrea
+        dungeon[start_x][start_y] = 'S';
+        if (create_layout(start_x, start_y, length)) {
+            uint8_t key = add_branch('A', 'K');
+            if (key) {
+                dungeon_complete = 1;
+                add_branch('B', 'T');
+            }
         }
-        else{
-            generate_dungeon(floor);
+        if (!dungeon_complete) {
+            current_seed++;
         }
-        
     }
-    
+    wait_vbl_done();
+    DISPLAY_ON;
 }
 
 void empty_array(){

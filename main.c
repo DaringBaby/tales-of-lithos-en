@@ -14,6 +14,8 @@
 #include "src/tiles/DungeonObjects.c"
 #include "src/tiles/Arrow.c"
 #include "src/tiles/Lock.c"
+#include "src/tiles/key.c"
+#include "src/tiles/mythril.c"
 #include "src/scripts/gui.h"
 
 /* PROTOTYPES */
@@ -42,6 +44,7 @@ void draw_flip_lock_v(uint8_t x, uint8_t y);
 void draw_lock_h(uint8_t x, uint8_t y);
 void draw_flip_lock_h(uint8_t x, uint8_t y);
 void hide_door();
+void set_textbox(uint8_t item);
 /* VARS */
 
 int tile_id = 0;
@@ -92,7 +95,7 @@ uint8_t minerals = 23;
 
 
 /* GAME VARS*/
-uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu
+uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox
 uint8_t current_location = 0; // 0 camp, 1 dungeon
 uint8_t current_floor = 1;
 
@@ -103,7 +106,7 @@ const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
 const uint8_t cure_upgrade_costs[] = {7, 12, 17, 23, 29, 35, 42, 50};
 const uint8_t level_curve[] = {12, 25, 38, 52, 66, 81, 97, 113, 120, 130, 145, 160, 175, 190, 205, 220, 235, 248, 255};
 /* FLAGS */
-uint8_t key_obtained = 1;
+uint8_t key_obtained = 0;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 
@@ -118,6 +121,8 @@ void main(void) {
     set_sprite_data(20, 4, Safy);
     set_sprite_data(50, 1, blank);
     set_sprite_data(51, 8, Lock);
+    set_sprite_data(59, 2, Key);
+    set_sprite_data(61, 4, Mythril);
 
     set_bkg_data(128, 51, Text);
     set_bkg_data(179, 9, Textbox);
@@ -129,6 +134,7 @@ void main(void) {
 
     move_win(7, 136);
     set_mini_menu();
+
 
     
     if (current_location == 0){
@@ -143,6 +149,17 @@ void main(void) {
     set_sprite_tile(1, 1);
     set_sprite_tile(2, 2);
     set_sprite_tile(3, 3);
+
+    // key, mythril
+    set_sprite_tile(29, 59);
+    set_sprite_tile(30, 60);
+    
+    set_sprite_tile(31, 61);
+    set_sprite_tile(32, 62);
+    set_sprite_tile(33, 63);
+    set_sprite_tile(34, 64);
+    
+
     move_character();
     SHOW_SPRITES;
     SHOW_BKG;
@@ -154,12 +171,16 @@ void main(void) {
         if (menu_opened == 0){
             check_input_movement();
             check_input_keys();
+            set_mini_menu();
         }
         else if (menu_opened == 2) {
             check_menu_options(0);
         }
         else if (menu_opened == 3) {
             check_menu_options(1);
+        }
+        else if (menu_opened == 4) {
+            // void
         }
         change_room();
         wait_vbl_done();
@@ -235,35 +256,43 @@ void check_input_keys() {
         uint8_t gx = (x - 8) / 8;
         uint8_t gy = (y - 16) / 8;
         if (current_location == 1) {
-            if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9) {
+            if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
                 treasure_obtained = 1;
                 set_bkg_tiles(8, 6, 4, 2, chest_opened);
+                delay(150);
+                menu_opened = 4;
+                set_textbox(2);
             }
-            else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9) {
+            else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
                 key_obtained = 1;
                 set_bkg_tiles(8, 6, 4, 2, chest_opened);
+                delay(150);
+                menu_opened = 4;
+                set_textbox(1);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
                 switch (locked_door) {
                     case 1:
-                        if (gx >= 8 && gx <= 11 && gy <= 4) {
+                        if (gx >= 8 && gx <= 11 && gy <= 3) {
+                            lock_opened = 1;
+                            hide_door();
+                        }
+                        break;
+                    case 2:
+                        if (gy >= 8 && gy <= 9 && gx >= 16) {
                             lock_opened = 1;
                             hide_door();
                             // open_door();
                         }
                         break;
-                    case 2:
-                        if (gy >= 8 && gy <= 9 && gx >= 16) {
-                            // open_door();
-                        }
-                        break;
                     case 4:
-                        if (gy >= 16) {
-                            // return 0;
+                        if (gy >= 14 && gx >= 8 && gx <= 11) {
+                            lock_opened = 1;
+                            hide_door();
                         }
                         break;
                     case 8:
-                        if (gx <= 1) {
+                        if (gx <= 3 && gy >= 8 && gy <= 9) {
                             // return 0;
                         }
                         break;
@@ -778,6 +807,8 @@ void safy_upgrades() {
 }
 
 void go_into_dungeon() {
+    wait_vbl_done();
+    DISPLAY_OFF;
     set_dungeon_map();
     generate_dungeon(current_floor);
     Coords start;
@@ -796,6 +827,9 @@ void go_into_dungeon() {
 
 void go_next_floor() {
     current_floor++;
+    key_obtained = 0;
+    treasure_obtained = 0;
+    lock_opened = 0;
     generate_dungeon(current_floor);
     Coords start;
     for (int i = 0; i < 4; i++) {
@@ -935,4 +969,40 @@ void hide_door() {
     set_sprite_tile(26, 50);
     set_sprite_tile(27, 50);
     set_sprite_tile(28, 50);
+}
+
+void set_textbox(uint8_t item) {
+    menu_opened = 4;
+    move_win(7, 104);
+    if (item == 1) {
+        move_sprite(29, x, y-32);
+        move_sprite(30, x+8, y-32);
+        set_win_tiles(0, 0, 20, 5, obtained_key);
+    }
+    else if (item == 2) {
+        move_sprite(31, x, y-32);
+        move_sprite(32, x+8, y-32);
+        move_sprite(33, x, y-24);
+        move_sprite(34, x+8, y-24);
+        set_win_tiles(0, 0, 20, 5, obtained_mythril);
+    }
+
+    wait_vbl_done();
+    
+    while(!(joypad() & (J_A))) {
+        wait_vbl_done();
+    }
+    
+    while(joypad() & (J_A)) {
+        wait_vbl_done();
+    }
+
+    move_sprite(29, 0, 0);
+    move_sprite(30, 0, 0);
+    move_sprite(31, 0, 0);
+    move_sprite(32, 0, 0);
+    move_sprite(33, 0, 0);
+    move_sprite(34, 0, 0);
+    menu_opened = 0;
+    set_mini_menu();
 }
