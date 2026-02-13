@@ -16,7 +16,9 @@
 #include "src/tiles/Lock.c"
 #include "src/tiles/key.c"
 #include "src/tiles/mythril.c"
+#include "src/tiles/Enemies.c"
 #include "src/scripts/gui.h"
+#include "src/scripts/enemy.h"
 
 /* PROTOTYPES */
 
@@ -110,10 +112,12 @@ uint8_t key_obtained = 0;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 
+/* ENEMIES */
+Enemy enemy;
+
 
 void main(void) {
     cls();
-    // start floor
     
     
     set_sprite_data(0, 4, Character);
@@ -205,50 +209,55 @@ void move_character() {
 }
 
 void check_input_movement() {
+    uint8_t moved = 0;
+
     if (joypad() & J_DOWN) {
-    if (check_terrain(x + 8, y + 16 + 8) && !is_sprite_at(x, y + 16)) { 
-        y += 16;
-        move_character();
-        delay(100);
-    }
-}
-else if (joypad() & J_UP) {
-    if (check_terrain(x + 8, y - 16 + 8) && !is_sprite_at(x, y - 16)) {
-        y -= 16;
-        move_character();
-        delay(100);
-        // check per entrare nel dungeon
-        if (current_location == 0 && y <= 40) {
-            current_location = 1;
-            current_floor = 1;
-            hide_camp_sprites();
-            go_into_dungeon();
-            x = 120;
-            y = 112;
-        }
-        if (current_location == 1 && dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
-            go_next_floor();
+        if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) { 
+            y += 16;
+            moved = 1;
         }
     }
-}
+    else if (joypad() & J_UP) {
+        if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
+            y -= 16;
+            moved = 1;
+            if (current_location == 0 && y <= 40) {
+                current_location = 1;
+                current_floor = 1;
+                hide_camp_sprites();
+                go_into_dungeon();
+                x = 120;
+                y = 112;
+                return;
+            }
+        }
+    }
     else if (joypad() & J_LEFT) {
-        if (check_terrain(x - 16 + 8, y + 8) && !is_sprite_at(x-16, y)) {
+        if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
             x -= 16;
-            move_character();
-            delay(100);
-            
-        }
-        if (current_location == 1 && dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
-            go_next_floor();
+            moved = 1;
         }
     }
     else if (joypad() & J_RIGHT) {
-        if (check_terrain(x + 16 + 8, y + 8) && !is_sprite_at(x+16, y)) {
+        if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
             x += 16;
-            move_character();
-            delay(100);
+            moved = 1;
         }
-    } 
+    }
+
+    if (moved) {
+        move_character();
+        
+        if (current_location == 1) {
+            move_enemy(&enemy);
+            
+            if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
+                go_next_floor();
+            }
+        }
+        
+        delay(100);
+    }
 }
 
 void check_input_keys() {
@@ -298,6 +307,9 @@ void check_input_keys() {
                         }
                         break;
                 }
+            }
+            else {
+                // lancia freccia
             }
         }
         else if (current_location == 0) {
@@ -397,9 +409,11 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
 }
 
 void set_camp_map(){
+    set_sprite_data(16, 4, Hector);
+    set_sprite_data(20, 4, Safy);
     set_bkg_tiles(0, 0, 20, 18, Camp);
     set_bkg_data(0, 108, CampTiles);
-
+    
 
     set_sprite_tile(4, 16);
     set_sprite_tile(5, 17);
@@ -436,6 +450,13 @@ void hide_camp_sprites() {
 }
 
 void set_dungeon_map(){
+    set_sprite_data(16, 4, LarvaOscura);
+    set_sprite_tile(12, 16);
+    set_sprite_tile(13, 17);
+    set_sprite_tile(14, 18);
+    set_sprite_tile(15, 19);
+    set_enemy_stats(&enemy, 0, 12);
+    set_enemy_position(&enemy, 72, 64);
     set_bkg_data(0, 52, DungeonTiles);
 }
 
