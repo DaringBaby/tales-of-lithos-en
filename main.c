@@ -17,6 +17,7 @@
 #include "src/tiles/key.c"
 #include "src/tiles/mythril.c"
 #include "src/tiles/Enemies.c"
+#include "src/tiles/numbers.c"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
 
@@ -49,6 +50,7 @@ void hide_door();
 void set_textbox(uint8_t item);
 uint8_t check_enemy(uint8_t dir);
 void player_attack();
+void show_damage(uint8_t damage);
 /* VARS */
 
 int tile_id = 0;
@@ -132,6 +134,7 @@ void main(void) {
     set_sprite_data(51, 8, Lock);
     set_sprite_data(59, 2, Key);
     set_sprite_data(61, 4, Mythril);
+    set_sprite_data(65, 10, Numbers);
 
     set_bkg_data(128, 51, Text);
     set_bkg_data(179, 9, Textbox);
@@ -1101,7 +1104,7 @@ void player_attack() {
     else {
         damage = 1;
     }
-
+    show_damage(damage);
     if (damage < enemy.hp) {
         enemy.hp -= damage;
     }
@@ -1111,5 +1114,32 @@ void player_attack() {
     }
     if (enemy.hp == 0) {
         enemy_death(&enemy);
+        experience += enemy.exp_reward;
     }
+}
+
+void show_damage(uint8_t damage) {
+    uint8_t dmg_x = enemy.x;
+    uint8_t dmg_y = enemy.y;
+    if (damage / 10 != 0) {
+        set_sprite_tile(38, 65 + damage / 10);
+    }
+    else {
+        set_sprite_tile(38, 50);
+    }
+    
+    set_sprite_tile(39, 65 + damage % 10);
+    uint8_t frame = 0;
+    while (frame < 30) {
+        wait_vbl_done();
+        if (frame %2) {
+            dmg_y--;
+            move_sprite(38, dmg_x, dmg_y);
+            move_sprite(39, dmg_x+8, dmg_y);
+        }
+        frame++;
+    }
+    
+    move_sprite(38, 0, 0);
+    move_sprite(39, 0, 0);
 }
