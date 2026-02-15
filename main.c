@@ -47,6 +47,8 @@ void draw_lock_h(uint8_t x, uint8_t y);
 void draw_flip_lock_h(uint8_t x, uint8_t y);
 void hide_door();
 void set_textbox(uint8_t item);
+uint8_t check_enemy(uint8_t dir);
+void player_attack();
 /* VARS */
 
 int tile_id = 0;
@@ -216,18 +218,28 @@ void check_input_movement() {
 
     if (joypad() & J_DOWN) {
         if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
-            last_y = y;
-            last_x = x;
-            y += 16;
             moved = 1;
+            if (!check_enemy(4)) {
+                last_y = y;
+                last_x = x;
+                y += 16;
+            }
+            else {
+                player_attack();
+            }
         }
     }
     else if (joypad() & J_UP) {
         if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
-            last_y = y;
-            last_x = x;
-            y -= 16;
             moved = 1;
+            if (!check_enemy(1)) {
+                last_y = y;
+                last_x = x;
+                y -= 16;
+            }
+            else {
+                player_attack();
+            }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
                 current_floor = 1;
@@ -241,18 +253,28 @@ void check_input_movement() {
     }
     else if (joypad() & J_LEFT) {
         if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
-            last_x = x;
-            last_y = y;
-            x -= 16;
             moved = 1;
+            if (!check_enemy(8)) {
+                last_y = y;
+                last_x = x;
+                x -= 16;
+            }
+            else {
+                player_attack();
+            }
         }
     }
     else if (joypad() & J_RIGHT) {
         if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
-            last_x = x;
-            last_y = y;
-            x += 16;
             moved = 1;
+            if (!check_enemy(2)) {
+                last_y = y;
+                last_x = x;
+                x += 16;
+            }
+            else {
+                player_attack();
+            }
         }
     }
 
@@ -1043,4 +1065,51 @@ void set_textbox(uint8_t item) {
     move_sprite(34, 0, 0);
     menu_opened = 0;
     set_mini_menu();
+}
+
+uint8_t check_enemy(uint8_t dir) {
+    switch (dir) {
+        case 1:
+            if (x == enemy.x && y - enemy.y == 16 && y > enemy.y) {
+                return 1;
+            }
+            break;
+        case 2:
+            if (y == enemy.y && enemy.x - x == 16 && enemy.x > x) {
+                return 1;
+            }
+            break;
+        case 4:
+            if (x == enemy.x && enemy.y - y == 16 && enemy.y > y) {
+                return 1;
+            }
+            break;
+        case 8:
+            if (y == enemy.y && x - enemy.x == 16 && x > enemy.x) {
+                return 1;
+            }
+            break;
+    }
+    return 0;
+}
+
+void player_attack() {
+    uint8_t damage;
+    if (attack > enemy.def) {
+        damage = attack - enemy.def;
+    }
+    else {
+        damage = 1;
+    }
+
+    if (damage < enemy.hp) {
+        enemy.hp -= damage;
+    }
+    else {
+        enemy.hp = 0;
+        enemy.alive = 0;
+    }
+    if (enemy.hp == 0) {
+        enemy_death(&enemy);
+    }
 }

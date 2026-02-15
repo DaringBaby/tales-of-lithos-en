@@ -140,3 +140,18 @@ void enemy_attack(Enemy* e) {
     }
     // check morte?
 }
+
+void enemy_death(Enemy* e) {
+    e->hp = 0;
+    e->alive = 0;
+    e->x = 0;
+    e->y = 0;
+    move_sprite(e->sprite_id, 0, 0);
+    move_sprite(e->sprite_id + 1, 0, 0);
+    move_sprite(e->sprite_id + 2, 0, 0);
+    move_sprite(e->sprite_id + 3, 0, 0);
+    set_sprite_tile(e->sprite_id, 50);
+    set_sprite_tile(e->sprite_id+1, 50);
+    set_sprite_tile(e->sprite_id+2, 50);
+    set_sprite_tile(e->sprite_id+3, 50);
+}

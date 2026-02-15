@@ -28,6 +28,7 @@ void set_enemy_position(Enemy *e, uint8_t x, uint8_t y);
 uint8_t check_distance_x(Enemy* e);
 uint8_t check_distance_y(Enemy* e);
 void enemy_attack(Enemy* e);
+void enemy_death(Enemy* e);
 
 
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
