@@ -9,10 +9,25 @@ typedef struct {
     uint8_t type; // 0: LARVA OSCURA, 1: TRISGUARDO, 2: PREDATORE D'OMBRA
     uint8_t alive;
     uint8_t sprite_id;
+    uint8_t targeting;
     uint8_t exp_reward;
 } Enemy;
+
+extern uint8_t current_hp; // hp player
+extern uint8_t attack; // attacco player
+extern uint8_t defense; // difesa player
+extern uint8_t x; // pos. x player
+extern uint8_t y; // pos. y player
+extern uint8_t last_x; // x precedente player
+extern uint8_t last_y; // y precedente player
+
 
 void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id);
 void move_enemy(Enemy *e);
 void set_enemy_position(Enemy *e, uint8_t x, uint8_t y);
+uint8_t check_distance_x(Enemy* e);
+uint8_t check_distance_y(Enemy* e);
+void enemy_attack(Enemy* e);
+
+
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);

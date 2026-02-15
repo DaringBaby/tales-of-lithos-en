@@ -1,12 +1,29 @@
 #include "enemy.h"
 
 void move_enemy(Enemy *e) {
+    uint8_t dx, dy;
     if (!e->alive) {
         return;
     }
+
+    // controllo distanza per attacco
+    dx = check_distance_x(e);
+    dy = check_distance_y(e);
+
+    if (dx == 16 && dx == 0 || dx == 0 && dy == 16) {
+        enemy_attack(e);
+        e->targeting = 1;
+        return; 
+    }
+
     uint8_t next_x = e->x;
     uint8_t next_y = e->y;
     uint8_t moved = 0;
+    if (e->targeting) {
+        e->x = last_x;
+        e->y = last_y;
+        moved = 1;
+    }
     while (!moved){
         uint8_t direction = (uint8_t)(DIV_REG & 3);
         switch (direction) {
@@ -42,6 +59,10 @@ void move_enemy(Enemy *e) {
     move_sprite(e->sprite_id+1, e->x+8, e->y);
     move_sprite(e->sprite_id+2, e->x, e->y+8);
     move_sprite(e->sprite_id+3, e->x+8, e->y+8);
+
+    if (dx == 16 && dx == 0 || dx == 0 && dy == 16) {
+        e->targeting = 1;
+    }
 }
 
 void set_enemy_position(Enemy *e, uint8_t x, uint8_t y) {
@@ -62,8 +83,6 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             e->atk = 7;
             e->def = 1;
             e->type = 0;
-            e->alive = 1;
-            e->sprite_id = sprite_id;
             e->exp_reward = 1;
             break;
         case 1:
@@ -71,8 +90,6 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             e->atk = 11;
             e->def = 6;
             e->type = 1;
-            e->alive = 1;
-            e->sprite_id = sprite_id;
             e->exp_reward = 3;
             break;
         case 2:
@@ -80,9 +97,46 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             e->atk = 15;
             e->def = 14;
             e->type = 2;
-            e->alive = 1;
-            e->sprite_id = sprite_id;
             e->exp_reward = 5;
             break;
     }
+    e->sprite_id = sprite_id;
+    e->alive = 1;
+    e->targeting = 0;
+}
+
+uint8_t check_distance_x(Enemy* e) {
+    if (x > e->x) {
+            return(x - e->x);
+        }
+    else {
+        return(e->x - x);
+    }
+}
+
+uint8_t check_distance_y(Enemy* e) {
+    if (y > e->y) {
+        return(y - e->y);
+    }
+    else {
+        return(e->y - y);
+    }
+}
+
+void enemy_attack(Enemy* e) {
+    uint8_t damage;
+    if (e->atk > defense) {
+        damage = e->atk - defense;
+    }
+    else {
+        damage = 1;
+    }
+
+    if (damage < current_hp) {
+        current_hp -= damage;
+    }
+    else {
+        current_hp = 0;
+    }
+    // check morte?
 }

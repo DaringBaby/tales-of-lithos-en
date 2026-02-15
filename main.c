@@ -53,6 +53,9 @@ int tile_id = 0;
 uint8_t x = 120;
 uint8_t y = 112;
 
+uint8_t last_x;
+uint8_t last_y;
+
 
 unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 const uint8_t chest_closed[] = {225, 226, 227, 228, 229, 230, 231, 232};
@@ -212,13 +215,17 @@ void check_input_movement() {
     uint8_t moved = 0;
 
     if (joypad() & J_DOWN) {
-        if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) { 
+        if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
+            last_y = y;
+            last_x = x;
             y += 16;
             moved = 1;
         }
     }
     else if (joypad() & J_UP) {
         if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
+            last_y = y;
+            last_x = x;
             y -= 16;
             moved = 1;
             if (current_location == 0 && y <= 40) {
@@ -234,12 +241,16 @@ void check_input_movement() {
     }
     else if (joypad() & J_LEFT) {
         if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
+            last_x = x;
+            last_y = y;
             x -= 16;
             moved = 1;
         }
     }
     else if (joypad() & J_RIGHT) {
         if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
+            last_x = x;
+            last_y = y;
             x += 16;
             moved = 1;
         }
