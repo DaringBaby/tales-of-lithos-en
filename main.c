@@ -18,6 +18,7 @@
 #include "src/tiles/mythril.c"
 #include "src/tiles/Enemies.c"
 #include "src/tiles/numbers.c"
+#include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
 
@@ -125,6 +126,8 @@ Enemy enemy;
 
 void main(void) {
     cls();
+
+    set_titlescreen();
     
     
     set_sprite_data(0, 4, Character);
@@ -176,6 +179,7 @@ void main(void) {
     SHOW_SPRITES;
     SHOW_BKG;
     SHOW_WIN;
+    delay(100);
     DISPLAY_ON;
 
     while(1) {
