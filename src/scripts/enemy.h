@@ -29,7 +29,7 @@ uint8_t check_distance_x(Enemy* e);
 uint8_t check_distance_y(Enemy* e);
 void enemy_attack(Enemy* e);
 void enemy_death(Enemy* e);
-
+void enemy_smooth_movement(Enemy* e, uint8_t dir);
 
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 extern void show_number(uint8_t number, uint8_t mode, uint8_t target);

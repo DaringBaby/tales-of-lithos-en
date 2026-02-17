@@ -54,6 +54,7 @@ uint8_t check_enemy(uint8_t dir);
 void player_attack(uint8_t wpn);
 void show_number(uint8_t damage, uint8_t mode, uint8_t target);
 void shoot_arrow();
+uint8_t smooth_movement(uint8_t dir);
 /* VARS */
 
 int tile_id = 0;
@@ -233,8 +234,8 @@ void check_input_movement() {
             if (!check_enemy(4)) {
                 last_y = y;
                 last_x = x;
-                y += 16;
                 last_direction = 4;
+                smooth_movement(4);
             }
             else {
                 player_attack(0);
@@ -247,8 +248,8 @@ void check_input_movement() {
             if (!check_enemy(1)) {
                 last_y = y;
                 last_x = x;
-                y -= 16;
                 last_direction = 1;
+                smooth_movement(1);
             }
             else {
                 player_attack(0);
@@ -271,7 +272,7 @@ void check_input_movement() {
                 last_direction = 8;
                 last_y = y;
                 last_x = x;
-                x -= 16;
+                smooth_movement(8);
             }
             else {
                 player_attack(0);
@@ -285,7 +286,7 @@ void check_input_movement() {
                 last_direction = 2;
                 last_y = y;
                 last_x = x;
-                x += 16;
+                smooth_movement(2);
             }
             else {
                 player_attack(0);
@@ -294,7 +295,8 @@ void check_input_movement() {
     }
 
     if (moved) {
-        move_character();
+        // move_character();
+        delay(100);
         
         if (current_location == 1) {
             move_enemy(&enemy);
@@ -304,7 +306,6 @@ void check_input_movement() {
             }
         }
         
-        delay(100);
     }
 }
 
@@ -1254,4 +1255,55 @@ void heal_player() {
         current_hp = max_hp;
     }
     show_number(heal, 1, 0);
+}
+
+
+uint8_t smooth_movement(uint8_t dir) {
+    uint8_t mov_x, mov_y;
+    mov_x = x;
+    mov_y = y;
+    uint8_t frame = 0;
+    switch (dir) {
+        case 1:
+            y-=16;
+            break;
+        case 2:
+            x+=16;
+            break;
+        case 4:
+            y+=16;
+            break;
+        case 8:
+            x-=16;
+            break;
+    }
+    while (frame < 8) {
+        wait_vbl_done();
+        switch (dir) {
+            case 1:
+                mov_y-=2;
+                break;
+            case 2:
+                mov_x+=2;
+                break;
+            case 4:
+                mov_y+=2;
+                break;
+            case 8:
+                mov_x-=2;
+                break;
+        }
+        move_sprite(0, mov_x, mov_y);
+        move_sprite(1, mov_x+8, mov_y);
+        move_sprite(2, mov_x, mov_y + 8);
+        move_sprite(3, mov_x + 8, mov_y + 8);
+        frame++;
+    }
+    if (y == 144) { 
+            set_sprite_tile(2, 50); 
+            set_sprite_tile(3, 50);
+        } else {
+            set_sprite_tile(2, 2); 
+            set_sprite_tile(3, 3);
+        }
 }

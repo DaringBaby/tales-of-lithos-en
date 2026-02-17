@@ -49,16 +49,13 @@ void move_enemy(Enemy *e) {
                 break;
         }
         if (check_terrain(next_x + 8, next_y + 8)) {
+            enemy_smooth_movement(e, direction);
             e->x = next_x;
             e->y = next_y;
             moved = 1;
         }
     }
 
-    move_sprite(e->sprite_id, e->x, e->y);
-    move_sprite(e->sprite_id+1, e->x+8, e->y);
-    move_sprite(e->sprite_id+2, e->x, e->y+8);
-    move_sprite(e->sprite_id+3, e->x+8, e->y+8);
 
     if (dx == 16 && dx == 0 || dx == 0 && dy == 16) {
         e->targeting = 1;
@@ -156,4 +153,33 @@ void enemy_death(Enemy* e) {
     set_sprite_tile(e->sprite_id+1, 50);
     set_sprite_tile(e->sprite_id+2, 50);
     set_sprite_tile(e->sprite_id+3, 50);
+}
+
+void enemy_smooth_movement(Enemy* e, uint8_t dir) {
+    uint8_t frame = 0;
+    uint8_t mov_x, mov_y;
+    mov_x = e->x;
+    mov_y = e->y;
+    while (frame < 8) {
+        wait_vbl_done();
+        switch (dir) {
+            case 0:
+                mov_y-=2;
+                break;
+            case 1:
+                mov_x+=2;
+                break;
+            case 2:
+                mov_y+=2;
+                break;
+            case 3:
+                mov_x-=2;
+                break;
+        }
+        move_sprite(e->sprite_id, mov_x, mov_y);
+        move_sprite(e->sprite_id+1, mov_x+8, mov_y);
+        move_sprite(e->sprite_id+2, mov_x, mov_y+8);
+        move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
+        frame++;
+    }
 }
