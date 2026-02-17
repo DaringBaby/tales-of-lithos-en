@@ -138,6 +138,8 @@ void enemy_attack(Enemy* e) {
     else {
         current_hp = 0;
     }
+
+    show_number(damage, 0, 0);
     // check morte?
 }
 

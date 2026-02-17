@@ -32,3 +32,4 @@ void enemy_death(Enemy* e);
 
 
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
+extern void show_number(uint8_t number, uint8_t mode, uint8_t target);

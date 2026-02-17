@@ -18,6 +18,7 @@
 #include "src/tiles/mythril.c"
 #include "src/tiles/Enemies.c"
 #include "src/tiles/numbers.c"
+#include "src/tiles/wpn_arrow.c"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
@@ -50,8 +51,9 @@ void draw_flip_lock_h(uint8_t x, uint8_t y);
 void hide_door();
 void set_textbox(uint8_t item);
 uint8_t check_enemy(uint8_t dir);
-void player_attack();
-void show_damage(uint8_t damage);
+void player_attack(uint8_t wpn);
+void show_number(uint8_t damage, uint8_t mode, uint8_t target);
+void shoot_arrow();
 /* VARS */
 
 int tile_id = 0;
@@ -61,6 +63,7 @@ uint8_t y = 112;
 uint8_t last_x;
 uint8_t last_y;
 
+uint8_t last_direction = 1;
 
 unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 const uint8_t chest_closed[] = {225, 226, 227, 228, 229, 230, 231, 232};
@@ -137,7 +140,8 @@ void main(void) {
     set_sprite_data(51, 8, Lock);
     set_sprite_data(59, 2, Key);
     set_sprite_data(61, 4, Mythril);
-    set_sprite_data(65, 10, Numbers);
+    set_sprite_data(65, 12, Numbers);
+    set_sprite_data(80, 2, Arrow);
 
     set_bkg_data(128, 51, Text);
     set_bkg_data(179, 9, Textbox);
@@ -165,7 +169,7 @@ void main(void) {
     set_sprite_tile(2, 2);
     set_sprite_tile(3, 3);
 
-    // key, mythril
+    // key, mythrill
     set_sprite_tile(29, 59);
     set_sprite_tile(30, 60);
     
@@ -230,9 +234,10 @@ void check_input_movement() {
                 last_y = y;
                 last_x = x;
                 y += 16;
+                last_direction = 4;
             }
             else {
-                player_attack();
+                player_attack(0);
             }
         }
     }
@@ -243,9 +248,10 @@ void check_input_movement() {
                 last_y = y;
                 last_x = x;
                 y -= 16;
+                last_direction = 1;
             }
             else {
-                player_attack();
+                player_attack(0);
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
@@ -262,12 +268,13 @@ void check_input_movement() {
         if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
             moved = 1;
             if (!check_enemy(8)) {
+                last_direction = 8;
                 last_y = y;
                 last_x = x;
                 x -= 16;
             }
             else {
-                player_attack();
+                player_attack(0);
             }
         }
     }
@@ -275,12 +282,13 @@ void check_input_movement() {
         if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
             moved = 1;
             if (!check_enemy(2)) {
+                last_direction = 2;
                 last_y = y;
                 last_x = x;
                 x += 16;
             }
             else {
-                player_attack();
+                player_attack(0);
             }
         }
     }
@@ -349,7 +357,12 @@ void check_input_keys() {
                 }
             }
             else {
-                // lancia freccia
+                if (num_arrows > 0) {
+                    shoot_arrow();
+                    num_arrows--;
+                    delay(100);
+                    move_enemy(&enemy);
+                }
             }
         }
         else if (current_location == 0) {
@@ -375,7 +388,12 @@ void check_input_keys() {
     }
 
     else if (joypad() & J_B) {
-        // B: cura?
+        if (heals > 0) {
+            heal_player();
+            heals--;
+            delay(100);
+            move_enemy(&enemy);
+        }
     }
 }
 
@@ -491,11 +509,11 @@ void hide_camp_sprites() {
 
 void set_dungeon_map(){
     set_sprite_data(16, 4, LarvaOscura);
-    set_sprite_tile(12, 16);
-    set_sprite_tile(13, 17);
-    set_sprite_tile(14, 18);
-    set_sprite_tile(15, 19);
-    set_enemy_stats(&enemy, 0, 12);
+    set_sprite_tile(16, 16);
+    set_sprite_tile(17, 17);
+    set_sprite_tile(18, 18);
+    set_sprite_tile(19, 19);
+    set_enemy_stats(&enemy, 0, 16);
     set_enemy_position(&enemy, 72, 64);
     set_bkg_data(0, 52, DungeonTiles);
 }
@@ -1100,15 +1118,22 @@ uint8_t check_enemy(uint8_t dir) {
     return 0;
 }
 
-void player_attack() {
+void player_attack(uint8_t wpn) {
     uint8_t damage;
-    if (attack > enemy.def) {
-        damage = attack - enemy.def;
+    uint8_t atk_stat;
+    if (wpn == 0) { // spada
+        atk_stat = attack;
+    }
+    else { // freccia
+        atk_stat = arrow_damage;
+    }
+    if (atk_stat > enemy.def) {
+        damage = atk_stat - enemy.def;
     }
     else {
         damage = 1;
     }
-    show_damage(damage);
+    show_number(damage, 0, 1);
     if (damage < enemy.hp) {
         enemy.hp -= damage;
     }
@@ -1122,28 +1147,111 @@ void player_attack() {
     }
 }
 
-void show_damage(uint8_t damage) {
-    uint8_t dmg_x = enemy.x;
-    uint8_t dmg_y = enemy.y;
-    if (damage / 10 != 0) {
-        set_sprite_tile(38, 65 + damage / 10);
+void show_number(uint8_t number, uint8_t mode, uint8_t target) {
+    uint8_t dmg_x, dmg_y;
+    if (target == 0) {
+        dmg_x = x;
+        dmg_y = y-8;
     }
     else {
-        set_sprite_tile(38, 50);
+        dmg_x = enemy.x;
+        dmg_y = enemy.y-8;
+    }
+    if (mode == 0) { // damage
+        set_sprite_tile(12, 76);
+    }
+    else {
+        set_sprite_tile(12, 75);
+    }
+    if (number / 10 != 0) {
+        set_sprite_tile(13, 65 + number / 10);
+    }
+    else {
+        set_sprite_tile(13, 50);
     }
     
-    set_sprite_tile(39, 65 + damage % 10);
+    set_sprite_tile(14, 65 + number % 10);
     uint8_t frame = 0;
     while (frame < 30) {
         wait_vbl_done();
         if (frame %2) {
             dmg_y--;
-            move_sprite(38, dmg_x, dmg_y);
-            move_sprite(39, dmg_x+8, dmg_y);
+            if (number / 10 == 0) {
+                move_sprite(12, dmg_x, dmg_y);
+            }
+            else {
+                move_sprite(12, dmg_x-8, dmg_y);
+            }
+            move_sprite(13, dmg_x, dmg_y);
+            move_sprite(14, dmg_x+8, dmg_y);
         }
         frame++;
     }
-    
-    move_sprite(38, 0, 0);
-    move_sprite(39, 0, 0);
+    move_sprite(12, 0, 0);
+    move_sprite(13, 0, 0);
+    move_sprite(14, 0, 0);
+}
+
+void shoot_arrow() {
+    uint8_t arrow_x = x;
+    uint8_t arrow_y = y;
+    switch (last_direction) {
+            case 1:
+                set_sprite_tile(15, 80);
+                set_sprite_prop(15, 0);
+                break;
+            case 2:
+                set_sprite_tile(15, 81);
+                set_sprite_prop(15, 0);
+                break;
+            case 4:
+                set_sprite_tile(15, 80);
+                set_sprite_prop(15, S_FLIPY);
+                break;
+            case 8:
+                set_sprite_tile(15, 81);
+                set_sprite_prop(15, S_FLIPX);
+                break;
+        }
+    set_sprite_tile(15, 80);
+    while (1) {
+        wait_vbl_done();
+        switch (last_direction) {
+            case 1:
+                arrow_y-=2;
+                break;
+            case 2:
+                arrow_x+=2;
+                break;
+            case 4:
+                arrow_y+=2;
+                break;
+            case 8:
+                arrow_x-=2;
+                break;
+        }
+        move_sprite(15, arrow_x, arrow_y);
+        if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
+            set_sprite_tile(15, 50);
+            move_sprite(15, x, y);
+            return;
+        }
+        if (arrow_x == enemy.x && arrow_y == enemy.y) {
+            set_sprite_tile(15, 50);
+            move_sprite(15, x, y);
+            uint8_t damage = arrow_damage - enemy.def;
+            player_attack(1); // arrow atk
+            return;
+        }
+    }
+}
+
+void heal_player() {
+    uint8_t heal = heal_quantity;
+    current_hp += heal;
+    if (current_hp >= max_hp) {
+        heal = heal_quantity - (current_hp - max_hp);
+        current_hp = max_hp;
+    }
+    show_number(heal, 1, 0);
 }

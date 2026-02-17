@@ -27,19 +27,19 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000003  l__HEADER |    00000003  l__HEADER |    00000005  l__HEADER
      00000006  l__HEADER |    00000007  l__HEADER |    00000008  l__HEADER
      0000000C  l__GSINIT |    00000013  l__HRAM   |    00000030  l__HEADER
-     00000039  l__INITIA |    00000039  l__INITIA |    00000060  l__HEADER
+     0000003A  l__INITIA |    0000003A  l__INITIA |    00000060  l__HEADER
      00000062  l__DATA   |    000000AB  l__HEADER |    00000200  s__CODE  
      0000086B  l__HOME   |    00002000  _rROMB0   |    00003000  _rROMB1  
-     00004000  _rMBC7_SR |    00004000  _rRAMB    |    0000688C  l__CODE  
-     00006A8C  s__HOME   |    000072F7  s__BASE   |    000072F7  s__CODE_0
-     000072F7  s__INITIA |    000072F7  s__LIT    |    00007330  s__GSINIT
-     0000733C  s__GSFINA |    00008000  __VRAM    |    00008000  __VRAM800
+     00004000  _rMBC7_SR |    00004000  _rRAMB    |    00006AA6  l__CODE  
+     00006CA6  s__HOME   |    00007511  s__BASE   |    00007511  s__CODE_0
+     00007511  s__INITIA |    00007511  s__LIT    |    0000754B  s__GSINIT
+     00007557  s__GSFINA |    00008000  __VRAM    |    00008000  __VRAM800
      00008800  __VRAM880 |    00009000  __VRAM900 |    00009800  __SCRN0  
      00009C00  __SCRN1   |    0000A000  __SRAM    |    0000A000  _rMBC7_LA
      0000A010  _rMBC7_LA |    0000A020  _rMBC7_AC |    0000A030  _rMBC7_AC
      0000A040  _rMBC7_AC |    0000A050  _rMBC7_AC |    0000C000  __RAM    
      0000C000  _shadow_O |    0000C0A0  s__DATA   |    0000C102  s__BSS   
-     0000C102  s__INITIA |    0000C13B  s__HEAP   |    0000C13B  s__HEAP_E
+     0000C102  s__INITIA |    0000C13C  s__HEAP   |    0000C13C  s__HEAP_E
      0000D000  __RAMBANK |    0000E000  .STACK    |    0000FE00  __OAMRAM 
      0000FF00  _P1_REG   |    0000FF00  __IO      |    0000FF01  _SB_REG  
      0000FF02  _SC_REG   |    0000FF04  _DIV_REG  |    0000FF05  _TIMA_REG
@@ -76,50 +76,51 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    0000688C =       26764. bytes (REL,CON)
+_CODE                  00000200    00006AA6 =       27302. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  _main     |    0000035D  _Characte |    0000039D  _CampTile
-     00000A5D  _camp_col |    00000AC9  _Camp     |    00000C31  _Hector  
-     00000C71  _Safy     |    00000CB1  _DungeonT |    00000FF1  _room1   
-     00001159  _room2    |    000012C1  _room3    |    00001429  _room4   
-     00001591  _room5    |    000016F9  _room6    |    00001861  _room7   
-     000019C9  _room8    |    00001B31  _room9    |    00001C99  _room10  
-     00001E01  _room11   |    00001F69  _room12   |    000020D1  _room13  
-     00002239  _room14   |    000023A1  _room15   |    00002509  _Textbox 
-     000025A9  _Text     |    000028D9  _MiniGUI  |    00002909  _Mugshot 
-     00002A09  _Objects  |    00002B59  _arrow    |    00002B69  _Lock    
-     00002BE9  _Key      |    00002C09  _Mythril  |    00002C49  _LarvaOsc
-     00002C89  _Predator |    00002CC9  _Trisguar |    00002D09  _Numbers 
-     00002DA9  _chest_cl |    00002DB1  _chest_op |    00002DB9  _stairs  
-     00002DBD  _menu_bod |    00002DBE  _upgrade_ |    00002DC6  _cure_upg
-     00002DCE  _level_cu |    00002DE1  _move_cha |    00002E3E  _check_in
-     00002FF6  _check_in |    000032FA  _check_te |    000034B9  _is_sprit
-     000034CD  _set_camp |    0000356D  _hide_cam |    00003596  _set_dung
-     000035DB  _set_room |    000037A4  _change_r |    00003825  _set_stat
-     000039FC  _check_op |    00003A5C  _set_mini |    00003B56  _check_me
-     00003C94  _hector_u |    00003E28  _safy_upg |    00003FB8  _go_into_
-     00004034  _go_next_ |    000040B6  _draw_loc |    00004152  _draw_fli
-     000041EE  _draw_loc |    00004251  _draw_fli |    000042B7  _hide_doo
-     000042E0  _set_text |    000043EE  _check_en |    000044BF  _player_a
-     000044FD  _show_dam |    00004579  _generate |    00004645  _min_leng
-     00004646  _max_leng |    00004647  _empty_ar |    0000469C  _create_l
-     000049A2  _append   |    000049C1  _add_bran |    00004C0F  _find_nea
-     00004D45  _shuffle_ |    00004DD2  _create_d |    00004EDB  _gui_map 
-     00005043  _mini_gui |    00005057  _hector_m |    0000516F  _safy_men
-     00005287  _obtained |    000052EB  _obtained |    0000534F  _move_ene
-     0000554B  _set_enem |    000055FD  _set_enem |    000056BD  _check_di
-     000056CE  _check_di |    000056E0  _enemy_at |    00005703  _enemy_de
-     0000579B  _set_titl |    0000587B  _Titlescr |    0000678B  _TitleTex
-     0000680B  _Title    |    00006973  __divsuch |    00006979  __modsuch
-     00006982  __divusch |    0000698B  __modusch |    00006997  __divscha
-     0000699C  __modscha |    000069A3  __divsint |    000069AC  __modsint
-     000069B8  __divucha |    000069BD  __moducha |    000069C4  __divuint
-     000069CD  __moduint |    000069D9  .div8     |    000069D9  .mod8    
-     000069E1  .div16    |    000069E1  .mod16    |    00006A17  .divu8   
-     00006A17  .modu8    |    00006A1A  .divu16   |    00006A1A  .modu16  
-     00006A5A  ___memcpy |    00006A5A  _memcpy  
+     00000200  _main     |    0000036A  _Characte |    000003AA  _CampTile
+     00000A6A  _camp_col |    00000AD6  _Camp     |    00000C3E  _Hector  
+     00000C7E  _Safy     |    00000CBE  _DungeonT |    00000FFE  _room1   
+     00001166  _room2    |    000012CE  _room3    |    00001436  _room4   
+     0000159E  _room5    |    00001706  _room6    |    0000186E  _room7   
+     000019D6  _room8    |    00001B3E  _room9    |    00001CA6  _room10  
+     00001E0E  _room11   |    00001F76  _room12   |    000020DE  _room13  
+     00002246  _room14   |    000023AE  _room15   |    00002516  _Textbox 
+     000025B6  _Text     |    000028E6  _MiniGUI  |    00002916  _Mugshot 
+     00002A16  _Objects  |    00002B66  _arrow    |    00002B76  _Lock    
+     00002BF6  _Key      |    00002C16  _Mythril  |    00002C56  _LarvaOsc
+     00002C96  _Predator |    00002CD6  _Trisguar |    00002D16  _Numbers 
+     00002DD6  _Arrow    |    00002DF6  _chest_cl |    00002DFE  _chest_op
+     00002E06  _stairs   |    00002E0A  _menu_bod |    00002E0B  _upgrade_
+     00002E13  _cure_upg |    00002E1B  _level_cu |    00002E2E  _move_cha
+     00002E8B  _check_in |    0000305C  _check_in |    0000339A  _check_te
+     00003559  _is_sprit |    0000356D  _set_camp |    0000360D  _hide_cam
+     00003636  _set_dung |    0000367B  _set_room |    00003844  _change_r
+     000038C5  _set_stat |    00003A9C  _check_op |    00003AFC  _set_mini
+     00003BF6  _check_me |    00003D34  _hector_u |    00003EC8  _safy_upg
+     00004058  _go_into_ |    000040D4  _go_next_ |    00004156  _draw_loc
+     000041F2  _draw_fli |    0000428E  _draw_loc |    000042F1  _draw_fli
+     00004357  _hide_doo |    00004380  _set_text |    0000448E  _check_en
+     0000455F  _player_a |    000045AD  _show_num |    00004688  _shoot_ar
+     0000475C  _heal_pla |    00004789  _generate |    00004855  _min_leng
+     00004856  _max_leng |    00004857  _empty_ar |    000048AC  _create_l
+     00004BB2  _append   |    00004BD1  _add_bran |    00004E1F  _find_nea
+     00004F55  _shuffle_ |    00004FE2  _create_d |    000050EB  _gui_map 
+     00005253  _mini_gui |    00005267  _hector_m |    0000537F  _safy_men
+     00005497  _obtained |    000054FB  _obtained |    0000555F  _move_ene
+     0000575B  _set_enem |    0000580D  _set_enem |    000058CD  _check_di
+     000058DE  _check_di |    000058F0  _enemy_at |    0000591D  _enemy_de
+     000059B5  _set_titl |    00005A95  _Titlescr |    000069A5  _TitleTex
+     00006A25  _Title    |    00006B8D  __divsuch |    00006B93  __modsuch
+     00006B9C  __divusch |    00006BA5  __modusch |    00006BB1  __divscha
+     00006BB6  __modscha |    00006BBD  __divsint |    00006BC6  __modsint
+     00006BD2  __divucha |    00006BD7  __moducha |    00006BDE  __divuint
+     00006BE7  __moduint |    00006BF3  .div8     |    00006BF3  .mod8    
+     00006BFB  .div16    |    00006BFB  .mod16    |    00006C31  .divu8   
+     00006C31  .modu8    |    00006C34  .divu16   |    00006C34  .modu16  
+     00006C74  ___memcpy |    00006C74  _memcpy  
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -297,35 +298,35 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  00006A8C    0000086B =        2155. bytes (REL,CON)
+_HOME                  00006CA6    0000086B =        2155. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00006A8C  .memset_s |    00006A95  .memcpy_s |    00006AB2  .display_
-     00006AB2  _display_ |    00006ACA  _rand     |    00006ACA  _randw   
-     00006AF5  _initrand |    00006AF7  .initrand |    00006B00  _set_win_
-     00006B14  _set_tile |    00006B19  _set_bkg_ |    00006B19  _set_win_
-     00006B21  _set_spri |    00006B51  _font_loa |    00006B58  font_load
-     00006BA0  font_copy |    00006BD6  font_set  |    00006BE3  .put_char
-     00006BFB  .out_char |    00006C01  .del_char |    00006C57  _putchar 
-     00006C60  _setchar  |    00006C69  _font_loa |    00006C77  _font_set
-     00006C86  _font_ini |    00006CA5  .cls      |    00006CA5  _cls     
-     00006CC7  _gotoxy   |    00006CD2  _posx     |    00006CE3  _posy    
-     00006D0B  .cr_curs  |    00006D20  .adv_curs |    00006D7C  .tmode   
-     00006D99  .tmode_ou |    00006DA2  .padup    |    00006DA2  _waitpadu
-     00006DB2  .jpad     |    00006DB2  _joypad   |    00006DDA  _waitpad 
-     00006DDB  .wait_pad |    00006DE2  _color    |    00006DE2  _set_1bpp
-     00006DF1  .drawing_ |    00006E0E  _font_ibm |    000071EF  .add_LCD 
-     000071EF  _add_LCD  |    000071F5  .remove_L |    000071F5  _remove_L
-     000071FB  .delay    |    000071FB  _delay    |    00007227  _set_bkg_
-     0000723B  .set_xy_w |    00007244  .set_xy_b |    00007253  .set_xy_t
-     00007297  _set_bkg_ |    00007297  _set_win_ |    0000729F  _set_spri
+     00006CA6  .memset_s |    00006CAF  .memcpy_s |    00006CCC  .display_
+     00006CCC  _display_ |    00006CE4  _rand     |    00006CE4  _randw   
+     00006D0F  _initrand |    00006D11  .initrand |    00006D1A  _set_win_
+     00006D2E  _set_tile |    00006D33  _set_bkg_ |    00006D33  _set_win_
+     00006D3B  _set_spri |    00006D6B  _font_loa |    00006D72  font_load
+     00006DBA  font_copy |    00006DF0  font_set  |    00006DFD  .put_char
+     00006E15  .out_char |    00006E1B  .del_char |    00006E71  _putchar 
+     00006E7A  _setchar  |    00006E83  _font_loa |    00006E91  _font_set
+     00006EA0  _font_ini |    00006EBF  .cls      |    00006EBF  _cls     
+     00006EE1  _gotoxy   |    00006EEC  _posx     |    00006EFD  _posy    
+     00006F25  .cr_curs  |    00006F3A  .adv_curs |    00006F96  .tmode   
+     00006FB3  .tmode_ou |    00006FBC  .padup    |    00006FBC  _waitpadu
+     00006FCC  .jpad     |    00006FCC  _joypad   |    00006FF4  _waitpad 
+     00006FF5  .wait_pad |    00006FFC  _color    |    00006FFC  _set_1bpp
+     0000700B  .drawing_ |    00007028  _font_ibm |    00007409  .add_LCD 
+     00007409  _add_LCD  |    0000740F  .remove_L |    0000740F  _remove_L
+     00007415  .delay    |    00007415  _delay    |    00007441  _set_bkg_
+     00007455  .set_xy_w |    0000745E  .set_xy_b |    0000746D  .set_xy_t
+     000074B1  _set_bkg_ |    000074B1  _set_win_ |    000074B9  _set_spri
 ASxxxx Linker V03.00/V05.40 + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           000072F7    00000039 =          57. bytes (REL,CON)
+_INITIALIZER           00007511    0000003A =          58. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -334,17 +335,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00007330    0000000C =          12. bytes (REL,CON)
+_GSINIT                0000754B    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00007330  gsinit   
+     0000754B  gsinit   
 ASxxxx Linker V03.00/V05.40 + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               0000733C    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00007557    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -369,24 +370,24 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZED           0000C102    00000039 =          57. bytes (REL,CON)
+_INITIALIZED           0000C102    0000003A =          58. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      0000C102  _tile_id  |    0000C104  _x        |    0000C105  _y       
-     0000C106  _blank    |    0000C116  _arrow_ti |    0000C117  _last_joy
-     0000C118  _current_ |    0000C119  _max_hp   |    0000C11A  _current_
-     0000C11B  _attack   |    0000C11C  _defense  |    0000C11D  _level   
-     0000C11E  _experien |    0000C11F  _sword_lv |    0000C120  _shield_l
-     0000C121  _arrow_lv |    0000C122  _quiver_l |    0000C123  _potion_q
-     0000C124  _potion_h |    0000C125  _heals    |    0000C126  _heal_qua
-     0000C127  _arrow_da |    0000C128  _num_arro |    0000C129  _max_num_
-     0000C12A  _minerals |    0000C12B  _menu_ope |    0000C12C  _current_
-     0000C12D  _current_ |    0000C12E  _hector_o |    0000C12F  _safy_opt
-     0000C130  _key_obta |    0000C131  _treasure |    0000C132  _lock_ope
-     0000C133  _current_ |    0000C135  .curx     |    0000C136  .cury    
-     0000C137  .fg_colou |    0000C137  __current |    0000C138  .bg_colou
-     0000C139  .draw_mod |    0000C13A  __map_til
+     0000C106  _last_dir |    0000C107  _blank    |    0000C117  _arrow_ti
+     0000C118  _last_joy |    0000C119  _current_ |    0000C11A  _max_hp  
+     0000C11B  _current_ |    0000C11C  _attack   |    0000C11D  _defense 
+     0000C11E  _level    |    0000C11F  _experien |    0000C120  _sword_lv
+     0000C121  _shield_l |    0000C122  _arrow_lv |    0000C123  _quiver_l
+     0000C124  _potion_q |    0000C125  _potion_h |    0000C126  _heals   
+     0000C127  _heal_qua |    0000C128  _arrow_da |    0000C129  _num_arro
+     0000C12A  _max_num_ |    0000C12B  _minerals |    0000C12C  _menu_ope
+     0000C12D  _current_ |    0000C12E  _current_ |    0000C12F  _hector_o
+     0000C130  _safy_opt |    0000C131  _key_obta |    0000C132  _treasure
+     0000C133  _lock_ope |    0000C134  _current_ |    0000C136  .curx    
+     0000C137  .cury     |    0000C138  .fg_colou |    0000C138  __current
+     0000C139  .bg_colou |    0000C13A  .draw_mod |    0000C13B  __map_til
 ASxxxx Linker V03.00/V05.40 + sdld,  page 28.
 Hexadecimal  [32-Bits]
 
@@ -422,15 +423,15 @@ Files Linked                              [ module(s) ]
 
 C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/crt0.o
                                           [ Runtime ]
-C:\Users\Utente\AppData\Local\Temp/lcc189240.o
+C:\Users\Utente\AppData\Local\Temp/lcc254880.o
                                           [ main ]
-C:\Users\Utente\AppData\Local\Temp/lcc189241.o
+C:\Users\Utente\AppData\Local\Temp/lcc254881.o
                                           [ generate_dungeon ]
-C:\Users\Utente\AppData\Local\Temp/lcc189242.o
+C:\Users\Utente\AppData\Local\Temp/lcc254882.o
                                           [ gui ]
-C:\Users\Utente\AppData\Local\Temp/lcc189243.o
+C:\Users\Utente\AppData\Local\Temp/lcc254883.o
                                           [ enemy ]
-C:\Users\Utente\AppData\Local\Temp/lcc189244.o
+C:\Users\Utente\AppData\Local\Temp/lcc254884.o
                                           [ titlescreen ]
 
 
