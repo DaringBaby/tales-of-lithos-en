@@ -28,7 +28,9 @@
 /* Bank of tiles. */
 #define CharacterBank 0
 /* Start of tile array. */
-extern const unsigned char Character[];
+extern const unsigned char MC_down[];
+extern const unsigned char MC_up[];
+extern const unsigned char MC_right[];
 
 #endif
 

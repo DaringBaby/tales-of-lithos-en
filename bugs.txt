@@ -1,0 +1,2 @@
+bug:
+nemico ci sono andato in range poi sono scappato, lui è rimasto fermo (di immagine?) ma poi si faceva combattere

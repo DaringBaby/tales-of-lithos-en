@@ -10,21 +10,50 @@ void move_enemy(Enemy *e) {
     dx = check_distance_x(e);
     dy = check_distance_y(e);
 
-    if (dx == 16 && dx == 0 || dx == 0 && dy == 16) {
+    // da vedere bene come far funzionare bene il nemico che segue
+
+    if (dx == 16 && dy == 0 || dx == 0 && dy == 16) {
         enemy_attack(e);
+        e->targeted_turn = 1;
         e->targeting = 1;
         return; 
     }
-
-    uint8_t next_x = e->x;
-    uint8_t next_y = e->y;
+    else {
+        e->targeted_turn = 0;
+    }
     uint8_t moved = 0;
     if (e->targeting) {
+        uint8_t direction;
+        if (e->targeted_turn == 1) {
+            direction = last_direction;
+        }
+        else {
+            direction = sl_direction;
+        }
+        switch(direction) {
+            case 1:
+                direction = 0;
+                break;
+            case 2:
+                direction = 1;
+                break;
+            case 4:
+                direction = 2;
+                break;
+            case 8:
+                direction = 3;
+                break;
+        }
+        enemy_smooth_movement(e,direction);
         e->x = last_x;
         e->y = last_y;
         moved = 1;
+        return;
     }
     while (!moved){
+        moved = 0;
+        uint8_t next_x = e->x;
+        uint8_t next_y = e->y;
         uint8_t direction = (uint8_t)(DIV_REG & 3);
         switch (direction) {
             case 0:
@@ -100,6 +129,7 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     e->sprite_id = sprite_id;
     e->alive = 1;
     e->targeting = 0;
+    e->targeted_turn = 0;
 }
 
 uint8_t check_distance_x(Enemy* e) {

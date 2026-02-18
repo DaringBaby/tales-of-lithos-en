@@ -65,6 +65,7 @@ uint8_t last_x;
 uint8_t last_y;
 
 uint8_t last_direction = 1;
+uint8_t sl_direction = 1;
 
 unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 const uint8_t chest_closed[] = {225, 226, 227, 228, 229, 230, 231, 232};
@@ -134,7 +135,10 @@ void main(void) {
     set_titlescreen();
     
     
-    set_sprite_data(0, 4, Character);
+    set_sprite_data(0, 4, MC_down);
+    set_sprite_data(4, 4, MC_up);
+    set_sprite_data(8, 4, MC_right);
+    set_sprite_data(12, 4, MC_left);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
     set_sprite_data(50, 1, blank);
@@ -218,9 +222,6 @@ void move_character() {
     if (y == 144) { 
             set_sprite_tile(2, 50); 
             set_sprite_tile(3, 50);
-        } else {
-            set_sprite_tile(2, 2); 
-            set_sprite_tile(3, 3);
         }
 
 }
@@ -232,6 +233,7 @@ void check_input_movement() {
         if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
             moved = 1;
             if (!check_enemy(4)) {
+                sl_direction = last_direction;
                 last_y = y;
                 last_x = x;
                 last_direction = 4;
@@ -246,6 +248,7 @@ void check_input_movement() {
         if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
             moved = 1;
             if (!check_enemy(1)) {
+                sl_direction = last_direction;
                 last_y = y;
                 last_x = x;
                 last_direction = 1;
@@ -269,6 +272,7 @@ void check_input_movement() {
         if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
             moved = 1;
             if (!check_enemy(8)) {
+                sl_direction = last_direction;
                 last_direction = 8;
                 last_y = y;
                 last_x = x;
@@ -283,6 +287,7 @@ void check_input_movement() {
         if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
             moved = 1;
             if (!check_enemy(2)) {
+                sl_direction = last_direction;
                 last_direction = 2;
                 last_y = y;
                 last_x = x;
@@ -624,6 +629,8 @@ void change_room() {
     else if (y > 144) {
         player_coords.y++;
         y = 16;
+        set_sprite_tile(2, 2);
+        set_sprite_tile(3, 3);
         set_room(player_coords);
     }
     else if (y < 8) {
@@ -1266,18 +1273,59 @@ uint8_t smooth_movement(uint8_t dir) {
     switch (dir) {
         case 1:
             y-=16;
+            set_sprite_tile(0, 4);
+            set_sprite_tile(1, 5);
+            set_sprite_tile(2, 6);
+            set_sprite_tile(3, 7);
             break;
         case 2:
             x+=16;
+            set_sprite_tile(0, 8);
+            set_sprite_tile(1, 9);
+            set_sprite_tile(2, 10);
+            set_sprite_tile(3, 11);
             break;
         case 4:
             y+=16;
+            set_sprite_tile(0, 0);
+            set_sprite_tile(1, 1);
+            set_sprite_tile(2, 2);
+            set_sprite_tile(3, 3);
             break;
         case 8:
             x-=16;
+            set_sprite_tile(0, 12);
+            set_sprite_tile(1, 13);
+            set_sprite_tile(2, 14);
+            set_sprite_tile(3, 15);
             break;
     }
+    
     while (frame < 8) {
+        if (mov_y >= 136) { 
+            set_sprite_tile(2, 50);
+            set_sprite_tile(3, 50);
+        }
+        else if (mov_y == 134){
+            switch (dir) {
+                case 1:
+                    set_sprite_tile(2, 6);
+                    set_sprite_tile(3, 7);
+                    break;
+                case 2:
+                    set_sprite_tile(2, 10);
+                    set_sprite_tile(3, 11);
+                    break;
+                case 4:
+                    set_sprite_tile(2, 2);
+                    set_sprite_tile(3, 3);
+                    break;
+                case 8:
+                    set_sprite_tile(2, 14);
+                    set_sprite_tile(3, 15);
+                    break;
+            }
+        }
         wait_vbl_done();
         switch (dir) {
             case 1:
@@ -1299,11 +1347,7 @@ uint8_t smooth_movement(uint8_t dir) {
         move_sprite(3, mov_x + 8, mov_y + 8);
         frame++;
     }
-    if (y == 144) { 
-            set_sprite_tile(2, 50); 
-            set_sprite_tile(3, 50);
-        } else {
-            set_sprite_tile(2, 2); 
-            set_sprite_tile(3, 3);
-        }
+    
 }
+
+
