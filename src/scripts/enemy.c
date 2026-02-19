@@ -14,18 +14,19 @@ void move_enemy(Enemy *e) {
 
     if (dx == 16 && dy == 0 || dx == 0 && dy == 16) {
         enemy_attack(e);
-        e->targeted_turn = 1;
+        if (e->targeted_turn == 0) {
+            e->targeted_turn = 1;
+        }
         e->targeting = 1;
         return; 
     }
-    else {
-        e->targeted_turn = 0;
-    }
+    
     uint8_t moved = 0;
     if (e->targeting) {
         uint8_t direction;
         if (e->targeted_turn == 1) {
             direction = last_direction;
+            e->targeted_turn = 2;
         }
         else {
             direction = sl_direction;
