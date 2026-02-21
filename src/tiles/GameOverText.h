@@ -1,6 +1,6 @@
 /*
 
- CHARACTER.H
+ GAMEOVERTEXT.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 3
+  Tiles                : 0 to 49
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -22,17 +22,14 @@
 
 */
 
-#ifndef __character_h_INCLUDE
-#define __character_h_INCLUDE
+#ifndef __GameOverText_h_INCLUDE
+#define __GameOverText_h_INCLUDE
 
 /* Bank of tiles. */
-#define CharacterBank 0
+#define GameOverTextBank 0
 /* Start of tile array. */
-extern const unsigned char MC_down[];
-extern const unsigned char MC_up[];
-extern const unsigned char MC_right[];
-extern const unsigned char MC_left[];
+extern const unsigned char GameOverText[];
 
 #endif
 
-/* End of CHARACTER.H */
+/* End of GAMEOVERTEXT.H */

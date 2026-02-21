@@ -1,3 +1,5 @@
+#pragma bank 1
+
 /*
 
  NUMBERS.C

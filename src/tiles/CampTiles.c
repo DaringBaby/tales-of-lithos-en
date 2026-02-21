@@ -1,3 +1,6 @@
+#pragma bank 2
+#include <gb/gb.h>
+
 /*
 
  CAMPTILES.C

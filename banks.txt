@@ -1,0 +1,33 @@
+BANK 0: script
+main.c
+scripts/enemy.c
+scripts/generate_dungeon.c
+scripts/gui.c
+scripts/titlescreen.c
+
+BANK 1: tiles
+tiles/character.c
+tiles/Hector.c
+tiles/Safy.c
+tiles/Arrow.c
+tiles/DungeonObjects.c
+tiles/Enemies.c
+tiles/key.c
+tiles/Lock.c
+tiles/textbox.c
+tiles/mugshot.c
+tiles/mythril.c
+tiles/Numbers.c
+tiles/wpn_arrow.c
+
+BANK 2: mappe e tiles
+maps/CampMap.c
+maps/Dungeon.c
+maps/GameOver.c
+maps/Title.c
+tiles/CampTiles.c
+tiles/Text.c
+tiles/DungeonTiles.c
+tiles/Titlescreen.c
+tiles/TitleText.c
+tiles/GameOverText.c

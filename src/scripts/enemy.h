@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include <gb/gb.h>
 #include <stdio.h>
 
@@ -35,3 +38,5 @@ void enemy_smooth_movement(Enemy* e, uint8_t dir);
 
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 extern void show_number(uint8_t number, uint8_t mode, uint8_t target);
+
+#endif

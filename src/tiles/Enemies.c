@@ -1,3 +1,5 @@
+#pragma bank 1
+
 #include "Enemies.h"
 
 const unsigned char LarvaOscura[] =

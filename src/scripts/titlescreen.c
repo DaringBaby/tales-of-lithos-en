@@ -1,13 +1,13 @@
+#pragma bank 3
+
+#include <gb/gb.h>
 #include "titlescreen.h"
-#include "../tiles/Titlescreen.c"
-#include "../tiles/TitleText.c"
-#include "../maps/Title.c"
+#include "../tiles/Titlescreen.h"
+#include "../tiles/TitleText.h"
+#include "../maps/Title.h"
 
-void set_titlescreen() {
-    set_bkg_data(0, 241, Titlescreen);
-    set_bkg_data(241, 8, TitleText);
-    set_bkg_tiles(0, 0, 20, 18, Title);
 
+void set_titlescreen() BANKED {
     uint8_t press_start[] = {241, 242, 243, 244, 245, 1, 1, 246, 247, 248, 242, 247};
     uint8_t empty[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     set_bkg_tiles(4, 16, 12, 1, press_start);

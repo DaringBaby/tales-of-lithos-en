@@ -1,3 +1,5 @@
+#pragma bank 2
+#include <gb/gb.h>
 /*
 
  CAMPMAP.C
@@ -20,7 +22,7 @@
 
 #define CampWidth 20
 #define CampHeight 18
-#define CampBank 0
+#define CampBank 2
 
 const unsigned char Camp[] =
 {

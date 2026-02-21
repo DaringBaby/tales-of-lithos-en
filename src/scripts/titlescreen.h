@@ -1,4 +1,3 @@
 #include <gb/gb.h>
 
-
-void set_titlescreen();
+void set_titlescreen() BANKED;

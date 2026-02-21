@@ -1,3 +1,5 @@
 bug:
-nemico ci sono andato in range poi sono scappato, lui è rimasto fermo (di immagine?) ma poi si faceva combattere
-stark si deve girare quando attacca
+- quando approcci il nemico dal lato, non ti segue bene (modificare il codice di inseguimento)
+- stark si deve girare quando attacca
+- numero danni da mettere sopra allo sprite del player (cambiare tutti gli id degli sprite)
+- gioco bianco all'avvio, seguire ultimi messaggi di gemini

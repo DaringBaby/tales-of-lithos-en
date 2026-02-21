@@ -1,24 +1,26 @@
 #include <gb/gb.h>
 #include <stdio.h>
-#include "src/tiles/character.c"
-#include "src/tiles/CampTiles.c"
-#include "src/maps/CampMap.c"
-#include "src/tiles/Hector.c"
-#include "src/tiles/Safy.c"
-#include "src/tiles/DungeonTiles.c"
-#include "src/maps/Dungeon.c"
+#include "src/maps/GameOver.h"
+#include "src/tiles/character.h"
+#include "src/tiles/CampTiles.h"
+#include "src/maps/CampMap.h"
+#include "src/tiles/Hector.h"
+#include "src/tiles/Safy.h"
+#include "src/tiles/DungeonTiles.h"
+#include "src/maps/Dungeon.h"
 #include "src/scripts/generate_dungeon.h"
-#include "src/tiles/textbox.c"
-#include "src/tiles/Text.c"
-#include "src/tiles/mugshot.c"
-#include "src/tiles/DungeonObjects.c"
-#include "src/tiles/Arrow.c"
-#include "src/tiles/Lock.c"
-#include "src/tiles/key.c"
-#include "src/tiles/mythril.c"
-#include "src/tiles/Enemies.c"
-#include "src/tiles/numbers.c"
-#include "src/tiles/wpn_arrow.c"
+#include "src/tiles/textbox.h"
+#include "src/tiles/Text.h"
+#include "src/tiles/mugshot.h"
+#include "src/tiles/DungeonObjects.h"
+#include "src/tiles/Arrow.h"
+#include "src/tiles/Lock.h"
+#include "src/tiles/key.h"
+#include "src/tiles/mythril.h"
+#include "src/tiles/Enemies.h"
+#include "src/tiles/numbers.h"
+#include "src/tiles/wpn_arrow.h"
+#include "src/tiles/GameOverText.h"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
@@ -54,7 +56,9 @@ uint8_t check_enemy(uint8_t dir);
 void player_attack(uint8_t wpn);
 void show_number(uint8_t damage, uint8_t mode, uint8_t target);
 void shoot_arrow();
-uint8_t smooth_movement(uint8_t dir);
+void smooth_movement(uint8_t dir);
+void game_over();
+void black_spiral();
 /* VARS */
 
 int tile_id = 0;
@@ -67,13 +71,14 @@ uint8_t last_y;
 uint8_t last_direction = 1;
 uint8_t sl_direction = 1;
 
-unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const unsigned char black[16] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 const uint8_t chest_closed[] = {225, 226, 227, 228, 229, 230, 231, 232};
 const uint8_t chest_opened[] = {233, 234, 235, 236, 237, 238, 239, 240};
 const uint8_t stairs[] = {241, 242, 243, 244};
 
 const uint8_t menu_body[] = {187};
-uint8_t arrow_tile = 245;
+const uint8_t arrow_tile = 245;
 
 
 Coords player_coords;
@@ -99,6 +104,7 @@ uint8_t potion_quant_lvl = 1;
 uint8_t potion_heal_lvl = 1;
 
 /* NUMBER OF ITEMS */
+uint8_t max_heals = 5;
 uint8_t heals = 5;
 uint8_t heal_quantity = 10;
 uint8_t arrow_damage = 3;
@@ -106,8 +112,36 @@ uint8_t num_arrows = 10;
 uint8_t max_num_arrows = 10;
 uint8_t minerals = 23;
 
+uint8_t obt_mythril = 0;
+uint8_t obt_exp = 0;
 
-
+/* BANK 2 VARIABLES*/
+extern const unsigned char CampTiles[];
+extern const unsigned char Camp[];
+extern const unsigned char Text[];
+extern const unsigned char MiniGUI[];
+extern const unsigned char camp_collisions[];
+extern const unsigned char DungeonTiles[];
+extern const unsigned char GameOverText[];
+extern const unsigned char GameOver[];
+extern const unsigned char Titlescreen[];
+extern const unsigned char TitleText[];
+extern const unsigned char Title[];
+extern const unsigned char room1[];
+extern const unsigned char room2[];
+extern const unsigned char room3[];
+extern const unsigned char room4[];
+extern const unsigned char room5[];
+extern const unsigned char room6[];
+extern const unsigned char room7[];
+extern const unsigned char room8[];
+extern const unsigned char room9[];
+extern const unsigned char room10[];
+extern const unsigned char room11[];
+extern const unsigned char room12[];
+extern const unsigned char room13[];
+extern const unsigned char room14[];
+extern const unsigned char room15[];
 
 /* GAME VARS*/
 uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox
@@ -130,8 +164,12 @@ Enemy enemy;
 
 
 void main(void) {
-    cls();
-
+    cls(); 
+    SWITCH_ROM(2);
+    set_bkg_data(0, 241, Titlescreen);
+    set_bkg_data(241, 8, TitleText);
+    set_bkg_tiles(0, 0, 20, 18, Title);
+    SWITCH_ROM(1);
     set_titlescreen();
     
     
@@ -147,13 +185,17 @@ void main(void) {
     set_sprite_data(61, 4, Mythril);
     set_sprite_data(65, 12, Numbers);
     set_sprite_data(80, 2, Arrow);
-
+    SWITCH_ROM(2);
     set_bkg_data(128, 51, Text);
+    SWITCH_ROM(1);
     set_bkg_data(179, 9, Textbox);
     set_bkg_data(188, 16, Mugshot);
+    SWITCH_ROM(2);
     set_bkg_data(220, 3, MiniGUI);
+    SWITCH_ROM(1);
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
+    set_bkg_data(246, 1, black);
     
 
     move_win(7, 136);
@@ -190,7 +232,6 @@ void main(void) {
     SHOW_WIN;
     delay(100);
     DISPLAY_ON;
-
     while(1) {
         check_open_menu();
         if (menu_opened == 0){
@@ -260,6 +301,8 @@ void check_input_movement() {
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
                 current_floor = 1;
+                obt_mythril = 0;
+                obt_exp = 0;
                 hide_camp_sprites();
                 go_into_dungeon();
                 x = 120;
@@ -309,6 +352,10 @@ void check_input_movement() {
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
                 go_next_floor();
             }
+
+            if (current_hp == 0) {
+                game_over();
+            }
         }
         
     }
@@ -322,6 +369,8 @@ void check_input_keys() {
         if (current_location == 1) {
             if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
                 treasure_obtained = 1;
+                minerals++;
+                obt_mythril++;
                 set_bkg_tiles(8, 6, 4, 2, chest_opened);
                 delay(150);
                 menu_opened = 4;
@@ -422,9 +471,12 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
 
     uint16_t tile_index = (uint16_t)gy * 20 + gx;
 
-    if (current_location == 0) { 
+    if (current_location == 0) {
+        SWITCH_ROM(2);
         uint8_t tile_id = Camp[tile_index];             // collisioni campo
-        if (camp_collisions[tile_id] == 1) return 0;
+        uint8_t camp_colliding = camp_collisions[tile_id];
+        SWITCH_ROM(1);
+        if (camp_colliding == 1) return 0;
     } else {
         if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
             if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
@@ -455,7 +507,9 @@ uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
                     break;
             }
         }
+        SWITCH_ROM(2);
         uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
+        SWITCH_ROM(1);
         if (tile_id > 3) return 0;
     }
 
@@ -475,8 +529,10 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
 void set_camp_map(){
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
-    set_bkg_tiles(0, 0, 20, 18, Camp);
+    SWITCH_ROM(2);
     set_bkg_data(0, 108, CampTiles);
+    set_bkg_tiles(0, 0, 20, 18, Camp);
+    SWITCH_ROM(1);
     
 
     set_sprite_tile(4, 16);
@@ -521,11 +577,14 @@ void set_dungeon_map(){
     set_sprite_tile(19, 19);
     set_enemy_stats(&enemy, 0, 16);
     set_enemy_position(&enemy, 72, 64);
-    set_bkg_data(0, 52, DungeonTiles);
+    SWITCH_ROM(2);
+    set_bkg_data(0, 52, (const unsigned char *)(uint16_t)DungeonTiles);
+    SWITCH_ROM(1);
 }
 
 void set_room(Coords coord){
     uint8_t door = doors[coord.x][coord.y];
+    SWITCH_ROM(2);
     switch (door) {
     case 1:
         current_room = room1;
@@ -574,6 +633,8 @@ void set_room(Coords coord){
         break;
     }
     set_bkg_tiles(0, 0, 20, 18, current_room);
+    SWITCH_ROM(1);
+
     hide_door();
     if (dungeon[coord.x][coord.y] == 'K') {
         if (key_obtained == 0){
@@ -848,6 +909,7 @@ void safy_upgrades() {
                     experience = experience - cost;
                     potion_quant_lvl++;
                     heals = heals + 1;
+                    max_heals++;
                     delay(300);
                 }
             }
@@ -1265,7 +1327,7 @@ void heal_player() {
 }
 
 
-uint8_t smooth_movement(uint8_t dir) {
+void smooth_movement(uint8_t dir) {
     uint8_t mov_x, mov_y;
     mov_x = x;
     mov_y = y;
@@ -1350,4 +1412,84 @@ uint8_t smooth_movement(uint8_t dir) {
     
 }
 
+void game_over() {
+    enemy_death(&enemy);
+    HIDE_WIN;
+    HIDE_SPRITES;
+    black_spiral();
+    DISPLAY_OFF;
+    delay(500);
+    uint8_t obt_m[2];
+    uint8_t obt_e[3];
+    obt_m[0] = obt_mythril / 10 + 26;
+    obt_m[1] = obt_mythril % 10 + 26;
+    obt_e[0] = obt_exp / 100 + 26;
+    obt_e[1] = obt_exp % 100 / 10 + 26;
+    obt_e[2] = obt_exp % 10 + 26;
+    SWITCH_ROM(2);
+    set_bkg_data(0, 50, GameOverText);
+    set_bkg_tiles(0, 0, 20, 18, GameOver);
+    SWITCH_ROM(1);
+    set_bkg_tiles(16, 8, 3, 1, obt_e);
+    set_bkg_tiles(17, 10, 2, 1, obt_m);
+    DISPLAY_ON;
+    uint8_t respawn = 0;
+    while (!respawn) {
+        if (joypad() & J_START) {
+            respawn = 1;
+        }
+    }
+    DISPLAY_OFF;
 
+    SHOW_SPRITES;
+    current_location = 0;
+    current_hp = max_hp;
+    num_arrows = max_num_arrows;
+    heals = max_heals;
+
+    move_win(7, 136);
+    set_mini_menu();
+    set_camp_map();
+    x = 120;
+    y = 112;
+    delay(100);
+    DISPLAY_ON;
+    return;
+}
+
+void black_spiral() {
+    int8_t top = 0;
+    int8_t bottom = 17;
+    int8_t left = 0;
+    int8_t right = 19;
+    uint8_t black = 246;
+    while (top <= bottom && left <= right) {
+        for (int8_t i = left; i <= right; i++) {
+            set_bkg_tiles(i, top, 1, 1, &black);
+            delay(5);
+        }
+        top++;
+
+        for (int8_t i = top; i <= bottom; i++) {
+            set_bkg_tiles(right, i, 1, 1, &black);
+            delay(5);
+        }
+        right--;
+
+        if (top <= bottom) {
+            for (int8_t i = right; i >= left; i--) {
+                set_bkg_tiles(i, bottom, 1, 1, &black);
+                delay(5);
+            }
+            bottom--;
+        }
+
+        if (left <= right) {
+            for (int8_t i = bottom; i >= top; i--) {
+                set_bkg_tiles(left, i, 1, 1, &black);
+                delay(5);
+            }
+            left++;
+        }
+    }
+}

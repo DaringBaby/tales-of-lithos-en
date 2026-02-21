@@ -78,7 +78,7 @@ void move_enemy(Enemy *e) {
                 }
                 break;
         }
-        if (check_terrain(next_x + 8, next_y + 8)) {
+        if ((next_x != e->x || next_y != e->y) && check_terrain(next_x + 8, next_y + 8)) {
             enemy_smooth_movement(e, direction);
             e->x = next_x;
             e->y = next_y;
@@ -107,7 +107,7 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     switch (type) {
         case 0:
             e->hp = 10;
-            e->atk = 7;
+            e->atk = 65;
             e->def = 1;
             e->type = 0;
             e->exp_reward = 1;
@@ -185,6 +185,7 @@ void enemy_death(Enemy* e) {
     set_sprite_tile(e->sprite_id+2, 50);
     set_sprite_tile(e->sprite_id+3, 50);
 }
+
 
 void enemy_smooth_movement(Enemy* e, uint8_t dir) {
     uint8_t frame = 0;
