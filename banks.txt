@@ -19,6 +19,7 @@ tiles/mugshot.c
 tiles/mythril.c
 tiles/Numbers.c
 tiles/wpn_arrow.c
+tiles/Minimap.c
 
 BANK 2: mappe e tiles
 maps/CampMap.c

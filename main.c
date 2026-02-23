@@ -1,6 +1,5 @@
 #include <gb/gb.h>
 #include <stdio.h>
-#include "src/maps/GameOver.h"
 #include "src/tiles/character.h"
 #include "src/tiles/CampTiles.h"
 #include "src/maps/CampMap.h"
@@ -20,10 +19,11 @@
 #include "src/tiles/Enemies.h"
 #include "src/tiles/numbers.h"
 #include "src/tiles/wpn_arrow.h"
-#include "src/tiles/GameOverText.h"
+#include "src/tiles/minimap.h"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
+#include "src/scripts/gameover.h"
 
 /* PROTOTYPES */
 
@@ -57,8 +57,8 @@ void player_attack(uint8_t wpn);
 void show_number(uint8_t damage, uint8_t mode, uint8_t target);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
-void game_over();
-void black_spiral();
+void check_map_options();
+
 /* VARS */
 
 int tile_id = 0;
@@ -120,10 +120,10 @@ extern const unsigned char CampTiles[];
 extern const unsigned char Camp[];
 extern const unsigned char Text[];
 extern const unsigned char MiniGUI[];
+extern const unsigned char Minimap[];
+extern const unsigned char map_menu[];
 extern const unsigned char camp_collisions[];
 extern const unsigned char DungeonTiles[];
-extern const unsigned char GameOverText[];
-extern const unsigned char GameOver[];
 extern const unsigned char Titlescreen[];
 extern const unsigned char TitleText[];
 extern const unsigned char Title[];
@@ -144,12 +144,16 @@ extern const unsigned char room14[];
 extern const unsigned char room15[];
 
 /* GAME VARS*/
-uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox
+uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
 uint8_t current_location = 0; // 0 camp, 1 dungeon
 uint8_t current_floor = 1;
 
+uint8_t map[4][4];
+
+
 uint8_t hector_option = 1;
 uint8_t safy_option = 1;
+uint8_t map_option = 0;
 
 const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
 const uint8_t cure_upgrade_costs[] = {7, 12, 17, 23, 29, 35, 42, 50};
@@ -185,6 +189,8 @@ void main(void) {
     set_sprite_data(61, 4, Mythril);
     set_sprite_data(65, 12, Numbers);
     set_sprite_data(80, 2, Arrow);
+    SWITCH_ROM(3);
+    set_bkg_data(108, 17, Minimap);
     SWITCH_ROM(2);
     set_bkg_data(128, 51, Text);
     SWITCH_ROM(1);
@@ -248,6 +254,9 @@ void main(void) {
         }
         else if (menu_opened == 4) {
             // void
+        }
+        else if (menu_opened == 5) {
+            check_map_options();
         }
         
         wait_vbl_done();
@@ -355,6 +364,15 @@ void check_input_movement() {
 
             if (current_hp == 0) {
                 game_over();
+                move_win(7, 136);
+                set_mini_menu();
+                set_camp_map();
+                x = 120;
+                y = 112;
+                move_character();
+                delay(100);
+                SHOW_WIN;
+                DISPLAY_ON;
             }
         }
         
@@ -527,6 +545,10 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
 }
 
 void set_camp_map(){
+    set_sprite_tile(0, 4);
+    set_sprite_tile(1, 5);
+    set_sprite_tile(2, 6);
+    set_sprite_tile(3, 7);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
     SWITCH_ROM(2);
@@ -555,7 +577,9 @@ void set_camp_map(){
     move_sprite(9, 128, 64);
     move_sprite(10, 120, 72);
     move_sprite(11, 128, 72);
+    empty_map_tiles();
 }
+
 
 void hide_camp_sprites() {
     set_sprite_tile(4, 50);
@@ -757,6 +781,26 @@ void check_open_menu() {
             menu_opened = 1;
         }
         else if (menu_opened == 1) {
+            move_win(7, 136);
+            set_mini_menu();
+            
+            SHOW_SPRITES;
+            menu_opened = 0;
+        }
+    }
+    if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
+        if (menu_opened == 0){
+            move_win(7, 0);
+            SWITCH_ROM(3);
+            set_win_tiles(0, 0, 20, 18, map_menu);
+            SWITCH_ROM(1);
+            set_map_menu();
+            map_option = 0;
+            set_win_tiles(2, 4, 1, 1, &arrow_tile);
+            HIDE_SPRITES;
+            menu_opened = 5;
+        }
+        else if (menu_opened == 5) {
             move_win(7, 136);
             set_mini_menu();
             
@@ -1412,84 +1456,52 @@ void smooth_movement(uint8_t dir) {
     
 }
 
-void game_over() {
-    enemy_death(&enemy);
-    HIDE_WIN;
-    HIDE_SPRITES;
-    black_spiral();
-    DISPLAY_OFF;
-    delay(500);
-    uint8_t obt_m[2];
-    uint8_t obt_e[3];
-    obt_m[0] = obt_mythril / 10 + 26;
-    obt_m[1] = obt_mythril % 10 + 26;
-    obt_e[0] = obt_exp / 100 + 26;
-    obt_e[1] = obt_exp % 100 / 10 + 26;
-    obt_e[2] = obt_exp % 10 + 26;
-    SWITCH_ROM(2);
-    set_bkg_data(0, 50, GameOverText);
-    set_bkg_tiles(0, 0, 20, 18, GameOver);
-    SWITCH_ROM(1);
-    set_bkg_tiles(16, 8, 3, 1, obt_e);
-    set_bkg_tiles(17, 10, 2, 1, obt_m);
-    DISPLAY_ON;
-    uint8_t respawn = 0;
-    while (!respawn) {
-        if (joypad() & J_START) {
-            respawn = 1;
+void check_map_options() {
+    if (joypad() & J_UP && map_option > 0) {
+        set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
+        map_option--;
+        set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
+        delay(150);
         }
-    }
-    DISPLAY_OFF;
-
-    SHOW_SPRITES;
-    current_location = 0;
-    current_hp = max_hp;
-    num_arrows = max_num_arrows;
-    heals = max_heals;
-
-    move_win(7, 136);
-    set_mini_menu();
-    set_camp_map();
-    x = 120;
-    y = 112;
-    delay(100);
-    DISPLAY_ON;
-    return;
+    if (joypad() & J_DOWN && map_option < 2) {
+        set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
+        map_option++;
+        set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
+        delay(150);
+        }
+    check_map_menu_input();
 }
 
-void black_spiral() {
-    int8_t top = 0;
-    int8_t bottom = 17;
-    int8_t left = 0;
-    int8_t right = 19;
-    uint8_t black = 246;
-    while (top <= bottom && left <= right) {
-        for (int8_t i = left; i <= right; i++) {
-            set_bkg_tiles(i, top, 1, 1, &black);
-            delay(5);
-        }
-        top++;
-
-        for (int8_t i = top; i <= bottom; i++) {
-            set_bkg_tiles(right, i, 1, 1, &black);
-            delay(5);
-        }
-        right--;
-
-        if (top <= bottom) {
-            for (int8_t i = right; i >= left; i--) {
-                set_bkg_tiles(i, bottom, 1, 1, &black);
-                delay(5);
-            }
-            bottom--;
-        }
-
-        if (left <= right) {
-            for (int8_t i = bottom; i >= top; i--) {
-                set_bkg_tiles(left, i, 1, 1, &black);
-                delay(5);
-            }
-            left++;
+void check_map_menu_input() {
+    if (joypad() & J_A) {
+        switch (map_option) {
+            case 0:
+                move_win(7, 136);
+                set_mini_menu();
+                SHOW_SPRITES;
+                menu_opened = 0;
+                break;
+            case 1:
+                menu_opened = 6;
+                SWITCH_ROM(3);
+                set_win_tiles(0, 0, 20, 18, stats_menu);
+                SWITCH_ROM(1);
+                break;
+            case 2:
+                if (current_location == 1) {
+                    menu_opened = 0;
+                    game_over();
+                    move_win(7, 136);
+                    set_mini_menu();
+                    set_camp_map();
+                    x = 120;
+                    y = 112;
+                    move_character();
+                    delay(100);
+                    SHOW_WIN;
+                    DISPLAY_ON;
+                }
+                break;
         }
     }
 }
