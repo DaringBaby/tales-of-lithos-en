@@ -18,6 +18,7 @@ typedef struct {
 
 extern char dungeon[4][4];
 extern uint8_t doors[4][4];
+extern uint8_t room_enemies[4][4];
 extern uint8_t locked_door;
 
 void generate_dungeon(uint8_t current_floor); 

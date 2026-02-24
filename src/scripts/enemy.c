@@ -128,7 +128,7 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             break;
     }
     e->sprite_id = sprite_id;
-    e->alive = 1;
+    e->alive = 0; // cambiato
     e->targeting = 0;
     e->targeted_turn = 0;
 }

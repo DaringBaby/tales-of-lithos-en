@@ -24,6 +24,8 @@
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
 #include "src/scripts/gameover.h"
+#include "src/scripts/gui_management.h"
+#include "src/scripts/spawn_enemy.h"
 
 /* PROTOTYPES */
 
@@ -57,8 +59,7 @@ void player_attack(uint8_t wpn);
 void show_number(uint8_t damage, uint8_t mode, uint8_t target);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
-void check_map_options();
-
+void check_time();
 /* VARS */
 
 int tile_id = 0;
@@ -70,6 +71,15 @@ uint8_t last_y;
 
 uint8_t last_direction = 1;
 uint8_t sl_direction = 1;
+
+uint8_t frames = 0;
+uint8_t seconds = 0;
+uint8_t minutes = 0;
+uint8_t hours = 0;
+
+uint8_t enemies_defeated = 0;
+uint8_t max_floor = 0;
+uint8_t power_ups = 0;
 
 const unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 const unsigned char black[16] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -164,6 +174,8 @@ uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 
 /* ENEMIES */
+
+Enemy current_enemies[2];
 Enemy enemy;
 
 
@@ -258,7 +270,19 @@ void main(void) {
         else if (menu_opened == 5) {
             check_map_options();
         }
-        
+        else if (menu_opened == 6) {
+            if (joypad() & J_A || joypad() & J_B) {
+                DISPLAY_OFF;
+                move_win(7, 136);
+                menu_opened = 0;
+                set_mini_menu();
+                SHOW_SPRITES;
+                DISPLAY_ON;
+                delay(300);
+            }
+            show_time();
+        }
+        check_time();
         wait_vbl_done();
     }
 }
@@ -460,7 +484,7 @@ void check_input_keys() {
         }
     }
 
-    else if (joypad() & J_B) {
+    else if (joypad() & J_B && current_location == 1) {
         if (heals > 0) {
             heal_player();
             heals--;
@@ -774,22 +798,27 @@ void check_open_menu() {
     current_joypad = joypad();
     if ((current_joypad & J_START) && !(last_joypad & J_START)) {
         if (menu_opened == 0){
+            DISPLAY_OFF;
             move_win(7, 0);
             set_win_tiles(0, 0, 20, 18, gui_map);
             set_stats();
             HIDE_SPRITES;
+            DISPLAY_ON;
             menu_opened = 1;
         }
         else if (menu_opened == 1) {
+            DISPLAY_OFF;
             move_win(7, 136);
             set_mini_menu();
             
             SHOW_SPRITES;
             menu_opened = 0;
+            DISPLAY_ON;
         }
     }
     if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
         if (menu_opened == 0){
+            DISPLAY_OFF;
             move_win(7, 0);
             SWITCH_ROM(3);
             set_win_tiles(0, 0, 20, 18, map_menu);
@@ -799,13 +828,16 @@ void check_open_menu() {
             set_win_tiles(2, 4, 1, 1, &arrow_tile);
             HIDE_SPRITES;
             menu_opened = 5;
+            DISPLAY_ON;
         }
         else if (menu_opened == 5) {
+            DISPLAY_OFF;
             move_win(7, 136);
             set_mini_menu();
             
             SHOW_SPRITES;
             menu_opened = 0;
+            DISPLAY_ON;
         }
     }
     last_joypad = current_joypad;
@@ -882,6 +914,7 @@ void hector_upgrades() {
                 if (minerals >= cost && joypad() & J_A) {
                     minerals = minerals - cost;
                     sword_lvl++;
+                    power_ups++;
                     // recalc_stats();
                     attack = attack + 3;
                     delay(300);
@@ -894,6 +927,7 @@ void hector_upgrades() {
                 if (minerals >= cost && joypad() & J_A) {
                     minerals = minerals - cost;
                     shield_lvl++;
+                    power_ups++;
                     // recalc_stats();
                     defense = defense + 3;
                     delay(300);
@@ -906,6 +940,7 @@ void hector_upgrades() {
                 if (minerals >= cost && joypad() & J_A) {
                     minerals = minerals - cost;
                     arrow_lvl++;
+                    power_ups++;
                     // recalc_stats();
                     arrow_damage = arrow_damage + 2;
                     delay(300);
@@ -918,6 +953,7 @@ void hector_upgrades() {
                 if (minerals >= cost && joypad() & J_A) {
                     minerals = minerals - cost;
                     quiver_lvl++;
+                    power_ups++;
                     // recalc_stats();
                     max_num_arrows = max_num_arrows + 2;
                     delay(300);
@@ -954,6 +990,7 @@ void safy_upgrades() {
                     potion_quant_lvl++;
                     heals = heals + 1;
                     max_heals++;
+                    power_ups++;
                     delay(300);
                 }
             }
@@ -964,6 +1001,7 @@ void safy_upgrades() {
                 if (experience >= cost && joypad() & J_A) {
                     experience = experience - cost;
                     potion_heal_lvl++;
+                    power_ups++;
                     heal_quantity = heal_quantity + 4;
                     delay(300);
                 }
@@ -975,6 +1013,7 @@ void safy_upgrades() {
                 if (experience >= cost && joypad() & J_A) {
                     experience = experience - cost;
                     level++;
+                    power_ups++;
                     // recalc_stats();
                     attack = attack + 3;
                     defense = defense + 3;
@@ -1022,10 +1061,16 @@ void go_into_dungeon() {
         }
     }
     set_room(start);
+    if (max_floor == 0) {
+        max_floor = 1;
+    }
 }
 
 void go_next_floor() {
     current_floor++;
+    if (current_floor > max_floor) {
+        max_floor = current_floor;
+    }
     key_obtained = 0;
     treasure_obtained = 0;
     lock_opened = 0;
@@ -1257,6 +1302,7 @@ void player_attack(uint8_t wpn) {
     }
     if (enemy.hp == 0) {
         enemy_death(&enemy);
+        enemies_defeated++;
         experience += enemy.exp_reward;
     }
 }
@@ -1456,52 +1502,25 @@ void smooth_movement(uint8_t dir) {
     
 }
 
-void check_map_options() {
-    if (joypad() & J_UP && map_option > 0) {
-        set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
-        map_option--;
-        set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
-        delay(150);
-        }
-    if (joypad() & J_DOWN && map_option < 2) {
-        set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
-        map_option++;
-        set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
-        delay(150);
-        }
-    check_map_menu_input();
-}
 
-void check_map_menu_input() {
-    if (joypad() & J_A) {
-        switch (map_option) {
-            case 0:
-                move_win(7, 136);
-                set_mini_menu();
-                SHOW_SPRITES;
-                menu_opened = 0;
-                break;
-            case 1:
-                menu_opened = 6;
-                SWITCH_ROM(3);
-                set_win_tiles(0, 0, 20, 18, stats_menu);
-                SWITCH_ROM(1);
-                break;
-            case 2:
-                if (current_location == 1) {
-                    menu_opened = 0;
-                    game_over();
-                    move_win(7, 136);
-                    set_mini_menu();
-                    set_camp_map();
-                    x = 120;
-                    y = 112;
-                    move_character();
-                    delay(100);
-                    SHOW_WIN;
-                    DISPLAY_ON;
-                }
-                break;
-        }
+
+
+
+void check_time() {
+    frames++;
+    if (frames == 60) {
+        frames = 0;
+        seconds++;
+    }
+    if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+    }
+    if (minutes == 60) {
+        minutes = 0;
+        hours++;
+    }
+    if (hours > 99) {
+        hours = 99;
     }
 }
