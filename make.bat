@@ -9,6 +9,7 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -Wf-bo3 -o minimap.o src/tiles/minimap.c
 %GBDK% -c -Wf-bo3 -o gui_management.o src/scripts/gui_management.c
 %GBDK% -c -Wf-bo3 -o spawn_enemy.o src/scripts/spawn_enemy.c
+%GBDK% -c -Wf-bo3 -o combat_system.o src/scripts/combat_system.c
 
 :: --- BANCO 2 (Mappe e Tiles banked, Script game over) ---
 :: Usiamo -Wf-bo2 per ogni singolo file
@@ -46,7 +47,7 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -o gui.o src/scripts/gui.c
 %GBDK% -c -o enemy.o src/scripts/enemy.c
 
-%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o
+%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o
 
 del *.o *.asm *.lst *.sym
 pause

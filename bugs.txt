@@ -2,7 +2,4 @@ bug:
 - quando approcci il nemico dal lato, non ti segue bene (modificare il codice di inseguimento)
 - stark si deve girare quando attacca
 - numero danni da mettere sopra allo sprite del player (cambiare tutti gli id degli sprite)
-- ho preso 1 danno a caso
-- verificare se spawna i nemici correttamente
-- risolvere alcuni DISPLAY ON e OFF all'entrata del dungeon
-- attaccare bene i nemici
+- migliorare il movimento dei nemici

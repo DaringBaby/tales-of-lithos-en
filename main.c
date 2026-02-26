@@ -26,6 +26,7 @@
 #include "src/scripts/gameover.h"
 #include "src/scripts/gui_management.h"
 #include "src/scripts/spawn_enemy.h"
+#include "src/scripts/combat_system.h"
 
 /* PROTOTYPES */
 
@@ -54,9 +55,8 @@ void draw_lock_h(uint8_t x, uint8_t y);
 void draw_flip_lock_h(uint8_t x, uint8_t y);
 void hide_door();
 void set_textbox(uint8_t item);
-uint8_t check_enemy(uint8_t dir);
-void player_attack(uint8_t wpn);
-void show_number(uint8_t damage, uint8_t mode, uint8_t target);
+void player_attack(uint8_t wpn, uint8_t index);
+void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
@@ -315,7 +315,8 @@ void check_input_movement() {
                 smooth_movement(4);
             }
             else {
-                player_attack(0);
+                uint8_t enemy_idx = check_enemy(4);
+                player_attack(0, enemy_idx-1);
             }
         }
     }
@@ -330,7 +331,8 @@ void check_input_movement() {
                 smooth_movement(1);
             }
             else {
-                player_attack(0);
+                uint8_t enemy_idx = check_enemy(1);
+                player_attack(0, enemy_idx-1);
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
@@ -360,7 +362,8 @@ void check_input_movement() {
                 smooth_movement(8);
             }
             else {
-                player_attack(0);
+                uint8_t enemy_idx = check_enemy(8);
+                player_attack(0, enemy_idx-1);
             }
         }
     }
@@ -375,7 +378,8 @@ void check_input_movement() {
                 smooth_movement(2);
             }
             else {
-                player_attack(0);
+                uint8_t enemy_idx = check_enemy(2);
+                player_attack(0, enemy_idx-1);
             }
         }
     }
@@ -1268,33 +1272,9 @@ void set_textbox(uint8_t item) {
     set_mini_menu();
 }
 
-uint8_t check_enemy(uint8_t dir) {
-    switch (dir) {
-        case 1:
-            if (x == enemy.x && y - enemy.y == 16 && y > enemy.y) {
-                return 1;
-            }
-            break;
-        case 2:
-            if (y == enemy.y && enemy.x - x == 16 && enemy.x > x) {
-                return 1;
-            }
-            break;
-        case 4:
-            if (x == enemy.x && enemy.y - y == 16 && enemy.y > y) {
-                return 1;
-            }
-            break;
-        case 8:
-            if (y == enemy.y && x - enemy.x == 16 && x > enemy.x) {
-                return 1;
-            }
-            break;
-    }
-    return 0;
-}
 
-void player_attack(uint8_t wpn) {
+
+void player_attack(uint8_t wpn, uint8_t index) {
     uint8_t damage;
     uint8_t atk_stat;
     if (wpn == 0) { // spada
@@ -1303,36 +1283,36 @@ void player_attack(uint8_t wpn) {
     else { // freccia
         atk_stat = arrow_damage;
     }
-    if (atk_stat > enemy.def) {
-        damage = atk_stat - enemy.def;
+    if (atk_stat > current_enemies[index].def) {
+        damage = atk_stat - current_enemies[index].def;
     }
     else {
         damage = 1;
     }
-    show_number(damage, 0, 1);
-    if (damage < enemy.hp) {
-        enemy.hp -= damage;
+    show_number(damage, 0, 1, index);
+    if (damage < current_enemies[index].hp) {
+        current_enemies[index].hp -= damage;
     }
     else {
-        enemy.hp = 0;
-        enemy.alive = 0;
+        current_enemies[index].hp = 0;
+        current_enemies[index].alive = 0;
     }
-    if (enemy.hp == 0) {
-        enemy_death(&enemy);
+    if (current_enemies[index].hp == 0) {
+        enemy_death(&current_enemies[index]);
         enemies_defeated++;
-        experience += enemy.exp_reward;
+        experience += current_enemies[index].exp_reward;
     }
 }
 
-void show_number(uint8_t number, uint8_t mode, uint8_t target) {
+void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) {
     uint8_t dmg_x, dmg_y;
     if (target == 0) {
         dmg_x = x;
         dmg_y = y-8;
     }
     else {
-        dmg_x = enemy.x;
-        dmg_y = enemy.y-8;
+        dmg_x = current_enemies[index].x;
+        dmg_y = current_enemies[index].y-8;
     }
     if (mode == 0) { // damage
         set_sprite_tile(12, 76);
@@ -1390,7 +1370,6 @@ void shoot_arrow() {
                 set_sprite_prop(15, S_FLIPX);
                 break;
         }
-    set_sprite_tile(15, 80);
     while (1) {
         wait_vbl_done();
         switch (last_direction) {
@@ -1410,15 +1389,18 @@ void shoot_arrow() {
         move_sprite(15, arrow_x, arrow_y);
         if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
             set_sprite_tile(15, 50);
-            move_sprite(15, x, y);
+            move_sprite(15, 0, 0);
             return;
         }
-        if (arrow_x == enemy.x && arrow_y == enemy.y) {
-            set_sprite_tile(15, 50);
-            move_sprite(15, x, y);
-            uint8_t damage = arrow_damage - enemy.def;
-            player_attack(1); // arrow atk
-            return;
+        for (int i=0; i<2; i++) {
+            uint8_t enemy_x = current_enemies[i].x;
+            uint8_t enemy_y = current_enemies[i].y;
+            if (arrow_x == enemy_x && arrow_y == enemy_y) {
+                set_sprite_tile(15, 50);
+                move_sprite(15, x, y);
+                player_attack(1, i); // arrow atk
+                return;
+            }
         }
     }
 }
@@ -1430,7 +1412,7 @@ void heal_player() {
         heal = heal_quantity - (current_hp - max_hp);
         current_hp = max_hp;
     }
-    show_number(heal, 1, 0);
+    show_number(heal, 1, 0, 0);
 }
 
 
