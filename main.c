@@ -60,6 +60,7 @@ void show_number(uint8_t damage, uint8_t mode, uint8_t target);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
+void set_enemy_sprite();
 /* VARS */
 
 int tile_id = 0;
@@ -338,6 +339,10 @@ void check_input_movement() {
                 obt_exp = 0;
                 hide_camp_sprites();
                 go_into_dungeon();
+                set_sprite_tile(0, 0);
+                set_sprite_tile(1, 1);
+                set_sprite_tile(2, 2);
+                set_sprite_tile(3, 3);
                 x = 120;
                 y = 112;
                 return;
@@ -380,7 +385,8 @@ void check_input_movement() {
         delay(100);
         
         if (current_location == 1) {
-            move_enemy(&enemy);
+            move_enemy(&current_enemies[0]);
+            move_enemy(&current_enemies[1]);
             
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
                 go_next_floor();
@@ -388,6 +394,8 @@ void check_input_movement() {
 
             if (current_hp == 0) {
                 game_over();
+                enemy_death(&current_enemies[0]);
+                enemy_death(&current_enemies[1]);
                 move_win(7, 136);
                 set_mini_menu();
                 set_camp_map();
@@ -458,7 +466,8 @@ void check_input_keys() {
                     shoot_arrow();
                     num_arrows--;
                     delay(100);
-                    move_enemy(&enemy);
+                    move_enemy(&current_enemies[0]);
+                    move_enemy(&current_enemies[1]);
                 }
             }
         }
@@ -489,7 +498,8 @@ void check_input_keys() {
             heal_player();
             heals--;
             delay(100);
-            move_enemy(&enemy);
+            move_enemy(&current_enemies[0]);
+            move_enemy(&current_enemies[1]);
         }
     }
 }
@@ -606,6 +616,7 @@ void set_camp_map(){
 
 
 void hide_camp_sprites() {
+    
     set_sprite_tile(4, 50);
     set_sprite_tile(5, 50);
     set_sprite_tile(6, 50);
@@ -615,16 +626,18 @@ void hide_camp_sprites() {
     set_sprite_tile(9, 50);
     set_sprite_tile(10, 50);
     set_sprite_tile(11, 50);
+    move_sprite(4, 0, 0);
+    move_sprite(5, 0, 0);
+    move_sprite(6, 0, 0);
+    move_sprite(7, 0, 0);
+
+    move_sprite(8, 0, 0);
+    move_sprite(9, 0, 0);
+    move_sprite(10, 0, 0);
+    move_sprite(11, 00, 0);
 }
 
 void set_dungeon_map(){
-    set_sprite_data(16, 4, LarvaOscura);
-    set_sprite_tile(16, 16);
-    set_sprite_tile(17, 17);
-    set_sprite_tile(18, 18);
-    set_sprite_tile(19, 19);
-    set_enemy_stats(&enemy, 0, 16);
-    set_enemy_position(&enemy, 72, 64);
     SWITCH_ROM(2);
     set_bkg_data(0, 52, (const unsigned char *)(uint16_t)DungeonTiles);
     SWITCH_ROM(1);
@@ -722,6 +735,10 @@ void set_room(Coords coord){
         // if piano % 5 != 0
         set_bkg_tiles(2, 2, 2, 2, stairs);
     }
+    // spawna nemici
+    spawn_enemies_in_room(coord.x, coord.y, current_enemies);
+    set_enemy_sprite();
+    DISPLAY_ON;
 }
 
 void change_room() {
@@ -1523,4 +1540,31 @@ void check_time() {
     if (hours > 99) {
         hours = 99;
     }
+}
+
+void set_enemy_sprite() {
+    switch (current_enemies[0].type) {
+        case 1:
+            set_sprite_data(90, 4, LarvaOscura);
+            break;
+        case 2:
+            set_sprite_data(90, 4, Trisguardo);
+            break;
+        case 3:
+            set_sprite_data(90, 4, PredatoreOmbra);
+            break;
+    }
+    switch (current_enemies[1].type) {
+        case 1:
+            set_sprite_data(94, 4, LarvaOscura);
+            break;
+        case 2:
+            set_sprite_data(94, 4, Trisguardo);
+            break;
+        case 3:
+            set_sprite_data(94, 4, PredatoreOmbra);
+            break;
+    }
+    set_enemy_tiles();
+    return;
 }

@@ -2,7 +2,7 @@
 #include <rand.h>
 #include <stdio.h>
 #include "generate_dungeon.h"
-
+#include "spawn_enemy.h"
 
 const uint8_t min_length = 6;
 const uint8_t max_length = 10;
@@ -24,6 +24,7 @@ void generate_dungeon(uint8_t current_floor) {
     DISPLAY_OFF;
     uint8_t dungeon_complete = 0;
     uint8_t floor = current_floor;
+    uint8_t num_enemies = get_num_enemies(floor);
     current_seed++;
     while (!dungeon_complete){
         initrand(current_seed); // seed di partenza
@@ -62,8 +63,8 @@ void generate_dungeon(uint8_t current_floor) {
             current_seed++;
         }
     }
+    generate_enemies(num_enemies, dungeon, floor);
     wait_vbl_done();
-    DISPLAY_ON;
 }
 
 void empty_array(){

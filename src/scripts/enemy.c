@@ -105,30 +105,30 @@ void set_enemy_position(Enemy *e, uint8_t x, uint8_t y) {
 
 void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     switch (type) {
-        case 0:
+        case 1:
             e->hp = 10;
-            e->atk = 65;
+            e->atk = 7;
             e->def = 1;
-            e->type = 0;
+            e->type = 1;
             e->exp_reward = 1;
             break;
-        case 1:
+        case 2:
             e->hp = 18;
             e->atk = 11;
             e->def = 6;
-            e->type = 1;
+            e->type = 2;
             e->exp_reward = 3;
             break;
-        case 2:
+        case 3:
             e->hp = 25;
             e->atk = 15;
             e->def = 14;
-            e->type = 2;
+            e->type = 3;
             e->exp_reward = 5;
             break;
     }
     e->sprite_id = sprite_id;
-    e->alive = 0; // cambiato
+    e->alive = 1; // cambiato
     e->targeting = 0;
     e->targeted_turn = 0;
 }
