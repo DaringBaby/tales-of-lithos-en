@@ -13,7 +13,6 @@ typedef struct {
     uint8_t alive;
     uint8_t sprite_id;
     uint8_t targeting;
-    uint8_t targeted_turn;
     uint8_t exp_reward;
 } Enemy;
 
@@ -24,8 +23,8 @@ extern uint8_t x; // pos. x player
 extern uint8_t y; // pos. y player
 extern uint8_t last_x; // x precedente player
 extern uint8_t last_y; // y precedente player
-extern uint8_t sl_direction; // dir 2 volte precedente player
-extern uint8_t last_direction; // dir precedente player
+extern Enemy current_enemies[2];
+
 
 void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id);
 void move_enemy(Enemy *e);
@@ -35,6 +34,7 @@ uint8_t check_distance_y(Enemy* e);
 void enemy_attack(Enemy* e);
 void enemy_death(Enemy* e);
 void enemy_smooth_movement(Enemy* e, uint8_t dir);
+uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self);
 
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 extern void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index);

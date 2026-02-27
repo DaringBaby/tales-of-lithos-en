@@ -14,9 +14,6 @@ void move_enemy(Enemy *e) {
 
     if (dx == 16 && dy == 0 || dx == 0 && dy == 16) {
         enemy_attack(e);
-        if (e->targeted_turn == 0) {
-            e->targeted_turn = 1;
-        }
         e->targeting = 1;
         return; 
     }
@@ -24,31 +21,47 @@ void move_enemy(Enemy *e) {
     uint8_t moved = 0;
     if (e->targeting) {
         uint8_t direction;
-        if (e->targeted_turn == 1) {
-            direction = last_direction;
-            e->targeted_turn = 2;
+        int16_t diff_x = check_distance_x(e);
+        int16_t diff_y = check_distance_y(e);
+        
+        if (diff_x > diff_y) {
+            if (x > e->x) {
+                direction = 1;
+            }
+            else {
+                direction = 3;
+            }
         }
         else {
-            direction = sl_direction;
-        }
-        switch(direction) {
-            case 1:
+            if (y > e->y) {
+                direction = 2;
+            }
+            else {
                 direction = 0;
+            }
+        }
+
+        uint8_t next_x = e->x;
+        uint8_t next_y = e->y;
+        switch (direction) {
+            case 0:
+                next_y -= 16;
+                break;
+            case 1:
+                next_x += 16;
                 break;
             case 2:
-                direction = 1;
+                next_y += 16;
                 break;
-            case 4:
-                direction = 2;
-                break;
-            case 8:
-                direction = 3;
+            case 3:
+                next_x -= 16;
                 break;
         }
-        enemy_smooth_movement(e,direction);
-        e->x = last_x;
-        e->y = last_y;
-        moved = 1;
+        if (check_terrain(next_x + 8, next_y + 8) && !is_enemy_at(next_x, next_y, e)) {
+            enemy_smooth_movement(e, direction);
+            e->x = next_x;
+            e->y = next_y;
+        }
         return;
     }
     while (!moved){
@@ -78,7 +91,7 @@ void move_enemy(Enemy *e) {
                 }
                 break;
         }
-        if ((next_x != e->x || next_y != e->y) && check_terrain(next_x + 8, next_y + 8)) {
+        if ((next_x != e->x || next_y != e->y) && check_terrain(next_x + 8, next_y + 8) && !is_enemy_at(next_x, next_y, e)) {
             enemy_smooth_movement(e, direction);
             e->x = next_x;
             e->y = next_y;
@@ -130,7 +143,6 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     e->sprite_id = sprite_id;
     e->alive = 1; // cambiato
     e->targeting = 0;
-    e->targeted_turn = 0;
 }
 
 uint8_t check_distance_x(Enemy* e) {
@@ -214,4 +226,16 @@ void enemy_smooth_movement(Enemy* e, uint8_t dir) {
         move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
         frame++;
     }
+}
+
+uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self) {
+    for (uint8_t i = 0; i < 2; i++) {
+        Enemy* other = &current_enemies[i];
+        if (other->alive && other != self) {
+            if (other->x == tx && other->y == ty) {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }

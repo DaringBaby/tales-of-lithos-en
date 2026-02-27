@@ -7,7 +7,11 @@
 void check_map_options() BANKED;
 void check_map_menu_input();
 void show_time() BANKED;
+void check_menu_options(uint8_t chara) BANKED;
+void safy_upgrades();
+void hector_upgrades();
 
+ /* STAT MENU */
 extern const uint8_t menu_body[];
 extern uint8_t map_option;
 extern const uint8_t arrow_tile;
@@ -20,3 +24,29 @@ extern uint8_t minutes;
 extern uint8_t hours ;
 extern uint8_t x;
 extern uint8_t y;
+
+/* HECTOR/SAFY MENU */
+extern uint8_t hector_option;
+extern uint8_t safy_option;
+extern uint8_t sword_lvl;
+extern uint8_t shield_lvl;
+extern uint8_t arrow_lvl;
+extern uint8_t arrow_damage;
+extern uint8_t quiver_lvl;
+extern uint8_t max_num_arrows;
+extern uint8_t potion_quant_lvl;
+extern uint8_t potion_heal_lvl;
+extern uint8_t heals;
+extern uint8_t max_heals;
+extern uint8_t heal_quantity;
+extern uint8_t level;
+extern const uint8_t level_curve[];
+extern const uint8_t upgrade_costs[];
+extern const uint8_t cure_upgrade_costs[];
+extern uint8_t experience;
+extern uint8_t minerals;
+extern uint8_t attack;
+extern uint8_t defense;
+extern uint8_t max_hp;
+extern uint8_t current_hp;
+
