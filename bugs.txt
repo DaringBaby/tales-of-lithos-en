@@ -1,2 +1,1 @@
 bug:
-- numero danni da mettere sopra allo sprite del player (cambiare tutti gli id degli sprite)

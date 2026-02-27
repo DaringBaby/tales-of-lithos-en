@@ -122,25 +122,25 @@ void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
     uint8_t id_high = room_data >> 4;
 
     if (id_high > 0) {
-        set_enemy_stats(&enemies[1], id_high, 8);
+        set_enemy_stats(&enemies[1], id_high, 12);
         set_enemy_position(&enemies[1], 72, 48);
     }
 
     uint8_t id_low = room_data & 0x0F;
     if (id_low > 0) {
-        set_enemy_stats(&enemies[0], id_low, 4);
+        set_enemy_stats(&enemies[0], id_low, 8);
         set_enemy_position(&enemies[0], 120, 48);
     }
 }
 
 
 void set_enemy_tiles() BANKED {
-    set_sprite_tile(4, 90);
-    set_sprite_tile(5, 91);
-    set_sprite_tile(6, 92);
-    set_sprite_tile(7, 93);
-    set_sprite_tile(8, 94);
-    set_sprite_tile(9, 95);
-    set_sprite_tile(10, 96);
-    set_sprite_tile(11, 97);
+    set_sprite_tile(8, 90);
+    set_sprite_tile(9, 91);
+    set_sprite_tile(10, 92);
+    set_sprite_tile(11, 93);
+    set_sprite_tile(12, 94);
+    set_sprite_tile(13, 95);
+    set_sprite_tile(14, 96);
+    set_sprite_tile(15, 97);
 }

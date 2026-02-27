@@ -228,19 +228,19 @@ void main(void) {
         go_into_dungeon();
     }
 
-    set_sprite_tile(0, 0);
-    set_sprite_tile(1, 1);
-    set_sprite_tile(2, 2);
-    set_sprite_tile(3, 3);
+    set_sprite_tile(4, 0);
+    set_sprite_tile(5, 1);
+    set_sprite_tile(6, 2);
+    set_sprite_tile(7, 3);
 
     // key, mythrill
-    set_sprite_tile(29, 59);
-    set_sprite_tile(30, 60);
+    set_sprite_tile(33, 59);
+    set_sprite_tile(34, 60);
     
-    set_sprite_tile(31, 61);
-    set_sprite_tile(32, 62);
-    set_sprite_tile(33, 63);
-    set_sprite_tile(34, 64);
+    set_sprite_tile(35, 61);
+    set_sprite_tile(36, 62);
+    set_sprite_tile(37, 63);
+    set_sprite_tile(38, 64);
     
 
     move_character();
@@ -287,14 +287,14 @@ void main(void) {
 }
 
 void move_character() {
-    move_sprite(0, x, y);
-    move_sprite(1, x+8, y);
-    move_sprite(2, x, y + 8);
-    move_sprite(3, x + 8, y + 8);
+    move_sprite(4, x, y);
+    move_sprite(5, x+8, y);
+    move_sprite(6, x, y + 8);
+    move_sprite(7, x + 8, y + 8);
     // per ora che non ci sono altri tiles per il player
     if (y == 144) { 
-            set_sprite_tile(2, 50); 
-            set_sprite_tile(3, 50);
+            set_sprite_tile(6, 50); 
+            set_sprite_tile(7, 50);
         }
 
 }
@@ -341,10 +341,10 @@ void check_input_movement() {
                 obt_exp = 0;
                 hide_camp_sprites();
                 go_into_dungeon();
-                set_sprite_tile(0, 0);
-                set_sprite_tile(1, 1);
-                set_sprite_tile(2, 2);
-                set_sprite_tile(3, 3);
+                set_sprite_tile(4, 0);
+                set_sprite_tile(5, 1);
+                set_sprite_tile(6, 2);
+                set_sprite_tile(7, 3);
                 x = 120;
                 y = 112;
                 return;
@@ -585,10 +585,10 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
 }
 
 void set_camp_map(){
-    set_sprite_tile(0, 4);
-    set_sprite_tile(1, 5);
-    set_sprite_tile(2, 6);
-    set_sprite_tile(3, 7);
+    set_sprite_tile(4, 4);
+    set_sprite_tile(5, 5);
+    set_sprite_tile(6, 6);
+    set_sprite_tile(7, 7);
     set_sprite_data(16, 4, Hector);
     set_sprite_data(20, 4, Safy);
     SWITCH_ROM(2);
@@ -597,50 +597,50 @@ void set_camp_map(){
     SWITCH_ROM(1);
     
 
-    set_sprite_tile(4, 16);
-    set_sprite_tile(5, 17);
-    set_sprite_tile(6, 18);
-    set_sprite_tile(7, 19);
+    set_sprite_tile(8, 16);
+    set_sprite_tile(9, 17);
+    set_sprite_tile(10, 18);
+    set_sprite_tile(11, 19);
 
-    set_sprite_tile(8, 20);
-    set_sprite_tile(9, 21);
-    set_sprite_tile(10, 22);
-    set_sprite_tile(11, 23);
+    set_sprite_tile(12, 20);
+    set_sprite_tile(13, 21);
+    set_sprite_tile(14, 22);
+    set_sprite_tile(15, 23);
 
 
-    move_sprite(4, 40, 64);
-    move_sprite(5, 48, 64);
-    move_sprite(6, 40, 72);
-    move_sprite(7, 48, 72);
+    move_sprite(8, 40, 64);
+    move_sprite(9, 48, 64);
+    move_sprite(10, 40, 72);
+    move_sprite(11, 48, 72);
 
-    move_sprite(8, 120, 64);
-    move_sprite(9, 128, 64);
-    move_sprite(10, 120, 72);
-    move_sprite(11, 128, 72);
+    move_sprite(12, 120, 64);
+    move_sprite(13, 128, 64);
+    move_sprite(14, 120, 72);
+    move_sprite(15, 128, 72);
     empty_map_tiles();
 }
 
 
 void hide_camp_sprites() {
     
-    set_sprite_tile(4, 50);
-    set_sprite_tile(5, 50);
-    set_sprite_tile(6, 50);
-    set_sprite_tile(7, 50);
-
     set_sprite_tile(8, 50);
     set_sprite_tile(9, 50);
     set_sprite_tile(10, 50);
     set_sprite_tile(11, 50);
-    move_sprite(4, 0, 0);
-    move_sprite(5, 0, 0);
-    move_sprite(6, 0, 0);
-    move_sprite(7, 0, 0);
 
+    set_sprite_tile(12, 50);
+    set_sprite_tile(13, 50);
+    set_sprite_tile(14, 50);
+    set_sprite_tile(15, 50);
     move_sprite(8, 0, 0);
     move_sprite(9, 0, 0);
     move_sprite(10, 0, 0);
-    move_sprite(11, 00, 0);
+    move_sprite(11, 0, 0);
+
+    move_sprite(12, 0, 0);
+    move_sprite(13, 0, 0);
+    move_sprite(14, 0, 0);
+    move_sprite(15, 00, 0);
 }
 
 void set_dungeon_map(){
@@ -761,8 +761,8 @@ void change_room() {
     else if (y > 144) {
         player_coords.y++;
         y = 16;
-        set_sprite_tile(2, 2);
-        set_sprite_tile(3, 3);
+        set_sprite_tile(6, 2);
+        set_sprite_tile(7, 3);
         set_room(player_coords);
     }
     else if (y < 8) {
@@ -942,143 +942,143 @@ void go_next_floor() {
 
 
 void draw_lock_v(uint8_t x, uint8_t y) {
-    set_sprite_tile(21, 51);
-    set_sprite_prop(21, 0);
-    move_sprite(21, x, y);
+    set_sprite_tile(25, 51);
+    set_sprite_prop(25, 0);
+    move_sprite(25, x, y);
 
-    set_sprite_tile(22, 55);
-    set_sprite_prop(22, 0);
-    move_sprite(22, x, y + 8);
+    set_sprite_tile(26, 55);
+    set_sprite_prop(26, 0);
+    move_sprite(26, x, y + 8);
 
-    set_sprite_tile(23, 52);
-    set_sprite_prop(23, 0);
-    move_sprite(23, x + 8, y);
+    set_sprite_tile(27, 52);
+    set_sprite_prop(27, 0);
+    move_sprite(27, x + 8, y);
 
-    set_sprite_tile(24, 56);
-    set_sprite_prop(24, 0);
-    move_sprite(24, x + 8, y + 8);
+    set_sprite_tile(28, 56);
+    set_sprite_prop(28, 0);
+    move_sprite(28, x + 8, y + 8);
 
-    set_sprite_tile(25, 52);
-    set_sprite_prop(25, S_FLIPX);
-    move_sprite(25, x + 16, y);
+    set_sprite_tile(29, 52);
+    set_sprite_prop(29, S_FLIPX);
+    move_sprite(29, x + 16, y);
 
-    set_sprite_tile(26, 56);
-    set_sprite_prop(26, S_FLIPX);
-    move_sprite(26, x + 16, y + 8);
+    set_sprite_tile(30, 56);
+    set_sprite_prop(30, S_FLIPX);
+    move_sprite(30, x + 16, y + 8);
 
-    set_sprite_tile(27, 51);
-    set_sprite_prop(27, S_FLIPX);
-    move_sprite(27, x + 24, y);
+    set_sprite_tile(31, 51);
+    set_sprite_prop(31, S_FLIPX);
+    move_sprite(31, x + 24, y);
 
-    set_sprite_tile(28, 55);
-    set_sprite_prop(28, S_FLIPX);
-    move_sprite(28, x + 24, y + 8);
+    set_sprite_tile(32, 55);
+    set_sprite_prop(32, S_FLIPX);
+    move_sprite(32, x + 24, y + 8);
 }
 
 void draw_flip_lock_v(uint8_t x, uint8_t y) {
-    set_sprite_tile(21, 55);
-    set_sprite_prop(21, S_FLIPY);
-    move_sprite(21, x, y);
-
-    set_sprite_tile(22, 50);
-    set_sprite_prop(22, S_FLIPY);
-    move_sprite(22, x, y + 8);
-
-    set_sprite_tile(23, 56);
-    set_sprite_prop(23, S_FLIPY);
-    move_sprite(23, x + 8, y);
-
-    set_sprite_tile(24, 50);
-    set_sprite_prop(24, S_FLIPY);
-    move_sprite(24, x + 8, y + 8);
-
-    set_sprite_tile(25, 56);
-    set_sprite_prop(25, S_FLIPX | S_FLIPY);
-    move_sprite(25, x + 16, y);
+    set_sprite_tile(25, 55);
+    set_sprite_prop(25, S_FLIPY);
+    move_sprite(25, x, y);
 
     set_sprite_tile(26, 50);
-    set_sprite_prop(26, S_FLIPX | S_FLIPY);
-    move_sprite(26, x + 16, y + 8);
+    set_sprite_prop(26, S_FLIPY);
+    move_sprite(26, x, y + 8);
 
-    set_sprite_tile(27, 55);
-    set_sprite_prop(27, S_FLIPX | S_FLIPY);
-    move_sprite(27, x + 24, y);
+    set_sprite_tile(27, 56);
+    set_sprite_prop(27, S_FLIPY);
+    move_sprite(27, x + 8, y);
 
     set_sprite_tile(28, 50);
-    set_sprite_prop(28, S_FLIPX | S_FLIPY);
-    move_sprite(28, x + 24, y + 8);
+    set_sprite_prop(28, S_FLIPY);
+    move_sprite(28, x + 8, y + 8);
+
+    set_sprite_tile(29, 56);
+    set_sprite_prop(29, S_FLIPX | S_FLIPY);
+    move_sprite(29, x + 16, y);
+
+    set_sprite_tile(30, 50);
+    set_sprite_prop(30, S_FLIPX | S_FLIPY);
+    move_sprite(30, x + 16, y + 8);
+
+    set_sprite_tile(31, 55);
+    set_sprite_prop(31, S_FLIPX | S_FLIPY);
+    move_sprite(31, x + 24, y);
+
+    set_sprite_tile(32, 50);
+    set_sprite_prop(32, S_FLIPX | S_FLIPY);
+    move_sprite(32, x + 24, y + 8);
 }
 
 void draw_lock_h(uint8_t x, uint8_t y) {
-    set_sprite_tile(21, 53);
-    set_sprite_prop(21, 0);
-    move_sprite(21, x, y);
+    set_sprite_tile(25, 53);
+    set_sprite_prop(25, 0);
+    move_sprite(25, x, y);
 
-    set_sprite_tile(22, 54);
-    set_sprite_prop(22, 0);
-    move_sprite(22, x + 8, y);
+    set_sprite_tile(26, 54);
+    set_sprite_prop(26, 0);
+    move_sprite(26, x + 8, y);
 
-    set_sprite_tile(23, 57);
-    set_sprite_prop(23, 0);
-    move_sprite(23, x, y + 8);
+    set_sprite_tile(27, 57);
+    set_sprite_prop(27, 0);
+    move_sprite(27, x, y + 8);
 
-    set_sprite_tile(24, 58);
-    set_sprite_prop(24, 0);
-    move_sprite(24, x + 8, y + 8);
+    set_sprite_tile(28, 58);
+    set_sprite_prop(28, 0);
+    move_sprite(28, x + 8, y + 8);
 
-    move_sprite(25, 0, 0);
-    move_sprite(26, 0, 0);
-    move_sprite(27, 0, 0);
-    move_sprite(28, 0, 0);
+    move_sprite(29, 0, 0);
+    move_sprite(30, 0, 0);
+    move_sprite(31, 0, 0);
+    move_sprite(32, 0, 0);
 }
 
 void draw_flip_lock_h(uint8_t x, uint8_t y) {
-    set_sprite_tile(21, 53);
-    set_sprite_prop(21, S_FLIPX);
-    move_sprite(21, x + 8, y);
+    set_sprite_tile(25, 53);
+    set_sprite_prop(25, S_FLIPX);
+    move_sprite(25, x + 8, y);
 
-    set_sprite_tile(22, 54);
-    set_sprite_prop(22, S_FLIPX);
-    move_sprite(22, x, y);
+    set_sprite_tile(26, 54);
+    set_sprite_prop(26, S_FLIPX);
+    move_sprite(26, x, y);
 
-    set_sprite_tile(23, 57);
-    set_sprite_prop(23, S_FLIPX);
-    move_sprite(23, x + 8, y + 8);
+    set_sprite_tile(27, 57);
+    set_sprite_prop(27, S_FLIPX);
+    move_sprite(27, x + 8, y + 8);
 
-    set_sprite_tile(24, 58);
-    set_sprite_prop(24, S_FLIPX);
-    move_sprite(24, x, y + 8);
+    set_sprite_tile(28, 58);
+    set_sprite_prop(28, S_FLIPX);
+    move_sprite(28, x, y + 8);
 
-    move_sprite(25, 0, 0);
-    move_sprite(26, 0, 0);
-    move_sprite(27, 0, 0);
-    move_sprite(28, 0, 0);
+    move_sprite(29, 0, 0);
+    move_sprite(30, 0, 0);
+    move_sprite(31, 0, 0);
+    move_sprite(32, 0, 0);
 }
 
 void hide_door() {
-    set_sprite_tile(21, 50);
-    set_sprite_tile(22, 50);
-    set_sprite_tile(23, 50);
-    set_sprite_tile(24, 50);
     set_sprite_tile(25, 50);
     set_sprite_tile(26, 50);
     set_sprite_tile(27, 50);
     set_sprite_tile(28, 50);
+    set_sprite_tile(29, 50);
+    set_sprite_tile(30, 50);
+    set_sprite_tile(31, 50);
+    set_sprite_tile(32, 50);
 }
 
 void set_textbox(uint8_t item) {
     menu_opened = 4;
     move_win(7, 104);
     if (item == 1) {
-        move_sprite(29, x, y-32);
-        move_sprite(30, x+8, y-32);
+        move_sprite(33, x, y-32);
+        move_sprite(34, x+8, y-32);
         set_win_tiles(0, 0, 20, 5, obtained_key);
     }
     else if (item == 2) {
-        move_sprite(31, x, y-32);
-        move_sprite(32, x+8, y-32);
-        move_sprite(33, x, y-24);
-        move_sprite(34, x+8, y-24);
+        move_sprite(35, x, y-32);
+        move_sprite(36, x+8, y-32);
+        move_sprite(37, x, y-24);
+        move_sprite(38, x+8, y-24);
         set_win_tiles(0, 0, 20, 5, obtained_mythril);
     }
 
@@ -1092,12 +1092,12 @@ void set_textbox(uint8_t item) {
         wait_vbl_done();
     }
 
-    move_sprite(29, 0, 0);
-    move_sprite(30, 0, 0);
-    move_sprite(31, 0, 0);
-    move_sprite(32, 0, 0);
     move_sprite(33, 0, 0);
     move_sprite(34, 0, 0);
+    move_sprite(35, 0, 0);
+    move_sprite(36, 0, 0);
+    move_sprite(37, 0, 0);
+    move_sprite(38, 0, 0);
     menu_opened = 0;
     set_mini_menu();
 }
@@ -1145,38 +1145,38 @@ void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) {
         dmg_y = current_enemies[index].y-8;
     }
     if (mode == 0) { // damage
-        set_sprite_tile(12, 76);
+        set_sprite_tile(0, 76);
     }
     else {
-        set_sprite_tile(12, 75);
+        set_sprite_tile(0, 75);
     }
     if (number / 10 != 0) {
-        set_sprite_tile(13, 65 + number / 10);
+        set_sprite_tile(1, 65 + number / 10);
     }
     else {
-        set_sprite_tile(13, 50);
+        set_sprite_tile(1, 50);
     }
     
-    set_sprite_tile(14, 65 + number % 10);
+    set_sprite_tile(2, 65 + number % 10);
     uint8_t frame = 0;
     while (frame < 30) {
         wait_vbl_done();
         if (frame %2) {
             dmg_y--;
             if (number / 10 == 0) {
-                move_sprite(12, dmg_x, dmg_y);
+                move_sprite(0, dmg_x, dmg_y);
             }
             else {
-                move_sprite(12, dmg_x-8, dmg_y);
+                move_sprite(0, dmg_x-8, dmg_y);
             }
-            move_sprite(13, dmg_x, dmg_y);
-            move_sprite(14, dmg_x+8, dmg_y);
+            move_sprite(1, dmg_x, dmg_y);
+            move_sprite(2, dmg_x+8, dmg_y);
         }
         frame++;
     }
-    move_sprite(12, 0, 0);
-    move_sprite(13, 0, 0);
-    move_sprite(14, 0, 0);
+    move_sprite(0, 0, 0);
+    move_sprite(1, 0, 0);
+    move_sprite(2, 0, 0);
 }
 
 void shoot_arrow() {
@@ -1184,20 +1184,20 @@ void shoot_arrow() {
     uint8_t arrow_y = y;
     switch (last_direction) {
             case 1:
-                set_sprite_tile(15, 80);
-                set_sprite_prop(15, 0);
+                set_sprite_tile(19, 80);
+                set_sprite_prop(19, 0);
                 break;
             case 2:
-                set_sprite_tile(15, 81);
-                set_sprite_prop(15, 0);
+                set_sprite_tile(19, 81);
+                set_sprite_prop(19, 0);
                 break;
             case 4:
-                set_sprite_tile(15, 80);
-                set_sprite_prop(15, S_FLIPY);
+                set_sprite_tile(19, 80);
+                set_sprite_prop(19, S_FLIPY);
                 break;
             case 8:
-                set_sprite_tile(15, 81);
-                set_sprite_prop(15, S_FLIPX);
+                set_sprite_tile(19, 81);
+                set_sprite_prop(19, S_FLIPX);
                 break;
         }
     while (1) {
@@ -1216,18 +1216,18 @@ void shoot_arrow() {
                 arrow_x-=2;
                 break;
         }
-        move_sprite(15, arrow_x, arrow_y);
+        move_sprite(19, arrow_x, arrow_y);
         if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
-            set_sprite_tile(15, 50);
-            move_sprite(15, 0, 0);
+            set_sprite_tile(19, 50);
+            move_sprite(19, 0, 0);
             return;
         }
         for (int i=0; i<2; i++) {
             uint8_t enemy_x = current_enemies[i].x;
             uint8_t enemy_y = current_enemies[i].y;
             if (arrow_x == enemy_x && arrow_y == enemy_y) {
-                set_sprite_tile(15, 50);
-                move_sprite(15, x, y);
+                set_sprite_tile(19, 50);
+                move_sprite(19, x, y);
                 player_attack(1, i); // arrow atk
                 return;
             }
@@ -1269,26 +1269,26 @@ void smooth_movement(uint8_t dir) {
     
     while (frame < 8) {
         if (mov_y >= 136) { 
-            set_sprite_tile(2, 50);
-            set_sprite_tile(3, 50);
+            set_sprite_tile(6, 50);
+            set_sprite_tile(7, 50);
         }
         else if (mov_y == 134){
             switch (dir) {
                 case 1:
-                    set_sprite_tile(2, 6);
-                    set_sprite_tile(3, 7);
+                    set_sprite_tile(6, 6);
+                    set_sprite_tile(7, 7);
                     break;
                 case 2:
-                    set_sprite_tile(2, 10);
-                    set_sprite_tile(3, 11);
+                    set_sprite_tile(6, 10);
+                    set_sprite_tile(7, 11);
                     break;
                 case 4:
-                    set_sprite_tile(2, 2);
-                    set_sprite_tile(3, 3);
+                    set_sprite_tile(6, 2);
+                    set_sprite_tile(7, 3);
                     break;
                 case 8:
-                    set_sprite_tile(2, 14);
-                    set_sprite_tile(3, 15);
+                    set_sprite_tile(6, 14);
+                    set_sprite_tile(7, 15);
                     break;
             }
         }
@@ -1307,10 +1307,10 @@ void smooth_movement(uint8_t dir) {
                 mov_x-=2;
                 break;
         }
-        move_sprite(0, mov_x, mov_y);
-        move_sprite(1, mov_x+8, mov_y);
-        move_sprite(2, mov_x, mov_y + 8);
-        move_sprite(3, mov_x + 8, mov_y + 8);
+        move_sprite(4, mov_x, mov_y);
+        move_sprite(5, mov_x+8, mov_y);
+        move_sprite(6, mov_x, mov_y + 8);
+        move_sprite(7, mov_x + 8, mov_y + 8);
         frame++;
     }
     
@@ -1369,28 +1369,28 @@ void set_enemy_sprite() {
 void set_character_sprite(uint8_t dir) {
     switch (dir) {
         case 1:
-            set_sprite_tile(0, 4);
-            set_sprite_tile(1, 5);
-            set_sprite_tile(2, 6);
-            set_sprite_tile(3, 7);
+            set_sprite_tile(4, 4);
+            set_sprite_tile(5, 5);
+            set_sprite_tile(6, 6);
+            set_sprite_tile(7, 7);
             break;
         case 2:
-            set_sprite_tile(0, 8);
-            set_sprite_tile(1, 9);
-            set_sprite_tile(2, 10);
-            set_sprite_tile(3, 11);
+            set_sprite_tile(4, 8);
+            set_sprite_tile(5, 9);
+            set_sprite_tile(6, 10);
+            set_sprite_tile(7, 11);
             break;
         case 4:
-            set_sprite_tile(0, 0);
-            set_sprite_tile(1, 1);
-            set_sprite_tile(2, 2);
-            set_sprite_tile(3, 3);
+            set_sprite_tile(4, 0);
+            set_sprite_tile(5, 1);
+            set_sprite_tile(6, 2);
+            set_sprite_tile(7, 3);
             break;
         case 8:
-            set_sprite_tile(0, 12);
-            set_sprite_tile(1, 13);
-            set_sprite_tile(2, 14);
-            set_sprite_tile(3, 15);
+            set_sprite_tile(4, 12);
+            set_sprite_tile(5, 13);
+            set_sprite_tile(6, 14);
+            set_sprite_tile(7, 15);
             break;
     }
 }
