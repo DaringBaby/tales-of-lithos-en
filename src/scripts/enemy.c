@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include <stdio.h>
 
 void move_enemy(Enemy *e) {
     uint8_t dx, dy;
@@ -184,6 +185,8 @@ void enemy_attack(Enemy* e) {
 }
 
 void enemy_death(Enemy* e) {
+    spawn_drop(e->x, e->y);
+    
     e->hp = 0;
     e->alive = 0;
     e->x = 0;
@@ -196,6 +199,8 @@ void enemy_death(Enemy* e) {
     set_sprite_tile(e->sprite_id+1, 50);
     set_sprite_tile(e->sprite_id+2, 50);
     set_sprite_tile(e->sprite_id+3, 50);
+    
+
 }
 
 

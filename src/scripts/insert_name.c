@@ -1,6 +1,7 @@
 #pragma bank 3
 
 #include <gb/gb.h>
+#include <stdio.h>
 #include "../maps/NameScreenMap.h"
 #include "insert_name.h"
 
@@ -43,6 +44,10 @@ void insert_name() BANKED {
             }
         }
         delay(150);
+        set_sprite_tile(0, 50); // player
+        set_sprite_tile(1, 50);
+        set_sprite_tile(2, 50);
+        set_sprite_tile(3, 50);
         return;
     }
         wait_vbl_done();

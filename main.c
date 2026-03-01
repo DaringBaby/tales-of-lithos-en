@@ -20,6 +20,7 @@
 #include "src/tiles/numbers.h"
 #include "src/tiles/wpn_arrow.h"
 #include "src/tiles/minimap.h"
+#include "src/tiles/enemyDrops.h"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
@@ -28,6 +29,7 @@
 #include "src/scripts/spawn_enemy.h"
 #include "src/scripts/combat_system.h"
 #include "src/scripts/insert_name.h"
+#include "src/scripts/drop.h"
 
 /* PROTOTYPES */
 
@@ -191,7 +193,6 @@ void main(void) {
     
     
     set_sprite_data(0, 4, MC_down);
-    set_sprite_data(4, 4, MC_up);
     set_sprite_data(8, 4, MC_right);
     set_sprite_data(12, 4, MC_left);
     set_sprite_data(16, 4, Hector);
@@ -202,6 +203,7 @@ void main(void) {
     set_sprite_data(61, 4, Mythril);
     set_sprite_data(65, 12, Numbers);
     set_sprite_data(80, 2, Arrow);
+    set_sprite_data(82, 2, Drops);
     SWITCH_ROM(3);
     set_bkg_data(108, 17, Minimap);
     SWITCH_ROM(2);
@@ -216,7 +218,7 @@ void main(void) {
     set_bkg_data(245, 1, arrow);
     set_bkg_data(246, 1, black);
     insert_name();
-
+    set_sprite_data(4, 4, MC_up);
     move_win(7, 136);
     set_mini_menu();
 
@@ -390,6 +392,7 @@ void check_input_movement() {
 
     if (moved) {
         // move_character();
+        check_drops(x, y);
         delay(100);
         
         if (current_location == 1) {
@@ -746,6 +749,7 @@ void set_room(Coords coord){
     // spawna nemici
     spawn_enemies_in_room(coord.x, coord.y, current_enemies);
     set_enemy_sprite();
+    clear_drops();
     DISPLAY_ON;
 }
 

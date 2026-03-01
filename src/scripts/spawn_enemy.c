@@ -38,33 +38,33 @@ uint8_t add_enemy(uint8_t floor, uint8_t i, uint8_t j) {
     uint8_t type3;
     switch (floor) { // per ora fino al 5
         case 1:
-            type1 = 90;
-            type2 = 10;
+            type1 = 115;
+            type2 = 13;
             type3 = 0;
             break;
         case 2:
-            type1 = 80;
-            type2 = 18;
-            type3 = 2;
+            type1 = 102;
+            type2 = 23;
+            type3 = 3;
             break;
         case 3:
-            type1 = 60;
-            type2 = 20;
-            type3 = 10;
+            type1 = 77;
+            type2 = 38;
+            type3 = 13;
             break;
         case 4:
-            type1 = 50;
-            type2 = 30;
-            type3 = 20;
+            type1 = 64;
+            type2 = 38;
+            type3 = 26;
             break;
         case 5:
-            type1 = 30;
-            type2 = 40;
-            type3 = 30;
+            type1 = 38;
+            type2 = 51;
+            type3 = 39;
             break;
     }
 
-    uint8_t rng = rand() % 100;
+    uint8_t rng = rand() & 128;
     if (rng < type1) {
         enemy_id = 1;
     }
