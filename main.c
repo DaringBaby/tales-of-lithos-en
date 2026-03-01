@@ -27,6 +27,7 @@
 #include "src/scripts/gui_management.h"
 #include "src/scripts/spawn_enemy.h"
 #include "src/scripts/combat_system.h"
+#include "src/scripts/insert_name.h"
 
 /* PROTOTYPES */
 
@@ -99,6 +100,7 @@ uint8_t current_joypad = 0;
 
 
 /* PLAYER STATS */
+uint8_t player_name[] = {164, 164, 164, 164, 164};
 uint8_t max_hp = 23;
 uint8_t current_hp = 23;
 uint8_t attack = 5;
@@ -213,7 +215,7 @@ void main(void) {
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
     set_bkg_data(246, 1, black);
-    
+    insert_name();
 
     move_win(7, 136);
     set_mini_menu();
@@ -775,7 +777,6 @@ void change_room() {
 
 void set_stats() {
     uint8_t hp[5];
-    uint8_t name[] = {146, 147, 128, 145, 138}; // per ora nome di default: Stark
     uint8_t atk[2];
     uint8_t def[2];
     uint8_t exp[3];
@@ -796,7 +797,7 @@ void set_stats() {
     mythril[0] = minerals / 10 + 154;
     mythril[1] = minerals % 10 + 154;
     set_win_tiles(12, 6, 5, 1, hp);
-    set_win_tiles(14, 4, 5, 1, name);
+    set_win_tiles(14, 4, 5, 1, player_name);
     set_win_tiles(12, 8, 2, 1, atk);
     set_win_tiles(12, 10, 2, 1, def);
     set_win_tiles(16, 14, 3, 1, exp);
