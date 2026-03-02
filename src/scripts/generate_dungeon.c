@@ -8,6 +8,7 @@ const uint8_t min_length = 6;
 const uint8_t max_length = 10;
 char dungeon[4][4];
 uint8_t doors[4][4];
+uint8_t obstacles[4][4];
 
 uint8_t locked_door;
 uint16_t current_seed = 3;
@@ -144,15 +145,19 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
         }
         else if (curr_room == (int)(target_rooms / 2) + 1) {
             dungeon[curr_x][curr_y] = 'L';
+            add_obstacles(curr_x, curr_y);
         }
         else if (curr_room == (int)(target_rooms / 2) + 2) {
             locked_door = current_door;
+            add_obstacles(curr_x, curr_y);
         }
         else if (curr_room < (int)(target_rooms / 2) + 1) {
             dungeon[curr_x][curr_y] = 'A';
+            add_obstacles(curr_x, curr_y);
         }
         else if (curr_room > (int) (target_rooms / 2) + 1) {
             dungeon[curr_x][curr_y] = 'B';
+            add_obstacles(curr_x, curr_y);
         }
     
     }
@@ -200,6 +205,7 @@ uint8_t add_branch(char zone, char item) {
             uint8_t br_x = start.x + dir_branch.x;
             uint8_t br_y = start.y + dir_branch.y;
             dungeon[br_x][br_y] = zone;
+            add_obstacles(br_x, br_y);
             create_doors(start.x, start.y, br_x, br_y, dir_branch);
             Coords br = {br_x, br_y};
             Coords final_dir = find_near_void_cell(br);
@@ -270,4 +276,13 @@ void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir) {
         doors[x1][y1] |= OVEST;
         doors[x2][y2] |= EST;
     }
+}
+
+void add_obstacles(uint8_t x, uint8_t y) {
+    uint8_t high_obs;
+    uint8_t low_obs;
+    high_obs = rand() & 7;
+    obstacles[x][y] = (high_obs << 4);
+    low_obs = rand() & 7;
+    obstacles[x][y] |= low_obs;
 }

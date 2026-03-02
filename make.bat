@@ -12,6 +12,7 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -Wf-bo3 -o combat_system.o src/scripts/combat_system.c
 %GBDK% -c -Wf-bo3 -o insert_name.o src/scripts/insert_name.c
 %GBDK% -c -Wf-bo3 -o namescreenmap.o src/maps/NameScreenMap.c
+%GBDK% -c -Wf-bo3 -o locked_doors.o src/scripts/locked_doors.c
 
 :: --- BANCO 2 (Mappe e Tiles banked, Script game over) ---
 :: Usiamo -Wf-bo2 per ogni singolo file
@@ -26,6 +27,7 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -Wf-bo2 -o TitleText.o src/tiles/TitleText.c
 %GBDK% -c -Wf-bo2 -o GameOverText.o src/tiles/GameOverText.c
 %GBDK% -c -Wf-bo2 -o gameoverscript.o src/scripts/gameover.c
+%GBDK% -c -Wf-bo2 -o obstacles.o src/maps/Obstacles.c
 
 :: --- BANCO 1 (Tiles) ---
 %GBDK% -c -Wf-bo1 -o character.o src/tiles/character.c
@@ -51,7 +53,7 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -o enemy.o src/scripts/enemy.c
 %GBDK% -c -o drop.o src/scripts/drop.c
 
-%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o
+%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o obstacles.o locked_doors.o
 
 del *.o *.asm *.lst *.sym
 pause

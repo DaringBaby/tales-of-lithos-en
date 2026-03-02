@@ -1,0 +1,33 @@
+DECORAZIONI:
+1) pezzetto in basso a sinistra: x = 0, y = 12
+2) pezzetto in basso a destra: x = 14, y = 12
+3) pezzetto in alto a destra: x = 14, y = 0
+4) pezzetto in alto a sinistra: x = 0, y = 0
+5) sasso sopra: x = 10, y = 4
+6) sasso sotto: x = 6, y = 8
+
+LISTA POSIZIONI DI SPAWN NEMICI:
+2,6
+4,6
+6,6
+8,6
+2,8
+4,8
+8,4
+8,2
+10,2
+12,2
+14,2
+14,4
+14,6
+10,8
+12,8
+14,8
+10,10
+12,10
+14,10
+6,12
+8,12
+10,12
+8,14
+10,14

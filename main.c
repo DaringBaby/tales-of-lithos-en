@@ -7,6 +7,7 @@
 #include "src/tiles/Safy.h"
 #include "src/tiles/DungeonTiles.h"
 #include "src/maps/Dungeon.h"
+#include "src/maps/Obstacles.h"
 #include "src/scripts/generate_dungeon.h"
 #include "src/tiles/textbox.h"
 #include "src/tiles/Text.h"
@@ -30,7 +31,7 @@
 #include "src/scripts/combat_system.h"
 #include "src/scripts/insert_name.h"
 #include "src/scripts/drop.h"
-
+#include "src/scripts/locked_doors.h"
 /* PROTOTYPES */
 
 void move_character();
@@ -49,10 +50,6 @@ void check_input_keys();
 void go_into_dungeon();
 void hide_camp_sprites();
 void go_next_floor();
-void draw_lock_v(uint8_t x, uint8_t y);
-void draw_flip_lock_v(uint8_t x, uint8_t y);
-void draw_lock_h(uint8_t x, uint8_t y);
-void draw_flip_lock_h(uint8_t x, uint8_t y);
 void hide_door();
 void set_textbox(uint8_t item);
 void player_attack(uint8_t wpn, uint8_t index);
@@ -62,6 +59,8 @@ void smooth_movement(uint8_t dir);
 void check_time();
 void set_enemy_sprite();
 void set_character_sprite(uint8_t dir);
+void assign_obstacles(uint8_t x, uint8_t y);
+void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size);
 /* VARS */
 
 int tile_id = 0;
@@ -94,7 +93,7 @@ const uint8_t arrow_tile = 245;
 
 
 Coords player_coords;
-const unsigned char * current_room;
+unsigned char current_room[360];
 
 
 uint8_t last_joypad = 0;
@@ -155,6 +154,11 @@ extern const unsigned char room12[];
 extern const unsigned char room13[];
 extern const unsigned char room14[];
 extern const unsigned char room15[];
+extern const unsigned char deco1[];
+extern const unsigned char deco2[];
+extern const unsigned char deco3[];
+extern const unsigned char deco4[];
+extern const unsigned char deco5[];
 
 /* GAME VARS*/
 uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
@@ -650,60 +654,65 @@ void hide_camp_sprites() {
 
 void set_dungeon_map(){
     SWITCH_ROM(2);
-    set_bkg_data(0, 52, (const unsigned char *)(uint16_t)DungeonTiles);
+    set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
     SWITCH_ROM(1);
 }
 
 void set_room(Coords coord){
     uint8_t door = doors[coord.x][coord.y];
+    const unsigned char* room_ptr;
     SWITCH_ROM(2);
     switch (door) {
     case 1:
-        current_room = room1;
+        room_ptr = room1;
         break;
     case 2:
-        current_room = room2;
+        room_ptr = room2;
         break;
     case 3:
-        current_room = room3;
+        room_ptr = room3;
         break;
     case 4:
-        current_room = room4;
+        room_ptr = room4;
         break;
     case 5:
-        current_room = room5;
+        room_ptr = room5;
         break;
     case 6:
-        current_room = room6;
+        room_ptr = room6;
         break;
     case 7:
-        current_room = room7;
+        room_ptr = room7;
         break;
     case 8:
-        current_room = room8;
+        room_ptr = room8;
         break;
     case 9:
-        current_room = room9;
+        room_ptr = room9;
         break;
     case 10:
-        current_room = room10;
+        room_ptr = room10;
         break;
     case 11:
-        current_room = room11;
+        room_ptr = room11;
         break;
     case 12:
-        current_room = room12;
+        room_ptr = room12;
         break;
     case 13:
-        current_room = room13;
+        room_ptr = room13;
         break;
     case 14:
-        current_room = room14;
+        room_ptr = room14;
         break;
     case 15:
-        current_room = room15;
+        room_ptr = room15;
         break;
     }
+    for (uint16_t i; i<360; i++) {
+        current_room[i] = room_ptr[i];
+    }
+    assign_obstacles(coord.x, coord.y);
     set_bkg_tiles(0, 0, 20, 18, current_room);
     SWITCH_ROM(1);
 
@@ -946,119 +955,7 @@ void go_next_floor() {
 }
 
 
-void draw_lock_v(uint8_t x, uint8_t y) {
-    set_sprite_tile(25, 51);
-    set_sprite_prop(25, 0);
-    move_sprite(25, x, y);
 
-    set_sprite_tile(26, 55);
-    set_sprite_prop(26, 0);
-    move_sprite(26, x, y + 8);
-
-    set_sprite_tile(27, 52);
-    set_sprite_prop(27, 0);
-    move_sprite(27, x + 8, y);
-
-    set_sprite_tile(28, 56);
-    set_sprite_prop(28, 0);
-    move_sprite(28, x + 8, y + 8);
-
-    set_sprite_tile(29, 52);
-    set_sprite_prop(29, S_FLIPX);
-    move_sprite(29, x + 16, y);
-
-    set_sprite_tile(30, 56);
-    set_sprite_prop(30, S_FLIPX);
-    move_sprite(30, x + 16, y + 8);
-
-    set_sprite_tile(31, 51);
-    set_sprite_prop(31, S_FLIPX);
-    move_sprite(31, x + 24, y);
-
-    set_sprite_tile(32, 55);
-    set_sprite_prop(32, S_FLIPX);
-    move_sprite(32, x + 24, y + 8);
-}
-
-void draw_flip_lock_v(uint8_t x, uint8_t y) {
-    set_sprite_tile(25, 55);
-    set_sprite_prop(25, S_FLIPY);
-    move_sprite(25, x, y);
-
-    set_sprite_tile(26, 50);
-    set_sprite_prop(26, S_FLIPY);
-    move_sprite(26, x, y + 8);
-
-    set_sprite_tile(27, 56);
-    set_sprite_prop(27, S_FLIPY);
-    move_sprite(27, x + 8, y);
-
-    set_sprite_tile(28, 50);
-    set_sprite_prop(28, S_FLIPY);
-    move_sprite(28, x + 8, y + 8);
-
-    set_sprite_tile(29, 56);
-    set_sprite_prop(29, S_FLIPX | S_FLIPY);
-    move_sprite(29, x + 16, y);
-
-    set_sprite_tile(30, 50);
-    set_sprite_prop(30, S_FLIPX | S_FLIPY);
-    move_sprite(30, x + 16, y + 8);
-
-    set_sprite_tile(31, 55);
-    set_sprite_prop(31, S_FLIPX | S_FLIPY);
-    move_sprite(31, x + 24, y);
-
-    set_sprite_tile(32, 50);
-    set_sprite_prop(32, S_FLIPX | S_FLIPY);
-    move_sprite(32, x + 24, y + 8);
-}
-
-void draw_lock_h(uint8_t x, uint8_t y) {
-    set_sprite_tile(25, 53);
-    set_sprite_prop(25, 0);
-    move_sprite(25, x, y);
-
-    set_sprite_tile(26, 54);
-    set_sprite_prop(26, 0);
-    move_sprite(26, x + 8, y);
-
-    set_sprite_tile(27, 57);
-    set_sprite_prop(27, 0);
-    move_sprite(27, x, y + 8);
-
-    set_sprite_tile(28, 58);
-    set_sprite_prop(28, 0);
-    move_sprite(28, x + 8, y + 8);
-
-    move_sprite(29, 0, 0);
-    move_sprite(30, 0, 0);
-    move_sprite(31, 0, 0);
-    move_sprite(32, 0, 0);
-}
-
-void draw_flip_lock_h(uint8_t x, uint8_t y) {
-    set_sprite_tile(25, 53);
-    set_sprite_prop(25, S_FLIPX);
-    move_sprite(25, x + 8, y);
-
-    set_sprite_tile(26, 54);
-    set_sprite_prop(26, S_FLIPX);
-    move_sprite(26, x, y);
-
-    set_sprite_tile(27, 57);
-    set_sprite_prop(27, S_FLIPX);
-    move_sprite(27, x + 8, y + 8);
-
-    set_sprite_tile(28, 58);
-    set_sprite_prop(28, S_FLIPX);
-    move_sprite(28, x, y + 8);
-
-    move_sprite(29, 0, 0);
-    move_sprite(30, 0, 0);
-    move_sprite(31, 0, 0);
-    move_sprite(32, 0, 0);
-}
 
 void hide_door() {
     set_sprite_tile(25, 50);
@@ -1397,5 +1294,67 @@ void set_character_sprite(uint8_t dir) {
             set_sprite_tile(6, 14);
             set_sprite_tile(7, 15);
             break;
+    }
+}
+
+void assign_obstacles (uint8_t x, uint8_t y) {
+    Coords obj_coords;
+    uint8_t high_obj = obstacles[x][y] >> 4;
+    uint8_t low_obj = obstacles[x][y] & 0x0F;
+    switch (high_obj) {
+        case 1:
+            put_on_room(deco1, 0, 12, 6);
+            break;
+        case 2:
+            put_on_room(deco2, 14, 12, 6);
+            break;
+        case 3:
+            put_on_room(deco3, 14, 0, 6);
+            break;
+        case 4:
+            put_on_room(deco4, 0, 0, 6);
+            break;
+        case 5:
+            put_on_room(deco5, 10, 4, 4);
+            break;
+        case 6:
+            put_on_room(deco5, 6, 8, 4);
+            break;
+    }
+
+    switch (low_obj) {
+        case 1:
+            put_on_room(deco1, 0, 12, 6);
+            break;
+        case 2:
+            put_on_room(deco2, 14, 12, 6);
+            break;
+        case 3:
+            put_on_room(deco3, 14, 0, 6);
+            break;
+        case 4:
+            put_on_room(deco4, 0, 0, 6);
+            break;
+        case 5:
+            put_on_room(deco5, 10, 4, 4);
+            break;
+        case 6:
+            put_on_room(deco5, 6, 8, 4);
+            break;
+    }
+}
+
+void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size) {
+    uint8_t tile;
+    uint16_t room_idx;
+
+    for (uint8_t r=0; r < size; r++) {
+        for (uint8_t c = 0; c < size; c++) {
+            tile = obstacle[(r*size) + c];
+            if (tile > 3) {
+                room_idx = ((y+r) * 20) + (x + c);
+                current_room[room_idx] = tile;
+            }
+        }
     }
 }

@@ -19,6 +19,7 @@ typedef struct {
 extern char dungeon[4][4];
 extern uint8_t doors[4][4];
 extern uint8_t room_enemies[4][4];
+extern uint8_t obstacles[4][4];
 extern uint8_t locked_door;
 
 void generate_dungeon(uint8_t current_floor); 
@@ -29,5 +30,6 @@ uint8_t add_branch(char zone, char item);
 Coords find_near_void_cell(Coords start);
 void shuffle_starts(Coords possible_starts[], uint8_t starts_count);
 void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir);
+void add_obstacles(uint8_t x, uint8_t y);
 
 #endif
