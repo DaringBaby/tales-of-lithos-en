@@ -186,7 +186,6 @@ void enemy_attack(Enemy* e) {
 
 void enemy_death(Enemy* e) {
     spawn_drop(e->x, e->y);
-    
     e->hp = 0;
     e->alive = 0;
     e->x = 0;

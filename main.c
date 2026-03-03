@@ -25,6 +25,7 @@
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
+#include "src/scripts/boss.h"
 #include "src/scripts/gameover.h"
 #include "src/scripts/gui_management.h"
 #include "src/scripts/spawn_enemy.h"
@@ -32,6 +33,7 @@
 #include "src/scripts/insert_name.h"
 #include "src/scripts/drop.h"
 #include "src/scripts/locked_doors.h"
+
 /* PROTOTYPES */
 
 void move_character();
@@ -184,6 +186,7 @@ uint8_t lock_opened = 0;
 
 Enemy current_enemies[2];
 Enemy enemy;
+Boss boss;
 
 
 void main(void) {
@@ -241,9 +244,7 @@ void main(void) {
     set_sprite_tile(6, 2);
     set_sprite_tile(7, 3);
 
-    // key, mythrill
-    set_sprite_tile(33, 59);
-    set_sprite_tile(34, 60);
+    // mythrill
     
     set_sprite_tile(35, 61);
     set_sprite_tile(36, 62);
@@ -402,6 +403,7 @@ void check_input_movement() {
         if (current_location == 1) {
             move_enemy(&current_enemies[0]);
             move_enemy(&current_enemies[1]);
+            move_boss(&boss);
             
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
                 go_next_floor();
@@ -411,6 +413,7 @@ void check_input_movement() {
                 game_over();
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
+                boss_death(&boss);
                 move_win(7, 136);
                 set_mini_menu();
                 set_camp_map();
@@ -442,6 +445,8 @@ void check_input_keys() {
                 set_textbox(2);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
+                set_sprite_tile(33, 59);
+                set_sprite_tile(34, 60);
                 key_obtained = 1;
                 set_bkg_tiles(8, 6, 4, 2, chest_opened);
                 delay(150);
@@ -926,6 +931,7 @@ void go_into_dungeon() {
         }
     }
     set_room(start);
+    spawn_boss(&boss);
     if (max_floor == 0) {
         max_floor = 1;
     }
@@ -1015,6 +1021,29 @@ void player_attack(uint8_t wpn, uint8_t index) {
     else { // freccia
         atk_stat = arrow_damage;
     }
+    if (index == 2) {
+        if (atk_stat > boss.def) {
+            damage = atk_stat - boss.def;
+        }
+        else {
+            damage = 1;
+        }
+        show_number(damage, 0, 1, index);
+        if (damage < boss.hp) {
+            boss.hp -= damage;
+        }
+        else {
+            boss.hp = 0;
+        }
+        if (boss.hp == 0) {
+            boss_death(&boss);
+            enemies_defeated++;
+            experience += boss.exp_reward;
+        }
+        return;
+    }
+
+
     if (atk_stat > current_enemies[index].def) {
         damage = atk_stat - current_enemies[index].def;
     }
@@ -1043,8 +1072,14 @@ void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) {
         dmg_y = y-8;
     }
     else {
-        dmg_x = current_enemies[index].x;
-        dmg_y = current_enemies[index].y-8;
+        if (index == 2) {
+            dmg_x = boss.x+8;
+            dmg_y = boss.y-8;
+        }
+        else {
+            dmg_x = current_enemies[index].x;
+            dmg_y = current_enemies[index].y-8;
+        }
     }
     if (mode == 0) { // damage
         set_sprite_tile(0, 76);

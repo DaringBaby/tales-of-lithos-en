@@ -32,5 +32,27 @@ uint8_t check_enemy(uint8_t dir) BANKED {
                 break;
         }
     }
+    switch(dir) {
+        case 1:
+            if ((x == boss.x || x == boss.x+16) && y == boss.y+32) {
+                return 3;
+            }
+            break;
+        case 2:
+            if (x == boss.x - 16 && (y == boss.y || y == boss.y + 16)) {
+                return 3;
+            }
+            break;
+        case 4:
+            if ((x == boss.x || x == boss.x + 16) && y == boss.y - 16) {
+                return 3;
+            }
+            break;
+        case 8:
+            if (x == boss.x + 32 && (y == boss.y || y == boss.y+16)) {
+                return 3;
+            }
+            break;
+    }
     return 0;
 }
