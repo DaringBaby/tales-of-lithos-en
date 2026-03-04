@@ -60,7 +60,6 @@ void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
 void set_enemy_sprite();
-void set_character_sprite(uint8_t dir);
 void assign_obstacles(uint8_t x, uint8_t y);
 void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size);
 /* VARS */
@@ -181,7 +180,7 @@ const uint8_t level_curve[] = {12, 25, 38, 52, 66, 81, 97, 113, 120, 130, 145, 1
 uint8_t key_obtained = 0;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
-
+uint8_t boss_battle = 0;
 /* ENEMIES */
 
 Enemy current_enemies[2];
@@ -322,6 +321,7 @@ void check_input_movement() {
                 smooth_movement(4);
             }
             else {
+                last_direction = 4;
                 uint8_t enemy_idx = check_enemy(4);
                 set_character_sprite(4);
                 player_attack(0, enemy_idx-1);
@@ -339,15 +339,17 @@ void check_input_movement() {
                 smooth_movement(1);
             }
             else {
+                last_direction = 1;
                 uint8_t enemy_idx = check_enemy(1);
                 set_character_sprite(1);
                 player_attack(0, enemy_idx-1);
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 1;
+                current_floor = 5;
                 obt_mythril = 0;
                 obt_exp = 0;
+                boss.defeated = 1;
                 hide_camp_sprites();
                 go_into_dungeon();
                 set_sprite_tile(4, 0);
@@ -371,6 +373,7 @@ void check_input_movement() {
                 smooth_movement(8);
             }
             else {
+                last_direction = 8;
                 uint8_t enemy_idx = check_enemy(8);
                 set_character_sprite(8);
                 player_attack(0, enemy_idx-1);
@@ -388,6 +391,7 @@ void check_input_movement() {
                 smooth_movement(2);
             }
             else {
+                last_direction = 2;
                 uint8_t enemy_idx = check_enemy(2);
                 set_character_sprite(2);
                 player_attack(0, enemy_idx-1);
@@ -405,7 +409,7 @@ void check_input_movement() {
             move_enemy(&current_enemies[1]);
             move_boss(&boss);
             
-            if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40) {
+            if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
                 go_next_floor();
             }
 
@@ -414,6 +418,7 @@ void check_input_movement() {
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
                 boss_death(&boss);
+                boss_battle = 0;
                 move_win(7, 136);
                 set_mini_menu();
                 set_camp_map();
@@ -488,6 +493,7 @@ void check_input_keys() {
                     delay(100);
                     move_enemy(&current_enemies[0]);
                     move_enemy(&current_enemies[1]);
+                    move_boss(&boss);
                 }
             }
         }
@@ -520,6 +526,7 @@ void check_input_keys() {
             delay(100);
             move_enemy(&current_enemies[0]);
             move_enemy(&current_enemies[1]);
+            move_boss(&boss);
         }
     }
 }
@@ -756,13 +763,18 @@ void set_room(Coords coord){
             set_bkg_tiles(8, 6, 4, 2, chest_opened);
         }
     }
-    else if (dungeon[coord.x][coord.y] == 'E') {
-        // if piano % 5 != 0
+    else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
         set_bkg_tiles(2, 2, 2, 2, stairs);
     }
     // spawna nemici
     spawn_enemies_in_room(coord.x, coord.y, current_enemies);
-    set_enemy_sprite();
+    if (dungeon[coord.x][coord.y] != 'E') {
+        set_enemy_sprite();
+    }
+    else if (current_floor % 5 == 0) {
+        boss_battle = 1;
+        spawn_boss(&boss);
+    }
     clear_drops();
     DISPLAY_ON;
 }
@@ -922,7 +934,7 @@ void go_into_dungeon() {
     Coords start;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            if (dungeon[i][j] == 'S') {
+            if (dungeon[i][j] == 'E') {
                 start.x = i;
                 start.y = j;
                 player_coords.x = i;
@@ -931,7 +943,6 @@ void go_into_dungeon() {
         }
     }
     set_room(start);
-    spawn_boss(&boss);
     if (max_floor == 0) {
         max_floor = 1;
     }
@@ -939,6 +950,9 @@ void go_into_dungeon() {
 
 void go_next_floor() {
     current_floor++;
+    if (current_floor % 5 == 0) {
+        boss.defeated = 1;
+    }
     if (current_floor > max_floor) {
         max_floor = current_floor;
     }
@@ -989,6 +1003,10 @@ void set_textbox(uint8_t item) {
         move_sprite(38, x+8, y-24);
         set_win_tiles(0, 0, 20, 5, obtained_mythril);
     }
+    else if (item == 3) {
+        HIDE_SPRITES;
+        set_win_tiles(0, 0, 20, 5, boss_defeated);
+    }
 
     wait_vbl_done();
     
@@ -1007,6 +1025,7 @@ void set_textbox(uint8_t item) {
     move_sprite(37, 0, 0);
     move_sprite(38, 0, 0);
     menu_opened = 0;
+    SHOW_SPRITES;
     set_mini_menu();
 }
 
@@ -1037,8 +1056,13 @@ void player_attack(uint8_t wpn, uint8_t index) {
         }
         if (boss.hp == 0) {
             boss_death(&boss);
+            boss_battle = 0;
             enemies_defeated++;
             experience += boss.exp_reward;
+            minerals+=2;
+            menu_opened = 4;
+            set_textbox(3);
+            set_bkg_tiles(2, 2, 2, 2, stairs);
         }
         return;
     }
@@ -1121,20 +1145,20 @@ void shoot_arrow() {
     uint8_t arrow_y = y;
     switch (last_direction) {
             case 1:
-                set_sprite_tile(19, 80);
-                set_sprite_prop(19, 0);
+                set_sprite_tile(39, 80);
+                set_sprite_prop(39, 0);
                 break;
             case 2:
-                set_sprite_tile(19, 81);
-                set_sprite_prop(19, 0);
+                set_sprite_tile(39, 81);
+                set_sprite_prop(39, 0);
                 break;
             case 4:
-                set_sprite_tile(19, 80);
-                set_sprite_prop(19, S_FLIPY);
+                set_sprite_tile(39, 80);
+                set_sprite_prop(39, S_FLIPY);
                 break;
             case 8:
-                set_sprite_tile(19, 81);
-                set_sprite_prop(19, S_FLIPX);
+                set_sprite_tile(39, 81);
+                set_sprite_prop(39, S_FLIPX);
                 break;
         }
     while (1) {
@@ -1153,21 +1177,27 @@ void shoot_arrow() {
                 arrow_x-=2;
                 break;
         }
-        move_sprite(19, arrow_x, arrow_y);
+        move_sprite(39, arrow_x, arrow_y);
         if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
-            set_sprite_tile(19, 50);
-            move_sprite(19, 0, 0);
+            set_sprite_tile(39, 50);
+            move_sprite(39, 0, 0);
             return;
         }
         for (int i=0; i<2; i++) {
             uint8_t enemy_x = current_enemies[i].x;
             uint8_t enemy_y = current_enemies[i].y;
             if (arrow_x == enemy_x && arrow_y == enemy_y) {
-                set_sprite_tile(19, 50);
-                move_sprite(19, x, y);
+                set_sprite_tile(39, 50);
+                move_sprite(39, x, y);
                 player_attack(1, i); // arrow atk
                 return;
             }
+        }
+        if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
+            set_sprite_tile(39, 50);
+            move_sprite(39, x, y);
+            player_attack(1, 2);
+            return;
         }
     }
 }
@@ -1303,34 +1333,7 @@ void set_enemy_sprite() {
     return;
 }
 
-void set_character_sprite(uint8_t dir) {
-    switch (dir) {
-        case 1:
-            set_sprite_tile(4, 4);
-            set_sprite_tile(5, 5);
-            set_sprite_tile(6, 6);
-            set_sprite_tile(7, 7);
-            break;
-        case 2:
-            set_sprite_tile(4, 8);
-            set_sprite_tile(5, 9);
-            set_sprite_tile(6, 10);
-            set_sprite_tile(7, 11);
-            break;
-        case 4:
-            set_sprite_tile(4, 0);
-            set_sprite_tile(5, 1);
-            set_sprite_tile(6, 2);
-            set_sprite_tile(7, 3);
-            break;
-        case 8:
-            set_sprite_tile(4, 12);
-            set_sprite_tile(5, 13);
-            set_sprite_tile(6, 14);
-            set_sprite_tile(7, 15);
-            break;
-    }
-}
+
 
 void assign_obstacles (uint8_t x, uint8_t y) {
     Coords obj_coords;

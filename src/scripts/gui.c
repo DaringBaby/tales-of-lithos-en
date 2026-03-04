@@ -99,3 +99,11 @@ const unsigned char obtained_mythril[] = {
     BOTTOMLEFT, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOMRIGHT
 };
 
+const unsigned char boss_defeated[] = {
+    TOPLEFT,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOP,    TOPRIGHT,
+    LEFT,       129,    142,    146,    146,    WHITESPACE,    146,    130,    142,   141,    133,    136,    147,    147,    142,    167,    WHITESPACE,    156,    BODY,   RIGHT,
+    LEFT,     BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   RIGHT,
+    LEFT,       140,    152,    147,    135,    145,    136,    139,    BODY,   142,    147,    147,    132,    141,    148,    147,    142,    167,    BODY,   RIGHT,
+    BOTTOMLEFT, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOMRIGHT
+};
+

@@ -56,3 +56,32 @@ uint8_t check_enemy(uint8_t dir) BANKED {
     }
     return 0;
 }
+
+void set_character_sprite(uint8_t dir) BANKED {
+    switch (dir) {
+        case 1:
+            set_sprite_tile(4, 4);
+            set_sprite_tile(5, 5);
+            set_sprite_tile(6, 6);
+            set_sprite_tile(7, 7);
+            break;
+        case 2:
+            set_sprite_tile(4, 8);
+            set_sprite_tile(5, 9);
+            set_sprite_tile(6, 10);
+            set_sprite_tile(7, 11);
+            break;
+        case 4:
+            set_sprite_tile(4, 0);
+            set_sprite_tile(5, 1);
+            set_sprite_tile(6, 2);
+            set_sprite_tile(7, 3);
+            break;
+        case 8:
+            set_sprite_tile(4, 12);
+            set_sprite_tile(5, 13);
+            set_sprite_tile(6, 14);
+            set_sprite_tile(7, 15);
+            break;
+    }
+}

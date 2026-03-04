@@ -6,14 +6,18 @@
 
 
 void spawn_boss(Boss *boss) BANKED {
+    for (uint8_t i = 0; i < 16; i++) {
+        set_sprite_tile(8+1, 50);
+        move_sprite(8+i, 0, 0);
+    }
     // solo 1 boss per ora
     boss->id = 1;
-    boss->hp = 75;
+    boss->hp = 1;
     boss->atk = 20;
     boss->def = 23;
     boss->exp_reward = 25;
     boss->x = 72;
-    boss->y = 32;
+    boss->y = 64;
     boss->defeated = 0;
     set_sprite_data(98, 16, EyeBoss);
     for (uint8_t i=0; i<16; i++) {
