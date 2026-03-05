@@ -256,3 +256,46 @@ void safy_upgrades() {
         set_mini_menu();
     }
 }
+
+void set_stats() BANKED {
+    uint8_t hp[5];
+    uint8_t atk[2];
+    uint8_t def[2];
+    uint8_t exp[3];
+    uint8_t stat;
+    uint8_t mythril[2];
+    hp[0] = current_hp/10 + 154;
+    hp[1] = current_hp % 10 + 154;
+    hp[2] = 176;
+    hp[3] = max_hp/10 + 154;
+    hp[4] = max_hp % 10 + 154;
+    atk[0] = attack / 10 + 154;
+    atk[1] = attack % 10 + 154;
+    def[0] = defense / 10 + 154;
+    def[1] = defense % 10 + 154;
+    exp[0] = experience / 100 + 154;
+    exp[1] = experience % 100 / 10 + 154;
+    exp[2] = experience % 10 + 154;
+    mythril[0] = minerals / 10 + 154;
+    mythril[1] = minerals % 10 + 154;
+    set_win_tiles(12, 6, 5, 1, hp);
+    set_win_tiles(14, 4, 5, 1, player_name);
+    set_win_tiles(12, 8, 2, 1, atk);
+    set_win_tiles(12, 10, 2, 1, def);
+    set_win_tiles(16, 14, 3, 1, exp);
+    set_win_tiles(14, 16, 2, 1, mythril);
+    stat = sword_lvl + 154;
+    set_win_tiles(4, 12, 1, 1, &stat);
+    stat = shield_lvl + 154;
+    set_win_tiles(4, 14, 1, 1, &stat);
+    stat = arrow_lvl + 154;
+    set_win_tiles(4, 16, 1, 1, &stat);
+    stat = quiver_lvl + 154;
+    set_win_tiles(9, 12, 1, 1, &stat);
+    stat = potion_quant_lvl + 154;
+    set_win_tiles(9, 14, 1, 1, &stat);
+    stat = potion_heal_lvl + 154;
+    set_win_tiles(9, 16, 1, 1, &stat);
+    stat = level + 154;
+    set_win_tiles(15, 12, 1, 1, &stat);
+}

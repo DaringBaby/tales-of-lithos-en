@@ -39,7 +39,7 @@ extern const unsigned char room12[];
 extern const unsigned char room13[];
 extern const unsigned char room14[];
 extern const unsigned char room15[];
-
+extern const unsigned char NoExit[];
 #endif
 
 /* End of DUNGEON.H */

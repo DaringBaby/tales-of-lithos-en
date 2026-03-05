@@ -115,3 +115,14 @@ void draw_flip_lock_h(uint8_t x, uint8_t y) BANKED {
     move_sprite(31, 0, 0);
     move_sprite(32, 0, 0);
 }
+
+void hide_door() BANKED {
+    set_sprite_tile(25, 50);
+    set_sprite_tile(26, 50);
+    set_sprite_tile(27, 50);
+    set_sprite_tile(28, 50);
+    set_sprite_tile(29, 50);
+    set_sprite_tile(30, 50);
+    set_sprite_tile(31, 50);
+    set_sprite_tile(32, 50);
+}

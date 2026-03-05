@@ -44,7 +44,6 @@ void set_camp_map();
 void set_dungeon_map();
 void set_room(Coords coord);
 void change_room();
-void set_stats();
 void check_open_menu();
 void clean_window();
 void set_mini_menu();
@@ -52,7 +51,6 @@ void check_input_keys();
 void go_into_dungeon();
 void hide_camp_sprites();
 void go_next_floor();
-void hide_door();
 void set_textbox(uint8_t item);
 void player_attack(uint8_t wpn, uint8_t index);
 void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index);
@@ -62,6 +60,7 @@ void check_time();
 void set_enemy_sprite();
 void assign_obstacles(uint8_t x, uint8_t y);
 void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size);
+void set_room_tiles(uint8_t door, const unsigned char* room_ptr, Coords coord);
 /* VARS */
 
 int tile_id = 0;
@@ -155,6 +154,7 @@ extern const unsigned char room12[];
 extern const unsigned char room13[];
 extern const unsigned char room14[];
 extern const unsigned char room15[];
+extern const unsigned char NoExit[];
 extern const unsigned char deco1[];
 extern const unsigned char deco2[];
 extern const unsigned char deco3[];
@@ -181,12 +181,15 @@ uint8_t key_obtained = 0;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 uint8_t boss_battle = 0;
+uint8_t boss_floor_defeated = 0;
 /* ENEMIES */
 
 Enemy current_enemies[2];
 Enemy enemy;
 Boss boss;
 
+
+// da modificare: current level, posizione di start, statistiche (per debug)
 
 void main(void) {
     cls(); 
@@ -418,6 +421,7 @@ void check_input_movement() {
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
                 boss_death(&boss);
+                boss_floor_defeated = 0;
                 boss_battle = 0;
                 move_win(7, 136);
                 set_mini_menu();
@@ -673,61 +677,7 @@ void set_dungeon_map(){
 void set_room(Coords coord){
     uint8_t door = doors[coord.x][coord.y];
     const unsigned char* room_ptr;
-    SWITCH_ROM(2);
-    switch (door) {
-    case 1:
-        room_ptr = room1;
-        break;
-    case 2:
-        room_ptr = room2;
-        break;
-    case 3:
-        room_ptr = room3;
-        break;
-    case 4:
-        room_ptr = room4;
-        break;
-    case 5:
-        room_ptr = room5;
-        break;
-    case 6:
-        room_ptr = room6;
-        break;
-    case 7:
-        room_ptr = room7;
-        break;
-    case 8:
-        room_ptr = room8;
-        break;
-    case 9:
-        room_ptr = room9;
-        break;
-    case 10:
-        room_ptr = room10;
-        break;
-    case 11:
-        room_ptr = room11;
-        break;
-    case 12:
-        room_ptr = room12;
-        break;
-    case 13:
-        room_ptr = room13;
-        break;
-    case 14:
-        room_ptr = room14;
-        break;
-    case 15:
-        room_ptr = room15;
-        break;
-    }
-    for (uint16_t i; i<360; i++) {
-        current_room[i] = room_ptr[i];
-    }
-    assign_obstacles(coord.x, coord.y);
-    set_bkg_tiles(0, 0, 20, 18, current_room);
-    SWITCH_ROM(1);
-
+    set_room_tiles(door, room_ptr, coord);
     hide_door();
     if (dungeon[coord.x][coord.y] == 'K') {
         if (key_obtained == 0){
@@ -771,9 +721,16 @@ void set_room(Coords coord){
     if (dungeon[coord.x][coord.y] != 'E') {
         set_enemy_sprite();
     }
-    else if (current_floor % 5 == 0) {
+    else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
         boss_battle = 1;
         spawn_boss(&boss);
+        smooth_movement(last_direction);
+        SWITCH_ROM(2);
+        for (uint16_t i; i<360; i++) {
+            current_room[i] = NoExit[i];
+        }
+        set_bkg_tiles(0, 0, 20, 18, current_room);
+        SWITCH_ROM(1);
     }
     clear_drops();
     DISPLAY_ON;
@@ -805,48 +762,6 @@ void change_room() {
     move_character();
 }
 
-void set_stats() {
-    uint8_t hp[5];
-    uint8_t atk[2];
-    uint8_t def[2];
-    uint8_t exp[3];
-    uint8_t stat;
-    uint8_t mythril[2];
-    hp[0] = current_hp/10 + 154;
-    hp[1] = current_hp % 10 + 154;
-    hp[2] = 176;
-    hp[3] = max_hp/10 + 154;
-    hp[4] = max_hp % 10 + 154;
-    atk[0] = attack / 10 + 154;
-    atk[1] = attack % 10 + 154;
-    def[0] = defense / 10 + 154;
-    def[1] = defense % 10 + 154;
-    exp[0] = experience / 100 + 154;
-    exp[1] = experience % 100 / 10 + 154;
-    exp[2] = experience % 10 + 154;
-    mythril[0] = minerals / 10 + 154;
-    mythril[1] = minerals % 10 + 154;
-    set_win_tiles(12, 6, 5, 1, hp);
-    set_win_tiles(14, 4, 5, 1, player_name);
-    set_win_tiles(12, 8, 2, 1, atk);
-    set_win_tiles(12, 10, 2, 1, def);
-    set_win_tiles(16, 14, 3, 1, exp);
-    set_win_tiles(14, 16, 2, 1, mythril);
-    stat = sword_lvl + 154;
-    set_win_tiles(4, 12, 1, 1, &stat);
-    stat = shield_lvl + 154;
-    set_win_tiles(4, 14, 1, 1, &stat);
-    stat = arrow_lvl + 154;
-    set_win_tiles(4, 16, 1, 1, &stat);
-    stat = quiver_lvl + 154;
-    set_win_tiles(9, 12, 1, 1, &stat);
-    stat = potion_quant_lvl + 154;
-    set_win_tiles(9, 14, 1, 1, &stat);
-    stat = potion_heal_lvl + 154;
-    set_win_tiles(9, 16, 1, 1, &stat);
-    stat = level + 154;
-    set_win_tiles(15, 12, 1, 1, &stat);
-}
 
 void check_open_menu() {
     current_joypad = joypad();
@@ -934,7 +849,7 @@ void go_into_dungeon() {
     Coords start;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            if (dungeon[i][j] == 'E') {
+            if (dungeon[i][j] == 'S') {
                 start.x = i;
                 start.y = j;
                 player_coords.x = i;
@@ -942,6 +857,8 @@ void go_into_dungeon() {
             }
         }
     }
+    player_coords.x = 2;
+    player_coords.y = 2;
     set_room(start);
     if (max_floor == 0) {
         max_floor = 1;
@@ -952,6 +869,7 @@ void go_next_floor() {
     current_floor++;
     if (current_floor % 5 == 0) {
         boss.defeated = 1;
+        boss_floor_defeated = 0;
     }
     if (current_floor > max_floor) {
         max_floor = current_floor;
@@ -977,16 +895,7 @@ void go_next_floor() {
 
 
 
-void hide_door() {
-    set_sprite_tile(25, 50);
-    set_sprite_tile(26, 50);
-    set_sprite_tile(27, 50);
-    set_sprite_tile(28, 50);
-    set_sprite_tile(29, 50);
-    set_sprite_tile(30, 50);
-    set_sprite_tile(31, 50);
-    set_sprite_tile(32, 50);
-}
+
 
 void set_textbox(uint8_t item) {
     menu_opened = 4;
@@ -1056,12 +965,16 @@ void player_attack(uint8_t wpn, uint8_t index) {
         }
         if (boss.hp == 0) {
             boss_death(&boss);
+            boss_floor_defeated = 1;
             boss_battle = 0;
             enemies_defeated++;
             experience += boss.exp_reward;
             minerals+=2;
             menu_opened = 4;
             set_textbox(3);
+            uint8_t door = doors[player_coords.x][player_coords.y];
+            const unsigned char* room_ptr;
+            set_room_tiles(door, room_ptr, player_coords);
             set_bkg_tiles(2, 2, 2, 2, stairs);
         }
         return;
@@ -1395,4 +1308,62 @@ void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size) {
             }
         }
     }
+}
+
+
+void set_room_tiles(uint8_t door, const unsigned char* room_ptr, Coords coord) {
+    SWITCH_ROM(2);
+    switch (door) {
+    case 1:
+        room_ptr = room1;
+        break;
+    case 2:
+        room_ptr = room2;
+        break;
+    case 3:
+        room_ptr = room3;
+        break;
+    case 4:
+        room_ptr = room4;
+        break;
+    case 5:
+        room_ptr = room5;
+        break;
+    case 6:
+        room_ptr = room6;
+        break;
+    case 7:
+        room_ptr = room7;
+        break;
+    case 8:
+        room_ptr = room8;
+        break;
+    case 9:
+        room_ptr = room9;
+        break;
+    case 10:
+        room_ptr = room10;
+        break;
+    case 11:
+        room_ptr = room11;
+        break;
+    case 12:
+        room_ptr = room12;
+        break;
+    case 13:
+        room_ptr = room13;
+        break;
+    case 14:
+        room_ptr = room14;
+        break;
+    case 15:
+        room_ptr = room15;
+        break;
+    }
+    for (uint16_t i; i<360; i++) {
+        current_room[i] = room_ptr[i];
+    }
+    assign_obstacles(coord.x, coord.y);
+    set_bkg_tiles(0, 0, 20, 18, current_room);
+    SWITCH_ROM(1);
 }

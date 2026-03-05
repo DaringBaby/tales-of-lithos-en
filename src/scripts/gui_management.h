@@ -10,6 +10,7 @@ void show_time() BANKED;
 void check_menu_options(uint8_t chara) BANKED;
 void safy_upgrades();
 void hector_upgrades();
+void set_stats() BANKED;
 
  /* STAT MENU */
 extern const uint8_t menu_body[];
@@ -43,6 +44,7 @@ extern uint8_t level;
 extern const uint8_t level_curve[];
 extern const uint8_t upgrade_costs[];
 extern const uint8_t cure_upgrade_costs[];
+extern uint8_t player_name[];
 extern uint8_t experience;
 extern uint8_t minerals;
 extern uint8_t attack;
