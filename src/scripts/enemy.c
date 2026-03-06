@@ -1,6 +1,6 @@
 #include "enemy.h"
 #include <stdio.h>
-
+#include "sound.h"
 void move_enemy(Enemy *e) {
     uint8_t dx, dy;
     if (!e->alive) {
@@ -165,6 +165,7 @@ uint8_t check_distance_y(Enemy* e) {
 }
 
 void enemy_attack(Enemy* e) {
+    hit_sfx();
     uint8_t damage;
     if (e->atk > defense) {
         damage = e->atk - defense;

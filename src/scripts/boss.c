@@ -2,7 +2,7 @@
 #include "boss.h"
 #include "../tiles/Eyeboss.h"
 #include <gb/gb.h>
-
+#include "sound.h"
 
 
 void spawn_boss(Boss *boss) BANKED {
@@ -123,6 +123,7 @@ uint8_t boss_check_distance_y(Boss* boss) {
 }
 
 void boss_attack(Boss* boss) {
+    hit_sfx();
     uint8_t damage;
     if (boss->atk > defense) {
         damage = boss->atk - defense;

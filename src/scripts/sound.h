@@ -1,0 +1,9 @@
+void init_sound() BANKED;
+void arrow_sfx() BANKED;
+void hit_sfx() BANKED;
+void heal_sfx() BANKED;
+void stairs_sfx() BANKED;
+void unlock_sfx() BANKED;
+void start_sfx() BANKED;
+void death_sfx() BANKED;
+void enemy_death_sfx() BANKED;

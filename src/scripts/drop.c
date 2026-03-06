@@ -1,6 +1,6 @@
 #include <gb/gb.h>
 #include "drop.h"
-
+#include "sound.h"
 Drop drops[2];
 
 void spawn_drop(uint8_t x, uint8_t y) {
@@ -46,12 +46,14 @@ void check_drops(uint8_t x, uint8_t y) {
             if (drops[i].drop_type == 2) {
                 if (num_arrows < max_num_arrows) {
                     num_arrows++;
+                    heal_sfx();
                 }
             }
             else if (drops[i].drop_type == 1) {
                 current_hp += 5;
                 if (current_hp > max_hp) {
                     current_hp = max_hp;
+                    heal_sfx();
                 }
             }
             drops[i].x = 0;

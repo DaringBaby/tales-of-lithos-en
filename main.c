@@ -33,6 +33,7 @@
 #include "src/scripts/insert_name.h"
 #include "src/scripts/drop.h"
 #include "src/scripts/locked_doors.h"
+#include "src/scripts/sound.h"
 
 /* PROTOTYPES */
 
@@ -198,7 +199,10 @@ void main(void) {
     set_bkg_data(241, 8, TitleText);
     set_bkg_tiles(0, 0, 20, 18, Title);
     SWITCH_ROM(1);
+    init_sound();
     set_titlescreen();
+    start_sfx();
+    
     
     
     set_sprite_data(0, 4, MC_down);
@@ -413,10 +417,12 @@ void check_input_movement() {
             move_boss(&boss);
             
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
+                stairs_sfx();
                 go_next_floor();
             }
 
             if (current_hp == 0) {
+                death_sfx();
                 game_over();
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
@@ -445,6 +451,7 @@ void check_input_keys() {
         uint8_t gy = (y - 16) / 8;
         if (current_location == 1) {
             if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
+                unlock_sfx();
                 treasure_obtained = 1;
                 minerals++;
                 obt_mythril++;
@@ -454,6 +461,7 @@ void check_input_keys() {
                 set_textbox(2);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
+                unlock_sfx();
                 set_sprite_tile(33, 59);
                 set_sprite_tile(34, 60);
                 key_obtained = 1;
@@ -489,6 +497,7 @@ void check_input_keys() {
                         }
                         break;
                 }
+                unlock_sfx();
             }
             else {
                 if (num_arrows > 0) {
@@ -525,6 +534,7 @@ void check_input_keys() {
 
     else if (joypad() & J_B && current_location == 1) {
         if (heals > 0) {
+            heal_sfx();
             heal_player();
             heals--;
             delay(100);
@@ -941,6 +951,7 @@ void set_textbox(uint8_t item) {
 
 
 void player_attack(uint8_t wpn, uint8_t index) {
+    hit_sfx();
     uint8_t damage;
     uint8_t atk_stat;
     if (wpn == 0) { // spada
@@ -964,6 +975,7 @@ void player_attack(uint8_t wpn, uint8_t index) {
             boss.hp = 0;
         }
         if (boss.hp == 0) {
+            enemy_death_sfx();
             boss_death(&boss);
             boss_floor_defeated = 1;
             boss_battle = 0;
@@ -996,6 +1008,7 @@ void player_attack(uint8_t wpn, uint8_t index) {
         current_enemies[index].alive = 0;
     }
     if (current_enemies[index].hp == 0) {
+        enemy_death_sfx();
         enemy_death(&current_enemies[index]);
         enemies_defeated++;
         experience += current_enemies[index].exp_reward;
@@ -1054,6 +1067,7 @@ void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) {
 }
 
 void shoot_arrow() {
+    arrow_sfx();
     uint8_t arrow_x = x;
     uint8_t arrow_y = y;
     switch (last_direction) {
