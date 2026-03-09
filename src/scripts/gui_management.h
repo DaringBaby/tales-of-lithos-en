@@ -1,8 +1,5 @@
-
-
-
-
-
+#include "boss.h"
+#include "enemy.h"
 
 void check_map_options() BANKED;
 void check_map_menu_input();
@@ -11,7 +8,18 @@ void check_menu_options(uint8_t chara) BANKED;
 void safy_upgrades();
 void hector_upgrades();
 void set_stats() BANKED;
+void set_mini_menu() BANKED;
+void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index) BANKED;
 
+/* SHOW NUMBERS */
+extern uint8_t x;
+extern uint8_t y;
+extern Boss boss;
+extern Enemy current_enemies[2];
+/* MINI GUI*/
+extern const unsigned char mini_gui[];
+extern uint8_t num_arrows;
+extern uint8_t current_floor;
  /* STAT MENU */
 extern const uint8_t menu_body[];
 extern uint8_t map_option;

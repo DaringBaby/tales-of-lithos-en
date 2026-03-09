@@ -1,3 +1,4 @@
+#pragma bank 1
 #include <gb/gb.h>
 #include <rand.h>
 #include <stdio.h>
@@ -20,7 +21,7 @@ uint16_t current_seed = 3;
 
 
 
-void generate_dungeon(uint8_t current_floor) {
+void generate_dungeon(uint8_t current_floor) BANKED {
     wait_vbl_done();
     DISPLAY_OFF;
     uint8_t dungeon_complete = 0;

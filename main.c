@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <stdio.h>
+#include "src/songs/hUGEDriver.h"
 #include "src/tiles/character.h"
 #include "src/tiles/CampTiles.h"
 #include "src/maps/CampMap.h"
@@ -34,6 +35,7 @@
 #include "src/scripts/drop.h"
 #include "src/scripts/locked_doors.h"
 #include "src/scripts/sound.h"
+#include "src/scripts/dungeon_management.h"
 
 /* PROTOTYPES */
 
@@ -47,21 +49,16 @@ void set_room(Coords coord);
 void change_room();
 void check_open_menu();
 void clean_window();
-void set_mini_menu();
 void check_input_keys();
 void go_into_dungeon();
 void hide_camp_sprites();
 void go_next_floor();
 void set_textbox(uint8_t item);
 void player_attack(uint8_t wpn, uint8_t index);
-void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
 void set_enemy_sprite();
-void assign_obstacles(uint8_t x, uint8_t y);
-void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size);
-void set_room_tiles(uint8_t door, const unsigned char* room_ptr, Coords coord);
 /* VARS */
 
 int tile_id = 0;
@@ -140,27 +137,16 @@ extern const unsigned char DungeonTiles[];
 extern const unsigned char Titlescreen[];
 extern const unsigned char TitleText[];
 extern const unsigned char Title[];
-extern const unsigned char room1[];
-extern const unsigned char room2[];
-extern const unsigned char room3[];
-extern const unsigned char room4[];
-extern const unsigned char room5[];
-extern const unsigned char room6[];
-extern const unsigned char room7[];
-extern const unsigned char room8[];
-extern const unsigned char room9[];
-extern const unsigned char room10[];
-extern const unsigned char room11[];
-extern const unsigned char room12[];
-extern const unsigned char room13[];
-extern const unsigned char room14[];
-extern const unsigned char room15[];
 extern const unsigned char NoExit[];
-extern const unsigned char deco1[];
-extern const unsigned char deco2[];
-extern const unsigned char deco3[];
-extern const unsigned char deco4[];
-extern const unsigned char deco5[];
+extern char dungeon[4][4];
+extern uint8_t doors[4][4];
+extern uint8_t room_enemies[4][4];
+extern uint8_t obstacles[4][4];
+extern uint8_t locked_door;
+
+/* MUSIC */
+extern const hUGESong_t gameover_jingle;
+extern const hUGESong_t boss_defeated_jingle;
 
 /* GAME VARS*/
 uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
@@ -183,6 +169,8 @@ uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 uint8_t boss_battle = 0;
 uint8_t boss_floor_defeated = 0;
+
+uint8_t current_song_bank = 3;
 /* ENEMIES */
 
 Enemy current_enemies[2];
@@ -234,7 +222,6 @@ void main(void) {
     set_sprite_data(4, 4, MC_up);
     move_win(7, 136);
     set_mini_menu();
-
 
     
     if (current_location == 0){
@@ -298,6 +285,10 @@ void main(void) {
         }
         check_time();
         wait_vbl_done();
+        uint8_t bank_precedente = _current_bank;
+        SWITCH_ROM(current_song_bank);
+        hUGE_dosound();
+        SWITCH_ROM(bank_precedente);
     }
 }
 
@@ -822,34 +813,6 @@ void check_open_menu() {
     last_joypad = current_joypad;
 }
 
-void set_mini_menu() {
-    if (menu_opened != 0) {
-        return;
-    }
-    uint8_t hp[5];
-    uint8_t n_arr[2];
-    uint8_t n_heals[2];
-    uint8_t n_floor[2];
-    hp[0] = current_hp/10 + 154;
-    hp[1] = current_hp % 10 + 154;
-    hp[2] = 176;
-    hp[3] = max_hp/10 + 154;
-    hp[4] = max_hp % 10 + 154;
-    n_arr[0] = num_arrows / 10 + 154;
-    n_arr[1] = num_arrows % 10 + 154;
-    n_heals[0] = heals / 10 + 154;
-    n_heals[1] = heals % 10 + 154;
-    n_floor[0] = current_floor / 10 + 154;
-    n_floor[1] = current_floor % 10 + 154;
-    move_win(7, 136);
-    set_win_tiles(0, 0, 20, 1, mini_gui);
-    set_win_tiles(3, 0, 5, 1, hp);
-    set_win_tiles(10, 0, 2, 1, n_arr);
-    set_win_tiles(13, 0, 2, 1, n_heals);
-    set_win_tiles(18, 0, 2, 1, n_floor);
-}
-
-
 
 void go_into_dungeon() {
     wait_vbl_done();
@@ -983,6 +946,10 @@ void player_attack(uint8_t wpn, uint8_t index) {
             experience += boss.exp_reward;
             minerals+=2;
             menu_opened = 4;
+            current_song_bank = 3;
+            SWITCH_ROM(3);
+            hUGE_init(&boss_defeated_jingle);
+            SWITCH_ROM(1);
             set_textbox(3);
             uint8_t door = doors[player_coords.x][player_coords.y];
             const unsigned char* room_ptr;
@@ -1015,56 +982,7 @@ void player_attack(uint8_t wpn, uint8_t index) {
     }
 }
 
-void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) {
-    uint8_t dmg_x, dmg_y;
-    if (target == 0) {
-        dmg_x = x;
-        dmg_y = y-8;
-    }
-    else {
-        if (index == 2) {
-            dmg_x = boss.x+8;
-            dmg_y = boss.y-8;
-        }
-        else {
-            dmg_x = current_enemies[index].x;
-            dmg_y = current_enemies[index].y-8;
-        }
-    }
-    if (mode == 0) { // damage
-        set_sprite_tile(0, 76);
-    }
-    else {
-        set_sprite_tile(0, 75);
-    }
-    if (number / 10 != 0) {
-        set_sprite_tile(1, 65 + number / 10);
-    }
-    else {
-        set_sprite_tile(1, 50);
-    }
-    
-    set_sprite_tile(2, 65 + number % 10);
-    uint8_t frame = 0;
-    while (frame < 30) {
-        wait_vbl_done();
-        if (frame %2) {
-            dmg_y--;
-            if (number / 10 == 0) {
-                move_sprite(0, dmg_x, dmg_y);
-            }
-            else {
-                move_sprite(0, dmg_x-8, dmg_y);
-            }
-            move_sprite(1, dmg_x, dmg_y);
-            move_sprite(2, dmg_x+8, dmg_y);
-        }
-        frame++;
-    }
-    move_sprite(0, 0, 0);
-    move_sprite(1, 0, 0);
-    move_sprite(2, 0, 0);
-}
+
 
 void shoot_arrow() {
     arrow_sfx();
@@ -1261,123 +1179,3 @@ void set_enemy_sprite() {
 }
 
 
-
-void assign_obstacles (uint8_t x, uint8_t y) {
-    Coords obj_coords;
-    uint8_t high_obj = obstacles[x][y] >> 4;
-    uint8_t low_obj = obstacles[x][y] & 0x0F;
-    switch (high_obj) {
-        case 1:
-            put_on_room(deco1, 0, 12, 6);
-            break;
-        case 2:
-            put_on_room(deco2, 14, 12, 6);
-            break;
-        case 3:
-            put_on_room(deco3, 14, 0, 6);
-            break;
-        case 4:
-            put_on_room(deco4, 0, 0, 6);
-            break;
-        case 5:
-            put_on_room(deco5, 10, 4, 4);
-            break;
-        case 6:
-            put_on_room(deco5, 6, 8, 4);
-            break;
-    }
-
-    switch (low_obj) {
-        case 1:
-            put_on_room(deco1, 0, 12, 6);
-            break;
-        case 2:
-            put_on_room(deco2, 14, 12, 6);
-            break;
-        case 3:
-            put_on_room(deco3, 14, 0, 6);
-            break;
-        case 4:
-            put_on_room(deco4, 0, 0, 6);
-            break;
-        case 5:
-            put_on_room(deco5, 10, 4, 4);
-            break;
-        case 6:
-            put_on_room(deco5, 6, 8, 4);
-            break;
-    }
-}
-
-void put_on_room(unsigned char *obstacle, uint8_t x, uint8_t y, uint8_t size) {
-    uint8_t tile;
-    uint16_t room_idx;
-
-    for (uint8_t r=0; r < size; r++) {
-        for (uint8_t c = 0; c < size; c++) {
-            tile = obstacle[(r*size) + c];
-            if (tile > 3) {
-                room_idx = ((y+r) * 20) + (x + c);
-                current_room[room_idx] = tile;
-            }
-        }
-    }
-}
-
-
-void set_room_tiles(uint8_t door, const unsigned char* room_ptr, Coords coord) {
-    SWITCH_ROM(2);
-    switch (door) {
-    case 1:
-        room_ptr = room1;
-        break;
-    case 2:
-        room_ptr = room2;
-        break;
-    case 3:
-        room_ptr = room3;
-        break;
-    case 4:
-        room_ptr = room4;
-        break;
-    case 5:
-        room_ptr = room5;
-        break;
-    case 6:
-        room_ptr = room6;
-        break;
-    case 7:
-        room_ptr = room7;
-        break;
-    case 8:
-        room_ptr = room8;
-        break;
-    case 9:
-        room_ptr = room9;
-        break;
-    case 10:
-        room_ptr = room10;
-        break;
-    case 11:
-        room_ptr = room11;
-        break;
-    case 12:
-        room_ptr = room12;
-        break;
-    case 13:
-        room_ptr = room13;
-        break;
-    case 14:
-        room_ptr = room14;
-        break;
-    case 15:
-        room_ptr = room15;
-        break;
-    }
-    for (uint16_t i; i<360; i++) {
-        current_room[i] = room_ptr[i];
-    }
-    assign_obstacles(coord.x, coord.y);
-    set_bkg_tiles(0, 0, 20, 18, current_room);
-    SWITCH_ROM(1);
-}

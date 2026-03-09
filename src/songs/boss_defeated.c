@@ -1,3 +1,4 @@
+#pragma bank 3
 #include "hUGEDriver.h"
 #include <stddef.h>
 
@@ -700,4 +701,4 @@ static const unsigned char waves[] = {
     122,205,219,117,33,19,104,189,220,151,65,1,71,156,221,184,
 };
 
-const hUGESong_t boss_defeated = {7, &order_cnt, order1, order2, order3,order4, duty_instruments, wave_instruments, noise_instruments, NULL, waves};
+const hUGESong_t boss_defeated_jingle = {7, &order_cnt, order1, order2, order3,order4, duty_instruments, wave_instruments, noise_instruments, NULL, waves};

@@ -2,7 +2,7 @@
 set GBDK=C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\bin\lcc.exe
 
 
-del *.o *.gb *.map *.asm *.lst *.sym *.ihx
+del *.o *.gb *.map *.lst *.sym *.ihx *.asm
 
 :: --- BANCO 3 (Titlescreen, minimap, script gui) ---
 %GBDK% -c -Wf-bo3 -o titlescr.o src/scripts/titlescreen.c
@@ -16,21 +16,22 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -Wf-bo3 -o eyeboss.o src/tiles/Eyeboss.c
 %GBDK% -c -Wf-bo3 -o boss.o src/scripts/boss.c
 %GBDK% -c -Wf-bo3 -o sound.o src/scripts/sound.c
+%GBDK% -c -Wf-bo3 -o gameover_sound.o src/songs/gameover_sound.c
+%GBDK% -c -Wf-bo3 -o boss_defeated.o src/songs/boss_defeated.c
 
 :: --- BANCO 2 (Mappe e Tiles banked, Script game over) ---
 :: Usiamo -Wf-bo2 per ogni singolo file
 %GBDK% -c -Wf-bo2 -o CampMap.o src/maps/CampMap.c
 %GBDK% -c -Wf-bo2 -o Dungeon.o src/maps/Dungeon.c
-%GBDK% -c -Wf-bo2 -o GameOver.o src/maps/GameOver.c
 %GBDK% -c -Wf-bo2 -o Title.o src/maps/Title.c
 %GBDK% -c -Wf-bo2 -o CampTiles.o src/tiles/CampTiles.c
 %GBDK% -c -Wf-bo2 -o Text.o src/tiles/Text.c
 %GBDK% -c -Wf-bo2 -o DungeonTiles.o src/tiles/DungeonTiles.c
 %GBDK% -c -Wf-bo2 -o Titlescreen.o src/tiles/Titlescreen.c
 %GBDK% -c -Wf-bo2 -o TitleText.o src/tiles/TitleText.c
-%GBDK% -c -Wf-bo2 -o GameOverText.o src/tiles/GameOverText.c
-%GBDK% -c -Wf-bo2 -o gameoverscript.o src/scripts/gameover.c
+%GBDK% -c -Wf-bo2 -o dungeon_management.o src/scripts/dungeon_management.c
 %GBDK% -c -Wf-bo2 -o obstacles.o src/maps/Obstacles.c
+
 
 :: --- BANCO 1 (Tiles) ---
 %GBDK% -c -Wf-bo1 -o character.o src/tiles/character.c
@@ -47,16 +48,19 @@ del *.o *.gb *.map *.asm *.lst *.sym *.ihx
 %GBDK% -c -Wf-bo1 -o Numbers.o src/tiles/Numbers.c
 %GBDK% -c -Wf-bo1 -o wpn_arrow.o src/tiles/wpn_arrow.c
 %GBDK% -c -Wf-bo1 -o enemy_drops.o src/tiles/enemyDrops.c
+%GBDK% -c -Wf-bo1 -o gen_dung.o src/scripts/generate_dungeon.c
+%GBDK% -c -Wf-bo1 -o GameOver.o src/maps/GameOver.c
+%GBDK% -c -Wf-bo1 -o GameOverText.o src/tiles/GameOverText.c
+%GBDK% -c -Wf-bo1 -o gameoverscript.o src/scripts/gameover.c
 
 
 :: --- BANCO 0 (Logica principale) ---
 %GBDK% -c -o main.o main.c
-%GBDK% -c -o gen_dung.o src/scripts/generate_dungeon.c
 %GBDK% -c -o gui.o src/scripts/gui.c
 %GBDK% -c -o enemy.o src/scripts/enemy.c
 %GBDK% -c -o drop.o src/scripts/drop.c
 
-%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o obstacles.o locked_doors.o eyeboss.o boss.o sound.o
+%GBDK% -Wl-m -Wl-yt0x19 -Wl-yo4 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o obstacles.o locked_doors.o eyeboss.o boss.o sound.o gameover_sound.o boss_defeated.o hUGEDriver.lib dungeon_management.o
 
-del *.o *.asm *.lst *.sym
+del *.o *.lst *.sym *.asm
 pause

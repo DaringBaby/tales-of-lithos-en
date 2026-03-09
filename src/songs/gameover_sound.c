@@ -1,3 +1,4 @@
+#pragma bank 3
 #include "hUGEDriver.h"
 #include <stddef.h>
 
@@ -285,6 +286,7 @@ static const hUGEWaveInstr_t wave_instruments[] = {
     {0,32,5,0,128},
 };
 static const hUGENoiseInstr_t noise_instruments[] = {
+    {0,0,0,0,0}
 };
 
 static const unsigned char waves[] = {
@@ -296,4 +298,4 @@ static const unsigned char waves[] = {
     254,220,186,152,118,84,50,16,18,52,86,120,154,188,222,255,
 };
 
-const hUGESong_t gameover_sound = {7, &order_cnt, order1, order2, order3,order4, duty_instruments, wave_instruments, noise_instruments, NULL, waves};
+const hUGESong_t gameover_jingle = {7, &order_cnt, order1, order2, order3,order4, duty_instruments, wave_instruments, noise_instruments, NULL, waves};

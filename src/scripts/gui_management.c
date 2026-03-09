@@ -299,3 +299,81 @@ void set_stats() BANKED {
     stat = level + 154;
     set_win_tiles(15, 12, 1, 1, &stat);
 }
+
+void set_mini_menu() BANKED {
+    if (menu_opened != 0) {
+        return;
+    }
+    uint8_t hp[5];
+    uint8_t n_arr[2];
+    uint8_t n_heals[2];
+    uint8_t n_floor[2];
+    hp[0] = current_hp/10 + 154;
+    hp[1] = current_hp % 10 + 154;
+    hp[2] = 176;
+    hp[3] = max_hp/10 + 154;
+    hp[4] = max_hp % 10 + 154;
+    n_arr[0] = num_arrows / 10 + 154;
+    n_arr[1] = num_arrows % 10 + 154;
+    n_heals[0] = heals / 10 + 154;
+    n_heals[1] = heals % 10 + 154;
+    n_floor[0] = current_floor / 10 + 154;
+    n_floor[1] = current_floor % 10 + 154;
+    move_win(7, 136);
+    set_win_tiles(0, 0, 20, 1, mini_gui);
+    set_win_tiles(3, 0, 5, 1, hp);
+    set_win_tiles(10, 0, 2, 1, n_arr);
+    set_win_tiles(13, 0, 2, 1, n_heals);
+    set_win_tiles(18, 0, 2, 1, n_floor);
+}
+
+void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
+    uint8_t dmg_x, dmg_y;
+    if (target == 0) {
+        dmg_x = x;
+        dmg_y = y-8;
+    }
+    else {
+        if (index == 2) {
+            dmg_x = boss.x+8;
+            dmg_y = boss.y-8;
+        }
+        else {
+            dmg_x = current_enemies[index].x;
+            dmg_y = current_enemies[index].y-8;
+        }
+    }
+    if (mode == 0) { // damage
+        set_sprite_tile(0, 76);
+    }
+    else {
+        set_sprite_tile(0, 75);
+    }
+    if (number / 10 != 0) {
+        set_sprite_tile(1, 65 + number / 10);
+    }
+    else {
+        set_sprite_tile(1, 50);
+    }
+    
+    set_sprite_tile(2, 65 + number % 10);
+    uint8_t frame = 0;
+    while (frame < 30) {
+        wait_vbl_done();
+        if (frame %2) {
+            dmg_y--;
+            if (number / 10 == 0) {
+                move_sprite(0, dmg_x, dmg_y);
+            }
+            else {
+                move_sprite(0, dmg_x-8, dmg_y);
+            }
+            move_sprite(1, dmg_x, dmg_y);
+            move_sprite(2, dmg_x+8, dmg_y);
+        }
+        frame++;
+    }
+    move_sprite(0, 0, 0);
+    move_sprite(1, 0, 0);
+    move_sprite(2, 0, 0);
+}

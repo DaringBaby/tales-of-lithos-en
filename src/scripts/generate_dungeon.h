@@ -22,7 +22,7 @@ extern uint8_t room_enemies[4][4];
 extern uint8_t obstacles[4][4];
 extern uint8_t locked_door;
 
-void generate_dungeon(uint8_t current_floor); 
+void generate_dungeon(uint8_t current_floor) BANKED; 
 void empty_array();
 uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms);
 void append(char directions[], char value, uint8_t *num_dirs);
