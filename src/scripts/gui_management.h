@@ -2,7 +2,7 @@
 #include "enemy.h"
 
 void check_map_options() BANKED;
-void check_map_menu_input();
+void check_map_menu_input() BANKED;
 void show_time() BANKED;
 void check_menu_options(uint8_t chara) BANKED;
 void safy_upgrades();
@@ -60,3 +60,4 @@ extern uint8_t defense;
 extern uint8_t max_hp;
 extern uint8_t current_hp;
 
+extern uint8_t returning_to_camp;

@@ -2,7 +2,7 @@
 #include "hUGEDriver.h"
 #include <stddef.h>
 
-static const unsigned char order_cnt = 2;
+static const unsigned char order_cnt = 4;
 
 static const unsigned char P0[] = {
     DN(D_4,1,0x000),
@@ -268,11 +268,77 @@ static const unsigned char P3[] = {
     DN(___,0,0x000),
     DN(___,0,0x000),
 };
+static const unsigned char P4[] = {
+    DN(___,0,0xB04),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+    DN(___,0,0x000),
+};
 
-static const unsigned char* const order1[] = {P0};
-static const unsigned char* const order2[] = {P1};
-static const unsigned char* const order3[] = {P2};
-static const unsigned char* const order4[] = {P3};
+static const unsigned char* const order1[] = {P0,P4};
+static const unsigned char* const order2[] = {P1,P4};
+static const unsigned char* const order3[] = {P2,P4};
+static const unsigned char* const order4[] = {P3,P4};
 
 static const hUGEDutyInstr_t duty_instruments[] = {
     {8,128,243,0,128},
@@ -286,7 +352,7 @@ static const hUGEWaveInstr_t wave_instruments[] = {
     {0,32,5,0,128},
 };
 static const hUGENoiseInstr_t noise_instruments[] = {
-    {0,0,0,0,0}
+    {0, 0, 0}
 };
 
 static const unsigned char waves[] = {

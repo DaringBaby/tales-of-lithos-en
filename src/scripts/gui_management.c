@@ -22,7 +22,7 @@ void check_map_options() BANKED {
     check_map_menu_input();
 }
 
-void check_map_menu_input() {
+void check_map_menu_input() BANKED {
     if (joypad() & J_A) {
         switch (map_option) {
             case 0:
@@ -53,17 +53,8 @@ void check_map_menu_input() {
                 break;
             case 2:
                 if (current_location == 1) {
-                    menu_opened = 0;
-                    game_over();
-                    move_win(7, 136);
-                    set_mini_menu();
-                    set_camp_map();
-                    x = 120;
-                    y = 112;
-                    move_character();
-                    delay(100);
-                    SHOW_WIN;
-                    DISPLAY_ON;
+                    returning_to_camp = 1;
+                    return;
                 }
                 break;
         }

@@ -36,6 +36,7 @@
 #include "src/scripts/locked_doors.h"
 #include "src/scripts/sound.h"
 #include "src/scripts/dungeon_management.h"
+#include "src/scripts/save_manager.h"
 
 /* PROTOTYPES */
 
@@ -59,6 +60,8 @@ void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
 void set_enemy_sprite();
+void music_vbl_interrupt();
+void return_to_camp();
 /* VARS */
 
 int tile_id = 0;
@@ -147,6 +150,10 @@ extern uint8_t locked_door;
 /* MUSIC */
 extern const hUGESong_t gameover_jingle;
 extern const hUGESong_t boss_defeated_jingle;
+extern const hUGESong_t dungeon_theme;
+extern const hUGESong_t boss_theme;
+extern const hUGESong_t camp_theme;
+extern const hUGESong_t intro_theme;
 
 /* GAME VARS*/
 uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
@@ -169,7 +176,7 @@ uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 uint8_t boss_battle = 0;
 uint8_t boss_floor_defeated = 0;
-
+uint8_t returning_to_camp = 0;
 uint8_t current_song_bank = 3;
 /* ENEMIES */
 
@@ -188,6 +195,15 @@ void main(void) {
     set_bkg_tiles(0, 0, 20, 18, Title);
     SWITCH_ROM(1);
     init_sound();
+
+        __critical {
+    add_VBL(music_vbl_interrupt);
+}
+
+    current_song_bank = 5;
+    SWITCH_ROM(current_song_bank);
+    hUGE_init(&intro_theme);
+    SWITCH_ROM(1);
     set_titlescreen();
     start_sfx();
     
@@ -218,7 +234,9 @@ void main(void) {
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
     set_bkg_data(246, 1, black);
-    insert_name();
+    if (!load_game()) {
+        insert_name();
+    }
     set_sprite_data(4, 4, MC_up);
     move_win(7, 136);
     set_mini_menu();
@@ -251,6 +269,8 @@ void main(void) {
     SHOW_WIN;
     delay(100);
     DISPLAY_ON;
+
+
     while(1) {
         check_open_menu();
         if (menu_opened == 0){
@@ -283,12 +303,13 @@ void main(void) {
             }
             show_time();
         }
+
+        if (returning_to_camp) {
+            returning_to_camp = 0;
+            return_to_camp();
+        }
         check_time();
         wait_vbl_done();
-        uint8_t bank_precedente = _current_bank;
-        SWITCH_ROM(current_song_bank);
-        hUGE_dosound();
-        SWITCH_ROM(bank_precedente);
     }
 }
 
@@ -349,7 +370,12 @@ void check_input_movement() {
                 obt_exp = 0;
                 boss.defeated = 1;
                 hide_camp_sprites();
+                save_game();
                 go_into_dungeon();
+                current_song_bank = 4;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&dungeon_theme);
+                SWITCH_ROM(1);
                 set_sprite_tile(4, 0);
                 set_sprite_tile(5, 1);
                 set_sprite_tile(6, 2);
@@ -414,6 +440,11 @@ void check_input_movement() {
 
             if (current_hp == 0) {
                 death_sfx();
+                delay(100);
+                current_song_bank = 3;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&gameover_jingle);
+                SWITCH_ROM(1);
                 game_over();
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
@@ -644,6 +675,10 @@ void set_camp_map(){
     move_sprite(14, 120, 72);
     move_sprite(15, 128, 72);
     empty_map_tiles();
+    current_song_bank = 5;
+    SWITCH_ROM(current_song_bank);
+    hUGE_init(&camp_theme);
+    SWITCH_ROM(1);
 }
 
 
@@ -731,6 +766,10 @@ void set_room(Coords coord){
             current_room[i] = NoExit[i];
         }
         set_bkg_tiles(0, 0, 20, 18, current_room);
+        SWITCH_ROM(1);
+        current_song_bank = 4;
+        SWITCH_ROM(current_song_bank);
+        hUGE_init(&boss_theme);
         SWITCH_ROM(1);
     }
     clear_drops();
@@ -955,6 +994,10 @@ void player_attack(uint8_t wpn, uint8_t index) {
             const unsigned char* room_ptr;
             set_room_tiles(door, room_ptr, player_coords);
             set_bkg_tiles(2, 2, 2, 2, stairs);
+            current_song_bank = 4;
+            SWITCH_ROM(current_song_bank);
+            hUGE_init(&dungeon_theme);
+            SWITCH_ROM(1);
         }
         return;
     }
@@ -1179,3 +1222,28 @@ void set_enemy_sprite() {
 }
 
 
+void music_vbl_interrupt() {
+    uint8_t bank_precedente = _current_bank;
+    SWITCH_ROM(current_song_bank);
+    hUGE_dosound();
+    SWITCH_ROM(bank_precedente);
+}
+
+void return_to_camp() {
+    menu_opened = 0;
+    current_song_bank = 3;
+    SWITCH_ROM(current_song_bank);
+    hUGE_init(&gameover_jingle);
+    SWITCH_ROM(1);
+    game_over();
+    move_win(7, 136);
+    set_mini_menu();
+    set_camp_map();
+    x = 120;
+    y = 112;
+    move_character();
+    delay(100);
+    SHOW_WIN;
+    DISPLAY_ON;
+    return;
+}
