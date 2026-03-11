@@ -7,7 +7,7 @@
 #include "../maps/Title.h"
 
 
-void set_titlescreen() BANKED {
+uint8_t set_titlescreen() BANKED {
     uint8_t press_start[] = {241, 242, 243, 244, 245, 1, 1, 246, 247, 248, 242, 247};
     uint8_t empty[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     set_bkg_tiles(4, 16, 12, 1, press_start);
@@ -19,7 +19,13 @@ void set_titlescreen() BANKED {
         delay(150);
         DISPLAY_OFF;
         delay(150);
-        return;
+        return 0; // continua
+    }
+    else if (joypad() & J_SELECT) {
+        delay(150);
+        DISPLAY_OFF;
+        delay(150);
+        return 1; // nuovo gioco
     }
     if (frame == 0) {
         set_bkg_tiles(4, 16, 12, 1, empty);

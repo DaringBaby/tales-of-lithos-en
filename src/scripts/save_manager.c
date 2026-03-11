@@ -3,6 +3,9 @@
 __at(0xA000) SaveSlot sram_data;
 
 uint8_t load_game() {
+    if (ng) {
+        return 0;
+    }
     ENABLE_RAM;
     SWITCH_RAM(0);
 

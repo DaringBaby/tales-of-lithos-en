@@ -4,6 +4,7 @@
 #include "src/tiles/character.h"
 #include "src/tiles/CampTiles.h"
 #include "src/maps/CampMap.h"
+#include "src/maps/TutorialMap.h"
 #include "src/tiles/Hector.h"
 #include "src/tiles/Safy.h"
 #include "src/tiles/DungeonTiles.h"
@@ -62,6 +63,7 @@ void check_time();
 void set_enemy_sprite();
 void music_vbl_interrupt();
 void return_to_camp();
+void set_tutorial();
 /* VARS */
 
 int tile_id = 0;
@@ -72,7 +74,6 @@ uint8_t last_x;
 uint8_t last_y;
 
 uint8_t last_direction = 1;
-uint8_t sl_direction = 1;
 
 uint8_t frames = 0;
 uint8_t seconds = 0;
@@ -134,6 +135,7 @@ extern const unsigned char Camp[];
 extern const unsigned char Text[];
 extern const unsigned char MiniGUI[];
 extern const unsigned char Minimap[];
+extern const unsigned char TutorialMap[];
 extern const unsigned char map_menu[];
 extern const unsigned char camp_collisions[];
 extern const unsigned char DungeonTiles[];
@@ -178,6 +180,7 @@ uint8_t boss_battle = 0;
 uint8_t boss_floor_defeated = 0;
 uint8_t returning_to_camp = 0;
 uint8_t current_song_bank = 3;
+uint8_t ng = 0;
 /* ENEMIES */
 
 Enemy current_enemies[2];
@@ -204,7 +207,7 @@ void main(void) {
     SWITCH_ROM(current_song_bank);
     hUGE_init(&intro_theme);
     SWITCH_ROM(1);
-    set_titlescreen();
+    ng = set_titlescreen();
     start_sfx();
     
     
@@ -234,12 +237,13 @@ void main(void) {
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
     set_bkg_data(246, 1, black);
+
     if (!load_game()) {
         insert_name();
     }
+    
     set_sprite_data(4, 4, MC_up);
-    move_win(7, 136);
-    set_mini_menu();
+    
 
     
     if (current_location == 0){
@@ -249,6 +253,13 @@ void main(void) {
     else {
         go_into_dungeon();
     }
+
+    if (ng) { // tutorial
+        set_tutorial();
+    }
+
+    move_win(7, 136);
+    set_mini_menu();
 
     set_sprite_tile(4, 0);
     set_sprite_tile(5, 1);
@@ -330,17 +341,16 @@ void check_input_movement() {
     uint8_t moved = 0;
 
     if (joypad() & J_DOWN) {
+        last_direction = 4;
+        set_character_sprite(4);
         if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
             moved = 1;
             if (!check_enemy(4)) {
-                sl_direction = last_direction;
                 last_y = y;
                 last_x = x;
-                last_direction = 4;
                 smooth_movement(4);
             }
             else {
-                last_direction = 4;
                 uint8_t enemy_idx = check_enemy(4);
                 set_character_sprite(4);
                 player_attack(0, enemy_idx-1);
@@ -348,17 +358,16 @@ void check_input_movement() {
         }
     }
     else if (joypad() & J_UP) {
+        set_character_sprite(1);
         if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
+            last_direction = 1;
             moved = 1;
             if (!check_enemy(1)) {
-                sl_direction = last_direction;
                 last_y = y;
                 last_x = x;
-                last_direction = 1;
                 smooth_movement(1);
             }
             else {
-                last_direction = 1;
                 uint8_t enemy_idx = check_enemy(1);
                 set_character_sprite(1);
                 player_attack(0, enemy_idx-1);
@@ -387,17 +396,16 @@ void check_input_movement() {
         }
     }
     else if (joypad() & J_LEFT) {
+        last_direction = 8;
+        set_character_sprite(8);
         if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
             moved = 1;
             if (!check_enemy(8)) {
-                sl_direction = last_direction;
-                last_direction = 8;
                 last_y = y;
                 last_x = x;
                 smooth_movement(8);
             }
             else {
-                last_direction = 8;
                 uint8_t enemy_idx = check_enemy(8);
                 set_character_sprite(8);
                 player_attack(0, enemy_idx-1);
@@ -405,17 +413,16 @@ void check_input_movement() {
         }
     }
     else if (joypad() & J_RIGHT) {
+        set_character_sprite(2);
+        last_direction = 2;
         if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
             moved = 1;
             if (!check_enemy(2)) {
-                sl_direction = last_direction;
-                last_direction = 2;
                 last_y = y;
                 last_x = x;
                 smooth_movement(2);
             }
             else {
-                last_direction = 2;
                 uint8_t enemy_idx = check_enemy(2);
                 set_character_sprite(2);
                 player_attack(0, enemy_idx-1);
@@ -550,6 +557,13 @@ void check_input_keys() {
                 set_win_tiles(0, 0, 20, 14, safy_menu);
                 set_win_tiles(1, 1, 1, 1, &arrow_tile);
                 delay(300);
+            }
+            else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
+                save_game();
+                delay(150);
+                heal_sfx();
+                menu_opened = 4;
+                set_textbox(0);
             }
         }
     }
@@ -912,7 +926,10 @@ void go_next_floor() {
 void set_textbox(uint8_t item) {
     menu_opened = 4;
     move_win(7, 104);
-    if (item == 1) {
+    if (item == 0) {
+        set_win_tiles(0, 0, 20, 5, game_saved);
+    }
+    else if (item == 1) {
         move_sprite(33, x, y-32);
         move_sprite(34, x+8, y-32);
         set_win_tiles(0, 0, 20, 5, obtained_key);
@@ -1246,4 +1263,34 @@ void return_to_camp() {
     SHOW_WIN;
     DISPLAY_ON;
     return;
+}
+
+void set_tutorial() {
+        move_win(7,0);
+        move_sprite(4, 0, 0);
+        move_sprite(8, 24, 40);
+        move_sprite(9, 32, 40);
+        move_sprite(10, 24, 48);
+        move_sprite(11, 32, 48);
+        move_sprite(12, 24, 80);
+        move_sprite(13, 32, 80);
+        move_sprite(14, 24, 88);
+        move_sprite(15, 32, 88);
+        SWITCH_ROM(3);
+        set_win_tiles(0, 0, 20, 18, TutorialMap);
+        SHOW_SPRITES;
+        SHOW_WIN;
+        while (1) {
+            if (joypad() & J_A) {
+                move_sprite(8, 40, 64);
+                move_sprite(9, 48, 64);
+                move_sprite(10, 40, 72);
+                move_sprite(11, 48, 72);
+                move_sprite(12, 120, 64);
+                move_sprite(13, 128, 64);
+                move_sprite(14, 120, 72);
+                move_sprite(15, 128, 72);
+                return;
+            }
+        }
 }

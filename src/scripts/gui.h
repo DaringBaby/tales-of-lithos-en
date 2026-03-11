@@ -7,3 +7,4 @@ extern const unsigned char safy_menu[];
 extern const unsigned char obtained_key[];
 extern const unsigned char obtained_mythril[];
 extern const unsigned char boss_defeated[];
+extern const unsigned char game_saved[];

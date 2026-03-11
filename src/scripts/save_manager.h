@@ -40,7 +40,7 @@ void save_game();
 
 
 extern __at(0xA000) SaveSlot sram_data;
-
+extern uint8_t ng;
 /* MAIN VARS */
 
 extern uint8_t player_name[5];
