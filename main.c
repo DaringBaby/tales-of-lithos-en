@@ -24,6 +24,7 @@
 #include "src/tiles/wpn_arrow.h"
 #include "src/tiles/minimap.h"
 #include "src/tiles/enemyDrops.h"
+#include "src/tiles/sword.h"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
@@ -64,6 +65,7 @@ void set_enemy_sprite();
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
+void play_animation(uint8_t dir);
 /* VARS */
 
 int tile_id = 0;
@@ -352,8 +354,9 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(4);
-                set_character_sprite(4);
+                play_animation(4);
                 player_attack(0, enemy_idx-1);
+                set_character_sprite(4);
             }
         }
     }
@@ -369,8 +372,9 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(1);
-                set_character_sprite(1);
+                play_animation(1);
                 player_attack(0, enemy_idx-1);
+                set_character_sprite(1);
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
@@ -407,8 +411,9 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(8);
-                set_character_sprite(8);
+                play_animation(8);
                 player_attack(0, enemy_idx-1);
+                set_character_sprite(8);
             }
         }
     }
@@ -424,8 +429,9 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(2);
-                set_character_sprite(2);
+                play_animation(2);
                 player_attack(0, enemy_idx-1);
+                set_character_sprite(2);
             }
         }
     }
@@ -883,8 +889,6 @@ void go_into_dungeon() {
             }
         }
     }
-    player_coords.x = 2;
-    player_coords.y = 2;
     set_room(start);
     if (max_floor == 0) {
         max_floor = 1;
@@ -1293,4 +1297,45 @@ void set_tutorial() {
                 return;
             }
         }
+}
+
+void play_animation(uint8_t dir) {
+    // sword = sprite 3
+    // anim player: 114-121
+    // anim sword:  122-123
+    switch (dir) {
+        case 1:
+            set_sprite_data(114, 8, MC_attack_up);
+            set_sprite_data(122, 2, SwordUp);
+            move_sprite(3, x+8, y-8);
+            break;
+        case 2:
+            set_sprite_data(114, 8, MC_attack_right);
+            set_sprite_data(122, 2, SwordRight);
+            move_sprite(3, x+16, y+8);
+            break;
+        case 4:
+            set_sprite_data(114, 8, MC_attack_down);
+            set_sprite_data(122, 2, SwordDown);
+            move_sprite(3, x, y+16);
+            break;
+        case 8:
+            set_sprite_data(114, 8, MC_attack_left);
+            set_sprite_data(122, 2, SwordLeft);
+            move_sprite(3, x-8, y+8);
+            break;
+    }
+    set_sprite_tile(3, 122);
+    set_sprite_tile(4, 114);
+    set_sprite_tile(5, 115);
+    set_sprite_tile(6, 116);
+    set_sprite_tile(7, 117);
+    delay(200);
+    set_sprite_tile(3, 123);
+    set_sprite_tile(4, 118);
+    set_sprite_tile(5, 119);
+    set_sprite_tile(6, 120);
+    set_sprite_tile(7, 121);
+    delay(100);
+    return;
 }

@@ -63,6 +63,7 @@ del *.o *.gb *.map *.lst *.sym *.ihx *.asm
 %GBDK% -c -Wf-bo1 -o GameOver.o src/maps/GameOver.c
 %GBDK% -c -Wf-bo1 -o GameOverText.o src/tiles/GameOverText.c
 %GBDK% -c -Wf-bo1 -o gameoverscript.o src/scripts/gameover.c
+%GBDK% -c -Wf-bo1 -o sword.o src/tiles/sword.c
 
 
 :: --- BANCO 0 (Logica principale) ---
@@ -72,7 +73,7 @@ del *.o *.gb *.map *.lst *.sym *.ihx *.asm
 %GBDK% -c -o drop.o src/scripts/drop.c
 %GBDK% -c -o save_manager.o src/scripts/save_manager.c
 
-%GBDK% -Wl-m -Wl-yt0x1B -Wl-ya1 -Wl-yo8 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o obstacles.o locked_doors.o eyeboss.o boss.o sound.o gameover_sound.o boss_defeated.o hUGEDriver.lib dungeon_management.o dungeon_song.o boss_song.o camp_song.o intro_song.o save_manager.o tutorial_map.o
+%GBDK% -Wl-m -Wl-yt0x1B -Wl-ya1 -Wl-yo8 -o progetto.gb main.o gen_dung.o gui.o enemy.o drop.o titlescr.o character.o Hector.o Safy.o Arrow.o DungeonObjects.o Enemies.o key.o Lock.o textbox.o mugshot.o mythril.o Numbers.o wpn_arrow.o minimap.o gameoverscript.o CampMap.o Dungeon.o GameOver.o Title.o CampTiles.o Text.o DungeonTiles.o Titlescreen.o TitleText.o GameOverText.o gui_management.o spawn_enemy.o combat_system.o insert_name.o namescreenmap.o enemy_drops.o obstacles.o locked_doors.o eyeboss.o boss.o sound.o gameover_sound.o boss_defeated.o hUGEDriver.lib dungeon_management.o dungeon_song.o boss_song.o camp_song.o intro_song.o save_manager.o tutorial_map.o sword.o
 
 del *.o *.lst *.sym *.asm
 pause
