@@ -5,6 +5,8 @@
 #include "../tiles/Titlescreen.h"
 #include "../tiles/TitleText.h"
 #include "../maps/Title.h"
+#include <rand.h>
+#include <stdio.h>
 
 
 uint8_t set_titlescreen() BANKED {
@@ -14,17 +16,20 @@ uint8_t set_titlescreen() BANKED {
     uint8_t frame = 0;
     SHOW_BKG;
     while (1) {
+    seed++;
     wait_vbl_done();
     if (joypad() & J_START) {
         delay(150);
         DISPLAY_OFF;
         delay(150);
+        initrand(seed);
         return 0; // continua
     }
     else if (joypad() & J_SELECT) {
         delay(150);
         DISPLAY_OFF;
         delay(150);
+        initrand(seed);
         return 1; // nuovo gioco
     }
     if (frame == 0) {

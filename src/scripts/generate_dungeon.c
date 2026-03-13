@@ -12,7 +12,6 @@ uint8_t doors[4][4];
 uint8_t obstacles[4][4];
 
 uint8_t locked_door;
-uint16_t current_seed = 3;
 
 #define NORD 1
 #define EST 2
@@ -27,9 +26,7 @@ void generate_dungeon(uint8_t current_floor) BANKED {
     uint8_t dungeon_complete = 0;
     uint8_t floor = current_floor;
     uint8_t num_enemies = get_num_enemies(floor);
-    current_seed++;
     while (!dungeon_complete){
-        initrand(current_seed); // seed di partenza
         empty_array();
         uint8_t start_x = rand() % 4;
         uint8_t start_y = rand() % 4;
@@ -60,9 +57,6 @@ void generate_dungeon(uint8_t current_floor) BANKED {
                 dungeon_complete = 1;
                 add_branch('B', 'T');
             }
-        }
-        if (!dungeon_complete) {
-            current_seed++;
         }
     }
     generate_enemies(num_enemies, dungeon, floor);

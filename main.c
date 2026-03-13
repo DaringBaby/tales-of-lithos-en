@@ -24,7 +24,6 @@
 #include "src/tiles/wpn_arrow.h"
 #include "src/tiles/minimap.h"
 #include "src/tiles/enemyDrops.h"
-#include "src/tiles/sword.h"
 #include "src/scripts/titlescreen.h"
 #include "src/scripts/gui.h"
 #include "src/scripts/enemy.h"
@@ -39,6 +38,7 @@
 #include "src/scripts/sound.h"
 #include "src/scripts/dungeon_management.h"
 #include "src/scripts/save_manager.h"
+#include "src/scripts/play_effects.h"
 
 /* PROTOTYPES */
 
@@ -65,7 +65,7 @@ void set_enemy_sprite();
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
-void play_animation(uint8_t dir);
+
 /* VARS */
 
 int tile_id = 0;
@@ -111,7 +111,7 @@ uint8_t current_hp = 23;
 uint8_t attack = 5;
 uint8_t defense = 3;
 uint8_t level = 1;
-uint8_t experience = 123;
+uint8_t experience = 0;
 uint8_t sword_lvl = 1;
 uint8_t shield_lvl = 1;
 uint8_t arrow_lvl = 1;
@@ -126,7 +126,7 @@ uint8_t heal_quantity = 10;
 uint8_t arrow_damage = 3;
 uint8_t num_arrows = 10;
 uint8_t max_num_arrows = 10;
-uint8_t minerals = 23;
+uint8_t minerals = 0;
 
 uint8_t obt_mythril = 0;
 uint8_t obt_exp = 0;
@@ -183,6 +183,11 @@ uint8_t boss_floor_defeated = 0;
 uint8_t returning_to_camp = 0;
 uint8_t current_song_bank = 3;
 uint8_t ng = 0;
+
+/* SEED PER GENERAZIONE CASUALE */
+
+uint16_t seed;
+
 /* ENEMIES */
 
 Enemy current_enemies[2];
@@ -378,7 +383,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 5;
+                current_floor = 1;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -999,7 +1004,12 @@ void player_attack(uint8_t wpn, uint8_t index) {
         }
         if (boss.hp == 0) {
             enemy_death_sfx();
+            uint8_t b_x = boss.x;
+            uint8_t b_y = boss.y;
             boss_death(&boss);
+            set_character_sprite(last_direction);
+            wait_vbl_done();
+            play_explosion_animation(b_x, b_y);
             boss_floor_defeated = 1;
             boss_battle = 0;
             enemies_defeated++;
@@ -1039,8 +1049,13 @@ void player_attack(uint8_t wpn, uint8_t index) {
         current_enemies[index].alive = 0;
     }
     if (current_enemies[index].hp == 0) {
-        enemy_death_sfx();
+        uint8_t e_x = current_enemies[index].x;
+        uint8_t e_y = current_enemies[index].y;
+        set_character_sprite(last_direction);
+        wait_vbl_done();
         enemy_death(&current_enemies[index]);
+        enemy_death_sfx();
+        play_explosion_animation(e_x, e_y);
         enemies_defeated++;
         experience += current_enemies[index].exp_reward;
     }
@@ -1118,6 +1133,7 @@ void heal_player() {
         heal = heal_quantity - (current_hp - max_hp);
         current_hp = max_hp;
     }
+    play_heal_animation();
     show_number(heal, 1, 0, 0);
 }
 
@@ -1299,43 +1315,3 @@ void set_tutorial() {
         }
 }
 
-void play_animation(uint8_t dir) {
-    // sword = sprite 3
-    // anim player: 114-121
-    // anim sword:  122-123
-    switch (dir) {
-        case 1:
-            set_sprite_data(114, 8, MC_attack_up);
-            set_sprite_data(122, 2, SwordUp);
-            move_sprite(3, x+8, y-8);
-            break;
-        case 2:
-            set_sprite_data(114, 8, MC_attack_right);
-            set_sprite_data(122, 2, SwordRight);
-            move_sprite(3, x+16, y+8);
-            break;
-        case 4:
-            set_sprite_data(114, 8, MC_attack_down);
-            set_sprite_data(122, 2, SwordDown);
-            move_sprite(3, x, y+16);
-            break;
-        case 8:
-            set_sprite_data(114, 8, MC_attack_left);
-            set_sprite_data(122, 2, SwordLeft);
-            move_sprite(3, x-8, y+8);
-            break;
-    }
-    set_sprite_tile(3, 122);
-    set_sprite_tile(4, 114);
-    set_sprite_tile(5, 115);
-    set_sprite_tile(6, 116);
-    set_sprite_tile(7, 117);
-    delay(200);
-    set_sprite_tile(3, 123);
-    set_sprite_tile(4, 118);
-    set_sprite_tile(5, 119);
-    set_sprite_tile(6, 120);
-    set_sprite_tile(7, 121);
-    delay(100);
-    return;
-}

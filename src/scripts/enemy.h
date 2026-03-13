@@ -39,4 +39,5 @@ uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self);
 extern uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 extern void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED;
 extern void spawn_drop(uint8_t x, uint8_t y);
+extern void play_hit_animation() BANKED;
 #endif

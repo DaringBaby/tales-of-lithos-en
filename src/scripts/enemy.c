@@ -180,7 +180,7 @@ void enemy_attack(Enemy* e) {
     else {
         current_hp = 0;
     }
-
+    play_hit_animation();
     show_number(damage, 0, 0, 0);
     // check morte?
 }
