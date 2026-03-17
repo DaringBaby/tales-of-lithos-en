@@ -84,5 +84,9 @@ void set_character_sprite(uint8_t dir) BANKED {
             set_sprite_tile(7, 15);
             break;
     }
+    if (y == 144) { 
+            set_sprite_tile(6, 50); 
+            set_sprite_tile(7, 50);
+        }
     set_sprite_tile(3, 50);
 }

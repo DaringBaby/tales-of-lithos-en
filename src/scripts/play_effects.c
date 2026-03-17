@@ -5,7 +5,7 @@
 #include "../tiles/effects.h"
 #include "play_effects.h"
 
-void play_animation(uint8_t dir) BANKED {
+void play_attack_animation(uint8_t dir) BANKED {
     // sword = sprite 3
     // anim player: 114-121
     // anim sword:  122-123
@@ -45,6 +45,37 @@ void play_animation(uint8_t dir) BANKED {
     delay(100);
     return;
 }
+
+void play_walk_animation(uint8_t dir) BANKED {
+    switch (dir) {
+        case 1:
+            set_sprite_data(114, 8, MC_walk_up);
+            break;
+        case 2:
+            set_sprite_data(114, 4, MC_walk_right);
+            break;
+        case 4:
+            set_sprite_data(114, 8, MC_walk_down);
+            break;
+        case 8:
+            set_sprite_data(114, 4, MC_walk_left);
+            break;
+    }
+    set_sprite_tile(4, 114);
+    set_sprite_tile(5, 115);
+    set_sprite_tile(6, 116);
+    set_sprite_tile(7, 117);
+    if (dir == 1 || dir == 4) {
+        walk_step = !walk_step;
+        if (walk_step) {
+            set_sprite_tile(4, 118);
+            set_sprite_tile(5, 119);
+            set_sprite_tile(6, 120);
+            set_sprite_tile(7, 121);
+        }
+    }
+}
+
 
 void play_heal_animation() BANKED {
     // heal: 124, 125

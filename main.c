@@ -183,6 +183,7 @@ uint8_t boss_floor_defeated = 0;
 uint8_t returning_to_camp = 0;
 uint8_t current_song_bank = 3;
 uint8_t ng = 0;
+uint8_t walk_step = 0;
 
 /* SEED PER GENERAZIONE CASUALE */
 
@@ -359,7 +360,7 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(4);
-                play_animation(4);
+                play_attack_animation(4);
                 player_attack(0, enemy_idx-1);
                 set_character_sprite(4);
             }
@@ -377,7 +378,7 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(1);
-                play_animation(1);
+                play_attack_animation(1);
                 player_attack(0, enemy_idx-1);
                 set_character_sprite(1);
             }
@@ -416,7 +417,7 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(8);
-                play_animation(8);
+                play_attack_animation(8);
                 player_attack(0, enemy_idx-1);
                 set_character_sprite(8);
             }
@@ -434,7 +435,7 @@ void check_input_movement() {
             }
             else {
                 uint8_t enemy_idx = check_enemy(2);
-                play_animation(2);
+                play_attack_animation(2);
                 player_attack(0, enemy_idx-1);
                 set_character_sprite(2);
             }
@@ -444,8 +445,7 @@ void check_input_movement() {
     if (moved) {
         // move_character();
         check_drops(x, y);
-        delay(100);
-        
+        delay(20);
         if (current_location == 1) {
             move_enemy(&current_enemies[0]);
             move_enemy(&current_enemies[1]);
@@ -1157,9 +1157,13 @@ void smooth_movement(uint8_t dir) {
             x-=16;
             break;
     }
-    set_character_sprite(dir);
+
+    play_walk_animation(dir);
     
-    while (frame < 8) {
+    while (frame < 16) {
+        if (frame > 7) {
+            set_character_sprite(dir);
+        }
         if (mov_y >= 136) { 
             set_sprite_tile(6, 50);
             set_sprite_tile(7, 50);
@@ -1187,16 +1191,16 @@ void smooth_movement(uint8_t dir) {
         wait_vbl_done();
         switch (dir) {
             case 1:
-                mov_y-=2;
+                mov_y-=1;
                 break;
             case 2:
-                mov_x+=2;
+                mov_x+=1;
                 break;
             case 4:
-                mov_y+=2;
+                mov_y+=1;
                 break;
             case 8:
-                mov_x-=2;
+                mov_x-=1;
                 break;
         }
         move_sprite(4, mov_x, mov_y);

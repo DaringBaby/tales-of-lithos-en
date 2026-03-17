@@ -36,6 +36,10 @@ extern const unsigned char MC_attack_down[];
 extern const unsigned char MC_attack_up[];
 extern const unsigned char MC_attack_right[];
 extern const unsigned char MC_attack_left[];
+extern const unsigned char MC_walk_down[];
+extern const unsigned char MC_walk_up[];
+extern const unsigned char MC_walk_right[];
+extern const unsigned char MC_walk_left[];
 
 #endif
 
