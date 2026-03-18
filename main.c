@@ -33,6 +33,7 @@
 #include "src/scripts/spawn_enemy.h"
 #include "src/scripts/combat_system.h"
 #include "src/scripts/insert_name.h"
+#include "src/scripts/intro.h"
 #include "src/scripts/drop.h"
 #include "src/scripts/locked_doors.h"
 #include "src/scripts/sound.h"
@@ -199,7 +200,8 @@ Boss boss;
 // da modificare: current level, posizione di start, statistiche (per debug)
 
 void main(void) {
-    cls(); 
+    cls();
+    start_intro();
     SWITCH_ROM(2);
     set_bkg_data(0, 241, Titlescreen);
     set_bkg_data(241, 8, TitleText);
