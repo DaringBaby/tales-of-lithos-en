@@ -1,0 +1,488 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module gameover
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _enemy_death
+                                     11 	.globl _set_bkg_tiles
+                                     12 	.globl _set_bkg_data
+                                     13 	.globl _display_off
+                                     14 	.globl _joypad
+                                     15 	.globl _delay
+                                     16 	.globl b_game_over
+                                     17 	.globl _game_over
+                                     18 	.globl _black_spiral
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _HRAM
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _INITIALIZED
+                                     31 ;--------------------------------------------------------
+                                     32 ; absolute external ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _DABS (ABS)
+                                     35 ;--------------------------------------------------------
+                                     36 ; global & static initialisations
+                                     37 ;--------------------------------------------------------
+                                     38 	.area _HOME
+                                     39 	.area _GSINIT
+                                     40 	.area _GSFINAL
+                                     41 	.area _GSINIT
+                                     42 ;--------------------------------------------------------
+                                     43 ; Home
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _HOME
+                                     46 	.area _HOME
+                                     47 ;--------------------------------------------------------
+                                     48 ; code
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _CODE_1
+                                     51 ;src/scripts/gameover.c:8: void game_over() BANKED {
+                                     52 ;	---------------------------------
+                                     53 ; Function game_over
+                                     54 ; ---------------------------------
+                         00000001    55 	b_game_over	= 1
+    00000000                         56 _game_over::
+    00000000 E8 FB            [16]   57 	add	sp, #-5
+                                     58 ;src/scripts/gameover.c:9: enemy_death(&enemy);
+    00000002 11r00r00         [12]   59 	ld	de, #_enemy
+    00000005 CDr00r00         [24]   60 	call	_enemy_death
+                                     61 ;src/scripts/gameover.c:10: HIDE_WIN;
+    00000008 F0r00            [12]   62 	ldh	a, (_LCDC_REG + 0)
+    0000000A E6 DF            [ 8]   63 	and	a, #0xdf
+    0000000C E0r00            [12]   64 	ldh	(_LCDC_REG + 0), a
+                                     65 ;src/scripts/gameover.c:11: HIDE_SPRITES;
+    0000000E F0r00            [12]   66 	ldh	a, (_LCDC_REG + 0)
+    00000010 E6 FD            [ 8]   67 	and	a, #0xfd
+    00000012 E0r00            [12]   68 	ldh	(_LCDC_REG + 0), a
+                                     69 ;src/scripts/gameover.c:12: black_spiral();
+    00000014 CDrE5r00         [24]   70 	call	_black_spiral
+                                     71 ;src/scripts/gameover.c:13: DISPLAY_OFF;
+    00000017 CDr00r00         [24]   72 	call	_display_off
+                                     73 ;src/scripts/gameover.c:14: delay(500);
+    0000001A 11 F4 01         [12]   74 	ld	de, #0x01f4
+    0000001D CDr00r00         [24]   75 	call	_delay
+                                     76 ;src/scripts/gameover.c:17: obt_m[0] = obt_mythril / 10 + 26;
+    00000020 FAr00r00         [16]   77 	ld	a, (_obt_mythril)
+    00000023 1E 0A            [ 8]   78 	ld	e, #0x0a
+    00000025 CDr00r00         [24]   79 	call	__divuchar
+    00000028 79               [ 4]   80 	ld	a, c
+    00000029 C6 1A            [ 8]   81 	add	a, #0x1a
+    0000002B F8 00            [12]   82 	ldhl	sp,	#0
+    0000002D 77               [ 8]   83 	ld	(hl), a
+                                     84 ;src/scripts/gameover.c:18: obt_m[1] = obt_mythril % 10 + 26;
+    0000002E FAr00r00         [16]   85 	ld	a, (_obt_mythril)
+    00000031 1E 0A            [ 8]   86 	ld	e, #0x0a
+    00000033 CDr00r00         [24]   87 	call	__moduchar
+    00000036 79               [ 4]   88 	ld	a, c
+    00000037 C6 1A            [ 8]   89 	add	a, #0x1a
+    00000039 F8 01            [12]   90 	ldhl	sp,	#1
+    0000003B 77               [ 8]   91 	ld	(hl), a
+                                     92 ;src/scripts/gameover.c:19: obt_e[0] = obt_exp / 100 + 26;
+    0000003C FAr00r00         [16]   93 	ld	a, (_obt_exp)
+    0000003F 1E 64            [ 8]   94 	ld	e, #0x64
+    00000041 CDr00r00         [24]   95 	call	__divuchar
+    00000044 79               [ 4]   96 	ld	a, c
+    00000045 C6 1A            [ 8]   97 	add	a, #0x1a
+    00000047 F8 02            [12]   98 	ldhl	sp,	#2
+    00000049 77               [ 8]   99 	ld	(hl), a
+                                    100 ;src/scripts/gameover.c:20: obt_e[1] = obt_exp % 100 / 10 + 26;
+    0000004A FAr00r00         [16]  101 	ld	a, (_obt_exp)
+    0000004D 1E 64            [ 8]  102 	ld	e, #0x64
+    0000004F CDr00r00         [24]  103 	call	__moduchar
+    00000052 79               [ 4]  104 	ld	a, c
+    00000053 1E 0A            [ 8]  105 	ld	e, #0x0a
+    00000055 CDr00r00         [24]  106 	call	__divuchar
+    00000058 79               [ 4]  107 	ld	a, c
+    00000059 C6 1A            [ 8]  108 	add	a, #0x1a
+    0000005B F8 03            [12]  109 	ldhl	sp,	#3
+    0000005D 77               [ 8]  110 	ld	(hl), a
+                                    111 ;src/scripts/gameover.c:21: obt_e[2] = obt_exp % 10 + 26;
+    0000005E FAr00r00         [16]  112 	ld	a, (_obt_exp)
+    00000061 1E 0A            [ 8]  113 	ld	e, #0x0a
+    00000063 CDr00r00         [24]  114 	call	__moduchar
+    00000066 79               [ 4]  115 	ld	a, c
+    00000067 C6 1A            [ 8]  116 	add	a, #0x1a
+    00000069 F8 04            [12]  117 	ldhl	sp,	#4
+    0000006B 77               [ 8]  118 	ld	(hl), a
+                                    119 ;src/scripts/gameover.c:22: set_bkg_data(0, 50, GameOverText);
+    0000006C 11r00r00         [12]  120 	ld	de, #_GameOverText
+    0000006F D5               [16]  121 	push	de
+    00000070 21 00 32         [12]  122 	ld	hl, #0x3200
+    00000073 E5               [16]  123 	push	hl
+    00000074 CDr00r00         [24]  124 	call	_set_bkg_data
+    00000077 E8 04            [16]  125 	add	sp, #4
+                                    126 ;src/scripts/gameover.c:23: set_bkg_tiles(0, 0, 20, 18, GameOver);
+    00000079 11r00r00         [12]  127 	ld	de, #_GameOver
+    0000007C D5               [16]  128 	push	de
+    0000007D 21 14 12         [12]  129 	ld	hl, #0x1214
+    00000080 E5               [16]  130 	push	hl
+    00000081 AF               [ 4]  131 	xor	a, a
+    00000082 0F               [ 4]  132 	rrca
+    00000083 F5               [16]  133 	push	af
+    00000084 CDr00r00         [24]  134 	call	_set_bkg_tiles
+    00000087 E8 06            [16]  135 	add	sp, #6
+                                    136 ;src/scripts/gameover.c:24: set_bkg_tiles(16, 8, 3, 1, obt_e);
+    00000089 21 02 00         [12]  137 	ld	hl, #2
+    0000008C 39               [ 8]  138 	add	hl, sp
+    0000008D E5               [16]  139 	push	hl
+    0000008E 21 03 01         [12]  140 	ld	hl, #0x103
+    00000091 E5               [16]  141 	push	hl
+    00000092 21 10 08         [12]  142 	ld	hl, #0x810
+    00000095 E5               [16]  143 	push	hl
+    00000096 CDr00r00         [24]  144 	call	_set_bkg_tiles
+    00000099 E8 06            [16]  145 	add	sp, #6
+                                    146 ;src/scripts/gameover.c:25: set_bkg_tiles(17, 10, 2, 1, obt_m);
+    0000009B 21 00 00         [12]  147 	ld	hl, #0
+    0000009E 39               [ 8]  148 	add	hl, sp
+    0000009F E5               [16]  149 	push	hl
+    000000A0 21 02 01         [12]  150 	ld	hl, #0x102
+    000000A3 E5               [16]  151 	push	hl
+    000000A4 21 11 0A         [12]  152 	ld	hl, #0xa11
+    000000A7 E5               [16]  153 	push	hl
+    000000A8 CDr00r00         [24]  154 	call	_set_bkg_tiles
+    000000AB E8 06            [16]  155 	add	sp, #6
+                                    156 ;src/scripts/gameover.c:26: DISPLAY_ON;
+    000000AD F0r00            [12]  157 	ldh	a, (_LCDC_REG + 0)
+    000000AF F6 80            [ 8]  158 	or	a, #0x80
+    000000B1 E0r00            [12]  159 	ldh	(_LCDC_REG + 0), a
+                                    160 ;src/scripts/gameover.c:27: uint8_t respawn = 0;
+    000000B3 0E 00            [ 8]  161 	ld	c, #0x00
+                                    162 ;src/scripts/gameover.c:28: while (!respawn) {
+    000000B5                        163 00103$:
+    000000B5 79               [ 4]  164 	ld	a, c
+    000000B6 B7               [ 4]  165 	or	a, a
+    000000B7 20 0A            [12]  166 	jr	NZ, 00105$
+                                    167 ;src/scripts/gameover.c:29: if (joypad() & J_START) {
+    000000B9 CDr00r00         [24]  168 	call	_joypad
+    000000BC 07               [ 4]  169 	rlca
+    000000BD 30 F6            [12]  170 	jr	NC, 00103$
+                                    171 ;src/scripts/gameover.c:30: respawn = 1;
+    000000BF 0E 01            [ 8]  172 	ld	c, #0x01
+    000000C1 18 F2            [12]  173 	jr	00103$
+    000000C3                        174 00105$:
+                                    175 ;src/scripts/gameover.c:33: DISPLAY_OFF;
+    000000C3 CDr00r00         [24]  176 	call	_display_off
+                                    177 ;src/scripts/gameover.c:35: SHOW_SPRITES;
+    000000C6 F0r00            [12]  178 	ldh	a, (_LCDC_REG + 0)
+    000000C8 F6 02            [ 8]  179 	or	a, #0x02
+    000000CA E0r00            [12]  180 	ldh	(_LCDC_REG + 0), a
+                                    181 ;src/scripts/gameover.c:36: current_location = 0;
+    000000CC AF               [ 4]  182 	xor	a, a
+    000000CD EAr00r00         [16]  183 	ld	(#_current_location),a
+                                    184 ;src/scripts/gameover.c:37: current_hp = max_hp;
+    000000D0 FAr00r00         [16]  185 	ld	a, (#_max_hp)
+    000000D3 EAr00r00         [16]  186 	ld	(#_current_hp),a
+                                    187 ;src/scripts/gameover.c:38: num_arrows = max_num_arrows;
+    000000D6 FAr00r00         [16]  188 	ld	a, (#_max_num_arrows)
+    000000D9 EAr00r00         [16]  189 	ld	(#_num_arrows),a
+                                    190 ;src/scripts/gameover.c:39: heals = max_heals;
+    000000DC FAr00r00         [16]  191 	ld	a, (#_max_heals)
+    000000DF EAr00r00         [16]  192 	ld	(#_heals),a
+                                    193 ;src/scripts/gameover.c:41: return;
+                                    194 ;src/scripts/gameover.c:42: }
+    000000E2 E8 05            [16]  195 	add	sp, #5
+    000000E4 C9               [16]  196 	ret
+                                    197 ;src/scripts/gameover.c:44: void black_spiral() {
+                                    198 ;	---------------------------------
+                                    199 ; Function black_spiral
+                                    200 ; ---------------------------------
+    000000E5                        201 _black_spiral::
+    000000E5 E8 FA            [16]  202 	add	sp, #-6
+                                    203 ;src/scripts/gameover.c:49: uint8_t black = 246;
+    000000E7 F8 00            [12]  204 	ldhl	sp,	#0
+                                    205 ;src/scripts/gameover.c:50: while (top <= bottom && left <= right) {
+    000000E9 3E F6            [ 8]  206 	ld	a, #0xf6
+    000000EB 22               [ 8]  207 	ld	(hl+), a
+    000000EC AF               [ 4]  208 	xor	a, a
+    000000ED 22               [ 8]  209 	ld	(hl+), a
+    000000EE 3E 11            [ 8]  210 	ld	a, #0x11
+    000000F0 22               [ 8]  211 	ld	(hl+), a
+    000000F1 3E 13            [ 8]  212 	ld	a, #0x13
+    000000F3 22               [ 8]  213 	ld	(hl+), a
+    000000F4 36 00            [12]  214 	ld	(hl), #0x00
+    000000F6                        215 00110$:
+    000000F6 F8 01            [12]  216 	ldhl	sp,	#1
+    000000F8 2A               [ 8]  217 	ld	a, (hl+)
+    000000F9 5F               [ 4]  218 	ld	e, a
+    000000FA 56               [ 8]  219 	ld	d, (hl)
+    000000FB 3A               [ 8]  220 	ld	a, (hl-)
+    000000FC 96               [ 8]  221 	sub	a, (hl)
+    000000FD CB 7B            [ 8]  222 	bit	7, e
+    000000FF 28 07            [12]  223 	jr	Z, 00223$
+    00000101 CB 7A            [ 8]  224 	bit	7, d
+    00000103 20 08            [12]  225 	jr	NZ, 00224$
+    00000105 BF               [ 4]  226 	cp	a, a
+    00000106 18 05            [12]  227 	jr	00224$
+    00000108                        228 00223$:
+    00000108 CB 7A            [ 8]  229 	bit	7, d
+    0000010A 28 01            [12]  230 	jr	Z, 00224$
+    0000010C 37               [ 4]  231 	scf
+    0000010D                        232 00224$:
+    0000010D DAr59r02         [16]  233 	jp	C, 00125$
+    00000110 F8 04            [12]  234 	ldhl	sp,	#4
+    00000112 3A               [ 8]  235 	ld	a, (hl-)
+    00000113 5F               [ 4]  236 	ld	e, a
+    00000114 56               [ 8]  237 	ld	d, (hl)
+    00000115 2A               [ 8]  238 	ld	a, (hl+)
+    00000116 96               [ 8]  239 	sub	a, (hl)
+    00000117 CB 7B            [ 8]  240 	bit	7, e
+    00000119 28 07            [12]  241 	jr	Z, 00225$
+    0000011B CB 7A            [ 8]  242 	bit	7, d
+    0000011D 20 08            [12]  243 	jr	NZ, 00226$
+    0000011F BF               [ 4]  244 	cp	a, a
+    00000120 18 05            [12]  245 	jr	00226$
+    00000122                        246 00225$:
+    00000122 CB 7A            [ 8]  247 	bit	7, d
+    00000124 28 01            [12]  248 	jr	Z, 00226$
+    00000126 37               [ 4]  249 	scf
+    00000127                        250 00226$:
+    00000127 DAr59r02         [16]  251 	jp	C, 00125$
+                                    252 ;src/scripts/gameover.c:51: for (int8_t i = left; i <= right; i++) {
+    0000012A F8 04            [12]  253 	ldhl	sp,	#4
+    0000012C 46               [ 8]  254 	ld	b, (hl)
+    0000012D                        255 00114$:
+    0000012D 58               [ 4]  256 	ld	e, b
+    0000012E F8 03            [12]  257 	ldhl	sp,	#3
+    00000130 7E               [ 8]  258 	ld	a,(hl)
+    00000131 57               [ 4]  259 	ld	d,a
+    00000132 90               [ 4]  260 	sub	a, b
+    00000133 CB 7B            [ 8]  261 	bit	7, e
+    00000135 28 07            [12]  262 	jr	Z, 00227$
+    00000137 CB 7A            [ 8]  263 	bit	7, d
+    00000139 20 08            [12]  264 	jr	NZ, 00228$
+    0000013B BF               [ 4]  265 	cp	a, a
+    0000013C 18 05            [12]  266 	jr	00228$
+    0000013E                        267 00227$:
+    0000013E CB 7A            [ 8]  268 	bit	7, d
+    00000140 28 01            [12]  269 	jr	Z, 00228$
+    00000142 37               [ 4]  270 	scf
+    00000143                        271 00228$:
+    00000143 38 1E            [12]  272 	jr	C, 00101$
+                                    273 ;src/scripts/gameover.c:52: set_bkg_tiles(i, top, 1, 1, &black);
+    00000145 F8 00            [12]  274 	ldhl	sp,	#0
+    00000147 E5               [16]  275 	push	hl
+    00000148 21 01 01         [12]  276 	ld	hl, #0x101
+    0000014B E5               [16]  277 	push	hl
+    0000014C F8 05            [12]  278 	ldhl	sp,	#5
+    0000014E 7E               [ 8]  279 	ld	a, (hl)
+    0000014F F5               [16]  280 	push	af
+    00000150 33               [ 8]  281 	inc	sp
+    00000151 C5               [16]  282 	push	bc
+    00000152 33               [ 8]  283 	inc	sp
+    00000153 CDr00r00         [24]  284 	call	_set_bkg_tiles
+    00000156 E8 06            [16]  285 	add	sp, #6
+                                    286 ;src/scripts/gameover.c:53: delay(5);
+    00000158 C5               [16]  287 	push	bc
+    00000159 11 05 00         [12]  288 	ld	de, #0x0005
+    0000015C CDr00r00         [24]  289 	call	_delay
+    0000015F C1               [12]  290 	pop	bc
+                                    291 ;src/scripts/gameover.c:51: for (int8_t i = left; i <= right; i++) {
+    00000160 04               [ 4]  292 	inc	b
+    00000161 18 CA            [12]  293 	jr	00114$
+    00000163                        294 00101$:
+                                    295 ;src/scripts/gameover.c:55: top++;
+    00000163 F8 01            [12]  296 	ldhl	sp,	#1
+    00000165 34               [12]  297 	inc	(hl)
+                                    298 ;src/scripts/gameover.c:57: for (int8_t i = top; i <= bottom; i++) {
+    00000166 7E               [ 8]  299 	ld	a, (hl)
+    00000167 F8 05            [12]  300 	ldhl	sp,	#5
+    00000169 77               [ 8]  301 	ld	(hl), a
+    0000016A                        302 00117$:
+    0000016A F8 05            [12]  303 	ldhl	sp,	#5
+    0000016C 5E               [ 8]  304 	ld	e, (hl)
+    0000016D F8 02            [12]  305 	ldhl	sp,	#2
+    0000016F 7E               [ 8]  306 	ld	a,(hl)
+    00000170 57               [ 4]  307 	ld	d,a
+    00000171 F8 05            [12]  308 	ldhl	sp,	#5
+    00000173 96               [ 8]  309 	sub	a, (hl)
+    00000174 CB 7B            [ 8]  310 	bit	7, e
+    00000176 28 07            [12]  311 	jr	Z, 00229$
+    00000178 CB 7A            [ 8]  312 	bit	7, d
+    0000017A 20 08            [12]  313 	jr	NZ, 00230$
+    0000017C BF               [ 4]  314 	cp	a, a
+    0000017D 18 05            [12]  315 	jr	00230$
+    0000017F                        316 00229$:
+    0000017F CB 7A            [ 8]  317 	bit	7, d
+    00000181 28 01            [12]  318 	jr	Z, 00230$
+    00000183 37               [ 4]  319 	scf
+    00000184                        320 00230$:
+    00000184 38 22            [12]  321 	jr	C, 00102$
+                                    322 ;src/scripts/gameover.c:58: set_bkg_tiles(right, i, 1, 1, &black);
+    00000186 21 00 00         [12]  323 	ld	hl, #0
+    00000189 39               [ 8]  324 	add	hl, sp
+    0000018A E5               [16]  325 	push	hl
+    0000018B 21 01 01         [12]  326 	ld	hl, #0x101
+    0000018E E5               [16]  327 	push	hl
+    0000018F F8 09            [12]  328 	ldhl	sp,	#9
+    00000191 3A               [ 8]  329 	ld	a, (hl-)
+    00000192 2B               [ 8]  330 	dec	hl
+    00000193 F5               [16]  331 	push	af
+    00000194 33               [ 8]  332 	inc	sp
+    00000195 7E               [ 8]  333 	ld	a, (hl)
+    00000196 F5               [16]  334 	push	af
+    00000197 33               [ 8]  335 	inc	sp
+    00000198 CDr00r00         [24]  336 	call	_set_bkg_tiles
+    0000019B E8 06            [16]  337 	add	sp, #6
+                                    338 ;src/scripts/gameover.c:59: delay(5);
+    0000019D 11 05 00         [12]  339 	ld	de, #0x0005
+    000001A0 CDr00r00         [24]  340 	call	_delay
+                                    341 ;src/scripts/gameover.c:57: for (int8_t i = top; i <= bottom; i++) {
+    000001A3 F8 05            [12]  342 	ldhl	sp,	#5
+    000001A5 34               [12]  343 	inc	(hl)
+    000001A6 18 C2            [12]  344 	jr	00117$
+    000001A8                        345 00102$:
+                                    346 ;src/scripts/gameover.c:61: right--;
+    000001A8 F8 03            [12]  347 	ldhl	sp,	#3
+    000001AA 35               [12]  348 	dec	(hl)
+                                    349 ;src/scripts/gameover.c:63: if (top <= bottom) {
+    000001AB 2B               [ 8]  350 	dec	hl
+    000001AC 2B               [ 8]  351 	dec	hl
+    000001AD 2A               [ 8]  352 	ld	a, (hl+)
+    000001AE 5F               [ 4]  353 	ld	e, a
+    000001AF 56               [ 8]  354 	ld	d, (hl)
+    000001B0 3A               [ 8]  355 	ld	a, (hl-)
+    000001B1 96               [ 8]  356 	sub	a, (hl)
+    000001B2 CB 7B            [ 8]  357 	bit	7, e
+    000001B4 28 07            [12]  358 	jr	Z, 00231$
+    000001B6 CB 7A            [ 8]  359 	bit	7, d
+    000001B8 20 08            [12]  360 	jr	NZ, 00232$
+    000001BA BF               [ 4]  361 	cp	a, a
+    000001BB 18 05            [12]  362 	jr	00232$
+    000001BD                        363 00231$:
+    000001BD CB 7A            [ 8]  364 	bit	7, d
+    000001BF 28 01            [12]  365 	jr	Z, 00232$
+    000001C1 37               [ 4]  366 	scf
+    000001C2                        367 00232$:
+    000001C2 38 3C            [12]  368 	jr	C, 00105$
+                                    369 ;src/scripts/gameover.c:64: for (int8_t i = right; i >= left; i--) {
+    000001C4 F8 03            [12]  370 	ldhl	sp,	#3
+    000001C6 46               [ 8]  371 	ld	b, (hl)
+    000001C7                        372 00120$:
+    000001C7 F8 04            [12]  373 	ldhl	sp,	#4
+    000001C9 5E               [ 8]  374 	ld	e, (hl)
+    000001CA 78               [ 4]  375 	ld	a,b
+    000001CB 57               [ 4]  376 	ld	d,a
+    000001CC 96               [ 8]  377 	sub	a, (hl)
+    000001CD CB 7B            [ 8]  378 	bit	7, e
+    000001CF 28 07            [12]  379 	jr	Z, 00233$
+    000001D1 CB 7A            [ 8]  380 	bit	7, d
+    000001D3 20 08            [12]  381 	jr	NZ, 00234$
+    000001D5 BF               [ 4]  382 	cp	a, a
+    000001D6 18 05            [12]  383 	jr	00234$
+    000001D8                        384 00233$:
+    000001D8 CB 7A            [ 8]  385 	bit	7, d
+    000001DA 28 01            [12]  386 	jr	Z, 00234$
+    000001DC 37               [ 4]  387 	scf
+    000001DD                        388 00234$:
+    000001DD 38 1E            [12]  389 	jr	C, 00103$
+                                    390 ;src/scripts/gameover.c:65: set_bkg_tiles(i, bottom, 1, 1, &black);
+    000001DF F8 00            [12]  391 	ldhl	sp,	#0
+    000001E1 E5               [16]  392 	push	hl
+    000001E2 21 01 01         [12]  393 	ld	hl, #0x101
+    000001E5 E5               [16]  394 	push	hl
+    000001E6 F8 06            [12]  395 	ldhl	sp,	#6
+    000001E8 7E               [ 8]  396 	ld	a, (hl)
+    000001E9 F5               [16]  397 	push	af
+    000001EA 33               [ 8]  398 	inc	sp
+    000001EB C5               [16]  399 	push	bc
+    000001EC 33               [ 8]  400 	inc	sp
+    000001ED CDr00r00         [24]  401 	call	_set_bkg_tiles
+    000001F0 E8 06            [16]  402 	add	sp, #6
+                                    403 ;src/scripts/gameover.c:66: delay(5);
+    000001F2 C5               [16]  404 	push	bc
+    000001F3 11 05 00         [12]  405 	ld	de, #0x0005
+    000001F6 CDr00r00         [24]  406 	call	_delay
+    000001F9 C1               [12]  407 	pop	bc
+                                    408 ;src/scripts/gameover.c:64: for (int8_t i = right; i >= left; i--) {
+    000001FA 05               [ 4]  409 	dec	b
+    000001FB 18 CA            [12]  410 	jr	00120$
+    000001FD                        411 00103$:
+                                    412 ;src/scripts/gameover.c:68: bottom--;
+    000001FD F8 02            [12]  413 	ldhl	sp,	#2
+    000001FF 35               [12]  414 	dec	(hl)
+    00000200                        415 00105$:
+                                    416 ;src/scripts/gameover.c:71: if (left <= right) {
+    00000200 F8 04            [12]  417 	ldhl	sp,	#4
+    00000202 3A               [ 8]  418 	ld	a, (hl-)
+    00000203 5F               [ 4]  419 	ld	e, a
+    00000204 56               [ 8]  420 	ld	d, (hl)
+    00000205 2A               [ 8]  421 	ld	a, (hl+)
+    00000206 96               [ 8]  422 	sub	a, (hl)
+    00000207 CB 7B            [ 8]  423 	bit	7, e
+    00000209 28 07            [12]  424 	jr	Z, 00235$
+    0000020B CB 7A            [ 8]  425 	bit	7, d
+    0000020D 20 08            [12]  426 	jr	NZ, 00236$
+    0000020F BF               [ 4]  427 	cp	a, a
+    00000210 18 05            [12]  428 	jr	00236$
+    00000212                        429 00235$:
+    00000212 CB 7A            [ 8]  430 	bit	7, d
+    00000214 28 01            [12]  431 	jr	Z, 00236$
+    00000216 37               [ 4]  432 	scf
+    00000217                        433 00236$:
+    00000217 DArF6r00         [16]  434 	jp	C, 00110$
+                                    435 ;src/scripts/gameover.c:72: for (int8_t i = bottom; i >= top; i--) {
+    0000021A F8 02            [12]  436 	ldhl	sp,	#2
+    0000021C 46               [ 8]  437 	ld	b, (hl)
+    0000021D                        438 00123$:
+    0000021D F8 01            [12]  439 	ldhl	sp,	#1
+    0000021F 5E               [ 8]  440 	ld	e, (hl)
+    00000220 78               [ 4]  441 	ld	a,b
+    00000221 57               [ 4]  442 	ld	d,a
+    00000222 96               [ 8]  443 	sub	a, (hl)
+    00000223 CB 7B            [ 8]  444 	bit	7, e
+    00000225 28 07            [12]  445 	jr	Z, 00237$
+    00000227 CB 7A            [ 8]  446 	bit	7, d
+    00000229 20 08            [12]  447 	jr	NZ, 00238$
+    0000022B BF               [ 4]  448 	cp	a, a
+    0000022C 18 05            [12]  449 	jr	00238$
+    0000022E                        450 00237$:
+    0000022E CB 7A            [ 8]  451 	bit	7, d
+    00000230 28 01            [12]  452 	jr	Z, 00238$
+    00000232 37               [ 4]  453 	scf
+    00000233                        454 00238$:
+    00000233 38 1E            [12]  455 	jr	C, 00106$
+                                    456 ;src/scripts/gameover.c:73: set_bkg_tiles(left, i, 1, 1, &black);
+    00000235 F8 00            [12]  457 	ldhl	sp,	#0
+    00000237 E5               [16]  458 	push	hl
+    00000238 21 01 01         [12]  459 	ld	hl, #0x101
+    0000023B E5               [16]  460 	push	hl
+    0000023C C5               [16]  461 	push	bc
+    0000023D 33               [ 8]  462 	inc	sp
+    0000023E F8 09            [12]  463 	ldhl	sp,	#9
+    00000240 7E               [ 8]  464 	ld	a, (hl)
+    00000241 F5               [16]  465 	push	af
+    00000242 33               [ 8]  466 	inc	sp
+    00000243 CDr00r00         [24]  467 	call	_set_bkg_tiles
+    00000246 E8 06            [16]  468 	add	sp, #6
+                                    469 ;src/scripts/gameover.c:74: delay(5);
+    00000248 C5               [16]  470 	push	bc
+    00000249 11 05 00         [12]  471 	ld	de, #0x0005
+    0000024C CDr00r00         [24]  472 	call	_delay
+    0000024F C1               [12]  473 	pop	bc
+                                    474 ;src/scripts/gameover.c:72: for (int8_t i = bottom; i >= top; i--) {
+    00000250 05               [ 4]  475 	dec	b
+    00000251 18 CA            [12]  476 	jr	00123$
+    00000253                        477 00106$:
+                                    478 ;src/scripts/gameover.c:76: left++;
+    00000253 F8 04            [12]  479 	ldhl	sp,	#4
+    00000255 34               [12]  480 	inc	(hl)
+    00000256 C3rF6r00         [16]  481 	jp	00110$
+    00000259                        482 00125$:
+                                    483 ;src/scripts/gameover.c:79: }
+    00000259 E8 06            [16]  484 	add	sp, #6
+    0000025B C9               [16]  485 	ret
+                                    486 	.area _CODE_1
+                                    487 	.area _INITIALIZER
+                                    488 	.area _CABS (ABS)

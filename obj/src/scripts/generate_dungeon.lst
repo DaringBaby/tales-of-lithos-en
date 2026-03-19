@@ -1,0 +1,2061 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module generate_dungeon
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl b_generate_enemies
+                                     11 	.globl _generate_enemies
+                                     12 	.globl b_get_num_enemies
+                                     13 	.globl _get_num_enemies
+                                     14 	.globl _rand
+                                     15 	.globl _display_off
+                                     16 	.globl _wait_vbl_done
+                                     17 	.globl _locked_door
+                                     18 	.globl _obstacles
+                                     19 	.globl _doors
+                                     20 	.globl _dungeon
+                                     21 	.globl _max_length
+                                     22 	.globl _min_length
+                                     23 	.globl b_generate_dungeon
+                                     24 	.globl _generate_dungeon
+                                     25 	.globl _empty_array
+                                     26 	.globl _create_layout
+                                     27 	.globl _append
+                                     28 	.globl _add_branch
+                                     29 	.globl _find_near_void_cell
+                                     30 	.globl _shuffle_starts
+                                     31 	.globl _create_doors
+                                     32 	.globl _add_obstacles
+                                     33 ;--------------------------------------------------------
+                                     34 ; special function registers
+                                     35 ;--------------------------------------------------------
+                                     36 	.area _HRAM
+                                     37 ;--------------------------------------------------------
+                                     38 ; ram data
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _DATA
+    00000000                         41 _dungeon::
+    00000000                         42 	.ds 16
+    00000010                         43 _doors::
+    00000010                         44 	.ds 16
+    00000020                         45 _obstacles::
+    00000020                         46 	.ds 16
+    00000030                         47 _locked_door::
+    00000030                         48 	.ds 1
+                                     49 ;--------------------------------------------------------
+                                     50 ; ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _INITIALIZED
+                                     53 ;--------------------------------------------------------
+                                     54 ; absolute external ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _DABS (ABS)
+                                     57 ;--------------------------------------------------------
+                                     58 ; global & static initialisations
+                                     59 ;--------------------------------------------------------
+                                     60 	.area _HOME
+                                     61 	.area _GSINIT
+                                     62 	.area _GSFINAL
+                                     63 	.area _GSINIT
+                                     64 ;--------------------------------------------------------
+                                     65 ; Home
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _HOME
+                                     68 	.area _HOME
+                                     69 ;--------------------------------------------------------
+                                     70 ; code
+                                     71 ;--------------------------------------------------------
+                                     72 	.area _CODE_1
+                                     73 ;src/scripts/generate_dungeon.c:23: void generate_dungeon(uint8_t current_floor) BANKED {
+                                     74 ;	---------------------------------
+                                     75 ; Function generate_dungeon
+                                     76 ; ---------------------------------
+                         00000001    77 	b_generate_dungeon	= 1
+    00000000                         78 _generate_dungeon::
+    00000000 E8 FD            [16]   79 	add	sp, #-3
+                                     80 ;src/scripts/generate_dungeon.c:24: wait_vbl_done();
+    00000002 CDr00r00         [24]   81 	call	_wait_vbl_done
+                                     82 ;src/scripts/generate_dungeon.c:25: DISPLAY_OFF;
+    00000005 CDr00r00         [24]   83 	call	_display_off
+                                     84 ;src/scripts/generate_dungeon.c:26: uint8_t dungeon_complete = 0;
+    00000008 F8 00            [12]   85 	ldhl	sp,	#0
+    0000000A 36 00            [12]   86 	ld	(hl), #0x00
+                                     87 ;src/scripts/generate_dungeon.c:27: uint8_t floor = current_floor;
+                                     88 ;src/scripts/generate_dungeon.c:28: uint8_t num_enemies = get_num_enemies(floor);
+    0000000C F8 09            [12]   89 	ldhl	sp,	#9
+    0000000E 7E               [ 8]   90 	ld	a, (hl)
+    0000000F F5               [16]   91 	push	af
+    00000010 33               [ 8]   92 	inc	sp
+    00000011 1Er00            [ 8]   93 	ld	e, #b_get_num_enemies
+    00000013 21r00r00         [12]   94 	ld	hl, #_get_num_enemies
+    00000016 CDr00r00         [24]   95 	call	___sdcc_bcall_ehl
+    00000019 33               [ 8]   96 	inc	sp
+    0000001A F8 01            [12]   97 	ldhl	sp,	#1
+    0000001C 77               [ 8]   98 	ld	(hl), a
+                                     99 ;src/scripts/generate_dungeon.c:29: while (!dungeon_complete){
+    0000001D F8 02            [12]  100 	ldhl	sp,	#2
+    0000001F 36 00            [12]  101 	ld	(hl), #0x00
+    00000021                        102 00111$:
+    00000021 F8 00            [12]  103 	ldhl	sp,	#0
+    00000023 7E               [ 8]  104 	ld	a, (hl)
+    00000024 B7               [ 4]  105 	or	a, a
+    00000025 C2rA9r00         [16]  106 	jp	NZ, 00113$
+                                    107 ;src/scripts/generate_dungeon.c:30: empty_array();
+    00000028 CDrC9r00         [24]  108 	call	_empty_array
+                                    109 ;src/scripts/generate_dungeon.c:31: uint8_t start_x = rand() % 4;
+    0000002B CDr00r00         [24]  110 	call	_rand
+    0000002E 7B               [ 4]  111 	ld	a, e
+    0000002F E6 03            [ 8]  112 	and	a, #0x03
+    00000031 4F               [ 4]  113 	ld	c, a
+                                    114 ;src/scripts/generate_dungeon.c:32: uint8_t start_y = rand() % 4;
+    00000032 CDr00r00         [24]  115 	call	_rand
+    00000035 7B               [ 4]  116 	ld	a, e
+    00000036 E6 03            [ 8]  117 	and	a, #0x03
+    00000038 47               [ 4]  118 	ld	b, a
+                                    119 ;src/scripts/generate_dungeon.c:35: switch (current_floor % 5) {
+    00000039 F8 09            [12]  120 	ldhl	sp,	#9
+    0000003B 7E               [ 8]  121 	ld	a, (hl)
+    0000003C C5               [16]  122 	push	bc
+    0000003D 1E 05            [ 8]  123 	ld	e, #0x05
+    0000003F CDr00r00         [24]  124 	call	__moduchar
+    00000042 79               [ 4]  125 	ld	a, c
+    00000043 C1               [12]  126 	pop	bc
+    00000044 B7               [ 4]  127 	or	a, a
+    00000045 28 2A            [12]  128 	jr	Z, 00105$
+    00000047 FE 01            [ 8]  129 	cp	a, #0x01
+    00000049 28 0E            [12]  130 	jr	Z, 00101$
+    0000004B FE 02            [ 8]  131 	cp	a, #0x02
+    0000004D 28 10            [12]  132 	jr	Z, 00102$
+    0000004F FE 03            [ 8]  133 	cp	a, #0x03
+    00000051 28 12            [12]  134 	jr	Z, 00103$
+    00000053 D6 04            [ 8]  135 	sub	a, #0x04
+    00000055 28 14            [12]  136 	jr	Z, 00104$
+    00000057 18 1C            [12]  137 	jr	00106$
+                                    138 ;src/scripts/generate_dungeon.c:36: case 1:
+    00000059                        139 00101$:
+                                    140 ;src/scripts/generate_dungeon.c:37: length = 6;
+    00000059 F8 02            [12]  141 	ldhl	sp,	#2
+    0000005B 36 06            [12]  142 	ld	(hl), #0x06
+                                    143 ;src/scripts/generate_dungeon.c:38: break;
+    0000005D 18 16            [12]  144 	jr	00106$
+                                    145 ;src/scripts/generate_dungeon.c:39: case 2:
+    0000005F                        146 00102$:
+                                    147 ;src/scripts/generate_dungeon.c:40: length = 7;
+    0000005F F8 02            [12]  148 	ldhl	sp,	#2
+    00000061 36 07            [12]  149 	ld	(hl), #0x07
+                                    150 ;src/scripts/generate_dungeon.c:41: break;
+    00000063 18 10            [12]  151 	jr	00106$
+                                    152 ;src/scripts/generate_dungeon.c:42: case 3:
+    00000065                        153 00103$:
+                                    154 ;src/scripts/generate_dungeon.c:43: length = 8;
+    00000065 F8 02            [12]  155 	ldhl	sp,	#2
+    00000067 36 08            [12]  156 	ld	(hl), #0x08
+                                    157 ;src/scripts/generate_dungeon.c:44: break;
+    00000069 18 0A            [12]  158 	jr	00106$
+                                    159 ;src/scripts/generate_dungeon.c:45: case 4:
+    0000006B                        160 00104$:
+                                    161 ;src/scripts/generate_dungeon.c:46: length = 9;
+    0000006B F8 02            [12]  162 	ldhl	sp,	#2
+    0000006D 36 09            [12]  163 	ld	(hl), #0x09
+                                    164 ;src/scripts/generate_dungeon.c:47: break;
+    0000006F 18 04            [12]  165 	jr	00106$
+                                    166 ;src/scripts/generate_dungeon.c:48: case 0:
+    00000071                        167 00105$:
+                                    168 ;src/scripts/generate_dungeon.c:49: length = 10;
+    00000071 F8 02            [12]  169 	ldhl	sp,	#2
+    00000073 36 0A            [12]  170 	ld	(hl), #0x0a
+                                    171 ;src/scripts/generate_dungeon.c:51: };
+    00000075                        172 00106$:
+                                    173 ;src/scripts/generate_dungeon.c:53: dungeon[start_x][start_y] = 'S';
+    00000075 69               [ 4]  174 	ld	l, c
+    00000076 AF               [ 4]  175 	xor	a, a
+    00000077 67               [ 4]  176 	ld	h, a
+    00000078 29               [ 8]  177 	add	hl, hl
+    00000079 29               [ 8]  178 	add	hl, hl
+    0000007A 11r00r00         [12]  179 	ld	de, #_dungeon
+    0000007D 19               [ 8]  180 	add	hl, de
+    0000007E 58               [ 4]  181 	ld	e, b
+    0000007F 16 00            [ 8]  182 	ld	d, #0x00
+    00000081 19               [ 8]  183 	add	hl, de
+    00000082 36 53            [12]  184 	ld	(hl), #0x53
+                                    185 ;src/scripts/generate_dungeon.c:54: if (create_layout(start_x, start_y, length)) {
+    00000084 F8 02            [12]  186 	ldhl	sp,	#2
+    00000086 7E               [ 8]  187 	ld	a, (hl)
+    00000087 F5               [16]  188 	push	af
+    00000088 33               [ 8]  189 	inc	sp
+    00000089 58               [ 4]  190 	ld	e, b
+    0000008A 79               [ 4]  191 	ld	a, c
+    0000008B CDr1Er01         [24]  192 	call	_create_layout
+    0000008E B7               [ 4]  193 	or	a, a
+    0000008F 28 90            [12]  194 	jr	Z, 00111$
+                                    195 ;src/scripts/generate_dungeon.c:55: uint8_t key = add_branch('A', 'K');
+    00000091 1E 4B            [ 8]  196 	ld	e, #0x4b
+    00000093 3E 41            [ 8]  197 	ld	a, #0x41
+    00000095 CDr60r04         [24]  198 	call	_add_branch
+                                    199 ;src/scripts/generate_dungeon.c:56: if (key) {
+    00000098 B7               [ 4]  200 	or	a, a
+    00000099 28 86            [12]  201 	jr	Z, 00111$
+                                    202 ;src/scripts/generate_dungeon.c:57: dungeon_complete = 1;
+    0000009B F8 00            [12]  203 	ldhl	sp,	#0
+    0000009D 36 01            [12]  204 	ld	(hl), #0x01
+                                    205 ;src/scripts/generate_dungeon.c:58: add_branch('B', 'T');
+    0000009F 1E 54            [ 8]  206 	ld	e, #0x54
+    000000A1 3E 42            [ 8]  207 	ld	a, #0x42
+    000000A3 CDr60r04         [24]  208 	call	_add_branch
+    000000A6 C3r21r00         [16]  209 	jp	00111$
+    000000A9                        210 00113$:
+                                    211 ;src/scripts/generate_dungeon.c:62: generate_enemies(num_enemies, dungeon, floor);
+    000000A9 01r00r00         [12]  212 	ld	bc, #_dungeon
+    000000AC F8 09            [12]  213 	ldhl	sp,	#9
+    000000AE 7E               [ 8]  214 	ld	a, (hl)
+    000000AF F5               [16]  215 	push	af
+    000000B0 33               [ 8]  216 	inc	sp
+    000000B1 C5               [16]  217 	push	bc
+    000000B2 F8 04            [12]  218 	ldhl	sp,	#4
+    000000B4 7E               [ 8]  219 	ld	a, (hl)
+    000000B5 F5               [16]  220 	push	af
+    000000B6 33               [ 8]  221 	inc	sp
+    000000B7 1Er00            [ 8]  222 	ld	e, #b_generate_enemies
+    000000B9 21r00r00         [12]  223 	ld	hl, #_generate_enemies
+    000000BC CDr00r00         [24]  224 	call	___sdcc_bcall_ehl
+    000000BF E8 04            [16]  225 	add	sp, #4
+                                    226 ;src/scripts/generate_dungeon.c:63: wait_vbl_done();
+    000000C1 CDr00r00         [24]  227 	call	_wait_vbl_done
+                                    228 ;src/scripts/generate_dungeon.c:64: }
+    000000C4 E8 03            [16]  229 	add	sp, #3
+    000000C6 C9               [16]  230 	ret
+    000000C7                        231 _min_length:
+    000000C7 06                     232 	.db #0x06	; 6
+    000000C8                        233 _max_length:
+    000000C8 0A                     234 	.db #0x0a	; 10
+                                    235 ;src/scripts/generate_dungeon.c:66: void empty_array(){
+                                    236 ;	---------------------------------
+                                    237 ; Function empty_array
+                                    238 ; ---------------------------------
+    000000C9                        239 _empty_array::
+    000000C9 E8 FB            [16]  240 	add	sp, #-5
+                                    241 ;src/scripts/generate_dungeon.c:67: for (int i=0; i<4; i++) {
+    000000CB 01 00 00         [12]  242 	ld	bc, #0x0000
+    000000CE                        243 00107$:
+    000000CE 79               [ 4]  244 	ld	a, c
+    000000CF D6 04            [ 8]  245 	sub	a, #0x04
+    000000D1 30 48            [12]  246 	jr	NC, 00109$
+                                    247 ;src/scripts/generate_dungeon.c:68: for (int j=0; j<4; j++) {
+    000000D3 59               [ 4]  248 	ld	e, c
+    000000D4 50               [ 4]  249 	ld	d, b
+    000000D5 CB 23            [ 8]  250 	sla	e
+    000000D7 CB 12            [ 8]  251 	rl	d
+    000000D9 CB 23            [ 8]  252 	sla	e
+    000000DB CB 12            [ 8]  253 	rl	d
+    000000DD D5               [16]  254 	push	de
+    000000DE 21r00r00         [12]  255 	ld	hl, #_dungeon
+    000000E1 19               [ 8]  256 	add	hl, de
+    000000E2 D1               [12]  257 	pop	de
+    000000E3 33               [ 8]  258 	inc	sp
+    000000E4 33               [ 8]  259 	inc	sp
+    000000E5 E5               [16]  260 	push	hl
+    000000E6 21r10r00         [12]  261 	ld	hl, #_doors
+    000000E9 19               [ 8]  262 	add	hl, de
+    000000EA E5               [16]  263 	push	hl
+    000000EB 7D               [ 4]  264 	ld	a, l
+    000000EC F8 04            [12]  265 	ldhl	sp,	#4
+    000000EE 77               [ 8]  266 	ld	(hl), a
+    000000EF E1               [12]  267 	pop	hl
+    000000F0 7C               [ 4]  268 	ld	a, h
+    000000F1 F8 03            [12]  269 	ldhl	sp,	#3
+    000000F3 22               [ 8]  270 	ld	(hl+), a
+    000000F4 36 00            [12]  271 	ld	(hl), #0x00
+    000000F6                        272 00104$:
+    000000F6 F8 04            [12]  273 	ldhl	sp,	#4
+    000000F8 7E               [ 8]  274 	ld	a, (hl)
+    000000F9 D6 04            [ 8]  275 	sub	a, #0x04
+    000000FB 30 1B            [12]  276 	jr	NC, 00108$
+                                    277 ;src/scripts/generate_dungeon.c:69: dungeon[i][j] = '0';
+    000000FD D1               [12]  278 	pop	de
+    000000FE D5               [16]  279 	push	de
+    000000FF 6E               [ 8]  280 	ld	l, (hl)
+    00000100 26 00            [ 8]  281 	ld	h, #0x00
+    00000102 19               [ 8]  282 	add	hl, de
+    00000103 36 30            [12]  283 	ld	(hl), #0x30
+                                    284 ;src/scripts/generate_dungeon.c:70: doors[i][j] = 0;
+    00000105 F8 02            [12]  285 	ldhl	sp,#2
+    00000107 2A               [ 8]  286 	ld	a, (hl+)
+    00000108 5F               [ 4]  287 	ld	e, a
+    00000109 2A               [ 8]  288 	ld	a, (hl+)
+    0000010A 57               [ 4]  289 	ld	d, a
+    0000010B 6E               [ 8]  290 	ld	l, (hl)
+    0000010C 26 00            [ 8]  291 	ld	h, #0x00
+    0000010E 19               [ 8]  292 	add	hl, de
+    0000010F 5D               [ 4]  293 	ld	e, l
+    00000110 54               [ 4]  294 	ld	d, h
+    00000111 AF               [ 4]  295 	xor	a, a
+    00000112 12               [ 8]  296 	ld	(de), a
+                                    297 ;src/scripts/generate_dungeon.c:68: for (int j=0; j<4; j++) {
+    00000113 F8 04            [12]  298 	ldhl	sp,	#4
+    00000115 34               [12]  299 	inc	(hl)
+    00000116 18 DE            [12]  300 	jr	00104$
+    00000118                        301 00108$:
+                                    302 ;src/scripts/generate_dungeon.c:67: for (int i=0; i<4; i++) {
+    00000118 03               [ 8]  303 	inc	bc
+    00000119 18 B3            [12]  304 	jr	00107$
+    0000011B                        305 00109$:
+                                    306 ;src/scripts/generate_dungeon.c:73: }
+    0000011B E8 05            [16]  307 	add	sp, #5
+    0000011D C9               [16]  308 	ret
+                                    309 ;src/scripts/generate_dungeon.c:75: uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
+                                    310 ;	---------------------------------
+                                    311 ; Function create_layout
+                                    312 ; ---------------------------------
+    0000011E                        313 _create_layout::
+    0000011E E8 F1            [16]  314 	add	sp, #-15
+    00000120 F8 0D            [12]  315 	ldhl	sp,	#13
+    00000122 32               [ 8]  316 	ld	(hl-), a
+                                    317 ;src/scripts/generate_dungeon.c:78: while (curr_room < target_rooms) {
+    00000123 7B               [ 4]  318 	ld	a, e
+    00000124 22               [ 8]  319 	ld	(hl+), a
+    00000125 23               [ 8]  320 	inc	hl
+    00000126 36 01            [12]  321 	ld	(hl), #0x01
+    00000128 F8 05            [12]  322 	ldhl	sp,	#5
+    0000012A 36 00            [12]  323 	ld	(hl), #0x00
+    0000012C                        324 00134$:
+    0000012C F8 0E            [12]  325 	ldhl	sp,	#14
+    0000012E 7E               [ 8]  326 	ld	a, (hl)
+    0000012F F8 11            [12]  327 	ldhl	sp,	#17
+    00000131 96               [ 8]  328 	sub	a, (hl)
+    00000132 D2r3Ar04         [16]  329 	jp	NC, 00136$
+                                    330 ;src/scripts/generate_dungeon.c:80: uint8_t num_dirs = 0;
+    00000135 F8 04            [12]  331 	ldhl	sp,	#4
+    00000137 36 00            [12]  332 	ld	(hl), #0x00
+                                    333 ;src/scripts/generate_dungeon.c:82: if (curr_y > 0 && dungeon[curr_x][curr_y - 1] == '0') {
+    00000139 F8 0D            [12]  334 	ldhl	sp,	#13
+    0000013B 3A               [ 8]  335 	ld	a, (hl-)
+    0000013C 4F               [ 4]  336 	ld	c, a
+    0000013D AF               [ 4]  337 	xor	a, a
+    0000013E F5               [16]  338 	push	af
+    0000013F 7E               [ 8]  339 	ld	a, (hl)
+    00000140 F8 0B            [12]  340 	ldhl	sp,	#11
+    00000142 77               [ 8]  341 	ld	(hl), a
+    00000143 F1               [12]  342 	pop	af
+    00000144 CB 21            [ 8]  343 	sla	c
+    00000146 8F               [ 4]  344 	adc	a, a
+    00000147 CB 21            [ 8]  345 	sla	c
+    00000149 8F               [ 4]  346 	adc	a, a
+    0000014A F8 06            [12]  347 	ldhl	sp,	#6
+    0000014C 71               [ 8]  348 	ld	(hl), c
+    0000014D 23               [ 8]  349 	inc	hl
+    0000014E 77               [ 8]  350 	ld	(hl), a
+    0000014F F8 0C            [12]  351 	ldhl	sp,	#12
+    00000151 7E               [ 8]  352 	ld	a, (hl)
+    00000152 B7               [ 4]  353 	or	a, a
+    00000153 28 32            [12]  354 	jr	Z, 00102$
+    00000155 11r00r00         [12]  355 	ld	de, #_dungeon
+    00000158 F8 06            [12]  356 	ldhl	sp,	#6
+    0000015A 2A               [ 8]  357 	ld	a,	(hl+)
+    0000015B 66               [ 8]  358 	ld	h, (hl)
+    0000015C 6F               [ 4]  359 	ld	l, a
+    0000015D 19               [ 8]  360 	add	hl, de
+    0000015E E5               [16]  361 	push	hl
+    0000015F 7D               [ 4]  362 	ld	a, l
+    00000160 F8 0C            [12]  363 	ldhl	sp,	#12
+    00000162 77               [ 8]  364 	ld	(hl), a
+    00000163 E1               [12]  365 	pop	hl
+    00000164 7C               [ 4]  366 	ld	a, h
+    00000165 F8 0B            [12]  367 	ldhl	sp,	#11
+    00000167 32               [ 8]  368 	ld	(hl-), a
+    00000168 2B               [ 8]  369 	dec	hl
+    00000169 2A               [ 8]  370 	ld	a, (hl+)
+    0000016A 5F               [ 4]  371 	ld	e, a
+    0000016B 1D               [ 4]  372 	dec	e
+    0000016C 16 00            [ 8]  373 	ld	d, #0x00
+    0000016E 2A               [ 8]  374 	ld	a,	(hl+)
+    0000016F 66               [ 8]  375 	ld	h, (hl)
+    00000170 6F               [ 4]  376 	ld	l, a
+    00000171 19               [ 8]  377 	add	hl, de
+    00000172 4D               [ 4]  378 	ld	c, l
+    00000173 44               [ 4]  379 	ld	b, h
+    00000174 0A               [ 8]  380 	ld	a, (bc)
+    00000175 D6 30            [ 8]  381 	sub	a, #0x30
+    00000177 20 0E            [12]  382 	jr	NZ, 00102$
+                                    383 ;src/scripts/generate_dungeon.c:83: append(directions, '1', &num_dirs);
+    00000179 F8 04            [12]  384 	ldhl	sp,	#4
+    0000017B E5               [16]  385 	push	hl
+    0000017C 3E 31            [ 8]  386 	ld	a, #0x31
+    0000017E 21 02 00         [12]  387 	ld	hl, #2
+    00000181 39               [ 8]  388 	add	hl, sp
+    00000182 5D               [ 4]  389 	ld	e, l
+    00000183 54               [ 4]  390 	ld	d, h
+    00000184 CDr41r04         [24]  391 	call	_append
+    00000187                        392 00102$:
+                                    393 ;src/scripts/generate_dungeon.c:85: if (curr_x < 3 && dungeon[curr_x+1][curr_y] == '0') {
+    00000187 F8 0D            [12]  394 	ldhl	sp,	#13
+    00000189 7E               [ 8]  395 	ld	a,(hl)
+    0000018A 4F               [ 4]  396 	ld	c,a
+    0000018B D6 03            [ 8]  397 	sub	a, #0x03
+    0000018D 30 2F            [12]  398 	jr	NC, 00105$
+    0000018F 79               [ 4]  399 	ld	a, c
+    00000190 3C               [ 4]  400 	inc	a
+    00000191 6F               [ 4]  401 	ld	l, a
+    00000192 07               [ 4]  402 	rlca
+    00000193 9F               [ 4]  403 	sbc	a, a
+    00000194 67               [ 4]  404 	ld	h, a
+    00000195 29               [ 8]  405 	add	hl, hl
+    00000196 29               [ 8]  406 	add	hl, hl
+    00000197 7D               [ 4]  407 	ld	a, l
+    00000198 C6r00            [ 8]  408 	add	a, #<(_dungeon)
+    0000019A 5F               [ 4]  409 	ld	e, a
+    0000019B 7C               [ 4]  410 	ld	a, h
+    0000019C CEs00            [ 8]  411 	adc	a, #>(_dungeon)
+    0000019E 57               [ 4]  412 	ld	d, a
+    0000019F F8 0C            [12]  413 	ldhl	sp,	#12
+    000001A1 6E               [ 8]  414 	ld	l, (hl)
+    000001A2 26 00            [ 8]  415 	ld	h, #0x00
+    000001A4 19               [ 8]  416 	add	hl, de
+    000001A5 5D               [ 4]  417 	ld	e, l
+    000001A6 54               [ 4]  418 	ld	d, h
+    000001A7 1A               [ 8]  419 	ld	a, (de)
+    000001A8 D6 30            [ 8]  420 	sub	a, #0x30
+    000001AA 20 12            [12]  421 	jr	NZ, 00105$
+                                    422 ;src/scripts/generate_dungeon.c:86: append(directions, '2', &num_dirs);
+    000001AC F8 04            [12]  423 	ldhl	sp,	#4
+    000001AE 5D               [ 4]  424 	ld	e, l
+    000001AF 54               [ 4]  425 	ld	d, h
+    000001B0 C5               [16]  426 	push	bc
+    000001B1 D5               [16]  427 	push	de
+    000001B2 3E 32            [ 8]  428 	ld	a, #0x32
+    000001B4 21 04 00         [12]  429 	ld	hl, #4
+    000001B7 39               [ 8]  430 	add	hl, sp
+    000001B8 5D               [ 4]  431 	ld	e, l
+    000001B9 54               [ 4]  432 	ld	d, h
+    000001BA CDr41r04         [24]  433 	call	_append
+    000001BD C1               [12]  434 	pop	bc
+    000001BE                        435 00105$:
+                                    436 ;src/scripts/generate_dungeon.c:88: if (curr_y < 3 && dungeon[curr_x][curr_y+1] == '0') {
+    000001BE F8 0C            [12]  437 	ldhl	sp,	#12
+    000001C0 7E               [ 8]  438 	ld	a, (hl)
+    000001C1 D6 03            [ 8]  439 	sub	a, #0x03
+    000001C3 30 29            [12]  440 	jr	NC, 00108$
+    000001C5 11r00r00         [12]  441 	ld	de, #_dungeon
+    000001C8 F8 06            [12]  442 	ldhl	sp,	#6
+    000001CA 2A               [ 8]  443 	ld	a,	(hl+)
+    000001CB 66               [ 8]  444 	ld	h, (hl)
+    000001CC 6F               [ 4]  445 	ld	l, a
+    000001CD 19               [ 8]  446 	add	hl, de
+    000001CE 5D               [ 4]  447 	ld	e, l
+    000001CF 54               [ 4]  448 	ld	d, h
+    000001D0 F8 09            [12]  449 	ldhl	sp,	#9
+    000001D2 6E               [ 8]  450 	ld	l, (hl)
+    000001D3 2C               [ 4]  451 	inc	l
+    000001D4 26 00            [ 8]  452 	ld	h, #0x00
+    000001D6 19               [ 8]  453 	add	hl, de
+    000001D7 7E               [ 8]  454 	ld	a, (hl)
+    000001D8 D6 30            [ 8]  455 	sub	a, #0x30
+    000001DA 20 12            [12]  456 	jr	NZ, 00108$
+                                    457 ;src/scripts/generate_dungeon.c:89: append(directions, '3', &num_dirs);
+    000001DC F8 04            [12]  458 	ldhl	sp,	#4
+    000001DE 5D               [ 4]  459 	ld	e, l
+    000001DF 54               [ 4]  460 	ld	d, h
+    000001E0 C5               [16]  461 	push	bc
+    000001E1 D5               [16]  462 	push	de
+    000001E2 3E 33            [ 8]  463 	ld	a, #0x33
+    000001E4 21 04 00         [12]  464 	ld	hl, #4
+    000001E7 39               [ 8]  465 	add	hl, sp
+    000001E8 5D               [ 4]  466 	ld	e, l
+    000001E9 54               [ 4]  467 	ld	d, h
+    000001EA CDr41r04         [24]  468 	call	_append
+    000001ED C1               [12]  469 	pop	bc
+    000001EE                        470 00108$:
+                                    471 ;src/scripts/generate_dungeon.c:91: if (curr_x > 0 && dungeon[curr_x-1][curr_y] == '0') {
+    000001EE F8 0D            [12]  472 	ldhl	sp,	#13
+    000001F0 7E               [ 8]  473 	ld	a, (hl)
+    000001F1 B7               [ 4]  474 	or	a, a
+    000001F2 28 2B            [12]  475 	jr	Z, 00111$
+    000001F4 79               [ 4]  476 	ld	a, c
+    000001F5 3D               [ 4]  477 	dec	a
+    000001F6 6F               [ 4]  478 	ld	l, a
+    000001F7 07               [ 4]  479 	rlca
+    000001F8 9F               [ 4]  480 	sbc	a, a
+    000001F9 67               [ 4]  481 	ld	h, a
+    000001FA 29               [ 8]  482 	add	hl, hl
+    000001FB 29               [ 8]  483 	add	hl, hl
+    000001FC 7D               [ 4]  484 	ld	a, l
+    000001FD C6r00            [ 8]  485 	add	a, #<(_dungeon)
+    000001FF 4F               [ 4]  486 	ld	c, a
+    00000200 7C               [ 4]  487 	ld	a, h
+    00000201 CEs00            [ 8]  488 	adc	a, #>(_dungeon)
+    00000203 47               [ 4]  489 	ld	b, a
+    00000204 F8 0C            [12]  490 	ldhl	sp,	#12
+    00000206 6E               [ 8]  491 	ld	l, (hl)
+    00000207 26 00            [ 8]  492 	ld	h, #0x00
+    00000209 09               [ 8]  493 	add	hl, bc
+    0000020A 4D               [ 4]  494 	ld	c, l
+    0000020B 44               [ 4]  495 	ld	b, h
+    0000020C 0A               [ 8]  496 	ld	a, (bc)
+    0000020D D6 30            [ 8]  497 	sub	a, #0x30
+    0000020F 20 0E            [12]  498 	jr	NZ, 00111$
+                                    499 ;src/scripts/generate_dungeon.c:92: append(directions, '4', &num_dirs);
+    00000211 F8 04            [12]  500 	ldhl	sp,	#4
+    00000213 E5               [16]  501 	push	hl
+    00000214 3E 34            [ 8]  502 	ld	a, #0x34
+    00000216 21 02 00         [12]  503 	ld	hl, #2
+    00000219 39               [ 8]  504 	add	hl, sp
+    0000021A 5D               [ 4]  505 	ld	e, l
+    0000021B 54               [ 4]  506 	ld	d, h
+    0000021C CDr41r04         [24]  507 	call	_append
+    0000021F                        508 00111$:
+                                    509 ;src/scripts/generate_dungeon.c:95: if (num_dirs == 0) {
+    0000021F F8 04            [12]  510 	ldhl	sp,	#4
+    00000221 7E               [ 8]  511 	ld	a, (hl)
+    00000222 B7               [ 4]  512 	or	a, a
+    00000223 20 04            [12]  513 	jr	NZ, 00114$
+                                    514 ;src/scripts/generate_dungeon.c:96: return 0;
+    00000225 AF               [ 4]  515 	xor	a, a
+    00000226 C3r3Cr04         [16]  516 	jp	00137$
+    00000229                        517 00114$:
+                                    518 ;src/scripts/generate_dungeon.c:100: uint8_t vx = curr_x;
+    00000229 F8 0D            [12]  519 	ldhl	sp,	#13
+    0000022B 7E               [ 8]  520 	ld	a, (hl)
+    0000022C F8 0A            [12]  521 	ldhl	sp,	#10
+                                    522 ;src/scripts/generate_dungeon.c:101: uint8_t vy = curr_y;
+    0000022E 22               [ 8]  523 	ld	(hl+), a
+    0000022F 23               [ 8]  524 	inc	hl
+    00000230 3A               [ 8]  525 	ld	a, (hl-)
+    00000231 77               [ 8]  526 	ld	(hl), a
+                                    527 ;src/scripts/generate_dungeon.c:104: uint8_t dir = directions[rand() % num_dirs];
+    00000232 CDr00r00         [24]  528 	call	_rand
+    00000235 7B               [ 4]  529 	ld	a, e
+    00000236 F8 04            [12]  530 	ldhl	sp,	#4
+    00000238 5E               [ 8]  531 	ld	e, (hl)
+    00000239 CDr00r00         [24]  532 	call	__moduchar
+    0000023C 59               [ 4]  533 	ld	e, c
+    0000023D 16 00            [ 8]  534 	ld	d, #0x00
+    0000023F 21 00 00         [12]  535 	ld	hl, #0
+    00000242 39               [ 8]  536 	add	hl, sp
+    00000243 19               [ 8]  537 	add	hl, de
+    00000244 7E               [ 8]  538 	ld	a, (hl)
+                                    539 ;src/scripts/generate_dungeon.c:108: switch (dir) {
+    00000245 FE 31            [ 8]  540 	cp	a, #0x31
+    00000247 28 1D            [12]  541 	jr	Z, 00115$
+                                    542 ;src/scripts/generate_dungeon.c:117: doors[vx][vy] |= EST;
+    00000249 F8 0A            [12]  543 	ldhl	sp,	#10
+    0000024B 4E               [ 8]  544 	ld	c, (hl)
+    0000024C 06 00            [ 8]  545 	ld	b, #0x00
+    0000024E CB 21            [ 8]  546 	sla	c
+    00000250 CB 10            [ 8]  547 	rl	b
+    00000252 CB 21            [ 8]  548 	sla	c
+    00000254 CB 10            [ 8]  549 	rl	b
+                                    550 ;src/scripts/generate_dungeon.c:108: switch (dir) {
+    00000256 FE 32            [ 8]  551 	cp	a, #0x32
+    00000258 28 39            [12]  552 	jr	Z, 00116$
+    0000025A FE 33            [ 8]  553 	cp	a, #0x33
+    0000025C 28 74            [12]  554 	jr	Z, 00117$
+    0000025E D6 34            [ 8]  555 	sub	a, #0x34
+    00000260 CArFEr02         [16]  556 	jp	Z, 00118$
+    00000263 C3r3Br03         [16]  557 	jp	00119$
+                                    558 ;src/scripts/generate_dungeon.c:109: case '1':
+    00000266                        559 00115$:
+                                    560 ;src/scripts/generate_dungeon.c:110: curr_y--;
+    00000266 F8 0C            [12]  561 	ldhl	sp,	#12
+    00000268 35               [12]  562 	dec	(hl)
+                                    563 ;src/scripts/generate_dungeon.c:111: doors[vx][vy] |= NORD;
+    00000269 11r10r00         [12]  564 	ld	de, #_doors
+    0000026C F8 06            [12]  565 	ldhl	sp,	#6
+    0000026E 2A               [ 8]  566 	ld	a,	(hl+)
+    0000026F 66               [ 8]  567 	ld	h, (hl)
+    00000270 6F               [ 4]  568 	ld	l, a
+    00000271 19               [ 8]  569 	add	hl, de
+    00000272 4D               [ 4]  570 	ld	c, l
+    00000273 44               [ 4]  571 	ld	b, h
+    00000274 F8 0B            [12]  572 	ldhl	sp,	#11
+    00000276 6E               [ 8]  573 	ld	l, (hl)
+    00000277 26 00            [ 8]  574 	ld	h, #0x00
+    00000279 09               [ 8]  575 	add	hl, bc
+    0000027A 5D               [ 4]  576 	ld	e, l
+    0000027B 54               [ 4]  577 	ld	d, h
+    0000027C 1A               [ 8]  578 	ld	a, (de)
+    0000027D CB C7            [ 8]  579 	set	0, a
+    0000027F 12               [ 8]  580 	ld	(de), a
+                                    581 ;src/scripts/generate_dungeon.c:112: current_door = NORD;
+    00000280 F8 05            [12]  582 	ldhl	sp,	#5
+    00000282 36 01            [12]  583 	ld	(hl), #0x01
+                                    584 ;src/scripts/generate_dungeon.c:113: doors[curr_x][curr_y] |= SUD;
+    00000284 F8 0C            [12]  585 	ldhl	sp,	#12
+    00000286 6E               [ 8]  586 	ld	l, (hl)
+    00000287 26 00            [ 8]  587 	ld	h, #0x00
+    00000289 09               [ 8]  588 	add	hl, bc
+    0000028A 4D               [ 4]  589 	ld	c, l
+    0000028B 44               [ 4]  590 	ld	b, h
+    0000028C 0A               [ 8]  591 	ld	a, (bc)
+    0000028D CB D7            [ 8]  592 	set	2, a
+    0000028F 02               [ 8]  593 	ld	(bc), a
+                                    594 ;src/scripts/generate_dungeon.c:114: break;
+    00000290 C3r3Br03         [16]  595 	jp	00119$
+                                    596 ;src/scripts/generate_dungeon.c:115: case '2':
+    00000293                        597 00116$:
+                                    598 ;src/scripts/generate_dungeon.c:116: curr_x++;
+    00000293 F8 0D            [12]  599 	ldhl	sp,	#13
+    00000295 34               [12]  600 	inc	(hl)
+                                    601 ;src/scripts/generate_dungeon.c:117: doors[vx][vy] |= EST;
+    00000296 21r10r00         [12]  602 	ld	hl, #_doors
+    00000299 09               [ 8]  603 	add	hl, bc
+    0000029A 4D               [ 4]  604 	ld	c, l
+    0000029B 44               [ 4]  605 	ld	b, h
+    0000029C F8 0C            [12]  606 	ldhl	sp,	#12
+    0000029E 6E               [ 8]  607 	ld	l, (hl)
+    0000029F 26 00            [ 8]  608 	ld	h, #0x00
+    000002A1 09               [ 8]  609 	add	hl, bc
+    000002A2 4D               [ 4]  610 	ld	c, l
+    000002A3 44               [ 4]  611 	ld	b, h
+    000002A4 0A               [ 8]  612 	ld	a, (bc)
+    000002A5 CB CF            [ 8]  613 	set	1, a
+    000002A7 02               [ 8]  614 	ld	(bc), a
+                                    615 ;src/scripts/generate_dungeon.c:118: current_door = EST;
+    000002A8 F8 05            [12]  616 	ldhl	sp,	#5
+    000002AA 36 02            [12]  617 	ld	(hl), #0x02
+                                    618 ;src/scripts/generate_dungeon.c:82: if (curr_y > 0 && dungeon[curr_x][curr_y - 1] == '0') {
+    000002AC F8 0D            [12]  619 	ldhl	sp,	#13
+    000002AE 4E               [ 8]  620 	ld	c, (hl)
+    000002AF AF               [ 4]  621 	xor	a, a
+    000002B0 CB 21            [ 8]  622 	sla	c
+    000002B2 8F               [ 4]  623 	adc	a, a
+    000002B3 CB 21            [ 8]  624 	sla	c
+    000002B5 8F               [ 4]  625 	adc	a, a
+    000002B6 F8 06            [12]  626 	ldhl	sp,	#6
+    000002B8 71               [ 8]  627 	ld	(hl), c
+    000002B9 23               [ 8]  628 	inc	hl
+    000002BA 77               [ 8]  629 	ld	(hl), a
+                                    630 ;src/scripts/generate_dungeon.c:119: doors[curr_x][curr_y] |= OVEST;
+    000002BB 11r10r00         [12]  631 	ld	de, #_doors
+    000002BE 3A               [ 8]  632 	ld	a, (hl-)
+    000002BF 6E               [ 8]  633 	ld	l, (hl)
+    000002C0 67               [ 4]  634 	ld	h, a
+    000002C1 19               [ 8]  635 	add	hl, de
+    000002C2 4D               [ 4]  636 	ld	c, l
+    000002C3 44               [ 4]  637 	ld	b, h
+    000002C4 F8 0C            [12]  638 	ldhl	sp,	#12
+    000002C6 6E               [ 8]  639 	ld	l, (hl)
+    000002C7 26 00            [ 8]  640 	ld	h, #0x00
+    000002C9 09               [ 8]  641 	add	hl, bc
+    000002CA 4D               [ 4]  642 	ld	c, l
+    000002CB 44               [ 4]  643 	ld	b, h
+    000002CC 0A               [ 8]  644 	ld	a, (bc)
+    000002CD CB DF            [ 8]  645 	set	3, a
+    000002CF 02               [ 8]  646 	ld	(bc), a
+                                    647 ;src/scripts/generate_dungeon.c:120: break;
+    000002D0 18 69            [12]  648 	jr	00119$
+                                    649 ;src/scripts/generate_dungeon.c:121: case '3':
+    000002D2                        650 00117$:
+                                    651 ;src/scripts/generate_dungeon.c:122: curr_y++;
+    000002D2 F8 0C            [12]  652 	ldhl	sp,	#12
+    000002D4 34               [12]  653 	inc	(hl)
+                                    654 ;src/scripts/generate_dungeon.c:123: doors[vx][vy] |= SUD;
+    000002D5 11r10r00         [12]  655 	ld	de, #_doors
+    000002D8 F8 06            [12]  656 	ldhl	sp,	#6
+    000002DA 2A               [ 8]  657 	ld	a,	(hl+)
+    000002DB 66               [ 8]  658 	ld	h, (hl)
+    000002DC 6F               [ 4]  659 	ld	l, a
+    000002DD 19               [ 8]  660 	add	hl, de
+    000002DE 4D               [ 4]  661 	ld	c, l
+    000002DF 44               [ 4]  662 	ld	b, h
+    000002E0 F8 0B            [12]  663 	ldhl	sp,	#11
+    000002E2 6E               [ 8]  664 	ld	l, (hl)
+    000002E3 26 00            [ 8]  665 	ld	h, #0x00
+    000002E5 09               [ 8]  666 	add	hl, bc
+    000002E6 5D               [ 4]  667 	ld	e, l
+    000002E7 54               [ 4]  668 	ld	d, h
+    000002E8 1A               [ 8]  669 	ld	a, (de)
+    000002E9 CB D7            [ 8]  670 	set	2, a
+    000002EB 12               [ 8]  671 	ld	(de), a
+                                    672 ;src/scripts/generate_dungeon.c:124: current_door = SUD;
+    000002EC F8 05            [12]  673 	ldhl	sp,	#5
+    000002EE 36 04            [12]  674 	ld	(hl), #0x04
+                                    675 ;src/scripts/generate_dungeon.c:125: doors[curr_x][curr_y] |= NORD;
+    000002F0 F8 0C            [12]  676 	ldhl	sp,	#12
+    000002F2 6E               [ 8]  677 	ld	l, (hl)
+    000002F3 26 00            [ 8]  678 	ld	h, #0x00
+    000002F5 09               [ 8]  679 	add	hl, bc
+    000002F6 4D               [ 4]  680 	ld	c, l
+    000002F7 44               [ 4]  681 	ld	b, h
+    000002F8 0A               [ 8]  682 	ld	a, (bc)
+    000002F9 CB C7            [ 8]  683 	set	0, a
+    000002FB 02               [ 8]  684 	ld	(bc), a
+                                    685 ;src/scripts/generate_dungeon.c:126: break;
+    000002FC 18 3D            [12]  686 	jr	00119$
+                                    687 ;src/scripts/generate_dungeon.c:127: case '4':
+    000002FE                        688 00118$:
+                                    689 ;src/scripts/generate_dungeon.c:128: curr_x--;
+    000002FE F8 0D            [12]  690 	ldhl	sp,	#13
+    00000300 35               [12]  691 	dec	(hl)
+                                    692 ;src/scripts/generate_dungeon.c:129: doors[vx][vy] |= OVEST;
+    00000301 21r10r00         [12]  693 	ld	hl, #_doors
+    00000304 09               [ 8]  694 	add	hl, bc
+    00000305 4D               [ 4]  695 	ld	c, l
+    00000306 44               [ 4]  696 	ld	b, h
+    00000307 F8 0C            [12]  697 	ldhl	sp,	#12
+    00000309 6E               [ 8]  698 	ld	l, (hl)
+    0000030A 26 00            [ 8]  699 	ld	h, #0x00
+    0000030C 09               [ 8]  700 	add	hl, bc
+    0000030D 4D               [ 4]  701 	ld	c, l
+    0000030E 44               [ 4]  702 	ld	b, h
+    0000030F 0A               [ 8]  703 	ld	a, (bc)
+    00000310 CB DF            [ 8]  704 	set	3, a
+    00000312 02               [ 8]  705 	ld	(bc), a
+                                    706 ;src/scripts/generate_dungeon.c:130: current_door = OVEST;
+    00000313 F8 05            [12]  707 	ldhl	sp,	#5
+    00000315 36 08            [12]  708 	ld	(hl), #0x08
+                                    709 ;src/scripts/generate_dungeon.c:82: if (curr_y > 0 && dungeon[curr_x][curr_y - 1] == '0') {
+    00000317 F8 0D            [12]  710 	ldhl	sp,	#13
+    00000319 4E               [ 8]  711 	ld	c, (hl)
+    0000031A AF               [ 4]  712 	xor	a, a
+    0000031B CB 21            [ 8]  713 	sla	c
+    0000031D 8F               [ 4]  714 	adc	a, a
+    0000031E CB 21            [ 8]  715 	sla	c
+    00000320 8F               [ 4]  716 	adc	a, a
+    00000321 F8 06            [12]  717 	ldhl	sp,	#6
+    00000323 71               [ 8]  718 	ld	(hl), c
+    00000324 23               [ 8]  719 	inc	hl
+    00000325 77               [ 8]  720 	ld	(hl), a
+                                    721 ;src/scripts/generate_dungeon.c:131: doors[curr_x][curr_y] |= EST;
+    00000326 11r10r00         [12]  722 	ld	de, #_doors
+    00000329 3A               [ 8]  723 	ld	a, (hl-)
+    0000032A 6E               [ 8]  724 	ld	l, (hl)
+    0000032B 67               [ 4]  725 	ld	h, a
+    0000032C 19               [ 8]  726 	add	hl, de
+    0000032D 4D               [ 4]  727 	ld	c, l
+    0000032E 44               [ 4]  728 	ld	b, h
+    0000032F F8 0C            [12]  729 	ldhl	sp,	#12
+    00000331 6E               [ 8]  730 	ld	l, (hl)
+    00000332 26 00            [ 8]  731 	ld	h, #0x00
+    00000334 09               [ 8]  732 	add	hl, bc
+    00000335 4D               [ 4]  733 	ld	c, l
+    00000336 44               [ 4]  734 	ld	b, h
+    00000337 0A               [ 8]  735 	ld	a, (bc)
+    00000338 CB CF            [ 8]  736 	set	1, a
+    0000033A 02               [ 8]  737 	ld	(bc), a
+                                    738 ;src/scripts/generate_dungeon.c:133: }
+    0000033B                        739 00119$:
+                                    740 ;src/scripts/generate_dungeon.c:135: curr_room++;
+    0000033B F8 0E            [12]  741 	ldhl	sp,	#14
+    0000033D 34               [12]  742 	inc	(hl)
+                                    743 ;src/scripts/generate_dungeon.c:138: if (curr_room == target_rooms) {
+    0000033E 7E               [ 8]  744 	ld	a, (hl)
+    0000033F F8 11            [12]  745 	ldhl	sp,	#17
+    00000341 96               [ 8]  746 	sub	a, (hl)
+    00000342 20 18            [12]  747 	jr	NZ, 00132$
+                                    748 ;src/scripts/generate_dungeon.c:139: dungeon[curr_x][curr_y] = 'E';
+    00000344 F8 06            [12]  749 	ldhl	sp,#6
+    00000346 2A               [ 8]  750 	ld	a, (hl+)
+    00000347 5F               [ 4]  751 	ld	e, a
+    00000348 56               [ 8]  752 	ld	d, (hl)
+    00000349 21r00r00         [12]  753 	ld	hl, #_dungeon
+    0000034C 19               [ 8]  754 	add	hl, de
+    0000034D 4D               [ 4]  755 	ld	c, l
+    0000034E 44               [ 4]  756 	ld	b, h
+    0000034F F8 0C            [12]  757 	ldhl	sp,	#12
+    00000351 6E               [ 8]  758 	ld	l, (hl)
+    00000352 26 00            [ 8]  759 	ld	h, #0x00
+    00000354 09               [ 8]  760 	add	hl, bc
+    00000355 4D               [ 4]  761 	ld	c, l
+    00000356 44               [ 4]  762 	ld	b, h
+    00000357 36 45            [12]  763 	ld	(hl), #0x45
+    00000359 C3r2Cr01         [16]  764 	jp	00134$
+    0000035C                        765 00132$:
+                                    766 ;src/scripts/generate_dungeon.c:141: else if (curr_room == (int)(target_rooms / 2) + 1) {
+    0000035C F8 11            [12]  767 	ldhl	sp,	#17
+    0000035E 7E               [ 8]  768 	ld	a, (hl)
+    0000035F F8 08            [12]  769 	ldhl	sp,	#8
+    00000361 22               [ 8]  770 	ld	(hl+), a
+    00000362 AF               [ 4]  771 	xor	a, a
+    00000363 32               [ 8]  772 	ld	(hl-), a
+    00000364 4E               [ 8]  773 	ld	c, (hl)
+    00000365 06 00            [ 8]  774 	ld	b, #0x00
+    00000367 CB 28            [ 8]  775 	sra	b
+    00000369 CB 19            [ 8]  776 	rr	c
+    0000036B 03               [ 8]  777 	inc	bc
+    0000036C F8 0E            [12]  778 	ldhl	sp,	#14
+    0000036E 7E               [ 8]  779 	ld	a, (hl)
+    0000036F F8 0A            [12]  780 	ldhl	sp,	#10
+    00000371 22               [ 8]  781 	ld	(hl+), a
+    00000372 AF               [ 4]  782 	xor	a, a
+    00000373 32               [ 8]  783 	ld	(hl-), a
+    00000374 7E               [ 8]  784 	ld	a, (hl)
+    00000375 91               [ 4]  785 	sub	a, c
+    00000376 20 23            [12]  786 	jr	NZ, 00129$
+    00000378 AF               [ 4]  787 	xor	a, a
+    00000379 90               [ 4]  788 	sub	a, b
+    0000037A 20 1F            [12]  789 	jr	NZ, 00129$
+                                    790 ;src/scripts/generate_dungeon.c:142: dungeon[curr_x][curr_y] = 'L';
+    0000037C F8 06            [12]  791 	ldhl	sp,#6
+    0000037E 2A               [ 8]  792 	ld	a, (hl+)
+    0000037F 5F               [ 4]  793 	ld	e, a
+    00000380 56               [ 8]  794 	ld	d, (hl)
+    00000381 21r00r00         [12]  795 	ld	hl, #_dungeon
+    00000384 19               [ 8]  796 	add	hl, de
+    00000385 4D               [ 4]  797 	ld	c, l
+    00000386 44               [ 4]  798 	ld	b, h
+    00000387 F8 0C            [12]  799 	ldhl	sp,	#12
+    00000389 6E               [ 8]  800 	ld	l, (hl)
+    0000038A 26 00            [ 8]  801 	ld	h, #0x00
+    0000038C 09               [ 8]  802 	add	hl, bc
+    0000038D 4D               [ 4]  803 	ld	c, l
+    0000038E 36 4C            [12]  804 	ld	(hl), #0x4c
+                                    805 ;src/scripts/generate_dungeon.c:143: add_obstacles(curr_x, curr_y);
+    00000390 F8 0C            [12]  806 	ldhl	sp,	#12
+    00000392 2A               [ 8]  807 	ld	a, (hl+)
+    00000393 5F               [ 4]  808 	ld	e, a
+    00000394 7E               [ 8]  809 	ld	a, (hl)
+    00000395 CDr81r09         [24]  810 	call	_add_obstacles
+    00000398 C3r2Cr01         [16]  811 	jp	00134$
+    0000039B                        812 00129$:
+                                    813 ;src/scripts/generate_dungeon.c:145: else if (curr_room == (int)(target_rooms / 2) + 2) {
+    0000039B F8 08            [12]  814 	ldhl	sp,	#8
+    0000039D 2A               [ 8]  815 	ld	a, (hl+)
+    0000039E 23               [ 8]  816 	inc	hl
+    0000039F 4F               [ 4]  817 	ld	c, a
+    000003A0 06 00            [ 8]  818 	ld	b, #0x00
+    000003A2 CB 28            [ 8]  819 	sra	b
+    000003A4 CB 19            [ 8]  820 	rr	c
+    000003A6 03               [ 8]  821 	inc	bc
+    000003A7 03               [ 8]  822 	inc	bc
+    000003A8 7E               [ 8]  823 	ld	a, (hl)
+    000003A9 91               [ 4]  824 	sub	a, c
+    000003AA 20 15            [12]  825 	jr	NZ, 00126$
+    000003AC AF               [ 4]  826 	xor	a, a
+    000003AD 90               [ 4]  827 	sub	a, b
+    000003AE 20 11            [12]  828 	jr	NZ, 00126$
+                                    829 ;src/scripts/generate_dungeon.c:146: locked_door = current_door;
+    000003B0 F8 05            [12]  830 	ldhl	sp,	#5
+    000003B2 7E               [ 8]  831 	ld	a, (hl)
+    000003B3 EAr30r00         [16]  832 	ld	(#_locked_door),a
+                                    833 ;src/scripts/generate_dungeon.c:147: add_obstacles(curr_x, curr_y);
+    000003B6 F8 0C            [12]  834 	ldhl	sp,	#12
+    000003B8 2A               [ 8]  835 	ld	a, (hl+)
+    000003B9 5F               [ 4]  836 	ld	e, a
+    000003BA 7E               [ 8]  837 	ld	a, (hl)
+    000003BB CDr81r09         [24]  838 	call	_add_obstacles
+    000003BE C3r2Cr01         [16]  839 	jp	00134$
+    000003C1                        840 00126$:
+                                    841 ;src/scripts/generate_dungeon.c:149: else if (curr_room < (int)(target_rooms / 2) + 1) {
+    000003C1 F8 08            [12]  842 	ldhl	sp,	#8
+    000003C3 2A               [ 8]  843 	ld	a, (hl+)
+    000003C4 23               [ 8]  844 	inc	hl
+    000003C5 4F               [ 4]  845 	ld	c, a
+    000003C6 06 00            [ 8]  846 	ld	b, #0x00
+    000003C8 CB 28            [ 8]  847 	sra	b
+    000003CA CB 19            [ 8]  848 	rr	c
+    000003CC 03               [ 8]  849 	inc	bc
+    000003CD 2A               [ 8]  850 	ld	a, (hl+)
+    000003CE 91               [ 4]  851 	sub	a, c
+    000003CF 7E               [ 8]  852 	ld	a, (hl)
+    000003D0 98               [ 4]  853 	sbc	a, b
+    000003D1 30 35            [12]  854 	jr	NC, 00123$
+                                    855 ;src/scripts/generate_dungeon.c:150: dungeon[curr_x][curr_y] = 'A';
+    000003D3 F8 06            [12]  856 	ldhl	sp,#6
+    000003D5 2A               [ 8]  857 	ld	a, (hl+)
+    000003D6 5F               [ 4]  858 	ld	e, a
+    000003D7 56               [ 8]  859 	ld	d, (hl)
+    000003D8 21r00r00         [12]  860 	ld	hl, #_dungeon
+    000003DB 19               [ 8]  861 	add	hl, de
+    000003DC E5               [16]  862 	push	hl
+    000003DD 7D               [ 4]  863 	ld	a, l
+    000003DE F8 0C            [12]  864 	ldhl	sp,	#12
+    000003E0 77               [ 8]  865 	ld	(hl), a
+    000003E1 E1               [12]  866 	pop	hl
+    000003E2 7C               [ 4]  867 	ld	a, h
+    000003E3 F8 0B            [12]  868 	ldhl	sp,	#11
+    000003E5 32               [ 8]  869 	ld	(hl-), a
+    000003E6 2A               [ 8]  870 	ld	a, (hl+)
+    000003E7 5F               [ 4]  871 	ld	e, a
+    000003E8 2A               [ 8]  872 	ld	a, (hl+)
+    000003E9 57               [ 4]  873 	ld	d, a
+    000003EA 6E               [ 8]  874 	ld	l, (hl)
+    000003EB 26 00            [ 8]  875 	ld	h, #0x00
+    000003ED 19               [ 8]  876 	add	hl, de
+    000003EE E5               [16]  877 	push	hl
+    000003EF 7D               [ 4]  878 	ld	a, l
+    000003F0 F8 0A            [12]  879 	ldhl	sp,	#10
+    000003F2 77               [ 8]  880 	ld	(hl), a
+    000003F3 E1               [12]  881 	pop	hl
+    000003F4 7C               [ 4]  882 	ld	a, h
+    000003F5 F8 09            [12]  883 	ldhl	sp,	#9
+    000003F7 32               [ 8]  884 	ld	(hl-), a
+    000003F8 2A               [ 8]  885 	ld	a, (hl+)
+    000003F9 66               [ 8]  886 	ld	h, (hl)
+    000003FA 6F               [ 4]  887 	ld	l, a
+    000003FB 36 41            [12]  888 	ld	(hl), #0x41
+                                    889 ;src/scripts/generate_dungeon.c:151: add_obstacles(curr_x, curr_y);
+    000003FD F8 0C            [12]  890 	ldhl	sp,	#12
+    000003FF 2A               [ 8]  891 	ld	a, (hl+)
+    00000400 5F               [ 4]  892 	ld	e, a
+    00000401 7E               [ 8]  893 	ld	a, (hl)
+    00000402 CDr81r09         [24]  894 	call	_add_obstacles
+    00000405 C3r2Cr01         [16]  895 	jp	00134$
+    00000408                        896 00123$:
+                                    897 ;src/scripts/generate_dungeon.c:153: else if (curr_room > (int) (target_rooms / 2) + 1) {
+    00000408 F8 08            [12]  898 	ldhl	sp,	#8
+    0000040A 2A               [ 8]  899 	ld	a, (hl+)
+    0000040B 23               [ 8]  900 	inc	hl
+    0000040C 4F               [ 4]  901 	ld	c, a
+    0000040D 06 00            [ 8]  902 	ld	b, #0x00
+    0000040F CB 28            [ 8]  903 	sra	b
+    00000411 CB 19            [ 8]  904 	rr	c
+    00000413 03               [ 8]  905 	inc	bc
+    00000414 79               [ 4]  906 	ld	a, c
+    00000415 96               [ 8]  907 	sub	a, (hl)
+    00000416 23               [ 8]  908 	inc	hl
+    00000417 78               [ 4]  909 	ld	a, b
+    00000418 9E               [ 8]  910 	sbc	a, (hl)
+    00000419 D2r2Cr01         [16]  911 	jp	NC, 00134$
+                                    912 ;src/scripts/generate_dungeon.c:154: dungeon[curr_x][curr_y] = 'B';
+    0000041C F8 06            [12]  913 	ldhl	sp,#6
+    0000041E 2A               [ 8]  914 	ld	a, (hl+)
+    0000041F 5F               [ 4]  915 	ld	e, a
+    00000420 56               [ 8]  916 	ld	d, (hl)
+    00000421 21r00r00         [12]  917 	ld	hl, #_dungeon
+    00000424 19               [ 8]  918 	add	hl, de
+    00000425 4D               [ 4]  919 	ld	c, l
+    00000426 44               [ 4]  920 	ld	b, h
+    00000427 F8 0C            [12]  921 	ldhl	sp,	#12
+    00000429 6E               [ 8]  922 	ld	l, (hl)
+    0000042A 26 00            [ 8]  923 	ld	h, #0x00
+    0000042C 09               [ 8]  924 	add	hl, bc
+    0000042D 36 42            [12]  925 	ld	(hl), #0x42
+                                    926 ;src/scripts/generate_dungeon.c:155: add_obstacles(curr_x, curr_y);
+    0000042F F8 0C            [12]  927 	ldhl	sp,	#12
+    00000431 2A               [ 8]  928 	ld	a, (hl+)
+    00000432 5F               [ 4]  929 	ld	e, a
+    00000433 7E               [ 8]  930 	ld	a, (hl)
+    00000434 CDr81r09         [24]  931 	call	_add_obstacles
+    00000437 C3r2Cr01         [16]  932 	jp	00134$
+    0000043A                        933 00136$:
+                                    934 ;src/scripts/generate_dungeon.c:159: return 1;
+    0000043A 3E 01            [ 8]  935 	ld	a, #0x01
+    0000043C                        936 00137$:
+                                    937 ;src/scripts/generate_dungeon.c:160: }
+    0000043C E8 0F            [16]  938 	add	sp, #15
+    0000043E E1               [12]  939 	pop	hl
+    0000043F 33               [ 8]  940 	inc	sp
+    00000440 E9               [ 4]  941 	jp	(hl)
+                                    942 ;src/scripts/generate_dungeon.c:163: void append(char directions[], char value, uint8_t *num_dirs) {
+                                    943 ;	---------------------------------
+                                    944 ; Function append
+                                    945 ; ---------------------------------
+    00000441                        946 _append::
+    00000441 3B               [ 8]  947 	dec	sp
+    00000442 F8 00            [12]  948 	ldhl	sp,	#0
+    00000444 77               [ 8]  949 	ld	(hl), a
+                                    950 ;src/scripts/generate_dungeon.c:164: if (*num_dirs < 4) {
+    00000445 F8 03            [12]  951 	ldhl	sp,	#3
+    00000447 2A               [ 8]  952 	ld	a, (hl+)
+    00000448 4F               [ 4]  953 	ld	c, a
+    00000449 46               [ 8]  954 	ld	b, (hl)
+    0000044A 0A               [ 8]  955 	ld	a, (bc)
+    0000044B FE 04            [ 8]  956 	cp	a, #0x04
+    0000044D 30 0D            [12]  957 	jr	NC, 00103$
+                                    958 ;src/scripts/generate_dungeon.c:165: directions[*num_dirs] = value;
+    0000044F 83               [ 4]  959 	add	a, e
+    00000450 5F               [ 4]  960 	ld	e, a
+    00000451 3E 00            [ 8]  961 	ld	a, #0x00
+    00000453 8A               [ 4]  962 	adc	a, d
+    00000454 57               [ 4]  963 	ld	d, a
+    00000455 F8 00            [12]  964 	ldhl	sp,	#0
+    00000457 7E               [ 8]  965 	ld	a, (hl)
+    00000458 12               [ 8]  966 	ld	(de), a
+                                    967 ;src/scripts/generate_dungeon.c:166: (*num_dirs)++;
+    00000459 0A               [ 8]  968 	ld	a, (bc)
+    0000045A 3C               [ 4]  969 	inc	a
+    0000045B 02               [ 8]  970 	ld	(bc), a
+    0000045C                        971 00103$:
+                                    972 ;src/scripts/generate_dungeon.c:168: }
+    0000045C 33               [ 8]  973 	inc	sp
+    0000045D E1               [12]  974 	pop	hl
+    0000045E F1               [12]  975 	pop	af
+    0000045F E9               [ 4]  976 	jp	(hl)
+                                    977 ;src/scripts/generate_dungeon.c:170: uint8_t add_branch(char zone, char item) {
+                                    978 ;	---------------------------------
+                                    979 ; Function add_branch
+                                    980 ; ---------------------------------
+    00000460                        981 _add_branch::
+    00000460 E8 C3            [16]  982 	add	sp, #-61
+    00000462 F8 39            [12]  983 	ldhl	sp,	#57
+    00000464 32               [ 8]  984 	ld	(hl-), a
+    00000465 73               [ 8]  985 	ld	(hl), e
+                                    986 ;src/scripts/generate_dungeon.c:172: uint8_t starts_count = 0;
+    00000466 F8 2C            [12]  987 	ldhl	sp,	#44
+    00000468 36 00            [12]  988 	ld	(hl), #0x00
+                                    989 ;src/scripts/generate_dungeon.c:175: for (int i=0; i<4; i++) {
+    0000046A F8 38            [12]  990 	ldhl	sp,	#56
+    0000046C 7E               [ 8]  991 	ld	a, (hl)
+    0000046D D6 4B            [ 8]  992 	sub	a, #0x4b
+    0000046F 3E 01            [ 8]  993 	ld	a, #0x01
+    00000471 28 01            [12]  994 	jr	Z, 00219$
+    00000473 AF               [ 4]  995 	xor	a, a
+    00000474                        996 00219$:
+    00000474 F8 2D            [12]  997 	ldhl	sp,	#45
+    00000476 77               [ 8]  998 	ld	(hl), a
+    00000477 F8 38            [12]  999 	ldhl	sp,	#56
+    00000479 7E               [ 8] 1000 	ld	a, (hl)
+    0000047A D6 54            [ 8] 1001 	sub	a, #0x54
+    0000047C 3E 01            [ 8] 1002 	ld	a, #0x01
+    0000047E 28 01            [12] 1003 	jr	Z, 00221$
+    00000480 AF               [ 4] 1004 	xor	a, a
+    00000481                       1005 00221$:
+    00000481 F8 2E            [12] 1006 	ldhl	sp,	#46
+    00000483 77               [ 8] 1007 	ld	(hl), a
+    00000484 AF               [ 4] 1008 	xor	a, a
+    00000485 F8 3A            [12] 1009 	ldhl	sp,	#58
+    00000487 22               [ 8] 1010 	ld	(hl+), a
+    00000488 77               [ 8] 1011 	ld	(hl), a
+    00000489                       1012 00125$:
+    00000489 F8 3A            [12] 1013 	ldhl	sp,	#58
+    0000048B 2A               [ 8] 1014 	ld	a, (hl+)
+    0000048C D6 04            [ 8] 1015 	sub	a, #0x04
+    0000048E 7E               [ 8] 1016 	ld	a, (hl)
+    0000048F DE 00            [ 8] 1017 	sbc	a, #0x00
+    00000491 D2r68r05         [16] 1018 	jp	NC, 00113$
+                                   1019 ;src/scripts/generate_dungeon.c:176: for (int j=0; j<4; j++) {
+    00000494 2B               [ 8] 1020 	dec	hl
+    00000495 4E               [ 8] 1021 	ld	c, (hl)
+    00000496 06 00            [ 8] 1022 	ld	b, #0x00
+    00000498 CB 21            [ 8] 1023 	sla	c
+    0000049A CB 10            [ 8] 1024 	rl	b
+    0000049C CB 21            [ 8] 1025 	sla	c
+    0000049E CB 10            [ 8] 1026 	rl	b
+    000004A0 21r00r00         [12] 1027 	ld	hl, #_dungeon
+    000004A3 09               [ 8] 1028 	add	hl, bc
+    000004A4 E5               [16] 1029 	push	hl
+    000004A5 7D               [ 4] 1030 	ld	a, l
+    000004A6 F8 31            [12] 1031 	ldhl	sp,	#49
+    000004A8 77               [ 8] 1032 	ld	(hl), a
+    000004A9 E1               [12] 1033 	pop	hl
+    000004AA 7C               [ 4] 1034 	ld	a, h
+    000004AB F8 30            [12] 1035 	ldhl	sp,	#48
+    000004AD 77               [ 8] 1036 	ld	(hl), a
+    000004AE 21r00r00         [12] 1037 	ld	hl, #_dungeon
+    000004B1 09               [ 8] 1038 	add	hl, bc
+    000004B2 E5               [16] 1039 	push	hl
+    000004B3 7D               [ 4] 1040 	ld	a, l
+    000004B4 F8 33            [12] 1041 	ldhl	sp,	#51
+    000004B6 77               [ 8] 1042 	ld	(hl), a
+    000004B7 E1               [12] 1043 	pop	hl
+    000004B8 7C               [ 4] 1044 	ld	a, h
+    000004B9 F8 32            [12] 1045 	ldhl	sp,	#50
+    000004BB 77               [ 8] 1046 	ld	(hl), a
+    000004BC F8 3C            [12] 1047 	ldhl	sp,	#60
+    000004BE 36 00            [12] 1048 	ld	(hl), #0x00
+    000004C0                       1049 00122$:
+    000004C0 F8 3C            [12] 1050 	ldhl	sp,	#60
+    000004C2 7E               [ 8] 1051 	ld	a, (hl)
+    000004C3 D6 04            [ 8] 1052 	sub	a, #0x04
+    000004C5 D2r62r05         [16] 1053 	jp	NC, 00126$
+                                   1054 ;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+    000004C8 F8 2C            [12] 1055 	ldhl	sp,	#44
+    000004CA 4E               [ 8] 1056 	ld	c, (hl)
+    000004CB 06 00            [ 8] 1057 	ld	b, #0x00
+    000004CD F8 3A            [12] 1058 	ldhl	sp,	#58
+    000004CF 7E               [ 8] 1059 	ld	a, (hl)
+    000004D0 F8 33            [12] 1060 	ldhl	sp,	#51
+    000004D2 77               [ 8] 1061 	ld	(hl), a
+                                   1062 ;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].y = j;
+    000004D3 F8 3C            [12] 1063 	ldhl	sp,	#60
+    000004D5 7E               [ 8] 1064 	ld	a, (hl)
+    000004D6 F8 34            [12] 1065 	ldhl	sp,	#52
+    000004D8 77               [ 8] 1066 	ld	(hl), a
+                                   1067 ;src/scripts/generate_dungeon.c:181: starts_count++;
+    000004D9 F8 2C            [12] 1068 	ldhl	sp,	#44
+    000004DB 7E               [ 8] 1069 	ld	a, (hl)
+    000004DC 3C               [ 4] 1070 	inc	a
+    000004DD F8 35            [12] 1071 	ldhl	sp,	#53
+                                   1072 ;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+    000004DF 22               [ 8] 1073 	ld	(hl+), a
+    000004E0 CB 21            [ 8] 1074 	sla	c
+    000004E2 CB 10            [ 8] 1075 	rl	b
+    000004E4 79               [ 4] 1076 	ld	a, c
+    000004E5 22               [ 8] 1077 	ld	(hl+), a
+    000004E6 70               [ 8] 1078 	ld	(hl), b
+                                   1079 ;src/scripts/generate_dungeon.c:177: if (item == 'K') {
+    000004E7 F8 2D            [12] 1080 	ldhl	sp,	#45
+    000004E9 7E               [ 8] 1081 	ld	a, (hl)
+    000004EA B7               [ 4] 1082 	or	a, a
+    000004EB 28 37            [12] 1083 	jr	Z, 00110$
+                                   1084 ;src/scripts/generate_dungeon.c:178: if (dungeon[i][j] == zone || dungeon[i][j] == 'S') {
+    000004ED F8 2F            [12] 1085 	ldhl	sp,#47
+    000004EF 2A               [ 8] 1086 	ld	a, (hl+)
+    000004F0 5F               [ 4] 1087 	ld	e, a
+    000004F1 56               [ 8] 1088 	ld	d, (hl)
+    000004F2 F8 3C            [12] 1089 	ldhl	sp,	#60
+    000004F4 6E               [ 8] 1090 	ld	l, (hl)
+    000004F5 26 00            [ 8] 1091 	ld	h, #0x00
+    000004F7 19               [ 8] 1092 	add	hl, de
+    000004F8 4D               [ 4] 1093 	ld	c, l
+    000004F9 44               [ 4] 1094 	ld	b, h
+    000004FA 0A               [ 8] 1095 	ld	a, (bc)
+    000004FB 4F               [ 4] 1096 	ld	c, a
+    000004FC F8 39            [12] 1097 	ldhl	sp,	#57
+    000004FE 7E               [ 8] 1098 	ld	a, (hl)
+    000004FF 91               [ 4] 1099 	sub	a, c
+    00000500 28 05            [12] 1100 	jr	Z, 00101$
+    00000502 79               [ 4] 1101 	ld	a, c
+    00000503 D6 53            [ 8] 1102 	sub	a, #0x53
+    00000505 20 55            [12] 1103 	jr	NZ, 00123$
+    00000507                       1104 00101$:
+                                   1105 ;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+    00000507 E5               [16] 1106 	push	hl
+    00000508 21 02 00         [12] 1107 	ld	hl, #2
+    0000050B 39               [ 8] 1108 	add	hl, sp
+    0000050C 5D               [ 4] 1109 	ld	e, l
+    0000050D 54               [ 4] 1110 	ld	d, h
+    0000050E E1               [12] 1111 	pop	hl
+    0000050F F8 36            [12] 1112 	ldhl	sp,	#54
+    00000511 2A               [ 8] 1113 	ld	a,	(hl+)
+    00000512 66               [ 8] 1114 	ld	h, (hl)
+    00000513 6F               [ 4] 1115 	ld	l, a
+    00000514 19               [ 8] 1116 	add	hl, de
+    00000515 4D               [ 4] 1117 	ld	c, l
+    00000516 44               [ 4] 1118 	ld	b, h
+    00000517 F8 33            [12] 1119 	ldhl	sp,	#51
+                                   1120 ;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].y = j;
+    00000519 2A               [ 8] 1121 	ld	a, (hl+)
+    0000051A 02               [ 8] 1122 	ld	(bc), a
+    0000051B 03               [ 8] 1123 	inc	bc
+                                   1124 ;src/scripts/generate_dungeon.c:181: starts_count++;
+    0000051C 2A               [ 8] 1125 	ld	a, (hl+)
+    0000051D 02               [ 8] 1126 	ld	(bc), a
+    0000051E 7E               [ 8] 1127 	ld	a, (hl)
+    0000051F F8 2C            [12] 1128 	ldhl	sp,	#44
+    00000521 77               [ 8] 1129 	ld	(hl), a
+    00000522 18 38            [12] 1130 	jr	00123$
+    00000524                       1131 00110$:
+                                   1132 ;src/scripts/generate_dungeon.c:184: else if (item == 'T') {
+    00000524 F8 2E            [12] 1133 	ldhl	sp,	#46
+    00000526 7E               [ 8] 1134 	ld	a, (hl)
+    00000527 B7               [ 4] 1135 	or	a, a
+    00000528 28 32            [12] 1136 	jr	Z, 00123$
+                                   1137 ;src/scripts/generate_dungeon.c:185: if (dungeon[i][j] == zone || dungeon[i][j] == 'G') {
+    0000052A F8 31            [12] 1138 	ldhl	sp,#49
+    0000052C 2A               [ 8] 1139 	ld	a, (hl+)
+    0000052D 5F               [ 4] 1140 	ld	e, a
+    0000052E 56               [ 8] 1141 	ld	d, (hl)
+    0000052F F8 3C            [12] 1142 	ldhl	sp,	#60
+    00000531 6E               [ 8] 1143 	ld	l, (hl)
+    00000532 26 00            [ 8] 1144 	ld	h, #0x00
+    00000534 19               [ 8] 1145 	add	hl, de
+    00000535 4D               [ 4] 1146 	ld	c, l
+    00000536 44               [ 4] 1147 	ld	b, h
+    00000537 0A               [ 8] 1148 	ld	a, (bc)
+    00000538 F8 39            [12] 1149 	ldhl	sp,	#57
+    0000053A BE               [ 8] 1150 	cp	a, (hl)
+    0000053B 28 04            [12] 1151 	jr	Z, 00104$
+    0000053D D6 47            [ 8] 1152 	sub	a, #0x47
+    0000053F 20 1B            [12] 1153 	jr	NZ, 00123$
+    00000541                       1154 00104$:
+                                   1155 ;src/scripts/generate_dungeon.c:186: possible_starts[starts_count].x = i;
+    00000541 E5               [16] 1156 	push	hl
+    00000542 21 02 00         [12] 1157 	ld	hl, #2
+    00000545 39               [ 8] 1158 	add	hl, sp
+    00000546 5D               [ 4] 1159 	ld	e, l
+    00000547 54               [ 4] 1160 	ld	d, h
+    00000548 E1               [12] 1161 	pop	hl
+    00000549 F8 36            [12] 1162 	ldhl	sp,	#54
+    0000054B 2A               [ 8] 1163 	ld	a,	(hl+)
+    0000054C 66               [ 8] 1164 	ld	h, (hl)
+    0000054D 6F               [ 4] 1165 	ld	l, a
+    0000054E 19               [ 8] 1166 	add	hl, de
+    0000054F 4D               [ 4] 1167 	ld	c, l
+    00000550 44               [ 4] 1168 	ld	b, h
+    00000551 F8 33            [12] 1169 	ldhl	sp,	#51
+                                   1170 ;src/scripts/generate_dungeon.c:187: possible_starts[starts_count].y = j;
+    00000553 2A               [ 8] 1171 	ld	a, (hl+)
+    00000554 02               [ 8] 1172 	ld	(bc), a
+    00000555 03               [ 8] 1173 	inc	bc
+                                   1174 ;src/scripts/generate_dungeon.c:188: starts_count++;
+    00000556 2A               [ 8] 1175 	ld	a, (hl+)
+    00000557 02               [ 8] 1176 	ld	(bc), a
+    00000558 7E               [ 8] 1177 	ld	a, (hl)
+    00000559 F8 2C            [12] 1178 	ldhl	sp,	#44
+    0000055B 77               [ 8] 1179 	ld	(hl), a
+    0000055C                       1180 00123$:
+                                   1181 ;src/scripts/generate_dungeon.c:176: for (int j=0; j<4; j++) {
+    0000055C F8 3C            [12] 1182 	ldhl	sp,	#60
+    0000055E 34               [12] 1183 	inc	(hl)
+    0000055F C3rC0r04         [16] 1184 	jp	00122$
+    00000562                       1185 00126$:
+                                   1186 ;src/scripts/generate_dungeon.c:175: for (int i=0; i<4; i++) {
+    00000562 F8 3A            [12] 1187 	ldhl	sp,	#58
+    00000564 34               [12] 1188 	inc	(hl)
+    00000565 C3r89r04         [16] 1189 	jp	00125$
+    00000568                       1190 00113$:
+                                   1191 ;src/scripts/generate_dungeon.c:194: shuffle_starts(possible_starts, starts_count);
+    00000568 F8 2C            [12] 1192 	ldhl	sp,	#44
+    0000056A 7E               [ 8] 1193 	ld	a, (hl)
+    0000056B 21 00 00         [12] 1194 	ld	hl, #0
+    0000056E 39               [ 8] 1195 	add	hl, sp
+    0000056F 5D               [ 4] 1196 	ld	e, l
+    00000570 54               [ 4] 1197 	ld	d, h
+    00000571 CDrEBr07         [24] 1198 	call	_shuffle_starts
+                                   1199 ;src/scripts/generate_dungeon.c:196: for (uint8_t i=0; i<starts_count; i++) {
+    00000574 F8 3C            [12] 1200 	ldhl	sp,	#60
+    00000576 36 00            [12] 1201 	ld	(hl), #0x00
+    00000578                       1202 00128$:
+    00000578 F8 3C            [12] 1203 	ldhl	sp,	#60
+    0000057A 7E               [ 8] 1204 	ld	a, (hl)
+    0000057B F8 2C            [12] 1205 	ldhl	sp,	#44
+    0000057D 96               [ 8] 1206 	sub	a, (hl)
+    0000057E D2rB1r06         [16] 1207 	jp	NC, 00120$
+                                   1208 ;src/scripts/generate_dungeon.c:197: Coords start = possible_starts[i];
+    00000581 F8 3C            [12] 1209 	ldhl	sp,	#60
+    00000583 4E               [ 8] 1210 	ld	c, (hl)
+    00000584 06 00            [ 8] 1211 	ld	b, #0x00
+    00000586 CB 21            [ 8] 1212 	sla	c
+    00000588 CB 10            [ 8] 1213 	rl	b
+    0000058A 21 00 00         [12] 1214 	ld	hl, #0
+    0000058D 39               [ 8] 1215 	add	hl, sp
+    0000058E 09               [ 8] 1216 	add	hl, bc
+    0000058F 4D               [ 4] 1217 	ld	c, l
+    00000590 44               [ 4] 1218 	ld	b, h
+    00000591 11 02 00         [12] 1219 	ld	de, #0x0002
+    00000594 D5               [16] 1220 	push	de
+    00000595 21 22 00         [12] 1221 	ld	hl, #34
+    00000598 39               [ 8] 1222 	add	hl, sp
+    00000599 5D               [ 4] 1223 	ld	e, l
+    0000059A 54               [ 4] 1224 	ld	d, h
+    0000059B CDr00r00         [24] 1225 	call	___memcpy
+                                   1226 ;src/scripts/generate_dungeon.c:198: Coords dir_branch = find_near_void_cell(start);
+    0000059E 21 21 00         [12] 1227 	ld	hl,#0x21
+    000005A1 39               [ 8] 1228 	add	hl,sp
+    000005A2 3A               [ 8] 1229 	ld	a, (hl-)
+    000005A3 47               [ 4] 1230 	ld	b, a
+    000005A4 4E               [ 8] 1231 	ld	c, (hl)
+    000005A5 C5               [16] 1232 	push	bc
+    000005A6 F8 2A            [12] 1233 	ldhl	sp,	#42
+    000005A8 E5               [16] 1234 	push	hl
+    000005A9 CDrB5r06         [24] 1235 	call	_find_near_void_cell
+    000005AC 11 02 00         [12] 1236 	ld	de, #0x0002
+    000005AF D5               [16] 1237 	push	de
+    000005B0 21 2A 00         [12] 1238 	ld	hl, #42
+    000005B3 39               [ 8] 1239 	add	hl, sp
+    000005B4 4D               [ 4] 1240 	ld	c, l
+    000005B5 44               [ 4] 1241 	ld	b, h
+    000005B6 21 24 00         [12] 1242 	ld	hl, #36
+    000005B9 39               [ 8] 1243 	add	hl, sp
+    000005BA 5D               [ 4] 1244 	ld	e, l
+    000005BB 54               [ 4] 1245 	ld	d, h
+    000005BC CDr00r00         [24] 1246 	call	___memcpy
+                                   1247 ;src/scripts/generate_dungeon.c:199: if (dir_branch.x != 0 || dir_branch.y != 0) {
+    000005BF F8 22            [12] 1248 	ldhl	sp,	#34
+    000005C1 7E               [ 8] 1249 	ld	a, (hl)
+    000005C2 B7               [ 4] 1250 	or	a, a
+    000005C3 20 07            [12] 1251 	jr	NZ, 00117$
+    000005C5 23               [ 8] 1252 	inc	hl
+    000005C6 4E               [ 8] 1253 	ld	c, (hl)
+    000005C7 0C               [ 4] 1254 	inc	c
+    000005C8 0D               [ 4] 1255 	dec	c
+    000005C9 CArABr06         [16] 1256 	jp	Z, 00129$
+    000005CC                       1257 00117$:
+                                   1258 ;src/scripts/generate_dungeon.c:200: uint8_t br_x = start.x + dir_branch.x;
+    000005CC F8 20            [12] 1259 	ldhl	sp,	#32
+    000005CE 4E               [ 8] 1260 	ld	c, (hl)
+    000005CF 81               [ 4] 1261 	add	a, c
+    000005D0 F8 36            [12] 1262 	ldhl	sp,	#54
+    000005D2 77               [ 8] 1263 	ld	(hl), a
+                                   1264 ;src/scripts/generate_dungeon.c:201: uint8_t br_y = start.y + dir_branch.y;
+    000005D3 F8 21            [12] 1265 	ldhl	sp,	#33
+    000005D5 2A               [ 8] 1266 	ld	a, (hl+)
+    000005D6 23               [ 8] 1267 	inc	hl
+    000005D7 4E               [ 8] 1268 	ld	c, (hl)
+    000005D8 81               [ 4] 1269 	add	a, c
+    000005D9 F8 37            [12] 1270 	ldhl	sp,	#55
+                                   1271 ;src/scripts/generate_dungeon.c:202: dungeon[br_x][br_y] = zone;
+    000005DB 32               [ 8] 1272 	ld	(hl-), a
+    000005DC 4E               [ 8] 1273 	ld	c, (hl)
+    000005DD AF               [ 4] 1274 	xor	a, a
+    000005DE 69               [ 4] 1275 	ld	l, c
+    000005DF 67               [ 4] 1276 	ld	h, a
+    000005E0 29               [ 8] 1277 	add	hl, hl
+    000005E1 29               [ 8] 1278 	add	hl, hl
+    000005E2 7D               [ 4] 1279 	ld	a, l
+    000005E3 C6r00            [ 8] 1280 	add	a, #<(_dungeon)
+    000005E5 4F               [ 4] 1281 	ld	c, a
+    000005E6 7C               [ 4] 1282 	ld	a, h
+    000005E7 CEs00            [ 8] 1283 	adc	a, #>(_dungeon)
+    000005E9 47               [ 4] 1284 	ld	b, a
+    000005EA F8 37            [12] 1285 	ldhl	sp,	#55
+    000005EC 6E               [ 8] 1286 	ld	l, (hl)
+    000005ED 26 00            [ 8] 1287 	ld	h, #0x00
+    000005EF 09               [ 8] 1288 	add	hl, bc
+    000005F0 4D               [ 4] 1289 	ld	c, l
+    000005F1 44               [ 4] 1290 	ld	b, h
+    000005F2 F8 39            [12] 1291 	ldhl	sp,	#57
+                                   1292 ;src/scripts/generate_dungeon.c:203: add_obstacles(br_x, br_y);
+    000005F4 3A               [ 8] 1293 	ld	a, (hl-)
+    000005F5 2B               [ 8] 1294 	dec	hl
+    000005F6 02               [ 8] 1295 	ld	(bc), a
+    000005F7 3A               [ 8] 1296 	ld	a, (hl-)
+    000005F8 5F               [ 4] 1297 	ld	e, a
+    000005F9 7E               [ 8] 1298 	ld	a, (hl)
+    000005FA CDr81r09         [24] 1299 	call	_add_obstacles
+                                   1300 ;src/scripts/generate_dungeon.c:204: create_doors(start.x, start.y, br_x, br_y, dir_branch);
+    000005FD F8 21            [12] 1301 	ldhl	sp,	#33
+    000005FF 3A               [ 8] 1302 	ld	a, (hl-)
+    00000600 4F               [ 4] 1303 	ld	c, a
+    00000601 46               [ 8] 1304 	ld	b, (hl)
+    00000602 21 23 00         [12] 1305 	ld	hl,#0x23
+    00000605 39               [ 8] 1306 	add	hl,sp
+    00000606 3A               [ 8] 1307 	ld	a, (hl-)
+    00000607 57               [ 4] 1308 	ld	d, a
+    00000608 5E               [ 8] 1309 	ld	e, (hl)
+    00000609 D5               [16] 1310 	push	de
+    0000060A F8 39            [12] 1311 	ldhl	sp,	#57
+    0000060C 3A               [ 8] 1312 	ld	a, (hl-)
+    0000060D 57               [ 4] 1313 	ld	d, a
+    0000060E 5E               [ 8] 1314 	ld	e, (hl)
+    0000060F D5               [16] 1315 	push	de
+    00000610 59               [ 4] 1316 	ld	e, c
+    00000611 78               [ 4] 1317 	ld	a, b
+    00000612 CDr78r08         [24] 1318 	call	_create_doors
+                                   1319 ;src/scripts/generate_dungeon.c:205: Coords br = {br_x, br_y};
+    00000615 F8 36            [12] 1320 	ldhl	sp,	#54
+    00000617 7E               [ 8] 1321 	ld	a, (hl)
+    00000618 F8 24            [12] 1322 	ldhl	sp,	#36
+    0000061A 77               [ 8] 1323 	ld	(hl), a
+    0000061B F8 37            [12] 1324 	ldhl	sp,	#55
+    0000061D 7E               [ 8] 1325 	ld	a, (hl)
+    0000061E F8 25            [12] 1326 	ldhl	sp,	#37
+    00000620 77               [ 8] 1327 	ld	(hl), a
+                                   1328 ;src/scripts/generate_dungeon.c:206: Coords final_dir = find_near_void_cell(br);
+    00000621 21 25 00         [12] 1329 	ld	hl,#0x25
+    00000624 39               [ 8] 1330 	add	hl,sp
+    00000625 3A               [ 8] 1331 	ld	a, (hl-)
+    00000626 47               [ 4] 1332 	ld	b, a
+    00000627 4E               [ 8] 1333 	ld	c, (hl)
+    00000628 C5               [16] 1334 	push	bc
+    00000629 F8 2C            [12] 1335 	ldhl	sp,	#44
+    0000062B E5               [16] 1336 	push	hl
+    0000062C CDrB5r06         [24] 1337 	call	_find_near_void_cell
+    0000062F 11 02 00         [12] 1338 	ld	de, #0x0002
+    00000632 D5               [16] 1339 	push	de
+    00000633 21 2C 00         [12] 1340 	ld	hl, #44
+    00000636 39               [ 8] 1341 	add	hl, sp
+    00000637 4D               [ 4] 1342 	ld	c, l
+    00000638 44               [ 4] 1343 	ld	b, h
+    00000639 21 28 00         [12] 1344 	ld	hl, #40
+    0000063C 39               [ 8] 1345 	add	hl, sp
+    0000063D 5D               [ 4] 1346 	ld	e, l
+    0000063E 54               [ 4] 1347 	ld	d, h
+    0000063F CDr00r00         [24] 1348 	call	___memcpy
+                                   1349 ;src/scripts/generate_dungeon.c:207: if (final_dir.x != 0 || final_dir.y != 0) {
+    00000642 F8 26            [12] 1350 	ldhl	sp,	#38
+    00000644 7E               [ 8] 1351 	ld	a, (hl)
+    00000645 F8 3A            [12] 1352 	ldhl	sp,	#58
+    00000647 77               [ 8] 1353 	ld	(hl), a
+    00000648 F8 27            [12] 1354 	ldhl	sp,	#39
+    0000064A 7E               [ 8] 1355 	ld	a, (hl)
+    0000064B F8 3B            [12] 1356 	ldhl	sp,	#59
+    0000064D 32               [ 8] 1357 	ld	(hl-), a
+    0000064E 7E               [ 8] 1358 	ld	a, (hl)
+    0000064F B7               [ 4] 1359 	or	a, a
+    00000650 20 05            [12] 1360 	jr	NZ, 00114$
+    00000652 23               [ 8] 1361 	inc	hl
+    00000653 7E               [ 8] 1362 	ld	a, (hl)
+    00000654 B7               [ 4] 1363 	or	a, a
+    00000655 28 54            [12] 1364 	jr	Z, 00129$
+    00000657                       1365 00114$:
+                                   1366 ;src/scripts/generate_dungeon.c:208: uint8_t obj_x = br_x + final_dir.x;
+    00000657 F8 36            [12] 1367 	ldhl	sp,	#54
+    00000659 7E               [ 8] 1368 	ld	a, (hl)
+    0000065A F8 3A            [12] 1369 	ldhl	sp,	#58
+    0000065C 86               [ 8] 1370 	add	a, (hl)
+    0000065D 23               [ 8] 1371 	inc	hl
+    0000065E 23               [ 8] 1372 	inc	hl
+    0000065F 77               [ 8] 1373 	ld	(hl), a
+                                   1374 ;src/scripts/generate_dungeon.c:209: uint8_t obj_y = br_y + final_dir.y;
+    00000660 F8 37            [12] 1375 	ldhl	sp,	#55
+    00000662 3A               [ 8] 1376 	ld	a, (hl-)
+    00000663 2B               [ 8] 1377 	dec	hl
+    00000664 77               [ 8] 1378 	ld	(hl), a
+    00000665 F8 3B            [12] 1379 	ldhl	sp,	#59
+    00000667 86               [ 8] 1380 	add	a, (hl)
+                                   1381 ;src/scripts/generate_dungeon.c:210: dungeon[obj_x][obj_y] = item;
+    00000668 22               [ 8] 1382 	ld	(hl+), a
+    00000669 7E               [ 8] 1383 	ld	a, (hl)
+    0000066A F8 34            [12] 1384 	ldhl	sp,	#52
+    0000066C 22               [ 8] 1385 	ld	(hl+), a
+    0000066D 36 00            [12] 1386 	ld	(hl), #0x00
+    0000066F 3E 02            [ 8] 1387 	ld	a, #0x02
+    00000671                       1388 00232$:
+    00000671 F8 34            [12] 1389 	ldhl	sp,	#52
+    00000673 CB 26            [16] 1390 	sla	(hl)
+    00000675 23               [ 8] 1391 	inc	hl
+    00000676 CB 16            [16] 1392 	rl	(hl)
+    00000678 3D               [ 4] 1393 	dec	a
+    00000679 20 F6            [12] 1394 	jr	NZ, 00232$
+    0000067B 2B               [ 8] 1395 	dec	hl
+    0000067C 2A               [ 8] 1396 	ld	a, (hl+)
+    0000067D 5F               [ 4] 1397 	ld	e, a
+    0000067E 56               [ 8] 1398 	ld	d, (hl)
+    0000067F 21r00r00         [12] 1399 	ld	hl, #_dungeon
+    00000682 19               [ 8] 1400 	add	hl, de
+    00000683 4D               [ 4] 1401 	ld	c, l
+    00000684 44               [ 4] 1402 	ld	b, h
+    00000685 F8 3B            [12] 1403 	ldhl	sp,	#59
+    00000687 6E               [ 8] 1404 	ld	l, (hl)
+    00000688 26 00            [ 8] 1405 	ld	h, #0x00
+    0000068A 09               [ 8] 1406 	add	hl, bc
+    0000068B 4D               [ 4] 1407 	ld	c, l
+    0000068C 44               [ 4] 1408 	ld	b, h
+    0000068D F8 38            [12] 1409 	ldhl	sp,	#56
+    0000068F 7E               [ 8] 1410 	ld	a, (hl)
+    00000690 02               [ 8] 1411 	ld	(bc), a
+                                   1412 ;src/scripts/generate_dungeon.c:211: create_doors(br_x, br_y, obj_x, obj_y, final_dir);
+    00000691 21 27 00         [12] 1413 	ld	hl,#0x27
+    00000694 39               [ 8] 1414 	add	hl,sp
+    00000695 3A               [ 8] 1415 	ld	a, (hl-)
+    00000696 47               [ 4] 1416 	ld	b, a
+    00000697 4E               [ 8] 1417 	ld	c, (hl)
+    00000698 C5               [16] 1418 	push	bc
+    00000699 F8 3D            [12] 1419 	ldhl	sp,	#61
+    0000069B 2A               [ 8] 1420 	ld	a, (hl+)
+    0000069C 57               [ 4] 1421 	ld	d, a
+    0000069D 5E               [ 8] 1422 	ld	e, (hl)
+    0000069E D5               [16] 1423 	push	de
+    0000069F F8 3B            [12] 1424 	ldhl	sp,	#59
+    000006A1 3A               [ 8] 1425 	ld	a, (hl-)
+    000006A2 5F               [ 4] 1426 	ld	e, a
+    000006A3 7E               [ 8] 1427 	ld	a, (hl)
+    000006A4 CDr78r08         [24] 1428 	call	_create_doors
+                                   1429 ;src/scripts/generate_dungeon.c:212: return 1;
+    000006A7 3E 01            [ 8] 1430 	ld	a, #0x01
+    000006A9 18 07            [12] 1431 	jr	00130$
+    000006AB                       1432 00129$:
+                                   1433 ;src/scripts/generate_dungeon.c:196: for (uint8_t i=0; i<starts_count; i++) {
+    000006AB F8 3C            [12] 1434 	ldhl	sp,	#60
+    000006AD 34               [12] 1435 	inc	(hl)
+    000006AE C3r78r05         [16] 1436 	jp	00128$
+    000006B1                       1437 00120$:
+                                   1438 ;src/scripts/generate_dungeon.c:216: return 0;
+    000006B1 AF               [ 4] 1439 	xor	a, a
+    000006B2                       1440 00130$:
+                                   1441 ;src/scripts/generate_dungeon.c:217: }
+    000006B2 E8 3D            [16] 1442 	add	sp, #61
+    000006B4 C9               [16] 1443 	ret
+                                   1444 ;src/scripts/generate_dungeon.c:219: Coords find_near_void_cell(Coords start) {
+                                   1445 ;	---------------------------------
+                                   1446 ; Function find_near_void_cell
+                                   1447 ; ---------------------------------
+    000006B5                       1448 _find_near_void_cell::
+    000006B5 E8 ED            [16] 1449 	add	sp, #-19
+                                   1450 ;src/scripts/generate_dungeon.c:220: Coords dirs[4] = {{0 , -1}, {1 , 0}, {0 , 1}, {-1 , 0}};
+    000006B7 F8 02            [12] 1451 	ldhl	sp,	#2
+    000006B9 AF               [ 4] 1452 	xor	a, a
+    000006BA 22               [ 8] 1453 	ld	(hl+), a
+    000006BB 3E FF            [ 8] 1454 	ld	a, #0xff
+    000006BD 22               [ 8] 1455 	ld	(hl+), a
+    000006BE 3E 01            [ 8] 1456 	ld	a, #0x01
+    000006C0 22               [ 8] 1457 	ld	(hl+), a
+    000006C1 AF               [ 4] 1458 	xor	a, a
+    000006C2 22               [ 8] 1459 	ld	(hl+), a
+    000006C3 22               [ 8] 1460 	ld	(hl+), a
+    000006C4 3E 01            [ 8] 1461 	ld	a, #0x01
+    000006C6 22               [ 8] 1462 	ld	(hl+), a
+    000006C7 3E FF            [ 8] 1463 	ld	a, #0xff
+    000006C9 22               [ 8] 1464 	ld	(hl+), a
+                                   1465 ;src/scripts/generate_dungeon.c:221: Coords fail = {0 , 0};
+    000006CA AF               [ 4] 1466 	xor	a, a
+    000006CB 22               [ 8] 1467 	ld	(hl+), a
+    000006CC 22               [ 8] 1468 	ld	(hl+), a
+    000006CD 36 00            [12] 1469 	ld	(hl), #0x00
+                                   1470 ;src/scripts/generate_dungeon.c:224: for (uint8_t i = 3; i > 0; i--) {
+    000006CF F8 12            [12] 1471 	ldhl	sp,	#18
+    000006D1 36 03            [12] 1472 	ld	(hl), #0x03
+    000006D3                       1473 00111$:
+    000006D3 F8 12            [12] 1474 	ldhl	sp,	#18
+    000006D5 7E               [ 8] 1475 	ld	a, (hl)
+    000006D6 B7               [ 4] 1476 	or	a, a
+    000006D7 28 65            [12] 1477 	jr	Z, 00126$
+                                   1478 ;src/scripts/generate_dungeon.c:225: uint8_t j = rand() % (i+1);
+    000006D9 CDr00r00         [24] 1479 	call	_rand
+    000006DC F8 12            [12] 1480 	ldhl	sp,	#18
+    000006DE 7E               [ 8] 1481 	ld	a, (hl)
+    000006DF F8 0F            [12] 1482 	ldhl	sp,	#15
+    000006E1 22               [ 8] 1483 	ld	(hl+), a
+    000006E2 AF               [ 4] 1484 	xor	a, a
+    000006E3 32               [ 8] 1485 	ld	(hl-), a
+    000006E4 4E               [ 8] 1486 	ld	c, (hl)
+    000006E5 06 00            [ 8] 1487 	ld	b, #0x00
+    000006E7 03               [ 8] 1488 	inc	bc
+    000006E8 AF               [ 4] 1489 	xor	a, a
+    000006E9 57               [ 4] 1490 	ld	d, a
+    000006EA CDr00r00         [24] 1491 	call	__modsint
+    000006ED F8 11            [12] 1492 	ldhl	sp,	#17
+                                   1493 ;src/scripts/generate_dungeon.c:226: Coords temp = dirs[i];
+    000006EF 79               [ 4] 1494 	ld	a, c
+    000006F0 32               [ 8] 1495 	ld	(hl-), a
+    000006F1 2B               [ 8] 1496 	dec	hl
+    000006F2 4E               [ 8] 1497 	ld	c, (hl)
+    000006F3 06 00            [ 8] 1498 	ld	b, #0x00
+    000006F5 CB 21            [ 8] 1499 	sla	c
+    000006F7 CB 10            [ 8] 1500 	rl	b
+    000006F9 21 02 00         [12] 1501 	ld	hl, #2
+    000006FC 39               [ 8] 1502 	add	hl, sp
+    000006FD 09               [ 8] 1503 	add	hl, bc
+    000006FE 5D               [ 4] 1504 	ld	e, l
+    000006FF 54               [ 4] 1505 	ld	d, h
+    00000700 D5               [16] 1506 	push	de
+    00000701 01 02 00         [12] 1507 	ld	bc, #0x0002
+    00000704 C5               [16] 1508 	push	bc
+    00000705 4B               [ 4] 1509 	ld	c, e
+    00000706 42               [ 4] 1510 	ld	b, d
+    00000707 21 10 00         [12] 1511 	ld	hl, #16
+    0000070A 39               [ 8] 1512 	add	hl, sp
+    0000070B 5D               [ 4] 1513 	ld	e, l
+    0000070C 54               [ 4] 1514 	ld	d, h
+    0000070D CDr00r00         [24] 1515 	call	___memcpy
+    00000710 D1               [12] 1516 	pop	de
+                                   1517 ;src/scripts/generate_dungeon.c:227: dirs[i] = dirs[j];
+    00000711 F8 11            [12] 1518 	ldhl	sp,	#17
+    00000713 4E               [ 8] 1519 	ld	c, (hl)
+    00000714 AF               [ 4] 1520 	xor	a, a
+    00000715 47               [ 4] 1521 	ld	b, a
+    00000716 CB 21            [ 8] 1522 	sla	c
+    00000718 CB 10            [ 8] 1523 	rl	b
+    0000071A 21 02 00         [12] 1524 	ld	hl, #2
+    0000071D 39               [ 8] 1525 	add	hl, sp
+    0000071E 09               [ 8] 1526 	add	hl, bc
+    0000071F E5               [16] 1527 	push	hl
+    00000720 01 02 00         [12] 1528 	ld	bc, #0x0002
+    00000723 C5               [16] 1529 	push	bc
+    00000724 4D               [ 4] 1530 	ld	c, l
+    00000725 44               [ 4] 1531 	ld	b, h
+    00000726 CDr00r00         [24] 1532 	call	___memcpy
+    00000729 E1               [12] 1533 	pop	hl
+                                   1534 ;src/scripts/generate_dungeon.c:228: dirs[j] = temp;
+    0000072A 11 02 00         [12] 1535 	ld	de, #0x0002
+    0000072D D5               [16] 1536 	push	de
+    0000072E E5               [16] 1537 	push	hl
+    0000072F 21 10 00         [12] 1538 	ld	hl, #16
+    00000732 39               [ 8] 1539 	add	hl, sp
+    00000733 4D               [ 4] 1540 	ld	c, l
+    00000734 44               [ 4] 1541 	ld	b, h
+    00000735 D1               [12] 1542 	pop	de
+    00000736 CDr00r00         [24] 1543 	call	___memcpy
+                                   1544 ;src/scripts/generate_dungeon.c:224: for (uint8_t i = 3; i > 0; i--) {
+    00000739 F8 12            [12] 1545 	ldhl	sp,	#18
+    0000073B 35               [12] 1546 	dec	(hl)
+    0000073C 18 95            [12] 1547 	jr	00111$
+                                   1548 ;src/scripts/generate_dungeon.c:231: for (uint8_t i = 0; i < 4; i++) {
+    0000073E                       1549 00126$:
+    0000073E F8 12            [12] 1550 	ldhl	sp,	#18
+    00000740 36 00            [12] 1551 	ld	(hl), #0x00
+    00000742                       1552 00114$:
+    00000742 F8 12            [12] 1553 	ldhl	sp,	#18
+    00000744 7E               [ 8] 1554 	ld	a, (hl)
+    00000745 D6 04            [ 8] 1555 	sub	a, #0x04
+    00000747 D2rD9r07         [16] 1556 	jp	NC, 00109$
+                                   1557 ;src/scripts/generate_dungeon.c:232: Coords dir = dirs[i];
+    0000074A 4E               [ 8] 1558 	ld	c, (hl)
+    0000074B AF               [ 4] 1559 	xor	a, a
+    0000074C 47               [ 4] 1560 	ld	b, a
+    0000074D CB 21            [ 8] 1561 	sla	c
+    0000074F CB 10            [ 8] 1562 	rl	b
+    00000751 21 02 00         [12] 1563 	ld	hl, #2
+    00000754 39               [ 8] 1564 	add	hl, sp
+    00000755 09               [ 8] 1565 	add	hl, bc
+    00000756 4D               [ 4] 1566 	ld	c, l
+    00000757 44               [ 4] 1567 	ld	b, h
+    00000758 11 02 00         [12] 1568 	ld	de, #0x0002
+    0000075B D5               [16] 1569 	push	de
+    0000075C 21 0E 00         [12] 1570 	ld	hl, #14
+    0000075F 39               [ 8] 1571 	add	hl, sp
+    00000760 5D               [ 4] 1572 	ld	e, l
+    00000761 54               [ 4] 1573 	ld	d, h
+    00000762 CDr00r00         [24] 1574 	call	___memcpy
+                                   1575 ;src/scripts/generate_dungeon.c:233: uint8_t nx = start.x + dir.x;
+    00000765 F8 17            [12] 1576 	ldhl	sp,	#23
+    00000767 7E               [ 8] 1577 	ld	a, (hl)
+    00000768 F8 0C            [12] 1578 	ldhl	sp,	#12
+    0000076A 4E               [ 8] 1579 	ld	c, (hl)
+    0000076B 81               [ 4] 1580 	add	a, c
+    0000076C 4F               [ 4] 1581 	ld	c, a
+                                   1582 ;src/scripts/generate_dungeon.c:234: uint8_t ny = start.y + dir.y;
+    0000076D F8 18            [12] 1583 	ldhl	sp,	#24
+    0000076F 7E               [ 8] 1584 	ld	a, (hl)
+    00000770 F8 0D            [12] 1585 	ldhl	sp,	#13
+    00000772 46               [ 8] 1586 	ld	b, (hl)
+    00000773 80               [ 4] 1587 	add	a, b
+    00000774 F8 11            [12] 1588 	ldhl	sp,	#17
+    00000776 77               [ 8] 1589 	ld	(hl), a
+                                   1590 ;src/scripts/generate_dungeon.c:235: if (nx >= 0 && nx < 4 && ny >= 0 && ny < 4) {
+    00000777 79               [ 4] 1591 	ld	a, c
+    00000778 D6 04            [ 8] 1592 	sub	a, #0x04
+    0000077A 30 57            [12] 1593 	jr	NC, 00115$
+    0000077C 7E               [ 8] 1594 	ld	a, (hl)
+    0000077D D6 04            [ 8] 1595 	sub	a, #0x04
+    0000077F 30 52            [12] 1596 	jr	NC, 00115$
+                                   1597 ;src/scripts/generate_dungeon.c:236: if (dungeon[nx][ny] == '0') {
+    00000781 2B               [ 8] 1598 	dec	hl
+    00000782 2B               [ 8] 1599 	dec	hl
+    00000783 79               [ 4] 1600 	ld	a, c
+    00000784 22               [ 8] 1601 	ld	(hl+), a
+    00000785 AF               [ 4] 1602 	xor	a, a
+    00000786 32               [ 8] 1603 	ld	(hl-), a
+    00000787 7E               [ 8] 1604 	ld	a, (hl)
+    00000788 F8 00            [12] 1605 	ldhl	sp,	#0
+    0000078A 22               [ 8] 1606 	ld	(hl+), a
+    0000078B 36 00            [12] 1607 	ld	(hl), #0x00
+    0000078D 3E 02            [ 8] 1608 	ld	a, #0x02
+    0000078F                       1609 00173$:
+    0000078F F8 00            [12] 1610 	ldhl	sp,	#0
+    00000791 CB 26            [16] 1611 	sla	(hl)
+    00000793 23               [ 8] 1612 	inc	hl
+    00000794 CB 16            [16] 1613 	rl	(hl)
+    00000796 3D               [ 4] 1614 	dec	a
+    00000797 20 F6            [12] 1615 	jr	NZ, 00173$
+    00000799 D1               [12] 1616 	pop	de
+    0000079A D5               [16] 1617 	push	de
+    0000079B 21r00r00         [12] 1618 	ld	hl, #_dungeon
+    0000079E 19               [ 8] 1619 	add	hl, de
+    0000079F E5               [16] 1620 	push	hl
+    000007A0 7D               [ 4] 1621 	ld	a, l
+    000007A1 F8 10            [12] 1622 	ldhl	sp,	#16
+    000007A3 77               [ 8] 1623 	ld	(hl), a
+    000007A4 E1               [12] 1624 	pop	hl
+    000007A5 7C               [ 4] 1625 	ld	a, h
+    000007A6 F8 0F            [12] 1626 	ldhl	sp,	#15
+    000007A8 32               [ 8] 1627 	ld	(hl-), a
+    000007A9 2A               [ 8] 1628 	ld	a, (hl+)
+    000007AA 5F               [ 4] 1629 	ld	e, a
+    000007AB 2A               [ 8] 1630 	ld	a, (hl+)
+    000007AC 23               [ 8] 1631 	inc	hl
+    000007AD 57               [ 4] 1632 	ld	d, a
+    000007AE 6E               [ 8] 1633 	ld	l, (hl)
+    000007AF 26 00            [ 8] 1634 	ld	h, #0x00
+    000007B1 19               [ 8] 1635 	add	hl, de
+    000007B2 E5               [16] 1636 	push	hl
+    000007B3 7D               [ 4] 1637 	ld	a, l
+    000007B4 F8 12            [12] 1638 	ldhl	sp,	#18
+    000007B6 77               [ 8] 1639 	ld	(hl), a
+    000007B7 E1               [12] 1640 	pop	hl
+    000007B8 7C               [ 4] 1641 	ld	a, h
+    000007B9 F8 11            [12] 1642 	ldhl	sp,	#17
+    000007BB 32               [ 8] 1643 	ld	(hl-), a
+    000007BC 2A               [ 8] 1644 	ld	a, (hl+)
+    000007BD 5F               [ 4] 1645 	ld	e, a
+    000007BE 56               [ 8] 1646 	ld	d, (hl)
+    000007BF 1A               [ 8] 1647 	ld	a, (de)
+    000007C0 77               [ 8] 1648 	ld	(hl), a
+    000007C1 D6 30            [ 8] 1649 	sub	a, #0x30
+    000007C3 20 0E            [12] 1650 	jr	NZ, 00115$
+                                   1651 ;src/scripts/generate_dungeon.c:237: return dir;
+    000007C5 F8 15            [12] 1652 	ldhl	sp,	#21
+    000007C7 2A               [ 8] 1653 	ld	a, (hl+)
+    000007C8 4F               [ 4] 1654 	ld	c, a
+    000007C9 46               [ 8] 1655 	ld	b, (hl)
+    000007CA F8 0C            [12] 1656 	ldhl	sp,	#12
+    000007CC 2A               [ 8] 1657 	ld	a, (hl+)
+    000007CD 02               [ 8] 1658 	ld	(bc), a
+    000007CE 03               [ 8] 1659 	inc	bc
+    000007CF 7E               [ 8] 1660 	ld	a, (hl)
+    000007D0 02               [ 8] 1661 	ld	(bc), a
+    000007D1 18 12            [12] 1662 	jr	00116$
+    000007D3                       1663 00115$:
+                                   1664 ;src/scripts/generate_dungeon.c:231: for (uint8_t i = 0; i < 4; i++) {
+    000007D3 F8 12            [12] 1665 	ldhl	sp,	#18
+    000007D5 34               [12] 1666 	inc	(hl)
+    000007D6 C3r42r07         [16] 1667 	jp	00114$
+    000007D9                       1668 00109$:
+                                   1669 ;src/scripts/generate_dungeon.c:241: return fail;
+    000007D9 F8 15            [12] 1670 	ldhl	sp,	#21
+    000007DB 2A               [ 8] 1671 	ld	a, (hl+)
+    000007DC 4F               [ 4] 1672 	ld	c, a
+    000007DD 46               [ 8] 1673 	ld	b, (hl)
+    000007DE F8 0A            [12] 1674 	ldhl	sp,	#10
+    000007E0 2A               [ 8] 1675 	ld	a, (hl+)
+    000007E1 02               [ 8] 1676 	ld	(bc), a
+    000007E2 03               [ 8] 1677 	inc	bc
+    000007E3 7E               [ 8] 1678 	ld	a, (hl)
+    000007E4 02               [ 8] 1679 	ld	(bc), a
+    000007E5                       1680 00116$:
+                                   1681 ;src/scripts/generate_dungeon.c:242: }
+    000007E5 E8 13            [16] 1682 	add	sp, #19
+    000007E7 E1               [12] 1683 	pop	hl
+    000007E8 E8 04            [16] 1684 	add	sp, #4
+    000007EA E9               [ 4] 1685 	jp	(hl)
+                                   1686 ;src/scripts/generate_dungeon.c:245: void shuffle_starts(Coords possible_starts[], uint8_t starts_count) {
+                                   1687 ;	---------------------------------
+                                   1688 ; Function shuffle_starts
+                                   1689 ; ---------------------------------
+    000007EB                       1690 _shuffle_starts::
+    000007EB E8 F8            [16] 1691 	add	sp, #-8
+    000007ED F8 05            [12] 1692 	ldhl	sp,	#5
+    000007EF 73               [ 8] 1693 	ld	(hl), e
+    000007F0 23               [ 8] 1694 	inc	hl
+    000007F1 72               [ 8] 1695 	ld	(hl), d
+    000007F2 2B               [ 8] 1696 	dec	hl
+    000007F3 2B               [ 8] 1697 	dec	hl
+                                   1698 ;src/scripts/generate_dungeon.c:246: if (starts_count < 2) {
+    000007F4 77               [ 8] 1699 	ld	(hl), a
+    000007F5 D6 02            [ 8] 1700 	sub	a, #0x02
+                                   1701 ;src/scripts/generate_dungeon.c:247: return;
+    000007F7 38 7C            [12] 1702 	jr	C, 00107$
+                                   1703 ;src/scripts/generate_dungeon.c:249: for (uint8_t i = starts_count - 1; i > 0; i--) {
+    000007F9 F8 04            [12] 1704 	ldhl	sp,	#4
+    000007FB 7E               [ 8] 1705 	ld	a, (hl)
+    000007FC 3D               [ 4] 1706 	dec	a
+    000007FD F8 07            [12] 1707 	ldhl	sp,	#7
+    000007FF 77               [ 8] 1708 	ld	(hl), a
+    00000800                       1709 00105$:
+    00000800 F8 07            [12] 1710 	ldhl	sp,	#7
+    00000802 7E               [ 8] 1711 	ld	a, (hl)
+    00000803 B7               [ 4] 1712 	or	a, a
+    00000804 28 6F            [12] 1713 	jr	Z, 00107$
+                                   1714 ;src/scripts/generate_dungeon.c:250: uint8_t j = rand() % (i+1);
+    00000806 CDr00r00         [24] 1715 	call	_rand
+    00000809 7B               [ 4] 1716 	ld	a, e
+    0000080A F8 07            [12] 1717 	ldhl	sp,	#7
+    0000080C 5E               [ 8] 1718 	ld	e, (hl)
+    0000080D 16 00            [ 8] 1719 	ld	d, #0x00
+    0000080F 4B               [ 4] 1720 	ld	c, e
+    00000810 42               [ 4] 1721 	ld	b, d
+    00000811 03               [ 8] 1722 	inc	bc
+    00000812 2E 00            [ 8] 1723 	ld	l, #0x00
+    00000814 D5               [16] 1724 	push	de
+    00000815 5F               [ 4] 1725 	ld	e, a
+    00000816 55               [ 4] 1726 	ld	d, l
+    00000817 CDr00r00         [24] 1727 	call	__modsint
+    0000081A D1               [12] 1728 	pop	de
+    0000081B F8 03            [12] 1729 	ldhl	sp,	#3
+                                   1730 ;src/scripts/generate_dungeon.c:251: Coords temp = possible_starts[i];
+    0000081D 79               [ 4] 1731 	ld	a, c
+    0000081E 22               [ 8] 1732 	ld	(hl+), a
+    0000081F 23               [ 8] 1733 	inc	hl
+    00000820 CB 23            [ 8] 1734 	sla	e
+    00000822 CB 12            [ 8] 1735 	rl	d
+    00000824 2A               [ 8] 1736 	ld	a,	(hl+)
+    00000825 66               [ 8] 1737 	ld	h, (hl)
+    00000826 6F               [ 4] 1738 	ld	l, a
+    00000827 19               [ 8] 1739 	add	hl, de
+    00000828 5D               [ 4] 1740 	ld	e, l
+    00000829 54               [ 4] 1741 	ld	d, h
+    0000082A D5               [16] 1742 	push	de
+    0000082B 01 02 00         [12] 1743 	ld	bc, #0x0002
+    0000082E C5               [16] 1744 	push	bc
+    0000082F 4B               [ 4] 1745 	ld	c, e
+    00000830 42               [ 4] 1746 	ld	b, d
+    00000831 21 04 00         [12] 1747 	ld	hl, #4
+    00000834 39               [ 8] 1748 	add	hl, sp
+    00000835 5D               [ 4] 1749 	ld	e, l
+    00000836 54               [ 4] 1750 	ld	d, h
+    00000837 CDr00r00         [24] 1751 	call	___memcpy
+    0000083A D1               [12] 1752 	pop	de
+                                   1753 ;src/scripts/generate_dungeon.c:252: possible_starts[i] = possible_starts[j];
+    0000083B F8 03            [12] 1754 	ldhl	sp,	#3
+    0000083D 2A               [ 8] 1755 	ld	a, (hl+)
+    0000083E 23               [ 8] 1756 	inc	hl
+    0000083F 4F               [ 4] 1757 	ld	c, a
+    00000840 AF               [ 4] 1758 	xor	a, a
+    00000841 47               [ 4] 1759 	ld	b, a
+    00000842 CB 21            [ 8] 1760 	sla	c
+    00000844 CB 10            [ 8] 1761 	rl	b
+    00000846 2A               [ 8] 1762 	ld	a,	(hl+)
+    00000847 66               [ 8] 1763 	ld	h, (hl)
+    00000848 6F               [ 4] 1764 	ld	l, a
+    00000849 09               [ 8] 1765 	add	hl, bc
+    0000084A E5               [16] 1766 	push	hl
+    0000084B 7D               [ 4] 1767 	ld	a, l
+    0000084C F8 04            [12] 1768 	ldhl	sp,	#4
+    0000084E 77               [ 8] 1769 	ld	(hl), a
+    0000084F E1               [12] 1770 	pop	hl
+    00000850 7C               [ 4] 1771 	ld	a, h
+    00000851 F8 03            [12] 1772 	ldhl	sp,	#3
+    00000853 32               [ 8] 1773 	ld	(hl-), a
+    00000854 01 02 00         [12] 1774 	ld	bc, #0x0002
+    00000857 C5               [16] 1775 	push	bc
+    00000858 2A               [ 8] 1776 	ld	a, (hl+)
+    00000859 4F               [ 4] 1777 	ld	c, a
+    0000085A 46               [ 8] 1778 	ld	b, (hl)
+    0000085B CDr00r00         [24] 1779 	call	___memcpy
+                                   1780 ;src/scripts/generate_dungeon.c:253: possible_starts[j] = temp;
+    0000085E 11 02 00         [12] 1781 	ld	de, #0x0002
+    00000861 D5               [16] 1782 	push	de
+    00000862 21 02 00         [12] 1783 	ld	hl, #2
+    00000865 39               [ 8] 1784 	add	hl, sp
+    00000866 4D               [ 4] 1785 	ld	c, l
+    00000867 44               [ 4] 1786 	ld	b, h
+    00000868 F8 04            [12] 1787 	ldhl	sp,	#4
+    0000086A 2A               [ 8] 1788 	ld	a, (hl+)
+    0000086B 5F               [ 4] 1789 	ld	e, a
+    0000086C 56               [ 8] 1790 	ld	d, (hl)
+    0000086D CDr00r00         [24] 1791 	call	___memcpy
+                                   1792 ;src/scripts/generate_dungeon.c:249: for (uint8_t i = starts_count - 1; i > 0; i--) {
+    00000870 F8 07            [12] 1793 	ldhl	sp,	#7
+    00000872 35               [12] 1794 	dec	(hl)
+    00000873 18 8B            [12] 1795 	jr	00105$
+    00000875                       1796 00107$:
+                                   1797 ;src/scripts/generate_dungeon.c:255: }
+    00000875 E8 08            [16] 1798 	add	sp, #8
+    00000877 C9               [16] 1799 	ret
+                                   1800 ;src/scripts/generate_dungeon.c:257: void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir) {
+                                   1801 ;	---------------------------------
+                                   1802 ; Function create_doors
+                                   1803 ; ---------------------------------
+    00000878                       1804 _create_doors::
+    00000878 E8 FC            [16] 1805 	add	sp, #-4
+    0000087A 4F               [ 4] 1806 	ld	c, a
+    0000087B F8 03            [12] 1807 	ldhl	sp,	#3
+    0000087D 73               [ 8] 1808 	ld	(hl), e
+                                   1809 ;src/scripts/generate_dungeon.c:258: if (dir.x == 0 && dir.y == -1) {
+    0000087E F8 08            [12] 1810 	ldhl	sp,	#8
+    00000880 7E               [ 8] 1811 	ld	a, (hl)
+    00000881 F8 00            [12] 1812 	ldhl	sp,	#0
+    00000883 77               [ 8] 1813 	ld	(hl), a
+                                   1814 ;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+    00000884 06 00            [ 8] 1815 	ld	b, #0x00
+                                   1816 ;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+    00000886 F8 06            [12] 1817 	ldhl	sp,	#6
+    00000888 5E               [ 8] 1818 	ld	e, (hl)
+    00000889 16 00            [ 8] 1819 	ld	d, #0x00
+                                   1820 ;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+    0000088B CB 21            [ 8] 1821 	sla	c
+    0000088D CB 10            [ 8] 1822 	rl	b
+    0000088F CB 21            [ 8] 1823 	sla	c
+    00000891 CB 10            [ 8] 1824 	rl	b
+                                   1825 ;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+    00000893 CB 23            [ 8] 1826 	sla	e
+    00000895 CB 12            [ 8] 1827 	rl	d
+    00000897 CB 23            [ 8] 1828 	sla	e
+    00000899 CB 12            [ 8] 1829 	rl	d
+    0000089B F8 01            [12] 1830 	ldhl	sp,	#1
+    0000089D 7B               [ 4] 1831 	ld	a, e
+    0000089E 22               [ 8] 1832 	ld	(hl+), a
+                                   1833 ;src/scripts/generate_dungeon.c:258: if (dir.x == 0 && dir.y == -1) {
+    0000089F 7A               [ 4] 1834 	ld	a, d
+    000008A0 32               [ 8] 1835 	ld	(hl-), a
+    000008A1 2B               [ 8] 1836 	dec	hl
+    000008A2 7E               [ 8] 1837 	ld	a, (hl)
+    000008A3 B7               [ 4] 1838 	or	a, a
+    000008A4 20 32            [12] 1839 	jr	NZ, 00113$
+    000008A6 F8 09            [12] 1840 	ldhl	sp,	#9
+    000008A8 7E               [ 8] 1841 	ld	a, (hl)
+    000008A9 3C               [ 4] 1842 	inc	a
+    000008AA 20 2C            [12] 1843 	jr	NZ, 00113$
+                                   1844 ;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+    000008AC 11r10r00         [12] 1845 	ld	de, #_doors+0
+    000008AF 7B               [ 4] 1846 	ld	a, e
+    000008B0 81               [ 4] 1847 	add	a, c
+    000008B1 4F               [ 4] 1848 	ld	c, a
+    000008B2 7A               [ 4] 1849 	ld	a, d
+    000008B3 88               [ 4] 1850 	adc	a, b
+    000008B4 47               [ 4] 1851 	ld	b, a
+    000008B5 F8 03            [12] 1852 	ldhl	sp,	#3
+    000008B7 6E               [ 8] 1853 	ld	l, (hl)
+    000008B8 26 00            [ 8] 1854 	ld	h, #0x00
+    000008BA 09               [ 8] 1855 	add	hl, bc
+    000008BB 4D               [ 4] 1856 	ld	c, l
+    000008BC 44               [ 4] 1857 	ld	b, h
+    000008BD 0A               [ 8] 1858 	ld	a, (bc)
+    000008BE CB C7            [ 8] 1859 	set	0, a
+    000008C0 02               [ 8] 1860 	ld	(bc), a
+                                   1861 ;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+    000008C1 F8 01            [12] 1862 	ldhl	sp,	#1
+    000008C3 2A               [ 8] 1863 	ld	a,	(hl+)
+    000008C4 66               [ 8] 1864 	ld	h, (hl)
+    000008C5 6F               [ 4] 1865 	ld	l, a
+    000008C6 19               [ 8] 1866 	add	hl, de
+    000008C7 4D               [ 4] 1867 	ld	c, l
+    000008C8 44               [ 4] 1868 	ld	b, h
+    000008C9 F8 07            [12] 1869 	ldhl	sp,	#7
+    000008CB 6E               [ 8] 1870 	ld	l, (hl)
+    000008CC 26 00            [ 8] 1871 	ld	h, #0x00
+    000008CE 09               [ 8] 1872 	add	hl, bc
+    000008CF 4D               [ 4] 1873 	ld	c, l
+    000008D0 44               [ 4] 1874 	ld	b, h
+    000008D1 0A               [ 8] 1875 	ld	a, (bc)
+    000008D2 CB D7            [ 8] 1876 	set	2, a
+    000008D4 02               [ 8] 1877 	ld	(bc), a
+    000008D5 C3r7Br09         [16] 1878 	jp	00116$
+    000008D8                       1879 00113$:
+                                   1880 ;src/scripts/generate_dungeon.c:262: else if (dir.x == 1 && dir.y == 0) {
+    000008D8 F8 00            [12] 1881 	ldhl	sp,	#0
+    000008DA 7E               [ 8] 1882 	ld	a, (hl)
+    000008DB 3D               [ 4] 1883 	dec	a
+    000008DC 20 31            [12] 1884 	jr	NZ, 00109$
+    000008DE F8 09            [12] 1885 	ldhl	sp,	#9
+    000008E0 7E               [ 8] 1886 	ld	a, (hl)
+    000008E1 B7               [ 4] 1887 	or	a, a
+    000008E2 20 2B            [12] 1888 	jr	NZ, 00109$
+                                   1889 ;src/scripts/generate_dungeon.c:263: doors[x1][y1] |= EST;
+    000008E4 11r10r00         [12] 1890 	ld	de, #_doors+0
+    000008E7 7B               [ 4] 1891 	ld	a, e
+    000008E8 81               [ 4] 1892 	add	a, c
+    000008E9 4F               [ 4] 1893 	ld	c, a
+    000008EA 7A               [ 4] 1894 	ld	a, d
+    000008EB 88               [ 4] 1895 	adc	a, b
+    000008EC 47               [ 4] 1896 	ld	b, a
+    000008ED F8 03            [12] 1897 	ldhl	sp,	#3
+    000008EF 6E               [ 8] 1898 	ld	l, (hl)
+    000008F0 26 00            [ 8] 1899 	ld	h, #0x00
+    000008F2 09               [ 8] 1900 	add	hl, bc
+    000008F3 4D               [ 4] 1901 	ld	c, l
+    000008F4 44               [ 4] 1902 	ld	b, h
+    000008F5 0A               [ 8] 1903 	ld	a, (bc)
+    000008F6 CB CF            [ 8] 1904 	set	1, a
+    000008F8 02               [ 8] 1905 	ld	(bc), a
+                                   1906 ;src/scripts/generate_dungeon.c:264: doors[x2][y2] |= OVEST;
+    000008F9 F8 01            [12] 1907 	ldhl	sp,	#1
+    000008FB 2A               [ 8] 1908 	ld	a,	(hl+)
+    000008FC 66               [ 8] 1909 	ld	h, (hl)
+    000008FD 6F               [ 4] 1910 	ld	l, a
+    000008FE 19               [ 8] 1911 	add	hl, de
+    000008FF 4D               [ 4] 1912 	ld	c, l
+    00000900 44               [ 4] 1913 	ld	b, h
+    00000901 F8 07            [12] 1914 	ldhl	sp,	#7
+    00000903 6E               [ 8] 1915 	ld	l, (hl)
+    00000904 26 00            [ 8] 1916 	ld	h, #0x00
+    00000906 09               [ 8] 1917 	add	hl, bc
+    00000907 4D               [ 4] 1918 	ld	c, l
+    00000908 44               [ 4] 1919 	ld	b, h
+    00000909 0A               [ 8] 1920 	ld	a, (bc)
+    0000090A CB DF            [ 8] 1921 	set	3, a
+    0000090C 02               [ 8] 1922 	ld	(bc), a
+    0000090D 18 6C            [12] 1923 	jr	00116$
+    0000090F                       1924 00109$:
+                                   1925 ;src/scripts/generate_dungeon.c:266: else if (dir.x == 0 && dir.y == 1) {
+    0000090F F8 00            [12] 1926 	ldhl	sp,	#0
+    00000911 7E               [ 8] 1927 	ld	a, (hl)
+    00000912 B7               [ 4] 1928 	or	a, a
+    00000913 20 31            [12] 1929 	jr	NZ, 00105$
+    00000915 F8 09            [12] 1930 	ldhl	sp,	#9
+    00000917 7E               [ 8] 1931 	ld	a, (hl)
+    00000918 3D               [ 4] 1932 	dec	a
+    00000919 20 2B            [12] 1933 	jr	NZ, 00105$
+                                   1934 ;src/scripts/generate_dungeon.c:267: doors[x1][y1] |= SUD;
+    0000091B 11r10r00         [12] 1935 	ld	de, #_doors+0
+    0000091E 7B               [ 4] 1936 	ld	a, e
+    0000091F 81               [ 4] 1937 	add	a, c
+    00000920 4F               [ 4] 1938 	ld	c, a
+    00000921 7A               [ 4] 1939 	ld	a, d
+    00000922 88               [ 4] 1940 	adc	a, b
+    00000923 47               [ 4] 1941 	ld	b, a
+    00000924 F8 03            [12] 1942 	ldhl	sp,	#3
+    00000926 6E               [ 8] 1943 	ld	l, (hl)
+    00000927 26 00            [ 8] 1944 	ld	h, #0x00
+    00000929 09               [ 8] 1945 	add	hl, bc
+    0000092A 4D               [ 4] 1946 	ld	c, l
+    0000092B 44               [ 4] 1947 	ld	b, h
+    0000092C 0A               [ 8] 1948 	ld	a, (bc)
+    0000092D CB D7            [ 8] 1949 	set	2, a
+    0000092F 02               [ 8] 1950 	ld	(bc), a
+                                   1951 ;src/scripts/generate_dungeon.c:268: doors[x2][y2] |= NORD;
+    00000930 F8 01            [12] 1952 	ldhl	sp,	#1
+    00000932 2A               [ 8] 1953 	ld	a,	(hl+)
+    00000933 66               [ 8] 1954 	ld	h, (hl)
+    00000934 6F               [ 4] 1955 	ld	l, a
+    00000935 19               [ 8] 1956 	add	hl, de
+    00000936 4D               [ 4] 1957 	ld	c, l
+    00000937 44               [ 4] 1958 	ld	b, h
+    00000938 F8 07            [12] 1959 	ldhl	sp,	#7
+    0000093A 6E               [ 8] 1960 	ld	l, (hl)
+    0000093B 26 00            [ 8] 1961 	ld	h, #0x00
+    0000093D 09               [ 8] 1962 	add	hl, bc
+    0000093E 4D               [ 4] 1963 	ld	c, l
+    0000093F 44               [ 4] 1964 	ld	b, h
+    00000940 0A               [ 8] 1965 	ld	a, (bc)
+    00000941 CB C7            [ 8] 1966 	set	0, a
+    00000943 02               [ 8] 1967 	ld	(bc), a
+    00000944 18 35            [12] 1968 	jr	00116$
+    00000946                       1969 00105$:
+                                   1970 ;src/scripts/generate_dungeon.c:270: else if (dir.x == -1 && dir.y == 0) {
+    00000946 F8 00            [12] 1971 	ldhl	sp,	#0
+    00000948 7E               [ 8] 1972 	ld	a, (hl)
+    00000949 3C               [ 4] 1973 	inc	a
+    0000094A 20 2F            [12] 1974 	jr	NZ, 00116$
+    0000094C F8 09            [12] 1975 	ldhl	sp,	#9
+    0000094E 7E               [ 8] 1976 	ld	a, (hl)
+    0000094F B7               [ 4] 1977 	or	a, a
+    00000950 20 29            [12] 1978 	jr	NZ, 00116$
+                                   1979 ;src/scripts/generate_dungeon.c:271: doors[x1][y1] |= OVEST;
+    00000952 11r10r00         [12] 1980 	ld	de, #_doors+0
+    00000955 7B               [ 4] 1981 	ld	a, e
+    00000956 81               [ 4] 1982 	add	a, c
+    00000957 4F               [ 4] 1983 	ld	c, a
+    00000958 7A               [ 4] 1984 	ld	a, d
+    00000959 88               [ 4] 1985 	adc	a, b
+    0000095A 47               [ 4] 1986 	ld	b, a
+    0000095B F8 03            [12] 1987 	ldhl	sp,	#3
+    0000095D 6E               [ 8] 1988 	ld	l, (hl)
+    0000095E 26 00            [ 8] 1989 	ld	h, #0x00
+    00000960 09               [ 8] 1990 	add	hl, bc
+    00000961 4D               [ 4] 1991 	ld	c, l
+    00000962 44               [ 4] 1992 	ld	b, h
+    00000963 0A               [ 8] 1993 	ld	a, (bc)
+    00000964 CB DF            [ 8] 1994 	set	3, a
+    00000966 02               [ 8] 1995 	ld	(bc), a
+                                   1996 ;src/scripts/generate_dungeon.c:272: doors[x2][y2] |= EST;
+    00000967 F8 01            [12] 1997 	ldhl	sp,	#1
+    00000969 2A               [ 8] 1998 	ld	a,	(hl+)
+    0000096A 66               [ 8] 1999 	ld	h, (hl)
+    0000096B 6F               [ 4] 2000 	ld	l, a
+    0000096C 19               [ 8] 2001 	add	hl, de
+    0000096D 4D               [ 4] 2002 	ld	c, l
+    0000096E 44               [ 4] 2003 	ld	b, h
+    0000096F F8 07            [12] 2004 	ldhl	sp,	#7
+    00000971 6E               [ 8] 2005 	ld	l, (hl)
+    00000972 26 00            [ 8] 2006 	ld	h, #0x00
+    00000974 09               [ 8] 2007 	add	hl, bc
+    00000975 4D               [ 4] 2008 	ld	c, l
+    00000976 44               [ 4] 2009 	ld	b, h
+    00000977 0A               [ 8] 2010 	ld	a, (bc)
+    00000978 CB CF            [ 8] 2011 	set	1, a
+    0000097A 02               [ 8] 2012 	ld	(bc), a
+    0000097B                       2013 00116$:
+                                   2014 ;src/scripts/generate_dungeon.c:274: }
+    0000097B E8 04            [16] 2015 	add	sp, #4
+    0000097D E1               [12] 2016 	pop	hl
+    0000097E E8 04            [16] 2017 	add	sp, #4
+    00000980 E9               [ 4] 2018 	jp	(hl)
+                                   2019 ;src/scripts/generate_dungeon.c:276: void add_obstacles(uint8_t x, uint8_t y) {
+                                   2020 ;	---------------------------------
+                                   2021 ; Function add_obstacles
+                                   2022 ; ---------------------------------
+    00000981                       2023 _add_obstacles::
+    00000981 47               [ 4] 2024 	ld	b, a
+    00000982 4B               [ 4] 2025 	ld	c, e
+                                   2026 ;src/scripts/generate_dungeon.c:279: high_obs = rand() & 7;
+    00000983 CDr00r00         [24] 2027 	call	_rand
+    00000986 7B               [ 4] 2028 	ld	a, e
+    00000987 E6 07            [ 8] 2029 	and	a, #0x07
+    00000989 5F               [ 4] 2030 	ld	e, a
+                                   2031 ;src/scripts/generate_dungeon.c:280: obstacles[x][y] = (high_obs << 4);
+    0000098A AF               [ 4] 2032 	xor	a, a
+    0000098B 68               [ 4] 2033 	ld	l, b
+    0000098C 67               [ 4] 2034 	ld	h, a
+    0000098D 29               [ 8] 2035 	add	hl, hl
+    0000098E 29               [ 8] 2036 	add	hl, hl
+    0000098F D5               [16] 2037 	push	de
+    00000990 11r20r00         [12] 2038 	ld	de, #_obstacles
+    00000993 19               [ 8] 2039 	add	hl, de
+    00000994 D1               [12] 2040 	pop	de
+    00000995 06 00            [ 8] 2041 	ld	b, #0x00
+    00000997 09               [ 8] 2042 	add	hl, bc
+    00000998 7B               [ 4] 2043 	ld	a, e
+    00000999 CB 37            [ 8] 2044 	swap	a
+    0000099B E6 F0            [ 8] 2045 	and	a, #0xf0
+    0000099D 77               [ 8] 2046 	ld	(hl), a
+                                   2047 ;src/scripts/generate_dungeon.c:281: low_obs = rand() & 7;
+    0000099E E5               [16] 2048 	push	hl
+    0000099F CDr00r00         [24] 2049 	call	_rand
+    000009A2 7B               [ 4] 2050 	ld	a, e
+    000009A3 E1               [12] 2051 	pop	hl
+    000009A4 E6 07            [ 8] 2052 	and	a, #0x07
+                                   2053 ;src/scripts/generate_dungeon.c:282: obstacles[x][y] |= low_obs;
+    000009A6 4E               [ 8] 2054 	ld	c, (hl)
+    000009A7 B1               [ 4] 2055 	or	a, c
+    000009A8 77               [ 8] 2056 	ld	(hl), a
+                                   2057 ;src/scripts/generate_dungeon.c:283: }
+    000009A9 C9               [16] 2058 	ret
+                                   2059 	.area _CODE_1
+                                   2060 	.area _INITIALIZER
+                                   2061 	.area _CABS (ABS)

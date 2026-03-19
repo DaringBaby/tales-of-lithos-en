@@ -1,0 +1,30 @@
+XL4
+H B areas 2 global symbols
+M Safy
+S .__.ABS. Def00000000
+A _CODE size 0 flags 0 addr 0
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _CODE_1 size 40 flags 0 addr 0
+S _Safy Def00000000
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 08 00
+T 00 00 00 00 07 07 0A 0D 16 1F 2C 3B 3A 37 3F 3D
+R 00 00 08 00
+T 0C 00 00 00 28 3A 28 3A E0 E0 D0 30 E8 F8 74 9C
+R 00 00 08 00
+T 18 00 00 00 5C EC FC FC 14 5C 14 5C 29 39 17 1F
+R 00 00 08 00
+T 24 00 00 00 3C 29 7E 48 78 4F 4F 48 79 7F 0E 0E
+R 00 00 08 00
+T 30 00 00 00 94 9C E8 F8 3C 54 7E 92 DE 32 F2 12
+R 00 00 08 00
+T 3C 00 00 00 9E FE 70 70
+R 00 00 08 00

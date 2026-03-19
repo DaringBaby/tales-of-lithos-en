@@ -22,8 +22,8 @@
 
 */
 
-#ifndef __IntroSlide1_h_INCLUDE
-#define __IntroSlide1_h_INCLUDE
+#ifndef __IntroSlide1Tiles_h_INCLUDE
+#define __IntroSlide1Tiles_h_INCLUDE
 
 /* Bank of tiles. */
 #define Slide1Bank 0

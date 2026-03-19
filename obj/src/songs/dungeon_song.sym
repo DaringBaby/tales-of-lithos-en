@@ -1,0 +1,61 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+  8 _P0                                                             00000001 R
+  8 _P1                                                             000000C1 R
+  8 _P11                                                            00000481 R
+  8 _P13                                                            00000541 R
+  8 _P16                                                            00000601 R
+  8 _P2                                                             00000181 R
+  8 _P20                                                            000006C1 R
+  8 _P24                                                            00000781 R
+  8 _P25                                                            00000841 R
+  8 _P29                                                            00000901 R
+  8 _P30                                                            000009C1 R
+  8 _P31                                                            00000A81 R
+  8 _P32                                                            00000B41 R
+  8 _P4                                                             00000241 R
+  8 _P5                                                             00000301 R
+  8 _P9                                                             000003C1 R
+  8 _dungeon_theme                                                  000010C5 GR
+  8 _duty_instruments                                               00000F31 R
+  8 _itNoiseSP1                                                     00000C01 R
+  8 _itNoiseSP2                                                     00000C61 R
+  8 _itNoiseSP3                                                     00000CC1 R
+  8 _itNoiseSP4                                                     00000D21 R
+  8 _itNoiseSP5                                                     00000D81 R
+  8 _itNoiseSP6                                                     00000DE1 R
+  8 _itNoiseSP7                                                     00000E41 R
+  8 _noise_instruments                                              00000FBB R
+  8 _order1                                                         00000EA1 R
+  8 _order2                                                         00000EC5 R
+  8 _order3                                                         00000EE9 R
+  8 _order4                                                         00000F0D R
+  8 _order_cnt                                                      00000000 R
+  8 _wave_instruments                                               00000F6D R
+  8 _waves                                                          00000FE5 R
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size        0   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _CODE_4                                    size     10DA   flags    0
+   9 _INITIALIZER                               size        0   flags    0
+   A _CABS                                      size        0   flags    8
+

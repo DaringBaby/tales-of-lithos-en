@@ -1,0 +1,60 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _arrow_damage                                                   ******** GX
+    _arrow_lvl                                                      ******** GX
+    _attack                                                         ******** GX
+    _current_hp                                                     ******** GX
+    _defense                                                        ******** GX
+    _enemies_defeated                                               ******** GX
+    _experience                                                     ******** GX
+    _frames                                                         ******** GX
+    _heal_quantity                                                  ******** GX
+    _heals                                                          ******** GX
+    _hours                                                          ******** GX
+    _level                                                          ******** GX
+  0 _load_game                                                      00000000 GR
+    _max_floor                                                      ******** GX
+    _max_heals                                                      ******** GX
+    _max_hp                                                         ******** GX
+    _max_num_arrows                                                 ******** GX
+    _minerals                                                       ******** GX
+    _minutes                                                        ******** GX
+    _ng                                                             ******** GX
+    _num_arrows                                                     ******** GX
+    _player_name                                                    ******** GX
+    _potion_heal_lvl                                                ******** GX
+    _potion_quant_lvl                                               ******** GX
+    _power_ups                                                      ******** GX
+    _quiver_lvl                                                     ******** GX
+    _rRAMB                                                          ******** GX
+    _rRAMG                                                          ******** GX
+  0 _save_game                                                      000000E5 GR
+    _seconds                                                        ******** GX
+    _shield_lvl                                                     ******** GX
+    _sram_data                                                  =   0000A000 G
+    _sword_lvl                                                      ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      1CC   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        0   flags    0
+   9 _CABS                                      size        0   flags    8
+

@@ -1,0 +1,89 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module intro
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl b_start_intro
+                                     11 	.globl _start_intro
+                                     12 	.globl _set_bkg_tiles
+                                     13 	.globl _set_bkg_data
+                                     14 	.globl _joypad
+                                     15 ;--------------------------------------------------------
+                                     16 ; special function registers
+                                     17 ;--------------------------------------------------------
+                                     18 	.area _HRAM
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _DATA
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _INITIALIZED
+                                     27 ;--------------------------------------------------------
+                                     28 ; absolute external ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _DABS (ABS)
+                                     31 ;--------------------------------------------------------
+                                     32 ; global & static initialisations
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _HOME
+                                     35 	.area _GSINIT
+                                     36 	.area _GSFINAL
+                                     37 	.area _GSINIT
+                                     38 ;--------------------------------------------------------
+                                     39 ; Home
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _HOME
+                                     42 	.area _HOME
+                                     43 ;--------------------------------------------------------
+                                     44 ; code
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _CODE_6
+                                     47 ;src/scripts/intro.c:6: void start_intro() BANKED {
+                                     48 ;	---------------------------------
+                                     49 ; Function start_intro
+                                     50 ; ---------------------------------
+                         00000006    51 	b_start_intro	= 6
+    00000000                         52 _start_intro::
+                                     53 ;src/scripts/intro.c:7: set_bkg_data(0, 235, Slide1);
+    00000000 11r00r00         [12]   54 	ld	de, #_Slide1
+    00000003 D5               [16]   55 	push	de
+    00000004 21 00 EB         [12]   56 	ld	hl, #0xeb00
+    00000007 E5               [16]   57 	push	hl
+    00000008 CDr00r00         [24]   58 	call	_set_bkg_data
+    0000000B E8 04            [16]   59 	add	sp, #4
+                                     60 ;src/scripts/intro.c:8: set_bkg_tiles(0, 0, 20, 18, IntroSlide1);
+    0000000D 11r00r00         [12]   61 	ld	de, #_IntroSlide1
+    00000010 D5               [16]   62 	push	de
+    00000011 21 14 12         [12]   63 	ld	hl, #0x1214
+    00000014 E5               [16]   64 	push	hl
+    00000015 AF               [ 4]   65 	xor	a, a
+    00000016 0F               [ 4]   66 	rrca
+    00000017 F5               [16]   67 	push	af
+    00000018 CDr00r00         [24]   68 	call	_set_bkg_tiles
+    0000001B E8 06            [16]   69 	add	sp, #6
+                                     70 ;src/scripts/intro.c:9: SHOW_BKG;
+    0000001D F0r00            [12]   71 	ldh	a, (_LCDC_REG + 0)
+    0000001F F6 01            [ 8]   72 	or	a, #0x01
+    00000021 E0r00            [12]   73 	ldh	(_LCDC_REG + 0), a
+                                     74 ;src/scripts/intro.c:10: DISPLAY_ON;
+    00000023 F0r00            [12]   75 	ldh	a, (_LCDC_REG + 0)
+    00000025 F6 80            [ 8]   76 	or	a, #0x80
+    00000027 E0r00            [12]   77 	ldh	(_LCDC_REG + 0), a
+                                     78 ;src/scripts/intro.c:11: while (1) {
+    00000029                         79 00104$:
+                                     80 ;src/scripts/intro.c:12: if (joypad() & J_A) {
+    00000029 CDr00r00         [24]   81 	call	_joypad
+    0000002C CB 67            [ 8]   82 	bit	4, a
+    0000002E 28 F9            [12]   83 	jr	Z, 00104$
+                                     84 ;src/scripts/intro.c:13: return;
+                                     85 ;src/scripts/intro.c:16: }
+    00000030 C9               [16]   86 	ret
+                                     87 	.area _CODE_6
+                                     88 	.area _INITIALIZER
+                                     89 	.area _CABS (ABS)

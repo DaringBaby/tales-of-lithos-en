@@ -1,0 +1,30 @@
+XL4
+H B areas 2 global symbols
+M Hector
+S .__.ABS. Def00000000
+A _CODE size 0 flags 0 addr 0
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _CODE_1 size 40 flags 0 addr 0
+S _Hector Def00000000
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 08 00
+T 00 00 00 00 07 07 08 08 13 10 10 10 13 10 10 14
+R 00 00 08 00
+T 0C 00 00 00 10 12 18 12 E0 E0 10 10 C8 08 08 08
+R 00 00 08 00
+T 18 00 00 00 C8 08 08 28 08 48 18 48 0B 09 37 34
+R 00 00 08 00
+T 24 00 00 00 5B 4C 5D 4E 78 4F 4F 48 79 7F 0E 0E
+R 00 00 08 00
+T 30 00 00 00 D0 90 EC 2C DA 32 BA 72 1E F2 F2 12
+R 00 00 08 00
+T 3C 00 00 00 9E FE 70 70
+R 00 00 08 00

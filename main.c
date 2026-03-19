@@ -219,9 +219,9 @@ void main(void) {
     SWITCH_ROM(1);
     ng = set_titlescreen();
     start_sfx();
-    
-    
-    
+
+
+
     set_sprite_data(0, 4, MC_down);
     set_sprite_data(8, 4, MC_right);
     set_sprite_data(12, 4, MC_left);
@@ -251,11 +251,11 @@ void main(void) {
     if (!load_game()) {
         insert_name();
     }
-    
-    set_sprite_data(4, 4, MC_up);
-    
 
-    
+    set_sprite_data(4, 4, MC_up);
+
+
+
     if (current_location == 0){
         set_camp_map();
     }
@@ -277,12 +277,12 @@ void main(void) {
     set_sprite_tile(7, 3);
 
     // mythrill
-    
+
     set_sprite_tile(35, 61);
     set_sprite_tile(36, 62);
     set_sprite_tile(37, 63);
     set_sprite_tile(38, 64);
-    
+
 
     move_character();
     SHOW_SPRITES;
@@ -340,8 +340,8 @@ void move_character() {
     move_sprite(6, x, y + 8);
     move_sprite(7, x + 8, y + 8);
     // per ora che non ci sono altri tiles per il player
-    if (y == 144) { 
-            set_sprite_tile(6, 50); 
+    if (y == 144) {
+            set_sprite_tile(6, 50);
             set_sprite_tile(7, 50);
         }
 
@@ -452,7 +452,7 @@ void check_input_movement() {
             move_enemy(&current_enemies[0]);
             move_enemy(&current_enemies[1]);
             move_boss(&boss);
-            
+
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
                 stairs_sfx();
                 go_next_floor();
@@ -482,7 +482,7 @@ void check_input_movement() {
                 DISPLAY_ON;
             }
         }
-        
+
     }
 }
 
@@ -596,14 +596,14 @@ void check_input_keys() {
 
 
 uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
-    
+
     if (current_location != 0) {
         if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
-            return 1; 
+            return 1;
         }
     }
 
-    
+
     int16_t gx = ((int16_t)new_x - 8) / 8;
     int16_t gy = ((int16_t)new_y - 16) / 8;
 
@@ -665,7 +665,7 @@ uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
         }
     }
     return 0;
-    
+
 }
 
 void set_camp_map(){
@@ -679,7 +679,7 @@ void set_camp_map(){
     set_bkg_data(0, 108, CampTiles);
     set_bkg_tiles(0, 0, 20, 18, Camp);
     SWITCH_ROM(1);
-    
+
 
     set_sprite_tile(8, 16);
     set_sprite_tile(9, 17);
@@ -710,7 +710,7 @@ void set_camp_map(){
 
 
 void hide_camp_sprites() {
-    
+
     set_sprite_tile(8, 50);
     set_sprite_tile(9, 50);
     set_sprite_tile(10, 50);
@@ -846,7 +846,7 @@ void check_open_menu() {
             DISPLAY_OFF;
             move_win(7, 136);
             set_mini_menu();
-            
+
             SHOW_SPRITES;
             menu_opened = 0;
             DISPLAY_ON;
@@ -870,7 +870,7 @@ void check_open_menu() {
             DISPLAY_OFF;
             move_win(7, 136);
             set_mini_menu();
-            
+
             SHOW_SPRITES;
             menu_opened = 0;
             DISPLAY_ON;
@@ -958,11 +958,11 @@ void set_textbox(uint8_t item) {
     }
 
     wait_vbl_done();
-    
+
     while(!(joypad() & (J_A))) {
         wait_vbl_done();
     }
-    
+
     while(joypad() & (J_A)) {
         wait_vbl_done();
     }
@@ -1161,12 +1161,12 @@ void smooth_movement(uint8_t dir) {
     }
 
     play_walk_animation(dir);
-    
+
     while (frame < 16) {
         if (frame > 7) {
             set_character_sprite(dir);
         }
-        if (mov_y >= 136) { 
+        if (mov_y >= 136) {
             set_sprite_tile(6, 50);
             set_sprite_tile(7, 50);
         }
@@ -1211,7 +1211,7 @@ void smooth_movement(uint8_t dir) {
         move_sprite(7, mov_x + 8, mov_y + 8);
         frame++;
     }
-    
+
 }
 
 
@@ -1320,4 +1320,3 @@ void set_tutorial() {
             }
         }
 }
-

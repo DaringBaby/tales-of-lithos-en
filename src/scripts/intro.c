@@ -1,5 +1,5 @@
 #pragma bank 6
-#include "../tiles/IntroSlide1.h"
+#include "../tiles/IntroSlide1Tiles.h"
 #include "../maps/IntroSlide1.h"
 #include <gb/gb.h>
 

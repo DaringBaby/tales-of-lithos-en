@@ -1,0 +1,576 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module locked_doors
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl b_hide_door
+                                     11 	.globl _hide_door
+                                     12 	.globl b_draw_flip_lock_h
+                                     13 	.globl _draw_flip_lock_h
+                                     14 	.globl b_draw_lock_h
+                                     15 	.globl _draw_lock_h
+                                     16 	.globl b_draw_flip_lock_v
+                                     17 	.globl _draw_flip_lock_v
+                                     18 	.globl b_draw_lock_v
+                                     19 	.globl _draw_lock_v
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _HRAM
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _DATA
+                                     28 ;--------------------------------------------------------
+                                     29 ; ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _INITIALIZED
+                                     32 ;--------------------------------------------------------
+                                     33 ; absolute external ram data
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _DABS (ABS)
+                                     36 ;--------------------------------------------------------
+                                     37 ; global & static initialisations
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _GSINIT
+                                     41 	.area _GSFINAL
+                                     42 	.area _GSINIT
+                                     43 ;--------------------------------------------------------
+                                     44 ; Home
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _HOME
+                                     47 	.area _HOME
+                                     48 ;--------------------------------------------------------
+                                     49 ; code
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _CODE_3
+                                     52 ;src/scripts/locked_doors.c:5: void draw_lock_v(uint8_t x, uint8_t y) BANKED {
+                                     53 ;	---------------------------------
+                                     54 ; Function draw_lock_v
+                                     55 ; ---------------------------------
+                         00000003    56 	b_draw_lock_v	= 3
+    00000000                         57 _draw_lock_v::
+    00000000 3B               [ 8]   58 	dec	sp
+    00000001 3B               [ 8]   59 	dec	sp
+                                     60 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000002 21r66r00         [12]   61 	ld	hl, #(_shadow_OAM + 102)
+                                     62 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000005 3E 33            [ 8]   63 	ld	a, #0x33
+    00000007 22               [ 8]   64 	ld	(hl+), a
+    00000008 36 00            [12]   65 	ld	(hl), #0x00
+                                     66 ;src/scripts/locked_doors.c:8: move_sprite(25, x, y);
+    0000000A F8 09            [12]   67 	ldhl	sp,	#9
+    0000000C 3A               [ 8]   68 	ld	a, (hl-)
+    0000000D 47               [ 4]   69 	ld	b, a
+    0000000E 4E               [ 8]   70 	ld	c, (hl)
+                                     71 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000000F 21r64r00         [12]   72 	ld	hl, #(_shadow_OAM + 100)
+                                     73 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000012 78               [ 4]   74 	ld	a, b
+    00000013 22               [ 8]   75 	ld	(hl+), a
+    00000014 71               [ 8]   76 	ld	(hl), c
+                                     77 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000015 21r6Ar00         [12]   78 	ld	hl, #(_shadow_OAM + 106)
+                                     79 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000018 3E 37            [ 8]   80 	ld	a, #0x37
+    0000001A 22               [ 8]   81 	ld	(hl+), a
+    0000001B 36 00            [12]   82 	ld	(hl), #0x00
+                                     83 ;src/scripts/locked_doors.c:12: move_sprite(26, x, y + 8);
+    0000001D 78               [ 4]   84 	ld	a, b
+    0000001E C6 08            [ 8]   85 	add	a, #0x08
+    00000020 F8 00            [12]   86 	ldhl	sp,	#0
+    00000022 77               [ 8]   87 	ld	(hl), a
+                                     88 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                     89 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000023 7E               [ 8]   90 	ld	a, (hl)
+    00000024 21r68r00         [12]   91 	ld	hl, #(_shadow_OAM + 104)
+    00000027 22               [ 8]   92 	ld	(hl+), a
+    00000028 71               [ 8]   93 	ld	(hl), c
+                                     94 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000029 21r6Er00         [12]   95 	ld	hl, #(_shadow_OAM + 110)
+                                     96 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000002C 3E 34            [ 8]   97 	ld	a, #0x34
+    0000002E 22               [ 8]   98 	ld	(hl+), a
+    0000002F 36 00            [12]   99 	ld	(hl), #0x00
+                                    100 ;src/scripts/locked_doors.c:16: move_sprite(27, x + 8, y);
+    00000031 79               [ 4]  101 	ld	a, c
+    00000032 C6 08            [ 8]  102 	add	a, #0x08
+    00000034 F8 01            [12]  103 	ldhl	sp,	#1
+    00000036 77               [ 8]  104 	ld	(hl), a
+    00000037 5E               [ 8]  105 	ld	e, (hl)
+                                    106 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000038 21r6Cr00         [12]  107 	ld	hl, #(_shadow_OAM + 108)
+                                    108 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    0000003B 78               [ 4]  109 	ld	a, b
+    0000003C 22               [ 8]  110 	ld	(hl+), a
+    0000003D 73               [ 8]  111 	ld	(hl), e
+                                    112 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000003E 21r72r00         [12]  113 	ld	hl, #(_shadow_OAM + 114)
+                                    114 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000041 3E 38            [ 8]  115 	ld	a, #0x38
+    00000043 22               [ 8]  116 	ld	(hl+), a
+    00000044 36 00            [12]  117 	ld	(hl), #0x00
+                                    118 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000046 11r70r00         [12]  119 	ld	de, #_shadow_OAM+112
+                                    120 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000049 F8 00            [12]  121 	ldhl	sp,	#0
+    0000004B 2A               [ 8]  122 	ld	a, (hl+)
+    0000004C 12               [ 8]  123 	ld	(de), a
+    0000004D 13               [ 8]  124 	inc	de
+    0000004E 7E               [ 8]  125 	ld	a, (hl)
+    0000004F 12               [ 8]  126 	ld	(de), a
+                                    127 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000050 21r76r00         [12]  128 	ld	hl, #(_shadow_OAM + 118)
+                                    129 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000053 3E 34            [ 8]  130 	ld	a, #0x34
+    00000055 22               [ 8]  131 	ld	(hl+), a
+    00000056 36 20            [12]  132 	ld	(hl), #0x20
+                                    133 ;src/scripts/locked_doors.c:24: move_sprite(29, x + 16, y);
+    00000058 79               [ 4]  134 	ld	a, c
+    00000059 C6 10            [ 8]  135 	add	a, #0x10
+    0000005B F8 01            [12]  136 	ldhl	sp,	#1
+    0000005D 77               [ 8]  137 	ld	(hl), a
+    0000005E 5E               [ 8]  138 	ld	e, (hl)
+                                    139 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000005F 21r74r00         [12]  140 	ld	hl, #(_shadow_OAM + 116)
+                                    141 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000062 78               [ 4]  142 	ld	a, b
+    00000063 22               [ 8]  143 	ld	(hl+), a
+    00000064 73               [ 8]  144 	ld	(hl), e
+                                    145 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000065 21r7Ar00         [12]  146 	ld	hl, #(_shadow_OAM + 122)
+                                    147 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000068 3E 38            [ 8]  148 	ld	a, #0x38
+    0000006A 22               [ 8]  149 	ld	(hl+), a
+    0000006B 36 20            [12]  150 	ld	(hl), #0x20
+                                    151 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000006D 11r78r00         [12]  152 	ld	de, #_shadow_OAM+120
+                                    153 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000070 F8 00            [12]  154 	ldhl	sp,	#0
+    00000072 2A               [ 8]  155 	ld	a, (hl+)
+    00000073 12               [ 8]  156 	ld	(de), a
+    00000074 13               [ 8]  157 	inc	de
+    00000075 7E               [ 8]  158 	ld	a, (hl)
+    00000076 12               [ 8]  159 	ld	(de), a
+                                    160 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000077 21r7Er00         [12]  161 	ld	hl, #(_shadow_OAM + 126)
+                                    162 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000007A 3E 33            [ 8]  163 	ld	a, #0x33
+    0000007C 22               [ 8]  164 	ld	(hl+), a
+    0000007D 36 20            [12]  165 	ld	(hl), #0x20
+                                    166 ;src/scripts/locked_doors.c:32: move_sprite(31, x + 24, y);
+    0000007F 79               [ 4]  167 	ld	a, c
+    00000080 C6 18            [ 8]  168 	add	a, #0x18
+    00000082 4F               [ 4]  169 	ld	c, a
+    00000083 59               [ 4]  170 	ld	e, c
+                                    171 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000084 21r7Cr00         [12]  172 	ld	hl, #(_shadow_OAM + 124)
+                                    173 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000087 78               [ 4]  174 	ld	a, b
+    00000088 22               [ 8]  175 	ld	(hl+), a
+    00000089 73               [ 8]  176 	ld	(hl), e
+                                    177 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000008A 21r82r00         [12]  178 	ld	hl, #(_shadow_OAM + 130)
+                                    179 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000008D 3E 37            [ 8]  180 	ld	a, #0x37
+    0000008F 22               [ 8]  181 	ld	(hl+), a
+    00000090 36 20            [12]  182 	ld	(hl), #0x20
+                                    183 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000092 11r80r00         [12]  184 	ld	de, #_shadow_OAM+128
+                                    185 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000095 F8 00            [12]  186 	ldhl	sp,	#0
+    00000097 7E               [ 8]  187 	ld	a, (hl)
+    00000098 12               [ 8]  188 	ld	(de), a
+    00000099 13               [ 8]  189 	inc	de
+    0000009A 79               [ 4]  190 	ld	a, c
+    0000009B 12               [ 8]  191 	ld	(de), a
+                                    192 ;src/scripts/locked_doors.c:36: move_sprite(32, x + 24, y + 8);
+                                    193 ;src/scripts/locked_doors.c:37: }
+    0000009C 33               [ 8]  194 	inc	sp
+    0000009D 33               [ 8]  195 	inc	sp
+    0000009E C9               [16]  196 	ret
+                                    197 ;src/scripts/locked_doors.c:39: void draw_flip_lock_v(uint8_t x, uint8_t y) BANKED {
+                                    198 ;	---------------------------------
+                                    199 ; Function draw_flip_lock_v
+                                    200 ; ---------------------------------
+                         00000003   201 	b_draw_flip_lock_v	= 3
+    0000009F                        202 _draw_flip_lock_v::
+    0000009F 3B               [ 8]  203 	dec	sp
+    000000A0 3B               [ 8]  204 	dec	sp
+                                    205 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000A1 21r66r00         [12]  206 	ld	hl, #(_shadow_OAM + 102)
+                                    207 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000000A4 3E 37            [ 8]  208 	ld	a, #0x37
+    000000A6 22               [ 8]  209 	ld	(hl+), a
+    000000A7 36 40            [12]  210 	ld	(hl), #0x40
+                                    211 ;src/scripts/locked_doors.c:42: move_sprite(25, x, y);
+    000000A9 F8 09            [12]  212 	ldhl	sp,	#9
+    000000AB 3A               [ 8]  213 	ld	a, (hl-)
+    000000AC 47               [ 4]  214 	ld	b, a
+    000000AD 4E               [ 8]  215 	ld	c, (hl)
+                                    216 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000AE 21r64r00         [12]  217 	ld	hl, #(_shadow_OAM + 100)
+                                    218 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000000B1 78               [ 4]  219 	ld	a, b
+    000000B2 22               [ 8]  220 	ld	(hl+), a
+    000000B3 71               [ 8]  221 	ld	(hl), c
+                                    222 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000B4 21r6Ar00         [12]  223 	ld	hl, #(_shadow_OAM + 106)
+                                    224 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000000B7 3E 32            [ 8]  225 	ld	a, #0x32
+    000000B9 22               [ 8]  226 	ld	(hl+), a
+    000000BA 36 40            [12]  227 	ld	(hl), #0x40
+                                    228 ;src/scripts/locked_doors.c:46: move_sprite(26, x, y + 8);
+    000000BC 78               [ 4]  229 	ld	a, b
+    000000BD C6 08            [ 8]  230 	add	a, #0x08
+    000000BF F8 00            [12]  231 	ldhl	sp,	#0
+    000000C1 77               [ 8]  232 	ld	(hl), a
+                                    233 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    234 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000000C2 7E               [ 8]  235 	ld	a, (hl)
+    000000C3 21r68r00         [12]  236 	ld	hl, #(_shadow_OAM + 104)
+    000000C6 22               [ 8]  237 	ld	(hl+), a
+    000000C7 71               [ 8]  238 	ld	(hl), c
+                                    239 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000C8 21r6Er00         [12]  240 	ld	hl, #(_shadow_OAM + 110)
+                                    241 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000000CB 3E 38            [ 8]  242 	ld	a, #0x38
+    000000CD 22               [ 8]  243 	ld	(hl+), a
+    000000CE 36 40            [12]  244 	ld	(hl), #0x40
+                                    245 ;src/scripts/locked_doors.c:50: move_sprite(27, x + 8, y);
+    000000D0 F8 01            [12]  246 	ldhl	sp,	#1
+    000000D2 71               [ 8]  247 	ld	(hl), c
+    000000D3 7E               [ 8]  248 	ld	a, (hl)
+    000000D4 C6 08            [ 8]  249 	add	a, #0x08
+    000000D6 4F               [ 4]  250 	ld	c, a
+    000000D7 59               [ 4]  251 	ld	e, c
+                                    252 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000D8 21r6Cr00         [12]  253 	ld	hl, #(_shadow_OAM + 108)
+                                    254 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000000DB 78               [ 4]  255 	ld	a, b
+    000000DC 22               [ 8]  256 	ld	(hl+), a
+    000000DD 73               [ 8]  257 	ld	(hl), e
+                                    258 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000DE 21r72r00         [12]  259 	ld	hl, #(_shadow_OAM + 114)
+                                    260 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000000E1 3E 32            [ 8]  261 	ld	a, #0x32
+    000000E3 22               [ 8]  262 	ld	(hl+), a
+    000000E4 36 40            [12]  263 	ld	(hl), #0x40
+                                    264 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000E6 11r70r00         [12]  265 	ld	de, #_shadow_OAM+112
+                                    266 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000000E9 F8 00            [12]  267 	ldhl	sp,	#0
+    000000EB 7E               [ 8]  268 	ld	a, (hl)
+    000000EC 12               [ 8]  269 	ld	(de), a
+    000000ED 13               [ 8]  270 	inc	de
+    000000EE 79               [ 4]  271 	ld	a, c
+    000000EF 12               [ 8]  272 	ld	(de), a
+                                    273 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000F0 21r76r00         [12]  274 	ld	hl, #(_shadow_OAM + 118)
+                                    275 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000000F3 3E 38            [ 8]  276 	ld	a, #0x38
+    000000F5 22               [ 8]  277 	ld	(hl+), a
+    000000F6 36 60            [12]  278 	ld	(hl), #0x60
+                                    279 ;src/scripts/locked_doors.c:58: move_sprite(29, x + 16, y);
+    000000F8 F8 01            [12]  280 	ldhl	sp,	#1
+    000000FA 7E               [ 8]  281 	ld	a, (hl)
+    000000FB C6 10            [ 8]  282 	add	a, #0x10
+    000000FD 4F               [ 4]  283 	ld	c, a
+    000000FE 59               [ 4]  284 	ld	e, c
+                                    285 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000FF 21r74r00         [12]  286 	ld	hl, #(_shadow_OAM + 116)
+                                    287 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000102 78               [ 4]  288 	ld	a, b
+    00000103 22               [ 8]  289 	ld	(hl+), a
+    00000104 73               [ 8]  290 	ld	(hl), e
+                                    291 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000105 21r7Ar00         [12]  292 	ld	hl, #(_shadow_OAM + 122)
+                                    293 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000108 3E 32            [ 8]  294 	ld	a, #0x32
+    0000010A 22               [ 8]  295 	ld	(hl+), a
+    0000010B 36 60            [12]  296 	ld	(hl), #0x60
+                                    297 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000010D 11r78r00         [12]  298 	ld	de, #_shadow_OAM+120
+                                    299 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000110 F8 00            [12]  300 	ldhl	sp,	#0
+    00000112 7E               [ 8]  301 	ld	a, (hl)
+    00000113 12               [ 8]  302 	ld	(de), a
+    00000114 13               [ 8]  303 	inc	de
+    00000115 79               [ 4]  304 	ld	a, c
+    00000116 12               [ 8]  305 	ld	(de), a
+                                    306 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000117 21r7Er00         [12]  307 	ld	hl, #(_shadow_OAM + 126)
+                                    308 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000011A 3E 37            [ 8]  309 	ld	a, #0x37
+    0000011C 22               [ 8]  310 	ld	(hl+), a
+    0000011D 36 60            [12]  311 	ld	(hl), #0x60
+                                    312 ;src/scripts/locked_doors.c:66: move_sprite(31, x + 24, y);
+    0000011F F8 01            [12]  313 	ldhl	sp,	#1
+    00000121 7E               [ 8]  314 	ld	a, (hl)
+    00000122 C6 18            [ 8]  315 	add	a, #0x18
+    00000124 4F               [ 4]  316 	ld	c, a
+    00000125 59               [ 4]  317 	ld	e, c
+                                    318 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000126 21r7Cr00         [12]  319 	ld	hl, #(_shadow_OAM + 124)
+                                    320 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000129 78               [ 4]  321 	ld	a, b
+    0000012A 22               [ 8]  322 	ld	(hl+), a
+    0000012B 73               [ 8]  323 	ld	(hl), e
+                                    324 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000012C 21r82r00         [12]  325 	ld	hl, #(_shadow_OAM + 130)
+                                    326 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000012F 3E 32            [ 8]  327 	ld	a, #0x32
+    00000131 22               [ 8]  328 	ld	(hl+), a
+    00000132 36 60            [12]  329 	ld	(hl), #0x60
+                                    330 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000134 11r80r00         [12]  331 	ld	de, #_shadow_OAM+128
+                                    332 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000137 F8 00            [12]  333 	ldhl	sp,	#0
+    00000139 7E               [ 8]  334 	ld	a, (hl)
+    0000013A 12               [ 8]  335 	ld	(de), a
+    0000013B 13               [ 8]  336 	inc	de
+    0000013C 79               [ 4]  337 	ld	a, c
+    0000013D 12               [ 8]  338 	ld	(de), a
+                                    339 ;src/scripts/locked_doors.c:70: move_sprite(32, x + 24, y + 8);
+                                    340 ;src/scripts/locked_doors.c:71: }
+    0000013E 33               [ 8]  341 	inc	sp
+    0000013F 33               [ 8]  342 	inc	sp
+    00000140 C9               [16]  343 	ret
+                                    344 ;src/scripts/locked_doors.c:73: void draw_lock_h(uint8_t x, uint8_t y) BANKED {
+                                    345 ;	---------------------------------
+                                    346 ; Function draw_lock_h
+                                    347 ; ---------------------------------
+                         00000003   348 	b_draw_lock_h	= 3
+    00000141                        349 _draw_lock_h::
+    00000141 3B               [ 8]  350 	dec	sp
+                                    351 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000142 21r66r00         [12]  352 	ld	hl, #(_shadow_OAM + 102)
+                                    353 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000145 3E 35            [ 8]  354 	ld	a, #0x35
+    00000147 22               [ 8]  355 	ld	(hl+), a
+    00000148 36 00            [12]  356 	ld	(hl), #0x00
+                                    357 ;src/scripts/locked_doors.c:76: move_sprite(25, x, y);
+    0000014A F8 08            [12]  358 	ldhl	sp,	#8
+    0000014C 3A               [ 8]  359 	ld	a, (hl-)
+    0000014D 4F               [ 4]  360 	ld	c, a
+    0000014E 46               [ 8]  361 	ld	b, (hl)
+                                    362 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000014F 21r64r00         [12]  363 	ld	hl, #(_shadow_OAM + 100)
+                                    364 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000152 79               [ 4]  365 	ld	a, c
+    00000153 22               [ 8]  366 	ld	(hl+), a
+    00000154 70               [ 8]  367 	ld	(hl), b
+                                    368 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000155 21r6Ar00         [12]  369 	ld	hl, #(_shadow_OAM + 106)
+                                    370 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000158 3E 36            [ 8]  371 	ld	a, #0x36
+    0000015A 22               [ 8]  372 	ld	(hl+), a
+    0000015B 36 00            [12]  373 	ld	(hl), #0x00
+                                    374 ;src/scripts/locked_doors.c:80: move_sprite(26, x + 8, y);
+    0000015D 78               [ 4]  375 	ld	a, b
+    0000015E C6 08            [ 8]  376 	add	a, #0x08
+    00000160 F8 00            [12]  377 	ldhl	sp,	#0
+    00000162 77               [ 8]  378 	ld	(hl), a
+    00000163 5E               [ 8]  379 	ld	e, (hl)
+                                    380 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000164 21r68r00         [12]  381 	ld	hl, #(_shadow_OAM + 104)
+                                    382 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000167 79               [ 4]  383 	ld	a, c
+    00000168 22               [ 8]  384 	ld	(hl+), a
+    00000169 73               [ 8]  385 	ld	(hl), e
+                                    386 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000016A 21r6Er00         [12]  387 	ld	hl, #(_shadow_OAM + 110)
+                                    388 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000016D 3E 39            [ 8]  389 	ld	a, #0x39
+    0000016F 22               [ 8]  390 	ld	(hl+), a
+    00000170 36 00            [12]  391 	ld	(hl), #0x00
+                                    392 ;src/scripts/locked_doors.c:84: move_sprite(27, x, y + 8);
+    00000172 79               [ 4]  393 	ld	a, c
+    00000173 C6 08            [ 8]  394 	add	a, #0x08
+                                    395 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    396 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000175 4F               [ 4]  397 	ld	c, a
+    00000176 21r6Cr00         [12]  398 	ld	hl, #(_shadow_OAM + 108)
+    00000179 22               [ 8]  399 	ld	(hl+), a
+    0000017A 70               [ 8]  400 	ld	(hl), b
+                                    401 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000017B 21r72r00         [12]  402 	ld	hl, #(_shadow_OAM + 114)
+                                    403 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000017E 3E 3A            [ 8]  404 	ld	a, #0x3a
+    00000180 22               [ 8]  405 	ld	(hl+), a
+    00000181 36 00            [12]  406 	ld	(hl), #0x00
+                                    407 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000183 11r70r00         [12]  408 	ld	de, #_shadow_OAM+112
+                                    409 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000186 79               [ 4]  410 	ld	a, c
+    00000187 12               [ 8]  411 	ld	(de), a
+    00000188 13               [ 8]  412 	inc	de
+    00000189 F8 00            [12]  413 	ldhl	sp,	#0
+    0000018B 7E               [ 8]  414 	ld	a, (hl)
+    0000018C 12               [ 8]  415 	ld	(de), a
+                                    416 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000018D 21r74r00         [12]  417 	ld	hl, #(_shadow_OAM + 116)
+                                    418 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000190 AF               [ 4]  419 	xor	a, a
+    00000191 22               [ 8]  420 	ld	(hl+), a
+    00000192 77               [ 8]  421 	ld	(hl), a
+                                    422 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000193 21r78r00         [12]  423 	ld	hl, #(_shadow_OAM + 120)
+                                    424 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000196 AF               [ 4]  425 	xor	a, a
+    00000197 22               [ 8]  426 	ld	(hl+), a
+    00000198 77               [ 8]  427 	ld	(hl), a
+                                    428 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000199 21r7Cr00         [12]  429 	ld	hl, #(_shadow_OAM + 124)
+                                    430 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    0000019C AF               [ 4]  431 	xor	a, a
+    0000019D 22               [ 8]  432 	ld	(hl+), a
+    0000019E 77               [ 8]  433 	ld	(hl), a
+                                    434 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000019F 21r80r00         [12]  435 	ld	hl, #(_shadow_OAM + 128)
+                                    436 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001A2 AF               [ 4]  437 	xor	a, a
+    000001A3 22               [ 8]  438 	ld	(hl+), a
+    000001A4 77               [ 8]  439 	ld	(hl), a
+                                    440 ;src/scripts/locked_doors.c:93: move_sprite(32, 0, 0);
+                                    441 ;src/scripts/locked_doors.c:94: }
+    000001A5 33               [ 8]  442 	inc	sp
+    000001A6 C9               [16]  443 	ret
+                                    444 ;src/scripts/locked_doors.c:96: void draw_flip_lock_h(uint8_t x, uint8_t y) BANKED {
+                                    445 ;	---------------------------------
+                                    446 ; Function draw_flip_lock_h
+                                    447 ; ---------------------------------
+                         00000003   448 	b_draw_flip_lock_h	= 3
+    000001A7                        449 _draw_flip_lock_h::
+    000001A7 3B               [ 8]  450 	dec	sp
+                                    451 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001A8 21r66r00         [12]  452 	ld	hl, #(_shadow_OAM + 102)
+                                    453 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000001AB 3E 35            [ 8]  454 	ld	a, #0x35
+    000001AD 22               [ 8]  455 	ld	(hl+), a
+    000001AE 36 20            [12]  456 	ld	(hl), #0x20
+                                    457 ;src/scripts/locked_doors.c:99: move_sprite(25, x + 8, y);
+    000001B0 F8 08            [12]  458 	ldhl	sp,	#8
+    000001B2 3A               [ 8]  459 	ld	a, (hl-)
+    000001B3 47               [ 4]  460 	ld	b, a
+    000001B4 7E               [ 8]  461 	ld	a, (hl)
+    000001B5 C6 08            [ 8]  462 	add	a, #0x08
+    000001B7 4F               [ 4]  463 	ld	c, a
+                                    464 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001B8 21r64r00         [12]  465 	ld	hl, #(_shadow_OAM + 100)
+                                    466 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001BB 78               [ 4]  467 	ld	a, b
+    000001BC 22               [ 8]  468 	ld	(hl+), a
+    000001BD 71               [ 8]  469 	ld	(hl), c
+                                    470 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001BE 21r6Ar00         [12]  471 	ld	hl, #(_shadow_OAM + 106)
+                                    472 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000001C1 3E 36            [ 8]  473 	ld	a, #0x36
+    000001C3 22               [ 8]  474 	ld	(hl+), a
+    000001C4 36 20            [12]  475 	ld	(hl), #0x20
+                                    476 ;src/scripts/locked_doors.c:103: move_sprite(26, x, y);
+    000001C6 F8 07            [12]  477 	ldhl	sp,	#7
+    000001C8 4E               [ 8]  478 	ld	c, (hl)
+                                    479 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001C9 21r68r00         [12]  480 	ld	hl, #(_shadow_OAM + 104)
+                                    481 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001CC 78               [ 4]  482 	ld	a, b
+    000001CD 22               [ 8]  483 	ld	(hl+), a
+    000001CE 71               [ 8]  484 	ld	(hl), c
+                                    485 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001CF 21r6Er00         [12]  486 	ld	hl, #(_shadow_OAM + 110)
+                                    487 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000001D2 3E 39            [ 8]  488 	ld	a, #0x39
+    000001D4 22               [ 8]  489 	ld	(hl+), a
+    000001D5 36 20            [12]  490 	ld	(hl), #0x20
+                                    491 ;src/scripts/locked_doors.c:107: move_sprite(27, x + 8, y + 8);
+    000001D7 78               [ 4]  492 	ld	a, b
+    000001D8 C6 08            [ 8]  493 	add	a, #0x08
+    000001DA 47               [ 4]  494 	ld	b, a
+    000001DB 58               [ 4]  495 	ld	e, b
+    000001DC 79               [ 4]  496 	ld	a, c
+    000001DD C6 08            [ 8]  497 	add	a, #0x08
+    000001DF F8 00            [12]  498 	ldhl	sp,	#0
+    000001E1 77               [ 8]  499 	ld	(hl), a
+                                    500 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001E2 21r6Cr00         [12]  501 	ld	hl, #(_shadow_OAM + 108)
+                                    502 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001E5 73               [ 8]  503 	ld	(hl), e
+    000001E6 11r6Dr00         [12]  504 	ld	de, #(_shadow_OAM + 109)
+    000001E9 F8 00            [12]  505 	ldhl	sp,	#0
+    000001EB 7E               [ 8]  506 	ld	a, (hl)
+    000001EC 12               [ 8]  507 	ld	(de), a
+                                    508 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001ED 21r72r00         [12]  509 	ld	hl, #(_shadow_OAM + 114)
+                                    510 ;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+    000001F0 3E 3A            [ 8]  511 	ld	a, #0x3a
+    000001F2 22               [ 8]  512 	ld	(hl+), a
+    000001F3 36 20            [12]  513 	ld	(hl), #0x20
+                                    514 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001F5 21r70r00         [12]  515 	ld	hl, #(_shadow_OAM + 112)
+                                    516 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001F8 78               [ 4]  517 	ld	a, b
+    000001F9 22               [ 8]  518 	ld	(hl+), a
+    000001FA 71               [ 8]  519 	ld	(hl), c
+                                    520 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001FB 21r74r00         [12]  521 	ld	hl, #(_shadow_OAM + 116)
+                                    522 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    000001FE AF               [ 4]  523 	xor	a, a
+    000001FF 22               [ 8]  524 	ld	(hl+), a
+    00000200 77               [ 8]  525 	ld	(hl), a
+                                    526 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000201 21r78r00         [12]  527 	ld	hl, #(_shadow_OAM + 120)
+                                    528 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000204 AF               [ 4]  529 	xor	a, a
+    00000205 22               [ 8]  530 	ld	(hl+), a
+    00000206 77               [ 8]  531 	ld	(hl), a
+                                    532 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000207 21r7Cr00         [12]  533 	ld	hl, #(_shadow_OAM + 124)
+                                    534 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    0000020A AF               [ 4]  535 	xor	a, a
+    0000020B 22               [ 8]  536 	ld	(hl+), a
+    0000020C 77               [ 8]  537 	ld	(hl), a
+                                    538 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000020D 21r80r00         [12]  539 	ld	hl, #(_shadow_OAM + 128)
+                                    540 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+    00000210 AF               [ 4]  541 	xor	a, a
+    00000211 22               [ 8]  542 	ld	(hl+), a
+    00000212 77               [ 8]  543 	ld	(hl), a
+                                    544 ;src/scripts/locked_doors.c:116: move_sprite(32, 0, 0);
+                                    545 ;src/scripts/locked_doors.c:117: }
+    00000213 33               [ 8]  546 	inc	sp
+    00000214 C9               [16]  547 	ret
+                                    548 ;src/scripts/locked_doors.c:119: void hide_door() BANKED {
+                                    549 ;	---------------------------------
+                                    550 ; Function hide_door
+                                    551 ; ---------------------------------
+                         00000003   552 	b_hide_door	= 3
+    00000215                        553 _hide_door::
+                                    554 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000215 21r66r00         [12]  555 	ld	hl, #(_shadow_OAM + 102)
+    00000218 36 32            [12]  556 	ld	(hl), #0x32
+    0000021A 21r6Ar00         [12]  557 	ld	hl, #(_shadow_OAM + 106)
+    0000021D 36 32            [12]  558 	ld	(hl), #0x32
+    0000021F 21r6Er00         [12]  559 	ld	hl, #(_shadow_OAM + 110)
+    00000222 36 32            [12]  560 	ld	(hl), #0x32
+    00000224 21r72r00         [12]  561 	ld	hl, #(_shadow_OAM + 114)
+    00000227 36 32            [12]  562 	ld	(hl), #0x32
+    00000229 21r76r00         [12]  563 	ld	hl, #(_shadow_OAM + 118)
+    0000022C 36 32            [12]  564 	ld	(hl), #0x32
+    0000022E 21r7Ar00         [12]  565 	ld	hl, #(_shadow_OAM + 122)
+    00000231 36 32            [12]  566 	ld	(hl), #0x32
+    00000233 21r7Er00         [12]  567 	ld	hl, #(_shadow_OAM + 126)
+    00000236 36 32            [12]  568 	ld	(hl), #0x32
+    00000238 21r82r00         [12]  569 	ld	hl, #(_shadow_OAM + 130)
+    0000023B 36 32            [12]  570 	ld	(hl), #0x32
+                                    571 ;src/scripts/locked_doors.c:127: set_sprite_tile(32, 50);
+                                    572 ;src/scripts/locked_doors.c:128: }
+    0000023D C9               [16]  573 	ret
+                                    574 	.area _CODE_3
+                                    575 	.area _INITIALIZER
+                                    576 	.area _CABS (ABS)

@@ -1,6 +1,6 @@
 #pragma bank 3
 
-#include <gb\gb.h>
+#include <gb/gb.h>
 #include "gui_management.h"
 #include "../tiles/minimap.h"
 
@@ -346,7 +346,7 @@ void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BA
     else {
         set_sprite_tile(1, 50);
     }
-    
+
     set_sprite_tile(2, 65 + number % 10);
     uint8_t frame = 0;
     while (frame < 30) {

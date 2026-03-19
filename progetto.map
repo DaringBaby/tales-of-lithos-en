@@ -118,10 +118,10 @@ _CODE                  00000200    000033C8 =       13256. bytes (REL,CON)
      0000270A  _check_di |    0000271B  _check_di |    0000272D  _enemy_at
      00002777  _enemy_de |    0000282D  _enemy_sm |    00002922  _is_enemy
      00002967  _spawn_dr |    00002A23  _clear_dr |    00002A50  _check_dr
-     00002B1C  _hUGE_ini |    00002B1E  hUGE_init |    00002B74  _hUGE_mut
-     00002B76  hUGE_mute |    00002DB0  _hUGE_set |    00002DB1  hUGE_set_
-     00002F72  _hUGE_dos |    00002F72  _hUGE_dos |    00002F72  hUGE_doso
-     0000329E  _load_gam |    00003383  _save_gam |    0000346A  __divsuch
+     00002B1C  _load_gam |    00002C01  _save_gam |    00002CE8  _hUGE_ini
+     00002CEA  hUGE_init |    00002D40  _hUGE_mut |    00002D42  hUGE_mute
+     00002F7C  _hUGE_set |    00002F7D  hUGE_set_ |    0000313E  _hUGE_dos
+     0000313E  _hUGE_dos |    0000313E  hUGE_doso |    0000346A  __divsuch
      00003470  __modsuch |    00003479  __divusch |    00003482  __modusch
      0000348E  __divscha |    00003493  __modscha |    0000349A  __divsint
      000034A3  __modsint |    000034AF  __divucha |    000034B4  __moducha
@@ -374,8 +374,8 @@ _DATA                  0000C0A0    00000280 =         640. bytes (REL,CON)
      0000C0B1  _last_x   |    0000C0B2  _last_y   |    0000C0B3  _player_c
      0000C0B5  _current_ |    0000C21D  _map      |    0000C22D  _seed    
      0000C22F  _current_ |    0000C243  _enemy    |    0000C24D  _boss    
-     0000C255  _dungeon  |    0000C265  _doors    |    0000C275  _obstacle
-     0000C285  _locked_d |    0000C286  _drops    |    0000C28C  _room_ene
+     0000C255  _drops    |    0000C25B  _dungeon  |    0000C26B  _doors   
+     0000C27B  _obstacle |    0000C28B  _locked_d |    0000C28C  _room_ene
      0000C2B8  _hUGE_cur |    0000C2B8  hUGE_curr |    0000C2B9  _hUGE_mut
      0000C300  ___rand_s |    0000C302  font_curr |    0000C305  font_firs
      0000C306  font_tabl |    0000C318  .int_0x48
@@ -429,25 +429,45 @@ _CODE_1                00014000    00002083 =        8323. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00014000  _generate |    000140C7  _min_leng |    000140C8  _max_leng
-     000140C9  _empty_ar |    0001411E  _create_l |    00014441  _append  
-     00014460  _add_bran |    000146B5  _find_nea |    000147EB  _shuffle_
-     00014878  _create_d |    00014981  _add_obst |    000149AA  _MC_down 
-     000149EA  _MC_right |    00014A2A  _MC_up    |    00014A6A  _MC_left 
-     00014AAA  _MC_attac |    00014B2A  _MC_attac |    00014BAA  _MC_attac
-     00014C2A  _MC_attac |    00014CAA  _MC_walk_ |    00014D2A  _MC_walk_
-     00014D6A  _MC_walk_ |    00014DAA  _MC_walk_ |    00014E2A  _Hector  
-     00014E6A  _Safy     |    00014EAA  _arrow    |    00014EBA  _Objects 
-     0001500A  _LarvaOsc |    0001504A  _Predator |    0001508A  _Trisguar
-     000150CA  _Key      |    000150EA  _Lock     |    0001516A  _Textbox 
-     0001520A  _Mugshot  |    0001530A  _Mythril  |    0001534A  _Numbers 
-     0001540A  _Arrow    |    0001542A  _game_ove |    0001550F  _black_sp
-     00015686  _GameOver |    000157EE  _GameOver |    00015B0E  _Drops   
+     00014000  _MC_down  |    00014040  _MC_right |    00014080  _MC_up   
+     000140C0  _MC_left  |    00014100  _MC_attac |    00014180  _MC_attac
+     00014200  _MC_attac |    00014280  _MC_attac |    00014300  _MC_walk_
+     00014380  _MC_walk_ |    000143C0  _MC_walk_ |    00014400  _MC_walk_
+     00014480  _Hector   |    000144C0  _Safy     |    00014500  _arrow   
+     00014510  _Objects  |    00014660  _LarvaOsc |    000146A0  _Predator
+     000146E0  _Trisguar |    00014720  _Key      |    00014740  _Lock    
+     000147C0  _Textbox  |    00014860  _Mugshot  |    00014960  _Mythril 
+     000149A0  _Numbers  |    00014A60  _Arrow    |    00014A80  _Drops   
+     00014AA0  _generate |    00014B67  _min_leng |    00014B68  _max_leng
+     00014B69  _empty_ar |    00014BBE  _create_l |    00014EE1  _append  
+     00014F00  _add_bran |    00015155  _find_nea |    0001528B  _shuffle_
+     00015318  _create_d |    00015421  _add_obst |    0001544A  _GameOver
+     000155B2  _GameOver |    000158D2  _game_ove |    000159B7  _black_sp
      00015B2E  _SwordDow |    00015B4E  _SwordRig |    00015B6E  _SwordUp 
      00015B8E  _SwordLef |    00015BAE  _Explosio |    00015C6E  _HealEff 
      00015C8E  _HitEff   |    00015CBE  _play_att |    00015DD0  _play_wal
      00015E6E  _play_hea |    00015F0E  _play_hit |    00015FB7  _play_exp
 ASxxxx Linker V03.00/V05.40 + sdld,  page 30.
+Hexadecimal  [32-Bits]
+
+Area                       Addr        Size        Decimal Bytes (Attributes)
+--------------------       ----        ----        ------- ----- ------------
+_CODE_2                00024000    00003A7A =       14970. bytes (REL,CON)
+
+        Value  Global            Value  Global            Value  Global    
+        -----  ------            -----  ------            -----  ------    
+     00024000  _Camp     |    00024168  _room1    |    000242D0  _room2   
+     00024438  _room3    |    000245A0  _room4    |    00024708  _room5   
+     00024870  _room6    |    000249D8  _room7    |    00024B40  _room8   
+     00024CA8  _room9    |    00024E10  _room10   |    00024F78  _room11  
+     000250E0  _room12   |    00025248  _room13   |    000253B0  _room14  
+     00025518  _room15   |    00025680  _NoExit   |    000257E8  _Title   
+     00025950  _CampTile |    00026010  _camp_col |    0002607C  _Text    
+     000263AC  _MiniGUI  |    000263DC  _DungeonT |    0002672C  _Titlescr
+     0002763C  _TitleTex |    000276BC  _assign_o |    0002783D  _put_on_r
+     000278D9  _set_room |    000279DA  _deco1    |    000279FE  _deco2   
+     00027A22  _deco3    |    00027A46  _deco4    |    00027A6A  _deco5   
+ASxxxx Linker V03.00/V05.40 + sdld,  page 31.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
@@ -473,26 +493,6 @@ _CODE_3                00034000    00003039 =       12345. bytes (REL,CON)
      00036161  _heal_sfx |    00036176  _stairs_s |    0003619D  _unlock_s
      000361AE  _start_sf |    000361C3  _death_sf |    000361D8  _enemy_de
      0003664A  _gameover |    00036EBC  _boss_def |    00036ED1  _Tutorial
-ASxxxx Linker V03.00/V05.40 + sdld,  page 31.
-Hexadecimal  [32-Bits]
-
-Area                       Addr        Size        Decimal Bytes (Attributes)
---------------------       ----        ----        ------- ----- ------------
-_CODE_2                00024000    00003A7A =       14970. bytes (REL,CON)
-
-        Value  Global            Value  Global            Value  Global    
-        -----  ------            -----  ------            -----  ------    
-     00024000  _Camp     |    00024168  _room1    |    000242D0  _room2   
-     00024438  _room3    |    000245A0  _room4    |    00024708  _room5   
-     00024870  _room6    |    000249D8  _room7    |    00024B40  _room8   
-     00024CA8  _room9    |    00024E10  _room10   |    00024F78  _room11  
-     000250E0  _room12   |    00025248  _room13   |    000253B0  _room14  
-     00025518  _room15   |    00025680  _NoExit   |    000257E8  _Title   
-     00025950  _CampTile |    00026010  _camp_col |    0002607C  _Text    
-     000263AC  _MiniGUI  |    000263DC  _DungeonT |    0002672C  _Titlescr
-     0002763C  _TitleTex |    000276BC  _deco1    |    000276E0  _deco2   
-     00027704  _deco3    |    00027728  _deco4    |    0002774C  _deco5   
-     0002775C  _assign_o |    000278DD  _put_on_r |    00027979  _set_room
 ASxxxx Linker V03.00/V05.40 + sdld,  page 32.
 Hexadecimal  [32-Bits]
 
@@ -545,106 +545,87 @@ _HEADER_LCD0           00000000    00000003 =           3. bytes (ABS,CON)
 
 Files Linked                              [ module(s) ]
 
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/crt0.o
-                                          [ Runtime ]
-main.o                                    [ main ]
-gen_dung.o                                [ generate_dungeon ]
-gui.o                                     [ gui ]
-enemy.o                                   [ enemy ]
-drop.o                                    [ drop ]
-titlescr.o                                [ titlescreen ]
-character.o                               [ character ]
-Hector.o                                  [ Hector ]
-Safy.o                                    [ Safy ]
-Arrow.o                                   [ Arrow ]
-DungeonObjects.o                          [ DungeonObjects ]
-Enemies.o                                 [ Enemies ]
-key.o                                     [ key ]
-Lock.o                                    [ Lock ]
-textbox.o                                 [ textbox ]
-mugshot.o                                 [ mugshot ]
-mythril.o                                 [ mythril ]
-Numbers.o                                 [ Numbers ]
-wpn_arrow.o                               [ wpn_arrow ]
-minimap.o                                 [ minimap ]
-gameoverscript.o                          [ gameover ]
-CampMap.o                                 [ CampMap ]
-Dungeon.o                                 [ Dungeon ]
-GameOver.o                                [ GameOver ]
-Title.o                                   [ Title ]
-CampTiles.o                               [ CampTiles ]
-Text.o                                    [ Text ]
-DungeonTiles.o                            [ DungeonTiles ]
-Titlescreen.o                             [ Titlescreen ]
-TitleText.o                               [ TitleText ]
-GameOverText.o                            [ GameOverText ]
-gui_management.o                          [ gui_management ]
-spawn_enemy.o                             [ spawn_enemy ]
-combat_system.o                           [ combat_system ]
-insert_name.o                             [ insert_name ]
-namescreenmap.o                           [ NameScreenMap ]
-enemy_drops.o                             [ enemyDrops ]
-obstacles.o                               [ Obstacles ]
-locked_doors.o                            [ locked_doors ]
-eyeboss.o                                 [ Eyeboss ]
-boss.o                                    [ boss ]
-sound.o                                   [ sound ]
-gameover_sound.o                          [ gameover_sound ]
-boss_defeated.o                           [ boss_defeated ]
+/opt/gbdk/lib/gb/crt0.o                   [ Runtime ]
+obj/main.o                                [ main ]
+obj/src/scripts/gui.o                     [ gui ]
+obj/src/scripts/enemy.o                   [ enemy ]
+obj/src/scripts/drop.o                    [ drop ]
+obj/src/scripts/save_manager.o            [ save_manager ]
+obj/src/tiles/character.o                 [ character ]
+obj/src/tiles/Hector.o                    [ Hector ]
+obj/src/tiles/Safy.o                      [ Safy ]
+obj/src/tiles/Arrow.o                     [ Arrow ]
+obj/src/tiles/DungeonObjects.o            [ DungeonObjects ]
+obj/src/tiles/Enemies.o                   [ Enemies ]
+obj/src/tiles/key.o                       [ key ]
+obj/src/tiles/Lock.o                      [ Lock ]
+obj/src/tiles/textbox.o                   [ textbox ]
+obj/src/tiles/mugshot.o                   [ mugshot ]
+obj/src/tiles/mythril.o                   [ mythril ]
+obj/src/tiles/numbers.o                   [ numbers ]
+obj/src/tiles/wpn_arrow.o                 [ wpn_arrow ]
+obj/src/tiles/enemyDrops.o                [ enemyDrops ]
+obj/src/scripts/generate_dungeon.o        [ generate_dungeon ]
+obj/src/maps/GameOver.o                   [ GameOver ]
+obj/src/tiles/GameOverText.o              [ GameOverText ]
+obj/src/scripts/gameover.o                [ gameover ]
+obj/src/tiles/sword.o                     [ sword ]
+obj/src/tiles/effects.o                   [ effects ]
+obj/src/scripts/play_effects.o            [ play_effects ]
+obj/src/maps/CampMap.o                    [ CampMap ]
+obj/src/maps/Dungeon.o                    [ Dungeon ]
+obj/src/maps/Title.o                      [ Title ]
+obj/src/tiles/CampTiles.o                 [ CampTiles ]
+obj/src/tiles/Text.o                      [ Text ]
+obj/src/tiles/DungeonTiles.o              [ DungeonTiles ]
+obj/src/tiles/Titlescreen.o               [ Titlescreen ]
+obj/src/tiles/TitleText.o                 [ TitleText ]
+obj/src/scripts/dungeon_management.o      [ dungeon_management ]
+obj/src/maps/Obstacles.o                  [ Obstacles ]
+obj/src/scripts/titlescreen.o             [ titlescreen ]
+obj/src/tiles/minimap.o                   [ minimap ]
+obj/src/scripts/gui_management.o          [ gui_management ]
+obj/src/scripts/spawn_enemy.o             [ spawn_enemy ]
+obj/src/scripts/combat_system.o           [ combat_system ]
+obj/src/scripts/insert_name.o             [ insert_name ]
+obj/src/maps/NameScreenMap.o              [ NameScreenMap ]
+obj/src/scripts/locked_doors.o            [ locked_doors ]
+obj/src/tiles/Eyeboss.o                   [ Eyeboss ]
+obj/src/scripts/boss.o                    [ boss ]
+obj/src/scripts/sound.o                   [ sound ]
+obj/src/songs/gameover_sound.o            [ gameover_sound ]
+obj/src/songs/boss_defeated.o             [ boss_defeated ]
+obj/src/maps/TutorialMap.o                [ TutorialMap ]
+obj/src/songs/dungeon_song.o              [ dungeon_song ]
+obj/src/songs/boss_song.o                 [ boss_song ]
+obj/src/songs/camp_song.o                 [ camp_song ]
+obj/src/songs/intro_song.o                [ intro_song ]
+obj/src/tiles/IntroSlide1Tiles.o          [ IntroSlide1Tiles ]
+obj/src/maps/IntroSlide1.o                [ IntroSlide1 ]
+obj/src/scripts/intro.o                   [ intro ]
 hUGEDriver.lib                            [ hUGEDriver_obj ]
-dungeon_management.o                      [ dungeon_management ]
-dungeon_song.o                            [ dungeon_song ]
-boss_song.o                               [ boss_song ]
-camp_song.o                               [ camp_song ]
-intro_song.o                              [ intro_song ]
-save_manager.o                            [ save_manager ]
-tutorial_map.o                            [ TutorialMap ]
-sword.o                                   [ sword ]
-effects.o                                 [ effects ]
-play_effects.o                            [ play_effects ]
-tiles_slide1.o                            [ IntroSlide1 ]
-slide1.o                                  [ IntroSlide1 ]
-intro.o                                   [ intro ]
 
 
 Libraries Linked                          [ object file ]
 
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/sm83/sm83.lib
-                                          [ rand.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ sfr.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/sm83/sm83.lib
-                                          [ div.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ set_wi_t.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ set_data.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/sm83/sm83.lib
-                                          [ mul.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ font.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ pad.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/sm83/sm83.lib
-                                          [ memcpy.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ color.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ drawing_isr.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ f_ibm_sh.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ lcd.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ delay.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ ___sdcc_bcall_ehl.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ set_bk_t.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ set_xy_t.o ]
-C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\lib/gb/gb.lib
-                                          [ set_1bit_data.o ]
+/opt/gbdk/lib/sm83/sm83.lib               [ rand.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ sfr.o ]
+/opt/gbdk/lib/sm83/sm83.lib               [ div.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ set_wi_t.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ set_data.o ]
+/opt/gbdk/lib/sm83/sm83.lib               [ mul.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ font.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ pad.o ]
+/opt/gbdk/lib/sm83/sm83.lib               [ memcpy.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ color.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ drawing_isr.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ f_ibm_sh.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ lcd.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ delay.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ ___sdcc_bcall_ehl.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ set_bk_t.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ set_xy_t.o ]
+/opt/gbdk/lib/gb/gb.lib                   [ set_1bit_data.o ]
 
 ASxxxx Linker V03.00/V05.40 + sdld,  page 38.
 

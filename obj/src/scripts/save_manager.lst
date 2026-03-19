@@ -1,0 +1,338 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module save_manager
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _sram_data
+                                     11 	.globl _load_game
+                                     12 	.globl _save_game
+                                     13 ;--------------------------------------------------------
+                                     14 ; special function registers
+                                     15 ;--------------------------------------------------------
+                                     16 	.area _HRAM
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                         0000A000    21 _sram_data	=	0xa000
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _INITIALIZED
+                                     26 ;--------------------------------------------------------
+                                     27 ; absolute external ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _DABS (ABS)
+                                     30 ;--------------------------------------------------------
+                                     31 ; global & static initialisations
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HOME
+                                     34 	.area _GSINIT
+                                     35 	.area _GSFINAL
+                                     36 	.area _GSINIT
+                                     37 ;--------------------------------------------------------
+                                     38 ; Home
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _HOME
+                                     42 ;--------------------------------------------------------
+                                     43 ; code
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _CODE
+                                     46 ;src/scripts/save_manager.c:5: uint8_t load_game() {
+                                     47 ;	---------------------------------
+                                     48 ; Function load_game
+                                     49 ; ---------------------------------
+    00000000                         50 _load_game::
+                                     51 ;src/scripts/save_manager.c:6: if (ng) {
+    00000000 FAr00r00         [16]   52 	ld	a, (#_ng)
+    00000003 B7               [ 4]   53 	or	a, a
+    00000004 28 02            [12]   54 	jr	Z, 00102$
+                                     55 ;src/scripts/save_manager.c:7: return 0;
+    00000006 AF               [ 4]   56 	xor	a, a
+    00000007 C9               [16]   57 	ret
+    00000008                         58 00102$:
+                                     59 ;src/scripts/save_manager.c:9: ENABLE_RAM;
+    00000008 21r00r00         [12]   60 	ld	hl, #_rRAMG
+    0000000B 36 0A            [12]   61 	ld	(hl), #0x0a
+                                     62 ;src/scripts/save_manager.c:10: SWITCH_RAM(0);
+    0000000D AF               [ 4]   63 	xor	a, a
+    0000000E EAr00r00         [16]   64 	ld	(#_rRAMB),a
+                                     65 ;src/scripts/save_manager.c:12: if (sram_data.check == 0x54F1) {
+    00000011 21r00r00         [12]   66 	ld	hl, #_sram_data
+    00000014 2A               [ 8]   67 	ld	a, (hl+)
+    00000015 4F               [ 4]   68 	ld	c, a
+    00000016 46               [ 8]   69 	ld	b, (hl)
+    00000017 79               [ 4]   70 	ld	a, c
+    00000018 D6 F1            [ 8]   71 	sub	a, #0xf1
+    0000001A C2rE0r00         [16]   72 	jp	NZ, 00105$
+    0000001D 78               [ 4]   73 	ld	a, b
+                                     74 ;src/scripts/save_manager.c:13: for(uint8_t i = 0; i < 5; i++) {
+    0000001E D6 54            [ 8]   75 	sub	a, #0x54
+    00000020 C2rE0r00         [16]   76 	jp	NZ, 00105$
+    00000023 4F               [ 4]   77 	ld	c, a
+    00000024                         78 00107$:
+    00000024 79               [ 4]   79 	ld	a, c
+    00000025 D6 05            [ 8]   80 	sub	a, #0x05
+    00000027 30 14            [12]   81 	jr	NC, 00103$
+                                     82 ;src/scripts/save_manager.c:14: player_name[i] = sram_data.player_name[i];
+    00000029 3Er00            [ 8]   83 	ld	a, #<(_player_name)
+    0000002B 81               [ 4]   84 	add	a, c
+    0000002C 5F               [ 4]   85 	ld	e, a
+    0000002D 3Es00            [ 8]   86 	ld	a, #>(_player_name)
+    0000002F CE 00            [ 8]   87 	adc	a, #0x00
+    00000031 57               [ 4]   88 	ld	d, a
+    00000032 21r02r00         [12]   89 	ld	hl, #(_sram_data + 2)
+    00000035 06 00            [ 8]   90 	ld	b, #0x00
+    00000037 09               [ 8]   91 	add	hl, bc
+    00000038 7E               [ 8]   92 	ld	a, (hl)
+    00000039 12               [ 8]   93 	ld	(de), a
+                                     94 ;src/scripts/save_manager.c:13: for(uint8_t i = 0; i < 5; i++) {
+    0000003A 0C               [ 4]   95 	inc	c
+    0000003B 18 E7            [12]   96 	jr	00107$
+    0000003D                         97 00103$:
+                                     98 ;src/scripts/save_manager.c:17: max_hp = sram_data.max_hp;
+    0000003D FAr07r00         [16]   99 	ld	a, (#(_sram_data + 7) + 0)
+    00000040 EAr00r00         [16]  100 	ld	(#_max_hp),a
+                                    101 ;src/scripts/save_manager.c:18: current_hp = sram_data.current_hp;
+    00000043 FAr08r00         [16]  102 	ld	a, (#(_sram_data + 8) + 0)
+    00000046 EAr00r00         [16]  103 	ld	(#_current_hp),a
+                                    104 ;src/scripts/save_manager.c:19: attack = sram_data.attack;
+    00000049 FAr09r00         [16]  105 	ld	a, (#(_sram_data + 9) + 0)
+    0000004C EAr00r00         [16]  106 	ld	(#_attack),a
+                                    107 ;src/scripts/save_manager.c:20: defense = sram_data.defense;
+    0000004F FAr0Ar00         [16]  108 	ld	a, (#(_sram_data + 10) + 0)
+    00000052 EAr00r00         [16]  109 	ld	(#_defense),a
+                                    110 ;src/scripts/save_manager.c:21: level = sram_data.level;
+    00000055 FAr0Br00         [16]  111 	ld	a, (#(_sram_data + 11) + 0)
+    00000058 EAr00r00         [16]  112 	ld	(#_level),a
+                                    113 ;src/scripts/save_manager.c:22: experience = sram_data.experience;
+    0000005B FAr0Cr00         [16]  114 	ld	a, (#(_sram_data + 12) + 0)
+    0000005E EAr00r00         [16]  115 	ld	(#_experience),a
+                                    116 ;src/scripts/save_manager.c:25: sword_lvl = sram_data.sword_lvl;
+    00000061 FAr0Dr00         [16]  117 	ld	a, (#(_sram_data + 13) + 0)
+    00000064 EAr00r00         [16]  118 	ld	(#_sword_lvl),a
+                                    119 ;src/scripts/save_manager.c:26: shield_lvl = sram_data.shield_lvl;
+    00000067 FAr0Er00         [16]  120 	ld	a, (#(_sram_data + 14) + 0)
+    0000006A EAr00r00         [16]  121 	ld	(#_shield_lvl),a
+                                    122 ;src/scripts/save_manager.c:27: arrow_lvl = sram_data.arrow_lvl;
+    0000006D FAr0Fr00         [16]  123 	ld	a, (#(_sram_data + 15) + 0)
+    00000070 EAr00r00         [16]  124 	ld	(#_arrow_lvl),a
+                                    125 ;src/scripts/save_manager.c:28: quiver_lvl = sram_data.quiver_lvl;
+    00000073 FAr10r00         [16]  126 	ld	a, (#(_sram_data + 16) + 0)
+    00000076 EAr00r00         [16]  127 	ld	(#_quiver_lvl),a
+                                    128 ;src/scripts/save_manager.c:29: potion_quant_lvl = sram_data.potion_quant_lvl;
+    00000079 FAr11r00         [16]  129 	ld	a, (#(_sram_data + 17) + 0)
+    0000007C EAr00r00         [16]  130 	ld	(#_potion_quant_lvl),a
+                                    131 ;src/scripts/save_manager.c:30: potion_heal_lvl = sram_data.potion_heal_lvl;
+    0000007F FAr12r00         [16]  132 	ld	a, (#(_sram_data + 18) + 0)
+    00000082 EAr00r00         [16]  133 	ld	(#_potion_heal_lvl),a
+                                    134 ;src/scripts/save_manager.c:33: max_heals = sram_data.max_heals;
+    00000085 FAr13r00         [16]  135 	ld	a, (#(_sram_data + 19) + 0)
+    00000088 EAr00r00         [16]  136 	ld	(#_max_heals),a
+                                    137 ;src/scripts/save_manager.c:34: heals = sram_data.heals;
+    0000008B FAr14r00         [16]  138 	ld	a, (#(_sram_data + 20) + 0)
+    0000008E EAr00r00         [16]  139 	ld	(#_heals),a
+                                    140 ;src/scripts/save_manager.c:35: heal_quantity = sram_data.heal_quantity;
+    00000091 FAr15r00         [16]  141 	ld	a, (#(_sram_data + 21) + 0)
+    00000094 EAr00r00         [16]  142 	ld	(#_heal_quantity),a
+                                    143 ;src/scripts/save_manager.c:36: arrow_damage = sram_data.arrow_damage;
+    00000097 FAr16r00         [16]  144 	ld	a, (#(_sram_data + 22) + 0)
+    0000009A EAr00r00         [16]  145 	ld	(#_arrow_damage),a
+                                    146 ;src/scripts/save_manager.c:37: num_arrows = sram_data.num_arrows;
+    0000009D FAr17r00         [16]  147 	ld	a, (#(_sram_data + 23) + 0)
+    000000A0 EAr00r00         [16]  148 	ld	(#_num_arrows),a
+                                    149 ;src/scripts/save_manager.c:38: max_num_arrows = sram_data.max_num_arrows;
+    000000A3 FAr18r00         [16]  150 	ld	a, (#(_sram_data + 24) + 0)
+    000000A6 EAr00r00         [16]  151 	ld	(#_max_num_arrows),a
+                                    152 ;src/scripts/save_manager.c:39: minerals = sram_data.minerals;
+    000000A9 FAr19r00         [16]  153 	ld	a, (#(_sram_data + 25) + 0)
+    000000AC EAr00r00         [16]  154 	ld	(#_minerals),a
+                                    155 ;src/scripts/save_manager.c:42: frames = sram_data.frames;
+    000000AF FAr1Ar00         [16]  156 	ld	a, (#(_sram_data + 26) + 0)
+    000000B2 EAr00r00         [16]  157 	ld	(#_frames),a
+                                    158 ;src/scripts/save_manager.c:43: seconds = sram_data.seconds;
+    000000B5 FAr1Br00         [16]  159 	ld	a, (#(_sram_data + 27) + 0)
+    000000B8 EAr00r00         [16]  160 	ld	(#_seconds),a
+                                    161 ;src/scripts/save_manager.c:44: minutes = sram_data.minutes;
+    000000BB FAr1Cr00         [16]  162 	ld	a, (#(_sram_data + 28) + 0)
+    000000BE EAr00r00         [16]  163 	ld	(#_minutes),a
+                                    164 ;src/scripts/save_manager.c:45: hours = sram_data.hours;
+    000000C1 FAr1Dr00         [16]  165 	ld	a, (#(_sram_data + 29) + 0)
+    000000C4 EAr00r00         [16]  166 	ld	(#_hours),a
+                                    167 ;src/scripts/save_manager.c:46: enemies_defeated = sram_data.enemies_defeated;
+    000000C7 FAr1Er00         [16]  168 	ld	a, (#(_sram_data + 30) + 0)
+    000000CA EAr00r00         [16]  169 	ld	(#_enemies_defeated),a
+                                    170 ;src/scripts/save_manager.c:47: max_floor = sram_data.max_floor;
+    000000CD FAr1Fr00         [16]  171 	ld	a, (#(_sram_data + 31) + 0)
+    000000D0 EAr00r00         [16]  172 	ld	(#_max_floor),a
+                                    173 ;src/scripts/save_manager.c:48: power_ups = sram_data.power_ups;
+    000000D3 FAr20r00         [16]  174 	ld	a, (#(_sram_data + 32) + 0)
+    000000D6 EAr00r00         [16]  175 	ld	(#_power_ups),a
+                                    176 ;src/scripts/save_manager.c:49: DISABLE_RAM;
+    000000D9 AF               [ 4]  177 	xor	a, a
+    000000DA EAr00r00         [16]  178 	ld	(#_rRAMG),a
+                                    179 ;src/scripts/save_manager.c:50: return 1;
+    000000DD 3E 01            [ 8]  180 	ld	a, #0x01
+    000000DF C9               [16]  181 	ret
+    000000E0                        182 00105$:
+                                    183 ;src/scripts/save_manager.c:52: DISABLE_RAM;
+                                    184 ;src/scripts/save_manager.c:53: return 0;
+    000000E0 AF               [ 4]  185 	xor	a, a
+    000000E1 EAr00r00         [16]  186 	ld	(#_rRAMG), a
+                                    187 ;src/scripts/save_manager.c:54: }
+    000000E4 C9               [16]  188 	ret
+                                    189 ;src/scripts/save_manager.c:56: void save_game() {
+                                    190 ;	---------------------------------
+                                    191 ; Function save_game
+                                    192 ; ---------------------------------
+    000000E5                        193 _save_game::
+                                    194 ;src/scripts/save_manager.c:57: ENABLE_RAM;
+    000000E5 21r00r00         [12]  195 	ld	hl, #_rRAMG
+    000000E8 36 0A            [12]  196 	ld	(hl), #0x0a
+                                    197 ;src/scripts/save_manager.c:58: SWITCH_RAM(0);
+    000000EA AF               [ 4]  198 	xor	a, a
+    000000EB EAr00r00         [16]  199 	ld	(#_rRAMB),a
+                                    200 ;src/scripts/save_manager.c:60: sram_data.check = 0x54F1; 
+    000000EE 21r00r00         [12]  201 	ld	hl, #_sram_data
+    000000F1 3E F1            [ 8]  202 	ld	a, #0xf1
+    000000F3 22               [ 8]  203 	ld	(hl+), a
+    000000F4 36 54            [12]  204 	ld	(hl), #0x54
+                                    205 ;src/scripts/save_manager.c:63: for(uint8_t i = 0; i < 5; i++) {
+    000000F6 0E 00            [ 8]  206 	ld	c, #0x00
+    000000F8                        207 00103$:
+    000000F8 79               [ 4]  208 	ld	a, c
+    000000F9 D6 05            [ 8]  209 	sub	a, #0x05
+    000000FB 30 14            [12]  210 	jr	NC, 00101$
+                                    211 ;src/scripts/save_manager.c:64: sram_data.player_name[i] = player_name[i];
+    000000FD 3Er02            [ 8]  212 	ld	a, #<((_sram_data + 2))
+    000000FF 81               [ 4]  213 	add	a, c
+    00000100 5F               [ 4]  214 	ld	e, a
+    00000101 3Es00            [ 8]  215 	ld	a, #>((_sram_data + 2))
+    00000103 CE 00            [ 8]  216 	adc	a, #0x00
+    00000105 57               [ 4]  217 	ld	d, a
+    00000106 21r00r00         [12]  218 	ld	hl, #_player_name
+    00000109 06 00            [ 8]  219 	ld	b, #0x00
+    0000010B 09               [ 8]  220 	add	hl, bc
+    0000010C 7E               [ 8]  221 	ld	a, (hl)
+    0000010D 12               [ 8]  222 	ld	(de), a
+                                    223 ;src/scripts/save_manager.c:63: for(uint8_t i = 0; i < 5; i++) {
+    0000010E 0C               [ 4]  224 	inc	c
+    0000010F 18 E7            [12]  225 	jr	00103$
+    00000111                        226 00101$:
+                                    227 ;src/scripts/save_manager.c:66: sram_data.max_hp = max_hp;
+    00000111 11r07r00         [12]  228 	ld	de, #(_sram_data + 7)
+    00000114 FAr00r00         [16]  229 	ld	a, (_max_hp)
+    00000117 12               [ 8]  230 	ld	(de), a
+                                    231 ;src/scripts/save_manager.c:67: sram_data.current_hp = current_hp;
+    00000118 11r08r00         [12]  232 	ld	de, #(_sram_data + 8)
+    0000011B FAr00r00         [16]  233 	ld	a, (_current_hp)
+    0000011E 12               [ 8]  234 	ld	(de), a
+                                    235 ;src/scripts/save_manager.c:68: sram_data.attack = attack;
+    0000011F 11r09r00         [12]  236 	ld	de, #(_sram_data + 9)
+    00000122 FAr00r00         [16]  237 	ld	a, (_attack)
+    00000125 12               [ 8]  238 	ld	(de), a
+                                    239 ;src/scripts/save_manager.c:69: sram_data.defense = defense;
+    00000126 11r0Ar00         [12]  240 	ld	de, #(_sram_data + 10)
+    00000129 FAr00r00         [16]  241 	ld	a, (_defense)
+    0000012C 12               [ 8]  242 	ld	(de), a
+                                    243 ;src/scripts/save_manager.c:70: sram_data.level = level;
+    0000012D 11r0Br00         [12]  244 	ld	de, #(_sram_data + 11)
+    00000130 FAr00r00         [16]  245 	ld	a, (_level)
+    00000133 12               [ 8]  246 	ld	(de), a
+                                    247 ;src/scripts/save_manager.c:71: sram_data.experience = experience;
+    00000134 11r0Cr00         [12]  248 	ld	de, #(_sram_data + 12)
+    00000137 FAr00r00         [16]  249 	ld	a, (_experience)
+    0000013A 12               [ 8]  250 	ld	(de), a
+                                    251 ;src/scripts/save_manager.c:74: sram_data.sword_lvl = sword_lvl;
+    0000013B 11r0Dr00         [12]  252 	ld	de, #(_sram_data + 13)
+    0000013E FAr00r00         [16]  253 	ld	a, (_sword_lvl)
+    00000141 12               [ 8]  254 	ld	(de), a
+                                    255 ;src/scripts/save_manager.c:75: sram_data.shield_lvl = shield_lvl;
+    00000142 11r0Er00         [12]  256 	ld	de, #(_sram_data + 14)
+    00000145 FAr00r00         [16]  257 	ld	a, (_shield_lvl)
+    00000148 12               [ 8]  258 	ld	(de), a
+                                    259 ;src/scripts/save_manager.c:76: sram_data.arrow_lvl = arrow_lvl;
+    00000149 11r0Fr00         [12]  260 	ld	de, #(_sram_data + 15)
+    0000014C FAr00r00         [16]  261 	ld	a, (_arrow_lvl)
+    0000014F 12               [ 8]  262 	ld	(de), a
+                                    263 ;src/scripts/save_manager.c:77: sram_data.quiver_lvl = quiver_lvl;
+    00000150 11r10r00         [12]  264 	ld	de, #(_sram_data + 16)
+    00000153 FAr00r00         [16]  265 	ld	a, (_quiver_lvl)
+    00000156 12               [ 8]  266 	ld	(de), a
+                                    267 ;src/scripts/save_manager.c:78: sram_data.potion_quant_lvl = potion_quant_lvl;
+    00000157 11r11r00         [12]  268 	ld	de, #(_sram_data + 17)
+    0000015A FAr00r00         [16]  269 	ld	a, (_potion_quant_lvl)
+    0000015D 12               [ 8]  270 	ld	(de), a
+                                    271 ;src/scripts/save_manager.c:79: sram_data.potion_heal_lvl = potion_heal_lvl;
+    0000015E 11r12r00         [12]  272 	ld	de, #(_sram_data + 18)
+    00000161 FAr00r00         [16]  273 	ld	a, (_potion_heal_lvl)
+    00000164 12               [ 8]  274 	ld	(de), a
+                                    275 ;src/scripts/save_manager.c:82: sram_data.max_heals = max_heals;
+    00000165 11r13r00         [12]  276 	ld	de, #(_sram_data + 19)
+    00000168 FAr00r00         [16]  277 	ld	a, (_max_heals)
+    0000016B 12               [ 8]  278 	ld	(de), a
+                                    279 ;src/scripts/save_manager.c:83: sram_data.heals = heals;
+    0000016C 11r14r00         [12]  280 	ld	de, #(_sram_data + 20)
+    0000016F FAr00r00         [16]  281 	ld	a, (_heals)
+    00000172 12               [ 8]  282 	ld	(de), a
+                                    283 ;src/scripts/save_manager.c:84: sram_data.heal_quantity = heal_quantity;
+    00000173 11r15r00         [12]  284 	ld	de, #(_sram_data + 21)
+    00000176 FAr00r00         [16]  285 	ld	a, (_heal_quantity)
+    00000179 12               [ 8]  286 	ld	(de), a
+                                    287 ;src/scripts/save_manager.c:85: sram_data.arrow_damage = arrow_damage;
+    0000017A 11r16r00         [12]  288 	ld	de, #(_sram_data + 22)
+    0000017D FAr00r00         [16]  289 	ld	a, (_arrow_damage)
+    00000180 12               [ 8]  290 	ld	(de), a
+                                    291 ;src/scripts/save_manager.c:86: sram_data.num_arrows = num_arrows;
+    00000181 11r17r00         [12]  292 	ld	de, #(_sram_data + 23)
+    00000184 FAr00r00         [16]  293 	ld	a, (_num_arrows)
+    00000187 12               [ 8]  294 	ld	(de), a
+                                    295 ;src/scripts/save_manager.c:87: sram_data.max_num_arrows = max_num_arrows;
+    00000188 11r18r00         [12]  296 	ld	de, #(_sram_data + 24)
+    0000018B FAr00r00         [16]  297 	ld	a, (_max_num_arrows)
+    0000018E 12               [ 8]  298 	ld	(de), a
+                                    299 ;src/scripts/save_manager.c:88: sram_data.minerals = minerals;
+    0000018F 11r19r00         [12]  300 	ld	de, #(_sram_data + 25)
+    00000192 FAr00r00         [16]  301 	ld	a, (_minerals)
+    00000195 12               [ 8]  302 	ld	(de), a
+                                    303 ;src/scripts/save_manager.c:91: sram_data.frames = frames;
+    00000196 11r1Ar00         [12]  304 	ld	de, #(_sram_data + 26)
+    00000199 FAr00r00         [16]  305 	ld	a, (_frames)
+    0000019C 12               [ 8]  306 	ld	(de), a
+                                    307 ;src/scripts/save_manager.c:92: sram_data.seconds = seconds;
+    0000019D 11r1Br00         [12]  308 	ld	de, #(_sram_data + 27)
+    000001A0 FAr00r00         [16]  309 	ld	a, (_seconds)
+    000001A3 12               [ 8]  310 	ld	(de), a
+                                    311 ;src/scripts/save_manager.c:93: sram_data.minutes = minutes;
+    000001A4 11r1Cr00         [12]  312 	ld	de, #(_sram_data + 28)
+    000001A7 FAr00r00         [16]  313 	ld	a, (_minutes)
+    000001AA 12               [ 8]  314 	ld	(de), a
+                                    315 ;src/scripts/save_manager.c:94: sram_data.hours = hours;
+    000001AB 11r1Dr00         [12]  316 	ld	de, #(_sram_data + 29)
+    000001AE FAr00r00         [16]  317 	ld	a, (_hours)
+    000001B1 12               [ 8]  318 	ld	(de), a
+                                    319 ;src/scripts/save_manager.c:95: sram_data.enemies_defeated = enemies_defeated;
+    000001B2 11r1Er00         [12]  320 	ld	de, #(_sram_data + 30)
+    000001B5 FAr00r00         [16]  321 	ld	a, (_enemies_defeated)
+    000001B8 12               [ 8]  322 	ld	(de), a
+                                    323 ;src/scripts/save_manager.c:96: sram_data.max_floor = max_floor;
+    000001B9 11r1Fr00         [12]  324 	ld	de, #(_sram_data + 31)
+    000001BC FAr00r00         [16]  325 	ld	a, (_max_floor)
+    000001BF 12               [ 8]  326 	ld	(de), a
+                                    327 ;src/scripts/save_manager.c:97: sram_data.power_ups = power_ups;
+    000001C0 11r20r00         [12]  328 	ld	de, #(_sram_data + 32)
+    000001C3 FAr00r00         [16]  329 	ld	a, (_power_ups)
+    000001C6 12               [ 8]  330 	ld	(de), a
+                                    331 ;src/scripts/save_manager.c:99: DISABLE_RAM;
+    000001C7 AF               [ 4]  332 	xor	a, a
+    000001C8 EAr00r00         [16]  333 	ld	(#_rRAMG),a
+                                    334 ;src/scripts/save_manager.c:100: }
+    000001CB C9               [16]  335 	ret
+                                    336 	.area _CODE
+                                    337 	.area _INITIALIZER
+                                    338 	.area _CABS (ABS)

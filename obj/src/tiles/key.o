@@ -1,0 +1,24 @@
+XL4
+H B areas 2 global symbols
+M key
+S .__.ABS. Def00000000
+A _CODE size 0 flags 0 addr 0
+A _HRAM size 0 flags 0 addr 0
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _CODE_1 size 20 flags 0 addr 0
+S _Key Def00000000
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00 00
+R 00 00 08 00
+T 00 00 00 00 38 38 44 7C FB 97 EC AB FF 93 7C 44
+R 00 00 08 00
+T 0C 00 00 00 38 38 00 00 00 00 00 00 FF FF 01 FF
+R 00 00 08 00
+T 18 00 00 00 FD DF 77 55 77 77 00 00
+R 00 00 08 00
