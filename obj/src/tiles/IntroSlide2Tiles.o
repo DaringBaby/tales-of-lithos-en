@@ -10,7 +10,7 @@ A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
 A _GSINIT size 0 flags 0 addr 0
 A _GSFINAL size 0 flags 0 addr 0
-A _CODE_6 size B20 flags 0 addr 0
+A _CODE_6 size B30 flags 0 addr 0
 S _Slide2 Def00000000
 A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
@@ -490,5 +490,7 @@ T 04 0B 00 00 00 00 00 00 60 60 60 60 20 20 40 40
 R 00 00 08 00
 T 10 0B 00 00 60 60 60 60 20 20 40 40 00 00 00 00
 R 00 00 08 00
-T 1C 0B 00 00 00 00 00 00
+T 1C 0B 00 00 00 00 00 00 00 00 7E 7E E7 E7 CE CE
+R 00 00 08 00
+T 28 0B 00 00 18 18 00 00 18 18 18 18
 R 00 00 08 00

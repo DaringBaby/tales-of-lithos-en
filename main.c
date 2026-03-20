@@ -217,6 +217,7 @@ void main(void) {
     SWITCH_ROM(current_song_bank);
     hUGE_init(&intro_theme);
     SWITCH_ROM(1);
+    DISPLAY_ON;
     ng = set_titlescreen();
     start_sfx();
 

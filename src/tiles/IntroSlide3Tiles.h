@@ -1,6 +1,6 @@
 /*
 
- INTROSLIDE2TILES.H
+ INTROSLIDE3TILES.H
 
  Include File.
 
@@ -10,7 +10,7 @@
   Compression          : None.
   Counter              : None.
   Tile size            : 8 x 8
-  Tiles                : 0 to 178
+  Tiles                : 0 to 235
 
   Palette colors       : None.
   SGB Palette          : None.
@@ -22,14 +22,14 @@
 
 */
 
-#ifndef __IntroSlide2Tiles_h_INCLUDE
-#define __IntroSlide2Tiles_h_INCLUDE
+#ifndef __IntroSlide3Tiles_h_INCLUDE
+#define __IntroSlide3Tiles_h_INCLUDE
 
 /* Bank of tiles. */
-#define Slide2Bank 0
+#define Slide3Bank 0
 /* Start of tile array. */
-extern const unsigned char Slide2[];
+extern const unsigned char Slide3[];
 
 #endif
 
-/* End of INTROSLIDE2TILES.H */
+/* End of INTROSLIDE3TILES.H */

@@ -3,6 +3,8 @@
 #include "../maps/IntroSlide1.h"
 #include "../tiles/IntroSlide2Tiles.h"
 #include "../maps/IntroSlide2.h"
+#include "../tiles/IntroSlide3Tiles.h"
+#include "../maps/IntroSlide3.h"
 #include <gb/gb.h>
 
 void start_intro() BANKED {
@@ -16,14 +18,29 @@ void start_intro() BANKED {
             next = 1;
         }
     }
+    delay(50);
     DISPLAY_OFF;
-    set_bkg_data(0, 177, Slide2);
+    set_bkg_data(0, 236, Slide3);
+    set_bkg_tiles(0, 0, 20, 18, IntroSlide3);
+    DISPLAY_ON;
+    next = 0;
+    while (!next) {
+        if (joypad() & J_A) {
+            next = 1;
+        }
+    }
+    delay(50);
+    DISPLAY_OFF;
+    set_bkg_data(0, 179, Slide2);
     set_bkg_tiles(0, 0, 20, 18, IntroSlide2);
     DISPLAY_ON;
     next = 0;
     while (!next) {
         if (joypad() & J_A) {
             next = 1;
+            delay(50);
+            DISPLAY_OFF;
+            return;
         }
     }
 }

@@ -2890,5 +2890,21 @@ _Slide2:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x7e	; 126
+	.db #0x7e	; 126
+	.db #0xe7	; 231
+	.db #0xe7	; 231
+	.db #0xce	; 206
+	.db #0xce	; 206
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x18	; 24
 	.area _INITIALIZER
 	.area _CABS (ABS)
