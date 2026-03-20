@@ -11,79 +11,124 @@
                                      11 	.globl _start_intro
                                      12 	.globl _set_bkg_tiles
                                      13 	.globl _set_bkg_data
-                                     14 	.globl _joypad
-                                     15 ;--------------------------------------------------------
-                                     16 ; special function registers
-                                     17 ;--------------------------------------------------------
-                                     18 	.area _HRAM
-                                     19 ;--------------------------------------------------------
-                                     20 ; ram data
-                                     21 ;--------------------------------------------------------
-                                     22 	.area _DATA
-                                     23 ;--------------------------------------------------------
-                                     24 ; ram data
-                                     25 ;--------------------------------------------------------
-                                     26 	.area _INITIALIZED
-                                     27 ;--------------------------------------------------------
-                                     28 ; absolute external ram data
-                                     29 ;--------------------------------------------------------
-                                     30 	.area _DABS (ABS)
-                                     31 ;--------------------------------------------------------
-                                     32 ; global & static initialisations
-                                     33 ;--------------------------------------------------------
-                                     34 	.area _HOME
-                                     35 	.area _GSINIT
-                                     36 	.area _GSFINAL
-                                     37 	.area _GSINIT
-                                     38 ;--------------------------------------------------------
-                                     39 ; Home
-                                     40 ;--------------------------------------------------------
-                                     41 	.area _HOME
+                                     14 	.globl _display_off
+                                     15 	.globl _joypad
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 	.area _HRAM
+                                     20 ;--------------------------------------------------------
+                                     21 ; ram data
+                                     22 ;--------------------------------------------------------
+                                     23 	.area _DATA
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _INITIALIZED
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DABS (ABS)
+                                     32 ;--------------------------------------------------------
+                                     33 ; global & static initialisations
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HOME
+                                     36 	.area _GSINIT
+                                     37 	.area _GSFINAL
+                                     38 	.area _GSINIT
+                                     39 ;--------------------------------------------------------
+                                     40 ; Home
+                                     41 ;--------------------------------------------------------
                                      42 	.area _HOME
-                                     43 ;--------------------------------------------------------
-                                     44 ; code
-                                     45 ;--------------------------------------------------------
-                                     46 	.area _CODE_6
-                                     47 ;src/scripts/intro.c:6: void start_intro() BANKED {
-                                     48 ;	---------------------------------
-                                     49 ; Function start_intro
-                                     50 ; ---------------------------------
-                         00000006    51 	b_start_intro	= 6
-    00000000                         52 _start_intro::
-                                     53 ;src/scripts/intro.c:7: set_bkg_data(0, 235, Slide1);
-    00000000 11r00r00         [12]   54 	ld	de, #_Slide1
-    00000003 D5               [16]   55 	push	de
-    00000004 21 00 EB         [12]   56 	ld	hl, #0xeb00
-    00000007 E5               [16]   57 	push	hl
-    00000008 CDr00r00         [24]   58 	call	_set_bkg_data
-    0000000B E8 04            [16]   59 	add	sp, #4
-                                     60 ;src/scripts/intro.c:8: set_bkg_tiles(0, 0, 20, 18, IntroSlide1);
-    0000000D 11r00r00         [12]   61 	ld	de, #_IntroSlide1
-    00000010 D5               [16]   62 	push	de
-    00000011 21 14 12         [12]   63 	ld	hl, #0x1214
-    00000014 E5               [16]   64 	push	hl
-    00000015 AF               [ 4]   65 	xor	a, a
-    00000016 0F               [ 4]   66 	rrca
-    00000017 F5               [16]   67 	push	af
-    00000018 CDr00r00         [24]   68 	call	_set_bkg_tiles
-    0000001B E8 06            [16]   69 	add	sp, #6
-                                     70 ;src/scripts/intro.c:9: SHOW_BKG;
-    0000001D F0r00            [12]   71 	ldh	a, (_LCDC_REG + 0)
-    0000001F F6 01            [ 8]   72 	or	a, #0x01
-    00000021 E0r00            [12]   73 	ldh	(_LCDC_REG + 0), a
-                                     74 ;src/scripts/intro.c:10: DISPLAY_ON;
-    00000023 F0r00            [12]   75 	ldh	a, (_LCDC_REG + 0)
-    00000025 F6 80            [ 8]   76 	or	a, #0x80
-    00000027 E0r00            [12]   77 	ldh	(_LCDC_REG + 0), a
-                                     78 ;src/scripts/intro.c:11: while (1) {
-    00000029                         79 00104$:
-                                     80 ;src/scripts/intro.c:12: if (joypad() & J_A) {
-    00000029 CDr00r00         [24]   81 	call	_joypad
-    0000002C CB 67            [ 8]   82 	bit	4, a
-    0000002E 28 F9            [12]   83 	jr	Z, 00104$
-                                     84 ;src/scripts/intro.c:13: return;
-                                     85 ;src/scripts/intro.c:16: }
-    00000030 C9               [16]   86 	ret
-                                     87 	.area _CODE_6
-                                     88 	.area _INITIALIZER
-                                     89 	.area _CABS (ABS)
+                                     43 	.area _HOME
+                                     44 ;--------------------------------------------------------
+                                     45 ; code
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _CODE_6
+                                     48 ;src/scripts/intro.c:8: void start_intro() BANKED {
+                                     49 ;	---------------------------------
+                                     50 ; Function start_intro
+                                     51 ; ---------------------------------
+                         00000006    52 	b_start_intro	= 6
+    00000000                         53 _start_intro::
+                                     54 ;src/scripts/intro.c:9: set_bkg_data(0, 235, Slide1);
+    00000000 11r00r00         [12]   55 	ld	de, #_Slide1
+    00000003 D5               [16]   56 	push	de
+    00000004 21 00 EB         [12]   57 	ld	hl, #0xeb00
+    00000007 E5               [16]   58 	push	hl
+    00000008 CDr00r00         [24]   59 	call	_set_bkg_data
+    0000000B E8 04            [16]   60 	add	sp, #4
+                                     61 ;src/scripts/intro.c:10: set_bkg_tiles(0, 0, 20, 18, IntroSlide1);
+    0000000D 11r00r00         [12]   62 	ld	de, #_IntroSlide1
+    00000010 D5               [16]   63 	push	de
+    00000011 21 14 12         [12]   64 	ld	hl, #0x1214
+    00000014 E5               [16]   65 	push	hl
+    00000015 AF               [ 4]   66 	xor	a, a
+    00000016 0F               [ 4]   67 	rrca
+    00000017 F5               [16]   68 	push	af
+    00000018 CDr00r00         [24]   69 	call	_set_bkg_tiles
+    0000001B E8 06            [16]   70 	add	sp, #6
+                                     71 ;src/scripts/intro.c:11: SHOW_BKG;
+    0000001D F0r00            [12]   72 	ldh	a, (_LCDC_REG + 0)
+    0000001F F6 01            [ 8]   73 	or	a, #0x01
+    00000021 E0r00            [12]   74 	ldh	(_LCDC_REG + 0), a
+                                     75 ;src/scripts/intro.c:12: DISPLAY_ON;
+    00000023 F0r00            [12]   76 	ldh	a, (_LCDC_REG + 0)
+    00000025 F6 80            [ 8]   77 	or	a, #0x80
+    00000027 E0r00            [12]   78 	ldh	(_LCDC_REG + 0), a
+                                     79 ;src/scripts/intro.c:13: uint8_t next = 0;
+    00000029 0E 00            [ 8]   80 	ld	c, #0x00
+                                     81 ;src/scripts/intro.c:14: while (!next) {
+    0000002B                         82 00103$:
+    0000002B 79               [ 4]   83 	ld	a, c
+    0000002C B7               [ 4]   84 	or	a, a
+    0000002D 20 0B            [12]   85 	jr	NZ, 00105$
+                                     86 ;src/scripts/intro.c:15: if (joypad() & J_A) {
+    0000002F CDr00r00         [24]   87 	call	_joypad
+    00000032 CB 67            [ 8]   88 	bit	4, a
+    00000034 28 F5            [12]   89 	jr	Z, 00103$
+                                     90 ;src/scripts/intro.c:16: next = 1;
+    00000036 0E 01            [ 8]   91 	ld	c, #0x01
+    00000038 18 F1            [12]   92 	jr	00103$
+    0000003A                         93 00105$:
+                                     94 ;src/scripts/intro.c:19: DISPLAY_OFF;
+    0000003A CDr00r00         [24]   95 	call	_display_off
+                                     96 ;src/scripts/intro.c:20: set_bkg_data(0, 177, Slide2);
+    0000003D 11r00r00         [12]   97 	ld	de, #_Slide2
+    00000040 D5               [16]   98 	push	de
+    00000041 21 00 B1         [12]   99 	ld	hl, #0xb100
+    00000044 E5               [16]  100 	push	hl
+    00000045 CDr00r00         [24]  101 	call	_set_bkg_data
+    00000048 E8 04            [16]  102 	add	sp, #4
+                                    103 ;src/scripts/intro.c:21: set_bkg_tiles(0, 0, 20, 18, IntroSlide2);
+    0000004A 11r00r00         [12]  104 	ld	de, #_IntroSlide2
+    0000004D D5               [16]  105 	push	de
+    0000004E 21 14 12         [12]  106 	ld	hl, #0x1214
+    00000051 E5               [16]  107 	push	hl
+    00000052 AF               [ 4]  108 	xor	a, a
+    00000053 0F               [ 4]  109 	rrca
+    00000054 F5               [16]  110 	push	af
+    00000055 CDr00r00         [24]  111 	call	_set_bkg_tiles
+    00000058 E8 06            [16]  112 	add	sp, #6
+                                    113 ;src/scripts/intro.c:22: DISPLAY_ON;
+    0000005A F0r00            [12]  114 	ldh	a, (_LCDC_REG + 0)
+    0000005C F6 80            [ 8]  115 	or	a, #0x80
+    0000005E E0r00            [12]  116 	ldh	(_LCDC_REG + 0), a
+                                    117 ;src/scripts/intro.c:23: next = 0;
+    00000060 0E 00            [ 8]  118 	ld	c, #0x00
+                                    119 ;src/scripts/intro.c:24: while (!next) {
+    00000062                        120 00108$:
+    00000062 79               [ 4]  121 	ld	a, c
+    00000063 B7               [ 4]  122 	or	a, a
+    00000064 C0               [20]  123 	ret	NZ
+                                    124 ;src/scripts/intro.c:25: if (joypad() & J_A) {
+    00000065 CDr00r00         [24]  125 	call	_joypad
+    00000068 CB 67            [ 8]  126 	bit	4, a
+    0000006A 28 F6            [12]  127 	jr	Z, 00108$
+                                    128 ;src/scripts/intro.c:26: next = 1;
+    0000006C 0E 01            [ 8]  129 	ld	c, #0x01
+                                    130 ;src/scripts/intro.c:29: }
+    0000006E 18 F2            [12]  131 	jr	00108$
+                                    132 	.area _CODE_6
+                                    133 	.area _INITIALIZER
+                                    134 	.area _CABS (ABS)

@@ -7,17 +7,8 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-    _IntroSlide1                                                    ******** GX
-    _IntroSlide2                                                    ******** GX
-    _LCDC_REG                                                       ******** GX
-    _Slide1                                                         ******** GX
-    _Slide2                                                         ******** GX
-    _display_off                                                    ******** GX
-    _joypad                                                         ******** GX
-    _set_bkg_data                                                   ******** GX
-    _set_bkg_tiles                                                  ******** GX
-  8 _start_intro                                                    00000000 GR
-    b_start_intro                                               =   00000006 G
+  8 _Slide2                                                         00000000 GR
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
@@ -32,7 +23,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_6                                    size       70   flags    0
+   8 _CODE_6                                    size      B20   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

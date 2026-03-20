@@ -44,7 +44,7 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000000C  l__GSINIT |    00000013  l__HRAM   |    00000030  l__HEADER
      00000041  l__INITIA |    00000041  l__INITIA |    00000060  l__HEADER
      000000AB  l__HEADER |    00000200  s__CODE   |    00000280  l__DATA  
-     0000087F  l__HOME   |    00001049  l__CODE_6 |    00002000  _rROMB0  
+     0000087F  l__HOME   |    00001D10  l__CODE_6 |    00002000  _rROMB0  
      00002083  l__CODE_1 |    0000296E  l__CODE_5 |    00003000  _rROMB1  
      00003039  l__CODE_3 |    000033C8  l__CODE   |    000035C8  s__HOME  
      00003A7A  l__CODE_2 |    00003C1A  l__CODE_4 |    00003E47  s__BASE  
@@ -518,11 +518,12 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE_6                00064000    00001049 =        4169. bytes (REL,CON)
+_CODE_6                00064000    00001D10 =        7440. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      00064000  _Slide1   |    00064EB0  _IntroSli |    00065018  _start_in
+     00065088  _Slide2   |    00065BA8  _IntroSli
 ASxxxx Linker V03.00/V05.40 + sdld,  page 35.
 Hexadecimal  [32-Bits]
 
@@ -603,6 +604,8 @@ obj/src/songs/intro_song.o                [ intro_song ]
 obj/src/tiles/IntroSlide1Tiles.o          [ IntroSlide1Tiles ]
 obj/src/maps/IntroSlide1.o                [ IntroSlide1 ]
 obj/src/scripts/intro.o                   [ intro ]
+obj/src/tiles/IntroSlide2Tiles.o          [ IntroSlide2Tiles ]
+obj/src/maps/IntroSlide2.o                [ IntroSlide2 ]
 hUGEDriver.lib                            [ hUGEDriver_obj ]
 
 
