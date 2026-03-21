@@ -1,6 +1,6 @@
                                       1 ;--------------------------------------------------------
                                       2 ; File Created by SDCC : free open source ISO C Compiler
-                                      3 ; Version 4.5.1 #15267 (Linux)
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
                                       4 ;--------------------------------------------------------
                                       5 	.module drop
                                       6 	
@@ -101,7 +101,7 @@
     00000034 3E 01            [ 8]  101 	ld	a, #0x01
     00000036 12               [ 8]  102 	ld	(de), a
                                     103 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
-                                    104 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+                                    104 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
     00000037 68               [ 4]  105 	ld	l, b
     00000038 26 00            [ 8]  106 	ld	h, #0x00
     0000003A 29               [ 8]  107 	add	hl, hl
@@ -112,7 +112,7 @@
     00000041 23               [ 8]  112 	inc	hl
     00000042 36 52            [12]  113 	ld	(hl), #0x52
                                     114 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
-                                    115 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    115 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
     00000044 68               [ 4]  116 	ld	l, b
     00000045 26 00            [ 8]  117 	ld	h, #0x00
     00000047 29               [ 8]  118 	add	hl, hl
@@ -121,7 +121,7 @@
     0000004C 19               [ 8]  121 	add	hl, de
     0000004D 5D               [ 4]  122 	ld	e, l
     0000004E 54               [ 4]  123 	ld	d, h
-                                    124 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+                                    124 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
     0000004F F8 01            [12]  125 	ldhl	sp,	#1
     00000051 2A               [ 8]  126 	ld	a, (hl+)
     00000052 12               [ 8]  127 	ld	(de), a
@@ -141,7 +141,7 @@
     00000061 12               [ 8]  141 	ld	(de), a
                                     142 ;src/scripts/drop.c:22: set_sprite_tile(33+drop_idx, 83);
     00000062 58               [ 4]  143 	ld	e, b
-                                    144 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+                                    144 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
     00000063 AF               [ 4]  145 	xor	a, a
     00000064 6B               [ 4]  146 	ld	l, e
     00000065 67               [ 4]  147 	ld	h, a
@@ -153,7 +153,7 @@
     0000006D 23               [ 8]  153 	inc	hl
     0000006E 36 53            [12]  154 	ld	(hl), #0x53
                                     155 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
-                                    156 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    156 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
     00000070 AF               [ 4]  157 	xor	a, a
     00000071 68               [ 4]  158 	ld	l, b
     00000072 67               [ 4]  159 	ld	h, a
@@ -163,7 +163,7 @@
     00000078 19               [ 8]  163 	add	hl, de
     00000079 5D               [ 4]  164 	ld	e, l
     0000007A 54               [ 4]  165 	ld	d, h
-                                    166 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+                                    166 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
     0000007B F8 01            [12]  167 	ldhl	sp,	#1
     0000007D 2A               [ 8]  168 	ld	a, (hl+)
     0000007E 12               [ 8]  169 	ld	(de), a
@@ -178,7 +178,7 @@
     00000085 12               [ 8]  178 	ld	(de), a
                                     179 ;src/scripts/drop.c:27: set_sprite_tile(33+drop_idx, 50);
     00000086 58               [ 4]  180 	ld	e, b
-                                    181 ;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+                                    181 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
     00000087 AF               [ 4]  182 	xor	a, a
     00000088 6B               [ 4]  183 	ld	l, e
     00000089 67               [ 4]  184 	ld	h, a
@@ -190,7 +190,7 @@
     00000091 23               [ 8]  190 	inc	hl
     00000092 36 32            [12]  191 	ld	(hl), #0x32
                                     192 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
-                                    193 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    193 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
     00000094 AF               [ 4]  194 	xor	a, a
     00000095 68               [ 4]  195 	ld	l, b
     00000096 67               [ 4]  196 	ld	h, a
@@ -198,7 +198,7 @@
     00000098 29               [ 8]  198 	add	hl, hl
     00000099 11r00r00         [12]  199 	ld	de, #_shadow_OAM
     0000009C 19               [ 8]  200 	add	hl, de
-                                    201 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+                                    201 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
     0000009D AF               [ 4]  202 	xor	a, a
     0000009E 22               [ 8]  203 	ld	(hl+), a
     0000009F 77               [ 8]  204 	ld	(hl), a
@@ -263,7 +263,7 @@
     000000D6 79               [ 4]  263 	ld	a, c
     000000D7 C6 21            [ 8]  264 	add	a, #0x21
     000000D9 5F               [ 4]  265 	ld	e, a
-                                    266 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    266 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
     000000DA AF               [ 4]  267 	xor	a, a
     000000DB 6B               [ 4]  268 	ld	l, e
     000000DC 67               [ 4]  269 	ld	h, a
@@ -271,7 +271,7 @@
     000000DE 29               [ 8]  271 	add	hl, hl
     000000DF 11r00r00         [12]  272 	ld	de, #_shadow_OAM
     000000E2 19               [ 8]  273 	add	hl, de
-                                    274 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+                                    274 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
     000000E3 AF               [ 4]  275 	xor	a, a
     000000E4 22               [ 8]  276 	ld	(hl+), a
     000000E5 77               [ 8]  277 	ld	(hl), a
@@ -422,7 +422,7 @@
     0000019E 79               [ 4]  422 	ld	a, c
     0000019F C6 21            [ 8]  423 	add	a, #0x21
     000001A1 5F               [ 4]  424 	ld	e, a
-                                    425 ;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    425 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
     000001A2 AF               [ 4]  426 	xor	a, a
     000001A3 6B               [ 4]  427 	ld	l, e
     000001A4 67               [ 4]  428 	ld	h, a
@@ -430,7 +430,7 @@
     000001A6 29               [ 8]  430 	add	hl, hl
     000001A7 11r00r00         [12]  431 	ld	de, #_shadow_OAM
     000001AA 19               [ 8]  432 	add	hl, de
-                                    433 ;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+                                    433 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
     000001AB AF               [ 4]  434 	xor	a, a
     000001AC 22               [ 8]  435 	ld	(hl+), a
     000001AD 77               [ 8]  436 	ld	(hl), a

@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module combat_system
 	
@@ -647,7 +647,7 @@ _set_character_sprite::
 	jr	00105$
 ;src/scripts/combat_system.c:62: case 1:
 00101$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x04
 	ld	hl, #(_shadow_OAM + 22)
@@ -660,7 +660,7 @@ _set_character_sprite::
 	jr	00105$
 ;src/scripts/combat_system.c:68: case 2:
 00102$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x08
 	ld	hl, #(_shadow_OAM + 22)
@@ -673,7 +673,7 @@ _set_character_sprite::
 	jr	00105$
 ;src/scripts/combat_system.c:74: case 4:
 00103$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x00
 	ld	hl, #(_shadow_OAM + 22)
@@ -686,7 +686,7 @@ _set_character_sprite::
 	jr	00105$
 ;src/scripts/combat_system.c:80: case 8:
 00104$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x0c
 	ld	hl, #(_shadow_OAM + 22)
@@ -701,14 +701,14 @@ _set_character_sprite::
 	ld	a, (#_y)
 	sub	a, #0x90
 	jr	NZ, 00107$
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 26)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x32
 ;src/scripts/combat_system.c:89: set_sprite_tile(7, 50);
 00107$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 14)
 	ld	(hl), #0x32
 ;src/scripts/combat_system.c:91: set_sprite_tile(3, 50);

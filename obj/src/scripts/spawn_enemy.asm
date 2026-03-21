@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module spawn_enemy
 	
@@ -541,7 +541,7 @@ _spawn_enemies_in_room::
 ; ---------------------------------
 	b_set_enemy_tiles	= 3
 _set_enemy_tiles::
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 34)
 	ld	(hl), #0x5a
 	ld	hl, #(_shadow_OAM + 38)

@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module enemy
 	
@@ -630,7 +630,7 @@ _set_enemy_position::
 	ld	b, h
 	ld	a, (bc)
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -640,7 +640,7 @@ _set_enemy_position::
 	add	hl, de
 	ld	e, l
 	ld	d, h
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	(de), a
@@ -665,7 +665,7 @@ _set_enemy_position::
 	ld	a, (bc)
 	ld	d, a
 	inc	d
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, d
 	ld	h, a
@@ -675,7 +675,7 @@ _set_enemy_position::
 	ld	de, #_shadow_OAM
 	add	hl, de
 	pop	de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#7
 	ld	a, (hl)
@@ -698,7 +698,7 @@ _set_enemy_position::
 	ld	a, (bc)
 	add	a, #0x02
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -708,7 +708,7 @@ _set_enemy_position::
 	add	hl, de
 	ld	e, l
 	ld	d, h
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	(de), a
@@ -734,14 +734,14 @@ _set_enemy_position::
 	ld	a, (bc)
 	add	a, #0x03
 	ld	d, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	bc, #_shadow_OAM+0
 	ld	l, d
 	ld	h, #0x00
 	add	hl, hl
 	add	hl, hl
 	add	hl, bc
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#7
 	ld	a, (hl)
@@ -1097,7 +1097,7 @@ _enemy_death::
 	ld	b, h
 	ld	a, (bc)
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1105,7 +1105,7 @@ _enemy_death::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -1113,7 +1113,7 @@ _enemy_death::
 	ld	a, (bc)
 	ld	e, a
 	inc	e
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1121,7 +1121,7 @@ _enemy_death::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -1129,7 +1129,7 @@ _enemy_death::
 	ld	a, (bc)
 	add	a, #0x02
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1137,7 +1137,7 @@ _enemy_death::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -1145,7 +1145,7 @@ _enemy_death::
 	ld	a, (bc)
 	add	a, #0x03
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1153,14 +1153,14 @@ _enemy_death::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
 ;src/scripts/enemy.c:198: set_sprite_tile(e->sprite_id, 50);
 	ld	a, (bc)
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1175,7 +1175,7 @@ _enemy_death::
 	ld	a, (bc)
 	ld	e, a
 	inc	e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1190,7 +1190,7 @@ _enemy_death::
 	ld	a, (bc)
 	add	a, #0x02
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -1205,7 +1205,7 @@ _enemy_death::
 	ld	a, (bc)
 	add	a, #0x03
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	bc, #_shadow_OAM+0
 	xor	a, a
 	ld	l, e
@@ -1330,7 +1330,7 @@ _enemy_smooth_movement::
 ;src/scripts/enemy.c:228: move_sprite(e->sprite_id, mov_x, mov_y);
 	ld	a, (bc)
 	ld	d, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, d
 	ld	h, a
@@ -1340,7 +1340,7 @@ _enemy_smooth_movement::
 	ld	de, #_shadow_OAM
 	add	hl, de
 	pop	de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#3
 	ld	a, (hl)
@@ -1363,7 +1363,7 @@ _enemy_smooth_movement::
 	ld	a, (bc)
 	ld	d, a
 	inc	d
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, d
 	ld	h, a
@@ -1373,7 +1373,7 @@ _enemy_smooth_movement::
 	ld	de, #_shadow_OAM
 	add	hl, de
 	pop	de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#3
 	ld	a, (hl)
@@ -1395,7 +1395,7 @@ _enemy_smooth_movement::
 	ld	a, (bc)
 	add	a, #0x02
 	ld	d, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, d
 	ld	h, a
@@ -1405,7 +1405,7 @@ _enemy_smooth_movement::
 	ld	de, #_shadow_OAM
 	add	hl, de
 	pop	de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#7
 	ld	a, (hl)
@@ -1420,7 +1420,7 @@ _enemy_smooth_movement::
 	ld	a, (bc)
 	add	a, #0x03
 	ld	d, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, d
 	ld	h, a
@@ -1430,7 +1430,7 @@ _enemy_smooth_movement::
 	ld	de, #_shadow_OAM
 	add	hl, de
 	pop	de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
 	ldhl	sp,	#6
 	ld	a, (hl)

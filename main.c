@@ -201,7 +201,6 @@ Boss boss;
 
 void main(void) {
     cls();
-    start_intro();
     SWITCH_ROM(2);
     set_bkg_data(0, 241, Titlescreen);
     set_bkg_data(241, 8, TitleText);
@@ -221,7 +220,9 @@ void main(void) {
     ng = set_titlescreen();
     start_sfx();
 
-
+    if (ng) {
+        start_intro();
+    }
 
     set_sprite_data(0, 4, MC_down);
     set_sprite_data(8, 4, MC_right);
@@ -255,8 +256,6 @@ void main(void) {
 
     set_sprite_data(4, 4, MC_up);
 
-
-
     if (current_location == 0){
         set_camp_map();
     }
@@ -264,7 +263,6 @@ void main(void) {
     else {
         go_into_dungeon();
     }
-
     if (ng) { // tutorial
         set_tutorial();
     }

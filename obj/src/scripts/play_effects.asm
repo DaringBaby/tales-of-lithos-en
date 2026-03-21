@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module play_effects
 	
@@ -99,9 +99,9 @@ _play_attack_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	(hl), b
 	inc	hl
 	ld	(hl), c
@@ -130,9 +130,9 @@ _play_attack_animation::
 	ld	a, (_x)
 	add	a, #0x10
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	(hl), b
 	inc	hl
 	ld	(hl), c
@@ -160,9 +160,9 @@ _play_attack_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	(hl), b
 	inc	hl
 	ld	(hl), c
@@ -191,15 +191,15 @@ _play_attack_animation::
 	ld	a, (_x)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	(hl), b
 	inc	hl
 	ld	(hl), c
 ;src/scripts/play_effects.c:33: }
 00105$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 14)
 	ld	(hl), #0x7a
 	ld	hl, #(_shadow_OAM + 18)
@@ -213,7 +213,7 @@ _play_attack_animation::
 ;src/scripts/play_effects.c:39: delay(200);
 	ld	de, #0x00c8
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 14)
 	ld	(hl), #0x7b
 	ld	hl, #(_shadow_OAM + 18)
@@ -303,7 +303,7 @@ _play_walk_animation::
 	add	sp, #4
 ;src/scripts/play_effects.c:63: }
 00105$:
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x72
 	ld	hl, #(_shadow_OAM + 22)
@@ -332,7 +332,7 @@ _play_walk_animation::
 	ld	a, (hl)
 	or	a, a
 	ret	Z
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 18)
 	ld	(hl), #0x76
 	ld	hl, #(_shadow_OAM + 22)
@@ -357,7 +357,7 @@ _play_heal_animation::
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x7c
 	ld	hl, #(_shadow_OAM + 6)
@@ -368,9 +368,9 @@ _play_heal_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -380,9 +380,9 @@ _play_heal_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -395,9 +395,9 @@ _play_heal_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -407,9 +407,9 @@ _play_heal_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -422,9 +422,9 @@ _play_heal_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -434,29 +434,29 @@ _play_heal_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
 ;src/scripts/play_effects.c:93: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 6)
 	ld	(hl), #0x32
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -476,7 +476,7 @@ _play_hit_animation::
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x7c
 	ld	hl, #(_shadow_OAM + 6)
@@ -486,9 +486,9 @@ _play_hit_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -499,16 +499,16 @@ _play_hit_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
 ;src/scripts/play_effects.c:108: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 6)
 	ld	(hl), #0x7e
 ;src/scripts/play_effects.c:110: move_sprite(0, x+8, y+8);
@@ -518,9 +518,9 @@ _play_hit_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -529,19 +529,19 @@ _play_hit_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
 ;src/scripts/play_effects.c:112: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 ;src/scripts/play_effects.c:114: move_sprite(0, x, y);
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	a, #0x7d
 	ld	(hl-), a
 	dec	hl
@@ -549,7 +549,7 @@ _play_hit_animation::
 	ld	b, a
 	ld	a, (_x)
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -560,29 +560,29 @@ _play_hit_animation::
 	ld	a, (_x)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
 ;src/scripts/play_effects.c:116: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 6)
 	ld	(hl), #0x32
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -603,7 +603,7 @@ _play_explosion_animation::
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 6)
@@ -617,9 +617,9 @@ _play_explosion_animation::
 	ld	a, (hl-)
 	ld	b, a
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -629,24 +629,24 @@ _play_explosion_animation::
 	ldhl	sp,	#0
 	ld	(hl), a
 	ld	e, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/play_effects.c:134: move_sprite(2, en_x, en_y+8);
 	ld	a, b
 	add	a, #0x08
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	e, a
 	ld	hl, #(_shadow_OAM + 8)
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	bc, #_shadow_OAM+12
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, e
 	ld	(bc), a
 	inc	bc
@@ -655,7 +655,7 @@ _play_explosion_animation::
 	ld	(bc), a
 ;src/scripts/play_effects.c:136: wait_vbl_done();
 	call	_wait_vbl_done
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x72
 	ld	hl, #(_shadow_OAM + 6)
@@ -667,7 +667,7 @@ _play_explosion_animation::
 ;src/scripts/play_effects.c:141: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x76
 	ld	hl, #(_shadow_OAM + 6)
@@ -679,7 +679,7 @@ _play_explosion_animation::
 ;src/scripts/play_effects.c:146: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x7a
 	ld	hl, #(_shadow_OAM + 6)
@@ -691,7 +691,7 @@ _play_explosion_animation::
 ;src/scripts/play_effects.c:151: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 6)
@@ -700,27 +700,27 @@ _play_explosion_animation::
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 14)
 	ld	(hl), #0x32
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 8)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a

@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module locked_doors
 	
@@ -57,9 +57,9 @@
 _draw_lock_v::
 	dec	sp
 	dec	sp
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 102)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x33
 	ld	(hl+), a
 	ld	(hl), #0x00
@@ -68,15 +68,15 @@ _draw_lock_v::
 	ld	a, (hl-)
 	ld	b, a
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 100)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 106)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x37
 	ld	(hl+), a
 	ld	(hl), #0x00
@@ -85,15 +85,15 @@ _draw_lock_v::
 	add	a, #0x08
 	ldhl	sp,	#0
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, (hl)
 	ld	hl, #(_shadow_OAM + 104)
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 110)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x34
 	ld	(hl+), a
 	ld	(hl), #0x00
@@ -103,30 +103,30 @@ _draw_lock_v::
 	ldhl	sp,	#1
 	ld	(hl), a
 	ld	e, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 108)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 114)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x38
 	ld	(hl+), a
 	ld	(hl), #0x00
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+112
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl+)
 	ld	(de), a
 	inc	de
 	ld	a, (hl)
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 118)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x34
 	ld	(hl+), a
 	ld	(hl), #0x20
@@ -136,30 +136,30 @@ _draw_lock_v::
 	ldhl	sp,	#1
 	ld	(hl), a
 	ld	e, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 116)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 122)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x38
 	ld	(hl+), a
 	ld	(hl), #0x20
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+120
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl+)
 	ld	(de), a
 	inc	de
 	ld	a, (hl)
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 126)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x33
 	ld	(hl+), a
 	ld	(hl), #0x20
@@ -168,21 +168,21 @@ _draw_lock_v::
 	add	a, #0x18
 	ld	c, a
 	ld	e, c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 124)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 130)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x37
 	ld	(hl+), a
 	ld	(hl), #0x20
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+128
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
@@ -202,9 +202,9 @@ _draw_lock_v::
 _draw_flip_lock_v::
 	dec	sp
 	dec	sp
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 102)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x37
 	ld	(hl+), a
 	ld	(hl), #0x40
@@ -213,15 +213,15 @@ _draw_flip_lock_v::
 	ld	a, (hl-)
 	ld	b, a
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 100)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 106)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x32
 	ld	(hl+), a
 	ld	(hl), #0x40
@@ -230,15 +230,15 @@ _draw_flip_lock_v::
 	add	a, #0x08
 	ldhl	sp,	#0
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, (hl)
 	ld	hl, #(_shadow_OAM + 104)
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 110)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x38
 	ld	(hl+), a
 	ld	(hl), #0x40
@@ -249,30 +249,30 @@ _draw_flip_lock_v::
 	add	a, #0x08
 	ld	c, a
 	ld	e, c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 108)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 114)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x32
 	ld	(hl+), a
 	ld	(hl), #0x40
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+112
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
 	inc	de
 	ld	a, c
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 118)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x38
 	ld	(hl+), a
 	ld	(hl), #0x60
@@ -282,30 +282,30 @@ _draw_flip_lock_v::
 	add	a, #0x10
 	ld	c, a
 	ld	e, c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 116)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 122)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x32
 	ld	(hl+), a
 	ld	(hl), #0x60
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+120
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
 	inc	de
 	ld	a, c
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 126)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x37
 	ld	(hl+), a
 	ld	(hl), #0x60
@@ -315,21 +315,21 @@ _draw_flip_lock_v::
 	add	a, #0x18
 	ld	c, a
 	ld	e, c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 124)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 130)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x32
 	ld	(hl+), a
 	ld	(hl), #0x60
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+128
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
@@ -348,9 +348,9 @@ _draw_flip_lock_v::
 	b_draw_lock_h	= 3
 _draw_lock_h::
 	dec	sp
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 102)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x35
 	ld	(hl+), a
 	ld	(hl), #0x00
@@ -359,15 +359,15 @@ _draw_lock_h::
 	ld	a, (hl-)
 	ld	c, a
 	ld	b, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 100)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 106)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x36
 	ld	(hl+), a
 	ld	(hl), #0x00
@@ -377,63 +377,63 @@ _draw_lock_h::
 	ldhl	sp,	#0
 	ld	(hl), a
 	ld	e, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 104)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), e
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 110)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x39
 	ld	(hl+), a
 	ld	(hl), #0x00
 ;src/scripts/locked_doors.c:84: move_sprite(27, x, y + 8);
 	ld	a, c
 	add	a, #0x08
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	c, a
 	ld	hl, #(_shadow_OAM + 108)
 	ld	(hl+), a
 	ld	(hl), b
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 114)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x3a
 	ld	(hl+), a
 	ld	(hl), #0x00
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	de, #_shadow_OAM+112
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, c
 	ld	(de), a
 	inc	de
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 116)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 120)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 124)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 128)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -448,9 +448,9 @@ _draw_lock_h::
 	b_draw_flip_lock_h	= 3
 _draw_flip_lock_h::
 	dec	sp
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 102)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x35
 	ld	(hl+), a
 	ld	(hl), #0x20
@@ -461,30 +461,30 @@ _draw_flip_lock_h::
 	ld	a, (hl)
 	add	a, #0x08
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 100)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 106)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x36
 	ld	(hl+), a
 	ld	(hl), #0x20
 ;src/scripts/locked_doors.c:103: move_sprite(26, x, y);
 	ldhl	sp,	#7
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 104)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 110)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x39
 	ld	(hl+), a
 	ld	(hl), #0x20
@@ -497,47 +497,47 @@ _draw_flip_lock_h::
 	add	a, #0x08
 	ldhl	sp,	#0
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 108)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	(hl), e
 	ld	de, #(_shadow_OAM + 109)
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 114)
-;/opt/gbdk/include/gb/gb.h:1946: shadow_OAM[nb].prop=prop;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
 	ld	a, #0x3a
 	ld	(hl+), a
 	ld	(hl), #0x20
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 112)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 116)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 120)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 124)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 128)
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -551,7 +551,7 @@ _draw_flip_lock_h::
 ; ---------------------------------
 	b_hide_door	= 3
 _hide_door::
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 102)
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 106)

@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ISO C Compiler
-; Version 4.5.1 #15267 (Linux)
+; Version 4.5.1 #15267 (MINGW64)
 ;--------------------------------------------------------
 	.module drop
 	
@@ -101,7 +101,7 @@ _spawn_drop::
 	ld	a, #0x01
 	ld	(de), a
 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	l, b
 	ld	h, #0x00
 	add	hl, hl
@@ -112,7 +112,7 @@ _spawn_drop::
 	inc	hl
 	ld	(hl), #0x52
 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	l, b
 	ld	h, #0x00
 	add	hl, hl
@@ -121,7 +121,7 @@ _spawn_drop::
 	add	hl, de
 	ld	e, l
 	ld	d, h
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#1
 	ld	a, (hl+)
 	ld	(de), a
@@ -141,7 +141,7 @@ _spawn_drop::
 	ld	(de), a
 ;src/scripts/drop.c:22: set_sprite_tile(33+drop_idx, 83);
 	ld	e, b
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -153,7 +153,7 @@ _spawn_drop::
 	inc	hl
 	ld	(hl), #0x53
 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, b
 	ld	h, a
@@ -163,7 +163,7 @@ _spawn_drop::
 	add	hl, de
 	ld	e, l
 	ld	d, h
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ldhl	sp,	#1
 	ld	a, (hl+)
 	ld	(de), a
@@ -178,7 +178,7 @@ _spawn_drop::
 	ld	(de), a
 ;src/scripts/drop.c:27: set_sprite_tile(33+drop_idx, 50);
 	ld	e, b
-;/opt/gbdk/include/gb/gb.h:1887: shadow_OAM[nb].tile=tile;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -190,7 +190,7 @@ _spawn_drop::
 	inc	hl
 	ld	(hl), #0x32
 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, b
 	ld	h, a
@@ -198,7 +198,7 @@ _spawn_drop::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -263,7 +263,7 @@ _clear_drops::
 	ld	a, c
 	add	a, #0x21
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -271,7 +271,7 @@ _clear_drops::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
@@ -422,7 +422,7 @@ _check_drops::
 	ld	a, c
 	add	a, #0x21
 	ld	e, a
-;/opt/gbdk/include/gb/gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	xor	a, a
 	ld	l, e
 	ld	h, a
@@ -430,7 +430,7 @@ _check_drops::
 	add	hl, hl
 	ld	de, #_shadow_OAM
 	add	hl, de
-;/opt/gbdk/include/gb/gb.h:1974: itm->y=y, itm->x=x;
+;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a

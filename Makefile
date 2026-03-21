@@ -1,7 +1,7 @@
-CC = /opt/gbdk/bin/lcc
+CC = C:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\bin\lcc.exe
 PROJECT_NAME = progetto.gb
 OBJDIR = obj
-BGB = wine /home/daringbaby/Scaricati/bgb/bgb.exe
+BGB = D:\bgbw64\bgb64.exe
 
 
 LCCFLAGS = -Wl-m -Wl-yt0x1B -Wl-ya1 -Wl-yo8
@@ -10,7 +10,7 @@ LCCFLAGS = -Wl-m -Wl-yt0x1B -Wl-ya1 -Wl-yo8
 
 B6_SOURCES = src/tiles/IntroSlide1Tiles.c src/maps/IntroSlide1.c src/scripts/intro.c \
 			 src/tiles/IntroSlide2Tiles.c src/maps/IntroSlide2.c src/tiles/IntroSlide3Tiles.c \
-			 src/maps/IntroSlide3.c
+			 src/maps/IntroSlide3.c src/maps/IntroText.c
 B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c
 B4_SOURCES = src/songs/dungeon_song.c src/songs/boss_song.c
 B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_management.c \
