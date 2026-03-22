@@ -44,7 +44,7 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000000C  l__GSINIT |    00000013  l__HRAM   |    00000030  l__HEADER
      00000041  l__INITIA |    00000041  l__INITIA |    00000060  l__HEADER
      000000AB  l__HEADER |    00000200  s__CODE   |    00000280  l__DATA  
-     0000087F  l__HOME   |    00002000  _rROMB0   |    00002083  l__CODE_1
+     0000087F  l__HOME   |    00002000  _rROMB0   |    00002283  l__CODE_1
      0000296E  l__CODE_5 |    00003000  _rROMB1   |    00003039  l__CODE_3
      00003144  l__CODE_6 |    000033D4  l__CODE   |    000035D4  s__HOME  
      00003A7A  l__CODE_2 |    00003C1A  l__CODE_4 |    00003E53  s__BASE  
@@ -425,7 +425,7 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE_1                00014000    00002083 =        8323. bytes (REL,CON)
+_CODE_1                00014000    00002283 =        8835. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -435,18 +435,21 @@ _CODE_1                00014000    00002083 =        8323. bytes (REL,CON)
      00014380  _MC_walk_ |    000143C0  _MC_walk_ |    00014400  _MC_walk_
      00014480  _Hector   |    000144C0  _Safy     |    00014500  _arrow   
      00014510  _Objects  |    00014660  _LarvaOsc |    000146A0  _Predator
-     000146E0  _Trisguar |    00014720  _Key      |    00014740  _Lock    
-     000147C0  _Textbox  |    00014860  _Mugshot  |    00014960  _Mythril 
-     000149A0  _Numbers  |    00014A60  _Arrow    |    00014A80  _Drops   
-     00014AA0  _generate |    00014B67  _min_leng |    00014B68  _max_leng
-     00014B69  _empty_ar |    00014BBE  _create_l |    00014EE1  _append  
-     00014F00  _add_bran |    00015155  _find_nea |    0001528B  _shuffle_
-     00015318  _create_d |    00015421  _add_obst |    0001544A  _GameOver
-     000155B2  _GameOver |    000158D2  _game_ove |    000159B7  _black_sp
-     00015B2E  _SwordDow |    00015B4E  _SwordRig |    00015B6E  _SwordUp 
-     00015B8E  _SwordLef |    00015BAE  _Explosio |    00015C6E  _HealEff 
-     00015C8E  _HitEff   |    00015CBE  _play_att |    00015DD0  _play_wal
-     00015E6E  _play_hea |    00015F0E  _play_hit |    00015FB7  _play_exp
+     000146E0  _Trisguar |    00014720  _Armatura |    00014760  _Ragnocch
+     000147A0  _Pipistre |    000147E0  _Dragocch |    00014820  _OcchioIn
+     00014860  _Quadrato |    000148A0  _Cervelli |    000148E0  _Cristall
+     00014920  _Key      |    00014940  _Lock     |    000149C0  _Textbox 
+     00014A60  _Mugshot  |    00014B60  _Mythril  |    00014BA0  _Numbers 
+     00014C60  _Arrow    |    00014C80  _Drops    |    00014CA0  _generate
+     00014D67  _min_leng |    00014D68  _max_leng |    00014D69  _empty_ar
+     00014DBE  _create_l |    000150E1  _append   |    00015100  _add_bran
+     00015355  _find_nea |    0001548B  _shuffle_ |    00015518  _create_d
+     00015621  _add_obst |    0001564A  _GameOver |    000157B2  _GameOver
+     00015AD2  _game_ove |    00015BB7  _black_sp |    00015D2E  _SwordDow
+     00015D4E  _SwordRig |    00015D6E  _SwordUp  |    00015D8E  _SwordLef
+     00015DAE  _Explosio |    00015E6E  _HealEff  |    00015E8E  _HitEff  
+     00015EBE  _play_att |    00015FD0  _play_wal |    0001606E  _play_hea
+     0001610E  _play_hit |    000161B7  _play_exp
 ASxxxx Linker V03.00/V05.40 + sdld,  page 30.
 Hexadecimal  [32-Bits]
 
