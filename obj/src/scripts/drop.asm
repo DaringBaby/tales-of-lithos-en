@@ -56,8 +56,8 @@ _spawn_drop::
 	ldhl	sp,	#2
 	ld	(hl-), a
 	ld	(hl), e
-;src/scripts/drop.c:8: uint8_t drop_chance = rand() & 3;
-	call	_rand
+;src/scripts/drop.c:8: uint8_t drop_chance = arand() & 3;
+	call	_arand
 	ld	a, c
 	and	a, #0x03
 	ldhl	sp,	#0

@@ -5,7 +5,7 @@ Drop drops[2];
 
 void spawn_drop(uint8_t x, uint8_t y) {
     uint8_t drop_idx = 0;
-    uint8_t drop_chance = rand() & 3;
+    uint8_t drop_chance = arand() & 3;
     if (drops[0].drop_type == 0) {
         drop_idx = 0;
     }

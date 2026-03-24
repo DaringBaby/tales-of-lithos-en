@@ -22,7 +22,7 @@ uint8_t set_titlescreen() BANKED {
         delay(150);
         DISPLAY_OFF;
         delay(150);
-        initrand(seed);
+        initarand(seed);
         return 0; // continua
     }
     else if (joypad() & J_SELECT) {

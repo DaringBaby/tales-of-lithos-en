@@ -145,7 +145,7 @@ _move_enemy::
 ;src/scripts/enemy.c:18: e->targeting = 1;
 	ld	a, #0x01
 	ld	(bc), a
-;src/scripts/enemy.c:19: return; 
+;src/scripts/enemy.c:19: return;
 	jp	00153$
 00104$:
 ;src/scripts/enemy.c:22: uint8_t moved = 0;
@@ -759,232 +759,429 @@ _set_enemy_position::
 ; Function set_enemy_stats
 ; ---------------------------------
 _set_enemy_stats::
-	add	sp, #-7
-	ld	c, e
-	ld	b, d
-	ldhl	sp,	#6
-	ld	(hl), a
-;src/scripts/enemy.c:123: e->hp = 10;
-	ld	e, c
-	ld	d, b
-	inc	de
-	inc	de
-;src/scripts/enemy.c:124: e->atk = 7;
-	ld	hl, #0x0003
-	add	hl, bc
-	inc	sp
-	inc	sp
-	push	hl
-;src/scripts/enemy.c:125: e->def = 1;
-	ld	hl, #0x0004
-	add	hl, bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#4
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#3
-	ld	(hl), a
-;src/scripts/enemy.c:126: e->type = 1;
-	ld	hl, #0x0005
-	add	hl, bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#6
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#5
-	ld	(hl), a
-;src/scripts/enemy.c:127: e->exp_reward = 1;
-	ld	hl, #0x0009
-	add	hl, bc
+	ld	c, a
 ;src/scripts/enemy.c:121: switch (type) {
-	push	hl
-	ldhl	sp,	#8
-	ld	a, (hl)
-	dec	a
-	pop	hl
-	jr	Z, 00101$
-	push	hl
-	ldhl	sp,	#8
-	ld	a, (hl)
-	sub	a, #0x02
-	pop	hl
-	jr	Z, 00102$
-	push	hl
-	ldhl	sp,	#8
-	ld	a, (hl)
-	sub	a, #0x03
-	pop	hl
-	jr	Z, 00103$
-	jr	00104$
+	ld	a, #0x0b
+	sub	a, c
+	jp	C, 00112$
+	ld	b, #0x00
+	ld	hl, #00122$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00122$:
+	.dw	00112$
+	.dw	00101$
+	.dw	00102$
+	.dw	00103$
+	.dw	00104$
+	.dw	00105$
+	.dw	00106$
+	.dw	00107$
+	.dw	00108$
+	.dw	00109$
+	.dw	00110$
+	.dw	00111$
 ;src/scripts/enemy.c:122: case 1:
 00101$:
 ;src/scripts/enemy.c:123: e->hp = 10;
-	ld	a, #0x0a
-	ld	(de), a
-;src/scripts/enemy.c:124: e->atk = 7;
-	push	hl
-	ldhl	sp,	#2
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x07
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:124: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
 ;src/scripts/enemy.c:125: e->def = 1;
-	ldhl	sp,	#4
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
+	ld	hl, #0x0004
+	add	hl, de
 	ld	(hl), #0x01
 ;src/scripts/enemy.c:126: e->type = 1;
-	ldhl	sp,	#6
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
+	ld	hl, #0x0005
+	add	hl, de
 	ld	(hl), #0x01
-	pop	hl
 ;src/scripts/enemy.c:127: e->exp_reward = 1;
+	ld	hl, #0x0009
+	add	hl, de
 	ld	(hl), #0x01
 ;src/scripts/enemy.c:128: break;
-	jr	00104$
+	jp	00112$
 ;src/scripts/enemy.c:129: case 2:
 00102$:
-;src/scripts/enemy.c:130: e->hp = 18;
-	ld	a, #0x12
-	ld	(de), a
+;src/scripts/enemy.c:130: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
 ;src/scripts/enemy.c:131: e->atk = 11;
-	push	hl
-	ldhl	sp,	#2
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
 	ld	(hl), #0x0b
 ;src/scripts/enemy.c:132: e->def = 6;
-	ldhl	sp,	#4
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
+	ld	hl, #0x0004
+	add	hl, de
 	ld	(hl), #0x06
 ;src/scripts/enemy.c:133: e->type = 2;
-	ldhl	sp,	#6
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
+	ld	hl, #0x0005
+	add	hl, de
 	ld	(hl), #0x02
-	pop	hl
 ;src/scripts/enemy.c:134: e->exp_reward = 3;
+	ld	hl, #0x0009
+	add	hl, de
 	ld	(hl), #0x03
 ;src/scripts/enemy.c:135: break;
-	jr	00104$
+	jp	00112$
 ;src/scripts/enemy.c:136: case 3:
 00103$:
-;src/scripts/enemy.c:137: e->hp = 25;
-	ld	a, #0x19
-	ld	(de), a
-;src/scripts/enemy.c:138: e->atk = 15;
-	push	hl
-	ldhl	sp,	#2
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x0f
-;src/scripts/enemy.c:139: e->def = 14;
-	ldhl	sp,	#4
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x0e
-;src/scripts/enemy.c:140: e->type = 3;
-	ldhl	sp,	#6
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x03
-	pop	hl
-;src/scripts/enemy.c:141: e->exp_reward = 5;
-	ld	(hl), #0x05
-;src/scripts/enemy.c:143: }
-00104$:
-;src/scripts/enemy.c:144: e->sprite_id = sprite_id;
-	ld	hl, #0x0007
-	add	hl, bc
-	ld	e, l
-	ld	d, h
-	ldhl	sp,	#9
-	ld	a, (hl)
-	ld	(de), a
-;src/scripts/enemy.c:145: e->alive = 1; // cambiato
-	ld	hl, #0x0006
-	add	hl, bc
+;src/scripts/enemy.c:137: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:138: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
 	ld	(hl), #0x01
-;src/scripts/enemy.c:146: e->targeting = 0;
+;src/scripts/enemy.c:139: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:140: e->type = 3;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x03
+;src/scripts/enemy.c:141: e->exp_reward = 5;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x05
+;src/scripts/enemy.c:142: break;
+	jp	00112$
+;src/scripts/enemy.c:143: case 4:
+00104$:
+;src/scripts/enemy.c:144: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:145: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:146: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:147: e->type = 4;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x04
+;src/scripts/enemy.c:148: e->exp_reward = 10;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:149: break;
+	jp	00112$
+;src/scripts/enemy.c:150: case 5:
+00105$:
+;src/scripts/enemy.c:151: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:152: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:153: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:154: e->type = 5;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x05
+;src/scripts/enemy.c:155: e->exp_reward = 15;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x0f
+;src/scripts/enemy.c:156: break;
+	jp	00112$
+;src/scripts/enemy.c:157: case 6:
+00106$:
+;src/scripts/enemy.c:158: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:159: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:160: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:161: e->type = 6;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x06
+;src/scripts/enemy.c:162: e->exp_reward = 25;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x19
+;src/scripts/enemy.c:163: break;
+	jp	00112$
+;src/scripts/enemy.c:164: case 7:
+00107$:
+;src/scripts/enemy.c:165: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:166: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:167: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:168: e->type = 7;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x07
+;src/scripts/enemy.c:169: e->exp_reward = 35;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x23
+;src/scripts/enemy.c:170: break;
+	jp	00112$
+;src/scripts/enemy.c:171: case 8:
+00108$:
+;src/scripts/enemy.c:172: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:173: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:174: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:175: e->type = 8;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x08
+;src/scripts/enemy.c:176: e->exp_reward = 50;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x32
+;src/scripts/enemy.c:177: break;
+	jr	00112$
+;src/scripts/enemy.c:178: case 9:
+00109$:
+;src/scripts/enemy.c:179: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:180: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:181: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:182: e->type = 9;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x09
+;src/scripts/enemy.c:183: e->exp_reward = 60;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x3c
+;src/scripts/enemy.c:184: break;
+	jr	00112$
+;src/scripts/enemy.c:185: case 10:
+00110$:
+;src/scripts/enemy.c:186: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:187: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:188: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:189: e->type = 10;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:190: e->exp_reward = 75;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x4b
+;src/scripts/enemy.c:191: break;
+	jr	00112$
+;src/scripts/enemy.c:192: case 11:
+00111$:
+;src/scripts/enemy.c:193: e->hp = 10;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:194: e->atk = 1;
+	ld	l, e
+	ld	h, d
+	inc	hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x01
+;src/scripts/enemy.c:195: e->def = 1;
+	ld	hl, #0x0004
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:196: e->type = 11;
+	ld	hl, #0x0005
+	add	hl, de
+	ld	(hl), #0x0b
+;src/scripts/enemy.c:197: e->exp_reward = 90;
+	ld	hl, #0x0009
+	add	hl, de
+	ld	(hl), #0x5a
+;src/scripts/enemy.c:199: }
+00112$:
+;src/scripts/enemy.c:200: e->sprite_id = sprite_id;
+	ld	hl, #0x0007
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#2
+	ld	a, (hl)
+	ld	(bc), a
+;src/scripts/enemy.c:201: e->alive = 1; // cambiato
+	ld	hl, #0x0006
+	add	hl, de
+	ld	(hl), #0x01
+;src/scripts/enemy.c:202: e->targeting = 0;
 	ld	hl, #0x0008
-	add	hl, bc
+	add	hl, de
 	ld	(hl), #0x00
-;src/scripts/enemy.c:147: }
-	add	sp, #7
+;src/scripts/enemy.c:203: }
 	pop	hl
 	inc	sp
 	jp	(hl)
-;src/scripts/enemy.c:149: uint8_t check_distance_x(Enemy* e) {
+;src/scripts/enemy.c:205: uint8_t check_distance_x(Enemy* e) {
 ;	---------------------------------
 ; Function check_distance_x
 ; ---------------------------------
 _check_distance_x::
-;src/scripts/enemy.c:150: if (x > e->x) {
+;src/scripts/enemy.c:206: if (x > e->x) {
 	ld	a, (de)
 	ld	c, a
 	ld	hl, #_x
 	sub	a, (hl)
 	jr	NC, 00102$
-;src/scripts/enemy.c:151: return(x - e->x);
+;src/scripts/enemy.c:207: return(x - e->x);
 	ld	a, (hl)
 	sub	a, c
 	ret
 00102$:
-;src/scripts/enemy.c:154: return(e->x - x);
+;src/scripts/enemy.c:210: return(e->x - x);
 	ld	a, c
 	ld	hl, #_x
 	sub	a, (hl)
-;src/scripts/enemy.c:156: }
+;src/scripts/enemy.c:212: }
 	ret
-;src/scripts/enemy.c:158: uint8_t check_distance_y(Enemy* e) {
+;src/scripts/enemy.c:214: uint8_t check_distance_y(Enemy* e) {
 ;	---------------------------------
 ; Function check_distance_y
 ; ---------------------------------
 _check_distance_y::
-;src/scripts/enemy.c:159: if (y > e->y) {
+;src/scripts/enemy.c:215: if (y > e->y) {
 	inc	de
 	ld	a, (de)
 	ld	c, a
 	ld	hl, #_y
 	sub	a, (hl)
 	jr	NC, 00102$
-;src/scripts/enemy.c:160: return(y - e->y);
+;src/scripts/enemy.c:216: return(y - e->y);
 	ld	a, (hl)
 	sub	a, c
 	ret
 00102$:
-;src/scripts/enemy.c:163: return(e->y - y);
+;src/scripts/enemy.c:219: return(e->y - y);
 	ld	a, c
 	ld	hl, #_y
 	sub	a, (hl)
-;src/scripts/enemy.c:165: }
+;src/scripts/enemy.c:221: }
 	ret
-;src/scripts/enemy.c:167: void enemy_attack(Enemy* e) {
+;src/scripts/enemy.c:223: void enemy_attack(Enemy* e) {
 ;	---------------------------------
 ; Function enemy_attack
 ; ---------------------------------
 _enemy_attack::
-;src/scripts/enemy.c:168: hit_sfx();
+;src/scripts/enemy.c:224: hit_sfx();
 	push	de
 	ld	e, #b_hit_sfx
 	ld	hl, #_hit_sfx
 	call	___sdcc_bcall_ehl
 	pop	de
-;src/scripts/enemy.c:170: if (e->atk > defense) {
+;src/scripts/enemy.c:226: if (e->atk > defense) {
 	inc	de
 	inc	de
 	inc	de
@@ -994,37 +1191,37 @@ _enemy_attack::
 	ld	a, (hl)
 	sub	a, c
 	jr	NC, 00102$
-;src/scripts/enemy.c:171: damage = e->atk - defense;
+;src/scripts/enemy.c:227: damage = e->atk - defense;
 	ld	a, c
 	sub	a, (hl)
 	ld	b, a
 	jr	00103$
 00102$:
-;src/scripts/enemy.c:174: damage = 1;
+;src/scripts/enemy.c:230: damage = 1;
 	ld	b, #0x01
 00103$:
-;src/scripts/enemy.c:177: if (damage < current_hp) {
+;src/scripts/enemy.c:233: if (damage < current_hp) {
 	ld	a, b
 	ld	hl, #_current_hp
 	sub	a, (hl)
 	jr	NC, 00105$
-;src/scripts/enemy.c:178: current_hp -= damage;
+;src/scripts/enemy.c:234: current_hp -= damage;
 	ld	a, (hl)
 	sub	a, b
 	ld	(hl), a
 	jr	00106$
 00105$:
-;src/scripts/enemy.c:181: current_hp = 0;
+;src/scripts/enemy.c:237: current_hp = 0;
 	xor	a, a
 	ld	(#_current_hp),a
 00106$:
-;src/scripts/enemy.c:183: play_hit_animation();
+;src/scripts/enemy.c:239: play_hit_animation();
 	push	bc
 	ld	e, #b_play_hit_animation
 	ld	hl, #_play_hit_animation
 	call	___sdcc_bcall_ehl
 	pop	bc
-;src/scripts/enemy.c:184: show_number(damage, 0, 0, 0);
+;src/scripts/enemy.c:240: show_number(damage, 0, 0, 0);
 	xor	a, a
 	rrca
 	push	af
@@ -1037,9 +1234,9 @@ _enemy_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;src/scripts/enemy.c:186: }
+;src/scripts/enemy.c:242: }
 	ret
-;src/scripts/enemy.c:188: void enemy_death(Enemy* e) {
+;src/scripts/enemy.c:244: void enemy_death(Enemy* e) {
 ;	---------------------------------
 ; Function enemy_death
 ; ---------------------------------
@@ -1048,7 +1245,7 @@ _enemy_death::
 	dec	sp
 	ld	c, e
 	ld	b, d
-;src/scripts/enemy.c:189: spawn_drop(e->x, e->y);
+;src/scripts/enemy.c:245: spawn_drop(e->x, e->y);
 	ld	l, c
 	ld	h, b
 	inc	hl
@@ -1068,14 +1265,14 @@ _enemy_death::
 	call	_spawn_drop
 	pop	bc
 	pop	hl
-;src/scripts/enemy.c:190: e->hp = 0;
+;src/scripts/enemy.c:246: e->hp = 0;
 	ld	e, c
 	ld	d, b
 	inc	de
 	inc	de
 	xor	a, a
 	ld	(de), a
-;src/scripts/enemy.c:191: e->alive = 0;
+;src/scripts/enemy.c:247: e->alive = 0;
 	ld	a, c
 	add	a, #0x06
 	ld	e, a
@@ -1084,13 +1281,13 @@ _enemy_death::
 	ld	d, a
 	xor	a, a
 	ld	(de), a
-;src/scripts/enemy.c:192: e->x = 0;
+;src/scripts/enemy.c:248: e->x = 0;
 	ld	(hl), #0x00
-;src/scripts/enemy.c:193: e->y = 0;
+;src/scripts/enemy.c:249: e->y = 0;
 	pop	hl
 	ld	(hl), #0x00
 	push	hl
-;src/scripts/enemy.c:194: move_sprite(e->sprite_id, 0, 0);
+;src/scripts/enemy.c:250: move_sprite(e->sprite_id, 0, 0);
 	ld	hl, #0x0007
 	add	hl, bc
 	ld	c, l
@@ -1109,7 +1306,7 @@ _enemy_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/enemy.c:195: move_sprite(e->sprite_id + 1, 0, 0);
+;src/scripts/enemy.c:251: move_sprite(e->sprite_id + 1, 0, 0);
 	ld	a, (bc)
 	ld	e, a
 	inc	e
@@ -1125,7 +1322,7 @@ _enemy_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/enemy.c:196: move_sprite(e->sprite_id + 2, 0, 0);
+;src/scripts/enemy.c:252: move_sprite(e->sprite_id + 2, 0, 0);
 	ld	a, (bc)
 	add	a, #0x02
 	ld	e, a
@@ -1141,7 +1338,7 @@ _enemy_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/enemy.c:197: move_sprite(e->sprite_id + 3, 0, 0);
+;src/scripts/enemy.c:253: move_sprite(e->sprite_id + 3, 0, 0);
 	ld	a, (bc)
 	add	a, #0x03
 	ld	e, a
@@ -1157,7 +1354,7 @@ _enemy_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/enemy.c:198: set_sprite_tile(e->sprite_id, 50);
+;src/scripts/enemy.c:254: set_sprite_tile(e->sprite_id, 50);
 	ld	a, (bc)
 	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
@@ -1171,7 +1368,7 @@ _enemy_death::
 	inc	hl
 	inc	hl
 	ld	(hl), #0x32
-;src/scripts/enemy.c:199: set_sprite_tile(e->sprite_id+1, 50);
+;src/scripts/enemy.c:255: set_sprite_tile(e->sprite_id+1, 50);
 	ld	a, (bc)
 	ld	e, a
 	inc	e
@@ -1186,7 +1383,7 @@ _enemy_death::
 	inc	hl
 	inc	hl
 	ld	(hl), #0x32
-;src/scripts/enemy.c:200: set_sprite_tile(e->sprite_id+2, 50);
+;src/scripts/enemy.c:256: set_sprite_tile(e->sprite_id+2, 50);
 	ld	a, (bc)
 	add	a, #0x02
 	ld	e, a
@@ -1201,7 +1398,7 @@ _enemy_death::
 	inc	hl
 	inc	hl
 	ld	(hl), #0x32
-;src/scripts/enemy.c:201: set_sprite_tile(e->sprite_id+3, 50);
+;src/scripts/enemy.c:257: set_sprite_tile(e->sprite_id+3, 50);
 	ld	a, (bc)
 	add	a, #0x03
 	ld	e, a
@@ -1216,12 +1413,12 @@ _enemy_death::
 	inc	hl
 	inc	hl
 	ld	(hl), #0x32
-;src/scripts/enemy.c:201: set_sprite_tile(e->sprite_id+3, 50);
-;src/scripts/enemy.c:204: }
+;src/scripts/enemy.c:257: set_sprite_tile(e->sprite_id+3, 50);
+;src/scripts/enemy.c:260: }
 	inc	sp
 	inc	sp
 	ret
-;src/scripts/enemy.c:207: void enemy_smooth_movement(Enemy* e, uint8_t dir) {
+;src/scripts/enemy.c:263: void enemy_smooth_movement(Enemy* e, uint8_t dir) {
 ;	---------------------------------
 ; Function enemy_smooth_movement
 ; ---------------------------------
@@ -1229,17 +1426,17 @@ _enemy_smooth_movement::
 	add	sp, #-7
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/enemy.c:210: mov_x = e->x;
+;src/scripts/enemy.c:266: mov_x = e->x;
 	ld	a, (de)
 	ldhl	sp,	#0
-;src/scripts/enemy.c:211: mov_y = e->y;
+;src/scripts/enemy.c:267: mov_y = e->y;
 	ld	(hl+), a
 	ld	c, e
 	ld	b, d
 	inc	bc
 	ld	a, (bc)
 	ld	(hl), a
-;src/scripts/enemy.c:212: while (frame < 8) {
+;src/scripts/enemy.c:268: while (frame < 8) {
 	ld	a, #0x03
 	ldhl	sp,	#6
 	sub	a, (hl)
@@ -1256,21 +1453,21 @@ _enemy_smooth_movement::
 	ld	a, e
 	sub	a, #0x08
 	jp	NC, 00113$
-;src/scripts/enemy.c:213: wait_vbl_done();
+;src/scripts/enemy.c:269: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/enemy.c:214: switch (dir) {
+;src/scripts/enemy.c:270: switch (dir) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00105$
-;src/scripts/enemy.c:216: mov_y-=2;
+;src/scripts/enemy.c:272: mov_y-=2;
 	dec	hl
-;src/scripts/enemy.c:219: mov_x+=2;
+;src/scripts/enemy.c:275: mov_x+=2;
 	ld	a, (hl-)
 	ld	d, a
 	ld	a, (hl)
 	ldhl	sp,	#5
-;src/scripts/enemy.c:214: switch (dir) {
+;src/scripts/enemy.c:270: switch (dir) {
 	ld	(hl+), a
 	push	de
 	ld	e, (hl)
@@ -1289,45 +1486,45 @@ _enemy_smooth_movement::
 	.dw	00102$
 	.dw	00103$
 	.dw	00104$
-;src/scripts/enemy.c:215: case 0:
+;src/scripts/enemy.c:271: case 0:
 00101$:
-;src/scripts/enemy.c:216: mov_y-=2;
+;src/scripts/enemy.c:272: mov_y-=2;
 	ld	a, d
 	add	a, #0xfe
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/enemy.c:217: break;
+;src/scripts/enemy.c:273: break;
 	jr	00105$
-;src/scripts/enemy.c:218: case 1:
+;src/scripts/enemy.c:274: case 1:
 00102$:
-;src/scripts/enemy.c:219: mov_x+=2;
+;src/scripts/enemy.c:275: mov_x+=2;
 	ldhl	sp,	#5
 	ld	a, (hl)
 	add	a, #0x02
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/enemy.c:220: break;
+;src/scripts/enemy.c:276: break;
 	jr	00105$
-;src/scripts/enemy.c:221: case 2:
+;src/scripts/enemy.c:277: case 2:
 00103$:
-;src/scripts/enemy.c:222: mov_y+=2;
+;src/scripts/enemy.c:278: mov_y+=2;
 	ld	a, d
 	add	a, #0x02
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/enemy.c:223: break;
+;src/scripts/enemy.c:279: break;
 	jr	00105$
-;src/scripts/enemy.c:224: case 3:
+;src/scripts/enemy.c:280: case 3:
 00104$:
-;src/scripts/enemy.c:225: mov_x-=2;
+;src/scripts/enemy.c:281: mov_x-=2;
 	ldhl	sp,	#5
 	ld	a, (hl)
 	add	a, #0xfe
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/enemy.c:227: }
+;src/scripts/enemy.c:283: }
 00105$:
-;src/scripts/enemy.c:228: move_sprite(e->sprite_id, mov_x, mov_y);
+;src/scripts/enemy.c:284: move_sprite(e->sprite_id, mov_x, mov_y);
 	ld	a, (bc)
 	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
@@ -1351,7 +1548,7 @@ _enemy_smooth_movement::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/enemy.c:229: move_sprite(e->sprite_id+1, mov_x+8, mov_y);
+;src/scripts/enemy.c:285: move_sprite(e->sprite_id+1, mov_x+8, mov_y);
 	ldhl	sp,	#0
 	ld	a, (hl)
 	add	a, #0x08
@@ -1384,7 +1581,7 @@ _enemy_smooth_movement::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/enemy.c:230: move_sprite(e->sprite_id+2, mov_x, mov_y+8);
+;src/scripts/enemy.c:286: move_sprite(e->sprite_id+2, mov_x, mov_y+8);
 	ldhl	sp,	#1
 	ld	a, (hl)
 	add	a, #0x08
@@ -1416,7 +1613,7 @@ _enemy_smooth_movement::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/enemy.c:231: move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
+;src/scripts/enemy.c:287: move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
 	ld	a, (bc)
 	add	a, #0x03
 	ld	d, a
@@ -1441,14 +1638,14 @@ _enemy_smooth_movement::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/enemy.c:232: frame++;
+;src/scripts/enemy.c:288: frame++;
 	inc	e
 	jp	00106$
 00113$:
-;src/scripts/enemy.c:234: }
+;src/scripts/enemy.c:290: }
 	add	sp, #7
 	ret
-;src/scripts/enemy.c:236: uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self) {
+;src/scripts/enemy.c:292: uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self) {
 ;	---------------------------------
 ; Function is_enemy_at
 ; ---------------------------------
@@ -1457,13 +1654,13 @@ _is_enemy_at::
 	ldhl	sp,	#0
 	ld	(hl), a
 	ld	c, e
-;src/scripts/enemy.c:237: for (uint8_t i = 0; i < 2; i++) {
+;src/scripts/enemy.c:293: for (uint8_t i = 0; i < 2; i++) {
 	ld	b, #0x00
 00109$:
 	ld	a, b
 	sub	a, #0x02
 	jr	NC, 00107$
-;src/scripts/enemy.c:238: Enemy* other = &current_enemies[i];
+;src/scripts/enemy.c:294: Enemy* other = &current_enemies[i];
 	ld	e, b
 	ld	d, #0x00
 	ld	l, e
@@ -1476,7 +1673,7 @@ _is_enemy_at::
 	add	hl, de
 	ld	e, l
 	ld	d, h
-;src/scripts/enemy.c:239: if (other->alive && other != self) {
+;src/scripts/enemy.c:295: if (other->alive && other != self) {
 	ld	hl, #0x0006
 	add	hl, de
 	ld	a, (hl)
@@ -1491,7 +1688,7 @@ _is_enemy_at::
 	sub	a, d
 	jr	Z, 00110$
 00155$:
-;src/scripts/enemy.c:240: if (other->x == tx && other->y == ty) {
+;src/scripts/enemy.c:296: if (other->x == tx && other->y == ty) {
 	ld	a, (de)
 	ldhl	sp,	#0
 	sub	a, (hl)
@@ -1500,18 +1697,18 @@ _is_enemy_at::
 	ld	a, (de)
 	sub	a, c
 	jr	NZ, 00110$
-;src/scripts/enemy.c:241: return 1;
+;src/scripts/enemy.c:297: return 1;
 	ld	a, #0x01
 	jr	00111$
 00110$:
-;src/scripts/enemy.c:237: for (uint8_t i = 0; i < 2; i++) {
+;src/scripts/enemy.c:293: for (uint8_t i = 0; i < 2; i++) {
 	inc	b
 	jr	00109$
 00107$:
-;src/scripts/enemy.c:245: return 0;
+;src/scripts/enemy.c:301: return 0;
 	xor	a, a
 00111$:
-;src/scripts/enemy.c:246: }
+;src/scripts/enemy.c:302: }
 	inc	sp
 	pop	hl
 	pop	bc

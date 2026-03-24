@@ -26,6 +26,7 @@ extern uint8_t y;
 extern uint8_t current_hp;
 extern uint8_t atk;
 extern uint8_t defense;
+extern uint8_t current_floor;
 
 void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index) BANKED;
 extern void play_hit_animation() BANKED;

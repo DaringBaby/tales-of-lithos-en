@@ -11,7 +11,7 @@
                                      11 	.globl _generate_enemies
                                      12 	.globl b_get_num_enemies
                                      13 	.globl _get_num_enemies
-                                     14 	.globl _rand
+                                     14 	.globl _arand
                                      15 	.globl _display_off
                                      16 	.globl _wait_vbl_done
                                      17 	.globl _locked_door
@@ -106,13 +106,13 @@
     00000025 C2rA9r00         [16]  106 	jp	NZ, 00113$
                                     107 ;src/scripts/generate_dungeon.c:30: empty_array();
     00000028 CDrC9r00         [24]  108 	call	_empty_array
-                                    109 ;src/scripts/generate_dungeon.c:31: uint8_t start_x = rand() % 4;
-    0000002B CDr00r00         [24]  110 	call	_rand
+                                    109 ;src/scripts/generate_dungeon.c:31: uint8_t start_x = arand() % 4;
+    0000002B CDr00r00         [24]  110 	call	_arand
     0000002E 7B               [ 4]  111 	ld	a, e
     0000002F E6 03            [ 8]  112 	and	a, #0x03
     00000031 4F               [ 4]  113 	ld	c, a
-                                    114 ;src/scripts/generate_dungeon.c:32: uint8_t start_y = rand() % 4;
-    00000032 CDr00r00         [24]  115 	call	_rand
+                                    114 ;src/scripts/generate_dungeon.c:32: uint8_t start_y = arand() % 4;
+    00000032 CDr00r00         [24]  115 	call	_arand
     00000035 7B               [ 4]  116 	ld	a, e
     00000036 E6 03            [ 8]  117 	and	a, #0x03
     00000038 47               [ 4]  118 	ld	b, a
@@ -524,8 +524,8 @@
     0000022F 23               [ 8]  524 	inc	hl
     00000230 3A               [ 8]  525 	ld	a, (hl-)
     00000231 77               [ 8]  526 	ld	(hl), a
-                                    527 ;src/scripts/generate_dungeon.c:104: uint8_t dir = directions[rand() % num_dirs];
-    00000232 CDr00r00         [24]  528 	call	_rand
+                                    527 ;src/scripts/generate_dungeon.c:104: uint8_t dir = directions[arand() % num_dirs];
+    00000232 CDr00r00         [24]  528 	call	_arand
     00000235 7B               [ 4]  529 	ld	a, e
     00000236 F8 04            [12]  530 	ldhl	sp,	#4
     00000238 5E               [ 8]  531 	ld	e, (hl)
@@ -1475,8 +1475,8 @@
     000006D5 7E               [ 8] 1475 	ld	a, (hl)
     000006D6 B7               [ 4] 1476 	or	a, a
     000006D7 28 65            [12] 1477 	jr	Z, 00126$
-                                   1478 ;src/scripts/generate_dungeon.c:225: uint8_t j = rand() % (i+1);
-    000006D9 CDr00r00         [24] 1479 	call	_rand
+                                   1478 ;src/scripts/generate_dungeon.c:225: uint8_t j = arand() % (i+1);
+    000006D9 CDr00r00         [24] 1479 	call	_arand
     000006DC F8 12            [12] 1480 	ldhl	sp,	#18
     000006DE 7E               [ 8] 1481 	ld	a, (hl)
     000006DF F8 0F            [12] 1482 	ldhl	sp,	#15
@@ -1711,8 +1711,8 @@
     00000802 7E               [ 8] 1711 	ld	a, (hl)
     00000803 B7               [ 4] 1712 	or	a, a
     00000804 28 6F            [12] 1713 	jr	Z, 00107$
-                                   1714 ;src/scripts/generate_dungeon.c:250: uint8_t j = rand() % (i+1);
-    00000806 CDr00r00         [24] 1715 	call	_rand
+                                   1714 ;src/scripts/generate_dungeon.c:250: uint8_t j = arand() % (i+1);
+    00000806 CDr00r00         [24] 1715 	call	_arand
     00000809 7B               [ 4] 1716 	ld	a, e
     0000080A F8 07            [12] 1717 	ldhl	sp,	#7
     0000080C 5E               [ 8] 1718 	ld	e, (hl)
@@ -2023,8 +2023,8 @@
     00000981                       2023 _add_obstacles::
     00000981 47               [ 4] 2024 	ld	b, a
     00000982 4B               [ 4] 2025 	ld	c, e
-                                   2026 ;src/scripts/generate_dungeon.c:279: high_obs = rand() & 7;
-    00000983 CDr00r00         [24] 2027 	call	_rand
+                                   2026 ;src/scripts/generate_dungeon.c:279: high_obs = arand() & 7;
+    00000983 CDr00r00         [24] 2027 	call	_arand
     00000986 7B               [ 4] 2028 	ld	a, e
     00000987 E6 07            [ 8] 2029 	and	a, #0x07
     00000989 5F               [ 4] 2030 	ld	e, a
@@ -2044,9 +2044,9 @@
     00000999 CB 37            [ 8] 2044 	swap	a
     0000099B E6 F0            [ 8] 2045 	and	a, #0xf0
     0000099D 77               [ 8] 2046 	ld	(hl), a
-                                   2047 ;src/scripts/generate_dungeon.c:281: low_obs = rand() & 7;
+                                   2047 ;src/scripts/generate_dungeon.c:281: low_obs = arand() & 7;
     0000099E E5               [16] 2048 	push	hl
-    0000099F CDr00r00         [24] 2049 	call	_rand
+    0000099F CDr00r00         [24] 2049 	call	_arand
     000009A2 7B               [ 4] 2050 	ld	a, e
     000009A3 E1               [12] 2051 	pop	hl
     000009A4 E6 07            [ 8] 2052 	and	a, #0x07

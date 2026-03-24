@@ -85,7 +85,7 @@
     00000018 2A               [ 8]   85 	ld	a, (hl+)
     00000019 5F               [ 4]   86 	ld	e, a
     0000001A 56               [ 8]   87 	ld	d, (hl)
-    0000001B CDrCCr03         [24]   88 	call	_check_distance_x
+    0000001B CDrBFr04         [24]   88 	call	_check_distance_x
     0000001E F8 00            [12]   89 	ldhl	sp,	#0
     00000020 77               [ 8]   90 	ld	(hl), a
                                      91 ;src/scripts/enemy.c:12: dy = check_distance_y(e);
@@ -93,7 +93,7 @@
     00000023 2A               [ 8]   93 	ld	a, (hl+)
     00000024 5F               [ 4]   94 	ld	e, a
     00000025 56               [ 8]   95 	ld	d, (hl)
-    00000026 CDrDDr03         [24]   96 	call	_check_distance_y
+    00000026 CDrD0r04         [24]   96 	call	_check_distance_y
     00000029 F8 01            [12]   97 	ldhl	sp,	#1
     0000002B 77               [ 8]   98 	ld	(hl), a
                                      99 ;src/scripts/enemy.c:16: if (dx == 16 && dy == 0 || dx == 0 && dy == 16) {
@@ -140,12 +140,12 @@
     0000005E 2A               [ 8]  140 	ld	a, (hl+)
     0000005F 5F               [ 4]  141 	ld	e, a
     00000060 56               [ 8]  142 	ld	d, (hl)
-    00000061 CDrEFr03         [24]  143 	call	_enemy_attack
+    00000061 CDrE2r04         [24]  143 	call	_enemy_attack
     00000064 C1               [12]  144 	pop	bc
                                     145 ;src/scripts/enemy.c:18: e->targeting = 1;
     00000065 3E 01            [ 8]  146 	ld	a, #0x01
     00000067 02               [ 8]  147 	ld	(bc), a
-                                    148 ;src/scripts/enemy.c:19: return; 
+                                    148 ;src/scripts/enemy.c:19: return;
     00000068 C3r56r02         [16]  149 	jp	00153$
     0000006B                        150 00104$:
                                     151 ;src/scripts/enemy.c:22: uint8_t moved = 0;
@@ -179,7 +179,7 @@
     00000089 2A               [ 8]  179 	ld	a, (hl+)
     0000008A 5F               [ 4]  180 	ld	e, a
     0000008B 56               [ 8]  181 	ld	d, (hl)
-    0000008C CDrCCr03         [24]  182 	call	_check_distance_x
+    0000008C CDrBFr04         [24]  182 	call	_check_distance_x
     0000008F 4F               [ 4]  183 	ld	c, a
                                     184 ;src/scripts/enemy.c:26: int16_t diff_y = check_distance_y(e);
     00000090 C5               [16]  185 	push	bc
@@ -187,7 +187,7 @@
     00000093 2A               [ 8]  187 	ld	a, (hl+)
     00000094 5F               [ 4]  188 	ld	e, a
     00000095 56               [ 8]  189 	ld	d, (hl)
-    00000096 CDrDDr03         [24]  190 	call	_check_distance_y
+    00000096 CDrD0r04         [24]  190 	call	_check_distance_y
     00000099 C1               [12]  191 	pop	bc
     0000009A 47               [ 4]  192 	ld	b, a
                                     193 ;src/scripts/enemy.c:29: if (x > e->x) {
@@ -328,7 +328,7 @@
     0000012C D5               [16]  328 	push	de
     0000012D 58               [ 4]  329 	ld	e, b
     0000012E 79               [ 4]  330 	ld	a, c
-    0000012F CDrE4r05         [24]  331 	call	_is_enemy_at
+    0000012F CDrD7r06         [24]  331 	call	_is_enemy_at
     00000132 C1               [12]  332 	pop	bc
     00000133 B7               [ 4]  333 	or	a, a
     00000134 C2r56r02         [16]  334 	jp	NZ, 00153$
@@ -340,7 +340,7 @@
     0000013D 5E               [ 8]  340 	ld	e, (hl)
     0000013E 23               [ 8]  341 	inc	hl
     0000013F 56               [ 8]  342 	ld	d, (hl)
-    00000140 CDrEFr04         [24]  343 	call	_enemy_smooth_movement
+    00000140 CDrE2r05         [24]  343 	call	_enemy_smooth_movement
     00000143 C1               [12]  344 	pop	bc
                                     345 ;src/scripts/enemy.c:63: e->x = next_x;
     00000144 F8 04            [12]  346 	ldhl	sp,	#4
@@ -515,7 +515,7 @@
     00000203 3A               [ 8]  515 	ld	a, (hl-)
     00000204 5F               [ 4]  516 	ld	e, a
     00000205 7E               [ 8]  517 	ld	a, (hl)
-    00000206 CDrE4r05         [24]  518 	call	_is_enemy_at
+    00000206 CDrD7r06         [24]  518 	call	_is_enemy_at
     00000209 C1               [12]  519 	pop	bc
     0000020A B7               [ 4]  520 	or	a, a
     0000020B C2r63r01         [16]  521 	jp	NZ, 00145$
@@ -526,7 +526,7 @@
     00000212 5E               [ 8]  526 	ld	e, (hl)
     00000213 23               [ 8]  527 	inc	hl
     00000214 56               [ 8]  528 	ld	d, (hl)
-    00000215 CDrEFr04         [24]  529 	call	_enemy_smooth_movement
+    00000215 CDrE2r05         [24]  529 	call	_enemy_smooth_movement
     00000218 C1               [12]  530 	pop	bc
                                     531 ;src/scripts/enemy.c:97: e->x = next_x;
     00000219 F8 06            [12]  532 	ldhl	sp,	#6
@@ -759,763 +759,960 @@
                                     759 ; Function set_enemy_stats
                                     760 ; ---------------------------------
     0000030B                        761 _set_enemy_stats::
-    0000030B E8 F9            [16]  762 	add	sp, #-7
-    0000030D 4B               [ 4]  763 	ld	c, e
-    0000030E 42               [ 4]  764 	ld	b, d
-    0000030F F8 06            [12]  765 	ldhl	sp,	#6
-    00000311 77               [ 8]  766 	ld	(hl), a
-                                    767 ;src/scripts/enemy.c:123: e->hp = 10;
-    00000312 59               [ 4]  768 	ld	e, c
-    00000313 50               [ 4]  769 	ld	d, b
-    00000314 13               [ 8]  770 	inc	de
-    00000315 13               [ 8]  771 	inc	de
-                                    772 ;src/scripts/enemy.c:124: e->atk = 7;
-    00000316 21 03 00         [12]  773 	ld	hl, #0x0003
-    00000319 09               [ 8]  774 	add	hl, bc
-    0000031A 33               [ 8]  775 	inc	sp
-    0000031B 33               [ 8]  776 	inc	sp
-    0000031C E5               [16]  777 	push	hl
-                                    778 ;src/scripts/enemy.c:125: e->def = 1;
-    0000031D 21 04 00         [12]  779 	ld	hl, #0x0004
-    00000320 09               [ 8]  780 	add	hl, bc
-    00000321 E5               [16]  781 	push	hl
-    00000322 7D               [ 4]  782 	ld	a, l
-    00000323 F8 04            [12]  783 	ldhl	sp,	#4
-    00000325 77               [ 8]  784 	ld	(hl), a
-    00000326 E1               [12]  785 	pop	hl
-    00000327 7C               [ 4]  786 	ld	a, h
-    00000328 F8 03            [12]  787 	ldhl	sp,	#3
-    0000032A 77               [ 8]  788 	ld	(hl), a
-                                    789 ;src/scripts/enemy.c:126: e->type = 1;
-    0000032B 21 05 00         [12]  790 	ld	hl, #0x0005
-    0000032E 09               [ 8]  791 	add	hl, bc
-    0000032F E5               [16]  792 	push	hl
-    00000330 7D               [ 4]  793 	ld	a, l
-    00000331 F8 06            [12]  794 	ldhl	sp,	#6
-    00000333 77               [ 8]  795 	ld	(hl), a
-    00000334 E1               [12]  796 	pop	hl
-    00000335 7C               [ 4]  797 	ld	a, h
-    00000336 F8 05            [12]  798 	ldhl	sp,	#5
-    00000338 77               [ 8]  799 	ld	(hl), a
-                                    800 ;src/scripts/enemy.c:127: e->exp_reward = 1;
-    00000339 21 09 00         [12]  801 	ld	hl, #0x0009
-    0000033C 09               [ 8]  802 	add	hl, bc
-                                    803 ;src/scripts/enemy.c:121: switch (type) {
-    0000033D E5               [16]  804 	push	hl
-    0000033E F8 08            [12]  805 	ldhl	sp,	#8
-    00000340 7E               [ 8]  806 	ld	a, (hl)
-    00000341 3D               [ 4]  807 	dec	a
-    00000342 E1               [12]  808 	pop	hl
-    00000343 28 14            [12]  809 	jr	Z, 00101$
-    00000345 E5               [16]  810 	push	hl
-    00000346 F8 08            [12]  811 	ldhl	sp,	#8
-    00000348 7E               [ 8]  812 	ld	a, (hl)
-    00000349 D6 02            [ 8]  813 	sub	a, #0x02
-    0000034B E1               [12]  814 	pop	hl
-    0000034C 28 29            [12]  815 	jr	Z, 00102$
-    0000034E E5               [16]  816 	push	hl
-    0000034F F8 08            [12]  817 	ldhl	sp,	#8
-    00000351 7E               [ 8]  818 	ld	a, (hl)
-    00000352 D6 03            [ 8]  819 	sub	a, #0x03
-    00000354 E1               [12]  820 	pop	hl
-    00000355 28 3E            [12]  821 	jr	Z, 00103$
-    00000357 18 58            [12]  822 	jr	00104$
-                                    823 ;src/scripts/enemy.c:122: case 1:
-    00000359                        824 00101$:
-                                    825 ;src/scripts/enemy.c:123: e->hp = 10;
-    00000359 3E 0A            [ 8]  826 	ld	a, #0x0a
-    0000035B 12               [ 8]  827 	ld	(de), a
-                                    828 ;src/scripts/enemy.c:124: e->atk = 7;
-    0000035C E5               [16]  829 	push	hl
-    0000035D F8 02            [12]  830 	ldhl	sp,	#2
-    0000035F 2A               [ 8]  831 	ld	a, (hl+)
-    00000360 66               [ 8]  832 	ld	h, (hl)
-    00000361 6F               [ 4]  833 	ld	l, a
-    00000362 36 07            [12]  834 	ld	(hl), #0x07
-                                    835 ;src/scripts/enemy.c:125: e->def = 1;
-    00000364 F8 04            [12]  836 	ldhl	sp,	#4
-    00000366 2A               [ 8]  837 	ld	a, (hl+)
-    00000367 66               [ 8]  838 	ld	h, (hl)
-    00000368 6F               [ 4]  839 	ld	l, a
-    00000369 36 01            [12]  840 	ld	(hl), #0x01
-                                    841 ;src/scripts/enemy.c:126: e->type = 1;
-    0000036B F8 06            [12]  842 	ldhl	sp,	#6
-    0000036D 2A               [ 8]  843 	ld	a, (hl+)
-    0000036E 66               [ 8]  844 	ld	h, (hl)
-    0000036F 6F               [ 4]  845 	ld	l, a
-    00000370 36 01            [12]  846 	ld	(hl), #0x01
-    00000372 E1               [12]  847 	pop	hl
-                                    848 ;src/scripts/enemy.c:127: e->exp_reward = 1;
-    00000373 36 01            [12]  849 	ld	(hl), #0x01
-                                    850 ;src/scripts/enemy.c:128: break;
-    00000375 18 3A            [12]  851 	jr	00104$
-                                    852 ;src/scripts/enemy.c:129: case 2:
-    00000377                        853 00102$:
-                                    854 ;src/scripts/enemy.c:130: e->hp = 18;
-    00000377 3E 12            [ 8]  855 	ld	a, #0x12
-    00000379 12               [ 8]  856 	ld	(de), a
-                                    857 ;src/scripts/enemy.c:131: e->atk = 11;
-    0000037A E5               [16]  858 	push	hl
-    0000037B F8 02            [12]  859 	ldhl	sp,	#2
-    0000037D 2A               [ 8]  860 	ld	a, (hl+)
-    0000037E 66               [ 8]  861 	ld	h, (hl)
-    0000037F 6F               [ 4]  862 	ld	l, a
-    00000380 36 0B            [12]  863 	ld	(hl), #0x0b
-                                    864 ;src/scripts/enemy.c:132: e->def = 6;
-    00000382 F8 04            [12]  865 	ldhl	sp,	#4
-    00000384 2A               [ 8]  866 	ld	a, (hl+)
-    00000385 66               [ 8]  867 	ld	h, (hl)
-    00000386 6F               [ 4]  868 	ld	l, a
-    00000387 36 06            [12]  869 	ld	(hl), #0x06
-                                    870 ;src/scripts/enemy.c:133: e->type = 2;
-    00000389 F8 06            [12]  871 	ldhl	sp,	#6
-    0000038B 2A               [ 8]  872 	ld	a, (hl+)
-    0000038C 66               [ 8]  873 	ld	h, (hl)
-    0000038D 6F               [ 4]  874 	ld	l, a
-    0000038E 36 02            [12]  875 	ld	(hl), #0x02
-    00000390 E1               [12]  876 	pop	hl
-                                    877 ;src/scripts/enemy.c:134: e->exp_reward = 3;
-    00000391 36 03            [12]  878 	ld	(hl), #0x03
-                                    879 ;src/scripts/enemy.c:135: break;
-    00000393 18 1C            [12]  880 	jr	00104$
-                                    881 ;src/scripts/enemy.c:136: case 3:
-    00000395                        882 00103$:
-                                    883 ;src/scripts/enemy.c:137: e->hp = 25;
-    00000395 3E 19            [ 8]  884 	ld	a, #0x19
-    00000397 12               [ 8]  885 	ld	(de), a
-                                    886 ;src/scripts/enemy.c:138: e->atk = 15;
-    00000398 E5               [16]  887 	push	hl
-    00000399 F8 02            [12]  888 	ldhl	sp,	#2
-    0000039B 2A               [ 8]  889 	ld	a, (hl+)
-    0000039C 66               [ 8]  890 	ld	h, (hl)
-    0000039D 6F               [ 4]  891 	ld	l, a
-    0000039E 36 0F            [12]  892 	ld	(hl), #0x0f
-                                    893 ;src/scripts/enemy.c:139: e->def = 14;
-    000003A0 F8 04            [12]  894 	ldhl	sp,	#4
-    000003A2 2A               [ 8]  895 	ld	a, (hl+)
-    000003A3 66               [ 8]  896 	ld	h, (hl)
-    000003A4 6F               [ 4]  897 	ld	l, a
-    000003A5 36 0E            [12]  898 	ld	(hl), #0x0e
-                                    899 ;src/scripts/enemy.c:140: e->type = 3;
-    000003A7 F8 06            [12]  900 	ldhl	sp,	#6
-    000003A9 2A               [ 8]  901 	ld	a, (hl+)
-    000003AA 66               [ 8]  902 	ld	h, (hl)
-    000003AB 6F               [ 4]  903 	ld	l, a
-    000003AC 36 03            [12]  904 	ld	(hl), #0x03
-    000003AE E1               [12]  905 	pop	hl
-                                    906 ;src/scripts/enemy.c:141: e->exp_reward = 5;
-    000003AF 36 05            [12]  907 	ld	(hl), #0x05
-                                    908 ;src/scripts/enemy.c:143: }
-    000003B1                        909 00104$:
-                                    910 ;src/scripts/enemy.c:144: e->sprite_id = sprite_id;
-    000003B1 21 07 00         [12]  911 	ld	hl, #0x0007
-    000003B4 09               [ 8]  912 	add	hl, bc
-    000003B5 5D               [ 4]  913 	ld	e, l
-    000003B6 54               [ 4]  914 	ld	d, h
-    000003B7 F8 09            [12]  915 	ldhl	sp,	#9
-    000003B9 7E               [ 8]  916 	ld	a, (hl)
-    000003BA 12               [ 8]  917 	ld	(de), a
-                                    918 ;src/scripts/enemy.c:145: e->alive = 1; // cambiato
-    000003BB 21 06 00         [12]  919 	ld	hl, #0x0006
-    000003BE 09               [ 8]  920 	add	hl, bc
-    000003BF 36 01            [12]  921 	ld	(hl), #0x01
-                                    922 ;src/scripts/enemy.c:146: e->targeting = 0;
-    000003C1 21 08 00         [12]  923 	ld	hl, #0x0008
-    000003C4 09               [ 8]  924 	add	hl, bc
-    000003C5 36 00            [12]  925 	ld	(hl), #0x00
-                                    926 ;src/scripts/enemy.c:147: }
-    000003C7 E8 07            [16]  927 	add	sp, #7
-    000003C9 E1               [12]  928 	pop	hl
-    000003CA 33               [ 8]  929 	inc	sp
-    000003CB E9               [ 4]  930 	jp	(hl)
-                                    931 ;src/scripts/enemy.c:149: uint8_t check_distance_x(Enemy* e) {
-                                    932 ;	---------------------------------
-                                    933 ; Function check_distance_x
-                                    934 ; ---------------------------------
-    000003CC                        935 _check_distance_x::
-                                    936 ;src/scripts/enemy.c:150: if (x > e->x) {
-    000003CC 1A               [ 8]  937 	ld	a, (de)
-    000003CD 4F               [ 4]  938 	ld	c, a
-    000003CE 21r00r00         [12]  939 	ld	hl, #_x
-    000003D1 96               [ 8]  940 	sub	a, (hl)
-    000003D2 30 03            [12]  941 	jr	NC, 00102$
-                                    942 ;src/scripts/enemy.c:151: return(x - e->x);
-    000003D4 7E               [ 8]  943 	ld	a, (hl)
-    000003D5 91               [ 4]  944 	sub	a, c
-    000003D6 C9               [16]  945 	ret
-    000003D7                        946 00102$:
-                                    947 ;src/scripts/enemy.c:154: return(e->x - x);
-    000003D7 79               [ 4]  948 	ld	a, c
-    000003D8 21r00r00         [12]  949 	ld	hl, #_x
-    000003DB 96               [ 8]  950 	sub	a, (hl)
-                                    951 ;src/scripts/enemy.c:156: }
-    000003DC C9               [16]  952 	ret
-                                    953 ;src/scripts/enemy.c:158: uint8_t check_distance_y(Enemy* e) {
-                                    954 ;	---------------------------------
-                                    955 ; Function check_distance_y
-                                    956 ; ---------------------------------
-    000003DD                        957 _check_distance_y::
-                                    958 ;src/scripts/enemy.c:159: if (y > e->y) {
-    000003DD 13               [ 8]  959 	inc	de
-    000003DE 1A               [ 8]  960 	ld	a, (de)
-    000003DF 4F               [ 4]  961 	ld	c, a
-    000003E0 21r00r00         [12]  962 	ld	hl, #_y
-    000003E3 96               [ 8]  963 	sub	a, (hl)
-    000003E4 30 03            [12]  964 	jr	NC, 00102$
-                                    965 ;src/scripts/enemy.c:160: return(y - e->y);
-    000003E6 7E               [ 8]  966 	ld	a, (hl)
-    000003E7 91               [ 4]  967 	sub	a, c
-    000003E8 C9               [16]  968 	ret
-    000003E9                        969 00102$:
-                                    970 ;src/scripts/enemy.c:163: return(e->y - y);
-    000003E9 79               [ 4]  971 	ld	a, c
-    000003EA 21r00r00         [12]  972 	ld	hl, #_y
-    000003ED 96               [ 8]  973 	sub	a, (hl)
-                                    974 ;src/scripts/enemy.c:165: }
-    000003EE C9               [16]  975 	ret
-                                    976 ;src/scripts/enemy.c:167: void enemy_attack(Enemy* e) {
-                                    977 ;	---------------------------------
-                                    978 ; Function enemy_attack
-                                    979 ; ---------------------------------
-    000003EF                        980 _enemy_attack::
-                                    981 ;src/scripts/enemy.c:168: hit_sfx();
-    000003EF D5               [16]  982 	push	de
-    000003F0 1Er00            [ 8]  983 	ld	e, #b_hit_sfx
-    000003F2 21r00r00         [12]  984 	ld	hl, #_hit_sfx
-    000003F5 CDr00r00         [24]  985 	call	___sdcc_bcall_ehl
-    000003F8 D1               [12]  986 	pop	de
-                                    987 ;src/scripts/enemy.c:170: if (e->atk > defense) {
-    000003F9 13               [ 8]  988 	inc	de
-    000003FA 13               [ 8]  989 	inc	de
-    000003FB 13               [ 8]  990 	inc	de
-    000003FC 1A               [ 8]  991 	ld	a, (de)
-    000003FD 4F               [ 4]  992 	ld	c, a
-    000003FE 21r00r00         [12]  993 	ld	hl, #_defense
-    00000401 7E               [ 8]  994 	ld	a, (hl)
-    00000402 91               [ 4]  995 	sub	a, c
-    00000403 30 05            [12]  996 	jr	NC, 00102$
-                                    997 ;src/scripts/enemy.c:171: damage = e->atk - defense;
-    00000405 79               [ 4]  998 	ld	a, c
-    00000406 96               [ 8]  999 	sub	a, (hl)
-    00000407 47               [ 4] 1000 	ld	b, a
-    00000408 18 02            [12] 1001 	jr	00103$
-    0000040A                       1002 00102$:
-                                   1003 ;src/scripts/enemy.c:174: damage = 1;
-    0000040A 06 01            [ 8] 1004 	ld	b, #0x01
-    0000040C                       1005 00103$:
-                                   1006 ;src/scripts/enemy.c:177: if (damage < current_hp) {
-    0000040C 78               [ 4] 1007 	ld	a, b
-    0000040D 21r00r00         [12] 1008 	ld	hl, #_current_hp
-    00000410 96               [ 8] 1009 	sub	a, (hl)
-    00000411 30 05            [12] 1010 	jr	NC, 00105$
-                                   1011 ;src/scripts/enemy.c:178: current_hp -= damage;
-    00000413 7E               [ 8] 1012 	ld	a, (hl)
-    00000414 90               [ 4] 1013 	sub	a, b
-    00000415 77               [ 8] 1014 	ld	(hl), a
-    00000416 18 04            [12] 1015 	jr	00106$
-    00000418                       1016 00105$:
-                                   1017 ;src/scripts/enemy.c:181: current_hp = 0;
-    00000418 AF               [ 4] 1018 	xor	a, a
-    00000419 EAr00r00         [16] 1019 	ld	(#_current_hp),a
-    0000041C                       1020 00106$:
-                                   1021 ;src/scripts/enemy.c:183: play_hit_animation();
-    0000041C C5               [16] 1022 	push	bc
-    0000041D 1Er00            [ 8] 1023 	ld	e, #b_play_hit_animation
-    0000041F 21r00r00         [12] 1024 	ld	hl, #_play_hit_animation
-    00000422 CDr00r00         [24] 1025 	call	___sdcc_bcall_ehl
-    00000425 C1               [12] 1026 	pop	bc
-                                   1027 ;src/scripts/enemy.c:184: show_number(damage, 0, 0, 0);
-    00000426 AF               [ 4] 1028 	xor	a, a
-    00000427 0F               [ 4] 1029 	rrca
-    00000428 F5               [16] 1030 	push	af
-    00000429 AF               [ 4] 1031 	xor	a, a
-    0000042A F5               [16] 1032 	push	af
-    0000042B 33               [ 8] 1033 	inc	sp
-    0000042C C5               [16] 1034 	push	bc
-    0000042D 33               [ 8] 1035 	inc	sp
-    0000042E 1Er00            [ 8] 1036 	ld	e, #b_show_number
-    00000430 21r00r00         [12] 1037 	ld	hl, #_show_number
-    00000433 CDr00r00         [24] 1038 	call	___sdcc_bcall_ehl
-    00000436 E8 04            [16] 1039 	add	sp, #4
-                                   1040 ;src/scripts/enemy.c:186: }
-    00000438 C9               [16] 1041 	ret
-                                   1042 ;src/scripts/enemy.c:188: void enemy_death(Enemy* e) {
-                                   1043 ;	---------------------------------
-                                   1044 ; Function enemy_death
-                                   1045 ; ---------------------------------
-    00000439                       1046 _enemy_death::
-    00000439 3B               [ 8] 1047 	dec	sp
-    0000043A 3B               [ 8] 1048 	dec	sp
-    0000043B 4B               [ 4] 1049 	ld	c, e
-    0000043C 42               [ 4] 1050 	ld	b, d
-                                   1051 ;src/scripts/enemy.c:189: spawn_drop(e->x, e->y);
-    0000043D 69               [ 4] 1052 	ld	l, c
-    0000043E 60               [ 4] 1053 	ld	h, b
-    0000043F 23               [ 8] 1054 	inc	hl
-    00000440 33               [ 8] 1055 	inc	sp
-    00000441 33               [ 8] 1056 	inc	sp
-    00000442 5D               [ 4] 1057 	ld	e, l
-    00000443 54               [ 4] 1058 	ld	d, h
-    00000444 D5               [16] 1059 	push	de
-    00000445 1A               [ 8] 1060 	ld	a, (de)
-    00000446 69               [ 4] 1061 	ld	l, c
-    00000447 60               [ 4] 1062 	ld	h, b
-    00000448 56               [ 8] 1063 	ld	d, (hl)
-    00000449 E5               [16] 1064 	push	hl
-    0000044A C5               [16] 1065 	push	bc
-    0000044B 5F               [ 4] 1066 	ld	e, a
-    0000044C 7A               [ 4] 1067 	ld	a, d
-    0000044D CDr00r00         [24] 1068 	call	_spawn_drop
-    00000450 C1               [12] 1069 	pop	bc
-    00000451 E1               [12] 1070 	pop	hl
-                                   1071 ;src/scripts/enemy.c:190: e->hp = 0;
-    00000452 59               [ 4] 1072 	ld	e, c
-    00000453 50               [ 4] 1073 	ld	d, b
-    00000454 13               [ 8] 1074 	inc	de
-    00000455 13               [ 8] 1075 	inc	de
-    00000456 AF               [ 4] 1076 	xor	a, a
-    00000457 12               [ 8] 1077 	ld	(de), a
-                                   1078 ;src/scripts/enemy.c:191: e->alive = 0;
-    00000458 79               [ 4] 1079 	ld	a, c
-    00000459 C6 06            [ 8] 1080 	add	a, #0x06
-    0000045B 5F               [ 4] 1081 	ld	e, a
-    0000045C 78               [ 4] 1082 	ld	a, b
-    0000045D CE 00            [ 8] 1083 	adc	a, #0x00
-    0000045F 57               [ 4] 1084 	ld	d, a
-    00000460 AF               [ 4] 1085 	xor	a, a
-    00000461 12               [ 8] 1086 	ld	(de), a
-                                   1087 ;src/scripts/enemy.c:192: e->x = 0;
-    00000462 36 00            [12] 1088 	ld	(hl), #0x00
-                                   1089 ;src/scripts/enemy.c:193: e->y = 0;
-    00000464 E1               [12] 1090 	pop	hl
-    00000465 36 00            [12] 1091 	ld	(hl), #0x00
-    00000467 E5               [16] 1092 	push	hl
-                                   1093 ;src/scripts/enemy.c:194: move_sprite(e->sprite_id, 0, 0);
-    00000468 21 07 00         [12] 1094 	ld	hl, #0x0007
-    0000046B 09               [ 8] 1095 	add	hl, bc
-    0000046C 4D               [ 4] 1096 	ld	c, l
-    0000046D 44               [ 4] 1097 	ld	b, h
-    0000046E 0A               [ 8] 1098 	ld	a, (bc)
-    0000046F 5F               [ 4] 1099 	ld	e, a
-                                   1100 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000470 AF               [ 4] 1101 	xor	a, a
-    00000471 6B               [ 4] 1102 	ld	l, e
-    00000472 67               [ 4] 1103 	ld	h, a
-    00000473 29               [ 8] 1104 	add	hl, hl
-    00000474 29               [ 8] 1105 	add	hl, hl
-    00000475 11r00r00         [12] 1106 	ld	de, #_shadow_OAM
-    00000478 19               [ 8] 1107 	add	hl, de
-                                   1108 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000479 AF               [ 4] 1109 	xor	a, a
-    0000047A 22               [ 8] 1110 	ld	(hl+), a
-    0000047B 77               [ 8] 1111 	ld	(hl), a
-                                   1112 ;src/scripts/enemy.c:195: move_sprite(e->sprite_id + 1, 0, 0);
-    0000047C 0A               [ 8] 1113 	ld	a, (bc)
-    0000047D 5F               [ 4] 1114 	ld	e, a
-    0000047E 1C               [ 4] 1115 	inc	e
-                                   1116 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000047F AF               [ 4] 1117 	xor	a, a
-    00000480 6B               [ 4] 1118 	ld	l, e
-    00000481 67               [ 4] 1119 	ld	h, a
-    00000482 29               [ 8] 1120 	add	hl, hl
-    00000483 29               [ 8] 1121 	add	hl, hl
-    00000484 11r00r00         [12] 1122 	ld	de, #_shadow_OAM
-    00000487 19               [ 8] 1123 	add	hl, de
-                                   1124 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000488 AF               [ 4] 1125 	xor	a, a
-    00000489 22               [ 8] 1126 	ld	(hl+), a
-    0000048A 77               [ 8] 1127 	ld	(hl), a
-                                   1128 ;src/scripts/enemy.c:196: move_sprite(e->sprite_id + 2, 0, 0);
-    0000048B 0A               [ 8] 1129 	ld	a, (bc)
-    0000048C C6 02            [ 8] 1130 	add	a, #0x02
-    0000048E 5F               [ 4] 1131 	ld	e, a
-                                   1132 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000048F AF               [ 4] 1133 	xor	a, a
-    00000490 6B               [ 4] 1134 	ld	l, e
-    00000491 67               [ 4] 1135 	ld	h, a
-    00000492 29               [ 8] 1136 	add	hl, hl
-    00000493 29               [ 8] 1137 	add	hl, hl
-    00000494 11r00r00         [12] 1138 	ld	de, #_shadow_OAM
-    00000497 19               [ 8] 1139 	add	hl, de
-                                   1140 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000498 AF               [ 4] 1141 	xor	a, a
-    00000499 22               [ 8] 1142 	ld	(hl+), a
-    0000049A 77               [ 8] 1143 	ld	(hl), a
-                                   1144 ;src/scripts/enemy.c:197: move_sprite(e->sprite_id + 3, 0, 0);
-    0000049B 0A               [ 8] 1145 	ld	a, (bc)
-    0000049C C6 03            [ 8] 1146 	add	a, #0x03
-    0000049E 5F               [ 4] 1147 	ld	e, a
-                                   1148 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000049F AF               [ 4] 1149 	xor	a, a
-    000004A0 6B               [ 4] 1150 	ld	l, e
-    000004A1 67               [ 4] 1151 	ld	h, a
-    000004A2 29               [ 8] 1152 	add	hl, hl
-    000004A3 29               [ 8] 1153 	add	hl, hl
-    000004A4 11r00r00         [12] 1154 	ld	de, #_shadow_OAM
-    000004A7 19               [ 8] 1155 	add	hl, de
-                                   1156 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000004A8 AF               [ 4] 1157 	xor	a, a
-    000004A9 22               [ 8] 1158 	ld	(hl+), a
-    000004AA 77               [ 8] 1159 	ld	(hl), a
-                                   1160 ;src/scripts/enemy.c:198: set_sprite_tile(e->sprite_id, 50);
-    000004AB 0A               [ 8] 1161 	ld	a, (bc)
-    000004AC 5F               [ 4] 1162 	ld	e, a
-                                   1163 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000004AD AF               [ 4] 1164 	xor	a, a
-    000004AE 6B               [ 4] 1165 	ld	l, e
-    000004AF 67               [ 4] 1166 	ld	h, a
-    000004B0 29               [ 8] 1167 	add	hl, hl
-    000004B1 29               [ 8] 1168 	add	hl, hl
-    000004B2 11r00r00         [12] 1169 	ld	de, #_shadow_OAM
-    000004B5 19               [ 8] 1170 	add	hl, de
-    000004B6 23               [ 8] 1171 	inc	hl
-    000004B7 23               [ 8] 1172 	inc	hl
-    000004B8 36 32            [12] 1173 	ld	(hl), #0x32
-                                   1174 ;src/scripts/enemy.c:199: set_sprite_tile(e->sprite_id+1, 50);
-    000004BA 0A               [ 8] 1175 	ld	a, (bc)
-    000004BB 5F               [ 4] 1176 	ld	e, a
-    000004BC 1C               [ 4] 1177 	inc	e
-                                   1178 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000004BD AF               [ 4] 1179 	xor	a, a
-    000004BE 6B               [ 4] 1180 	ld	l, e
-    000004BF 67               [ 4] 1181 	ld	h, a
-    000004C0 29               [ 8] 1182 	add	hl, hl
-    000004C1 29               [ 8] 1183 	add	hl, hl
-    000004C2 11r00r00         [12] 1184 	ld	de, #_shadow_OAM
-    000004C5 19               [ 8] 1185 	add	hl, de
-    000004C6 23               [ 8] 1186 	inc	hl
-    000004C7 23               [ 8] 1187 	inc	hl
-    000004C8 36 32            [12] 1188 	ld	(hl), #0x32
-                                   1189 ;src/scripts/enemy.c:200: set_sprite_tile(e->sprite_id+2, 50);
-    000004CA 0A               [ 8] 1190 	ld	a, (bc)
-    000004CB C6 02            [ 8] 1191 	add	a, #0x02
-    000004CD 5F               [ 4] 1192 	ld	e, a
-                                   1193 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000004CE AF               [ 4] 1194 	xor	a, a
-    000004CF 6B               [ 4] 1195 	ld	l, e
-    000004D0 67               [ 4] 1196 	ld	h, a
-    000004D1 29               [ 8] 1197 	add	hl, hl
-    000004D2 29               [ 8] 1198 	add	hl, hl
-    000004D3 11r00r00         [12] 1199 	ld	de, #_shadow_OAM
-    000004D6 19               [ 8] 1200 	add	hl, de
-    000004D7 23               [ 8] 1201 	inc	hl
-    000004D8 23               [ 8] 1202 	inc	hl
-    000004D9 36 32            [12] 1203 	ld	(hl), #0x32
-                                   1204 ;src/scripts/enemy.c:201: set_sprite_tile(e->sprite_id+3, 50);
-    000004DB 0A               [ 8] 1205 	ld	a, (bc)
-    000004DC C6 03            [ 8] 1206 	add	a, #0x03
-    000004DE 5F               [ 4] 1207 	ld	e, a
-                                   1208 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    000004DF 01r00r00         [12] 1209 	ld	bc, #_shadow_OAM+0
-    000004E2 AF               [ 4] 1210 	xor	a, a
-    000004E3 6B               [ 4] 1211 	ld	l, e
-    000004E4 67               [ 4] 1212 	ld	h, a
-    000004E5 29               [ 8] 1213 	add	hl, hl
-    000004E6 29               [ 8] 1214 	add	hl, hl
-    000004E7 09               [ 8] 1215 	add	hl, bc
-    000004E8 23               [ 8] 1216 	inc	hl
-    000004E9 23               [ 8] 1217 	inc	hl
-    000004EA 36 32            [12] 1218 	ld	(hl), #0x32
-                                   1219 ;src/scripts/enemy.c:201: set_sprite_tile(e->sprite_id+3, 50);
-                                   1220 ;src/scripts/enemy.c:204: }
-    000004EC 33               [ 8] 1221 	inc	sp
-    000004ED 33               [ 8] 1222 	inc	sp
-    000004EE C9               [16] 1223 	ret
-                                   1224 ;src/scripts/enemy.c:207: void enemy_smooth_movement(Enemy* e, uint8_t dir) {
-                                   1225 ;	---------------------------------
-                                   1226 ; Function enemy_smooth_movement
-                                   1227 ; ---------------------------------
-    000004EF                       1228 _enemy_smooth_movement::
-    000004EF E8 F9            [16] 1229 	add	sp, #-7
-    000004F1 F8 06            [12] 1230 	ldhl	sp,	#6
-    000004F3 77               [ 8] 1231 	ld	(hl), a
-                                   1232 ;src/scripts/enemy.c:210: mov_x = e->x;
-    000004F4 1A               [ 8] 1233 	ld	a, (de)
-    000004F5 F8 00            [12] 1234 	ldhl	sp,	#0
-                                   1235 ;src/scripts/enemy.c:211: mov_y = e->y;
-    000004F7 22               [ 8] 1236 	ld	(hl+), a
-    000004F8 4B               [ 4] 1237 	ld	c, e
-    000004F9 42               [ 4] 1238 	ld	b, d
-    000004FA 03               [ 8] 1239 	inc	bc
-    000004FB 0A               [ 8] 1240 	ld	a, (bc)
-    000004FC 77               [ 8] 1241 	ld	(hl), a
-                                   1242 ;src/scripts/enemy.c:212: while (frame < 8) {
-    000004FD 3E 03            [ 8] 1243 	ld	a, #0x03
-    000004FF F8 06            [12] 1244 	ldhl	sp,	#6
-    00000501 96               [ 8] 1245 	sub	a, (hl)
-    00000502 3E 00            [ 8] 1246 	ld	a, #0x00
-    00000504 17               [ 4] 1247 	rla
-    00000505 F8 02            [12] 1248 	ldhl	sp,	#2
-    00000507 77               [ 8] 1249 	ld	(hl), a
-    00000508 21 07 00         [12] 1250 	ld	hl, #0x0007
-    0000050B 19               [ 8] 1251 	add	hl, de
-    0000050C 4D               [ 4] 1252 	ld	c, l
-    0000050D 44               [ 4] 1253 	ld	b, h
-    0000050E 1E 00            [ 8] 1254 	ld	e, #0x00
-    00000510                       1255 00106$:
-    00000510 7B               [ 4] 1256 	ld	a, e
-    00000511 D6 08            [ 8] 1257 	sub	a, #0x08
-    00000513 D2rE1r05         [16] 1258 	jp	NC, 00113$
-                                   1259 ;src/scripts/enemy.c:213: wait_vbl_done();
-    00000516 CDr00r00         [24] 1260 	call	_wait_vbl_done
-                                   1261 ;src/scripts/enemy.c:214: switch (dir) {
-    00000519 F8 02            [12] 1262 	ldhl	sp,	#2
-    0000051B 7E               [ 8] 1263 	ld	a, (hl)
-    0000051C B7               [ 4] 1264 	or	a, a
-    0000051D 20 40            [12] 1265 	jr	NZ, 00105$
-                                   1266 ;src/scripts/enemy.c:216: mov_y-=2;
-    0000051F 2B               [ 8] 1267 	dec	hl
-                                   1268 ;src/scripts/enemy.c:219: mov_x+=2;
-    00000520 3A               [ 8] 1269 	ld	a, (hl-)
-    00000521 57               [ 4] 1270 	ld	d, a
-    00000522 7E               [ 8] 1271 	ld	a, (hl)
-    00000523 F8 05            [12] 1272 	ldhl	sp,	#5
-                                   1273 ;src/scripts/enemy.c:214: switch (dir) {
-    00000525 22               [ 8] 1274 	ld	(hl+), a
-    00000526 D5               [16] 1275 	push	de
-    00000527 5E               [ 8] 1276 	ld	e, (hl)
-    00000528 16 00            [ 8] 1277 	ld	d, #0x00
-    0000052A 21r35r05         [12] 1278 	ld	hl, #00137$
-    0000052D 19               [ 8] 1279 	add	hl, de
-    0000052E 19               [ 8] 1280 	add	hl, de
-    0000052F 5E               [ 8] 1281 	ld	e, (hl)
-    00000530 23               [ 8] 1282 	inc	hl
-    00000531 66               [ 8] 1283 	ld	h, (hl)
-    00000532 6B               [ 4] 1284 	ld	l, e
-    00000533 D1               [12] 1285 	pop	de
-    00000534 E9               [ 4] 1286 	jp	(hl)
-    00000535                       1287 00137$:
-    00000535r3Dr05                 1288 	.dw	00101$
-    00000537r45r05                 1289 	.dw	00102$
-    00000539r4Fr05                 1290 	.dw	00103$
-    0000053Br57r05                 1291 	.dw	00104$
-                                   1292 ;src/scripts/enemy.c:215: case 0:
-    0000053D                       1293 00101$:
-                                   1294 ;src/scripts/enemy.c:216: mov_y-=2;
-    0000053D 7A               [ 4] 1295 	ld	a, d
-    0000053E C6 FE            [ 8] 1296 	add	a, #0xfe
-    00000540 F8 01            [12] 1297 	ldhl	sp,	#1
-    00000542 77               [ 8] 1298 	ld	(hl), a
-                                   1299 ;src/scripts/enemy.c:217: break;
-    00000543 18 1A            [12] 1300 	jr	00105$
-                                   1301 ;src/scripts/enemy.c:218: case 1:
-    00000545                       1302 00102$:
-                                   1303 ;src/scripts/enemy.c:219: mov_x+=2;
-    00000545 F8 05            [12] 1304 	ldhl	sp,	#5
-    00000547 7E               [ 8] 1305 	ld	a, (hl)
-    00000548 C6 02            [ 8] 1306 	add	a, #0x02
-    0000054A F8 00            [12] 1307 	ldhl	sp,	#0
-    0000054C 77               [ 8] 1308 	ld	(hl), a
-                                   1309 ;src/scripts/enemy.c:220: break;
-    0000054D 18 10            [12] 1310 	jr	00105$
-                                   1311 ;src/scripts/enemy.c:221: case 2:
-    0000054F                       1312 00103$:
-                                   1313 ;src/scripts/enemy.c:222: mov_y+=2;
-    0000054F 7A               [ 4] 1314 	ld	a, d
-    00000550 C6 02            [ 8] 1315 	add	a, #0x02
-    00000552 F8 01            [12] 1316 	ldhl	sp,	#1
-    00000554 77               [ 8] 1317 	ld	(hl), a
-                                   1318 ;src/scripts/enemy.c:223: break;
-    00000555 18 08            [12] 1319 	jr	00105$
-                                   1320 ;src/scripts/enemy.c:224: case 3:
-    00000557                       1321 00104$:
-                                   1322 ;src/scripts/enemy.c:225: mov_x-=2;
-    00000557 F8 05            [12] 1323 	ldhl	sp,	#5
-    00000559 7E               [ 8] 1324 	ld	a, (hl)
-    0000055A C6 FE            [ 8] 1325 	add	a, #0xfe
-    0000055C F8 00            [12] 1326 	ldhl	sp,	#0
-    0000055E 77               [ 8] 1327 	ld	(hl), a
-                                   1328 ;src/scripts/enemy.c:227: }
-    0000055F                       1329 00105$:
-                                   1330 ;src/scripts/enemy.c:228: move_sprite(e->sprite_id, mov_x, mov_y);
-    0000055F 0A               [ 8] 1331 	ld	a, (bc)
-    00000560 57               [ 4] 1332 	ld	d, a
-                                   1333 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000561 AF               [ 4] 1334 	xor	a, a
-    00000562 6A               [ 4] 1335 	ld	l, d
-    00000563 67               [ 4] 1336 	ld	h, a
-    00000564 29               [ 8] 1337 	add	hl, hl
-    00000565 29               [ 8] 1338 	add	hl, hl
-    00000566 D5               [16] 1339 	push	de
-    00000567 11r00r00         [12] 1340 	ld	de, #_shadow_OAM
-    0000056A 19               [ 8] 1341 	add	hl, de
-    0000056B D1               [12] 1342 	pop	de
-                                   1343 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000056C E5               [16] 1344 	push	hl
-    0000056D F8 03            [12] 1345 	ldhl	sp,	#3
-    0000056F 7E               [ 8] 1346 	ld	a, (hl)
-    00000570 E1               [12] 1347 	pop	hl
-    00000571 22               [ 8] 1348 	ld	(hl+), a
-    00000572 E5               [16] 1349 	push	hl
-    00000573 F8 02            [12] 1350 	ldhl	sp,	#2
-    00000575 7E               [ 8] 1351 	ld	a, (hl)
-    00000576 E1               [12] 1352 	pop	hl
-    00000577 77               [ 8] 1353 	ld	(hl), a
-                                   1354 ;src/scripts/enemy.c:229: move_sprite(e->sprite_id+1, mov_x+8, mov_y);
-    00000578 F8 00            [12] 1355 	ldhl	sp,	#0
-    0000057A 7E               [ 8] 1356 	ld	a, (hl)
-    0000057B C6 08            [ 8] 1357 	add	a, #0x08
-    0000057D F8 03            [12] 1358 	ldhl	sp,	#3
-    0000057F 77               [ 8] 1359 	ld	(hl), a
-    00000580 2A               [ 8] 1360 	ld	a, (hl+)
-    00000581 23               [ 8] 1361 	inc	hl
-    00000582 77               [ 8] 1362 	ld	(hl), a
-    00000583 0A               [ 8] 1363 	ld	a, (bc)
-    00000584 57               [ 4] 1364 	ld	d, a
-    00000585 14               [ 4] 1365 	inc	d
-                                   1366 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000586 AF               [ 4] 1367 	xor	a, a
-    00000587 6A               [ 4] 1368 	ld	l, d
-    00000588 67               [ 4] 1369 	ld	h, a
-    00000589 29               [ 8] 1370 	add	hl, hl
-    0000058A 29               [ 8] 1371 	add	hl, hl
-    0000058B D5               [16] 1372 	push	de
-    0000058C 11r00r00         [12] 1373 	ld	de, #_shadow_OAM
-    0000058F 19               [ 8] 1374 	add	hl, de
-    00000590 D1               [12] 1375 	pop	de
-                                   1376 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000591 E5               [16] 1377 	push	hl
-    00000592 F8 03            [12] 1378 	ldhl	sp,	#3
-    00000594 7E               [ 8] 1379 	ld	a, (hl)
-    00000595 E1               [12] 1380 	pop	hl
-    00000596 22               [ 8] 1381 	ld	(hl+), a
-    00000597 E5               [16] 1382 	push	hl
-    00000598 F8 07            [12] 1383 	ldhl	sp,	#7
-    0000059A 7E               [ 8] 1384 	ld	a, (hl)
-    0000059B E1               [12] 1385 	pop	hl
-    0000059C 77               [ 8] 1386 	ld	(hl), a
-                                   1387 ;src/scripts/enemy.c:230: move_sprite(e->sprite_id+2, mov_x, mov_y+8);
-    0000059D F8 01            [12] 1388 	ldhl	sp,	#1
-    0000059F 7E               [ 8] 1389 	ld	a, (hl)
-    000005A0 C6 08            [ 8] 1390 	add	a, #0x08
-    000005A2 F8 04            [12] 1391 	ldhl	sp,	#4
-    000005A4 77               [ 8] 1392 	ld	(hl), a
-    000005A5 2A               [ 8] 1393 	ld	a, (hl+)
-    000005A6 77               [ 8] 1394 	ld	(hl), a
-    000005A7 0A               [ 8] 1395 	ld	a, (bc)
-    000005A8 C6 02            [ 8] 1396 	add	a, #0x02
-    000005AA 57               [ 4] 1397 	ld	d, a
-                                   1398 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000005AB AF               [ 4] 1399 	xor	a, a
-    000005AC 6A               [ 4] 1400 	ld	l, d
-    000005AD 67               [ 4] 1401 	ld	h, a
-    000005AE 29               [ 8] 1402 	add	hl, hl
-    000005AF 29               [ 8] 1403 	add	hl, hl
-    000005B0 D5               [16] 1404 	push	de
-    000005B1 11r00r00         [12] 1405 	ld	de, #_shadow_OAM
-    000005B4 19               [ 8] 1406 	add	hl, de
-    000005B5 D1               [12] 1407 	pop	de
-                                   1408 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000005B6 E5               [16] 1409 	push	hl
-    000005B7 F8 07            [12] 1410 	ldhl	sp,	#7
-    000005B9 7E               [ 8] 1411 	ld	a, (hl)
-    000005BA E1               [12] 1412 	pop	hl
-    000005BB 22               [ 8] 1413 	ld	(hl+), a
-    000005BC E5               [16] 1414 	push	hl
-    000005BD F8 02            [12] 1415 	ldhl	sp,	#2
-    000005BF 7E               [ 8] 1416 	ld	a, (hl)
-    000005C0 E1               [12] 1417 	pop	hl
-    000005C1 77               [ 8] 1418 	ld	(hl), a
-                                   1419 ;src/scripts/enemy.c:231: move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
-    000005C2 0A               [ 8] 1420 	ld	a, (bc)
-    000005C3 C6 03            [ 8] 1421 	add	a, #0x03
-    000005C5 57               [ 4] 1422 	ld	d, a
-                                   1423 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000005C6 AF               [ 4] 1424 	xor	a, a
-    000005C7 6A               [ 4] 1425 	ld	l, d
-    000005C8 67               [ 4] 1426 	ld	h, a
-    000005C9 29               [ 8] 1427 	add	hl, hl
-    000005CA 29               [ 8] 1428 	add	hl, hl
-    000005CB D5               [16] 1429 	push	de
-    000005CC 11r00r00         [12] 1430 	ld	de, #_shadow_OAM
-    000005CF 19               [ 8] 1431 	add	hl, de
-    000005D0 D1               [12] 1432 	pop	de
-                                   1433 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000005D1 E5               [16] 1434 	push	hl
-    000005D2 F8 06            [12] 1435 	ldhl	sp,	#6
-    000005D4 7E               [ 8] 1436 	ld	a, (hl)
-    000005D5 E1               [12] 1437 	pop	hl
-    000005D6 22               [ 8] 1438 	ld	(hl+), a
-    000005D7 E5               [16] 1439 	push	hl
-    000005D8 F8 05            [12] 1440 	ldhl	sp,	#5
-    000005DA 7E               [ 8] 1441 	ld	a, (hl)
-    000005DB E1               [12] 1442 	pop	hl
-    000005DC 77               [ 8] 1443 	ld	(hl), a
-                                   1444 ;src/scripts/enemy.c:232: frame++;
-    000005DD 1C               [ 4] 1445 	inc	e
-    000005DE C3r10r05         [16] 1446 	jp	00106$
-    000005E1                       1447 00113$:
-                                   1448 ;src/scripts/enemy.c:234: }
-    000005E1 E8 07            [16] 1449 	add	sp, #7
-    000005E3 C9               [16] 1450 	ret
-                                   1451 ;src/scripts/enemy.c:236: uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self) {
-                                   1452 ;	---------------------------------
-                                   1453 ; Function is_enemy_at
-                                   1454 ; ---------------------------------
-    000005E4                       1455 _is_enemy_at::
-    000005E4 3B               [ 8] 1456 	dec	sp
-    000005E5 F8 00            [12] 1457 	ldhl	sp,	#0
-    000005E7 77               [ 8] 1458 	ld	(hl), a
-    000005E8 4B               [ 4] 1459 	ld	c, e
-                                   1460 ;src/scripts/enemy.c:237: for (uint8_t i = 0; i < 2; i++) {
-    000005E9 06 00            [ 8] 1461 	ld	b, #0x00
-    000005EB                       1462 00109$:
-    000005EB 78               [ 4] 1463 	ld	a, b
-    000005EC D6 02            [ 8] 1464 	sub	a, #0x02
-    000005EE 30 34            [12] 1465 	jr	NC, 00107$
-                                   1466 ;src/scripts/enemy.c:238: Enemy* other = &current_enemies[i];
-    000005F0 58               [ 4] 1467 	ld	e, b
-    000005F1 16 00            [ 8] 1468 	ld	d, #0x00
-    000005F3 6B               [ 4] 1469 	ld	l, e
-    000005F4 62               [ 4] 1470 	ld	h, d
-    000005F5 29               [ 8] 1471 	add	hl, hl
-    000005F6 29               [ 8] 1472 	add	hl, hl
-    000005F7 19               [ 8] 1473 	add	hl, de
-    000005F8 29               [ 8] 1474 	add	hl, hl
-    000005F9 11r00r00         [12] 1475 	ld	de, #_current_enemies
-    000005FC 19               [ 8] 1476 	add	hl, de
-    000005FD 5D               [ 4] 1477 	ld	e, l
-    000005FE 54               [ 4] 1478 	ld	d, h
-                                   1479 ;src/scripts/enemy.c:239: if (other->alive && other != self) {
-    000005FF 21 06 00         [12] 1480 	ld	hl, #0x0006
-    00000602 19               [ 8] 1481 	add	hl, de
-    00000603 7E               [ 8] 1482 	ld	a, (hl)
-    00000604 B7               [ 4] 1483 	or	a, a
-    00000605 28 1A            [12] 1484 	jr	Z, 00110$
-    00000607 F8 03            [12] 1485 	ldhl	sp,	#3
-    00000609 7E               [ 8] 1486 	ld	a, (hl)
-    0000060A 93               [ 4] 1487 	sub	a, e
-    0000060B 20 05            [12] 1488 	jr	NZ, 00155$
-    0000060D 23               [ 8] 1489 	inc	hl
-    0000060E 7E               [ 8] 1490 	ld	a, (hl)
-    0000060F 92               [ 4] 1491 	sub	a, d
-    00000610 28 0F            [12] 1492 	jr	Z, 00110$
-    00000612                       1493 00155$:
-                                   1494 ;src/scripts/enemy.c:240: if (other->x == tx && other->y == ty) {
-    00000612 1A               [ 8] 1495 	ld	a, (de)
-    00000613 F8 00            [12] 1496 	ldhl	sp,	#0
-    00000615 96               [ 8] 1497 	sub	a, (hl)
-    00000616 20 09            [12] 1498 	jr	NZ, 00110$
-    00000618 13               [ 8] 1499 	inc	de
-    00000619 1A               [ 8] 1500 	ld	a, (de)
-    0000061A 91               [ 4] 1501 	sub	a, c
-    0000061B 20 04            [12] 1502 	jr	NZ, 00110$
-                                   1503 ;src/scripts/enemy.c:241: return 1;
-    0000061D 3E 01            [ 8] 1504 	ld	a, #0x01
-    0000061F 18 04            [12] 1505 	jr	00111$
-    00000621                       1506 00110$:
-                                   1507 ;src/scripts/enemy.c:237: for (uint8_t i = 0; i < 2; i++) {
-    00000621 04               [ 4] 1508 	inc	b
-    00000622 18 C7            [12] 1509 	jr	00109$
-    00000624                       1510 00107$:
-                                   1511 ;src/scripts/enemy.c:245: return 0;
-    00000624 AF               [ 4] 1512 	xor	a, a
-    00000625                       1513 00111$:
-                                   1514 ;src/scripts/enemy.c:246: }
-    00000625 33               [ 8] 1515 	inc	sp
-    00000626 E1               [12] 1516 	pop	hl
-    00000627 C1               [12] 1517 	pop	bc
-    00000628 E9               [ 4] 1518 	jp	(hl)
-                                   1519 	.area _CODE
-                                   1520 	.area _INITIALIZER
-                                   1521 	.area _CABS (ABS)
+    0000030B 4F               [ 4]  762 	ld	c, a
+                                    763 ;src/scripts/enemy.c:121: switch (type) {
+    0000030C 3E 0B            [ 8]  764 	ld	a, #0x0b
+    0000030E 91               [ 4]  765 	sub	a, c
+    0000030F DArA6r04         [16]  766 	jp	C, 00112$
+    00000312 06 00            [ 8]  767 	ld	b, #0x00
+    00000314 21r1Er03         [12]  768 	ld	hl, #00122$
+    00000317 09               [ 8]  769 	add	hl, bc
+    00000318 09               [ 8]  770 	add	hl, bc
+    00000319 4E               [ 8]  771 	ld	c, (hl)
+    0000031A 23               [ 8]  772 	inc	hl
+    0000031B 66               [ 8]  773 	ld	h, (hl)
+    0000031C 69               [ 4]  774 	ld	l, c
+    0000031D E9               [ 4]  775 	jp	(hl)
+    0000031E                        776 00122$:
+    0000031ErA6r04                  777 	.dw	00112$
+    00000320r36r03                  778 	.dw	00101$
+    00000322r58r03                  779 	.dw	00102$
+    00000324r7Ar03                  780 	.dw	00103$
+    00000326r9Cr03                  781 	.dw	00104$
+    00000328rBEr03                  782 	.dw	00105$
+    0000032ArE0r03                  783 	.dw	00106$
+    0000032Cr02r04                  784 	.dw	00107$
+    0000032Er24r04                  785 	.dw	00108$
+    00000330r45r04                  786 	.dw	00109$
+    00000332r66r04                  787 	.dw	00110$
+    00000334r87r04                  788 	.dw	00111$
+                                    789 ;src/scripts/enemy.c:122: case 1:
+    00000336                        790 00101$:
+                                    791 ;src/scripts/enemy.c:123: e->hp = 10;
+    00000336 6B               [ 4]  792 	ld	l, e
+    00000337 62               [ 4]  793 	ld	h, d
+    00000338 23               [ 8]  794 	inc	hl
+    00000339 23               [ 8]  795 	inc	hl
+    0000033A 36 0A            [12]  796 	ld	(hl), #0x0a
+                                    797 ;src/scripts/enemy.c:124: e->atk = 1;
+    0000033C 6B               [ 4]  798 	ld	l, e
+    0000033D 62               [ 4]  799 	ld	h, d
+    0000033E 23               [ 8]  800 	inc	hl
+    0000033F 23               [ 8]  801 	inc	hl
+    00000340 23               [ 8]  802 	inc	hl
+    00000341 36 01            [12]  803 	ld	(hl), #0x01
+                                    804 ;src/scripts/enemy.c:125: e->def = 1;
+    00000343 21 04 00         [12]  805 	ld	hl, #0x0004
+    00000346 19               [ 8]  806 	add	hl, de
+    00000347 36 01            [12]  807 	ld	(hl), #0x01
+                                    808 ;src/scripts/enemy.c:126: e->type = 1;
+    00000349 21 05 00         [12]  809 	ld	hl, #0x0005
+    0000034C 19               [ 8]  810 	add	hl, de
+    0000034D 36 01            [12]  811 	ld	(hl), #0x01
+                                    812 ;src/scripts/enemy.c:127: e->exp_reward = 1;
+    0000034F 21 09 00         [12]  813 	ld	hl, #0x0009
+    00000352 19               [ 8]  814 	add	hl, de
+    00000353 36 01            [12]  815 	ld	(hl), #0x01
+                                    816 ;src/scripts/enemy.c:128: break;
+    00000355 C3rA6r04         [16]  817 	jp	00112$
+                                    818 ;src/scripts/enemy.c:129: case 2:
+    00000358                        819 00102$:
+                                    820 ;src/scripts/enemy.c:130: e->hp = 10;
+    00000358 6B               [ 4]  821 	ld	l, e
+    00000359 62               [ 4]  822 	ld	h, d
+    0000035A 23               [ 8]  823 	inc	hl
+    0000035B 23               [ 8]  824 	inc	hl
+    0000035C 36 0A            [12]  825 	ld	(hl), #0x0a
+                                    826 ;src/scripts/enemy.c:131: e->atk = 11;
+    0000035E 6B               [ 4]  827 	ld	l, e
+    0000035F 62               [ 4]  828 	ld	h, d
+    00000360 23               [ 8]  829 	inc	hl
+    00000361 23               [ 8]  830 	inc	hl
+    00000362 23               [ 8]  831 	inc	hl
+    00000363 36 0B            [12]  832 	ld	(hl), #0x0b
+                                    833 ;src/scripts/enemy.c:132: e->def = 6;
+    00000365 21 04 00         [12]  834 	ld	hl, #0x0004
+    00000368 19               [ 8]  835 	add	hl, de
+    00000369 36 06            [12]  836 	ld	(hl), #0x06
+                                    837 ;src/scripts/enemy.c:133: e->type = 2;
+    0000036B 21 05 00         [12]  838 	ld	hl, #0x0005
+    0000036E 19               [ 8]  839 	add	hl, de
+    0000036F 36 02            [12]  840 	ld	(hl), #0x02
+                                    841 ;src/scripts/enemy.c:134: e->exp_reward = 3;
+    00000371 21 09 00         [12]  842 	ld	hl, #0x0009
+    00000374 19               [ 8]  843 	add	hl, de
+    00000375 36 03            [12]  844 	ld	(hl), #0x03
+                                    845 ;src/scripts/enemy.c:135: break;
+    00000377 C3rA6r04         [16]  846 	jp	00112$
+                                    847 ;src/scripts/enemy.c:136: case 3:
+    0000037A                        848 00103$:
+                                    849 ;src/scripts/enemy.c:137: e->hp = 10;
+    0000037A 6B               [ 4]  850 	ld	l, e
+    0000037B 62               [ 4]  851 	ld	h, d
+    0000037C 23               [ 8]  852 	inc	hl
+    0000037D 23               [ 8]  853 	inc	hl
+    0000037E 36 0A            [12]  854 	ld	(hl), #0x0a
+                                    855 ;src/scripts/enemy.c:138: e->atk = 1;
+    00000380 6B               [ 4]  856 	ld	l, e
+    00000381 62               [ 4]  857 	ld	h, d
+    00000382 23               [ 8]  858 	inc	hl
+    00000383 23               [ 8]  859 	inc	hl
+    00000384 23               [ 8]  860 	inc	hl
+    00000385 36 01            [12]  861 	ld	(hl), #0x01
+                                    862 ;src/scripts/enemy.c:139: e->def = 1;
+    00000387 21 04 00         [12]  863 	ld	hl, #0x0004
+    0000038A 19               [ 8]  864 	add	hl, de
+    0000038B 36 01            [12]  865 	ld	(hl), #0x01
+                                    866 ;src/scripts/enemy.c:140: e->type = 3;
+    0000038D 21 05 00         [12]  867 	ld	hl, #0x0005
+    00000390 19               [ 8]  868 	add	hl, de
+    00000391 36 03            [12]  869 	ld	(hl), #0x03
+                                    870 ;src/scripts/enemy.c:141: e->exp_reward = 5;
+    00000393 21 09 00         [12]  871 	ld	hl, #0x0009
+    00000396 19               [ 8]  872 	add	hl, de
+    00000397 36 05            [12]  873 	ld	(hl), #0x05
+                                    874 ;src/scripts/enemy.c:142: break;
+    00000399 C3rA6r04         [16]  875 	jp	00112$
+                                    876 ;src/scripts/enemy.c:143: case 4:
+    0000039C                        877 00104$:
+                                    878 ;src/scripts/enemy.c:144: e->hp = 10;
+    0000039C 6B               [ 4]  879 	ld	l, e
+    0000039D 62               [ 4]  880 	ld	h, d
+    0000039E 23               [ 8]  881 	inc	hl
+    0000039F 23               [ 8]  882 	inc	hl
+    000003A0 36 0A            [12]  883 	ld	(hl), #0x0a
+                                    884 ;src/scripts/enemy.c:145: e->atk = 1;
+    000003A2 6B               [ 4]  885 	ld	l, e
+    000003A3 62               [ 4]  886 	ld	h, d
+    000003A4 23               [ 8]  887 	inc	hl
+    000003A5 23               [ 8]  888 	inc	hl
+    000003A6 23               [ 8]  889 	inc	hl
+    000003A7 36 01            [12]  890 	ld	(hl), #0x01
+                                    891 ;src/scripts/enemy.c:146: e->def = 1;
+    000003A9 21 04 00         [12]  892 	ld	hl, #0x0004
+    000003AC 19               [ 8]  893 	add	hl, de
+    000003AD 36 01            [12]  894 	ld	(hl), #0x01
+                                    895 ;src/scripts/enemy.c:147: e->type = 4;
+    000003AF 21 05 00         [12]  896 	ld	hl, #0x0005
+    000003B2 19               [ 8]  897 	add	hl, de
+    000003B3 36 04            [12]  898 	ld	(hl), #0x04
+                                    899 ;src/scripts/enemy.c:148: e->exp_reward = 10;
+    000003B5 21 09 00         [12]  900 	ld	hl, #0x0009
+    000003B8 19               [ 8]  901 	add	hl, de
+    000003B9 36 0A            [12]  902 	ld	(hl), #0x0a
+                                    903 ;src/scripts/enemy.c:149: break;
+    000003BB C3rA6r04         [16]  904 	jp	00112$
+                                    905 ;src/scripts/enemy.c:150: case 5:
+    000003BE                        906 00105$:
+                                    907 ;src/scripts/enemy.c:151: e->hp = 10;
+    000003BE 6B               [ 4]  908 	ld	l, e
+    000003BF 62               [ 4]  909 	ld	h, d
+    000003C0 23               [ 8]  910 	inc	hl
+    000003C1 23               [ 8]  911 	inc	hl
+    000003C2 36 0A            [12]  912 	ld	(hl), #0x0a
+                                    913 ;src/scripts/enemy.c:152: e->atk = 1;
+    000003C4 6B               [ 4]  914 	ld	l, e
+    000003C5 62               [ 4]  915 	ld	h, d
+    000003C6 23               [ 8]  916 	inc	hl
+    000003C7 23               [ 8]  917 	inc	hl
+    000003C8 23               [ 8]  918 	inc	hl
+    000003C9 36 01            [12]  919 	ld	(hl), #0x01
+                                    920 ;src/scripts/enemy.c:153: e->def = 1;
+    000003CB 21 04 00         [12]  921 	ld	hl, #0x0004
+    000003CE 19               [ 8]  922 	add	hl, de
+    000003CF 36 01            [12]  923 	ld	(hl), #0x01
+                                    924 ;src/scripts/enemy.c:154: e->type = 5;
+    000003D1 21 05 00         [12]  925 	ld	hl, #0x0005
+    000003D4 19               [ 8]  926 	add	hl, de
+    000003D5 36 05            [12]  927 	ld	(hl), #0x05
+                                    928 ;src/scripts/enemy.c:155: e->exp_reward = 15;
+    000003D7 21 09 00         [12]  929 	ld	hl, #0x0009
+    000003DA 19               [ 8]  930 	add	hl, de
+    000003DB 36 0F            [12]  931 	ld	(hl), #0x0f
+                                    932 ;src/scripts/enemy.c:156: break;
+    000003DD C3rA6r04         [16]  933 	jp	00112$
+                                    934 ;src/scripts/enemy.c:157: case 6:
+    000003E0                        935 00106$:
+                                    936 ;src/scripts/enemy.c:158: e->hp = 10;
+    000003E0 6B               [ 4]  937 	ld	l, e
+    000003E1 62               [ 4]  938 	ld	h, d
+    000003E2 23               [ 8]  939 	inc	hl
+    000003E3 23               [ 8]  940 	inc	hl
+    000003E4 36 0A            [12]  941 	ld	(hl), #0x0a
+                                    942 ;src/scripts/enemy.c:159: e->atk = 1;
+    000003E6 6B               [ 4]  943 	ld	l, e
+    000003E7 62               [ 4]  944 	ld	h, d
+    000003E8 23               [ 8]  945 	inc	hl
+    000003E9 23               [ 8]  946 	inc	hl
+    000003EA 23               [ 8]  947 	inc	hl
+    000003EB 36 01            [12]  948 	ld	(hl), #0x01
+                                    949 ;src/scripts/enemy.c:160: e->def = 1;
+    000003ED 21 04 00         [12]  950 	ld	hl, #0x0004
+    000003F0 19               [ 8]  951 	add	hl, de
+    000003F1 36 01            [12]  952 	ld	(hl), #0x01
+                                    953 ;src/scripts/enemy.c:161: e->type = 6;
+    000003F3 21 05 00         [12]  954 	ld	hl, #0x0005
+    000003F6 19               [ 8]  955 	add	hl, de
+    000003F7 36 06            [12]  956 	ld	(hl), #0x06
+                                    957 ;src/scripts/enemy.c:162: e->exp_reward = 25;
+    000003F9 21 09 00         [12]  958 	ld	hl, #0x0009
+    000003FC 19               [ 8]  959 	add	hl, de
+    000003FD 36 19            [12]  960 	ld	(hl), #0x19
+                                    961 ;src/scripts/enemy.c:163: break;
+    000003FF C3rA6r04         [16]  962 	jp	00112$
+                                    963 ;src/scripts/enemy.c:164: case 7:
+    00000402                        964 00107$:
+                                    965 ;src/scripts/enemy.c:165: e->hp = 10;
+    00000402 6B               [ 4]  966 	ld	l, e
+    00000403 62               [ 4]  967 	ld	h, d
+    00000404 23               [ 8]  968 	inc	hl
+    00000405 23               [ 8]  969 	inc	hl
+    00000406 36 0A            [12]  970 	ld	(hl), #0x0a
+                                    971 ;src/scripts/enemy.c:166: e->atk = 1;
+    00000408 6B               [ 4]  972 	ld	l, e
+    00000409 62               [ 4]  973 	ld	h, d
+    0000040A 23               [ 8]  974 	inc	hl
+    0000040B 23               [ 8]  975 	inc	hl
+    0000040C 23               [ 8]  976 	inc	hl
+    0000040D 36 01            [12]  977 	ld	(hl), #0x01
+                                    978 ;src/scripts/enemy.c:167: e->def = 1;
+    0000040F 21 04 00         [12]  979 	ld	hl, #0x0004
+    00000412 19               [ 8]  980 	add	hl, de
+    00000413 36 01            [12]  981 	ld	(hl), #0x01
+                                    982 ;src/scripts/enemy.c:168: e->type = 7;
+    00000415 21 05 00         [12]  983 	ld	hl, #0x0005
+    00000418 19               [ 8]  984 	add	hl, de
+    00000419 36 07            [12]  985 	ld	(hl), #0x07
+                                    986 ;src/scripts/enemy.c:169: e->exp_reward = 35;
+    0000041B 21 09 00         [12]  987 	ld	hl, #0x0009
+    0000041E 19               [ 8]  988 	add	hl, de
+    0000041F 36 23            [12]  989 	ld	(hl), #0x23
+                                    990 ;src/scripts/enemy.c:170: break;
+    00000421 C3rA6r04         [16]  991 	jp	00112$
+                                    992 ;src/scripts/enemy.c:171: case 8:
+    00000424                        993 00108$:
+                                    994 ;src/scripts/enemy.c:172: e->hp = 10;
+    00000424 6B               [ 4]  995 	ld	l, e
+    00000425 62               [ 4]  996 	ld	h, d
+    00000426 23               [ 8]  997 	inc	hl
+    00000427 23               [ 8]  998 	inc	hl
+    00000428 36 0A            [12]  999 	ld	(hl), #0x0a
+                                   1000 ;src/scripts/enemy.c:173: e->atk = 1;
+    0000042A 6B               [ 4] 1001 	ld	l, e
+    0000042B 62               [ 4] 1002 	ld	h, d
+    0000042C 23               [ 8] 1003 	inc	hl
+    0000042D 23               [ 8] 1004 	inc	hl
+    0000042E 23               [ 8] 1005 	inc	hl
+    0000042F 36 01            [12] 1006 	ld	(hl), #0x01
+                                   1007 ;src/scripts/enemy.c:174: e->def = 1;
+    00000431 21 04 00         [12] 1008 	ld	hl, #0x0004
+    00000434 19               [ 8] 1009 	add	hl, de
+    00000435 36 01            [12] 1010 	ld	(hl), #0x01
+                                   1011 ;src/scripts/enemy.c:175: e->type = 8;
+    00000437 21 05 00         [12] 1012 	ld	hl, #0x0005
+    0000043A 19               [ 8] 1013 	add	hl, de
+    0000043B 36 08            [12] 1014 	ld	(hl), #0x08
+                                   1015 ;src/scripts/enemy.c:176: e->exp_reward = 50;
+    0000043D 21 09 00         [12] 1016 	ld	hl, #0x0009
+    00000440 19               [ 8] 1017 	add	hl, de
+    00000441 36 32            [12] 1018 	ld	(hl), #0x32
+                                   1019 ;src/scripts/enemy.c:177: break;
+    00000443 18 61            [12] 1020 	jr	00112$
+                                   1021 ;src/scripts/enemy.c:178: case 9:
+    00000445                       1022 00109$:
+                                   1023 ;src/scripts/enemy.c:179: e->hp = 10;
+    00000445 6B               [ 4] 1024 	ld	l, e
+    00000446 62               [ 4] 1025 	ld	h, d
+    00000447 23               [ 8] 1026 	inc	hl
+    00000448 23               [ 8] 1027 	inc	hl
+    00000449 36 0A            [12] 1028 	ld	(hl), #0x0a
+                                   1029 ;src/scripts/enemy.c:180: e->atk = 1;
+    0000044B 6B               [ 4] 1030 	ld	l, e
+    0000044C 62               [ 4] 1031 	ld	h, d
+    0000044D 23               [ 8] 1032 	inc	hl
+    0000044E 23               [ 8] 1033 	inc	hl
+    0000044F 23               [ 8] 1034 	inc	hl
+    00000450 36 01            [12] 1035 	ld	(hl), #0x01
+                                   1036 ;src/scripts/enemy.c:181: e->def = 1;
+    00000452 21 04 00         [12] 1037 	ld	hl, #0x0004
+    00000455 19               [ 8] 1038 	add	hl, de
+    00000456 36 01            [12] 1039 	ld	(hl), #0x01
+                                   1040 ;src/scripts/enemy.c:182: e->type = 9;
+    00000458 21 05 00         [12] 1041 	ld	hl, #0x0005
+    0000045B 19               [ 8] 1042 	add	hl, de
+    0000045C 36 09            [12] 1043 	ld	(hl), #0x09
+                                   1044 ;src/scripts/enemy.c:183: e->exp_reward = 60;
+    0000045E 21 09 00         [12] 1045 	ld	hl, #0x0009
+    00000461 19               [ 8] 1046 	add	hl, de
+    00000462 36 3C            [12] 1047 	ld	(hl), #0x3c
+                                   1048 ;src/scripts/enemy.c:184: break;
+    00000464 18 40            [12] 1049 	jr	00112$
+                                   1050 ;src/scripts/enemy.c:185: case 10:
+    00000466                       1051 00110$:
+                                   1052 ;src/scripts/enemy.c:186: e->hp = 10;
+    00000466 6B               [ 4] 1053 	ld	l, e
+    00000467 62               [ 4] 1054 	ld	h, d
+    00000468 23               [ 8] 1055 	inc	hl
+    00000469 23               [ 8] 1056 	inc	hl
+    0000046A 36 0A            [12] 1057 	ld	(hl), #0x0a
+                                   1058 ;src/scripts/enemy.c:187: e->atk = 1;
+    0000046C 6B               [ 4] 1059 	ld	l, e
+    0000046D 62               [ 4] 1060 	ld	h, d
+    0000046E 23               [ 8] 1061 	inc	hl
+    0000046F 23               [ 8] 1062 	inc	hl
+    00000470 23               [ 8] 1063 	inc	hl
+    00000471 36 01            [12] 1064 	ld	(hl), #0x01
+                                   1065 ;src/scripts/enemy.c:188: e->def = 1;
+    00000473 21 04 00         [12] 1066 	ld	hl, #0x0004
+    00000476 19               [ 8] 1067 	add	hl, de
+    00000477 36 01            [12] 1068 	ld	(hl), #0x01
+                                   1069 ;src/scripts/enemy.c:189: e->type = 10;
+    00000479 21 05 00         [12] 1070 	ld	hl, #0x0005
+    0000047C 19               [ 8] 1071 	add	hl, de
+    0000047D 36 0A            [12] 1072 	ld	(hl), #0x0a
+                                   1073 ;src/scripts/enemy.c:190: e->exp_reward = 75;
+    0000047F 21 09 00         [12] 1074 	ld	hl, #0x0009
+    00000482 19               [ 8] 1075 	add	hl, de
+    00000483 36 4B            [12] 1076 	ld	(hl), #0x4b
+                                   1077 ;src/scripts/enemy.c:191: break;
+    00000485 18 1F            [12] 1078 	jr	00112$
+                                   1079 ;src/scripts/enemy.c:192: case 11:
+    00000487                       1080 00111$:
+                                   1081 ;src/scripts/enemy.c:193: e->hp = 10;
+    00000487 6B               [ 4] 1082 	ld	l, e
+    00000488 62               [ 4] 1083 	ld	h, d
+    00000489 23               [ 8] 1084 	inc	hl
+    0000048A 23               [ 8] 1085 	inc	hl
+    0000048B 36 0A            [12] 1086 	ld	(hl), #0x0a
+                                   1087 ;src/scripts/enemy.c:194: e->atk = 1;
+    0000048D 6B               [ 4] 1088 	ld	l, e
+    0000048E 62               [ 4] 1089 	ld	h, d
+    0000048F 23               [ 8] 1090 	inc	hl
+    00000490 23               [ 8] 1091 	inc	hl
+    00000491 23               [ 8] 1092 	inc	hl
+    00000492 36 01            [12] 1093 	ld	(hl), #0x01
+                                   1094 ;src/scripts/enemy.c:195: e->def = 1;
+    00000494 21 04 00         [12] 1095 	ld	hl, #0x0004
+    00000497 19               [ 8] 1096 	add	hl, de
+    00000498 36 01            [12] 1097 	ld	(hl), #0x01
+                                   1098 ;src/scripts/enemy.c:196: e->type = 11;
+    0000049A 21 05 00         [12] 1099 	ld	hl, #0x0005
+    0000049D 19               [ 8] 1100 	add	hl, de
+    0000049E 36 0B            [12] 1101 	ld	(hl), #0x0b
+                                   1102 ;src/scripts/enemy.c:197: e->exp_reward = 90;
+    000004A0 21 09 00         [12] 1103 	ld	hl, #0x0009
+    000004A3 19               [ 8] 1104 	add	hl, de
+    000004A4 36 5A            [12] 1105 	ld	(hl), #0x5a
+                                   1106 ;src/scripts/enemy.c:199: }
+    000004A6                       1107 00112$:
+                                   1108 ;src/scripts/enemy.c:200: e->sprite_id = sprite_id;
+    000004A6 21 07 00         [12] 1109 	ld	hl, #0x0007
+    000004A9 19               [ 8] 1110 	add	hl, de
+    000004AA 4D               [ 4] 1111 	ld	c, l
+    000004AB 44               [ 4] 1112 	ld	b, h
+    000004AC F8 02            [12] 1113 	ldhl	sp,	#2
+    000004AE 7E               [ 8] 1114 	ld	a, (hl)
+    000004AF 02               [ 8] 1115 	ld	(bc), a
+                                   1116 ;src/scripts/enemy.c:201: e->alive = 1; // cambiato
+    000004B0 21 06 00         [12] 1117 	ld	hl, #0x0006
+    000004B3 19               [ 8] 1118 	add	hl, de
+    000004B4 36 01            [12] 1119 	ld	(hl), #0x01
+                                   1120 ;src/scripts/enemy.c:202: e->targeting = 0;
+    000004B6 21 08 00         [12] 1121 	ld	hl, #0x0008
+    000004B9 19               [ 8] 1122 	add	hl, de
+    000004BA 36 00            [12] 1123 	ld	(hl), #0x00
+                                   1124 ;src/scripts/enemy.c:203: }
+    000004BC E1               [12] 1125 	pop	hl
+    000004BD 33               [ 8] 1126 	inc	sp
+    000004BE E9               [ 4] 1127 	jp	(hl)
+                                   1128 ;src/scripts/enemy.c:205: uint8_t check_distance_x(Enemy* e) {
+                                   1129 ;	---------------------------------
+                                   1130 ; Function check_distance_x
+                                   1131 ; ---------------------------------
+    000004BF                       1132 _check_distance_x::
+                                   1133 ;src/scripts/enemy.c:206: if (x > e->x) {
+    000004BF 1A               [ 8] 1134 	ld	a, (de)
+    000004C0 4F               [ 4] 1135 	ld	c, a
+    000004C1 21r00r00         [12] 1136 	ld	hl, #_x
+    000004C4 96               [ 8] 1137 	sub	a, (hl)
+    000004C5 30 03            [12] 1138 	jr	NC, 00102$
+                                   1139 ;src/scripts/enemy.c:207: return(x - e->x);
+    000004C7 7E               [ 8] 1140 	ld	a, (hl)
+    000004C8 91               [ 4] 1141 	sub	a, c
+    000004C9 C9               [16] 1142 	ret
+    000004CA                       1143 00102$:
+                                   1144 ;src/scripts/enemy.c:210: return(e->x - x);
+    000004CA 79               [ 4] 1145 	ld	a, c
+    000004CB 21r00r00         [12] 1146 	ld	hl, #_x
+    000004CE 96               [ 8] 1147 	sub	a, (hl)
+                                   1148 ;src/scripts/enemy.c:212: }
+    000004CF C9               [16] 1149 	ret
+                                   1150 ;src/scripts/enemy.c:214: uint8_t check_distance_y(Enemy* e) {
+                                   1151 ;	---------------------------------
+                                   1152 ; Function check_distance_y
+                                   1153 ; ---------------------------------
+    000004D0                       1154 _check_distance_y::
+                                   1155 ;src/scripts/enemy.c:215: if (y > e->y) {
+    000004D0 13               [ 8] 1156 	inc	de
+    000004D1 1A               [ 8] 1157 	ld	a, (de)
+    000004D2 4F               [ 4] 1158 	ld	c, a
+    000004D3 21r00r00         [12] 1159 	ld	hl, #_y
+    000004D6 96               [ 8] 1160 	sub	a, (hl)
+    000004D7 30 03            [12] 1161 	jr	NC, 00102$
+                                   1162 ;src/scripts/enemy.c:216: return(y - e->y);
+    000004D9 7E               [ 8] 1163 	ld	a, (hl)
+    000004DA 91               [ 4] 1164 	sub	a, c
+    000004DB C9               [16] 1165 	ret
+    000004DC                       1166 00102$:
+                                   1167 ;src/scripts/enemy.c:219: return(e->y - y);
+    000004DC 79               [ 4] 1168 	ld	a, c
+    000004DD 21r00r00         [12] 1169 	ld	hl, #_y
+    000004E0 96               [ 8] 1170 	sub	a, (hl)
+                                   1171 ;src/scripts/enemy.c:221: }
+    000004E1 C9               [16] 1172 	ret
+                                   1173 ;src/scripts/enemy.c:223: void enemy_attack(Enemy* e) {
+                                   1174 ;	---------------------------------
+                                   1175 ; Function enemy_attack
+                                   1176 ; ---------------------------------
+    000004E2                       1177 _enemy_attack::
+                                   1178 ;src/scripts/enemy.c:224: hit_sfx();
+    000004E2 D5               [16] 1179 	push	de
+    000004E3 1Er00            [ 8] 1180 	ld	e, #b_hit_sfx
+    000004E5 21r00r00         [12] 1181 	ld	hl, #_hit_sfx
+    000004E8 CDr00r00         [24] 1182 	call	___sdcc_bcall_ehl
+    000004EB D1               [12] 1183 	pop	de
+                                   1184 ;src/scripts/enemy.c:226: if (e->atk > defense) {
+    000004EC 13               [ 8] 1185 	inc	de
+    000004ED 13               [ 8] 1186 	inc	de
+    000004EE 13               [ 8] 1187 	inc	de
+    000004EF 1A               [ 8] 1188 	ld	a, (de)
+    000004F0 4F               [ 4] 1189 	ld	c, a
+    000004F1 21r00r00         [12] 1190 	ld	hl, #_defense
+    000004F4 7E               [ 8] 1191 	ld	a, (hl)
+    000004F5 91               [ 4] 1192 	sub	a, c
+    000004F6 30 05            [12] 1193 	jr	NC, 00102$
+                                   1194 ;src/scripts/enemy.c:227: damage = e->atk - defense;
+    000004F8 79               [ 4] 1195 	ld	a, c
+    000004F9 96               [ 8] 1196 	sub	a, (hl)
+    000004FA 47               [ 4] 1197 	ld	b, a
+    000004FB 18 02            [12] 1198 	jr	00103$
+    000004FD                       1199 00102$:
+                                   1200 ;src/scripts/enemy.c:230: damage = 1;
+    000004FD 06 01            [ 8] 1201 	ld	b, #0x01
+    000004FF                       1202 00103$:
+                                   1203 ;src/scripts/enemy.c:233: if (damage < current_hp) {
+    000004FF 78               [ 4] 1204 	ld	a, b
+    00000500 21r00r00         [12] 1205 	ld	hl, #_current_hp
+    00000503 96               [ 8] 1206 	sub	a, (hl)
+    00000504 30 05            [12] 1207 	jr	NC, 00105$
+                                   1208 ;src/scripts/enemy.c:234: current_hp -= damage;
+    00000506 7E               [ 8] 1209 	ld	a, (hl)
+    00000507 90               [ 4] 1210 	sub	a, b
+    00000508 77               [ 8] 1211 	ld	(hl), a
+    00000509 18 04            [12] 1212 	jr	00106$
+    0000050B                       1213 00105$:
+                                   1214 ;src/scripts/enemy.c:237: current_hp = 0;
+    0000050B AF               [ 4] 1215 	xor	a, a
+    0000050C EAr00r00         [16] 1216 	ld	(#_current_hp),a
+    0000050F                       1217 00106$:
+                                   1218 ;src/scripts/enemy.c:239: play_hit_animation();
+    0000050F C5               [16] 1219 	push	bc
+    00000510 1Er00            [ 8] 1220 	ld	e, #b_play_hit_animation
+    00000512 21r00r00         [12] 1221 	ld	hl, #_play_hit_animation
+    00000515 CDr00r00         [24] 1222 	call	___sdcc_bcall_ehl
+    00000518 C1               [12] 1223 	pop	bc
+                                   1224 ;src/scripts/enemy.c:240: show_number(damage, 0, 0, 0);
+    00000519 AF               [ 4] 1225 	xor	a, a
+    0000051A 0F               [ 4] 1226 	rrca
+    0000051B F5               [16] 1227 	push	af
+    0000051C AF               [ 4] 1228 	xor	a, a
+    0000051D F5               [16] 1229 	push	af
+    0000051E 33               [ 8] 1230 	inc	sp
+    0000051F C5               [16] 1231 	push	bc
+    00000520 33               [ 8] 1232 	inc	sp
+    00000521 1Er00            [ 8] 1233 	ld	e, #b_show_number
+    00000523 21r00r00         [12] 1234 	ld	hl, #_show_number
+    00000526 CDr00r00         [24] 1235 	call	___sdcc_bcall_ehl
+    00000529 E8 04            [16] 1236 	add	sp, #4
+                                   1237 ;src/scripts/enemy.c:242: }
+    0000052B C9               [16] 1238 	ret
+                                   1239 ;src/scripts/enemy.c:244: void enemy_death(Enemy* e) {
+                                   1240 ;	---------------------------------
+                                   1241 ; Function enemy_death
+                                   1242 ; ---------------------------------
+    0000052C                       1243 _enemy_death::
+    0000052C 3B               [ 8] 1244 	dec	sp
+    0000052D 3B               [ 8] 1245 	dec	sp
+    0000052E 4B               [ 4] 1246 	ld	c, e
+    0000052F 42               [ 4] 1247 	ld	b, d
+                                   1248 ;src/scripts/enemy.c:245: spawn_drop(e->x, e->y);
+    00000530 69               [ 4] 1249 	ld	l, c
+    00000531 60               [ 4] 1250 	ld	h, b
+    00000532 23               [ 8] 1251 	inc	hl
+    00000533 33               [ 8] 1252 	inc	sp
+    00000534 33               [ 8] 1253 	inc	sp
+    00000535 5D               [ 4] 1254 	ld	e, l
+    00000536 54               [ 4] 1255 	ld	d, h
+    00000537 D5               [16] 1256 	push	de
+    00000538 1A               [ 8] 1257 	ld	a, (de)
+    00000539 69               [ 4] 1258 	ld	l, c
+    0000053A 60               [ 4] 1259 	ld	h, b
+    0000053B 56               [ 8] 1260 	ld	d, (hl)
+    0000053C E5               [16] 1261 	push	hl
+    0000053D C5               [16] 1262 	push	bc
+    0000053E 5F               [ 4] 1263 	ld	e, a
+    0000053F 7A               [ 4] 1264 	ld	a, d
+    00000540 CDr00r00         [24] 1265 	call	_spawn_drop
+    00000543 C1               [12] 1266 	pop	bc
+    00000544 E1               [12] 1267 	pop	hl
+                                   1268 ;src/scripts/enemy.c:246: e->hp = 0;
+    00000545 59               [ 4] 1269 	ld	e, c
+    00000546 50               [ 4] 1270 	ld	d, b
+    00000547 13               [ 8] 1271 	inc	de
+    00000548 13               [ 8] 1272 	inc	de
+    00000549 AF               [ 4] 1273 	xor	a, a
+    0000054A 12               [ 8] 1274 	ld	(de), a
+                                   1275 ;src/scripts/enemy.c:247: e->alive = 0;
+    0000054B 79               [ 4] 1276 	ld	a, c
+    0000054C C6 06            [ 8] 1277 	add	a, #0x06
+    0000054E 5F               [ 4] 1278 	ld	e, a
+    0000054F 78               [ 4] 1279 	ld	a, b
+    00000550 CE 00            [ 8] 1280 	adc	a, #0x00
+    00000552 57               [ 4] 1281 	ld	d, a
+    00000553 AF               [ 4] 1282 	xor	a, a
+    00000554 12               [ 8] 1283 	ld	(de), a
+                                   1284 ;src/scripts/enemy.c:248: e->x = 0;
+    00000555 36 00            [12] 1285 	ld	(hl), #0x00
+                                   1286 ;src/scripts/enemy.c:249: e->y = 0;
+    00000557 E1               [12] 1287 	pop	hl
+    00000558 36 00            [12] 1288 	ld	(hl), #0x00
+    0000055A E5               [16] 1289 	push	hl
+                                   1290 ;src/scripts/enemy.c:250: move_sprite(e->sprite_id, 0, 0);
+    0000055B 21 07 00         [12] 1291 	ld	hl, #0x0007
+    0000055E 09               [ 8] 1292 	add	hl, bc
+    0000055F 4D               [ 4] 1293 	ld	c, l
+    00000560 44               [ 4] 1294 	ld	b, h
+    00000561 0A               [ 8] 1295 	ld	a, (bc)
+    00000562 5F               [ 4] 1296 	ld	e, a
+                                   1297 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000563 AF               [ 4] 1298 	xor	a, a
+    00000564 6B               [ 4] 1299 	ld	l, e
+    00000565 67               [ 4] 1300 	ld	h, a
+    00000566 29               [ 8] 1301 	add	hl, hl
+    00000567 29               [ 8] 1302 	add	hl, hl
+    00000568 11r00r00         [12] 1303 	ld	de, #_shadow_OAM
+    0000056B 19               [ 8] 1304 	add	hl, de
+                                   1305 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000056C AF               [ 4] 1306 	xor	a, a
+    0000056D 22               [ 8] 1307 	ld	(hl+), a
+    0000056E 77               [ 8] 1308 	ld	(hl), a
+                                   1309 ;src/scripts/enemy.c:251: move_sprite(e->sprite_id + 1, 0, 0);
+    0000056F 0A               [ 8] 1310 	ld	a, (bc)
+    00000570 5F               [ 4] 1311 	ld	e, a
+    00000571 1C               [ 4] 1312 	inc	e
+                                   1313 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000572 AF               [ 4] 1314 	xor	a, a
+    00000573 6B               [ 4] 1315 	ld	l, e
+    00000574 67               [ 4] 1316 	ld	h, a
+    00000575 29               [ 8] 1317 	add	hl, hl
+    00000576 29               [ 8] 1318 	add	hl, hl
+    00000577 11r00r00         [12] 1319 	ld	de, #_shadow_OAM
+    0000057A 19               [ 8] 1320 	add	hl, de
+                                   1321 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000057B AF               [ 4] 1322 	xor	a, a
+    0000057C 22               [ 8] 1323 	ld	(hl+), a
+    0000057D 77               [ 8] 1324 	ld	(hl), a
+                                   1325 ;src/scripts/enemy.c:252: move_sprite(e->sprite_id + 2, 0, 0);
+    0000057E 0A               [ 8] 1326 	ld	a, (bc)
+    0000057F C6 02            [ 8] 1327 	add	a, #0x02
+    00000581 5F               [ 4] 1328 	ld	e, a
+                                   1329 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000582 AF               [ 4] 1330 	xor	a, a
+    00000583 6B               [ 4] 1331 	ld	l, e
+    00000584 67               [ 4] 1332 	ld	h, a
+    00000585 29               [ 8] 1333 	add	hl, hl
+    00000586 29               [ 8] 1334 	add	hl, hl
+    00000587 11r00r00         [12] 1335 	ld	de, #_shadow_OAM
+    0000058A 19               [ 8] 1336 	add	hl, de
+                                   1337 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000058B AF               [ 4] 1338 	xor	a, a
+    0000058C 22               [ 8] 1339 	ld	(hl+), a
+    0000058D 77               [ 8] 1340 	ld	(hl), a
+                                   1341 ;src/scripts/enemy.c:253: move_sprite(e->sprite_id + 3, 0, 0);
+    0000058E 0A               [ 8] 1342 	ld	a, (bc)
+    0000058F C6 03            [ 8] 1343 	add	a, #0x03
+    00000591 5F               [ 4] 1344 	ld	e, a
+                                   1345 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000592 AF               [ 4] 1346 	xor	a, a
+    00000593 6B               [ 4] 1347 	ld	l, e
+    00000594 67               [ 4] 1348 	ld	h, a
+    00000595 29               [ 8] 1349 	add	hl, hl
+    00000596 29               [ 8] 1350 	add	hl, hl
+    00000597 11r00r00         [12] 1351 	ld	de, #_shadow_OAM
+    0000059A 19               [ 8] 1352 	add	hl, de
+                                   1353 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000059B AF               [ 4] 1354 	xor	a, a
+    0000059C 22               [ 8] 1355 	ld	(hl+), a
+    0000059D 77               [ 8] 1356 	ld	(hl), a
+                                   1357 ;src/scripts/enemy.c:254: set_sprite_tile(e->sprite_id, 50);
+    0000059E 0A               [ 8] 1358 	ld	a, (bc)
+    0000059F 5F               [ 4] 1359 	ld	e, a
+                                   1360 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000005A0 AF               [ 4] 1361 	xor	a, a
+    000005A1 6B               [ 4] 1362 	ld	l, e
+    000005A2 67               [ 4] 1363 	ld	h, a
+    000005A3 29               [ 8] 1364 	add	hl, hl
+    000005A4 29               [ 8] 1365 	add	hl, hl
+    000005A5 11r00r00         [12] 1366 	ld	de, #_shadow_OAM
+    000005A8 19               [ 8] 1367 	add	hl, de
+    000005A9 23               [ 8] 1368 	inc	hl
+    000005AA 23               [ 8] 1369 	inc	hl
+    000005AB 36 32            [12] 1370 	ld	(hl), #0x32
+                                   1371 ;src/scripts/enemy.c:255: set_sprite_tile(e->sprite_id+1, 50);
+    000005AD 0A               [ 8] 1372 	ld	a, (bc)
+    000005AE 5F               [ 4] 1373 	ld	e, a
+    000005AF 1C               [ 4] 1374 	inc	e
+                                   1375 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000005B0 AF               [ 4] 1376 	xor	a, a
+    000005B1 6B               [ 4] 1377 	ld	l, e
+    000005B2 67               [ 4] 1378 	ld	h, a
+    000005B3 29               [ 8] 1379 	add	hl, hl
+    000005B4 29               [ 8] 1380 	add	hl, hl
+    000005B5 11r00r00         [12] 1381 	ld	de, #_shadow_OAM
+    000005B8 19               [ 8] 1382 	add	hl, de
+    000005B9 23               [ 8] 1383 	inc	hl
+    000005BA 23               [ 8] 1384 	inc	hl
+    000005BB 36 32            [12] 1385 	ld	(hl), #0x32
+                                   1386 ;src/scripts/enemy.c:256: set_sprite_tile(e->sprite_id+2, 50);
+    000005BD 0A               [ 8] 1387 	ld	a, (bc)
+    000005BE C6 02            [ 8] 1388 	add	a, #0x02
+    000005C0 5F               [ 4] 1389 	ld	e, a
+                                   1390 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000005C1 AF               [ 4] 1391 	xor	a, a
+    000005C2 6B               [ 4] 1392 	ld	l, e
+    000005C3 67               [ 4] 1393 	ld	h, a
+    000005C4 29               [ 8] 1394 	add	hl, hl
+    000005C5 29               [ 8] 1395 	add	hl, hl
+    000005C6 11r00r00         [12] 1396 	ld	de, #_shadow_OAM
+    000005C9 19               [ 8] 1397 	add	hl, de
+    000005CA 23               [ 8] 1398 	inc	hl
+    000005CB 23               [ 8] 1399 	inc	hl
+    000005CC 36 32            [12] 1400 	ld	(hl), #0x32
+                                   1401 ;src/scripts/enemy.c:257: set_sprite_tile(e->sprite_id+3, 50);
+    000005CE 0A               [ 8] 1402 	ld	a, (bc)
+    000005CF C6 03            [ 8] 1403 	add	a, #0x03
+    000005D1 5F               [ 4] 1404 	ld	e, a
+                                   1405 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000005D2 01r00r00         [12] 1406 	ld	bc, #_shadow_OAM+0
+    000005D5 AF               [ 4] 1407 	xor	a, a
+    000005D6 6B               [ 4] 1408 	ld	l, e
+    000005D7 67               [ 4] 1409 	ld	h, a
+    000005D8 29               [ 8] 1410 	add	hl, hl
+    000005D9 29               [ 8] 1411 	add	hl, hl
+    000005DA 09               [ 8] 1412 	add	hl, bc
+    000005DB 23               [ 8] 1413 	inc	hl
+    000005DC 23               [ 8] 1414 	inc	hl
+    000005DD 36 32            [12] 1415 	ld	(hl), #0x32
+                                   1416 ;src/scripts/enemy.c:257: set_sprite_tile(e->sprite_id+3, 50);
+                                   1417 ;src/scripts/enemy.c:260: }
+    000005DF 33               [ 8] 1418 	inc	sp
+    000005E0 33               [ 8] 1419 	inc	sp
+    000005E1 C9               [16] 1420 	ret
+                                   1421 ;src/scripts/enemy.c:263: void enemy_smooth_movement(Enemy* e, uint8_t dir) {
+                                   1422 ;	---------------------------------
+                                   1423 ; Function enemy_smooth_movement
+                                   1424 ; ---------------------------------
+    000005E2                       1425 _enemy_smooth_movement::
+    000005E2 E8 F9            [16] 1426 	add	sp, #-7
+    000005E4 F8 06            [12] 1427 	ldhl	sp,	#6
+    000005E6 77               [ 8] 1428 	ld	(hl), a
+                                   1429 ;src/scripts/enemy.c:266: mov_x = e->x;
+    000005E7 1A               [ 8] 1430 	ld	a, (de)
+    000005E8 F8 00            [12] 1431 	ldhl	sp,	#0
+                                   1432 ;src/scripts/enemy.c:267: mov_y = e->y;
+    000005EA 22               [ 8] 1433 	ld	(hl+), a
+    000005EB 4B               [ 4] 1434 	ld	c, e
+    000005EC 42               [ 4] 1435 	ld	b, d
+    000005ED 03               [ 8] 1436 	inc	bc
+    000005EE 0A               [ 8] 1437 	ld	a, (bc)
+    000005EF 77               [ 8] 1438 	ld	(hl), a
+                                   1439 ;src/scripts/enemy.c:268: while (frame < 8) {
+    000005F0 3E 03            [ 8] 1440 	ld	a, #0x03
+    000005F2 F8 06            [12] 1441 	ldhl	sp,	#6
+    000005F4 96               [ 8] 1442 	sub	a, (hl)
+    000005F5 3E 00            [ 8] 1443 	ld	a, #0x00
+    000005F7 17               [ 4] 1444 	rla
+    000005F8 F8 02            [12] 1445 	ldhl	sp,	#2
+    000005FA 77               [ 8] 1446 	ld	(hl), a
+    000005FB 21 07 00         [12] 1447 	ld	hl, #0x0007
+    000005FE 19               [ 8] 1448 	add	hl, de
+    000005FF 4D               [ 4] 1449 	ld	c, l
+    00000600 44               [ 4] 1450 	ld	b, h
+    00000601 1E 00            [ 8] 1451 	ld	e, #0x00
+    00000603                       1452 00106$:
+    00000603 7B               [ 4] 1453 	ld	a, e
+    00000604 D6 08            [ 8] 1454 	sub	a, #0x08
+    00000606 D2rD4r06         [16] 1455 	jp	NC, 00113$
+                                   1456 ;src/scripts/enemy.c:269: wait_vbl_done();
+    00000609 CDr00r00         [24] 1457 	call	_wait_vbl_done
+                                   1458 ;src/scripts/enemy.c:270: switch (dir) {
+    0000060C F8 02            [12] 1459 	ldhl	sp,	#2
+    0000060E 7E               [ 8] 1460 	ld	a, (hl)
+    0000060F B7               [ 4] 1461 	or	a, a
+    00000610 20 40            [12] 1462 	jr	NZ, 00105$
+                                   1463 ;src/scripts/enemy.c:272: mov_y-=2;
+    00000612 2B               [ 8] 1464 	dec	hl
+                                   1465 ;src/scripts/enemy.c:275: mov_x+=2;
+    00000613 3A               [ 8] 1466 	ld	a, (hl-)
+    00000614 57               [ 4] 1467 	ld	d, a
+    00000615 7E               [ 8] 1468 	ld	a, (hl)
+    00000616 F8 05            [12] 1469 	ldhl	sp,	#5
+                                   1470 ;src/scripts/enemy.c:270: switch (dir) {
+    00000618 22               [ 8] 1471 	ld	(hl+), a
+    00000619 D5               [16] 1472 	push	de
+    0000061A 5E               [ 8] 1473 	ld	e, (hl)
+    0000061B 16 00            [ 8] 1474 	ld	d, #0x00
+    0000061D 21r28r06         [12] 1475 	ld	hl, #00137$
+    00000620 19               [ 8] 1476 	add	hl, de
+    00000621 19               [ 8] 1477 	add	hl, de
+    00000622 5E               [ 8] 1478 	ld	e, (hl)
+    00000623 23               [ 8] 1479 	inc	hl
+    00000624 66               [ 8] 1480 	ld	h, (hl)
+    00000625 6B               [ 4] 1481 	ld	l, e
+    00000626 D1               [12] 1482 	pop	de
+    00000627 E9               [ 4] 1483 	jp	(hl)
+    00000628                       1484 00137$:
+    00000628r30r06                 1485 	.dw	00101$
+    0000062Ar38r06                 1486 	.dw	00102$
+    0000062Cr42r06                 1487 	.dw	00103$
+    0000062Er4Ar06                 1488 	.dw	00104$
+                                   1489 ;src/scripts/enemy.c:271: case 0:
+    00000630                       1490 00101$:
+                                   1491 ;src/scripts/enemy.c:272: mov_y-=2;
+    00000630 7A               [ 4] 1492 	ld	a, d
+    00000631 C6 FE            [ 8] 1493 	add	a, #0xfe
+    00000633 F8 01            [12] 1494 	ldhl	sp,	#1
+    00000635 77               [ 8] 1495 	ld	(hl), a
+                                   1496 ;src/scripts/enemy.c:273: break;
+    00000636 18 1A            [12] 1497 	jr	00105$
+                                   1498 ;src/scripts/enemy.c:274: case 1:
+    00000638                       1499 00102$:
+                                   1500 ;src/scripts/enemy.c:275: mov_x+=2;
+    00000638 F8 05            [12] 1501 	ldhl	sp,	#5
+    0000063A 7E               [ 8] 1502 	ld	a, (hl)
+    0000063B C6 02            [ 8] 1503 	add	a, #0x02
+    0000063D F8 00            [12] 1504 	ldhl	sp,	#0
+    0000063F 77               [ 8] 1505 	ld	(hl), a
+                                   1506 ;src/scripts/enemy.c:276: break;
+    00000640 18 10            [12] 1507 	jr	00105$
+                                   1508 ;src/scripts/enemy.c:277: case 2:
+    00000642                       1509 00103$:
+                                   1510 ;src/scripts/enemy.c:278: mov_y+=2;
+    00000642 7A               [ 4] 1511 	ld	a, d
+    00000643 C6 02            [ 8] 1512 	add	a, #0x02
+    00000645 F8 01            [12] 1513 	ldhl	sp,	#1
+    00000647 77               [ 8] 1514 	ld	(hl), a
+                                   1515 ;src/scripts/enemy.c:279: break;
+    00000648 18 08            [12] 1516 	jr	00105$
+                                   1517 ;src/scripts/enemy.c:280: case 3:
+    0000064A                       1518 00104$:
+                                   1519 ;src/scripts/enemy.c:281: mov_x-=2;
+    0000064A F8 05            [12] 1520 	ldhl	sp,	#5
+    0000064C 7E               [ 8] 1521 	ld	a, (hl)
+    0000064D C6 FE            [ 8] 1522 	add	a, #0xfe
+    0000064F F8 00            [12] 1523 	ldhl	sp,	#0
+    00000651 77               [ 8] 1524 	ld	(hl), a
+                                   1525 ;src/scripts/enemy.c:283: }
+    00000652                       1526 00105$:
+                                   1527 ;src/scripts/enemy.c:284: move_sprite(e->sprite_id, mov_x, mov_y);
+    00000652 0A               [ 8] 1528 	ld	a, (bc)
+    00000653 57               [ 4] 1529 	ld	d, a
+                                   1530 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000654 AF               [ 4] 1531 	xor	a, a
+    00000655 6A               [ 4] 1532 	ld	l, d
+    00000656 67               [ 4] 1533 	ld	h, a
+    00000657 29               [ 8] 1534 	add	hl, hl
+    00000658 29               [ 8] 1535 	add	hl, hl
+    00000659 D5               [16] 1536 	push	de
+    0000065A 11r00r00         [12] 1537 	ld	de, #_shadow_OAM
+    0000065D 19               [ 8] 1538 	add	hl, de
+    0000065E D1               [12] 1539 	pop	de
+                                   1540 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000065F E5               [16] 1541 	push	hl
+    00000660 F8 03            [12] 1542 	ldhl	sp,	#3
+    00000662 7E               [ 8] 1543 	ld	a, (hl)
+    00000663 E1               [12] 1544 	pop	hl
+    00000664 22               [ 8] 1545 	ld	(hl+), a
+    00000665 E5               [16] 1546 	push	hl
+    00000666 F8 02            [12] 1547 	ldhl	sp,	#2
+    00000668 7E               [ 8] 1548 	ld	a, (hl)
+    00000669 E1               [12] 1549 	pop	hl
+    0000066A 77               [ 8] 1550 	ld	(hl), a
+                                   1551 ;src/scripts/enemy.c:285: move_sprite(e->sprite_id+1, mov_x+8, mov_y);
+    0000066B F8 00            [12] 1552 	ldhl	sp,	#0
+    0000066D 7E               [ 8] 1553 	ld	a, (hl)
+    0000066E C6 08            [ 8] 1554 	add	a, #0x08
+    00000670 F8 03            [12] 1555 	ldhl	sp,	#3
+    00000672 77               [ 8] 1556 	ld	(hl), a
+    00000673 2A               [ 8] 1557 	ld	a, (hl+)
+    00000674 23               [ 8] 1558 	inc	hl
+    00000675 77               [ 8] 1559 	ld	(hl), a
+    00000676 0A               [ 8] 1560 	ld	a, (bc)
+    00000677 57               [ 4] 1561 	ld	d, a
+    00000678 14               [ 4] 1562 	inc	d
+                                   1563 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000679 AF               [ 4] 1564 	xor	a, a
+    0000067A 6A               [ 4] 1565 	ld	l, d
+    0000067B 67               [ 4] 1566 	ld	h, a
+    0000067C 29               [ 8] 1567 	add	hl, hl
+    0000067D 29               [ 8] 1568 	add	hl, hl
+    0000067E D5               [16] 1569 	push	de
+    0000067F 11r00r00         [12] 1570 	ld	de, #_shadow_OAM
+    00000682 19               [ 8] 1571 	add	hl, de
+    00000683 D1               [12] 1572 	pop	de
+                                   1573 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000684 E5               [16] 1574 	push	hl
+    00000685 F8 03            [12] 1575 	ldhl	sp,	#3
+    00000687 7E               [ 8] 1576 	ld	a, (hl)
+    00000688 E1               [12] 1577 	pop	hl
+    00000689 22               [ 8] 1578 	ld	(hl+), a
+    0000068A E5               [16] 1579 	push	hl
+    0000068B F8 07            [12] 1580 	ldhl	sp,	#7
+    0000068D 7E               [ 8] 1581 	ld	a, (hl)
+    0000068E E1               [12] 1582 	pop	hl
+    0000068F 77               [ 8] 1583 	ld	(hl), a
+                                   1584 ;src/scripts/enemy.c:286: move_sprite(e->sprite_id+2, mov_x, mov_y+8);
+    00000690 F8 01            [12] 1585 	ldhl	sp,	#1
+    00000692 7E               [ 8] 1586 	ld	a, (hl)
+    00000693 C6 08            [ 8] 1587 	add	a, #0x08
+    00000695 F8 04            [12] 1588 	ldhl	sp,	#4
+    00000697 77               [ 8] 1589 	ld	(hl), a
+    00000698 2A               [ 8] 1590 	ld	a, (hl+)
+    00000699 77               [ 8] 1591 	ld	(hl), a
+    0000069A 0A               [ 8] 1592 	ld	a, (bc)
+    0000069B C6 02            [ 8] 1593 	add	a, #0x02
+    0000069D 57               [ 4] 1594 	ld	d, a
+                                   1595 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000069E AF               [ 4] 1596 	xor	a, a
+    0000069F 6A               [ 4] 1597 	ld	l, d
+    000006A0 67               [ 4] 1598 	ld	h, a
+    000006A1 29               [ 8] 1599 	add	hl, hl
+    000006A2 29               [ 8] 1600 	add	hl, hl
+    000006A3 D5               [16] 1601 	push	de
+    000006A4 11r00r00         [12] 1602 	ld	de, #_shadow_OAM
+    000006A7 19               [ 8] 1603 	add	hl, de
+    000006A8 D1               [12] 1604 	pop	de
+                                   1605 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000006A9 E5               [16] 1606 	push	hl
+    000006AA F8 07            [12] 1607 	ldhl	sp,	#7
+    000006AC 7E               [ 8] 1608 	ld	a, (hl)
+    000006AD E1               [12] 1609 	pop	hl
+    000006AE 22               [ 8] 1610 	ld	(hl+), a
+    000006AF E5               [16] 1611 	push	hl
+    000006B0 F8 02            [12] 1612 	ldhl	sp,	#2
+    000006B2 7E               [ 8] 1613 	ld	a, (hl)
+    000006B3 E1               [12] 1614 	pop	hl
+    000006B4 77               [ 8] 1615 	ld	(hl), a
+                                   1616 ;src/scripts/enemy.c:287: move_sprite(e->sprite_id+3, mov_x+8, mov_y+8);
+    000006B5 0A               [ 8] 1617 	ld	a, (bc)
+    000006B6 C6 03            [ 8] 1618 	add	a, #0x03
+    000006B8 57               [ 4] 1619 	ld	d, a
+                                   1620 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000006B9 AF               [ 4] 1621 	xor	a, a
+    000006BA 6A               [ 4] 1622 	ld	l, d
+    000006BB 67               [ 4] 1623 	ld	h, a
+    000006BC 29               [ 8] 1624 	add	hl, hl
+    000006BD 29               [ 8] 1625 	add	hl, hl
+    000006BE D5               [16] 1626 	push	de
+    000006BF 11r00r00         [12] 1627 	ld	de, #_shadow_OAM
+    000006C2 19               [ 8] 1628 	add	hl, de
+    000006C3 D1               [12] 1629 	pop	de
+                                   1630 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000006C4 E5               [16] 1631 	push	hl
+    000006C5 F8 06            [12] 1632 	ldhl	sp,	#6
+    000006C7 7E               [ 8] 1633 	ld	a, (hl)
+    000006C8 E1               [12] 1634 	pop	hl
+    000006C9 22               [ 8] 1635 	ld	(hl+), a
+    000006CA E5               [16] 1636 	push	hl
+    000006CB F8 05            [12] 1637 	ldhl	sp,	#5
+    000006CD 7E               [ 8] 1638 	ld	a, (hl)
+    000006CE E1               [12] 1639 	pop	hl
+    000006CF 77               [ 8] 1640 	ld	(hl), a
+                                   1641 ;src/scripts/enemy.c:288: frame++;
+    000006D0 1C               [ 4] 1642 	inc	e
+    000006D1 C3r03r06         [16] 1643 	jp	00106$
+    000006D4                       1644 00113$:
+                                   1645 ;src/scripts/enemy.c:290: }
+    000006D4 E8 07            [16] 1646 	add	sp, #7
+    000006D6 C9               [16] 1647 	ret
+                                   1648 ;src/scripts/enemy.c:292: uint8_t is_enemy_at(uint8_t tx, uint8_t ty, Enemy *self) {
+                                   1649 ;	---------------------------------
+                                   1650 ; Function is_enemy_at
+                                   1651 ; ---------------------------------
+    000006D7                       1652 _is_enemy_at::
+    000006D7 3B               [ 8] 1653 	dec	sp
+    000006D8 F8 00            [12] 1654 	ldhl	sp,	#0
+    000006DA 77               [ 8] 1655 	ld	(hl), a
+    000006DB 4B               [ 4] 1656 	ld	c, e
+                                   1657 ;src/scripts/enemy.c:293: for (uint8_t i = 0; i < 2; i++) {
+    000006DC 06 00            [ 8] 1658 	ld	b, #0x00
+    000006DE                       1659 00109$:
+    000006DE 78               [ 4] 1660 	ld	a, b
+    000006DF D6 02            [ 8] 1661 	sub	a, #0x02
+    000006E1 30 34            [12] 1662 	jr	NC, 00107$
+                                   1663 ;src/scripts/enemy.c:294: Enemy* other = &current_enemies[i];
+    000006E3 58               [ 4] 1664 	ld	e, b
+    000006E4 16 00            [ 8] 1665 	ld	d, #0x00
+    000006E6 6B               [ 4] 1666 	ld	l, e
+    000006E7 62               [ 4] 1667 	ld	h, d
+    000006E8 29               [ 8] 1668 	add	hl, hl
+    000006E9 29               [ 8] 1669 	add	hl, hl
+    000006EA 19               [ 8] 1670 	add	hl, de
+    000006EB 29               [ 8] 1671 	add	hl, hl
+    000006EC 11r00r00         [12] 1672 	ld	de, #_current_enemies
+    000006EF 19               [ 8] 1673 	add	hl, de
+    000006F0 5D               [ 4] 1674 	ld	e, l
+    000006F1 54               [ 4] 1675 	ld	d, h
+                                   1676 ;src/scripts/enemy.c:295: if (other->alive && other != self) {
+    000006F2 21 06 00         [12] 1677 	ld	hl, #0x0006
+    000006F5 19               [ 8] 1678 	add	hl, de
+    000006F6 7E               [ 8] 1679 	ld	a, (hl)
+    000006F7 B7               [ 4] 1680 	or	a, a
+    000006F8 28 1A            [12] 1681 	jr	Z, 00110$
+    000006FA F8 03            [12] 1682 	ldhl	sp,	#3
+    000006FC 7E               [ 8] 1683 	ld	a, (hl)
+    000006FD 93               [ 4] 1684 	sub	a, e
+    000006FE 20 05            [12] 1685 	jr	NZ, 00155$
+    00000700 23               [ 8] 1686 	inc	hl
+    00000701 7E               [ 8] 1687 	ld	a, (hl)
+    00000702 92               [ 4] 1688 	sub	a, d
+    00000703 28 0F            [12] 1689 	jr	Z, 00110$
+    00000705                       1690 00155$:
+                                   1691 ;src/scripts/enemy.c:296: if (other->x == tx && other->y == ty) {
+    00000705 1A               [ 8] 1692 	ld	a, (de)
+    00000706 F8 00            [12] 1693 	ldhl	sp,	#0
+    00000708 96               [ 8] 1694 	sub	a, (hl)
+    00000709 20 09            [12] 1695 	jr	NZ, 00110$
+    0000070B 13               [ 8] 1696 	inc	de
+    0000070C 1A               [ 8] 1697 	ld	a, (de)
+    0000070D 91               [ 4] 1698 	sub	a, c
+    0000070E 20 04            [12] 1699 	jr	NZ, 00110$
+                                   1700 ;src/scripts/enemy.c:297: return 1;
+    00000710 3E 01            [ 8] 1701 	ld	a, #0x01
+    00000712 18 04            [12] 1702 	jr	00111$
+    00000714                       1703 00110$:
+                                   1704 ;src/scripts/enemy.c:293: for (uint8_t i = 0; i < 2; i++) {
+    00000714 04               [ 4] 1705 	inc	b
+    00000715 18 C7            [12] 1706 	jr	00109$
+    00000717                       1707 00107$:
+                                   1708 ;src/scripts/enemy.c:301: return 0;
+    00000717 AF               [ 4] 1709 	xor	a, a
+    00000718                       1710 00111$:
+                                   1711 ;src/scripts/enemy.c:302: }
+    00000718 33               [ 8] 1712 	inc	sp
+    00000719 E1               [12] 1713 	pop	hl
+    0000071A C1               [12] 1714 	pop	bc
+    0000071B E9               [ 4] 1715 	jp	(hl)
+                                   1716 	.area _CODE
+                                   1717 	.area _INITIALIZER
+                                   1718 	.area _CABS (ABS)

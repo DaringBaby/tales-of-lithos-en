@@ -7,6 +7,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _initarand
 	.globl _initrand
 	.globl _set_bkg_tiles
 	.globl _display_off
@@ -143,13 +144,13 @@ _set_titlescreen::
 ;src/scripts/titlescreen.c:24: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;src/scripts/titlescreen.c:25: initrand(seed);
+;src/scripts/titlescreen.c:25: initarand(seed);
 	ld	a, (_seed)
 	ld	e, a
 	ld	hl, #_seed + 1
 	ld	d, (hl)
 	push	de
-	call	_initrand
+	call	_initarand
 	pop	hl
 ;src/scripts/titlescreen.c:26: return 0; // continua
 	xor	a, a

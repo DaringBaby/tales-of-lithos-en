@@ -63,10 +63,10 @@
 ; ---------------------------------
 	b_spawn_boss	= 3
 _spawn_boss::
-	add	sp, #-4
+	add	sp, #-12
 ;src/scripts/boss.c:9: for (uint8_t i = 0; i < 16; i++) {
 	ld	c, #0x00
-00123$:
+00129$:
 	ld	a, c
 	sub	a, #0x10
 	jr	NC, 00101$
@@ -91,44 +91,23 @@ _spawn_boss::
 	ld	(hl), a
 ;src/scripts/boss.c:9: for (uint8_t i = 0; i < 16; i++) {
 	inc	c
-	jr	00123$
+	jr	00129$
 00101$:
-;src/scripts/boss.c:14: boss->id = 1;
-	ldhl	sp,	#10
+;src/scripts/boss.c:16: boss->id = 1;
+	ldhl	sp,	#18
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
-	ld	a, #0x01
-	ld	(bc), a
-;src/scripts/boss.c:15: boss->hp = 1;
-	ld	l, c
-	ld	h, b
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/boss.c:16: boss->atk = 20;
-	ld	hl, #0x0004
+	ld	e, c
+	ld	d, b
+;src/scripts/boss.c:17: boss->hp = 1;
+	ld	hl, #0x0003
 	add	hl, bc
-	ld	(hl), #0x14
-;src/scripts/boss.c:17: boss->def = 23;
-	ld	hl, #0x0005
-	add	hl, bc
-	ld	(hl), #0x17
-;src/scripts/boss.c:18: boss->exp_reward = 25;
-	ld	hl, #0x0006
-	add	hl, bc
-	ld	(hl), #0x19
-;src/scripts/boss.c:19: boss->x = 72;
-	ld	l, c
-	ld	h, b
-	inc	hl
 	inc	sp
 	inc	sp
-	ld	(hl), #0x48
 	push	hl
-;src/scripts/boss.c:20: boss->y = 64;
-	ld	hl, #0x0002
+;src/scripts/boss.c:18: boss->atk = 20;
+	ld	hl, #0x0004
 	add	hl, bc
 	push	hl
 	ld	a, l
@@ -137,361 +116,668 @@ _spawn_boss::
 	pop	hl
 	ld	a, h
 	ldhl	sp,	#3
-	ld	(hl-), a
+	ld	(hl), a
+;src/scripts/boss.c:19: boss->def = 23;
+	ld	hl, #0x0005
+	add	hl, bc
+	push	hl
+	ld	a, l
+	ldhl	sp,	#6
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#5
+	ld	(hl), a
+;src/scripts/boss.c:20: boss->exp_reward = 25;
+	ld	hl, #0x0006
+	add	hl, bc
+	push	hl
+	ld	a, l
+	ldhl	sp,	#8
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#7
+	ld	(hl), a
+;src/scripts/boss.c:21: boss->x = 72;
+	ld	l, c
+	ld	h, b
+	inc	hl
+	push	hl
+	ld	a, l
+	ldhl	sp,	#10
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#9
+	ld	(hl), a
+;src/scripts/boss.c:22: boss->y = 64;
+	ld	hl, #0x0002
+	add	hl, bc
+	push	hl
+	ld	a, l
+	ldhl	sp,	#12
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#11
+	ld	(hl), a
+;src/scripts/boss.c:23: boss->defeated = 0;
+	ld	hl, #0x0007
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+;src/scripts/boss.c:14: switch (current_floor) {
+	ld	a, (#_current_floor)
+	sub	a, #0x05
+	jr	Z, 00102$
+	ld	a, (#_current_floor)
+	sub	a, #0x0a
+	jr	Z, 00103$
+	ld	a, (#_current_floor)
+	sub	a, #0x0f
+	jp	Z, 00104$
+	ld	a, (#_current_floor)
+	sub	a, #0x14
+	jp	Z, 00105$
+	ld	a, (#_current_floor)
+	sub	a, #0x19
+	jp	Z, 00106$
+	jp	00144$
+;src/scripts/boss.c:15: case 5:
+00102$:
+;src/scripts/boss.c:16: boss->id = 1;
+	ld	a, #0x01
+	ld	(de), a
+;src/scripts/boss.c:17: boss->hp = 1;
+	pop	hl
+	ld	(hl), #0x01
+	push	hl
+;src/scripts/boss.c:18: boss->atk = 20;
+	ldhl	sp,	#2
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x14
+;src/scripts/boss.c:19: boss->def = 23;
+	ldhl	sp,	#4
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x17
+;src/scripts/boss.c:20: boss->exp_reward = 25;
+	ldhl	sp,	#6
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x19
+;src/scripts/boss.c:21: boss->x = 72;
+	ldhl	sp,	#8
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x48
+;src/scripts/boss.c:22: boss->y = 64;
+	ldhl	sp,	#10
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x40
-;src/scripts/boss.c:21: boss->defeated = 0;
-	ld	hl, #0x0007
-	add	hl, bc
-	ld	(hl), #0x00
-;src/scripts/boss.c:22: set_sprite_data(98, 16, EyeBoss);
+;src/scripts/boss.c:23: boss->defeated = 0;
+	xor	a, a
+	ld	(bc), a
+;src/scripts/boss.c:24: set_sprite_data(98, 16, EyeBoss);
 	ld	de, #_EyeBoss
 	push	de
 	ld	hl, #0x1062
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/boss.c:23: for (uint8_t i=0; i<16; i++) {
+;src/scripts/boss.c:25: break;
+	jp	00144$
+;src/scripts/boss.c:26: case 10:
+00103$:
+;src/scripts/boss.c:27: boss->id = 2;
+	ld	a, #0x02
+	ld	(de), a
+;src/scripts/boss.c:28: boss->hp = 1;
+	pop	hl
+	ld	(hl), #0x01
+	push	hl
+;src/scripts/boss.c:29: boss->atk = 20;
+	ldhl	sp,	#2
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x14
+;src/scripts/boss.c:30: boss->def = 23;
+	ldhl	sp,	#4
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x17
+;src/scripts/boss.c:31: boss->exp_reward = 50;
+	ldhl	sp,	#6
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x32
+;src/scripts/boss.c:32: boss->x = 72;
+	ldhl	sp,	#8
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x48
+;src/scripts/boss.c:33: boss->y = 64;
+	ldhl	sp,	#10
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x40
+;src/scripts/boss.c:34: boss->defeated = 0;
+	xor	a, a
+	ld	(bc), a
+;src/scripts/boss.c:35: set_sprite_data(98, 16, BossMantis);
+	ld	de, #_BossMantis
+	push	de
+	ld	hl, #0x1062
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/boss.c:36: break;
+	jp	00144$
+;src/scripts/boss.c:37: case 15:
+00104$:
+;src/scripts/boss.c:38: boss->id = 2;
+	ld	a, #0x02
+	ld	(de), a
+;src/scripts/boss.c:39: boss->hp = 1;
+	pop	hl
+	ld	(hl), #0x01
+	push	hl
+;src/scripts/boss.c:40: boss->atk = 20;
+	ldhl	sp,	#2
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x14
+;src/scripts/boss.c:41: boss->def = 23;
+	ldhl	sp,	#4
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x17
+;src/scripts/boss.c:42: boss->exp_reward = 100;
+	ldhl	sp,	#6
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x64
+;src/scripts/boss.c:43: boss->x = 72;
+	ldhl	sp,	#8
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x48
+;src/scripts/boss.c:44: boss->y = 64;
+	ldhl	sp,	#10
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x40
+;src/scripts/boss.c:45: boss->defeated = 0;
+	xor	a, a
+	ld	(bc), a
+;src/scripts/boss.c:46: set_sprite_data(98, 16, BossOrb);
+	ld	de, #_BossOrb
+	push	de
+	ld	hl, #0x1062
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/boss.c:47: break;
+	jr	00144$
+;src/scripts/boss.c:48: case 20:
+00105$:
+;src/scripts/boss.c:49: boss->id = 4;
+	ld	a, #0x04
+	ld	(de), a
+;src/scripts/boss.c:50: boss->hp = 1;
+	pop	hl
+	ld	(hl), #0x01
+	push	hl
+;src/scripts/boss.c:51: boss->atk = 20;
+	ldhl	sp,	#2
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x14
+;src/scripts/boss.c:52: boss->def = 23;
+	ldhl	sp,	#4
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x17
+;src/scripts/boss.c:53: boss->exp_reward = 150;
+	ldhl	sp,	#6
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x96
+;src/scripts/boss.c:54: boss->x = 72;
+	ldhl	sp,	#8
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x48
+;src/scripts/boss.c:55: boss->y = 64;
+	ldhl	sp,	#10
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x40
+;src/scripts/boss.c:56: boss->defeated = 0;
+	xor	a, a
+	ld	(bc), a
+;src/scripts/boss.c:57: set_sprite_data(98, 16, BossArmored);
+	ld	de, #_BossArmored
+	push	de
+	ld	hl, #0x1062
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/boss.c:58: break;
+	jr	00144$
+;src/scripts/boss.c:59: case 25:
+00106$:
+;src/scripts/boss.c:60: boss->id = 5;
+	ld	a, #0x05
+	ld	(de), a
+;src/scripts/boss.c:61: boss->hp = 1;
+	pop	hl
+	ld	(hl), #0x01
+	push	hl
+;src/scripts/boss.c:62: boss->atk = 20;
+	ldhl	sp,	#2
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x14
+;src/scripts/boss.c:63: boss->def = 23;
+	ldhl	sp,	#4
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x17
+;src/scripts/boss.c:64: boss->exp_reward = 250;
+	ldhl	sp,	#6
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0xfa
+;src/scripts/boss.c:65: boss->x = 72;
+	ldhl	sp,	#8
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x48
+;src/scripts/boss.c:66: boss->y = 64;
+	ldhl	sp,	#10
+	ld	a, (hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), #0x40
+;src/scripts/boss.c:67: boss->defeated = 0;
+	xor	a, a
+	ld	(bc), a
+;src/scripts/boss.c:68: set_sprite_data(98, 16, BossDragon);
+	ld	de, #_BossDragon
+	push	de
+	ld	hl, #0x1062
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/boss.c:71: for (uint8_t i=0; i<16; i++) {
+00144$:
 	ld	c, #0x00
-00126$:
+00132$:
 	ld	a, c
 	sub	a, #0x10
-	jr	NC, 00102$
-;src/scripts/boss.c:24: set_sprite_tile(8+i, 98+i);
-	ld	b, c
-	ld	a, b
+	jr	NC, 00108$
+;src/scripts/boss.c:72: set_sprite_tile(8+i, 98+i);
+	ld	e, c
+	ld	a, e
 	add	a, #0x62
-	ld	e, a
-	ld	a, b
+	ldhl	sp,	#11
+	ld	(hl), a
+	ld	a, e
 	add	a, #0x08
-	ld	b, a
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	xor	a, a
-	ld	l, b
+	ld	l, e
 	ld	h, a
 	add	hl, hl
 	add	hl, hl
-	push	de
 	ld	de, #_shadow_OAM
 	add	hl, de
 	inc	hl
 	inc	hl
-	pop	de
-	ld	(hl), e
-;src/scripts/boss.c:23: for (uint8_t i=0; i<16; i++) {
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#11
+	ld	a, (hl)
+	ld	(de), a
+;src/scripts/boss.c:71: for (uint8_t i=0; i<16; i++) {
 	inc	c
-	jr	00126$
-00102$:
-;src/scripts/boss.c:26: move_sprite(8, boss->x, boss->y);
-	ldhl	sp,#2
+	jr	00132$
+00108$:
+;src/scripts/boss.c:74: move_sprite(8, boss->x, boss->y);
+	ldhl	sp,	#18
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	ld	hl, #0x0002
+	add	hl, bc
+	push	hl
+	ld	a, l
+	ldhl	sp,	#11
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#10
+	ld	(hl-), a
 	ld	a, (hl+)
 	ld	e, a
-	ld	d, (hl)
+	ld	a, (hl+)
+	ld	d, a
 	ld	a, (de)
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
-	ld	b, a
+	ld	(hl), a
+	inc	bc
+	ld	a, (bc)
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 32)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	push	hl
+	ldhl	sp,	#13
+	ld	a, (hl)
+	pop	hl
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:27: move_sprite(9, boss->x+8, boss->y);
-	ldhl	sp,#2
+	ld	(hl), e
+;src/scripts/boss.c:75: move_sprite(9, boss->x+8, boss->y);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
-	ld	d, (hl)
+	ld	a, (hl+)
+	ld	d, a
 	ld	a, (de)
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	(hl), a
+	ld	a, (bc)
 	add	a, #0x08
-	ld	b, a
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 36)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	push	hl
+	ldhl	sp,	#13
+	ld	a, (hl)
+	pop	hl
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:28: move_sprite(10, boss->x+16, boss->y);
-	ldhl	sp,#2
+	ld	(hl), e
+;src/scripts/boss.c:76: move_sprite(10, boss->x+16, boss->y);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
-	ld	d, (hl)
+	ld	a, (hl+)
+	ld	d, a
 	ld	a, (de)
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	(hl), a
+	ld	a, (bc)
 	add	a, #0x10
-	ld	b, a
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 40)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	push	hl
+	ldhl	sp,	#13
+	ld	a, (hl)
+	pop	hl
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:29: move_sprite(11, boss->x+24, boss->y);
-	ldhl	sp,#2
+	ld	(hl), e
+;src/scripts/boss.c:77: move_sprite(11, boss->x+24, boss->y);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
-	ld	d, (hl)
+	ld	a, (hl+)
+	ld	d, a
 	ld	a, (de)
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	(hl), a
+	ld	a, (bc)
 	add	a, #0x18
-	ld	b, a
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 44)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	push	hl
+	ldhl	sp,	#13
+	ld	a, (hl)
+	pop	hl
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:30: move_sprite(12, boss->x, boss->y+8);
-	ldhl	sp,#2
+	ld	(hl), e
+;src/scripts/boss.c:78: move_sprite(12, boss->x, boss->y+8);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x08
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
-	ld	b, a
+	ld	e, a
+	ld	a, (bc)
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 48)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:31: move_sprite(13, boss->x+8, boss->y+8);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:79: move_sprite(13, boss->x+8, boss->y+8);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x08
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x08
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 52)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:32: move_sprite(14, boss->x+16, boss->y+8);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:80: move_sprite(14, boss->x+16, boss->y+8);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x08
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x10
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 56)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:33: move_sprite(15, boss->x+24, boss->y+8);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:81: move_sprite(15, boss->x+24, boss->y+8);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x08
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x18
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 60)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:34: move_sprite(16, boss->x, boss->y+16);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:82: move_sprite(16, boss->x, boss->y+16);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x10
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
-	ld	b, a
+	ld	e, a
+	ld	a, (bc)
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 64)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:35: move_sprite(17, boss->x+8, boss->y+16);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:83: move_sprite(17, boss->x+8, boss->y+16);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x10
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x08
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 68)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:36: move_sprite(18, boss->x+16, boss->y+16);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:84: move_sprite(18, boss->x+16, boss->y+16);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x10
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x10
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 72)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:37: move_sprite(19, boss->x+24, boss->y+16);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:85: move_sprite(19, boss->x+24, boss->y+16);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x10
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x18
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 76)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:38: move_sprite(20, boss->x, boss->y+24);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:86: move_sprite(20, boss->x, boss->y+24);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x18
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
-	ld	b, a
+	ld	e, a
+	ld	a, (bc)
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 80)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:39: move_sprite(21, boss->x+8, boss->y+24);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:87: move_sprite(21, boss->x+8, boss->y+24);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x18
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x08
-	ld	b, a
+	ld	d, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 84)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:40: move_sprite(22, boss->x+16, boss->y+24);
-	ldhl	sp,#2
+	ld	(hl), d
+;src/scripts/boss.c:88: move_sprite(22, boss->x+16, boss->y+24);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x18
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	d, a
+	ld	a, (bc)
 	add	a, #0x10
 	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 88)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, d
 	ld	(hl+), a
 	ld	(hl), e
-;src/scripts/boss.c:41: move_sprite(23, boss->x+24, boss->y+24);
-	ldhl	sp,#2
+;src/scripts/boss.c:89: move_sprite(23, boss->x+24, boss->y+24);
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	add	a, #0x18
-	ld	c, a
-	pop	de
-	push	de
-	ld	a, (de)
+	ld	e, a
+	ld	a, (bc)
 	add	a, #0x18
-	ld	b, a
+	ld	c, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 92)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-	ld	a, c
+	ld	a, e
 	ld	(hl+), a
-	ld	(hl), b
-;src/scripts/boss.c:41: move_sprite(23, boss->x+24, boss->y+24);
-;src/scripts/boss.c:42: }
-	add	sp, #4
+	ld	(hl), c
+;src/scripts/boss.c:89: move_sprite(23, boss->x+24, boss->y+24);
+;src/scripts/boss.c:90: }
+	add	sp, #12
 	ret
-;src/scripts/boss.c:44: void move_boss(Boss *boss) BANKED {
+;src/scripts/boss.c:92: void move_boss(Boss *boss) BANKED {
 ;	---------------------------------
 ; Function move_boss
 ; ---------------------------------
 	b_move_boss	= 3
 _move_boss::
 	add	sp, #-8
-;src/scripts/boss.c:45: if (boss->defeated) {
+;src/scripts/boss.c:93: if (boss->defeated) {
 	ldhl	sp,	#14
 	ld	a, (hl)
 	ldhl	sp,	#0
@@ -508,14 +794,14 @@ _move_boss::
 	ld	b, h
 	ld	a, (bc)
 	or	a, a
-;src/scripts/boss.c:46: return;
+;src/scripts/boss.c:94: return;
 	jp	NZ, 00132$
-;src/scripts/boss.c:52: dx = boss_check_distance_x(boss);
+;src/scripts/boss.c:100: dx = boss_check_distance_x(boss);
 	pop	de
 	push	de
 	call	_boss_check_distance_x
 	ld	e, a
-;src/scripts/boss.c:53: dy = boss_check_distance_y(boss);
+;src/scripts/boss.c:101: dy = boss_check_distance_y(boss);
 	push	de
 	ldhl	sp,	#16
 	ld	a, (hl+)
@@ -524,7 +810,7 @@ _move_boss::
 	call	_boss_check_distance_y
 	ld	c, a
 	pop	de
-;src/scripts/boss.c:57: if (dx == 0 && dy == 16 || dx == 16 && dy == 16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == 16 && dy == 0) {
+;src/scripts/boss.c:105: if (dx == 0 && dy == 16 || dx == 16 && dy == 16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == 16 && dy == 0) {
 	ld	a, c
 	sub	a, #0x10
 	ld	a, #0x01
@@ -594,20 +880,20 @@ _move_boss::
 	or	a, a
 	jr	NZ, 00104$
 00103$:
-;src/scripts/boss.c:58: boss_attack(boss);
+;src/scripts/boss.c:106: boss_attack(boss);
 	pop	de
 	push	de
 	call	_boss_attack
-;src/scripts/boss.c:59: return; 
+;src/scripts/boss.c:107: return;
 	jp	00132$
 00104$:
-;src/scripts/boss.c:65: int16_t diff_x = boss_check_distance_x(boss);
+;src/scripts/boss.c:113: int16_t diff_x = boss_check_distance_x(boss);
 	pop	de
 	push	de
 	call	_boss_check_distance_x
 	ldhl	sp,	#2
 	ld	(hl), a
-;src/scripts/boss.c:66: int16_t diff_y = boss_check_distance_y(boss);
+;src/scripts/boss.c:114: int16_t diff_y = boss_check_distance_y(boss);
 	ldhl	sp,	#14
 	ld	a, (hl+)
 	ld	e, a
@@ -615,7 +901,7 @@ _move_boss::
 	call	_boss_check_distance_y
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/boss.c:69: if (x > boss->x) {
+;src/scripts/boss.c:117: if (x > boss->x) {
 	pop	de
 	push	de
 	ld	l, e
@@ -629,7 +915,7 @@ _move_boss::
 	ld	a, h
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/boss.c:77: if (y > boss->y) {
+;src/scripts/boss.c:125: if (y > boss->y) {
 	pop	de
 	push	de
 	ld	hl, #0x0002
@@ -641,13 +927,13 @@ _move_boss::
 	pop	hl
 	ld	a, h
 	ldhl	sp,	#7
-;src/scripts/boss.c:69: if (x > boss->x) {
+;src/scripts/boss.c:117: if (x > boss->x) {
 	ld	(hl-), a
 	dec	hl
 	dec	hl
 	ld	a, (hl+)
 	ld	e, a
-;src/scripts/boss.c:77: if (y > boss->y) {
+;src/scripts/boss.c:125: if (y > boss->y) {
 	ld	a, (hl+)
 	ld	d, a
 	ld	a, (de)
@@ -657,44 +943,44 @@ _move_boss::
 	ld	d, (hl)
 	ld	a, (de)
 	ld	b, a
-;src/scripts/boss.c:68: if (diff_x > diff_y) {
+;src/scripts/boss.c:116: if (diff_x > diff_y) {
 	ldhl	sp,	#3
 	ld	a, (hl-)
 	sub	a, (hl)
 	jr	NC, 00125$
-;src/scripts/boss.c:69: if (x > boss->x) {
+;src/scripts/boss.c:117: if (x > boss->x) {
 	ld	a, c
 	ld	hl, #_x
 	sub	a, (hl)
 	jr	NC, 00119$
-;src/scripts/boss.c:70: direction = 1;
+;src/scripts/boss.c:118: direction = 1;
 	ld	e, #0x01
 	jr	00126$
 00119$:
-;src/scripts/boss.c:73: direction = 3;
+;src/scripts/boss.c:121: direction = 3;
 	ld	e, #0x03
 	jr	00126$
 00125$:
-;src/scripts/boss.c:77: if (y > boss->y) {
+;src/scripts/boss.c:125: if (y > boss->y) {
 	ld	a, b
 	ld	hl, #_y
 	sub	a, (hl)
 	jr	NC, 00122$
-;src/scripts/boss.c:78: direction = 2;
+;src/scripts/boss.c:126: direction = 2;
 	ld	e, #0x02
 	jr	00126$
 00122$:
-;src/scripts/boss.c:81: direction = 0;
+;src/scripts/boss.c:129: direction = 0;
 	ld	e, #0x00
 00126$:
-;src/scripts/boss.c:85: uint8_t next_x = boss->x;
-;src/scripts/boss.c:86: uint8_t next_y = boss->y;
-;src/scripts/boss.c:89: next_y -= 16;
+;src/scripts/boss.c:133: uint8_t next_x = boss->x;
+;src/scripts/boss.c:134: uint8_t next_y = boss->y;
+;src/scripts/boss.c:137: next_y -= 16;
 	ldhl	sp,	#3
 	ld	(hl), b
-;src/scripts/boss.c:92: next_x += 16;
+;src/scripts/boss.c:140: next_x += 16;
 	ld	d, c
-;src/scripts/boss.c:87: switch (direction) {
+;src/scripts/boss.c:135: switch (direction) {
 	push	de
 	ld	d, #0x00
 	ld	hl, #00221$
@@ -711,41 +997,41 @@ _move_boss::
 	.dw	00128$
 	.dw	00129$
 	.dw	00130$
-;src/scripts/boss.c:88: case 0:
+;src/scripts/boss.c:136: case 0:
 00127$:
-;src/scripts/boss.c:89: next_y -= 16;
+;src/scripts/boss.c:137: next_y -= 16;
 	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, #0xf0
 	ld	b, a
-;src/scripts/boss.c:90: break;
+;src/scripts/boss.c:138: break;
 	jr	00131$
-;src/scripts/boss.c:91: case 1:
+;src/scripts/boss.c:139: case 1:
 00128$:
-;src/scripts/boss.c:92: next_x += 16;
+;src/scripts/boss.c:140: next_x += 16;
 	ld	a, d
 	add	a, #0x10
 	ld	c, a
-;src/scripts/boss.c:93: break;
+;src/scripts/boss.c:141: break;
 	jr	00131$
-;src/scripts/boss.c:94: case 2:
+;src/scripts/boss.c:142: case 2:
 00129$:
-;src/scripts/boss.c:95: next_y += 16;
+;src/scripts/boss.c:143: next_y += 16;
 	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, #0x10
 	ld	b, a
-;src/scripts/boss.c:96: break;
+;src/scripts/boss.c:144: break;
 	jr	00131$
-;src/scripts/boss.c:97: case 3:
+;src/scripts/boss.c:145: case 3:
 00130$:
-;src/scripts/boss.c:98: next_x -= 16;
+;src/scripts/boss.c:146: next_x -= 16;
 	ld	a, d
 	add	a, #0xf0
 	ld	c, a
-;src/scripts/boss.c:100: }
+;src/scripts/boss.c:148: }
 00131$:
-;src/scripts/boss.c:101: boss_smooth_movement(boss, direction);
+;src/scripts/boss.c:149: boss_smooth_movement(boss, direction);
 	push	bc
 	ld	a, e
 	ldhl	sp,	#2
@@ -754,52 +1040,52 @@ _move_boss::
 	ld	d, (hl)
 	call	_boss_smooth_movement
 	pop	bc
-;src/scripts/boss.c:102: boss->x = next_x;
+;src/scripts/boss.c:150: boss->x = next_x;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), c
-;src/scripts/boss.c:103: boss->y = next_y;
+;src/scripts/boss.c:151: boss->y = next_y;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), b
-;src/scripts/boss.c:104: return;
+;src/scripts/boss.c:152: return;
 00132$:
-;src/scripts/boss.c:105: }
+;src/scripts/boss.c:153: }
 	add	sp, #8
 	ret
-;src/scripts/boss.c:107: uint8_t boss_check_distance_x(Boss* boss) {
+;src/scripts/boss.c:155: uint8_t boss_check_distance_x(Boss* boss) {
 ;	---------------------------------
 ; Function boss_check_distance_x
 ; ---------------------------------
 _boss_check_distance_x::
-;src/scripts/boss.c:108: if (x > boss->x) {
+;src/scripts/boss.c:156: if (x > boss->x) {
 	inc	de
 	ld	a, (de)
 	ld	c, a
 	ld	hl, #_x
 	sub	a, (hl)
 	jr	NC, 00102$
-;src/scripts/boss.c:109: return(x - boss->x);
+;src/scripts/boss.c:157: return(x - boss->x);
 	ld	a, (hl)
 	sub	a, c
 	ret
 00102$:
-;src/scripts/boss.c:112: return(boss->x - x);
+;src/scripts/boss.c:160: return(boss->x - x);
 	ld	a, c
 	ld	hl, #_x
 	sub	a, (hl)
-;src/scripts/boss.c:114: }
+;src/scripts/boss.c:162: }
 	ret
-;src/scripts/boss.c:116: uint8_t boss_check_distance_y(Boss* boss) {
+;src/scripts/boss.c:164: uint8_t boss_check_distance_y(Boss* boss) {
 ;	---------------------------------
 ; Function boss_check_distance_y
 ; ---------------------------------
 _boss_check_distance_y::
-;src/scripts/boss.c:117: if (y > boss->y) {
+;src/scripts/boss.c:165: if (y > boss->y) {
 	inc	de
 	inc	de
 	ld	a, (de)
@@ -807,29 +1093,29 @@ _boss_check_distance_y::
 	ld	hl, #_y
 	sub	a, (hl)
 	jr	NC, 00102$
-;src/scripts/boss.c:118: return(y - boss->y);
+;src/scripts/boss.c:166: return(y - boss->y);
 	ld	a, (hl)
 	sub	a, c
 	ret
 00102$:
-;src/scripts/boss.c:121: return(boss->y - y);
+;src/scripts/boss.c:169: return(boss->y - y);
 	ld	a, c
 	ld	hl, #_y
 	sub	a, (hl)
-;src/scripts/boss.c:123: }
+;src/scripts/boss.c:171: }
 	ret
-;src/scripts/boss.c:125: void boss_attack(Boss* boss) {
+;src/scripts/boss.c:173: void boss_attack(Boss* boss) {
 ;	---------------------------------
 ; Function boss_attack
 ; ---------------------------------
 _boss_attack::
-;src/scripts/boss.c:126: hit_sfx();
+;src/scripts/boss.c:174: hit_sfx();
 	push	de
 	ld	e, #b_hit_sfx
 	ld	hl, #_hit_sfx
 	call	___sdcc_bcall_ehl
 	pop	de
-;src/scripts/boss.c:128: if (boss->atk > defense) {
+;src/scripts/boss.c:176: if (boss->atk > defense) {
 	ld	hl, #0x0004
 	add	hl, de
 	ld	c, (hl)
@@ -837,37 +1123,37 @@ _boss_attack::
 	ld	a, (hl)
 	sub	a, c
 	jr	NC, 00102$
-;src/scripts/boss.c:129: damage = boss->atk - defense;
+;src/scripts/boss.c:177: damage = boss->atk - defense;
 	ld	a, c
 	sub	a, (hl)
 	ld	b, a
 	jr	00103$
 00102$:
-;src/scripts/boss.c:132: damage = 1;
+;src/scripts/boss.c:180: damage = 1;
 	ld	b, #0x01
 00103$:
-;src/scripts/boss.c:135: if (damage < current_hp) {
+;src/scripts/boss.c:183: if (damage < current_hp) {
 	ld	a, b
 	ld	hl, #_current_hp
 	sub	a, (hl)
 	jr	NC, 00105$
-;src/scripts/boss.c:136: current_hp -= damage;
+;src/scripts/boss.c:184: current_hp -= damage;
 	ld	a, (hl)
 	sub	a, b
 	ld	(hl), a
 	jr	00106$
 00105$:
-;src/scripts/boss.c:139: current_hp = 0;
+;src/scripts/boss.c:187: current_hp = 0;
 	xor	a, a
 	ld	(#_current_hp),a
 00106$:
-;src/scripts/boss.c:141: play_hit_animation();
+;src/scripts/boss.c:189: play_hit_animation();
 	push	bc
 	ld	e, #b_play_hit_animation
 	ld	hl, #_play_hit_animation
 	call	___sdcc_bcall_ehl
 	pop	bc
-;src/scripts/boss.c:142: show_number(damage, 0, 0, 0);
+;src/scripts/boss.c:190: show_number(damage, 0, 0, 0);
 	xor	a, a
 	rrca
 	push	af
@@ -880,9 +1166,9 @@ _boss_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;src/scripts/boss.c:144: }
+;src/scripts/boss.c:192: }
 	ret
-;src/scripts/boss.c:146: void boss_smooth_movement(Boss* boss, uint8_t dir) {
+;src/scripts/boss.c:194: void boss_smooth_movement(Boss* boss, uint8_t dir) {
 ;	---------------------------------
 ; Function boss_smooth_movement
 ; ---------------------------------
@@ -890,19 +1176,19 @@ _boss_smooth_movement::
 	add	sp, #-8
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/boss.c:149: mov_x = boss->x;
+;src/scripts/boss.c:197: mov_x = boss->x;
 	ld	c, e
 	ld	b, d
 	inc	bc
 	ld	a, (bc)
 	ldhl	sp,	#0
-;src/scripts/boss.c:150: mov_y = boss->y;
+;src/scripts/boss.c:198: mov_y = boss->y;
 	ld	(hl+), a
 	inc	de
 	inc	de
 	ld	a, (de)
 	ld	(hl), a
-;src/scripts/boss.c:151: while (frame < 8) {
+;src/scripts/boss.c:199: while (frame < 8) {
 	ld	a, #0x03
 	ldhl	sp,	#6
 	sub	a, (hl)
@@ -917,20 +1203,20 @@ _boss_smooth_movement::
 	ld	a, (hl)
 	sub	a, #0x08
 	jp	NC, 00125$
-;src/scripts/boss.c:152: wait_vbl_done();
+;src/scripts/boss.c:200: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/boss.c:153: switch (dir) {
+;src/scripts/boss.c:201: switch (dir) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00105$
-;src/scripts/boss.c:155: mov_y-=2;
+;src/scripts/boss.c:203: mov_y-=2;
 	dec	hl
 	ld	c, (hl)
-;src/scripts/boss.c:158: mov_x+=2;
+;src/scripts/boss.c:206: mov_x+=2;
 	dec	hl
 	ld	b, (hl)
-;src/scripts/boss.c:153: switch (dir) {
+;src/scripts/boss.c:201: switch (dir) {
 	ldhl	sp,	#6
 	ld	e, (hl)
 	ld	d, #0x00
@@ -947,41 +1233,41 @@ _boss_smooth_movement::
 	.dw	00102$
 	.dw	00103$
 	.dw	00104$
-;src/scripts/boss.c:154: case 0:
+;src/scripts/boss.c:202: case 0:
 00101$:
-;src/scripts/boss.c:155: mov_y-=2;
+;src/scripts/boss.c:203: mov_y-=2;
 	ld	a, c
 	add	a, #0xfe
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/boss.c:156: break;
+;src/scripts/boss.c:204: break;
 	jr	00105$
-;src/scripts/boss.c:157: case 1:
+;src/scripts/boss.c:205: case 1:
 00102$:
-;src/scripts/boss.c:158: mov_x+=2;
+;src/scripts/boss.c:206: mov_x+=2;
 	ld	a, b
 	add	a, #0x02
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/boss.c:159: break;
+;src/scripts/boss.c:207: break;
 	jr	00105$
-;src/scripts/boss.c:160: case 2:
+;src/scripts/boss.c:208: case 2:
 00103$:
-;src/scripts/boss.c:161: mov_y+=2;
+;src/scripts/boss.c:209: mov_y+=2;
 	ld	a, c
 	add	a, #0x02
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/boss.c:162: break;
+;src/scripts/boss.c:210: break;
 	jr	00105$
-;src/scripts/boss.c:163: case 3:
+;src/scripts/boss.c:211: case 3:
 00104$:
-;src/scripts/boss.c:164: mov_x-=2;
+;src/scripts/boss.c:212: mov_x-=2;
 	ld	a, b
 	add	a, #0xfe
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/boss.c:166: }
+;src/scripts/boss.c:214: }
 00105$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	bc, #(_shadow_OAM + 32)
@@ -992,7 +1278,7 @@ _boss_smooth_movement::
 	inc	bc
 	ld	a, (hl)
 	ld	(bc), a
-;src/scripts/boss.c:168: move_sprite(9, mov_x+8, mov_y);
+;src/scripts/boss.c:216: move_sprite(9, mov_x+8, mov_y);
 	ld	b, (hl)
 	ld	a, b
 	add	a, #0x08
@@ -1009,7 +1295,7 @@ _boss_smooth_movement::
 	inc	de
 	ld	a, c
 	ld	(de), a
-;src/scripts/boss.c:169: move_sprite(10, mov_x+16, mov_y);
+;src/scripts/boss.c:217: move_sprite(10, mov_x+16, mov_y);
 	ld	a, b
 	add	a, #0x10
 	ld	c, a
@@ -1023,7 +1309,7 @@ _boss_smooth_movement::
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
-;src/scripts/boss.c:170: move_sprite(11, mov_x+24, mov_y);
+;src/scripts/boss.c:218: move_sprite(11, mov_x+24, mov_y);
 	ld	a, b
 	add	a, #0x18
 	ldhl	sp,	#4
@@ -1038,7 +1324,7 @@ _boss_smooth_movement::
 	inc	de
 	ld	a, b
 	ld	(de), a
-;src/scripts/boss.c:171: move_sprite(12, mov_x, mov_y+8);
+;src/scripts/boss.c:219: move_sprite(12, mov_x, mov_y+8);
 	ld	a, (hl)
 	ldhl	sp,	#5
 	ld	(hl), a
@@ -1076,7 +1362,7 @@ _boss_smooth_movement::
 	ld	(de), a
 	inc	de
 	ldhl	sp,	#4
-;src/scripts/boss.c:175: move_sprite(16, mov_x, mov_y+16);
+;src/scripts/boss.c:223: move_sprite(16, mov_x, mov_y+16);
 	ld	a, (hl+)
 	ld	(de), a
 	ld	a, (hl)
@@ -1113,7 +1399,7 @@ _boss_smooth_movement::
 	ld	(hl), e
 	ld	de, #(_shadow_OAM + 77)
 	ldhl	sp,	#4
-;src/scripts/boss.c:179: move_sprite(20, mov_x, mov_y+24);
+;src/scripts/boss.c:227: move_sprite(20, mov_x, mov_y+24);
 	ld	a, (hl+)
 	ld	(de), a
 	ld	a, (hl)
@@ -1155,21 +1441,21 @@ _boss_smooth_movement::
 	ld	de, #(_shadow_OAM + 93)
 	ld	a, (hl)
 	ld	(de), a
-;src/scripts/boss.c:183: frame++;
+;src/scripts/boss.c:231: frame++;
 	ldhl	sp,	#7
 	inc	(hl)
 	jp	00106$
 00125$:
-;src/scripts/boss.c:185: }
+;src/scripts/boss.c:233: }
 	add	sp, #8
 	ret
-;src/scripts/boss.c:187: void boss_death(Boss* boss) BANKED {
+;src/scripts/boss.c:235: void boss_death(Boss* boss) BANKED {
 ;	---------------------------------
 ; Function boss_death
 ; ---------------------------------
 	b_boss_death	= 3
 _boss_death::
-;src/scripts/boss.c:190: boss->hp = 0;
+;src/scripts/boss.c:238: boss->hp = 0;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	c, a
@@ -1180,21 +1466,21 @@ _boss_death::
 	inc	hl
 	inc	hl
 	ld	(hl), #0x00
-;src/scripts/boss.c:191: boss->defeated = 1;
+;src/scripts/boss.c:239: boss->defeated = 1;
 	ld	hl, #0x0007
 	add	hl, bc
 	ld	(hl), #0x01
-;src/scripts/boss.c:192: boss->x = 0;
+;src/scripts/boss.c:240: boss->x = 0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	ld	(hl), #0x00
-;src/scripts/boss.c:193: boss->y = 0;
+;src/scripts/boss.c:241: boss->y = 0;
 	inc	bc
 	inc	bc
 	xor	a, a
 	ld	(bc), a
-;src/scripts/boss.c:194: for (uint8_t i = 0; i < 16; i++) {
+;src/scripts/boss.c:242: for (uint8_t i = 0; i < 16; i++) {
 	ld	c, #0x00
 00105$:
 	ld	a, c
@@ -1203,7 +1489,7 @@ _boss_death::
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 38)
 	ld	(hl), #0x32
-;src/scripts/boss.c:196: move_sprite(8+i, 0, 0);
+;src/scripts/boss.c:244: move_sprite(8+i, 0, 0);
 	ld	a, c
 	add	a, #0x08
 	ld	b, a
@@ -1219,9 +1505,9 @@ _boss_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/boss.c:194: for (uint8_t i = 0; i < 16; i++) {
+;src/scripts/boss.c:242: for (uint8_t i = 0; i < 16; i++) {
 	inc	c
-;src/scripts/boss.c:198: }
+;src/scripts/boss.c:246: }
 	jr	00105$
 	.area _CODE_3
 	.area _INITIALIZER

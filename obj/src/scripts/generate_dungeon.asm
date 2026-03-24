@@ -11,7 +11,7 @@
 	.globl _generate_enemies
 	.globl b_get_num_enemies
 	.globl _get_num_enemies
-	.globl _rand
+	.globl _arand
 	.globl _display_off
 	.globl _wait_vbl_done
 	.globl _locked_door
@@ -106,13 +106,13 @@ _generate_dungeon::
 	jp	NZ, 00113$
 ;src/scripts/generate_dungeon.c:30: empty_array();
 	call	_empty_array
-;src/scripts/generate_dungeon.c:31: uint8_t start_x = rand() % 4;
-	call	_rand
+;src/scripts/generate_dungeon.c:31: uint8_t start_x = arand() % 4;
+	call	_arand
 	ld	a, e
 	and	a, #0x03
 	ld	c, a
-;src/scripts/generate_dungeon.c:32: uint8_t start_y = rand() % 4;
-	call	_rand
+;src/scripts/generate_dungeon.c:32: uint8_t start_y = arand() % 4;
+	call	_arand
 	ld	a, e
 	and	a, #0x03
 	ld	b, a
@@ -524,8 +524,8 @@ _create_layout::
 	inc	hl
 	ld	a, (hl-)
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:104: uint8_t dir = directions[rand() % num_dirs];
-	call	_rand
+;src/scripts/generate_dungeon.c:104: uint8_t dir = directions[arand() % num_dirs];
+	call	_arand
 	ld	a, e
 	ldhl	sp,	#4
 	ld	e, (hl)
@@ -1475,8 +1475,8 @@ _find_near_void_cell::
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00126$
-;src/scripts/generate_dungeon.c:225: uint8_t j = rand() % (i+1);
-	call	_rand
+;src/scripts/generate_dungeon.c:225: uint8_t j = arand() % (i+1);
+	call	_arand
 	ldhl	sp,	#18
 	ld	a, (hl)
 	ldhl	sp,	#15
@@ -1711,8 +1711,8 @@ _shuffle_starts::
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00107$
-;src/scripts/generate_dungeon.c:250: uint8_t j = rand() % (i+1);
-	call	_rand
+;src/scripts/generate_dungeon.c:250: uint8_t j = arand() % (i+1);
+	call	_arand
 	ld	a, e
 	ldhl	sp,	#7
 	ld	e, (hl)
@@ -2023,8 +2023,8 @@ _create_doors::
 _add_obstacles::
 	ld	b, a
 	ld	c, e
-;src/scripts/generate_dungeon.c:279: high_obs = rand() & 7;
-	call	_rand
+;src/scripts/generate_dungeon.c:279: high_obs = arand() & 7;
+	call	_arand
 	ld	a, e
 	and	a, #0x07
 	ld	e, a
@@ -2044,9 +2044,9 @@ _add_obstacles::
 	swap	a
 	and	a, #0xf0
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:281: low_obs = rand() & 7;
+;src/scripts/generate_dungeon.c:281: low_obs = arand() & 7;
 	push	hl
-	call	_rand
+	call	_arand
 	ld	a, e
 	pop	hl
 	and	a, #0x07

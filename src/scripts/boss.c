@@ -1,6 +1,6 @@
 #pragma bank 3
 #include "boss.h"
-#include "../tiles/Eyeboss.h"
+#include "../tiles/bosses.h"
 #include <gb/gb.h>
 #include "sound.h"
 
@@ -11,15 +11,63 @@ void spawn_boss(Boss *boss) BANKED {
         move_sprite(8+i, 0, 0);
     }
     // solo 1 boss per ora
-    boss->id = 1;
-    boss->hp = 1;
-    boss->atk = 20;
-    boss->def = 23;
-    boss->exp_reward = 25;
-    boss->x = 72;
-    boss->y = 64;
-    boss->defeated = 0;
-    set_sprite_data(98, 16, EyeBoss);
+    switch (current_floor) {
+        case 5:
+            boss->id = 1;
+            boss->hp = 1;
+            boss->atk = 20;
+            boss->def = 23;
+            boss->exp_reward = 25;
+            boss->x = 72;
+            boss->y = 64;
+            boss->defeated = 0;
+            set_sprite_data(98, 16, EyeBoss);
+            break;
+        case 10:
+            boss->id = 2;
+            boss->hp = 1;
+            boss->atk = 20;
+            boss->def = 23;
+            boss->exp_reward = 50;
+            boss->x = 72;
+            boss->y = 64;
+            boss->defeated = 0;
+            set_sprite_data(98, 16, BossMantis);
+            break;
+        case 15:
+            boss->id = 2;
+            boss->hp = 1;
+            boss->atk = 20;
+            boss->def = 23;
+            boss->exp_reward = 100;
+            boss->x = 72;
+            boss->y = 64;
+            boss->defeated = 0;
+            set_sprite_data(98, 16, BossOrb);
+            break;
+        case 20:
+            boss->id = 4;
+            boss->hp = 1;
+            boss->atk = 20;
+            boss->def = 23;
+            boss->exp_reward = 150;
+            boss->x = 72;
+            boss->y = 64;
+            boss->defeated = 0;
+            set_sprite_data(98, 16, BossArmored);
+            break;
+        case 25:
+            boss->id = 5;
+            boss->hp = 1;
+            boss->atk = 20;
+            boss->def = 23;
+            boss->exp_reward = 250;
+            boss->x = 72;
+            boss->y = 64;
+            boss->defeated = 0;
+            set_sprite_data(98, 16, BossDragon);
+            break;
+    }
     for (uint8_t i=0; i<16; i++) {
         set_sprite_tile(8+i, 98+i);
     }
@@ -46,7 +94,7 @@ void move_boss(Boss *boss) BANKED {
         return;
     }
     uint8_t dx, dy;
-    
+
 
     // controllo distanza per attacco
     dx = boss_check_distance_x(boss);
@@ -56,15 +104,15 @@ void move_boss(Boss *boss) BANKED {
 
     if (dx == 0 && dy == 16 || dx == 16 && dy == 16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == 16 && dy == 0) {
         boss_attack(boss);
-        return; 
+        return;
     }
-    
+
     uint8_t moved = 0;
     // mossa random da fare
     uint8_t direction;
     int16_t diff_x = boss_check_distance_x(boss);
     int16_t diff_y = boss_check_distance_y(boss);
-    
+
     if (diff_x > diff_y) {
         if (x > boss->x) {
             direction = 1;
@@ -186,7 +234,7 @@ void boss_smooth_movement(Boss* boss, uint8_t dir) {
 
 void boss_death(Boss* boss) BANKED {
     // spawn_drop(e->x, e->y); niente drop per il boss (per ora)
-    
+
     boss->hp = 0;
     boss->defeated = 1;
     boss->x = 0;

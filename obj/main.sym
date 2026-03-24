@@ -15,7 +15,6 @@ Symbol Table
     _Hector                                                         ******** GX
     _Key                                                            ******** GX
     _LCDC_REG                                                       ******** GX
-    _LarvaOscura                                                    ******** GX
     _Lock                                                           ******** GX
     _MC_down                                                        ******** GX
     _MC_left                                                        ******** GX
@@ -28,14 +27,12 @@ Symbol Table
     _NoExit                                                         ******** GX
     _Numbers                                                        ******** GX
     _Objects                                                        ******** GX
-    _PredatoreOmbra                                                 ******** GX
     _Safy                                                           ******** GX
     _Text                                                           ******** GX
     _Textbox                                                        ******** GX
     _Title                                                          ******** GX
     _TitleText                                                      ******** GX
     _Titlescreen                                                    ******** GX
-    _Trisguardo                                                     ******** GX
     _TutorialMap                                                    ******** GX
     _WX_REG                                                         ******** GX
     _WY_REG                                                         ******** GX
@@ -58,14 +55,14 @@ Symbol Table
   8 __xinit__frames                                                 00000005 R
   8 __xinit__heal_quantity                                          00000021 R
   8 __xinit__heals                                                  00000020 R
+  8 __xinit__hector_option                                          0000002B R
+  8 __xinit__hours                                                  00000008 R
+  8 __xinit__key_obtained                                           0000002E R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  8 __xinit__hector_option                                          0000002B R
-  8 __xinit__hours                                                  00000008 R
-  8 __xinit__key_obtained                                           0000002E R
   8 __xinit__last_direction                                         00000004 R
   8 __xinit__last_joypad                                            0000000C R
   8 __xinit__level                                                  00000017 R
@@ -115,21 +112,21 @@ Symbol Table
     _boss_theme                                                     ******** GX
     _camp_collisions                                                ******** GX
     _camp_theme                                                     ******** GX
-  0 _change_room                                                    0000110A GR
+  0 _change_room                                                    0000110F GR
     _check_drops                                                    ******** GX
     _check_enemy                                                    ******** GX
+  0 _check_input_keys                                               00000772 GR
+  0 _check_input_movement                                           000003B4 GR
+    _check_map_options                                              ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  0 _check_input_keys                                               00000772 GR
-  0 _check_input_movement                                           000003B4 GR
-    _check_map_options                                              ******** GX
     _check_menu_options                                             ******** GX
-  0 _check_open_menu                                                00001199 GR
+  0 _check_open_menu                                                0000119E GR
   0 _check_terrain                                                  00000B63 GR
-  0 _check_time                                                     00001A27 GR
+  0 _check_time                                                     00001A30 GR
   0 _chest_closed                                                   0000032A GR
   0 _chest_opened                                                   00000332 GR
     _clear_drops                                                    ******** GX
@@ -164,12 +161,12 @@ Symbol Table
     _game_saved                                                     ******** GX
     _gameover_jingle                                                ******** GX
     _generate_dungeon                                               ******** GX
-  0 _go_into_dungeon                                                000012B1 GR
-  0 _go_next_floor                                                  0000133E GR
+  0 _go_into_dungeon                                                000012B6 GR
+  0 _go_next_floor                                                  00001343 GR
     _gui_map                                                        ******** GX
     _hUGE_dosound                                                   ******** GX
     _hUGE_init                                                      ******** GX
-  0 _heal_player                                                    00001864 GR
+  0 _heal_player                                                    0000186D GR
   3 _heal_quantity                                                  00000021 GR
     _heal_sfx                                                       ******** GX
   3 _heals                                                          00000020 GR
@@ -178,14 +175,14 @@ Symbol Table
   0 _hide_camp_sprites                                              00000E4D GR
     _hide_door                                                      ******** GX
     _hit_sfx                                                        ******** GX
+  3 _hours                                                          00000008 GR
+    _init_sound                                                     ******** GX
+    _insert_name                                                    ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 4
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  3 _hours                                                          00000008 GR
-    _init_sound                                                     ******** GX
-    _insert_name                                                    ******** GX
     _intro_theme                                                    ******** GX
   0 _is_sprite_at                                                   00000D4E GR
     _joypad                                                         ******** GX
@@ -214,7 +211,7 @@ Symbol Table
     _move_boss                                                      ******** GX
   0 _move_character                                                 00000363 GR
     _move_enemy                                                     ******** GX
-  0 _music_vbl_interrupt                                            00001AE0 GR
+  0 _music_vbl_interrupt                                            00001A69 GR
   3 _ng                                                             00000035 GR
   3 _num_arrows                                                     00000023 GR
   3 _obt_exp                                                        00000027 GR
@@ -225,7 +222,7 @@ Symbol Table
     _play_explosion_animation                                       ******** GX
     _play_heal_animation                                            ******** GX
     _play_walk_animation                                            ******** GX
-  0 _player_attack                                                  00001504 GR
+  0 _player_attack                                                  0000150D GR
   2 _player_coords                                                  00000002 GR
   3 _player_name                                                    0000000E GR
   3 _potion_heal_lvl                                                0000001E GR
@@ -233,41 +230,40 @@ Symbol Table
   3 _power_ups                                                      0000000B GR
   3 _quiver_lvl                                                     0000001C GR
     _rROMB0                                                         ******** GX
-  0 _return_to_camp                                                 00001AF8 GR
+  0 _return_to_camp                                                 00001A81 GR
   3 _returning_to_camp                                              00000033 GR
     _safy_menu                                                      ******** GX
   3 _safy_option                                                    0000002C GR
     _save_game                                                      ******** GX
+  3 _seconds                                                        00000006 GR
+  2 _seed                                                           0000017C GR
+    _set_bkg_data                                                   ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 5
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  3 _seconds                                                        00000006 GR
-  2 _seed                                                           0000017C GR
-    _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
   0 _set_camp_map                                                   00000D62 GR
     _set_character_sprite                                           ******** GX
   0 _set_dungeon_map                                                00000EA6 GR
-  0 _set_enemy_sprite                                               00001A60 GR
-    _set_enemy_tiles                                                ******** GX
+    _set_enemy_sprite                                               ******** GX
     _set_map_menu                                                   ******** GX
     _set_mini_menu                                                  ******** GX
   0 _set_room                                                       00000EC6 GR
     _set_room_tiles                                                 ******** GX
     _set_sprite_data                                                ******** GX
     _set_stats                                                      ******** GX
-  0 _set_textbox                                                    000013E8 GR
+  0 _set_textbox                                                    000013F1 GR
     _set_titlescreen                                                ******** GX
-  0 _set_tutorial                                                   00001B54 GR
+  0 _set_tutorial                                                   00001ADD GR
     _set_win_tiles                                                  ******** GX
     _shadow_OAM                                                     ******** GX
   3 _shield_lvl                                                     0000001A GR
-  0 _shoot_arrow                                                    00001716 GR
+  0 _shoot_arrow                                                    0000171F GR
     _show_number                                                    ******** GX
     _show_time                                                      ******** GX
-  0 _smooth_movement                                                000018A6 GR
+  0 _smooth_movement                                                000018AF GR
     _spawn_boss                                                     ******** GX
     _spawn_enemies_in_room                                          ******** GX
   0 _stairs                                                         0000033A GR
@@ -298,22 +294,22 @@ Symbol Table
     b_game_over                                                     ******** GX
     b_generate_dungeon                                              ******** GX
     b_heal_sfx                                                      ******** GX
+    b_hide_door                                                     ******** GX
+    b_hit_sfx                                                       ******** GX
+    b_init_sound                                                    ******** GX
+    b_insert_name                                                   ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 6
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-    b_hide_door                                                     ******** GX
-    b_hit_sfx                                                       ******** GX
-    b_init_sound                                                    ******** GX
-    b_insert_name                                                   ******** GX
     b_move_boss                                                     ******** GX
     b_play_attack_animation                                         ******** GX
     b_play_explosion_animation                                      ******** GX
     b_play_heal_animation                                           ******** GX
     b_play_walk_animation                                           ******** GX
     b_set_character_sprite                                          ******** GX
-    b_set_enemy_tiles                                               ******** GX
+    b_set_enemy_sprite                                              ******** GX
     b_set_map_menu                                                  ******** GX
     b_set_mini_menu                                                 ******** GX
     b_set_room_tiles                                                ******** GX
@@ -334,7 +330,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size     1C0E   flags    0
+   0 _CODE                                      size     1B97   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size      1A4   flags    0
    3 _INITIALIZED                               size       37   flags    0

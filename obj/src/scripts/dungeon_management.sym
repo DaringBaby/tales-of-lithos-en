@@ -16,6 +16,7 @@ Symbol Table
     _deco3                                                          ******** GX
     _deco4                                                          ******** GX
     _deco5                                                          ******** GX
+    _dungeon                                                        ******** GX
     _obstacles                                                      ******** GX
   8 _put_on_room                                                    00000181 GR
     _room1                                                          ******** GX
@@ -39,7 +40,6 @@ Symbol Table
     b_put_on_room                                               =   00000002 G
     b_set_room_tiles                                            =   00000002 G
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
@@ -53,7 +53,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_2                                    size      31E   flags    0
+   8 _CODE_2                                    size      339   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

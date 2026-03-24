@@ -117,6 +117,8 @@ void set_room_tiles(uint8_t door, const unsigned char* room_ptr, Coords coord) B
     for (uint16_t i = 0; i<360; i++) {
         current_room[i] = room_ptr[i];
     }
-    assign_obstacles(coord.x, coord.y);
+    if (dungeon[coord.x][coord.y] == 'A' || dungeon[coord.x][coord.y] == 'B') {
+        assign_obstacles(coord.x, coord.y);
+    }
     set_bkg_tiles(0, 0, 20, 18, current_room);
 }

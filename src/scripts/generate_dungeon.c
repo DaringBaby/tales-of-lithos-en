@@ -28,8 +28,8 @@ void generate_dungeon(uint8_t current_floor) BANKED {
     uint8_t num_enemies = get_num_enemies(floor);
     while (!dungeon_complete){
         empty_array();
-        uint8_t start_x = rand() % 4;
-        uint8_t start_y = rand() % 4;
+        uint8_t start_x = arand() % 4;
+        uint8_t start_y = arand() % 4;
         uint8_t length;
         // per ora, num stanze dipende dal piano
         switch (current_floor % 5) {
@@ -74,7 +74,7 @@ void empty_array(){
 
 uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
     uint8_t curr_room = 1;
-    
+
     while (curr_room < target_rooms) {
         char directions[4];
         uint8_t num_dirs = 0;
@@ -101,7 +101,7 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
         uint8_t vy = curr_y;
 
         // direzione
-        uint8_t dir = directions[rand() % num_dirs];
+        uint8_t dir = directions[arand() % num_dirs];
 
         // creazione porte
         uint8_t current_door;
@@ -154,7 +154,7 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
             dungeon[curr_x][curr_y] = 'B';
             add_obstacles(curr_x, curr_y);
         }
-    
+
     }
     return 1;
 }
@@ -222,7 +222,7 @@ Coords find_near_void_cell(Coords start) {
 
     // shuffle direzioni
     for (uint8_t i = 3; i > 0; i--) {
-        uint8_t j = rand() % (i+1);
+        uint8_t j = arand() % (i+1);
         Coords temp = dirs[i];
         dirs[i] = dirs[j];
         dirs[j] = temp;
@@ -247,7 +247,7 @@ void shuffle_starts(Coords possible_starts[], uint8_t starts_count) {
         return;
     }
     for (uint8_t i = starts_count - 1; i > 0; i--) {
-        uint8_t j = rand() % (i+1);
+        uint8_t j = arand() % (i+1);
         Coords temp = possible_starts[i];
         possible_starts[i] = possible_starts[j];
         possible_starts[j] = temp;
@@ -276,8 +276,8 @@ void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir) {
 void add_obstacles(uint8_t x, uint8_t y) {
     uint8_t high_obs;
     uint8_t low_obs;
-    high_obs = rand() & 7;
+    high_obs = arand() & 7;
     obstacles[x][y] = (high_obs << 4);
-    low_obs = rand() & 7;
+    low_obs = arand() & 7;
     obstacles[x][y] |= low_obs;
 }

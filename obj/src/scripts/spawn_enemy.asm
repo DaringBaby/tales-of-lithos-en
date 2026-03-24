@@ -10,6 +10,7 @@
 	.globl _enemy_death
 	.globl _set_enemy_position
 	.globl _set_enemy_stats
+	.globl _set_sprite_data
 	.globl _room_enemies
 	.globl b_get_num_enemies
 	.globl _get_num_enemies
@@ -20,6 +21,8 @@
 	.globl _spawn_enemies_in_room
 	.globl b_set_enemy_tiles
 	.globl _set_enemy_tiles
+	.globl b_set_enemy_sprite
+	.globl _set_enemy_sprite
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -68,8 +71,8 @@ _get_num_enemies::
 	call	__moduchar
 	ldhl	sp,	#0
 	ld	(hl), c
-;src/scripts/spawn_enemy.c:12: uint8_t enemy_var = rand() % 3;
-	call	_rand
+;src/scripts/spawn_enemy.c:12: uint8_t enemy_var = arand() % 3;
+	call	_arand
 	ld	e, c
 	ld	d, b
 	ld	bc, #0x0003
@@ -133,165 +136,253 @@ _get_num_enemies::
 ; Function add_enemy
 ; ---------------------------------
 _add_enemy::
-	ld	d, a
-	ld	c, e
-;src/scripts/spawn_enemy.c:39: switch (floor) { // per ora fino al 5
-	ld	a, #0x05
-	sub	a, d
-	ld	a, #0x00
-	rla
-	ld	b, #0x00
-	ld	e, b
+	dec	sp
+	dec	sp
+	ldhl	sp,	#1
+	ld	(hl), e
+;src/scripts/spawn_enemy.c:39: switch (floor % 5) {
+	ld	l, a
+	ld	h, #0x00
+	ld	a, l
+	push	hl
+	ld	e, #0x05
+	call	__moduchar
+	pop	hl
+	ld	a, c
 	or	a, a
-	jr	NZ, 00106$
-	push	de
-	ld	e, d
-	ld	d, #0x00
-	ld	hl, #00155$
-	add	hl, de
-	add	hl, de
-	ld	e, (hl)
-	inc	hl
-	ld	h, (hl)
-	ld	l, e
-	pop	de
-	jp	(hl)
-00155$:
-	.dw	00106$
-	.dw	00101$
-	.dw	00102$
-	.dw	00103$
-	.dw	00104$
-	.dw	00105$
+	ld	a, #0x01
+	jr	Z, 00197$
+	xor	a, a
+00197$:
+	ld	de, #0x0
+	or	a, a
+	jr	NZ, 00105$
+	ld	a, c
+	dec	a
+	jr	Z, 00101$
+	ld	a,c
+	cp	a,#0x02
+	jr	Z, 00102$
+	cp	a,#0x03
+	jr	Z, 00103$
+	sub	a, #0x04
+	jr	Z, 00104$
+	jr	00106$
 ;src/scripts/spawn_enemy.c:40: case 1:
 00101$:
 ;src/scripts/spawn_enemy.c:41: type1 = 115;
-	ld	b, #0x73
 ;src/scripts/spawn_enemy.c:42: type2 = 13;
-	ld	e, #0x0d
+	ld	de, #0xd73
 ;src/scripts/spawn_enemy.c:44: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:45: case 2:
 00102$:
 ;src/scripts/spawn_enemy.c:46: type1 = 102;
-	ld	b, #0x66
 ;src/scripts/spawn_enemy.c:47: type2 = 23;
-	ld	e, #0x17
+	ld	de, #0x1766
 ;src/scripts/spawn_enemy.c:49: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:50: case 3:
 00103$:
 ;src/scripts/spawn_enemy.c:51: type1 = 77;
-	ld	b, #0x4d
 ;src/scripts/spawn_enemy.c:52: type2 = 38;
-	ld	e, #0x26
+	ld	de, #0x264d
 ;src/scripts/spawn_enemy.c:54: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:55: case 4:
 00104$:
 ;src/scripts/spawn_enemy.c:56: type1 = 64;
-	ld	b, #0x40
 ;src/scripts/spawn_enemy.c:57: type2 = 38;
-	ld	e, #0x26
+	ld	de, #0x2640
 ;src/scripts/spawn_enemy.c:59: break;
 	jr	00106$
-;src/scripts/spawn_enemy.c:60: case 5:
+;src/scripts/spawn_enemy.c:60: case 0:
 00105$:
 ;src/scripts/spawn_enemy.c:61: type1 = 38;
-	ld	b, #0x26
 ;src/scripts/spawn_enemy.c:62: type2 = 51;
-	ld	e, #0x33
+	ld	de, #0x3326
 ;src/scripts/spawn_enemy.c:65: }
 00106$:
-;src/scripts/spawn_enemy.c:67: uint8_t rng = rand() & 128;
+;src/scripts/spawn_enemy.c:67: uint8_t floor_type = (floor - 1) / 5;
+	dec	hl
+	push	de
+	ld	bc, #0x0005
+	ld	e, l
+	ld	d, h
+	call	__divsint
+	pop	de
+;src/scripts/spawn_enemy.c:69: switch (floor_type) {
+	ld	a, #0x04
+	sub	a, c
+	ld	a, #0x00
+	rla
+	ld	b, #0x00
+	ldhl	sp,	#0
+	ld	(hl), #0x00
+	ld	h, #0x00
+	or	a, a
+	jr	NZ, 00112$
+	ld	b, a
+	ld	hl, #00202$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00202$:
+	.dw	00107$
+	.dw	00108$
+	.dw	00109$
+	.dw	00110$
+	.dw	00111$
+;src/scripts/spawn_enemy.c:70: case 0:
+00107$:
+;src/scripts/spawn_enemy.c:71: id_1 = 1;
+	ld	b, #0x01
+;src/scripts/spawn_enemy.c:72: id_2 = 2;
+	ldhl	sp,	#0
+	ld	(hl), #0x02
+;src/scripts/spawn_enemy.c:73: id_3 = 3;
+	ld	h, #0x03
+;src/scripts/spawn_enemy.c:74: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:75: case 1:
+00108$:
+;src/scripts/spawn_enemy.c:76: id_1 = 3;
+	ld	b, #0x03
+;src/scripts/spawn_enemy.c:77: id_2 = 4;
+	ldhl	sp,	#0
+	ld	(hl), #0x04
+;src/scripts/spawn_enemy.c:78: id_3 = 5;
+	ld	h, #0x05
+;src/scripts/spawn_enemy.c:79: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:80: case 2:
+00109$:
+;src/scripts/spawn_enemy.c:81: id_1 = 5;
+	ld	b, #0x05
+;src/scripts/spawn_enemy.c:82: id_2 = 6;
+	ldhl	sp,	#0
+	ld	(hl), #0x06
+;src/scripts/spawn_enemy.c:83: id_3 = 7;
+	ld	h, #0x07
+;src/scripts/spawn_enemy.c:84: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:85: case 3:
+00110$:
+;src/scripts/spawn_enemy.c:86: id_1 = 7;
+	ld	b, #0x07
+;src/scripts/spawn_enemy.c:87: id_2 = 8;
+	ldhl	sp,	#0
+	ld	(hl), #0x08
+;src/scripts/spawn_enemy.c:88: id_3 = 9;
+	ld	h, #0x09
+;src/scripts/spawn_enemy.c:89: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:90: case 4:
+00111$:
+;src/scripts/spawn_enemy.c:91: id_1 = 9;
+	ld	b, #0x09
+;src/scripts/spawn_enemy.c:92: id_2 = 10;
+	ldhl	sp,	#0
+	ld	(hl), #0x0a
+;src/scripts/spawn_enemy.c:93: id_3 = 11;
+	ld	h, #0x0b
+;src/scripts/spawn_enemy.c:95: }
+00112$:
+;src/scripts/spawn_enemy.c:98: uint8_t rng = arand() & 127;
+	push	hl
 	push	bc
 	push	de
-	call	_rand
-	ld	l, c
-	ld	h, b
+	call	_arand
 	pop	de
-	pop	bc
-	ld	a, l
-	and	a, #0x80
-;src/scripts/spawn_enemy.c:68: if (rng < type1) {
-	ld	d, a
-	sub	a, b
-	jr	NC, 00111$
-;src/scripts/spawn_enemy.c:69: enemy_id = 1;
-	ld	e, #0x01
-	jr	00112$
-00111$:
-;src/scripts/spawn_enemy.c:71: else if (rng < type2 + type1) {
-	ld	l, b
-	add	hl, de
+	pop	af
+	ld	b, a
+	pop	af
+	ld	h, a
+	res	7, c
+;src/scripts/spawn_enemy.c:99: if (rng < type1) {
+	ld	a, c
+	sub	a, e
+;src/scripts/spawn_enemy.c:100: enemy_id = id_1;
+	jr	C, 00118$
+;src/scripts/spawn_enemy.c:102: else if (rng < type2 + type1) {
 	ld	a, d
-	sub	a, l
-	jr	NC, 00108$
-;src/scripts/spawn_enemy.c:72: enemy_id = 2;
-	ld	e, #0x02
-	jr	00112$
-00108$:
-;src/scripts/spawn_enemy.c:75: enemy_id = 3;
-	ld	e, #0x03
-00112$:
-;src/scripts/spawn_enemy.c:78: if (room_enemies[i][j] == 0) {
+	add	a, e
+	ld	e, a
+	ld	a, c
+	sub	a, e
+	jr	NC, 00114$
+;src/scripts/spawn_enemy.c:103: enemy_id = id_2;
+	ldhl	sp,	#0
+	ld	b, (hl)
+	jr	00118$
+00114$:
+;src/scripts/spawn_enemy.c:106: enemy_id = id_3;
+	ld	b, h
+00118$:
+;src/scripts/spawn_enemy.c:109: if (room_enemies[i][j] == 0) {
+	ld	de, #_room_enemies+0
+	ldhl	sp,	#1
+	ld	c, (hl)
 	xor	a, a
 	ld	l, c
 	ld	h, a
 	add	hl, hl
 	add	hl, hl
-	ld	a, l
-	add	a, #<(_room_enemies)
-	ld	c, a
-	ld	a, h
-	adc	a, #>(_room_enemies)
-	ld	b, a
-	ldhl	sp,	#2
+	add	hl, de
+	ld	e, l
+	ld	d, h
+	ldhl	sp,	#4
 	ld	l, (hl)
 	ld	h, #0x00
-	add	hl, bc
+	add	hl, de
 	ld	c, (hl)
 	ld	a, c
 	or	a, a
-	jr	NZ, 00116$
-;src/scripts/spawn_enemy.c:79: room_enemies[i][j] = enemy_id;
-	ld	(hl), e
-;src/scripts/spawn_enemy.c:80: return 1;
+	jr	NZ, 00122$
+;src/scripts/spawn_enemy.c:110: room_enemies[i][j] = enemy_id;
+	ld	(hl), b
+;src/scripts/spawn_enemy.c:111: return 1;
 	ld	a, #0x01
-	jr	00118$
-00116$:
-;src/scripts/spawn_enemy.c:82: else if (room_enemies[i][j] < 16) {
+	jr	00124$
+00122$:
+;src/scripts/spawn_enemy.c:113: else if (room_enemies[i][j] < 16) {
 	ld	a, c
 	sub	a, #0x10
-	jr	NC, 00117$
-;src/scripts/spawn_enemy.c:83: room_enemies[i][j] |= (enemy_id << 4);
-	ld	a, e
+	jr	NC, 00123$
+;src/scripts/spawn_enemy.c:114: room_enemies[i][j] |= (enemy_id << 4);
+	ld	a, b
 	swap	a
 	and	a, #0xf0
 	or	a, c
 	ld	(hl), a
-;src/scripts/spawn_enemy.c:84: return 1;
+;src/scripts/spawn_enemy.c:115: return 1;
 	ld	a, #0x01
-	jr	00118$
-00117$:
-;src/scripts/spawn_enemy.c:86: return 0;
+	jr	00124$
+00123$:
+;src/scripts/spawn_enemy.c:117: return 0;
 	xor	a, a
-00118$:
-;src/scripts/spawn_enemy.c:87: }
+00124$:
+;src/scripts/spawn_enemy.c:118: }
+	inc	sp
+	inc	sp
 	pop	hl
 	inc	sp
 	jp	(hl)
-;src/scripts/spawn_enemy.c:89: void generate_enemies(uint8_t num_enemies, char dungeon[4][4], uint8_t floor) BANKED {
+;src/scripts/spawn_enemy.c:120: void generate_enemies(uint8_t num_enemies, char dungeon[4][4], uint8_t floor) BANKED {
 ;	---------------------------------
 ; Function generate_enemies
 ; ---------------------------------
 	b_generate_enemies	= 3
 _generate_enemies::
 	add	sp, #-3
-;src/scripts/spawn_enemy.c:90: for (int i=0; i<4; i++) {
+;src/scripts/spawn_enemy.c:121: for (int i=0; i<4; i++) {
 	ld	bc, #0x0000
 00119$:
-;src/scripts/spawn_enemy.c:91: for (int j=0; j<4; j++) {
+;src/scripts/spawn_enemy.c:122: for (int j=0; j<4; j++) {
 	ld	a,c
 	cp	a,#0x04
 	jr	NC, 00112$
@@ -313,7 +404,7 @@ _generate_enemies::
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00120$
-;src/scripts/spawn_enemy.c:92: room_enemies[i][j] = 0;
+;src/scripts/spawn_enemy.c:123: room_enemies[i][j] = 0;
 	pop	de
 	push	de
 	ld	l, (hl)
@@ -323,21 +414,21 @@ _generate_enemies::
 	ld	d, h
 	xor	a, a
 	ld	(de), a
-;src/scripts/spawn_enemy.c:91: for (int j=0; j<4; j++) {
+;src/scripts/spawn_enemy.c:122: for (int j=0; j<4; j++) {
 	ldhl	sp,	#2
 	inc	(hl)
 	jr	00116$
 00120$:
-;src/scripts/spawn_enemy.c:90: for (int i=0; i<4; i++) {
+;src/scripts/spawn_enemy.c:121: for (int i=0; i<4; i++) {
 	inc	bc
 	jr	00119$
-;src/scripts/spawn_enemy.c:96: while (num_enemies > 0){
+;src/scripts/spawn_enemy.c:127: while (num_enemies > 0){
 00112$:
 	ldhl	sp,	#9
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00114$
-;src/scripts/spawn_enemy.c:97: for (int i=0; i<4; i++) {
+;src/scripts/spawn_enemy.c:128: for (int i=0; i<4; i++) {
 	xor	a, a
 	ldhl	sp,	#1
 	ld	(hl+), a
@@ -349,7 +440,7 @@ _generate_enemies::
 	ld	a, (hl)
 	sbc	a, #0x00
 	jr	NC, 00112$
-;src/scripts/spawn_enemy.c:98: for (int j=0; j<4; j++) {
+;src/scripts/spawn_enemy.c:129: for (int j=0; j<4; j++) {
 	dec	hl
 	ld	a, (hl)
 	ld	d, #0x00
@@ -372,7 +463,7 @@ _generate_enemies::
 	ld	a, d
 	sub	a, #0x04
 	jr	NC, 00126$
-;src/scripts/spawn_enemy.c:99: if (dungeon[i][j] == 'A' || dungeon[i][j] == 'B') {
+;src/scripts/spawn_enemy.c:130: if (dungeon[i][j] == 'A' || dungeon[i][j] == 'B') {
 	ld	l, d
 	ld	h, #0x00
 	add	hl, bc
@@ -382,7 +473,7 @@ _generate_enemies::
 	sub	a, #0x42
 	jr	NZ, 00123$
 00107$:
-;src/scripts/spawn_enemy.c:100: if (add_enemy(floor, i, j)) {
+;src/scripts/spawn_enemy.c:131: if (add_enemy(floor, i, j)) {
 	ld	a, d
 	ldhl	sp,	#1
 	ld	l, (hl)
@@ -398,31 +489,31 @@ _generate_enemies::
 	pop	bc
 	or	a, a
 	jr	Z, 00123$
-;src/scripts/spawn_enemy.c:101: num_enemies--;
+;src/scripts/spawn_enemy.c:132: num_enemies--;
 	dec	e
 	ldhl	sp,	#9
-;src/scripts/spawn_enemy.c:102: if (num_enemies == 0) {
+;src/scripts/spawn_enemy.c:133: if (num_enemies == 0) {
 	ld	a,e
 	ld	(hl),a
 	or	a, a
-;src/scripts/spawn_enemy.c:103: return;
+;src/scripts/spawn_enemy.c:134: return;
 	jr	Z, 00127$
 00123$:
-;src/scripts/spawn_enemy.c:98: for (int j=0; j<4; j++) {
+;src/scripts/spawn_enemy.c:129: for (int j=0; j<4; j++) {
 	inc	d
 	jr	00122$
 00126$:
-;src/scripts/spawn_enemy.c:97: for (int i=0; i<4; i++) {
+;src/scripts/spawn_enemy.c:128: for (int i=0; i<4; i++) {
 	ldhl	sp,	#1
 	inc	(hl)
 	jr	00125$
 00114$:
-;src/scripts/spawn_enemy.c:110: return;
+;src/scripts/spawn_enemy.c:141: return;
 00127$:
-;src/scripts/spawn_enemy.c:111: }
+;src/scripts/spawn_enemy.c:142: }
 	add	sp, #3
 	ret
-;src/scripts/spawn_enemy.c:113: void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
+;src/scripts/spawn_enemy.c:144: void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
 ;	---------------------------------
 ; Function spawn_enemies_in_room
 ; ---------------------------------
@@ -430,7 +521,7 @@ _generate_enemies::
 _spawn_enemies_in_room::
 	dec	sp
 	dec	sp
-;src/scripts/spawn_enemy.c:114: enemy_death(&enemies[0]);
+;src/scripts/spawn_enemy.c:145: enemy_death(&enemies[0]);
 	ldhl	sp,	#10
 	ld	a, (hl)
 	ldhl	sp,	#0
@@ -442,7 +533,7 @@ _spawn_enemies_in_room::
 	pop	de
 	push	de
 	call	_enemy_death
-;src/scripts/spawn_enemy.c:115: enemy_death(&enemies[1]);
+;src/scripts/spawn_enemy.c:146: enemy_death(&enemies[1]);
 	ldhl	sp,#10
 	ld	a, (hl+)
 	ld	e, a
@@ -454,7 +545,7 @@ _spawn_enemies_in_room::
 	push	de
 	call	_enemy_death
 	pop	de
-;src/scripts/spawn_enemy.c:116: uint8_t room_data = room_enemies[i][j];
+;src/scripts/spawn_enemy.c:147: uint8_t room_data = room_enemies[i][j];
 	ldhl	sp,	#8
 	ld	c, (hl)
 	xor	a, a
@@ -473,20 +564,20 @@ _spawn_enemies_in_room::
 	ld	h, #0x00
 	add	hl, bc
 	ld	c, (hl)
-;src/scripts/spawn_enemy.c:118: if (room_data == 0) {
+;src/scripts/spawn_enemy.c:149: if (room_data == 0) {
 	ld	a, c
 	or	a, a
-;src/scripts/spawn_enemy.c:119: return;
+;src/scripts/spawn_enemy.c:150: return;
 	jr	Z, 00107$
-;src/scripts/spawn_enemy.c:122: uint8_t id_high = room_data >> 4;
+;src/scripts/spawn_enemy.c:153: uint8_t id_high = room_data >> 4;
 	ld	a, c
 	swap	a
 	and	a, #0x0f
 	ld	b, a
-;src/scripts/spawn_enemy.c:124: if (id_high > 0) {
+;src/scripts/spawn_enemy.c:155: if (id_high > 0) {
 	or	a, a
 	jr	Z, 00104$
-;src/scripts/spawn_enemy.c:125: set_enemy_stats(&enemies[1], id_high, 12);
+;src/scripts/spawn_enemy.c:156: set_enemy_stats(&enemies[1], id_high, 12);
 	push	bc
 	push	de
 	ld	a, #0x0c
@@ -495,7 +586,7 @@ _spawn_enemies_in_room::
 	ld	a, b
 	call	_set_enemy_stats
 	pop	de
-;src/scripts/spawn_enemy.c:126: set_enemy_position(&enemies[1], 72, 48);
+;src/scripts/spawn_enemy.c:157: set_enemy_position(&enemies[1], 72, 48);
 	ld	a, #0x30
 	push	af
 	inc	sp
@@ -503,14 +594,14 @@ _spawn_enemies_in_room::
 	call	_set_enemy_position
 	pop	bc
 00104$:
-;src/scripts/spawn_enemy.c:129: uint8_t id_low = room_data & 0x0F;
+;src/scripts/spawn_enemy.c:160: uint8_t id_low = room_data & 0x0F;
 	ld	a, c
 	and	a, #0x0f
 	ld	c, a
-;src/scripts/spawn_enemy.c:130: if (id_low > 0) {
+;src/scripts/spawn_enemy.c:161: if (id_low > 0) {
 	or	a, a
 	jr	Z, 00107$
-;src/scripts/spawn_enemy.c:131: set_enemy_stats(&enemies[0], id_low, 8);
+;src/scripts/spawn_enemy.c:162: set_enemy_stats(&enemies[0], id_low, 8);
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -520,7 +611,7 @@ _spawn_enemies_in_room::
 	inc	hl
 	ld	d, (hl)
 	call	_set_enemy_stats
-;src/scripts/spawn_enemy.c:132: set_enemy_position(&enemies[0], 120, 48);
+;src/scripts/spawn_enemy.c:163: set_enemy_position(&enemies[0], 120, 48);
 	ld	a, #0x30
 	push	af
 	inc	sp
@@ -531,11 +622,11 @@ _spawn_enemies_in_room::
 	ld	d, (hl)
 	call	_set_enemy_position
 00107$:
-;src/scripts/spawn_enemy.c:134: }
+;src/scripts/spawn_enemy.c:165: }
 	inc	sp
 	inc	sp
 	ret
-;src/scripts/spawn_enemy.c:137: void set_enemy_tiles() BANKED {
+;src/scripts/spawn_enemy.c:168: void set_enemy_tiles() BANKED {
 ;	---------------------------------
 ; Function set_enemy_tiles
 ; ---------------------------------
@@ -558,9 +649,319 @@ _set_enemy_tiles::
 	ld	(hl), #0x60
 	ld	hl, #(_shadow_OAM + 62)
 	ld	(hl), #0x61
-;src/scripts/spawn_enemy.c:145: set_sprite_tile(15, 97);
-;src/scripts/spawn_enemy.c:146: }
+;src/scripts/spawn_enemy.c:176: set_sprite_tile(15, 97);
+;src/scripts/spawn_enemy.c:177: }
 	ret
+;src/scripts/spawn_enemy.c:179: void set_enemy_sprite() BANKED {
+;	---------------------------------
+; Function set_enemy_sprite
+; ---------------------------------
+	b_set_enemy_sprite	= 3
+_set_enemy_sprite::
+;src/scripts/spawn_enemy.c:180: switch (current_enemies[0].type) {
+	ld	hl, #(_current_enemies + 5)
+	ld	c, (hl)
+	ld	a, #0x0b
+	sub	a, c
+	jp	C, 00112$
+	ld	b, #0x00
+	ld	hl, #00141$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00141$:
+	.dw	00112$
+	.dw	00101$
+	.dw	00102$
+	.dw	00103$
+	.dw	00104$
+	.dw	00105$
+	.dw	00106$
+	.dw	00107$
+	.dw	00108$
+	.dw	00109$
+	.dw	00110$
+	.dw	00111$
+;src/scripts/spawn_enemy.c:181: case 1:
+00101$:
+;src/scripts/spawn_enemy.c:182: set_sprite_data(90, 4, LarvaOscura);
+	ld	de, #_LarvaOscura
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:183: break;
+	jp	00112$
+;src/scripts/spawn_enemy.c:184: case 2:
+00102$:
+;src/scripts/spawn_enemy.c:185: set_sprite_data(90, 4, Trisguardo);
+	ld	de, #_Trisguardo
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:186: break;
+	jp	00112$
+;src/scripts/spawn_enemy.c:187: case 3:
+00103$:
+;src/scripts/spawn_enemy.c:188: set_sprite_data(90, 4, Cervellino);
+	ld	de, #_Cervellino
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:189: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:190: case 4:
+00104$:
+;src/scripts/spawn_enemy.c:191: set_sprite_data(90, 4, Pipistrello);
+	ld	de, #_Pipistrello
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:192: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:193: case 5:
+00105$:
+;src/scripts/spawn_enemy.c:194: set_sprite_data(90, 4, Ragnocchio);
+	ld	de, #_Ragnocchio
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:195: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:196: case 6:
+00106$:
+;src/scripts/spawn_enemy.c:197: set_sprite_data(90, 4, Quadratocchio);
+	ld	de, #_Quadratocchio
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:198: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:199: case 7:
+00107$:
+;src/scripts/spawn_enemy.c:200: set_sprite_data(90, 4, Cristallocchio);
+	ld	de, #_Cristallocchio
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:201: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:202: case 8:
+00108$:
+;src/scripts/spawn_enemy.c:203: set_sprite_data(90, 4, OcchioInfuocato);
+	ld	de, #_OcchioInfuocato
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:204: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:205: case 9:
+00109$:
+;src/scripts/spawn_enemy.c:206: set_sprite_data(90, 4, Armatura);
+	ld	de, #_Armatura
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:207: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:208: case 10:
+00110$:
+;src/scripts/spawn_enemy.c:209: set_sprite_data(90, 4, PredatoreOmbra);
+	ld	de, #_PredatoreOmbra
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:210: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:211: case 11:
+00111$:
+;src/scripts/spawn_enemy.c:212: set_sprite_data(90, 4, Dragocchio);
+	ld	de, #_Dragocchio
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:214: }
+00112$:
+;src/scripts/spawn_enemy.c:215: switch (current_enemies[1].type) {
+	ld	hl, #(_current_enemies + 15)
+	ld	c, (hl)
+	ld	a, #0x0b
+	sub	a, c
+	jp	C, 00124$
+	ld	b, #0x00
+	ld	hl, #00142$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00142$:
+	.dw	00124$
+	.dw	00113$
+	.dw	00114$
+	.dw	00115$
+	.dw	00116$
+	.dw	00117$
+	.dw	00118$
+	.dw	00119$
+	.dw	00120$
+	.dw	00121$
+	.dw	00122$
+	.dw	00123$
+;src/scripts/spawn_enemy.c:216: case 1:
+00113$:
+;src/scripts/spawn_enemy.c:217: set_sprite_data(94, 4, LarvaOscura);
+	ld	de, #_LarvaOscura
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:218: break;
+	jp	00124$
+;src/scripts/spawn_enemy.c:219: case 2:
+00114$:
+;src/scripts/spawn_enemy.c:220: set_sprite_data(94, 4, Trisguardo);
+	ld	de, #_Trisguardo
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:221: break;
+	jp	00124$
+;src/scripts/spawn_enemy.c:222: case 3:
+00115$:
+;src/scripts/spawn_enemy.c:223: set_sprite_data(94, 4, Cervellino);
+	ld	de, #_Cervellino
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:224: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:225: case 4:
+00116$:
+;src/scripts/spawn_enemy.c:226: set_sprite_data(94, 4, Pipistrello);
+	ld	de, #_Pipistrello
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:227: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:228: case 5:
+00117$:
+;src/scripts/spawn_enemy.c:229: set_sprite_data(94, 4, Ragnocchio);
+	ld	de, #_Ragnocchio
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:230: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:231: case 6:
+00118$:
+;src/scripts/spawn_enemy.c:232: set_sprite_data(94, 4, Quadratocchio);
+	ld	de, #_Quadratocchio
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:233: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:234: case 7:
+00119$:
+;src/scripts/spawn_enemy.c:235: set_sprite_data(94, 4, Cristallocchio);
+	ld	de, #_Cristallocchio
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:236: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:237: case 8:
+00120$:
+;src/scripts/spawn_enemy.c:238: set_sprite_data(94, 4, OcchioInfuocato);
+	ld	de, #_OcchioInfuocato
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:239: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:240: case 9:
+00121$:
+;src/scripts/spawn_enemy.c:241: set_sprite_data(94, 4, Armatura);
+	ld	de, #_Armatura
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:242: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:243: case 10:
+00122$:
+;src/scripts/spawn_enemy.c:244: set_sprite_data(94, 4, PredatoreOmbra);
+	ld	de, #_PredatoreOmbra
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:245: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:246: case 11:
+00123$:
+;src/scripts/spawn_enemy.c:247: set_sprite_data(94, 4, Dragocchio);
+	ld	de, #_Dragocchio
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:249: }
+00124$:
+;src/scripts/spawn_enemy.c:250: set_enemy_tiles();
+	ld	e, #b_set_enemy_tiles
+	ld	hl, #_set_enemy_tiles
+;src/scripts/spawn_enemy.c:251: return;
+;src/scripts/spawn_enemy.c:252: }
+	jp  ___sdcc_bcall_ehl
 	.area _CODE_3
 	.area _INITIALIZER
 	.area _CABS (ABS)

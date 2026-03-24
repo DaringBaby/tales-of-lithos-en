@@ -15,15 +15,15 @@ B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c
 B4_SOURCES = src/songs/dungeon_song.c src/songs/boss_song.c
 B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_management.c \
              src/scripts/spawn_enemy.c src/scripts/combat_system.c src/scripts/insert_name.c \
-             src/maps/NameScreenMap.c src/scripts/locked_doors.c src/tiles/Eyeboss.c \
-             src/scripts/boss.c src/scripts/sound.c src/songs/gameover_sound.c \
+             src/maps/NameScreenMap.c src/scripts/locked_doors.c src/tiles/bosses.c \
+             src/scripts/boss.c src/scripts/sound.c src/songs/gameover_sound.c src/tiles/Enemies.c \
              src/songs/boss_defeated.c src/maps/TutorialMap.c
 B2_SOURCES = src/maps/CampMap.c src/maps/Dungeon.c src/maps/Title.c \
              src/tiles/CampTiles.c src/tiles/Text.c src/tiles/DungeonTiles.c \
              src/tiles/Titlescreen.c src/tiles/TitleText.c \
              src/scripts/dungeon_management.c src/maps/Obstacles.c
 B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
-             src/tiles/Arrow.c src/tiles/DungeonObjects.c src/tiles/Enemies.c \
+             src/tiles/Arrow.c src/tiles/DungeonObjects.c \
              src/tiles/key.c src/tiles/Lock.c src/tiles/textbox.c \
              src/tiles/mugshot.c src/tiles/mythril.c src/tiles/numbers.c \
              src/tiles/wpn_arrow.c src/tiles/enemyDrops.c src/scripts/generate_dungeon.c \

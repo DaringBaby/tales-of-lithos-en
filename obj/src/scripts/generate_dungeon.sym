@@ -14,6 +14,7 @@ Symbol Table
   8 _add_branch                                                     00000460 GR
   8 _add_obstacles                                                  00000981 GR
   8 _append                                                         00000441 GR
+    _arand                                                          ******** GX
   8 _create_doors                                                   00000878 GR
   8 _create_layout                                                  0000011E GR
     _display_off                                                    ******** GX
@@ -28,7 +29,6 @@ Symbol Table
   8 _max_length                                                     000000C8 GR
   8 _min_length                                                     000000C7 GR
   2 _obstacles                                                      00000020 GR
-    _rand                                                           ******** GX
   8 _shuffle_starts                                                 000007EB GR
     _wait_vbl_done                                                  ******** GX
     b_generate_dungeon                                          =   00000001 G

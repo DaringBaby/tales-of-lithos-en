@@ -7,222 +7,223 @@
                                       7 ;--------------------------------------------------------
                                       8 ; Public variables in this module
                                       9 ;--------------------------------------------------------
-                                     10 	.globl _initrand
-                                     11 	.globl _set_bkg_tiles
-                                     12 	.globl _display_off
-                                     13 	.globl _wait_vbl_done
-                                     14 	.globl _joypad
-                                     15 	.globl _delay
-                                     16 	.globl b_set_titlescreen
-                                     17 	.globl _set_titlescreen
-                                     18 ;--------------------------------------------------------
-                                     19 ; special function registers
-                                     20 ;--------------------------------------------------------
-                                     21 	.area _HRAM
-                                     22 ;--------------------------------------------------------
-                                     23 ; ram data
-                                     24 ;--------------------------------------------------------
-                                     25 	.area _DATA
-                                     26 ;--------------------------------------------------------
-                                     27 ; ram data
-                                     28 ;--------------------------------------------------------
-                                     29 	.area _INITIALIZED
-                                     30 ;--------------------------------------------------------
-                                     31 ; absolute external ram data
-                                     32 ;--------------------------------------------------------
-                                     33 	.area _DABS (ABS)
-                                     34 ;--------------------------------------------------------
-                                     35 ; global & static initialisations
-                                     36 ;--------------------------------------------------------
-                                     37 	.area _HOME
-                                     38 	.area _GSINIT
-                                     39 	.area _GSFINAL
-                                     40 	.area _GSINIT
-                                     41 ;--------------------------------------------------------
-                                     42 ; Home
-                                     43 ;--------------------------------------------------------
-                                     44 	.area _HOME
+                                     10 	.globl _initarand
+                                     11 	.globl _initrand
+                                     12 	.globl _set_bkg_tiles
+                                     13 	.globl _display_off
+                                     14 	.globl _wait_vbl_done
+                                     15 	.globl _joypad
+                                     16 	.globl _delay
+                                     17 	.globl b_set_titlescreen
+                                     18 	.globl _set_titlescreen
+                                     19 ;--------------------------------------------------------
+                                     20 ; special function registers
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _HRAM
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _INITIALIZED
+                                     31 ;--------------------------------------------------------
+                                     32 ; absolute external ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _DABS (ABS)
+                                     35 ;--------------------------------------------------------
+                                     36 ; global & static initialisations
+                                     37 ;--------------------------------------------------------
+                                     38 	.area _HOME
+                                     39 	.area _GSINIT
+                                     40 	.area _GSFINAL
+                                     41 	.area _GSINIT
+                                     42 ;--------------------------------------------------------
+                                     43 ; Home
+                                     44 ;--------------------------------------------------------
                                      45 	.area _HOME
-                                     46 ;--------------------------------------------------------
-                                     47 ; code
-                                     48 ;--------------------------------------------------------
-                                     49 	.area _CODE_3
-                                     50 ;src/scripts/titlescreen.c:12: uint8_t set_titlescreen() BANKED {
-                                     51 ;	---------------------------------
-                                     52 ; Function set_titlescreen
-                                     53 ; ---------------------------------
-                         00000003    54 	b_set_titlescreen	= 3
-    00000000                         55 _set_titlescreen::
-    00000000 E8 E4            [16]   56 	add	sp, #-28
-                                     57 ;src/scripts/titlescreen.c:13: uint8_t press_start[] = {241, 242, 243, 244, 245, 1, 1, 246, 247, 248, 242, 247};
-    00000002 F8 00            [12]   58 	ldhl	sp,	#0
-    00000004 3E F1            [ 8]   59 	ld	a, #0xf1
-    00000006 22               [ 8]   60 	ld	(hl+), a
-    00000007 3E F2            [ 8]   61 	ld	a, #0xf2
-    00000009 22               [ 8]   62 	ld	(hl+), a
-    0000000A 3E F3            [ 8]   63 	ld	a, #0xf3
-    0000000C 22               [ 8]   64 	ld	(hl+), a
-    0000000D 3E F4            [ 8]   65 	ld	a, #0xf4
-    0000000F 22               [ 8]   66 	ld	(hl+), a
-    00000010 3E F5            [ 8]   67 	ld	a, #0xf5
-    00000012 22               [ 8]   68 	ld	(hl+), a
-    00000013 3E 01            [ 8]   69 	ld	a,#0x01
-    00000015 22               [ 8]   70 	ld	(hl+),a
-    00000016 22               [ 8]   71 	ld	(hl+), a
-    00000017 3E F6            [ 8]   72 	ld	a, #0xf6
-    00000019 22               [ 8]   73 	ld	(hl+), a
-    0000001A 3E F7            [ 8]   74 	ld	a, #0xf7
-    0000001C 22               [ 8]   75 	ld	(hl+), a
-    0000001D 3E F8            [ 8]   76 	ld	a, #0xf8
-    0000001F 22               [ 8]   77 	ld	(hl+), a
-    00000020 3E F2            [ 8]   78 	ld	a, #0xf2
-    00000022 22               [ 8]   79 	ld	(hl+), a
-                                     80 ;src/scripts/titlescreen.c:14: uint8_t empty[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-    00000023 3E F7            [ 8]   81 	ld	a, #0xf7
-    00000025 22               [ 8]   82 	ld	(hl+), a
-    00000026 3E 01            [ 8]   83 	ld	a,#0x01
-    00000028 22               [ 8]   84 	ld	(hl+),a
-    00000029 22               [ 8]   85 	ld	(hl+), a
-    0000002A 3E 01            [ 8]   86 	ld	a,#0x01
-    0000002C 22               [ 8]   87 	ld	(hl+),a
-    0000002D 22               [ 8]   88 	ld	(hl+), a
-    0000002E 3E 01            [ 8]   89 	ld	a,#0x01
-    00000030 22               [ 8]   90 	ld	(hl+),a
-    00000031 22               [ 8]   91 	ld	(hl+), a
-    00000032 3E 01            [ 8]   92 	ld	a,#0x01
-    00000034 22               [ 8]   93 	ld	(hl+),a
-    00000035 22               [ 8]   94 	ld	(hl+), a
-    00000036 3E 01            [ 8]   95 	ld	a,#0x01
-    00000038 22               [ 8]   96 	ld	(hl+),a
-    00000039 22               [ 8]   97 	ld	(hl+), a
-    0000003A 3E 01            [ 8]   98 	ld	a,#0x01
-    0000003C 22               [ 8]   99 	ld	(hl+),a
-    0000003D 22               [ 8]  100 	ld	(hl+), a
-    0000003E 3E 01            [ 8]  101 	ld	a,#0x01
-    00000040 22               [ 8]  102 	ld	(hl+),a
-    00000041 22               [ 8]  103 	ld	(hl+), a
-    00000042 3E 01            [ 8]  104 	ld	a, #0x01
-    00000044 22               [ 8]  105 	ld	(hl+), a
-    00000045 36 01            [12]  106 	ld	(hl), #0x01
-                                    107 ;src/scripts/titlescreen.c:15: set_bkg_tiles(4, 16, 12, 1, press_start);
-    00000047 21 00 00         [12]  108 	ld	hl, #0
-    0000004A 39               [ 8]  109 	add	hl, sp
-    0000004B E5               [16]  110 	push	hl
-    0000004C 21 0C 01         [12]  111 	ld	hl, #0x10c
-    0000004F E5               [16]  112 	push	hl
-    00000050 21 04 10         [12]  113 	ld	hl, #0x1004
-    00000053 E5               [16]  114 	push	hl
-    00000054 CDr00r00         [24]  115 	call	_set_bkg_tiles
-    00000057 E8 06            [16]  116 	add	sp, #6
-                                    117 ;src/scripts/titlescreen.c:16: uint8_t frame = 0;
-    00000059 0E 00            [ 8]  118 	ld	c, #0x00
-                                    119 ;src/scripts/titlescreen.c:17: SHOW_BKG;
-    0000005B F0r00            [12]  120 	ldh	a, (_LCDC_REG + 0)
-    0000005D F6 01            [ 8]  121 	or	a, #0x01
-    0000005F E0r00            [12]  122 	ldh	(_LCDC_REG + 0), a
-                                    123 ;src/scripts/titlescreen.c:18: while (1) {
-    00000061                        124 00114$:
-                                    125 ;src/scripts/titlescreen.c:19: seed++;
-    00000061 21r00r00         [12]  126 	ld	hl, #_seed
-    00000064 34               [12]  127 	inc	(hl)
-    00000065 20 02            [12]  128 	jr	NZ, 00160$
-    00000067 23               [ 8]  129 	inc	hl
-    00000068 34               [12]  130 	inc	(hl)
-    00000069                        131 00160$:
-                                    132 ;src/scripts/titlescreen.c:20: wait_vbl_done();
-    00000069 CDr00r00         [24]  133 	call	_wait_vbl_done
-                                    134 ;src/scripts/titlescreen.c:21: if (joypad() & J_START) {
-    0000006C CDr00r00         [24]  135 	call	_joypad
-    0000006F 07               [ 4]  136 	rlca
-    00000070 30 1F            [12]  137 	jr	NC, 00104$
-                                    138 ;src/scripts/titlescreen.c:22: delay(150);
-    00000072 11 96 00         [12]  139 	ld	de, #0x0096
-    00000075 CDr00r00         [24]  140 	call	_delay
-                                    141 ;src/scripts/titlescreen.c:23: DISPLAY_OFF;
-    00000078 CDr00r00         [24]  142 	call	_display_off
-                                    143 ;src/scripts/titlescreen.c:24: delay(150);
-    0000007B 11 96 00         [12]  144 	ld	de, #0x0096
-    0000007E CDr00r00         [24]  145 	call	_delay
-                                    146 ;src/scripts/titlescreen.c:25: initrand(seed);
-    00000081 FAr00r00         [16]  147 	ld	a, (_seed)
-    00000084 5F               [ 4]  148 	ld	e, a
-    00000085 21r01r00         [12]  149 	ld	hl, #_seed + 1
-    00000088 56               [ 8]  150 	ld	d, (hl)
-    00000089 D5               [16]  151 	push	de
-    0000008A CDr00r00         [24]  152 	call	_initrand
-    0000008D E1               [12]  153 	pop	hl
-                                    154 ;src/scripts/titlescreen.c:26: return 0; // continua
-    0000008E AF               [ 4]  155 	xor	a, a
-    0000008F 18 61            [12]  156 	jr	00116$
-    00000091                        157 00104$:
-                                    158 ;src/scripts/titlescreen.c:28: else if (joypad() & J_SELECT) {
-    00000091 CDr00r00         [24]  159 	call	_joypad
-    00000094 CB 77            [ 8]  160 	bit	6, a
-    00000096 28 20            [12]  161 	jr	Z, 00105$
-                                    162 ;src/scripts/titlescreen.c:29: delay(150);
-    00000098 11 96 00         [12]  163 	ld	de, #0x0096
-    0000009B CDr00r00         [24]  164 	call	_delay
-                                    165 ;src/scripts/titlescreen.c:30: DISPLAY_OFF;
-    0000009E CDr00r00         [24]  166 	call	_display_off
-                                    167 ;src/scripts/titlescreen.c:31: delay(150);
-    000000A1 11 96 00         [12]  168 	ld	de, #0x0096
-    000000A4 CDr00r00         [24]  169 	call	_delay
-                                    170 ;src/scripts/titlescreen.c:32: initrand(seed);
-    000000A7 FAr00r00         [16]  171 	ld	a, (_seed)
-    000000AA 5F               [ 4]  172 	ld	e, a
-    000000AB 21r01r00         [12]  173 	ld	hl, #_seed + 1
-    000000AE 56               [ 8]  174 	ld	d, (hl)
-    000000AF D5               [16]  175 	push	de
-    000000B0 CDr00r00         [24]  176 	call	_initrand
-    000000B3 E1               [12]  177 	pop	hl
-                                    178 ;src/scripts/titlescreen.c:33: return 1; // nuovo gioco
-    000000B4 3E 01            [ 8]  179 	ld	a, #0x01
-    000000B6 18 3A            [12]  180 	jr	00116$
-    000000B8                        181 00105$:
-                                    182 ;src/scripts/titlescreen.c:35: if (frame == 0) {
-    000000B8 79               [ 4]  183 	ld	a, c
-    000000B9 B7               [ 4]  184 	or	a, a
-    000000BA 20 14            [12]  185 	jr	NZ, 00109$
-                                    186 ;src/scripts/titlescreen.c:36: set_bkg_tiles(4, 16, 12, 1, empty);
-    000000BC 21 0C 00         [12]  187 	ld	hl, #12
-    000000BF 39               [ 8]  188 	add	hl, sp
-    000000C0 E5               [16]  189 	push	hl
-    000000C1 21 0C 01         [12]  190 	ld	hl, #0x10c
-    000000C4 E5               [16]  191 	push	hl
-    000000C5 21 04 10         [12]  192 	ld	hl, #0x1004
-    000000C8 E5               [16]  193 	push	hl
-    000000C9 CDr00r00         [24]  194 	call	_set_bkg_tiles
-    000000CC E8 06            [16]  195 	add	sp, #6
-    000000CE 18 17            [12]  196 	jr	00110$
-    000000D0                        197 00109$:
-                                    198 ;src/scripts/titlescreen.c:38: else if (frame == 30) {
-    000000D0 79               [ 4]  199 	ld	a, c
-    000000D1 D6 1E            [ 8]  200 	sub	a, #0x1e
-    000000D3 20 12            [12]  201 	jr	NZ, 00110$
-                                    202 ;src/scripts/titlescreen.c:39: set_bkg_tiles(4, 16, 12, 1, press_start);
-    000000D5 21 00 00         [12]  203 	ld	hl, #0
-    000000D8 39               [ 8]  204 	add	hl, sp
-    000000D9 E5               [16]  205 	push	hl
-    000000DA 21 0C 01         [12]  206 	ld	hl, #0x10c
-    000000DD E5               [16]  207 	push	hl
-    000000DE 21 04 10         [12]  208 	ld	hl, #0x1004
-    000000E1 E5               [16]  209 	push	hl
-    000000E2 CDr00r00         [24]  210 	call	_set_bkg_tiles
-    000000E5 E8 06            [16]  211 	add	sp, #6
-    000000E7                        212 00110$:
-                                    213 ;src/scripts/titlescreen.c:41: frame++;
-    000000E7 0C               [ 4]  214 	inc	c
-                                    215 ;src/scripts/titlescreen.c:42: if (frame == 60) {
-    000000E8 79               [ 4]  216 	ld	a, c
-                                    217 ;src/scripts/titlescreen.c:43: frame = 0;
-    000000E9 D6 3C            [ 8]  218 	sub	a, #0x3c
-    000000EB C2r61r00         [16]  219 	jp	NZ, 00114$
-    000000EE 4F               [ 4]  220 	ld	c, a
-    000000EF C3r61r00         [16]  221 	jp	00114$
-    000000F2                        222 00116$:
-                                    223 ;src/scripts/titlescreen.c:47: }
-    000000F2 E8 1C            [16]  224 	add	sp, #28
-    000000F4 C9               [16]  225 	ret
-                                    226 	.area _CODE_3
-                                    227 	.area _INITIALIZER
-                                    228 	.area _CABS (ABS)
+                                     46 	.area _HOME
+                                     47 ;--------------------------------------------------------
+                                     48 ; code
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _CODE_3
+                                     51 ;src/scripts/titlescreen.c:12: uint8_t set_titlescreen() BANKED {
+                                     52 ;	---------------------------------
+                                     53 ; Function set_titlescreen
+                                     54 ; ---------------------------------
+                         00000003    55 	b_set_titlescreen	= 3
+    00000000                         56 _set_titlescreen::
+    00000000 E8 E4            [16]   57 	add	sp, #-28
+                                     58 ;src/scripts/titlescreen.c:13: uint8_t press_start[] = {241, 242, 243, 244, 245, 1, 1, 246, 247, 248, 242, 247};
+    00000002 F8 00            [12]   59 	ldhl	sp,	#0
+    00000004 3E F1            [ 8]   60 	ld	a, #0xf1
+    00000006 22               [ 8]   61 	ld	(hl+), a
+    00000007 3E F2            [ 8]   62 	ld	a, #0xf2
+    00000009 22               [ 8]   63 	ld	(hl+), a
+    0000000A 3E F3            [ 8]   64 	ld	a, #0xf3
+    0000000C 22               [ 8]   65 	ld	(hl+), a
+    0000000D 3E F4            [ 8]   66 	ld	a, #0xf4
+    0000000F 22               [ 8]   67 	ld	(hl+), a
+    00000010 3E F5            [ 8]   68 	ld	a, #0xf5
+    00000012 22               [ 8]   69 	ld	(hl+), a
+    00000013 3E 01            [ 8]   70 	ld	a,#0x01
+    00000015 22               [ 8]   71 	ld	(hl+),a
+    00000016 22               [ 8]   72 	ld	(hl+), a
+    00000017 3E F6            [ 8]   73 	ld	a, #0xf6
+    00000019 22               [ 8]   74 	ld	(hl+), a
+    0000001A 3E F7            [ 8]   75 	ld	a, #0xf7
+    0000001C 22               [ 8]   76 	ld	(hl+), a
+    0000001D 3E F8            [ 8]   77 	ld	a, #0xf8
+    0000001F 22               [ 8]   78 	ld	(hl+), a
+    00000020 3E F2            [ 8]   79 	ld	a, #0xf2
+    00000022 22               [ 8]   80 	ld	(hl+), a
+                                     81 ;src/scripts/titlescreen.c:14: uint8_t empty[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    00000023 3E F7            [ 8]   82 	ld	a, #0xf7
+    00000025 22               [ 8]   83 	ld	(hl+), a
+    00000026 3E 01            [ 8]   84 	ld	a,#0x01
+    00000028 22               [ 8]   85 	ld	(hl+),a
+    00000029 22               [ 8]   86 	ld	(hl+), a
+    0000002A 3E 01            [ 8]   87 	ld	a,#0x01
+    0000002C 22               [ 8]   88 	ld	(hl+),a
+    0000002D 22               [ 8]   89 	ld	(hl+), a
+    0000002E 3E 01            [ 8]   90 	ld	a,#0x01
+    00000030 22               [ 8]   91 	ld	(hl+),a
+    00000031 22               [ 8]   92 	ld	(hl+), a
+    00000032 3E 01            [ 8]   93 	ld	a,#0x01
+    00000034 22               [ 8]   94 	ld	(hl+),a
+    00000035 22               [ 8]   95 	ld	(hl+), a
+    00000036 3E 01            [ 8]   96 	ld	a,#0x01
+    00000038 22               [ 8]   97 	ld	(hl+),a
+    00000039 22               [ 8]   98 	ld	(hl+), a
+    0000003A 3E 01            [ 8]   99 	ld	a,#0x01
+    0000003C 22               [ 8]  100 	ld	(hl+),a
+    0000003D 22               [ 8]  101 	ld	(hl+), a
+    0000003E 3E 01            [ 8]  102 	ld	a,#0x01
+    00000040 22               [ 8]  103 	ld	(hl+),a
+    00000041 22               [ 8]  104 	ld	(hl+), a
+    00000042 3E 01            [ 8]  105 	ld	a, #0x01
+    00000044 22               [ 8]  106 	ld	(hl+), a
+    00000045 36 01            [12]  107 	ld	(hl), #0x01
+                                    108 ;src/scripts/titlescreen.c:15: set_bkg_tiles(4, 16, 12, 1, press_start);
+    00000047 21 00 00         [12]  109 	ld	hl, #0
+    0000004A 39               [ 8]  110 	add	hl, sp
+    0000004B E5               [16]  111 	push	hl
+    0000004C 21 0C 01         [12]  112 	ld	hl, #0x10c
+    0000004F E5               [16]  113 	push	hl
+    00000050 21 04 10         [12]  114 	ld	hl, #0x1004
+    00000053 E5               [16]  115 	push	hl
+    00000054 CDr00r00         [24]  116 	call	_set_bkg_tiles
+    00000057 E8 06            [16]  117 	add	sp, #6
+                                    118 ;src/scripts/titlescreen.c:16: uint8_t frame = 0;
+    00000059 0E 00            [ 8]  119 	ld	c, #0x00
+                                    120 ;src/scripts/titlescreen.c:17: SHOW_BKG;
+    0000005B F0r00            [12]  121 	ldh	a, (_LCDC_REG + 0)
+    0000005D F6 01            [ 8]  122 	or	a, #0x01
+    0000005F E0r00            [12]  123 	ldh	(_LCDC_REG + 0), a
+                                    124 ;src/scripts/titlescreen.c:18: while (1) {
+    00000061                        125 00114$:
+                                    126 ;src/scripts/titlescreen.c:19: seed++;
+    00000061 21r00r00         [12]  127 	ld	hl, #_seed
+    00000064 34               [12]  128 	inc	(hl)
+    00000065 20 02            [12]  129 	jr	NZ, 00160$
+    00000067 23               [ 8]  130 	inc	hl
+    00000068 34               [12]  131 	inc	(hl)
+    00000069                        132 00160$:
+                                    133 ;src/scripts/titlescreen.c:20: wait_vbl_done();
+    00000069 CDr00r00         [24]  134 	call	_wait_vbl_done
+                                    135 ;src/scripts/titlescreen.c:21: if (joypad() & J_START) {
+    0000006C CDr00r00         [24]  136 	call	_joypad
+    0000006F 07               [ 4]  137 	rlca
+    00000070 30 1F            [12]  138 	jr	NC, 00104$
+                                    139 ;src/scripts/titlescreen.c:22: delay(150);
+    00000072 11 96 00         [12]  140 	ld	de, #0x0096
+    00000075 CDr00r00         [24]  141 	call	_delay
+                                    142 ;src/scripts/titlescreen.c:23: DISPLAY_OFF;
+    00000078 CDr00r00         [24]  143 	call	_display_off
+                                    144 ;src/scripts/titlescreen.c:24: delay(150);
+    0000007B 11 96 00         [12]  145 	ld	de, #0x0096
+    0000007E CDr00r00         [24]  146 	call	_delay
+                                    147 ;src/scripts/titlescreen.c:25: initarand(seed);
+    00000081 FAr00r00         [16]  148 	ld	a, (_seed)
+    00000084 5F               [ 4]  149 	ld	e, a
+    00000085 21r01r00         [12]  150 	ld	hl, #_seed + 1
+    00000088 56               [ 8]  151 	ld	d, (hl)
+    00000089 D5               [16]  152 	push	de
+    0000008A CDr00r00         [24]  153 	call	_initarand
+    0000008D E1               [12]  154 	pop	hl
+                                    155 ;src/scripts/titlescreen.c:26: return 0; // continua
+    0000008E AF               [ 4]  156 	xor	a, a
+    0000008F 18 61            [12]  157 	jr	00116$
+    00000091                        158 00104$:
+                                    159 ;src/scripts/titlescreen.c:28: else if (joypad() & J_SELECT) {
+    00000091 CDr00r00         [24]  160 	call	_joypad
+    00000094 CB 77            [ 8]  161 	bit	6, a
+    00000096 28 20            [12]  162 	jr	Z, 00105$
+                                    163 ;src/scripts/titlescreen.c:29: delay(150);
+    00000098 11 96 00         [12]  164 	ld	de, #0x0096
+    0000009B CDr00r00         [24]  165 	call	_delay
+                                    166 ;src/scripts/titlescreen.c:30: DISPLAY_OFF;
+    0000009E CDr00r00         [24]  167 	call	_display_off
+                                    168 ;src/scripts/titlescreen.c:31: delay(150);
+    000000A1 11 96 00         [12]  169 	ld	de, #0x0096
+    000000A4 CDr00r00         [24]  170 	call	_delay
+                                    171 ;src/scripts/titlescreen.c:32: initrand(seed);
+    000000A7 FAr00r00         [16]  172 	ld	a, (_seed)
+    000000AA 5F               [ 4]  173 	ld	e, a
+    000000AB 21r01r00         [12]  174 	ld	hl, #_seed + 1
+    000000AE 56               [ 8]  175 	ld	d, (hl)
+    000000AF D5               [16]  176 	push	de
+    000000B0 CDr00r00         [24]  177 	call	_initrand
+    000000B3 E1               [12]  178 	pop	hl
+                                    179 ;src/scripts/titlescreen.c:33: return 1; // nuovo gioco
+    000000B4 3E 01            [ 8]  180 	ld	a, #0x01
+    000000B6 18 3A            [12]  181 	jr	00116$
+    000000B8                        182 00105$:
+                                    183 ;src/scripts/titlescreen.c:35: if (frame == 0) {
+    000000B8 79               [ 4]  184 	ld	a, c
+    000000B9 B7               [ 4]  185 	or	a, a
+    000000BA 20 14            [12]  186 	jr	NZ, 00109$
+                                    187 ;src/scripts/titlescreen.c:36: set_bkg_tiles(4, 16, 12, 1, empty);
+    000000BC 21 0C 00         [12]  188 	ld	hl, #12
+    000000BF 39               [ 8]  189 	add	hl, sp
+    000000C0 E5               [16]  190 	push	hl
+    000000C1 21 0C 01         [12]  191 	ld	hl, #0x10c
+    000000C4 E5               [16]  192 	push	hl
+    000000C5 21 04 10         [12]  193 	ld	hl, #0x1004
+    000000C8 E5               [16]  194 	push	hl
+    000000C9 CDr00r00         [24]  195 	call	_set_bkg_tiles
+    000000CC E8 06            [16]  196 	add	sp, #6
+    000000CE 18 17            [12]  197 	jr	00110$
+    000000D0                        198 00109$:
+                                    199 ;src/scripts/titlescreen.c:38: else if (frame == 30) {
+    000000D0 79               [ 4]  200 	ld	a, c
+    000000D1 D6 1E            [ 8]  201 	sub	a, #0x1e
+    000000D3 20 12            [12]  202 	jr	NZ, 00110$
+                                    203 ;src/scripts/titlescreen.c:39: set_bkg_tiles(4, 16, 12, 1, press_start);
+    000000D5 21 00 00         [12]  204 	ld	hl, #0
+    000000D8 39               [ 8]  205 	add	hl, sp
+    000000D9 E5               [16]  206 	push	hl
+    000000DA 21 0C 01         [12]  207 	ld	hl, #0x10c
+    000000DD E5               [16]  208 	push	hl
+    000000DE 21 04 10         [12]  209 	ld	hl, #0x1004
+    000000E1 E5               [16]  210 	push	hl
+    000000E2 CDr00r00         [24]  211 	call	_set_bkg_tiles
+    000000E5 E8 06            [16]  212 	add	sp, #6
+    000000E7                        213 00110$:
+                                    214 ;src/scripts/titlescreen.c:41: frame++;
+    000000E7 0C               [ 4]  215 	inc	c
+                                    216 ;src/scripts/titlescreen.c:42: if (frame == 60) {
+    000000E8 79               [ 4]  217 	ld	a, c
+                                    218 ;src/scripts/titlescreen.c:43: frame = 0;
+    000000E9 D6 3C            [ 8]  219 	sub	a, #0x3c
+    000000EB C2r61r00         [16]  220 	jp	NZ, 00114$
+    000000EE 4F               [ 4]  221 	ld	c, a
+    000000EF C3r61r00         [16]  222 	jp	00114$
+    000000F2                        223 00116$:
+                                    224 ;src/scripts/titlescreen.c:47: }
+    000000F2 E8 1C            [16]  225 	add	sp, #28
+    000000F4 C9               [16]  226 	ret
+                                    227 	.area _CODE_3
+                                    228 	.area _INITIALIZER
+                                    229 	.area _CABS (ABS)

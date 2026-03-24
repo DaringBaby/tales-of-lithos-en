@@ -465,10 +465,10 @@ _set_room_tiles::
 	ld	a, #0x0f
 	ldhl	sp,	#8
 	sub	a, (hl)
-	jp	C, 00125$
+	jp	C, 00128$
 	ld	c, (hl)
 	ld	b, #0x00
-	ld	hl, #00145$
+	ld	hl, #00155$
 	add	hl, bc
 	add	hl, bc
 	ld	c, (hl)
@@ -476,8 +476,8 @@ _set_room_tiles::
 	ld	h, (hl)
 	ld	l, c
 	jp	(hl)
-00145$:
-	.dw	00125$
+00155$:
+	.dw	00128$
 	.dw	00101$
 	.dw	00102$
 	.dw	00103$
@@ -501,7 +501,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room1)
 ;src/scripts/dungeon_management.c:73: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:74: case 2:
 00102$:
 ;src/scripts/dungeon_management.c:75: room_ptr = room2;
@@ -510,7 +510,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room2)
 ;src/scripts/dungeon_management.c:76: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:77: case 3:
 00103$:
 ;src/scripts/dungeon_management.c:78: room_ptr = room3;
@@ -519,7 +519,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room3)
 ;src/scripts/dungeon_management.c:79: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:80: case 4:
 00104$:
 ;src/scripts/dungeon_management.c:81: room_ptr = room4;
@@ -528,7 +528,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room4)
 ;src/scripts/dungeon_management.c:82: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:83: case 5:
 00105$:
 ;src/scripts/dungeon_management.c:84: room_ptr = room5;
@@ -537,7 +537,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room5)
 ;src/scripts/dungeon_management.c:85: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:86: case 6:
 00106$:
 ;src/scripts/dungeon_management.c:87: room_ptr = room6;
@@ -546,7 +546,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room6)
 ;src/scripts/dungeon_management.c:88: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:89: case 7:
 00107$:
 ;src/scripts/dungeon_management.c:90: room_ptr = room7;
@@ -555,7 +555,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room7)
 ;src/scripts/dungeon_management.c:91: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:92: case 8:
 00108$:
 ;src/scripts/dungeon_management.c:93: room_ptr = room8;
@@ -564,7 +564,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room8)
 ;src/scripts/dungeon_management.c:94: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:95: case 9:
 00109$:
 ;src/scripts/dungeon_management.c:96: room_ptr = room9;
@@ -573,7 +573,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room9)
 ;src/scripts/dungeon_management.c:97: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:98: case 10:
 00110$:
 ;src/scripts/dungeon_management.c:99: room_ptr = room10;
@@ -582,7 +582,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room10)
 ;src/scripts/dungeon_management.c:100: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:101: case 11:
 00111$:
 ;src/scripts/dungeon_management.c:102: room_ptr = room11;
@@ -591,7 +591,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room11)
 ;src/scripts/dungeon_management.c:103: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:104: case 12:
 00112$:
 ;src/scripts/dungeon_management.c:105: room_ptr = room12;
@@ -600,7 +600,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room12)
 ;src/scripts/dungeon_management.c:106: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:107: case 13:
 00113$:
 ;src/scripts/dungeon_management.c:108: room_ptr = room13;
@@ -609,7 +609,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room13)
 ;src/scripts/dungeon_management.c:109: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:110: case 14:
 00114$:
 ;src/scripts/dungeon_management.c:111: room_ptr = room14;
@@ -618,7 +618,7 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room14)
 ;src/scripts/dungeon_management.c:112: break;
-	jr	00125$
+	jr	00128$
 ;src/scripts/dungeon_management.c:113: case 15:
 00115$:
 ;src/scripts/dungeon_management.c:114: room_ptr = room15;
@@ -627,9 +627,9 @@ _set_room_tiles::
 	ld	(hl+), a
 	ld	(hl), #>(_room15)
 ;src/scripts/dungeon_management.c:117: for (uint16_t i = 0; i<360; i++) {
-00125$:
+00128$:
 	ld	bc, #0x0000
-00119$:
+00122$:
 	ld	e, c
 	ld	d, b
 	ld	a, e
@@ -656,21 +656,44 @@ _set_room_tiles::
 	ld	(hl), a
 ;src/scripts/dungeon_management.c:117: for (uint16_t i = 0; i<360; i++) {
 	inc	bc
-	jr	00119$
+	jr	00122$
 00117$:
-;src/scripts/dungeon_management.c:120: assign_obstacles(coord.x, coord.y);
-	ldhl	sp,	#12
-	ld	a, (hl-)
-	ld	b, (hl)
-	push	af
-	inc	sp
-	push	bc
-	inc	sp
+;src/scripts/dungeon_management.c:120: if (dungeon[coord.x][coord.y] == 'A' || dungeon[coord.x][coord.y] == 'B') {
+	ldhl	sp,	#11
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+	ld	e, a
+	ld	l, a
+	rlca
+	sbc	a, a
+	ld	h, a
+	add	hl, hl
+	add	hl, hl
+	push	de
+	ld	de, #_dungeon
+	add	hl, de
+	pop	de
+	inc	bc
+	ld	a, (bc)
+	ld	c, a
+	ld	b, #0x00
+	add	hl, bc
+	ld	a, (hl)
+	cp	a, #0x41
+	jr	Z, 00118$
+	sub	a, #0x42
+	jr	NZ, 00119$
+00118$:
+;src/scripts/dungeon_management.c:121: assign_obstacles(coord.x, coord.y);
+	ld	d, c
+	push	de
 	ld	e, #b_assign_obstacles
 	ld	hl, #_assign_obstacles
 	call	___sdcc_bcall_ehl
 	pop	hl
-;src/scripts/dungeon_management.c:121: set_bkg_tiles(0, 0, 20, 18, current_room);
+00119$:
+;src/scripts/dungeon_management.c:123: set_bkg_tiles(0, 0, 20, 18, current_room);
 	ld	de, #_current_room
 	push	de
 	ld	hl, #0x1214
@@ -679,7 +702,7 @@ _set_room_tiles::
 	rrca
 	push	af
 	call	_set_bkg_tiles
-;src/scripts/dungeon_management.c:122: }
+;src/scripts/dungeon_management.c:124: }
 	add	sp, #8
 	ret
 	.area _CODE_2

@@ -10,6 +10,7 @@ Symbol Table
     _LCDC_REG                                                       ******** GX
     _delay                                                          ******** GX
     _display_off                                                    ******** GX
+    _initarand                                                      ******** GX
     _initrand                                                       ******** GX
     _joypad                                                         ******** GX
     _seed                                                           ******** GX
@@ -17,7 +18,6 @@ Symbol Table
   8 _set_titlescreen                                                00000000 GR
     _wait_vbl_done                                                  ******** GX
     b_set_titlescreen                                           =   00000003 G
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]

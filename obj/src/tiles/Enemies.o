@@ -10,7 +10,7 @@ A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
 A _GSINIT size 0 flags 0 addr 0
 A _GSFINAL size 0 flags 0 addr 0
-A _CODE_1 size 2C0 flags 0 addr 0
+A _CODE_3 size 2C0 flags 0 addr 0
 S _LarvaOscura Def00000000
 S _Trisguardo Def00000080
 S _Dragocchio Def00000180

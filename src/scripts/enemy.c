@@ -16,15 +16,15 @@ void move_enemy(Enemy *e) {
     if (dx == 16 && dy == 0 || dx == 0 && dy == 16) {
         enemy_attack(e);
         e->targeting = 1;
-        return; 
+        return;
     }
-    
+
     uint8_t moved = 0;
     if (e->targeting) {
         uint8_t direction;
         int16_t diff_x = check_distance_x(e);
         int16_t diff_y = check_distance_y(e);
-        
+
         if (diff_x > diff_y) {
             if (x > e->x) {
                 direction = 1;
@@ -121,24 +121,80 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     switch (type) {
         case 1:
             e->hp = 10;
-            e->atk = 7;
+            e->atk = 1;
             e->def = 1;
             e->type = 1;
             e->exp_reward = 1;
             break;
         case 2:
-            e->hp = 18;
+            e->hp = 10;
             e->atk = 11;
             e->def = 6;
             e->type = 2;
             e->exp_reward = 3;
             break;
         case 3:
-            e->hp = 25;
-            e->atk = 15;
-            e->def = 14;
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
             e->type = 3;
             e->exp_reward = 5;
+            break;
+        case 4:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 4;
+            e->exp_reward = 10;
+            break;
+        case 5:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 5;
+            e->exp_reward = 15;
+            break;
+        case 6:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 6;
+            e->exp_reward = 25;
+            break;
+        case 7:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 7;
+            e->exp_reward = 35;
+            break;
+        case 8:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 8;
+            e->exp_reward = 50;
+            break;
+        case 9:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 9;
+            e->exp_reward = 60;
+            break;
+        case 10:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 10;
+            e->exp_reward = 75;
+            break;
+        case 11:
+            e->hp = 10;
+            e->atk = 1;
+            e->def = 1;
+            e->type = 11;
+            e->exp_reward = 90;
             break;
     }
     e->sprite_id = sprite_id;
@@ -199,7 +255,7 @@ void enemy_death(Enemy* e) {
     set_sprite_tile(e->sprite_id+1, 50);
     set_sprite_tile(e->sprite_id+2, 50);
     set_sprite_tile(e->sprite_id+3, 50);
-    
+
 
 }
 

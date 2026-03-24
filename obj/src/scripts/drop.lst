@@ -56,8 +56,8 @@
     00000002 F8 02            [12]   56 	ldhl	sp,	#2
     00000004 32               [ 8]   57 	ld	(hl-), a
     00000005 73               [ 8]   58 	ld	(hl), e
-                                     59 ;src/scripts/drop.c:8: uint8_t drop_chance = rand() & 3;
-    00000006 CDr00r00         [24]   60 	call	_rand
+                                     59 ;src/scripts/drop.c:8: uint8_t drop_chance = arand() & 3;
+    00000006 CDr00r00         [24]   60 	call	_arand
     00000009 79               [ 4]   61 	ld	a, c
     0000000A E6 03            [ 8]   62 	and	a, #0x03
     0000000C F8 00            [12]   63 	ldhl	sp,	#0

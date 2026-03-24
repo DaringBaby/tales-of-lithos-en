@@ -465,10 +465,10 @@
     0000021F 3E 0F            [ 8]  465 	ld	a, #0x0f
     00000221 F8 08            [12]  466 	ldhl	sp,	#8
     00000223 96               [ 8]  467 	sub	a, (hl)
-    00000224 DArD9r02         [16]  468 	jp	C, 00125$
+    00000224 DArD9r02         [16]  468 	jp	C, 00128$
     00000227 4E               [ 8]  469 	ld	c, (hl)
     00000228 06 00            [ 8]  470 	ld	b, #0x00
-    0000022A 21r34r02         [12]  471 	ld	hl, #00145$
+    0000022A 21r34r02         [12]  471 	ld	hl, #00155$
     0000022D 09               [ 8]  472 	add	hl, bc
     0000022E 09               [ 8]  473 	add	hl, bc
     0000022F 4E               [ 8]  474 	ld	c, (hl)
@@ -476,8 +476,8 @@
     00000231 66               [ 8]  476 	ld	h, (hl)
     00000232 69               [ 4]  477 	ld	l, c
     00000233 E9               [ 4]  478 	jp	(hl)
-    00000234                        479 00145$:
-    00000234rD9r02                  480 	.dw	00125$
+    00000234                        479 00155$:
+    00000234rD9r02                  480 	.dw	00128$
     00000236r54r02                  481 	.dw	00101$
     00000238r5Dr02                  482 	.dw	00102$
     0000023Ar66r02                  483 	.dw	00103$
@@ -501,7 +501,7 @@
     00000258 22               [ 8]  501 	ld	(hl+), a
     00000259 36s00            [12]  502 	ld	(hl), #>(_room1)
                                     503 ;src/scripts/dungeon_management.c:73: break;
-    0000025B 18 7C            [12]  504 	jr	00125$
+    0000025B 18 7C            [12]  504 	jr	00128$
                                     505 ;src/scripts/dungeon_management.c:74: case 2:
     0000025D                        506 00102$:
                                     507 ;src/scripts/dungeon_management.c:75: room_ptr = room2;
@@ -510,7 +510,7 @@
     00000261 22               [ 8]  510 	ld	(hl+), a
     00000262 36s00            [12]  511 	ld	(hl), #>(_room2)
                                     512 ;src/scripts/dungeon_management.c:76: break;
-    00000264 18 73            [12]  513 	jr	00125$
+    00000264 18 73            [12]  513 	jr	00128$
                                     514 ;src/scripts/dungeon_management.c:77: case 3:
     00000266                        515 00103$:
                                     516 ;src/scripts/dungeon_management.c:78: room_ptr = room3;
@@ -519,7 +519,7 @@
     0000026A 22               [ 8]  519 	ld	(hl+), a
     0000026B 36s00            [12]  520 	ld	(hl), #>(_room3)
                                     521 ;src/scripts/dungeon_management.c:79: break;
-    0000026D 18 6A            [12]  522 	jr	00125$
+    0000026D 18 6A            [12]  522 	jr	00128$
                                     523 ;src/scripts/dungeon_management.c:80: case 4:
     0000026F                        524 00104$:
                                     525 ;src/scripts/dungeon_management.c:81: room_ptr = room4;
@@ -528,7 +528,7 @@
     00000273 22               [ 8]  528 	ld	(hl+), a
     00000274 36s00            [12]  529 	ld	(hl), #>(_room4)
                                     530 ;src/scripts/dungeon_management.c:82: break;
-    00000276 18 61            [12]  531 	jr	00125$
+    00000276 18 61            [12]  531 	jr	00128$
                                     532 ;src/scripts/dungeon_management.c:83: case 5:
     00000278                        533 00105$:
                                     534 ;src/scripts/dungeon_management.c:84: room_ptr = room5;
@@ -537,7 +537,7 @@
     0000027C 22               [ 8]  537 	ld	(hl+), a
     0000027D 36s00            [12]  538 	ld	(hl), #>(_room5)
                                     539 ;src/scripts/dungeon_management.c:85: break;
-    0000027F 18 58            [12]  540 	jr	00125$
+    0000027F 18 58            [12]  540 	jr	00128$
                                     541 ;src/scripts/dungeon_management.c:86: case 6:
     00000281                        542 00106$:
                                     543 ;src/scripts/dungeon_management.c:87: room_ptr = room6;
@@ -546,7 +546,7 @@
     00000285 22               [ 8]  546 	ld	(hl+), a
     00000286 36s00            [12]  547 	ld	(hl), #>(_room6)
                                     548 ;src/scripts/dungeon_management.c:88: break;
-    00000288 18 4F            [12]  549 	jr	00125$
+    00000288 18 4F            [12]  549 	jr	00128$
                                     550 ;src/scripts/dungeon_management.c:89: case 7:
     0000028A                        551 00107$:
                                     552 ;src/scripts/dungeon_management.c:90: room_ptr = room7;
@@ -555,7 +555,7 @@
     0000028E 22               [ 8]  555 	ld	(hl+), a
     0000028F 36s00            [12]  556 	ld	(hl), #>(_room7)
                                     557 ;src/scripts/dungeon_management.c:91: break;
-    00000291 18 46            [12]  558 	jr	00125$
+    00000291 18 46            [12]  558 	jr	00128$
                                     559 ;src/scripts/dungeon_management.c:92: case 8:
     00000293                        560 00108$:
                                     561 ;src/scripts/dungeon_management.c:93: room_ptr = room8;
@@ -564,7 +564,7 @@
     00000297 22               [ 8]  564 	ld	(hl+), a
     00000298 36s00            [12]  565 	ld	(hl), #>(_room8)
                                     566 ;src/scripts/dungeon_management.c:94: break;
-    0000029A 18 3D            [12]  567 	jr	00125$
+    0000029A 18 3D            [12]  567 	jr	00128$
                                     568 ;src/scripts/dungeon_management.c:95: case 9:
     0000029C                        569 00109$:
                                     570 ;src/scripts/dungeon_management.c:96: room_ptr = room9;
@@ -573,7 +573,7 @@
     000002A0 22               [ 8]  573 	ld	(hl+), a
     000002A1 36s00            [12]  574 	ld	(hl), #>(_room9)
                                     575 ;src/scripts/dungeon_management.c:97: break;
-    000002A3 18 34            [12]  576 	jr	00125$
+    000002A3 18 34            [12]  576 	jr	00128$
                                     577 ;src/scripts/dungeon_management.c:98: case 10:
     000002A5                        578 00110$:
                                     579 ;src/scripts/dungeon_management.c:99: room_ptr = room10;
@@ -582,7 +582,7 @@
     000002A9 22               [ 8]  582 	ld	(hl+), a
     000002AA 36s00            [12]  583 	ld	(hl), #>(_room10)
                                     584 ;src/scripts/dungeon_management.c:100: break;
-    000002AC 18 2B            [12]  585 	jr	00125$
+    000002AC 18 2B            [12]  585 	jr	00128$
                                     586 ;src/scripts/dungeon_management.c:101: case 11:
     000002AE                        587 00111$:
                                     588 ;src/scripts/dungeon_management.c:102: room_ptr = room11;
@@ -591,7 +591,7 @@
     000002B2 22               [ 8]  591 	ld	(hl+), a
     000002B3 36s00            [12]  592 	ld	(hl), #>(_room11)
                                     593 ;src/scripts/dungeon_management.c:103: break;
-    000002B5 18 22            [12]  594 	jr	00125$
+    000002B5 18 22            [12]  594 	jr	00128$
                                     595 ;src/scripts/dungeon_management.c:104: case 12:
     000002B7                        596 00112$:
                                     597 ;src/scripts/dungeon_management.c:105: room_ptr = room12;
@@ -600,7 +600,7 @@
     000002BB 22               [ 8]  600 	ld	(hl+), a
     000002BC 36s00            [12]  601 	ld	(hl), #>(_room12)
                                     602 ;src/scripts/dungeon_management.c:106: break;
-    000002BE 18 19            [12]  603 	jr	00125$
+    000002BE 18 19            [12]  603 	jr	00128$
                                     604 ;src/scripts/dungeon_management.c:107: case 13:
     000002C0                        605 00113$:
                                     606 ;src/scripts/dungeon_management.c:108: room_ptr = room13;
@@ -609,7 +609,7 @@
     000002C4 22               [ 8]  609 	ld	(hl+), a
     000002C5 36s00            [12]  610 	ld	(hl), #>(_room13)
                                     611 ;src/scripts/dungeon_management.c:109: break;
-    000002C7 18 10            [12]  612 	jr	00125$
+    000002C7 18 10            [12]  612 	jr	00128$
                                     613 ;src/scripts/dungeon_management.c:110: case 14:
     000002C9                        614 00114$:
                                     615 ;src/scripts/dungeon_management.c:111: room_ptr = room14;
@@ -618,7 +618,7 @@
     000002CD 22               [ 8]  618 	ld	(hl+), a
     000002CE 36s00            [12]  619 	ld	(hl), #>(_room14)
                                     620 ;src/scripts/dungeon_management.c:112: break;
-    000002D0 18 07            [12]  621 	jr	00125$
+    000002D0 18 07            [12]  621 	jr	00128$
                                     622 ;src/scripts/dungeon_management.c:113: case 15:
     000002D2                        623 00115$:
                                     624 ;src/scripts/dungeon_management.c:114: room_ptr = room15;
@@ -627,9 +627,9 @@
     000002D6 22               [ 8]  627 	ld	(hl+), a
     000002D7 36s00            [12]  628 	ld	(hl), #>(_room15)
                                     629 ;src/scripts/dungeon_management.c:117: for (uint16_t i = 0; i<360; i++) {
-    000002D9                        630 00125$:
+    000002D9                        630 00128$:
     000002D9 01 00 00         [12]  631 	ld	bc, #0x0000
-    000002DC                        632 00119$:
+    000002DC                        632 00122$:
     000002DC 59               [ 4]  633 	ld	e, c
     000002DD 50               [ 4]  634 	ld	d, b
     000002DE 7B               [ 4]  635 	ld	a, e
@@ -656,32 +656,55 @@
     000002F8 77               [ 8]  656 	ld	(hl), a
                                     657 ;src/scripts/dungeon_management.c:117: for (uint16_t i = 0; i<360; i++) {
     000002F9 03               [ 8]  658 	inc	bc
-    000002FA 18 E0            [12]  659 	jr	00119$
+    000002FA 18 E0            [12]  659 	jr	00122$
     000002FC                        660 00117$:
-                                    661 ;src/scripts/dungeon_management.c:120: assign_obstacles(coord.x, coord.y);
-    000002FC F8 0C            [12]  662 	ldhl	sp,	#12
-    000002FE 3A               [ 8]  663 	ld	a, (hl-)
-    000002FF 46               [ 8]  664 	ld	b, (hl)
-    00000300 F5               [16]  665 	push	af
-    00000301 33               [ 8]  666 	inc	sp
-    00000302 C5               [16]  667 	push	bc
-    00000303 33               [ 8]  668 	inc	sp
-    00000304 1Er00            [ 8]  669 	ld	e, #b_assign_obstacles
-    00000306 21r00r00         [12]  670 	ld	hl, #_assign_obstacles
-    00000309 CDr00r00         [24]  671 	call	___sdcc_bcall_ehl
-    0000030C E1               [12]  672 	pop	hl
-                                    673 ;src/scripts/dungeon_management.c:121: set_bkg_tiles(0, 0, 20, 18, current_room);
-    0000030D 11r00r00         [12]  674 	ld	de, #_current_room
-    00000310 D5               [16]  675 	push	de
-    00000311 21 14 12         [12]  676 	ld	hl, #0x1214
-    00000314 E5               [16]  677 	push	hl
-    00000315 AF               [ 4]  678 	xor	a, a
-    00000316 0F               [ 4]  679 	rrca
-    00000317 F5               [16]  680 	push	af
-    00000318 CDr00r00         [24]  681 	call	_set_bkg_tiles
-                                    682 ;src/scripts/dungeon_management.c:122: }
-    0000031B E8 08            [16]  683 	add	sp, #8
-    0000031D C9               [16]  684 	ret
-                                    685 	.area _CODE_2
-                                    686 	.area _INITIALIZER
-                                    687 	.area _CABS (ABS)
+                                    661 ;src/scripts/dungeon_management.c:120: if (dungeon[coord.x][coord.y] == 'A' || dungeon[coord.x][coord.y] == 'B') {
+    000002FC F8 0B            [12]  662 	ldhl	sp,	#11
+    000002FE 4D               [ 4]  663 	ld	c, l
+    000002FF 44               [ 4]  664 	ld	b, h
+    00000300 0A               [ 8]  665 	ld	a, (bc)
+    00000301 5F               [ 4]  666 	ld	e, a
+    00000302 6F               [ 4]  667 	ld	l, a
+    00000303 07               [ 4]  668 	rlca
+    00000304 9F               [ 4]  669 	sbc	a, a
+    00000305 67               [ 4]  670 	ld	h, a
+    00000306 29               [ 8]  671 	add	hl, hl
+    00000307 29               [ 8]  672 	add	hl, hl
+    00000308 D5               [16]  673 	push	de
+    00000309 11r00r00         [12]  674 	ld	de, #_dungeon
+    0000030C 19               [ 8]  675 	add	hl, de
+    0000030D D1               [12]  676 	pop	de
+    0000030E 03               [ 8]  677 	inc	bc
+    0000030F 0A               [ 8]  678 	ld	a, (bc)
+    00000310 4F               [ 4]  679 	ld	c, a
+    00000311 06 00            [ 8]  680 	ld	b, #0x00
+    00000313 09               [ 8]  681 	add	hl, bc
+    00000314 7E               [ 8]  682 	ld	a, (hl)
+    00000315 FE 41            [ 8]  683 	cp	a, #0x41
+    00000317 28 04            [12]  684 	jr	Z, 00118$
+    00000319 D6 42            [ 8]  685 	sub	a, #0x42
+    0000031B 20 0B            [12]  686 	jr	NZ, 00119$
+    0000031D                        687 00118$:
+                                    688 ;src/scripts/dungeon_management.c:121: assign_obstacles(coord.x, coord.y);
+    0000031D 51               [ 4]  689 	ld	d, c
+    0000031E D5               [16]  690 	push	de
+    0000031F 1Er00            [ 8]  691 	ld	e, #b_assign_obstacles
+    00000321 21r00r00         [12]  692 	ld	hl, #_assign_obstacles
+    00000324 CDr00r00         [24]  693 	call	___sdcc_bcall_ehl
+    00000327 E1               [12]  694 	pop	hl
+    00000328                        695 00119$:
+                                    696 ;src/scripts/dungeon_management.c:123: set_bkg_tiles(0, 0, 20, 18, current_room);
+    00000328 11r00r00         [12]  697 	ld	de, #_current_room
+    0000032B D5               [16]  698 	push	de
+    0000032C 21 14 12         [12]  699 	ld	hl, #0x1214
+    0000032F E5               [16]  700 	push	hl
+    00000330 AF               [ 4]  701 	xor	a, a
+    00000331 0F               [ 4]  702 	rrca
+    00000332 F5               [16]  703 	push	af
+    00000333 CDr00r00         [24]  704 	call	_set_bkg_tiles
+                                    705 ;src/scripts/dungeon_management.c:124: }
+    00000336 E8 08            [16]  706 	add	sp, #8
+    00000338 C9               [16]  707 	ret
+                                    708 	.area _CODE_2
+                                    709 	.area _INITIALIZER
+                                    710 	.area _CABS (ABS)

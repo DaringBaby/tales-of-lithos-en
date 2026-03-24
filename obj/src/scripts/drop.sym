@@ -8,6 +8,7 @@ Symbol Table
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
     ___sdcc_bcall_ehl                                               ******** GX
+    _arand                                                          ******** GX
   0 _check_drops                                                    000000E9 GR
   0 _clear_drops                                                    000000BC GR
     _current_hp                                                     ******** GX
@@ -16,7 +17,6 @@ Symbol Table
     _max_hp                                                         ******** GX
     _max_num_arrows                                                 ******** GX
     _num_arrows                                                     ******** GX
-    _rand                                                           ******** GX
     _shadow_OAM                                                     ******** GX
   0 _spawn_drop                                                     00000000 GR
     b_heal_sfx                                                      ******** GX

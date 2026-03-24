@@ -1,6 +1,6 @@
 /*
 
- EYEBOSS.H
+ BOSSES.H
 
  Include File.
 
@@ -22,13 +22,17 @@
 
 */
 
-#ifndef __Eyeboss_h_INCLUDE
-#define __Eyeboss_h_INCLUDE
+#ifndef __bosses_h_INCLUDE
+#define __bosses_h_INCLUDE
 
 /* Bank of tiles. */
 #define EyeBossBank 0
 /* Start of tile array. */
 extern const unsigned char EyeBoss[];
+extern const unsigned char BossDragon[];
+extern const unsigned char BossOrb[];
+extern const unsigned char BossMantis[];
+extern const unsigned char BossArmored[];
 
 #endif
 

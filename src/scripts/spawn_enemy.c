@@ -9,7 +9,7 @@ uint8_t room_enemies[4][4];
 uint8_t get_num_enemies(uint8_t floor) BANKED {
     uint8_t num_enemies;
     uint8_t floor_type = floor % 5;
-    uint8_t enemy_var = rand() % 3;
+    uint8_t enemy_var = arand() % 3;
     switch (floor_type) {
         case 1:
             num_enemies = 3;
@@ -36,7 +36,7 @@ uint8_t add_enemy(uint8_t floor, uint8_t i, uint8_t j) {
     uint8_t type1;
     uint8_t type2;
     uint8_t type3;
-    switch (floor) { // per ora fino al 5
+    switch (floor % 5) {
         case 1:
             type1 = 115;
             type2 = 13;
@@ -57,22 +57,53 @@ uint8_t add_enemy(uint8_t floor, uint8_t i, uint8_t j) {
             type2 = 38;
             type3 = 26;
             break;
-        case 5:
+        case 0:
             type1 = 38;
             type2 = 51;
             type3 = 39;
             break;
     }
 
-    uint8_t rng = rand() & 128;
+    uint8_t floor_type = (floor - 1) / 5;
+    uint8_t id_1, id_2, id_3;
+    switch (floor_type) {
+        case 0:
+            id_1 = 1;
+            id_2 = 2;
+            id_3 = 3;
+            break;
+        case 1:
+            id_1 = 3;
+            id_2 = 4;
+            id_3 = 5;
+            break;
+        case 2:
+            id_1 = 5;
+            id_2 = 6;
+            id_3 = 7;
+            break;
+        case 3:
+            id_1 = 7;
+            id_2 = 8;
+            id_3 = 9;
+            break;
+        case 4:
+            id_1 = 9;
+            id_2 = 10;
+            id_3 = 11;
+            break;
+    }
+
+
+    uint8_t rng = arand() & 127;
     if (rng < type1) {
-        enemy_id = 1;
+        enemy_id = id_1;
     }
     else if (rng < type2 + type1) {
-        enemy_id = 2;
+        enemy_id = id_2;
     }
     else {
-        enemy_id = 3;
+        enemy_id = id_3;
     }
 
     if (room_enemies[i][j] == 0) {
@@ -143,4 +174,79 @@ void set_enemy_tiles() BANKED {
     set_sprite_tile(13, 95);
     set_sprite_tile(14, 96);
     set_sprite_tile(15, 97);
+}
+
+void set_enemy_sprite() BANKED {
+    switch (current_enemies[0].type) {
+        case 1:
+            set_sprite_data(90, 4, LarvaOscura);
+            break;
+        case 2:
+            set_sprite_data(90, 4, Trisguardo);
+            break;
+        case 3:
+            set_sprite_data(90, 4, Cervellino);
+            break;
+        case 4:
+            set_sprite_data(90, 4, Pipistrello);
+            break;
+        case 5:
+            set_sprite_data(90, 4, Ragnocchio);
+            break;
+        case 6:
+            set_sprite_data(90, 4, Quadratocchio);
+            break;
+        case 7:
+            set_sprite_data(90, 4, Cristallocchio);
+            break;
+        case 8:
+            set_sprite_data(90, 4, OcchioInfuocato);
+            break;
+        case 9:
+            set_sprite_data(90, 4, Armatura);
+            break;
+        case 10:
+            set_sprite_data(90, 4, PredatoreOmbra);
+            break;
+        case 11:
+            set_sprite_data(90, 4, Dragocchio);
+            break;
+    }
+    switch (current_enemies[1].type) {
+        case 1:
+            set_sprite_data(94, 4, LarvaOscura);
+            break;
+        case 2:
+            set_sprite_data(94, 4, Trisguardo);
+            break;
+        case 3:
+            set_sprite_data(94, 4, Cervellino);
+            break;
+        case 4:
+            set_sprite_data(94, 4, Pipistrello);
+            break;
+        case 5:
+            set_sprite_data(94, 4, Ragnocchio);
+            break;
+        case 6:
+            set_sprite_data(94, 4, Quadratocchio);
+            break;
+        case 7:
+            set_sprite_data(94, 4, Cristallocchio);
+            break;
+        case 8:
+            set_sprite_data(94, 4, OcchioInfuocato);
+            break;
+        case 9:
+            set_sprite_data(94, 4, Armatura);
+            break;
+        case 10:
+            set_sprite_data(94, 4, PredatoreOmbra);
+            break;
+        case 11:
+            set_sprite_data(94, 4, Dragocchio);
+            break;
+    }
+    set_enemy_tiles();
+    return;
 }

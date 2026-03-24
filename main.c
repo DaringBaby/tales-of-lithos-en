@@ -62,7 +62,6 @@ void player_attack(uint8_t wpn, uint8_t index);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
 void check_time();
-void set_enemy_sprite();
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
@@ -107,10 +106,10 @@ uint8_t current_joypad = 0;
 
 /* PLAYER STATS */
 uint8_t player_name[] = {164, 164, 164, 164, 164};
-uint8_t max_hp = 23;
-uint8_t current_hp = 23;
-uint8_t attack = 5;
-uint8_t defense = 3;
+uint8_t max_hp = 99;
+uint8_t current_hp = 99;
+uint8_t attack = 99;
+uint8_t defense = 99;
 uint8_t level = 1;
 uint8_t experience = 0;
 uint8_t sword_lvl = 1;
@@ -176,7 +175,7 @@ const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
 const uint8_t cure_upgrade_costs[] = {7, 12, 17, 23, 29, 35, 42, 50};
 const uint8_t level_curve[] = {12, 25, 38, 52, 66, 81, 97, 113, 120, 130, 145, 160, 175, 190, 205, 220, 235, 248, 255};
 /* FLAGS */
-uint8_t key_obtained = 0;
+uint8_t key_obtained = 1;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 uint8_t boss_battle = 0;
@@ -385,7 +384,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 1;
+                current_floor = 10;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -902,7 +901,7 @@ void go_into_dungeon() {
 }
 
 void go_next_floor() {
-    current_floor++;
+    current_floor+=5;
     if (current_floor % 5 == 0) {
         boss.defeated = 1;
         boss_floor_defeated = 0;
@@ -910,7 +909,7 @@ void go_next_floor() {
     if (current_floor > max_floor) {
         max_floor = current_floor;
     }
-    key_obtained = 0;
+    key_obtained = 1;
     treasure_obtained = 0;
     lock_opened = 0;
     generate_dungeon(current_floor);
@@ -1236,32 +1235,7 @@ void check_time() {
     }
 }
 
-void set_enemy_sprite() {
-    switch (current_enemies[0].type) {
-        case 1:
-            set_sprite_data(90, 4, LarvaOscura);
-            break;
-        case 2:
-            set_sprite_data(90, 4, Trisguardo);
-            break;
-        case 3:
-            set_sprite_data(90, 4, PredatoreOmbra);
-            break;
-    }
-    switch (current_enemies[1].type) {
-        case 1:
-            set_sprite_data(94, 4, LarvaOscura);
-            break;
-        case 2:
-            set_sprite_data(94, 4, Trisguardo);
-            break;
-        case 3:
-            set_sprite_data(94, 4, PredatoreOmbra);
-            break;
-    }
-    set_enemy_tiles();
-    return;
-}
+
 
 
 void music_vbl_interrupt() {

@@ -7,23 +7,41 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
+    _Armatura                                                       ******** GX
+    _Cervellino                                                     ******** GX
+    _Cristallocchio                                                 ******** GX
+    _Dragocchio                                                     ******** GX
+    _LarvaOscura                                                    ******** GX
+    _OcchioInfuocato                                                ******** GX
+    _Pipistrello                                                    ******** GX
+    _PredatoreOmbra                                                 ******** GX
+    _Quadratocchio                                                  ******** GX
+    _Ragnocchio                                                     ******** GX
+    _Trisguardo                                                     ******** GX
+    ___sdcc_bcall_ehl                                               ******** GX
+    __divsint                                                       ******** GX
     __modsint                                                       ******** GX
     __moduchar                                                      ******** GX
   8 _add_enemy                                                      00000045 GR
+    _arand                                                          ******** GX
+    _current_enemies                                                ******** GX
     _enemy_death                                                    ******** GX
-  8 _generate_enemies                                               000000DB GR
+  8 _generate_enemies                                               0000013F GR
   8 _get_num_enemies                                                00000000 GR
-    _rand                                                           ******** GX
   2 _room_enemies                                                   00000000 GR
     _set_enemy_position                                             ******** GX
+  8 _set_enemy_sprite                                               00000285 GR
     _set_enemy_stats                                                ******** GX
-  8 _set_enemy_tiles                                                000001F8 GR
+  8 _set_enemy_tiles                                                0000025C GR
+    _set_sprite_data                                                ******** GX
     _shadow_OAM                                                     ******** GX
-  8 _spawn_enemies_in_room                                          00000177 GR
+  8 _spawn_enemies_in_room                                          000001DB GR
     b_generate_enemies                                          =   00000003 G
     b_get_num_enemies                                           =   00000003 G
+    b_set_enemy_sprite                                          =   00000003 G
     b_set_enemy_tiles                                           =   00000003 G
     b_spawn_enemies_in_room                                     =   00000003 G
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
@@ -38,7 +56,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_3                                    size      221   flags    0
+   8 _CODE_3                                    size      433   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 
