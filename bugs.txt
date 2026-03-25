@@ -1,3 +1,4 @@
 bug:
 musica a volte al cambio prolunga le note
 non parte il jingle del tesoro
+nemici non sono diversi

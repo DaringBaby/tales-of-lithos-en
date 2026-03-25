@@ -11,7 +11,8 @@ LCCFLAGS = -Wl-m -Wl-yt0x1B -Wl-ya1 -Wl-yo8
 B6_SOURCES = src/tiles/IntroSlide1Tiles.c src/maps/IntroSlide1.c src/scripts/intro.c \
 			 src/tiles/IntroSlide2Tiles.c src/maps/IntroSlide2.c src/tiles/IntroSlide3Tiles.c \
 			 src/maps/IntroSlide3.c src/maps/IntroText.c
-B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c
+B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c src/tiles/DungeonTiles3.c src/tiles/DungeonTiles4.c \
+			 src/tiles/DungeonTiles5.c
 B4_SOURCES = src/songs/dungeon_song.c src/songs/boss_song.c
 B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_management.c \
              src/scripts/spawn_enemy.c src/scripts/combat_system.c src/scripts/insert_name.c \
@@ -21,7 +22,8 @@ B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_manag
 B2_SOURCES = src/maps/CampMap.c src/maps/Dungeon.c src/maps/Title.c \
              src/tiles/CampTiles.c src/tiles/Text.c src/tiles/DungeonTiles.c \
              src/tiles/Titlescreen.c src/tiles/TitleText.c \
-             src/scripts/dungeon_management.c src/maps/Obstacles.c
+             src/scripts/dungeon_management.c src/maps/Obstacles.c \
+             src/tiles/DungeonTiles2.c
 B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
              src/tiles/Arrow.c src/tiles/DungeonObjects.c \
              src/tiles/key.c src/tiles/Lock.c src/tiles/textbox.c \

@@ -1,0 +1,6 @@
+== TODO ==
+- Tiles diversi per i 25 piani (uno diverso ogni 5)
+- Fixare i nemici che sono tutti uguali quando spawnano
+- Inserire la fine del gioco
+- Bilanciamento
+- Refactoring

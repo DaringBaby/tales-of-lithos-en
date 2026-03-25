@@ -8,6 +8,10 @@
 #include "src/tiles/Hector.h"
 #include "src/tiles/Safy.h"
 #include "src/tiles/DungeonTiles.h"
+#include "src/tiles/DungeonTiles2.h"
+#include "src/tiles/DungeonTiles3.h"
+#include "src/tiles/DungeonTiles4.h"
+#include "src/tiles/DungeonTiles5.h"
 #include "src/maps/Dungeon.h"
 #include "src/maps/Obstacles.h"
 #include "src/scripts/generate_dungeon.h"
@@ -141,6 +145,10 @@ extern const unsigned char TutorialMap[];
 extern const unsigned char map_menu[];
 extern const unsigned char camp_collisions[];
 extern const unsigned char DungeonTiles[];
+extern const unsigned char DungeonTiles2[];
+extern const unsigned char DungeonTiles3[];
+extern const unsigned char DungeonTiles4[];
+extern const unsigned char DungeonTiles5[];
 extern const unsigned char Titlescreen[];
 extern const unsigned char TitleText[];
 extern const unsigned char Title[];
@@ -384,7 +392,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 10;
+                current_floor = 25;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -730,8 +738,26 @@ void hide_camp_sprites() {
 }
 
 void set_dungeon_map(){
-    SWITCH_ROM(2);
-    set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
+    if (current_floor <= 5) {
+        SWITCH_ROM(2);
+        set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
+    }
+    else if (current_floor <= 10) {
+        SWITCH_ROM(2);
+        set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles2);
+    }
+    else if (current_floor <= 15) {
+        SWITCH_ROM(5);
+        set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles3);
+    }
+    else if (current_floor <= 20) {
+        SWITCH_ROM(5);
+        set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles4);
+    }
+    else {
+        SWITCH_ROM(5);
+        set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles5);
+    }
     SWITCH_ROM(1);
 }
 
