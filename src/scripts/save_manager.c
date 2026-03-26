@@ -1,8 +1,10 @@
+#pragma bank 1
+
 #include "save_manager.h"
 #include <gb/gb.h>
 __at(0xA000) SaveSlot sram_data;
 
-uint8_t load_game() {
+uint8_t load_game() BANKED {
     if (ng) {
         return 0;
     }
@@ -53,11 +55,11 @@ uint8_t load_game() {
     return 0;
 }
 
-void save_game() {
+void save_game() BANKED {
     ENABLE_RAM;
     SWITCH_RAM(0);
 
-    sram_data.check = 0x54F1; 
+    sram_data.check = 0x54F1;
 
     /* 2. STARK STATS */
     for(uint8_t i = 0; i < 5; i++) {

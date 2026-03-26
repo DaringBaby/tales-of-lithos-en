@@ -12,7 +12,10 @@ Symbol Table
     _WY_REG                                                         ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
     __divuchar                                                      ******** GX
+    __divuint                                                       ******** GX
+    __modsint                                                       ******** GX
     __moduchar                                                      ******** GX
+    __moduint                                                       ******** GX
     _arrow_damage                                                   ******** GX
     _arrow_lvl                                                      ******** GX
     _arrow_tile                                                     ******** GX
@@ -55,20 +58,20 @@ Symbol Table
     _power_ups                                                      ******** GX
     _quiver_lvl                                                     ******** GX
     _returning_to_camp                                              ******** GX
-    _safy_option                                                    ******** GX
-  8 _safy_upgrades                                                  00000504 GR
-    _seconds                                                        ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  8 _set_mini_menu                                                  0000086B GR
-  8 _set_stats                                                      000006A5 GR
+    _safy_option                                                    ******** GX
+  8 _safy_upgrades                                                  00000504 GR
+    _seconds                                                        ******** GX
+  8 _set_mini_menu                                                  000009D7 GR
+  8 _set_stats                                                      00000762 GR
     _set_win_tiles                                                  ******** GX
     _shadow_OAM                                                     ******** GX
     _shield_lvl                                                     ******** GX
-  8 _show_number                                                    00000965 GR
+  8 _show_number                                                    00000AC7 GR
   8 _show_time                                                      000001B4 GR
     _stats_menu                                                     ******** GX
     _sword_lvl                                                      ******** GX
@@ -97,7 +100,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_3                                    size      A65   flags    0
+   8 _CODE_3                                    size      BC7   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

@@ -1,2 +1,3 @@
-0|1774460418|Restore game vars|0
 1|1774460446|Fare bene i nemici randomici|0
+0|1774538628|Refactoring codice|0
+1|1774543843|Aggiungi gioco completato schermata|0

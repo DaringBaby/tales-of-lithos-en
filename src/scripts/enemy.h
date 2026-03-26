@@ -6,14 +6,14 @@
 
 typedef struct {
     uint8_t x, y;
-    uint8_t hp;
+    uint16_t hp;
     uint8_t atk;
     uint8_t def;
     uint8_t type; // 0: LARVA OSCURA, 1: TRISGUARDO, 2: PREDATORE D'OMBRA
     uint8_t alive;
     uint8_t sprite_id;
     uint8_t targeting;
-    uint8_t exp_reward;
+    uint16_t exp_reward;
 } Enemy;
 
 extern uint8_t current_hp; // hp player

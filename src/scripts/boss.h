@@ -5,10 +5,10 @@ typedef struct {
     uint8_t id;
     uint8_t x;
     uint8_t y;
-    uint8_t hp;
+    uint16_t hp;
     uint8_t atk;
     uint8_t def;
-    uint8_t exp_reward;
+    uint16_t exp_reward;
     uint8_t defeated;
 } Boss;
 #endif

@@ -538,7 +538,7 @@
     000001F0 2A               [ 8]  538 	ld	a, (hl+)
     000001F1 5F               [ 4]  539 	ld	e, a
     000001F2 56               [ 8]  540 	ld	d, (hl)
-    000001F3 21 0A 00         [12]  541 	ld	hl, #0x000a
+    000001F3 21 0C 00         [12]  541 	ld	hl, #0x000c
     000001F6 19               [ 8]  542 	add	hl, de
     000001F7 5D               [ 4]  543 	ld	e, l
     000001F8 54               [ 4]  544 	ld	d, h
@@ -659,7 +659,7 @@
                          00000003   659 	b_set_enemy_sprite	= 3
     00000285                        660 _set_enemy_sprite::
                                     661 ;src/scripts/spawn_enemy.c:180: switch (current_enemies[0].type) {
-    00000285 21r05r00         [12]  662 	ld	hl, #(_current_enemies + 5)
+    00000285 21r06r00         [12]  662 	ld	hl, #(_current_enemies + 6)
     00000288 4E               [ 8]  663 	ld	c, (hl)
     00000289 3E 0B            [ 8]  664 	ld	a, #0x0b
     0000028B 91               [ 4]  665 	sub	a, c
@@ -808,7 +808,7 @@
                                     808 ;src/scripts/spawn_enemy.c:214: }
     00000358                        809 00112$:
                                     810 ;src/scripts/spawn_enemy.c:215: switch (current_enemies[1].type) {
-    00000358 21r0Fr00         [12]  811 	ld	hl, #(_current_enemies + 15)
+    00000358 21r12r00         [12]  811 	ld	hl, #(_current_enemies + 18)
     0000035B 4E               [ 8]  812 	ld	c, (hl)
     0000035C 3E 0B            [ 8]  813 	ld	a, #0x0b
     0000035E 91               [ 4]  814 	sub	a, c

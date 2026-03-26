@@ -100,14 +100,14 @@ _spawn_boss::
 	ld	b, (hl)
 	ld	e, c
 	ld	d, b
-;src/scripts/boss.c:17: boss->hp = 1;
+;src/scripts/boss.c:17: boss->hp = 80;
 	ld	hl, #0x0003
 	add	hl, bc
 	inc	sp
 	inc	sp
 	push	hl
-;src/scripts/boss.c:18: boss->atk = 20;
-	ld	hl, #0x0004
+;src/scripts/boss.c:18: boss->atk = 15;
+	ld	hl, #0x0005
 	add	hl, bc
 	push	hl
 	ld	a, l
@@ -117,8 +117,8 @@ _spawn_boss::
 	ld	a, h
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/boss.c:19: boss->def = 23;
-	ld	hl, #0x0005
+;src/scripts/boss.c:19: boss->def = 6;
+	ld	hl, #0x0006
 	add	hl, bc
 	push	hl
 	ld	a, l
@@ -128,8 +128,8 @@ _spawn_boss::
 	ld	a, h
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/boss.c:20: boss->exp_reward = 25;
-	ld	hl, #0x0006
+;src/scripts/boss.c:20: boss->exp_reward = 80;
+	ld	hl, #0x0007
 	add	hl, bc
 	push	hl
 	ld	a, l
@@ -163,7 +163,7 @@ _spawn_boss::
 	ldhl	sp,	#11
 	ld	(hl), a
 ;src/scripts/boss.c:23: boss->defeated = 0;
-	ld	hl, #0x0007
+	ld	hl, #0x0009
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -189,28 +189,32 @@ _spawn_boss::
 ;src/scripts/boss.c:16: boss->id = 1;
 	ld	a, #0x01
 	ld	(de), a
-;src/scripts/boss.c:17: boss->hp = 1;
+;src/scripts/boss.c:17: boss->hp = 80;
 	pop	hl
-	ld	(hl), #0x01
 	push	hl
-;src/scripts/boss.c:18: boss->atk = 20;
+	ld	a, #0x50
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/boss.c:18: boss->atk = 15;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x14
-;src/scripts/boss.c:19: boss->def = 23;
+	ld	(hl), #0x0f
+;src/scripts/boss.c:19: boss->def = 6;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x17
-;src/scripts/boss.c:20: boss->exp_reward = 25;
+	ld	(hl), #0x06
+;src/scripts/boss.c:20: boss->exp_reward = 80;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x19
+	ld	a, #0x50
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/boss.c:21: boss->x = 72;
 	ldhl	sp,	#8
 	ld	a, (hl+)
@@ -240,28 +244,32 @@ _spawn_boss::
 ;src/scripts/boss.c:27: boss->id = 2;
 	ld	a, #0x02
 	ld	(de), a
-;src/scripts/boss.c:28: boss->hp = 1;
+;src/scripts/boss.c:28: boss->hp = 180;
 	pop	hl
-	ld	(hl), #0x01
 	push	hl
-;src/scripts/boss.c:29: boss->atk = 20;
+	ld	a, #0xb4
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/boss.c:29: boss->atk = 28;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x14
-;src/scripts/boss.c:30: boss->def = 23;
+	ld	(hl), #0x1c
+;src/scripts/boss.c:30: boss->def = 14;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x17
-;src/scripts/boss.c:31: boss->exp_reward = 50;
+	ld	(hl), #0x0e
+;src/scripts/boss.c:31: boss->exp_reward = 250;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x32
+	ld	a, #0xfa
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/boss.c:32: boss->x = 72;
 	ldhl	sp,	#8
 	ld	a, (hl+)
@@ -288,31 +296,35 @@ _spawn_boss::
 	jp	00144$
 ;src/scripts/boss.c:37: case 15:
 00104$:
-;src/scripts/boss.c:38: boss->id = 2;
-	ld	a, #0x02
+;src/scripts/boss.c:38: boss->id = 3;
+	ld	a, #0x03
 	ld	(de), a
-;src/scripts/boss.c:39: boss->hp = 1;
+;src/scripts/boss.c:39: boss->hp = 400;
 	pop	hl
-	ld	(hl), #0x01
 	push	hl
-;src/scripts/boss.c:40: boss->atk = 20;
+	ld	a, #0x90
+	ld	(hl+), a
+	ld	(hl), #0x01
+;src/scripts/boss.c:40: boss->atk = 50;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x14
-;src/scripts/boss.c:41: boss->def = 23;
+	ld	(hl), #0x32
+;src/scripts/boss.c:41: boss->def = 30;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x17
-;src/scripts/boss.c:42: boss->exp_reward = 100;
+	ld	(hl), #0x1e
+;src/scripts/boss.c:42: boss->exp_reward = 600;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x64
+	ld	a, #0x58
+	ld	(hl+), a
+	ld	(hl), #0x02
 ;src/scripts/boss.c:43: boss->x = 72;
 	ldhl	sp,	#8
 	ld	a, (hl+)
@@ -336,34 +348,38 @@ _spawn_boss::
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/boss.c:47: break;
-	jr	00144$
+	jp	00144$
 ;src/scripts/boss.c:48: case 20:
 00105$:
 ;src/scripts/boss.c:49: boss->id = 4;
 	ld	a, #0x04
 	ld	(de), a
-;src/scripts/boss.c:50: boss->hp = 1;
+;src/scripts/boss.c:50: boss->hp = 800;
 	pop	hl
-	ld	(hl), #0x01
 	push	hl
-;src/scripts/boss.c:51: boss->atk = 20;
+	ld	a, #0x20
+	ld	(hl+), a
+	ld	(hl), #0x03
+;src/scripts/boss.c:51: boss->atk = 100;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x14
-;src/scripts/boss.c:52: boss->def = 23;
+	ld	(hl), #0x64
+;src/scripts/boss.c:52: boss->def = 65;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x17
-;src/scripts/boss.c:53: boss->exp_reward = 150;
+	ld	(hl), #0x41
+;src/scripts/boss.c:53: boss->exp_reward = 1500;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x96
+	ld	a, #0xdc
+	ld	(hl+), a
+	ld	(hl), #0x05
 ;src/scripts/boss.c:54: boss->x = 72;
 	ldhl	sp,	#8
 	ld	a, (hl+)
@@ -393,28 +409,32 @@ _spawn_boss::
 ;src/scripts/boss.c:60: boss->id = 5;
 	ld	a, #0x05
 	ld	(de), a
-;src/scripts/boss.c:61: boss->hp = 1;
+;src/scripts/boss.c:61: boss->hp = 2000;
 	pop	hl
-	ld	(hl), #0x01
 	push	hl
-;src/scripts/boss.c:62: boss->atk = 20;
+	ld	a, #0xd0
+	ld	(hl+), a
+	ld	(hl), #0x07
+;src/scripts/boss.c:62: boss->atk = 220;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x14
-;src/scripts/boss.c:63: boss->def = 23;
+	ld	(hl), #0xdc
+;src/scripts/boss.c:63: boss->def = 120;
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0x17
-;src/scripts/boss.c:64: boss->exp_reward = 250;
+	ld	(hl), #0x78
+;src/scripts/boss.c:64: boss->exp_reward = 9999;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	h, (hl)
 	ld	l, a
-	ld	(hl), #0xfa
+	ld	a, #0x0f
+	ld	(hl+), a
+	ld	(hl), #0x27
 ;src/scripts/boss.c:65: boss->x = 72;
 	ldhl	sp,	#8
 	ld	a, (hl+)
@@ -788,7 +808,7 @@ _move_boss::
 	ld	(hl), a
 	pop	de
 	push	de
-	ld	hl, #0x0007
+	ld	hl, #0x0009
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -1116,7 +1136,7 @@ _boss_attack::
 	call	___sdcc_bcall_ehl
 	pop	de
 ;src/scripts/boss.c:176: if (boss->atk > defense) {
-	ld	hl, #0x0004
+	ld	hl, #0x0005
 	add	hl, de
 	ld	c, (hl)
 	ld	hl, #_defense
@@ -1460,14 +1480,17 @@ _boss_death::
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
-	ld	l, c
-	ld	h, b
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x00
+	ld	e, c
+	ld	d, b
+	inc	de
+	inc	de
+	inc	de
+	xor	a, a
+	ld	(de), a
+	inc	de
+	ld	(de), a
 ;src/scripts/boss.c:239: boss->defeated = 1;
-	ld	hl, #0x0007
+	ld	hl, #0x0009
 	add	hl, bc
 	ld	(hl), #0x01
 ;src/scripts/boss.c:240: boss->x = 0;

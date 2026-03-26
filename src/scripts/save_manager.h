@@ -9,7 +9,7 @@ typedef struct {
     uint8_t attack;
     uint8_t defense;
     uint8_t level;
-    uint8_t experience;
+    uint16_t experience;
     /* POWER UPS */
     uint8_t sword_lvl;
     uint8_t shield_lvl;
@@ -49,7 +49,7 @@ extern uint8_t current_hp;
 extern uint8_t attack;
 extern uint8_t defense;
 extern uint8_t level;
-extern uint8_t experience;
+extern uint16_t experience;
 
 /* POWER UPS */
 extern uint8_t sword_lvl;
@@ -66,7 +66,7 @@ extern uint8_t heal_quantity;
 extern uint8_t arrow_damage;
 extern uint8_t num_arrows;
 extern uint8_t max_num_arrows;
-extern uint8_t minerals;      
+extern uint8_t minerals;
 
 /* GAME STATS */
 extern uint8_t frames;
@@ -76,4 +76,3 @@ extern uint8_t hours;
 extern uint8_t enemies_defeated;
 extern uint8_t max_floor;
 extern uint8_t power_ups;
-

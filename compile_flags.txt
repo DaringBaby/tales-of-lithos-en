@@ -1,0 +1,2 @@
+-IC:\Users\Utente\Desktop\Tirocinio\gbdk-win64\gbdk\include
+-Iinclude

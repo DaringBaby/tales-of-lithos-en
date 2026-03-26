@@ -15,4 +15,3 @@ extern uint8_t num_arrows;
 extern uint8_t max_num_arrows;
 extern uint8_t current_hp;
 extern uint8_t max_hp;
-

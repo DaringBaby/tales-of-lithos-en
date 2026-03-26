@@ -119,8 +119,8 @@ _check_enemy::
 	ld	l, c
 	ld	h, b
 	add	hl, hl
-	add	hl, hl
 	add	hl, bc
+	add	hl, hl
 	add	hl, hl
 	ld	de, #_current_enemies
 	add	hl, de

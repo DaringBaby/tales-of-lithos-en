@@ -72,7 +72,7 @@ _move_enemy::
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ld	hl, #0x0006
+	ld	hl, #0x0007
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -111,7 +111,7 @@ _move_enemy::
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ld	hl, #0x0008
+	ld	hl, #0x0009
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -575,7 +575,7 @@ _move_enemy::
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ld	hl, #0x0008
+	ld	hl, #0x0009
 	add	hl, de
 	ld	a, #0x01
 	ld	(hl), a
@@ -624,7 +624,7 @@ _set_enemy_position::
 	push	de
 	ld	a, (de)
 	ld	(hl), a
-	ld	hl, #0x0007
+	ld	hl, #0x0008
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -793,320 +793,331 @@ _set_enemy_stats::
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:124: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:125: e->def = 1;
+	ld	a, #0x0a
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:124: e->atk = 6;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:126: e->type = 1;
+	ld	(hl), #0x06
+;src/scripts/enemy.c:125: e->def = 2;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:127: e->exp_reward = 1;
-	ld	hl, #0x0009
+	ld	(hl), #0x02
+;src/scripts/enemy.c:126: e->type = 1;
+	ld	hl, #0x0006
 	add	hl, de
 	ld	(hl), #0x01
+;src/scripts/enemy.c:127: e->exp_reward = 2;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x02
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:128: break;
 	jp	00112$
 ;src/scripts/enemy.c:129: case 2:
 00102$:
-;src/scripts/enemy.c:130: e->hp = 10;
+;src/scripts/enemy.c:130: e->hp = 18;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:131: e->atk = 11;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x0b
-;src/scripts/enemy.c:132: e->def = 6;
+	ld	a, #0x12
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:131: e->atk = 9;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x06
-;src/scripts/enemy.c:133: e->type = 2;
+	ld	(hl), #0x09
+;src/scripts/enemy.c:132: e->def = 3;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x02
-;src/scripts/enemy.c:134: e->exp_reward = 3;
-	ld	hl, #0x0009
-	add	hl, de
 	ld	(hl), #0x03
+;src/scripts/enemy.c:133: e->type = 2;
+	ld	hl, #0x0006
+	add	hl, de
+	ld	(hl), #0x02
+;src/scripts/enemy.c:134: e->exp_reward = 5;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x05
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:135: break;
 	jp	00112$
 ;src/scripts/enemy.c:136: case 3:
 00103$:
-;src/scripts/enemy.c:137: e->hp = 10;
+;src/scripts/enemy.c:137: e->hp = 25;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:138: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:139: e->def = 1;
+	ld	a, #0x19
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:138: e->atk = 12;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:140: e->type = 3;
+	ld	(hl), #0x0c
+;src/scripts/enemy.c:139: e->def = 5;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x03
-;src/scripts/enemy.c:141: e->exp_reward = 5;
-	ld	hl, #0x0009
-	add	hl, de
 	ld	(hl), #0x05
+;src/scripts/enemy.c:140: e->type = 3;
+	ld	hl, #0x0006
+	add	hl, de
+	ld	(hl), #0x03
+;src/scripts/enemy.c:141: e->exp_reward = 12;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x0c
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:142: break;
 	jp	00112$
 ;src/scripts/enemy.c:143: case 4:
 00104$:
-;src/scripts/enemy.c:144: e->hp = 10;
+;src/scripts/enemy.c:144: e->hp = 40;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:145: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:146: e->def = 1;
+	ld	a, #0x28
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:145: e->atk = 18;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:147: e->type = 4;
+	ld	(hl), #0x12
+;src/scripts/enemy.c:146: e->def = 8;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x04
-;src/scripts/enemy.c:148: e->exp_reward = 10;
-	ld	hl, #0x0009
+	ld	(hl), #0x08
+;src/scripts/enemy.c:147: e->type = 4;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x0a
+	ld	(hl), #0x04
+;src/scripts/enemy.c:148: e->exp_reward = 25;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x19
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:149: break;
 	jp	00112$
 ;src/scripts/enemy.c:150: case 5:
 00105$:
-;src/scripts/enemy.c:151: e->hp = 10;
+;src/scripts/enemy.c:151: e->hp = 55;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:152: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:153: e->def = 1;
+	ld	a, #0x37
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:152: e->atk = 22;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:154: e->type = 5;
+	ld	(hl), #0x16
+;src/scripts/enemy.c:153: e->def = 11;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x05
-;src/scripts/enemy.c:155: e->exp_reward = 15;
-	ld	hl, #0x0009
+	ld	(hl), #0x0b
+;src/scripts/enemy.c:154: e->type = 5;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x0f
+	ld	(hl), #0x05
+;src/scripts/enemy.c:155: e->exp_reward = 45;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x2d
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:156: break;
 	jp	00112$
 ;src/scripts/enemy.c:157: case 6:
 00106$:
-;src/scripts/enemy.c:158: e->hp = 10;
+;src/scripts/enemy.c:158: e->hp = 80;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:159: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:160: e->def = 1;
+	ld	a, #0x50
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:159: e->atk = 32;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:161: e->type = 6;
+	ld	(hl), #0x20
+;src/scripts/enemy.c:160: e->def = 18;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x06
-;src/scripts/enemy.c:162: e->exp_reward = 25;
-	ld	hl, #0x0009
+	ld	(hl), #0x12
+;src/scripts/enemy.c:161: e->type = 6;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x19
+	ld	(hl), #0x06
+;src/scripts/enemy.c:162: e->exp_reward = 80;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x50
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:163: break;
 	jp	00112$
 ;src/scripts/enemy.c:164: case 7:
 00107$:
-;src/scripts/enemy.c:165: e->hp = 10;
+;src/scripts/enemy.c:165: e->hp = 110;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:166: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:167: e->def = 1;
+	ld	a, #0x6e
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:166: e->atk = 40;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:168: e->type = 7;
+	ld	(hl), #0x28
+;src/scripts/enemy.c:167: e->def = 25;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x07
-;src/scripts/enemy.c:169: e->exp_reward = 35;
-	ld	hl, #0x0009
+	ld	(hl), #0x19
+;src/scripts/enemy.c:168: e->type = 7;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x23
+	ld	(hl), #0x07
+;src/scripts/enemy.c:169: e->exp_reward = 150;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0x96
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:170: break;
 	jp	00112$
 ;src/scripts/enemy.c:171: case 8:
 00108$:
-;src/scripts/enemy.c:172: e->hp = 10;
+;src/scripts/enemy.c:172: e->hp = 160;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:173: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:174: e->def = 1;
+	ld	a, #0xa0
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:173: e->atk = 60;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:175: e->type = 8;
+	ld	(hl), #0x3c
+;src/scripts/enemy.c:174: e->def = 40;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x08
-;src/scripts/enemy.c:176: e->exp_reward = 50;
-	ld	hl, #0x0009
+	ld	(hl), #0x28
+;src/scripts/enemy.c:175: e->type = 8;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x32
+	ld	(hl), #0x08
+;src/scripts/enemy.c:176: e->exp_reward = 250;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0xfa
+	ld	(hl+), a
+	ld	(hl), #0x00
 ;src/scripts/enemy.c:177: break;
 	jr	00112$
 ;src/scripts/enemy.c:178: case 9:
 00109$:
-;src/scripts/enemy.c:179: e->hp = 10;
+;src/scripts/enemy.c:179: e->hp = 220;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:180: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;src/scripts/enemy.c:181: e->def = 1;
+	ld	a, #0xdc
+	ld	(hl+), a
+	ld	(hl), #0x00
+;src/scripts/enemy.c:180: e->atk = 85;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:182: e->type = 9;
+	ld	(hl), #0x55
+;src/scripts/enemy.c:181: e->def = 55;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x09
-;src/scripts/enemy.c:183: e->exp_reward = 60;
-	ld	hl, #0x0009
+	ld	(hl), #0x37
+;src/scripts/enemy.c:182: e->type = 9;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x3c
+	ld	(hl), #0x09
+;src/scripts/enemy.c:183: e->exp_reward = 450;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0xc2
+	ld	(hl+), a
+	ld	(hl), #0x01
 ;src/scripts/enemy.c:184: break;
 	jr	00112$
 ;src/scripts/enemy.c:185: case 10:
 00110$:
-;src/scripts/enemy.c:186: e->hp = 10;
+;src/scripts/enemy.c:186: e->hp = 350;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:187: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
+	ld	(hl), #0x5e
 	inc	hl
 	ld	(hl), #0x01
-;src/scripts/enemy.c:188: e->def = 1;
+;src/scripts/enemy.c:187: e->atk = 120;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:189: e->type = 10;
+	ld	(hl), #0x78
+;src/scripts/enemy.c:188: e->def = 85;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:190: e->exp_reward = 75;
-	ld	hl, #0x0009
+	ld	(hl), #0x55
+;src/scripts/enemy.c:189: e->type = 10;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x4b
+	ld	(hl), #0x0a
+;src/scripts/enemy.c:190: e->exp_reward = 700;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0xbc
+	ld	(hl+), a
+	ld	(hl), #0x02
 ;src/scripts/enemy.c:191: break;
 	jr	00112$
 ;src/scripts/enemy.c:192: case 11:
 00111$:
-;src/scripts/enemy.c:193: e->hp = 10;
+;src/scripts/enemy.c:193: e->hp = 500;
 	ld	l, e
 	ld	h, d
 	inc	hl
 	inc	hl
-	ld	(hl), #0x0a
-;src/scripts/enemy.c:194: e->atk = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
+	ld	(hl), #0xf4
 	inc	hl
 	ld	(hl), #0x01
-;src/scripts/enemy.c:195: e->def = 1;
+;src/scripts/enemy.c:194: e->atk = 160;
 	ld	hl, #0x0004
 	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:196: e->type = 11;
+	ld	(hl), #0xa0
+;src/scripts/enemy.c:195: e->def = 100;
 	ld	hl, #0x0005
 	add	hl, de
-	ld	(hl), #0x0b
-;src/scripts/enemy.c:197: e->exp_reward = 90;
-	ld	hl, #0x0009
+	ld	(hl), #0x64
+;src/scripts/enemy.c:196: e->type = 11;
+	ld	hl, #0x0006
 	add	hl, de
-	ld	(hl), #0x5a
+	ld	(hl), #0x0b
+;src/scripts/enemy.c:197: e->exp_reward = 1000;
+	ld	hl, #0x000a
+	add	hl, de
+	ld	a, #0xe8
+	ld	(hl+), a
+	ld	(hl), #0x03
 ;src/scripts/enemy.c:199: }
 00112$:
 ;src/scripts/enemy.c:200: e->sprite_id = sprite_id;
-	ld	hl, #0x0007
+	ld	hl, #0x0008
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -1114,11 +1125,11 @@ _set_enemy_stats::
 	ld	a, (hl)
 	ld	(bc), a
 ;src/scripts/enemy.c:201: e->alive = 1; // cambiato
-	ld	hl, #0x0006
+	ld	hl, #0x0007
 	add	hl, de
 	ld	(hl), #0x01
 ;src/scripts/enemy.c:202: e->targeting = 0;
-	ld	hl, #0x0008
+	ld	hl, #0x0009
 	add	hl, de
 	ld	(hl), #0x00
 ;src/scripts/enemy.c:203: }
@@ -1182,11 +1193,9 @@ _enemy_attack::
 	call	___sdcc_bcall_ehl
 	pop	de
 ;src/scripts/enemy.c:226: if (e->atk > defense) {
-	inc	de
-	inc	de
-	inc	de
-	ld	a, (de)
-	ld	c, a
+	ld	hl, #0x0004
+	add	hl, de
+	ld	c, (hl)
 	ld	hl, #_defense
 	ld	a, (hl)
 	sub	a, c
@@ -1272,9 +1281,11 @@ _enemy_death::
 	inc	de
 	xor	a, a
 	ld	(de), a
+	inc	de
+	ld	(de), a
 ;src/scripts/enemy.c:247: e->alive = 0;
 	ld	a, c
-	add	a, #0x06
+	add	a, #0x07
 	ld	e, a
 	ld	a, b
 	adc	a, #0x00
@@ -1288,7 +1299,7 @@ _enemy_death::
 	ld	(hl), #0x00
 	push	hl
 ;src/scripts/enemy.c:250: move_sprite(e->sprite_id, 0, 0);
-	ld	hl, #0x0007
+	ld	hl, #0x0008
 	add	hl, bc
 	ld	c, l
 	ld	b, h
@@ -1444,7 +1455,7 @@ _enemy_smooth_movement::
 	rla
 	ldhl	sp,	#2
 	ld	(hl), a
-	ld	hl, #0x0007
+	ld	hl, #0x0008
 	add	hl, de
 	ld	c, l
 	ld	b, h
@@ -1666,15 +1677,15 @@ _is_enemy_at::
 	ld	l, e
 	ld	h, d
 	add	hl, hl
-	add	hl, hl
 	add	hl, de
+	add	hl, hl
 	add	hl, hl
 	ld	de, #_current_enemies
 	add	hl, de
 	ld	e, l
 	ld	d, h
 ;src/scripts/enemy.c:295: if (other->alive && other != self) {
-	ld	hl, #0x0006
+	ld	hl, #0x0007
 	add	hl, de
 	ld	a, (hl)
 	or	a, a

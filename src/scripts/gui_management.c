@@ -120,7 +120,7 @@ void hector_upgrades() {
                     sword_lvl++;
                     power_ups++;
                     // recalc_stats();
-                    attack = attack + 3;
+                    attack += 10;
                     delay(300);
                 }
             }
@@ -133,7 +133,7 @@ void hector_upgrades() {
                     shield_lvl++;
                     power_ups++;
                     // recalc_stats();
-                    defense = defense + 3;
+                    defense += 8;
                     delay(300);
                 }
             }
@@ -146,7 +146,7 @@ void hector_upgrades() {
                     arrow_lvl++;
                     power_ups++;
                     // recalc_stats();
-                    arrow_damage = arrow_damage + 2;
+                    arrow_damage += 17;
                     delay(300);
                 }
             }
@@ -206,7 +206,7 @@ void safy_upgrades() {
                     experience = experience - cost;
                     potion_heal_lvl++;
                     power_ups++;
-                    heal_quantity = heal_quantity + 4;
+                    heal_quantity = heal_quantity + 8;
                     delay(300);
                 }
             }
@@ -219,25 +219,35 @@ void safy_upgrades() {
                     level++;
                     power_ups++;
                     // recalc_stats();
-                    attack = attack + 3;
-                    defense = defense + 3;
-                    max_hp = max_hp + 5;
+                    attack = attack + 2;
+                    defense = defense + 1;
+                    max_hp = max_hp + 4;
                     current_hp = max_hp;
                     delay(300);
                 }
             }
             break;
         }
-    uint8_t costs[3];
-    uint8_t exp[3];
-    costs[0] = cost / 100 + 154;
-    costs[1] = cost % 100 / 10 + 154;
-    costs[2] = cost % 10 + 154;
-    exp[0] = experience / 100 + 154;
-    exp[1] = experience % 100 / 10 + 154;
-    exp[2] = experience % 10 + 154;
+    uint8_t costs[4];
+    uint8_t exp[4];
+    costs[0] = cost / 1000 + 154;
+    costs[1] = cost % 1000 / 100 + 154;
+    costs[2] = cost % 100 / 10 + 154;
+    costs[3] = cost % 10 + 154;
+    if (experience > 9999) {
+        exp[0] = 163;
+        exp[1] = 163;
+        exp[2] = 163;
+        exp[3] = 163;
+    }
+    else {
+        exp[0] = experience % 10000 / 1000 + 154;
+        exp[1] = experience % 1000 / 100 + 154;
+        exp[2] = experience % 100 / 10 + 154;
+        exp[3] = experience % 10 + 154;
+    }
     set_win_tiles(15, 10, 3, 1, costs);
-    set_win_tiles(15, 12, 3, 1, exp);
+    set_win_tiles(14, 12, 4, 1, exp);
 
     if (joypad() & J_B) {
         safy_option = 1;
@@ -264,16 +274,31 @@ void set_stats() BANKED {
     atk[1] = attack % 10 + 154;
     def[0] = defense / 10 + 154;
     def[1] = defense % 10 + 154;
-    exp[0] = experience / 100 + 154;
-    exp[1] = experience % 100 / 10 + 154;
-    exp[2] = experience % 10 + 154;
+
+    uint8_t d3 = (experience% 10000 / 1000);
+    uint8_t d2 = (experience % 1000) / 100;
+    uint8_t d1 = (experience % 100) / 10;
+    uint8_t d0 = (experience % 10);
+    if (experience > 9999) {
+        exp[0] = 163;
+        exp[1] = 163;
+        exp[2] = 163;
+        exp[3] = 163;
+    }
+    else {
+        exp[0] = (d3 == 0) ? 12 : (d3 + 154);
+        exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
+        exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
+        exp[3] = d0 + 154;
+    }
+
     mythril[0] = minerals / 10 + 154;
     mythril[1] = minerals % 10 + 154;
     set_win_tiles(12, 6, 5, 1, hp);
     set_win_tiles(14, 4, 5, 1, player_name);
     set_win_tiles(12, 8, 2, 1, atk);
     set_win_tiles(12, 10, 2, 1, def);
-    set_win_tiles(16, 14, 3, 1, exp);
+    set_win_tiles(15, 14, 4, 1, exp);
     set_win_tiles(14, 16, 2, 1, mythril);
     stat = sword_lvl + 154;
     set_win_tiles(4, 12, 1, 1, &stat);
@@ -295,15 +320,13 @@ void set_mini_menu() BANKED {
     if (menu_opened != 0) {
         return;
     }
-    uint8_t hp[5];
+    uint8_t hp[3];
     uint8_t n_arr[2];
     uint8_t n_heals[2];
     uint8_t n_floor[2];
-    hp[0] = current_hp/10 + 154;
-    hp[1] = current_hp % 10 + 154;
-    hp[2] = 176;
-    hp[3] = max_hp/10 + 154;
-    hp[4] = max_hp % 10 + 154;
+    hp[0] = current_hp / 100 + 154;
+    hp[1] = current_hp % 100 / 10 + 154;
+    hp[2] = max_hp % 10 + 154;
     n_arr[0] = num_arrows / 10 + 154;
     n_arr[1] = num_arrows % 10 + 154;
     n_heals[0] = heals / 10 + 154;
@@ -312,7 +335,7 @@ void set_mini_menu() BANKED {
     n_floor[1] = current_floor % 10 + 154;
     move_win(7, 136);
     set_win_tiles(0, 0, 20, 1, mini_gui);
-    set_win_tiles(3, 0, 5, 1, hp);
+    set_win_tiles(3, 0, 3, 1, hp);
     set_win_tiles(10, 0, 2, 1, n_arr);
     set_win_tiles(13, 0, 2, 1, n_heals);
     set_win_tiles(18, 0, 2, 1, n_floor);

@@ -14,10 +14,10 @@ void spawn_boss(Boss *boss) BANKED {
     switch (current_floor) {
         case 5:
             boss->id = 1;
-            boss->hp = 1;
-            boss->atk = 20;
-            boss->def = 23;
-            boss->exp_reward = 25;
+            boss->hp = 80;
+            boss->atk = 15;
+            boss->def = 6;
+            boss->exp_reward = 80;
             boss->x = 72;
             boss->y = 64;
             boss->defeated = 0;
@@ -25,21 +25,21 @@ void spawn_boss(Boss *boss) BANKED {
             break;
         case 10:
             boss->id = 2;
-            boss->hp = 1;
-            boss->atk = 20;
-            boss->def = 23;
-            boss->exp_reward = 50;
+            boss->hp = 180;
+            boss->atk = 28;
+            boss->def = 14;
+            boss->exp_reward = 250;
             boss->x = 72;
             boss->y = 64;
             boss->defeated = 0;
             set_sprite_data(98, 16, BossMantis);
             break;
         case 15:
-            boss->id = 2;
-            boss->hp = 1;
-            boss->atk = 20;
-            boss->def = 23;
-            boss->exp_reward = 100;
+            boss->id = 3;
+            boss->hp = 400;
+            boss->atk = 50;
+            boss->def = 30;
+            boss->exp_reward = 600;
             boss->x = 72;
             boss->y = 64;
             boss->defeated = 0;
@@ -47,10 +47,10 @@ void spawn_boss(Boss *boss) BANKED {
             break;
         case 20:
             boss->id = 4;
-            boss->hp = 1;
-            boss->atk = 20;
-            boss->def = 23;
-            boss->exp_reward = 150;
+            boss->hp = 800;
+            boss->atk = 100;
+            boss->def = 65;
+            boss->exp_reward = 1500;
             boss->x = 72;
             boss->y = 64;
             boss->defeated = 0;
@@ -58,10 +58,10 @@ void spawn_boss(Boss *boss) BANKED {
             break;
         case 25:
             boss->id = 5;
-            boss->hp = 1;
-            boss->atk = 20;
-            boss->def = 23;
-            boss->exp_reward = 250;
+            boss->hp = 2000;
+            boss->atk = 220;
+            boss->def = 120;
+            boss->exp_reward = 9999;
             boss->x = 72;
             boss->y = 64;
             boss->defeated = 0;

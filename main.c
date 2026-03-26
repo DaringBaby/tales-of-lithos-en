@@ -110,12 +110,12 @@ uint8_t current_joypad = 0;
 
 /* PLAYER STATS */
 uint8_t player_name[] = {164, 164, 164, 164, 164};
-uint8_t max_hp = 99;
-uint8_t current_hp = 99;
-uint8_t attack = 99;
-uint8_t defense = 99;
+uint8_t max_hp = 25;
+uint8_t current_hp = 25;
+uint8_t attack = 5;
+uint8_t defense = 3;
 uint8_t level = 1;
-uint8_t experience = 0;
+uint16_t experience = 1;
 uint8_t sword_lvl = 1;
 uint8_t shield_lvl = 1;
 uint8_t arrow_lvl = 1;
@@ -180,8 +180,16 @@ uint8_t safy_option = 1;
 uint8_t map_option = 0;
 
 const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
-const uint8_t cure_upgrade_costs[] = {7, 12, 17, 23, 29, 35, 42, 50};
-const uint8_t level_curve[] = {12, 25, 38, 52, 66, 81, 97, 113, 120, 130, 145, 160, 175, 190, 205, 220, 235, 248, 255};
+const uint16_t cure_upgrade_costs[] = {
+    10, 60, 150, 350, 700, 1200, 1800, 2300, 2800
+};
+const uint16_t level_curve[] = {
+    10, 25, 45, 70, 100, 135, 175, 220, 270, 325,   // 1-10
+    385, 450, 520, 595, 675, 760, 850, 945, 1045, 1150, // 11-20
+    1210, 1270, 1330, 1390, 1450, 1510, 1570, 1630, 1690, 1750, // 21-30
+    1810, 1870, 1930, 1990, 2050, 2110, 2170, 2230, 2290, 2350, // 31-40
+    2410, 2470, 2530, 2590, 2650, 2710, 2740, 2770, 2790, 2800  // 41-50
+};
 /* FLAGS */
 uint8_t key_obtained = 1;
 uint8_t treasure_obtained = 0;

@@ -538,7 +538,7 @@ _spawn_enemies_in_room::
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ld	hl, #0x000a
+	ld	hl, #0x000c
 	add	hl, de
 	ld	e, l
 	ld	d, h
@@ -659,7 +659,7 @@ _set_enemy_tiles::
 	b_set_enemy_sprite	= 3
 _set_enemy_sprite::
 ;src/scripts/spawn_enemy.c:180: switch (current_enemies[0].type) {
-	ld	hl, #(_current_enemies + 5)
+	ld	hl, #(_current_enemies + 6)
 	ld	c, (hl)
 	ld	a, #0x0b
 	sub	a, c
@@ -808,7 +808,7 @@ _set_enemy_sprite::
 ;src/scripts/spawn_enemy.c:214: }
 00112$:
 ;src/scripts/spawn_enemy.c:215: switch (current_enemies[1].type) {
-	ld	hl, #(_current_enemies + 15)
+	ld	hl, #(_current_enemies + 18)
 	ld	c, (hl)
 	ld	a, #0x0b
 	sub	a, c

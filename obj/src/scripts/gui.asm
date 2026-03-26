@@ -343,8 +343,8 @@ _gui_map:
 	.db #0xbb	; 187
 	.db #0x84	; 132
 	.db #0x92	; 146
-	.db #0x92	; 146
-	.db #0xb1	; 177
+	.db #0xa6	; 166
+	.db #0xbb	; 187
 	.db #0xbb	; 187
 	.db #0xbb	; 187
 	.db #0xbb	; 187

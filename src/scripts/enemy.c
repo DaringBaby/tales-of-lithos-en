@@ -121,80 +121,80 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
     switch (type) {
         case 1:
             e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->atk = 6;
+            e->def = 2;
             e->type = 1;
-            e->exp_reward = 1;
+            e->exp_reward = 2;
             break;
         case 2:
-            e->hp = 10;
-            e->atk = 11;
-            e->def = 6;
+            e->hp = 18;
+            e->atk = 9;
+            e->def = 3;
             e->type = 2;
-            e->exp_reward = 3;
-            break;
-        case 3:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
-            e->type = 3;
             e->exp_reward = 5;
             break;
+        case 3:
+            e->hp = 25;
+            e->atk = 12;
+            e->def = 5;
+            e->type = 3;
+            e->exp_reward = 12;
+            break;
         case 4:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 40;
+            e->atk = 18;
+            e->def = 8;
             e->type = 4;
-            e->exp_reward = 10;
-            break;
-        case 5:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
-            e->type = 5;
-            e->exp_reward = 15;
-            break;
-        case 6:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
-            e->type = 6;
             e->exp_reward = 25;
             break;
+        case 5:
+            e->hp = 55;
+            e->atk = 22;
+            e->def = 11;
+            e->type = 5;
+            e->exp_reward = 45;
+            break;
+        case 6:
+            e->hp = 80;
+            e->atk = 32;
+            e->def = 18;
+            e->type = 6;
+            e->exp_reward = 80;
+            break;
         case 7:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 110;
+            e->atk = 40;
+            e->def = 25;
             e->type = 7;
-            e->exp_reward = 35;
+            e->exp_reward = 150;
             break;
         case 8:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 160;
+            e->atk = 60;
+            e->def = 40;
             e->type = 8;
-            e->exp_reward = 50;
+            e->exp_reward = 250;
             break;
         case 9:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 220;
+            e->atk = 85;
+            e->def = 55;
             e->type = 9;
-            e->exp_reward = 60;
+            e->exp_reward = 450;
             break;
         case 10:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 350;
+            e->atk = 120;
+            e->def = 85;
             e->type = 10;
-            e->exp_reward = 75;
+            e->exp_reward = 700;
             break;
         case 11:
-            e->hp = 10;
-            e->atk = 1;
-            e->def = 1;
+            e->hp = 500;
+            e->atk = 160;
+            e->def = 100;
             e->type = 11;
-            e->exp_reward = 90;
+            e->exp_reward = 1000;
             break;
     }
     e->sprite_id = sprite_id;
