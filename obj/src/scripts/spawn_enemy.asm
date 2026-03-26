@@ -7,6 +7,7 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _debug_value
 	.globl _enemy_death
 	.globl _set_enemy_position
 	.globl _set_enemy_stats
@@ -292,7 +293,7 @@ _add_enemy::
 	ld	h, #0x0b
 ;src/scripts/spawn_enemy.c:95: }
 00112$:
-;src/scripts/spawn_enemy.c:98: uint8_t rng = arand() & 127;
+;src/scripts/spawn_enemy.c:98: uint8_t rng_enemy = (arand() ^ DIV_REG) & 127;
 	push	hl
 	push	bc
 	push	de
@@ -302,13 +303,15 @@ _add_enemy::
 	ld	b, a
 	pop	af
 	ld	h, a
-	res	7, c
-;src/scripts/spawn_enemy.c:99: if (rng < type1) {
-	ld	a, c
+	ldh	a, (_DIV_REG + 0)
+	xor	a, c
+	and	a, #0x7f
+;src/scripts/spawn_enemy.c:99: if (rng_enemy < type1) {
+	ld	c, a
 	sub	a, e
 ;src/scripts/spawn_enemy.c:100: enemy_id = id_1;
 	jr	C, 00118$
-;src/scripts/spawn_enemy.c:102: else if (rng < type2 + type1) {
+;src/scripts/spawn_enemy.c:102: else if (rng_enemy < type2 + type1) {
 	ld	a, d
 	add	a, e
 	ld	e, a
@@ -598,10 +601,16 @@ _spawn_enemies_in_room::
 	ld	a, c
 	and	a, #0x0f
 	ld	c, a
-;src/scripts/spawn_enemy.c:161: if (id_low > 0) {
+;src/scripts/spawn_enemy.c:162: debug_value(id_low);
+	push	bc
+	ld	a, c
+	call	_debug_value
+	pop	bc
+;src/scripts/spawn_enemy.c:164: if (id_low > 0) {
+	ld	a, c
 	or	a, a
 	jr	Z, 00107$
-;src/scripts/spawn_enemy.c:162: set_enemy_stats(&enemies[0], id_low, 8);
+;src/scripts/spawn_enemy.c:165: set_enemy_stats(&enemies[0], id_low, 8);
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -611,7 +620,7 @@ _spawn_enemies_in_room::
 	inc	hl
 	ld	d, (hl)
 	call	_set_enemy_stats
-;src/scripts/spawn_enemy.c:163: set_enemy_position(&enemies[0], 120, 48);
+;src/scripts/spawn_enemy.c:166: set_enemy_position(&enemies[0], 120, 48);
 	ld	a, #0x30
 	push	af
 	inc	sp
@@ -622,11 +631,11 @@ _spawn_enemies_in_room::
 	ld	d, (hl)
 	call	_set_enemy_position
 00107$:
-;src/scripts/spawn_enemy.c:165: }
+;src/scripts/spawn_enemy.c:168: }
 	inc	sp
 	inc	sp
 	ret
-;src/scripts/spawn_enemy.c:168: void set_enemy_tiles() BANKED {
+;src/scripts/spawn_enemy.c:171: void set_enemy_tiles() BANKED {
 ;	---------------------------------
 ; Function set_enemy_tiles
 ; ---------------------------------
@@ -649,16 +658,16 @@ _set_enemy_tiles::
 	ld	(hl), #0x60
 	ld	hl, #(_shadow_OAM + 62)
 	ld	(hl), #0x61
-;src/scripts/spawn_enemy.c:176: set_sprite_tile(15, 97);
-;src/scripts/spawn_enemy.c:177: }
+;src/scripts/spawn_enemy.c:179: set_sprite_tile(15, 97);
+;src/scripts/spawn_enemy.c:180: }
 	ret
-;src/scripts/spawn_enemy.c:179: void set_enemy_sprite() BANKED {
+;src/scripts/spawn_enemy.c:182: void set_enemy_sprite() BANKED {
 ;	---------------------------------
 ; Function set_enemy_sprite
 ; ---------------------------------
 	b_set_enemy_sprite	= 3
 _set_enemy_sprite::
-;src/scripts/spawn_enemy.c:180: switch (current_enemies[0].type) {
+;src/scripts/spawn_enemy.c:183: switch (current_enemies[0].type) {
 	ld	hl, #(_current_enemies + 6)
 	ld	c, (hl)
 	ld	a, #0x0b
@@ -686,21 +695,10 @@ _set_enemy_sprite::
 	.dw	00109$
 	.dw	00110$
 	.dw	00111$
-;src/scripts/spawn_enemy.c:181: case 1:
+;src/scripts/spawn_enemy.c:184: case 1:
 00101$:
-;src/scripts/spawn_enemy.c:182: set_sprite_data(90, 4, LarvaOscura);
+;src/scripts/spawn_enemy.c:185: set_sprite_data(90, 4, LarvaOscura);
 	ld	de, #_LarvaOscura
-	push	de
-	ld	hl, #0x45a
-	push	hl
-	call	_set_sprite_data
-	add	sp, #4
-;src/scripts/spawn_enemy.c:183: break;
-	jp	00112$
-;src/scripts/spawn_enemy.c:184: case 2:
-00102$:
-;src/scripts/spawn_enemy.c:185: set_sprite_data(90, 4, Trisguardo);
-	ld	de, #_Trisguardo
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -708,21 +706,21 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:186: break;
 	jp	00112$
-;src/scripts/spawn_enemy.c:187: case 3:
-00103$:
-;src/scripts/spawn_enemy.c:188: set_sprite_data(90, 4, Cervellino);
-	ld	de, #_Cervellino
+;src/scripts/spawn_enemy.c:187: case 2:
+00102$:
+;src/scripts/spawn_enemy.c:188: set_sprite_data(90, 4, Trisguardo);
+	ld	de, #_Trisguardo
 	push	de
 	ld	hl, #0x45a
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:189: break;
-	jr	00112$
-;src/scripts/spawn_enemy.c:190: case 4:
-00104$:
-;src/scripts/spawn_enemy.c:191: set_sprite_data(90, 4, Pipistrello);
-	ld	de, #_Pipistrello
+	jp	00112$
+;src/scripts/spawn_enemy.c:190: case 3:
+00103$:
+;src/scripts/spawn_enemy.c:191: set_sprite_data(90, 4, Cervellino);
+	ld	de, #_Cervellino
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -730,10 +728,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:192: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:193: case 5:
-00105$:
-;src/scripts/spawn_enemy.c:194: set_sprite_data(90, 4, Ragnocchio);
-	ld	de, #_Ragnocchio
+;src/scripts/spawn_enemy.c:193: case 4:
+00104$:
+;src/scripts/spawn_enemy.c:194: set_sprite_data(90, 4, Pipistrello);
+	ld	de, #_Pipistrello
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -741,10 +739,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:195: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:196: case 6:
-00106$:
-;src/scripts/spawn_enemy.c:197: set_sprite_data(90, 4, Quadratocchio);
-	ld	de, #_Quadratocchio
+;src/scripts/spawn_enemy.c:196: case 5:
+00105$:
+;src/scripts/spawn_enemy.c:197: set_sprite_data(90, 4, Ragnocchio);
+	ld	de, #_Ragnocchio
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -752,10 +750,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:198: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:199: case 7:
-00107$:
-;src/scripts/spawn_enemy.c:200: set_sprite_data(90, 4, Cristallocchio);
-	ld	de, #_Cristallocchio
+;src/scripts/spawn_enemy.c:199: case 6:
+00106$:
+;src/scripts/spawn_enemy.c:200: set_sprite_data(90, 4, Quadratocchio);
+	ld	de, #_Quadratocchio
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -763,10 +761,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:201: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:202: case 8:
-00108$:
-;src/scripts/spawn_enemy.c:203: set_sprite_data(90, 4, OcchioInfuocato);
-	ld	de, #_OcchioInfuocato
+;src/scripts/spawn_enemy.c:202: case 7:
+00107$:
+;src/scripts/spawn_enemy.c:203: set_sprite_data(90, 4, Cristallocchio);
+	ld	de, #_Cristallocchio
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -774,10 +772,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:204: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:205: case 9:
-00109$:
-;src/scripts/spawn_enemy.c:206: set_sprite_data(90, 4, Armatura);
-	ld	de, #_Armatura
+;src/scripts/spawn_enemy.c:205: case 8:
+00108$:
+;src/scripts/spawn_enemy.c:206: set_sprite_data(90, 4, OcchioInfuocato);
+	ld	de, #_OcchioInfuocato
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -785,10 +783,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:207: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:208: case 10:
-00110$:
-;src/scripts/spawn_enemy.c:209: set_sprite_data(90, 4, PredatoreOmbra);
-	ld	de, #_PredatoreOmbra
+;src/scripts/spawn_enemy.c:208: case 9:
+00109$:
+;src/scripts/spawn_enemy.c:209: set_sprite_data(90, 4, Armatura);
+	ld	de, #_Armatura
 	push	de
 	ld	hl, #0x45a
 	push	hl
@@ -796,18 +794,29 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:210: break;
 	jr	00112$
-;src/scripts/spawn_enemy.c:211: case 11:
+;src/scripts/spawn_enemy.c:211: case 10:
+00110$:
+;src/scripts/spawn_enemy.c:212: set_sprite_data(90, 4, PredatoreOmbra);
+	ld	de, #_PredatoreOmbra
+	push	de
+	ld	hl, #0x45a
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:213: break;
+	jr	00112$
+;src/scripts/spawn_enemy.c:214: case 11:
 00111$:
-;src/scripts/spawn_enemy.c:212: set_sprite_data(90, 4, Dragocchio);
+;src/scripts/spawn_enemy.c:215: set_sprite_data(90, 4, Dragocchio);
 	ld	de, #_Dragocchio
 	push	de
 	ld	hl, #0x45a
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/spawn_enemy.c:214: }
+;src/scripts/spawn_enemy.c:217: }
 00112$:
-;src/scripts/spawn_enemy.c:215: switch (current_enemies[1].type) {
+;src/scripts/spawn_enemy.c:218: switch (current_enemies[1].type) {
 	ld	hl, #(_current_enemies + 18)
 	ld	c, (hl)
 	ld	a, #0x0b
@@ -835,21 +844,10 @@ _set_enemy_sprite::
 	.dw	00121$
 	.dw	00122$
 	.dw	00123$
-;src/scripts/spawn_enemy.c:216: case 1:
+;src/scripts/spawn_enemy.c:219: case 1:
 00113$:
-;src/scripts/spawn_enemy.c:217: set_sprite_data(94, 4, LarvaOscura);
+;src/scripts/spawn_enemy.c:220: set_sprite_data(94, 4, LarvaOscura);
 	ld	de, #_LarvaOscura
-	push	de
-	ld	hl, #0x45e
-	push	hl
-	call	_set_sprite_data
-	add	sp, #4
-;src/scripts/spawn_enemy.c:218: break;
-	jp	00124$
-;src/scripts/spawn_enemy.c:219: case 2:
-00114$:
-;src/scripts/spawn_enemy.c:220: set_sprite_data(94, 4, Trisguardo);
-	ld	de, #_Trisguardo
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -857,21 +855,21 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:221: break;
 	jp	00124$
-;src/scripts/spawn_enemy.c:222: case 3:
-00115$:
-;src/scripts/spawn_enemy.c:223: set_sprite_data(94, 4, Cervellino);
-	ld	de, #_Cervellino
+;src/scripts/spawn_enemy.c:222: case 2:
+00114$:
+;src/scripts/spawn_enemy.c:223: set_sprite_data(94, 4, Trisguardo);
+	ld	de, #_Trisguardo
 	push	de
 	ld	hl, #0x45e
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:224: break;
-	jr	00124$
-;src/scripts/spawn_enemy.c:225: case 4:
-00116$:
-;src/scripts/spawn_enemy.c:226: set_sprite_data(94, 4, Pipistrello);
-	ld	de, #_Pipistrello
+	jp	00124$
+;src/scripts/spawn_enemy.c:225: case 3:
+00115$:
+;src/scripts/spawn_enemy.c:226: set_sprite_data(94, 4, Cervellino);
+	ld	de, #_Cervellino
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -879,10 +877,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:227: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:228: case 5:
-00117$:
-;src/scripts/spawn_enemy.c:229: set_sprite_data(94, 4, Ragnocchio);
-	ld	de, #_Ragnocchio
+;src/scripts/spawn_enemy.c:228: case 4:
+00116$:
+;src/scripts/spawn_enemy.c:229: set_sprite_data(94, 4, Pipistrello);
+	ld	de, #_Pipistrello
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -890,10 +888,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:230: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:231: case 6:
-00118$:
-;src/scripts/spawn_enemy.c:232: set_sprite_data(94, 4, Quadratocchio);
-	ld	de, #_Quadratocchio
+;src/scripts/spawn_enemy.c:231: case 5:
+00117$:
+;src/scripts/spawn_enemy.c:232: set_sprite_data(94, 4, Ragnocchio);
+	ld	de, #_Ragnocchio
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -901,10 +899,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:233: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:234: case 7:
-00119$:
-;src/scripts/spawn_enemy.c:235: set_sprite_data(94, 4, Cristallocchio);
-	ld	de, #_Cristallocchio
+;src/scripts/spawn_enemy.c:234: case 6:
+00118$:
+;src/scripts/spawn_enemy.c:235: set_sprite_data(94, 4, Quadratocchio);
+	ld	de, #_Quadratocchio
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -912,10 +910,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:236: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:237: case 8:
-00120$:
-;src/scripts/spawn_enemy.c:238: set_sprite_data(94, 4, OcchioInfuocato);
-	ld	de, #_OcchioInfuocato
+;src/scripts/spawn_enemy.c:237: case 7:
+00119$:
+;src/scripts/spawn_enemy.c:238: set_sprite_data(94, 4, Cristallocchio);
+	ld	de, #_Cristallocchio
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -923,10 +921,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:239: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:240: case 9:
-00121$:
-;src/scripts/spawn_enemy.c:241: set_sprite_data(94, 4, Armatura);
-	ld	de, #_Armatura
+;src/scripts/spawn_enemy.c:240: case 8:
+00120$:
+;src/scripts/spawn_enemy.c:241: set_sprite_data(94, 4, OcchioInfuocato);
+	ld	de, #_OcchioInfuocato
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -934,10 +932,10 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:242: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:243: case 10:
-00122$:
-;src/scripts/spawn_enemy.c:244: set_sprite_data(94, 4, PredatoreOmbra);
-	ld	de, #_PredatoreOmbra
+;src/scripts/spawn_enemy.c:243: case 9:
+00121$:
+;src/scripts/spawn_enemy.c:244: set_sprite_data(94, 4, Armatura);
+	ld	de, #_Armatura
 	push	de
 	ld	hl, #0x45e
 	push	hl
@@ -945,22 +943,33 @@ _set_enemy_sprite::
 	add	sp, #4
 ;src/scripts/spawn_enemy.c:245: break;
 	jr	00124$
-;src/scripts/spawn_enemy.c:246: case 11:
+;src/scripts/spawn_enemy.c:246: case 10:
+00122$:
+;src/scripts/spawn_enemy.c:247: set_sprite_data(94, 4, PredatoreOmbra);
+	ld	de, #_PredatoreOmbra
+	push	de
+	ld	hl, #0x45e
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;src/scripts/spawn_enemy.c:248: break;
+	jr	00124$
+;src/scripts/spawn_enemy.c:249: case 11:
 00123$:
-;src/scripts/spawn_enemy.c:247: set_sprite_data(94, 4, Dragocchio);
+;src/scripts/spawn_enemy.c:250: set_sprite_data(94, 4, Dragocchio);
 	ld	de, #_Dragocchio
 	push	de
 	ld	hl, #0x45e
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/spawn_enemy.c:249: }
+;src/scripts/spawn_enemy.c:252: }
 00124$:
-;src/scripts/spawn_enemy.c:250: set_enemy_tiles();
+;src/scripts/spawn_enemy.c:253: set_enemy_tiles();
 	ld	e, #b_set_enemy_tiles
 	ld	hl, #_set_enemy_tiles
-;src/scripts/spawn_enemy.c:251: return;
-;src/scripts/spawn_enemy.c:252: }
+;src/scripts/spawn_enemy.c:254: return;
+;src/scripts/spawn_enemy.c:255: }
 	jp  ___sdcc_bcall_ehl
 	.area _CODE_3
 	.area _INITIALIZER

@@ -5,7 +5,6 @@
 #include "../tiles/minimap.h"
 
 
-
 void check_map_options() BANKED {
     if (joypad() & J_UP && map_option > 0) {
         set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
@@ -212,7 +211,7 @@ void safy_upgrades() {
             }
             break;
         case 3:
-            if (level < 20) {
+            if (level < 50) {
                 cost = level_curve[level-1];
                 if (experience >= cost && joypad() & J_A) {
                     experience = experience - cost;
@@ -335,6 +334,7 @@ void set_mini_menu() BANKED {
     n_floor[1] = current_floor % 10 + 154;
     move_win(7, 136);
     set_win_tiles(0, 0, 20, 1, mini_gui);
+    // print_debug(debug);
     set_win_tiles(3, 0, 3, 1, hp);
     set_win_tiles(10, 0, 2, 1, n_arr);
     set_win_tiles(13, 0, 2, 1, n_heals);
@@ -390,4 +390,12 @@ void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BA
     move_sprite(0, 0, 0);
     move_sprite(1, 0, 0);
     move_sprite(2, 0, 0);
+}
+
+void print_debug(uint8_t value) BANKED {
+    uint8_t values[3];
+    values[0] = value / 100 + 154;
+    values[1] = value % 100 / 10 + 154;
+    values[2] = value % 10 + 154;
+    set_win_tiles(6, 0, 3, 1, values);
 }

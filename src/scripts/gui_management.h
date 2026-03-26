@@ -10,6 +10,9 @@ void hector_upgrades();
 void set_stats() BANKED;
 void set_mini_menu() BANKED;
 void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index) BANKED;
+void print_debug(uint8_t value) BANKED;
+
+extern uint8_t debug;
 
 /* SHOW NUMBERS */
 extern uint8_t x;

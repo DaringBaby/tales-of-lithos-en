@@ -11,3 +11,5 @@ void set_enemy_sprite() BANKED;
 extern const unsigned char LarvaOscura[];
 extern const unsigned char Trisguardo[];
 extern const unsigned char PredatoreOmbra[];
+
+extern void debug_value(uint8_t debug);

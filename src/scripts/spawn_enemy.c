@@ -95,11 +95,11 @@ uint8_t add_enemy(uint8_t floor, uint8_t i, uint8_t j) {
     }
 
 
-    uint8_t rng = arand() & 127;
-    if (rng < type1) {
+    uint8_t rng_enemy = (arand() ^ DIV_REG) & 127;
+    if (rng_enemy < type1) {
         enemy_id = id_1;
     }
-    else if (rng < type2 + type1) {
+    else if (rng_enemy < type2 + type1) {
         enemy_id = id_2;
     }
     else {
@@ -158,6 +158,9 @@ void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
     }
 
     uint8_t id_low = room_data & 0x0F;
+
+    debug_value(id_low);
+
     if (id_low > 0) {
         set_enemy_stats(&enemies[0], id_low, 8);
         set_enemy_position(&enemies[0], 120, 48);

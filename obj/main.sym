@@ -43,86 +43,87 @@ Symbol Table
     ___sdcc_bcall_ehl                                               ******** GX
     __current_bank                                                  ******** GX
     __moduchar                                                      ******** GX
-  8 __xinit__arrow_damage                                           00000023 R
-  8 __xinit__arrow_lvl                                              0000001C R
-  8 __xinit__attack                                                 00000015 R
-  8 __xinit__boss_battle                                            00000032 R
-  8 __xinit__boss_floor_defeated                                    00000033 R
-  8 __xinit__current_floor                                          0000002B R
-  8 __xinit__current_hp                                             00000014 R
-  8 __xinit__current_joypad                                         0000000D R
-  8 __xinit__current_location                                       0000002A R
-  8 __xinit__current_song_bank                                      00000035 R
-  8 __xinit__defense                                                00000016 R
-  8 __xinit__enemies_defeated                                       00000009 R
-  8 __xinit__experience                                             00000018 R
-  8 __xinit__frames                                                 00000005 R
-  8 __xinit__heal_quantity                                          00000022 R
+  8 __xinit__arrow_damage                                           00000024 R
+  8 __xinit__arrow_lvl                                              0000001D R
+  8 __xinit__attack                                                 00000016 R
+  8 __xinit__boss_battle                                            00000033 R
+  8 __xinit__boss_floor_defeated                                    00000034 R
+  8 __xinit__current_floor                                          0000002C R
+  8 __xinit__current_hp                                             00000015 R
+  8 __xinit__current_joypad                                         0000000E R
+  8 __xinit__current_location                                       0000002B R
+  8 __xinit__current_song_bank                                      00000036 R
+  8 __xinit__debug                                                  00000000 R
+  8 __xinit__defense                                                00000017 R
+  8 __xinit__enemies_defeated                                       0000000A R
+  8 __xinit__experience                                             00000019 R
+  8 __xinit__frames                                                 00000006 R
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-  8 __xinit__heals                                                  00000021 R
-  8 __xinit__hector_option                                          0000002C R
-  8 __xinit__hours                                                  00000008 R
-  8 __xinit__key_obtained                                           0000002F R
-  8 __xinit__last_direction                                         00000004 R
-  8 __xinit__last_joypad                                            0000000C R
-  8 __xinit__level                                                  00000017 R
-  8 __xinit__lock_opened                                            00000031 R
-  8 __xinit__map_option                                             0000002E R
-  8 __xinit__max_floor                                              0000000A R
-  8 __xinit__max_heals                                              00000020 R
-  8 __xinit__max_hp                                                 00000013 R
-  8 __xinit__max_num_arrows                                         00000025 R
-  8 __xinit__menu_opened                                            00000029 R
-  8 __xinit__minerals                                               00000026 R
-  8 __xinit__minutes                                                00000007 R
-  8 __xinit__ng                                                     00000036 R
-  8 __xinit__num_arrows                                             00000024 R
-  8 __xinit__obt_exp                                                00000028 R
-  8 __xinit__obt_mythril                                            00000027 R
-  8 __xinit__player_name                                            0000000E R
-  8 __xinit__potion_heal_lvl                                        0000001F R
-  8 __xinit__potion_quant_lvl                                       0000001E R
-  8 __xinit__power_ups                                              0000000B R
-  8 __xinit__quiver_lvl                                             0000001D R
-  8 __xinit__returning_to_camp                                      00000034 R
-  8 __xinit__safy_option                                            0000002D R
-  8 __xinit__seconds                                                00000006 R
-  8 __xinit__shield_lvl                                             0000001B R
-  8 __xinit__sword_lvl                                              0000001A R
-  8 __xinit__tile_id                                                00000000 R
-  8 __xinit__treasure_obtained                                      00000030 R
-  8 __xinit__walk_step                                              00000037 R
-  8 __xinit__x                                                      00000002 R
-  8 __xinit__y                                                      00000003 R
+  8 __xinit__heal_quantity                                          00000023 R
+  8 __xinit__heals                                                  00000022 R
+  8 __xinit__hector_option                                          0000002D R
+  8 __xinit__hours                                                  00000009 R
+  8 __xinit__key_obtained                                           00000030 R
+  8 __xinit__last_direction                                         00000005 R
+  8 __xinit__last_joypad                                            0000000D R
+  8 __xinit__level                                                  00000018 R
+  8 __xinit__lock_opened                                            00000032 R
+  8 __xinit__map_option                                             0000002F R
+  8 __xinit__max_floor                                              0000000B R
+  8 __xinit__max_heals                                              00000021 R
+  8 __xinit__max_hp                                                 00000014 R
+  8 __xinit__max_num_arrows                                         00000026 R
+  8 __xinit__menu_opened                                            0000002A R
+  8 __xinit__minerals                                               00000027 R
+  8 __xinit__minutes                                                00000008 R
+  8 __xinit__ng                                                     00000037 R
+  8 __xinit__num_arrows                                             00000025 R
+  8 __xinit__obt_exp                                                00000029 R
+  8 __xinit__obt_mythril                                            00000028 R
+  8 __xinit__player_name                                            0000000F R
+  8 __xinit__potion_heal_lvl                                        00000020 R
+  8 __xinit__potion_quant_lvl                                       0000001F R
+  8 __xinit__power_ups                                              0000000C R
+  8 __xinit__quiver_lvl                                             0000001E R
+  8 __xinit__returning_to_camp                                      00000035 R
+  8 __xinit__safy_option                                            0000002E R
+  8 __xinit__seconds                                                00000007 R
+  8 __xinit__shield_lvl                                             0000001C R
+  8 __xinit__sword_lvl                                              0000001B R
+  8 __xinit__tile_id                                                00000001 R
+  8 __xinit__treasure_obtained                                      00000031 R
+  8 __xinit__walk_step                                              00000038 R
+  8 __xinit__x                                                      00000003 R
+  8 __xinit__y                                                      00000004 R
     _add_VBL                                                        ******** GX
     _arrow                                                          ******** GX
-  3 _arrow_damage                                                   00000023 GR
-  3 _arrow_lvl                                                      0000001C GR
+  3 _arrow_damage                                                   00000024 GR
+  3 _arrow_lvl                                                      0000001D GR
     _arrow_sfx                                                      ******** GX
   0 _arrow_tile                                                     0000033F GR
-  3 _attack                                                         00000015 GR
+  3 _attack                                                         00000016 GR
   0 _black                                                          0000031A GR
   0 _blank                                                          0000030A GR
   2 _boss                                                           000001A2 GR
-  3 _boss_battle                                                    00000032 GR
+  3 _boss_battle                                                    00000033 GR
     _boss_death                                                     ******** GX
     _boss_defeated                                                  ******** GX
     _boss_defeated_jingle                                           ******** GX
-  3 _boss_floor_defeated                                            00000033 GR
+  3 _boss_floor_defeated                                            00000034 GR
     _boss_theme                                                     ******** GX
     _camp_collisions                                                ******** GX
     _camp_theme                                                     ******** GX
   0 _change_room                                                    000011EA GR
-    _check_drops                                                    ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+    _check_drops                                                    ******** GX
     _check_enemy                                                    ******** GX
   0 _check_input_keys                                               000007CD GR
   0 _check_input_movement                                           0000040F GR
@@ -137,14 +138,16 @@ Symbol Table
     _cls                                                            ******** GX
   0 _cure_upgrade_costs                                             00000348 GR
   2 _current_enemies                                                0000017E GR
-  3 _current_floor                                                  0000002B GR
-  3 _current_hp                                                     00000014 GR
-  3 _current_joypad                                                 0000000D GR
-  3 _current_location                                               0000002A GR
+  3 _current_floor                                                  0000002C GR
+  3 _current_hp                                                     00000015 GR
+  3 _current_joypad                                                 0000000E GR
+  3 _current_location                                               0000002B GR
   2 _current_room                                                   00000004 GR
-  3 _current_song_bank                                              00000035 GR
+  3 _current_song_bank                                              00000036 GR
     _death_sfx                                                      ******** GX
-  3 _defense                                                        00000016 GR
+  3 _debug                                                          00000000 GR
+  0 _debug_value                                                    00001CE2 GR
+  3 _defense                                                        00000017 GR
     _delay                                                          ******** GX
     _display_off                                                    ******** GX
     _doors                                                          ******** GX
@@ -155,12 +158,12 @@ Symbol Table
     _dungeon                                                        ******** GX
     _dungeon_theme                                                  ******** GX
     _empty_map_tiles                                                ******** GX
-  3 _enemies_defeated                                               00000009 GR
+  3 _enemies_defeated                                               0000000A GR
   2 _enemy                                                          00000196 GR
     _enemy_death                                                    ******** GX
     _enemy_death_sfx                                                ******** GX
-  3 _experience                                                     00000018 GR
-  3 _frames                                                         00000005 GR
+  3 _experience                                                     00000019 GR
+  3 _frames                                                         00000006 GR
     _game_over                                                      ******** GX
     _game_saved                                                     ******** GX
     _gameover_jingle                                                ******** GX
@@ -171,55 +174,55 @@ Symbol Table
     _hUGE_dosound                                                   ******** GX
     _hUGE_init                                                      ******** GX
   0 _heal_player                                                    000019B8 GR
-  3 _heal_quantity                                                  00000022 GR
+  3 _heal_quantity                                                  00000023 GR
     _heal_sfx                                                       ******** GX
-  3 _heals                                                          00000021 GR
+  3 _heals                                                          00000022 GR
     _hector_menu                                                    ******** GX
-  3 _hector_option                                                  0000002C GR
-  0 _hide_camp_sprites                                              00000EA8 GR
-    _hide_door                                                      ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 4
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+  3 _hector_option                                                  0000002D GR
+  0 _hide_camp_sprites                                              00000EA8 GR
+    _hide_door                                                      ******** GX
     _hit_sfx                                                        ******** GX
-  3 _hours                                                          00000008 GR
+  3 _hours                                                          00000009 GR
     _init_sound                                                     ******** GX
     _insert_name                                                    ******** GX
     _intro_theme                                                    ******** GX
   0 _is_sprite_at                                                   00000DA9 GR
     _joypad                                                         ******** GX
-  3 _key_obtained                                                   0000002F GR
-  3 _last_direction                                                 00000004 GR
-  3 _last_joypad                                                    0000000C GR
+  3 _key_obtained                                                   00000030 GR
+  3 _last_direction                                                 00000005 GR
+  3 _last_joypad                                                    0000000D GR
   2 _last_x                                                         00000000 GR
   2 _last_y                                                         00000001 GR
-  3 _level                                                          00000017 GR
+  3 _level                                                          00000018 GR
   0 _level_curve                                                    0000035A GR
     _load_game                                                      ******** GX
-  3 _lock_opened                                                    00000031 GR
+  3 _lock_opened                                                    00000032 GR
     _locked_door                                                    ******** GX
   0 _main                                                           00000000 GR
   2 _map                                                            0000016C GR
     _map_menu                                                       ******** GX
-  3 _map_option                                                     0000002E GR
-  3 _max_floor                                                      0000000A GR
-  3 _max_heals                                                      00000020 GR
-  3 _max_hp                                                         00000013 GR
-  3 _max_num_arrows                                                 00000025 GR
+  3 _map_option                                                     0000002F GR
+  3 _max_floor                                                      0000000B GR
+  3 _max_heals                                                      00000021 GR
+  3 _max_hp                                                         00000014 GR
+  3 _max_num_arrows                                                 00000026 GR
   0 _menu_body                                                      0000033E GR
-  3 _menu_opened                                                    00000029 GR
-  3 _minerals                                                       00000026 GR
-  3 _minutes                                                        00000007 GR
+  3 _menu_opened                                                    0000002A GR
+  3 _minerals                                                       00000027 GR
+  3 _minutes                                                        00000008 GR
     _move_boss                                                      ******** GX
   0 _move_character                                                 000003BE GR
     _move_enemy                                                     ******** GX
   0 _music_vbl_interrupt                                            00001BB4 GR
-  3 _ng                                                             00000036 GR
-  3 _num_arrows                                                     00000024 GR
-  3 _obt_exp                                                        00000028 GR
-  3 _obt_mythril                                                    00000027 GR
+  3 _ng                                                             00000037 GR
+  3 _num_arrows                                                     00000025 GR
+  3 _obt_exp                                                        00000029 GR
+  3 _obt_mythril                                                    00000028 GR
     _obtained_key                                                   ******** GX
     _obtained_mythril                                               ******** GX
     _play_attack_animation                                          ******** GX
@@ -228,23 +231,23 @@ Symbol Table
     _play_walk_animation                                            ******** GX
   0 _player_attack                                                  000015E8 GR
   2 _player_coords                                                  00000002 GR
-  3 _player_name                                                    0000000E GR
-  3 _potion_heal_lvl                                                0000001F GR
-  3 _potion_quant_lvl                                               0000001E GR
-  3 _power_ups                                                      0000000B GR
-  3 _quiver_lvl                                                     0000001D GR
+  3 _player_name                                                    0000000F GR
+  3 _potion_heal_lvl                                                00000020 GR
+  3 _potion_quant_lvl                                               0000001F GR
+  3 _power_ups                                                      0000000C GR
+  3 _quiver_lvl                                                     0000001E GR
     _rROMB0                                                         ******** GX
   0 _return_to_camp                                                 00001BCC GR
-  3 _returning_to_camp                                              00000034 GR
-    _safy_menu                                                      ******** GX
-  3 _safy_option                                                    0000002D GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 5
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+  3 _returning_to_camp                                              00000035 GR
+    _safy_menu                                                      ******** GX
+  3 _safy_option                                                    0000002E GR
     _save_game                                                      ******** GX
-  3 _seconds                                                        00000006 GR
+  3 _seconds                                                        00000007 GR
   2 _seed                                                           0000017C GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
@@ -263,7 +266,7 @@ Symbol Table
   0 _set_tutorial                                                   00001C28 GR
     _set_win_tiles                                                  ******** GX
     _shadow_OAM                                                     ******** GX
-  3 _shield_lvl                                                     0000001B GR
+  3 _shield_lvl                                                     0000001C GR
   0 _shoot_arrow                                                    0000186A GR
     _show_number                                                    ******** GX
     _show_time                                                      ******** GX
@@ -274,15 +277,15 @@ Symbol Table
     _stairs_sfx                                                     ******** GX
     _start_intro                                                    ******** GX
     _start_sfx                                                      ******** GX
-  3 _sword_lvl                                                      0000001A GR
-  3 _tile_id                                                        00000000 GR
-  3 _treasure_obtained                                              00000030 GR
+  3 _sword_lvl                                                      0000001B GR
+  3 _tile_id                                                        00000001 GR
+  3 _treasure_obtained                                              00000031 GR
     _unlock_sfx                                                     ******** GX
   0 _upgrade_costs                                                  00000340 GR
     _wait_vbl_done                                                  ******** GX
-  3 _walk_step                                                      00000037 GR
-  3 _x                                                              00000002 GR
-  3 _y                                                              00000003 GR
+  3 _walk_step                                                      00000038 GR
+  3 _x                                                              00000003 GR
+  3 _y                                                              00000004 GR
     b_arrow_sfx                                                     ******** GX
     b_boss_death                                                    ******** GX
     b_check_enemy                                                   ******** GX
@@ -295,14 +298,14 @@ Symbol Table
     b_draw_lock_v                                                   ******** GX
     b_empty_map_tiles                                               ******** GX
     b_enemy_death_sfx                                               ******** GX
-    b_game_over                                                     ******** GX
-    b_generate_dungeon                                              ******** GX
-    b_heal_sfx                                                      ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 6
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+    b_game_over                                                     ******** GX
+    b_generate_dungeon                                              ******** GX
+    b_heal_sfx                                                      ******** GX
     b_hide_door                                                     ******** GX
     b_hit_sfx                                                       ******** GX
     b_init_sound                                                    ******** GX
@@ -334,14 +337,14 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size     1CE2   flags    0
+   0 _CODE                                      size     1CE6   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size      1AC   flags    0
-   3 _INITIALIZED                               size       38   flags    0
+   3 _INITIALIZED                               size       39   flags    0
    4 _DABS                                      size        0   flags    8
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _INITIALIZER                               size       38   flags    0
+   8 _INITIALIZER                               size       39   flags    0
    9 _CABS                                      size        0   flags    8
 

@@ -69,6 +69,11 @@ void check_time();
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
+void debug_value(uint8_t value);
+
+
+/* DEBUG */
+uint8_t debug = 0;
 
 /* VARS */
 
@@ -400,7 +405,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 25;
+                current_floor = 5;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -1326,4 +1331,8 @@ void set_tutorial() {
                 return;
             }
         }
+}
+
+void debug_value(uint8_t value) {
+    debug = value;
 }

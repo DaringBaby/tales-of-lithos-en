@@ -27,6 +27,8 @@
 	.globl _set_mini_menu
 	.globl b_show_number
 	.globl _show_number
+	.globl b_print_debug
+	.globl _print_debug
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -59,13 +61,13 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE_3
-;src/scripts/gui_management.c:9: void check_map_options() BANKED {
+;src/scripts/gui_management.c:8: void check_map_options() BANKED {
 ;	---------------------------------
 ; Function check_map_options
 ; ---------------------------------
 	b_check_map_options	= 3
 _check_map_options::
-;src/scripts/gui_management.c:10: if (joypad() & J_UP && map_option > 0) {
+;src/scripts/gui_management.c:9: if (joypad() & J_UP && map_option > 0) {
 	call	_joypad
 	bit	2, a
 	jr	Z, 00102$
@@ -73,7 +75,7 @@ _check_map_options::
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00102$
-;src/scripts/gui_management.c:11: set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
+;src/scripts/gui_management.c:10: set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
 	ld	bc, #_menu_body+0
 	ld	a, (hl)
 	ld	e, a
@@ -92,10 +94,10 @@ _check_map_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:12: map_option--;
+;src/scripts/gui_management.c:11: map_option--;
 	ld	hl, #_map_option
 	dec	(hl)
-;src/scripts/gui_management.c:13: set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:12: set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
 	ld	bc, #_arrow_tile+0
 	ld	a, (hl)
 	ld	e, a
@@ -114,11 +116,11 @@ _check_map_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:14: delay(150);
+;src/scripts/gui_management.c:13: delay(150);
 	ld	de, #0x0096
 	call	_delay
 00102$:
-;src/scripts/gui_management.c:16: if (joypad() & J_DOWN && map_option < 2) {
+;src/scripts/gui_management.c:15: if (joypad() & J_DOWN && map_option < 2) {
 	call	_joypad
 	bit	3, a
 	jr	Z, 00105$
@@ -126,7 +128,7 @@ _check_map_options::
 	ld	a, (hl)
 	sub	a, #0x02
 	jr	NC, 00105$
-;src/scripts/gui_management.c:17: set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
+;src/scripts/gui_management.c:16: set_win_tiles(2, 4 + map_option*3, 1, 1, menu_body);
 	ld	bc, #_menu_body+0
 	ld	a, (hl)
 	ld	e, a
@@ -145,10 +147,10 @@ _check_map_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:18: map_option++;
+;src/scripts/gui_management.c:17: map_option++;
 	ld	hl, #_map_option
 	inc	(hl)
-;src/scripts/gui_management.c:19: set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:18: set_win_tiles(2, 4 + map_option*3, 1, 1, &arrow_tile);
 	ld	bc, #_arrow_tile+0
 	ld	a, (hl)
 	ld	e, a
@@ -167,27 +169,27 @@ _check_map_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:20: delay(150);
+;src/scripts/gui_management.c:19: delay(150);
 	ld	de, #0x0096
 	call	_delay
 00105$:
-;src/scripts/gui_management.c:22: check_map_menu_input();
+;src/scripts/gui_management.c:21: check_map_menu_input();
 	ld	e, #b_check_map_menu_input
 	ld	hl, #_check_map_menu_input
-;src/scripts/gui_management.c:23: }
+;src/scripts/gui_management.c:22: }
 	jp  ___sdcc_bcall_ehl
-;src/scripts/gui_management.c:25: void check_map_menu_input() BANKED {
+;src/scripts/gui_management.c:24: void check_map_menu_input() BANKED {
 ;	---------------------------------
 ; Function check_map_menu_input
 ; ---------------------------------
 	b_check_map_menu_input	= 3
 _check_map_menu_input::
 	add	sp, #-7
-;src/scripts/gui_management.c:26: if (joypad() & J_A) {
+;src/scripts/gui_management.c:25: if (joypad() & J_A) {
 	call	_joypad
 	bit	4, a
 	jp	Z, 00110$
-;src/scripts/gui_management.c:27: switch (map_option) {
+;src/scripts/gui_management.c:26: switch (map_option) {
 	ld	a, (#_map_option)
 	or	a, a
 	jr	Z, 00101$
@@ -198,32 +200,32 @@ _check_map_menu_input::
 	sub	a, #0x02
 	jp	Z, 00103$
 	jp	00110$
-;src/scripts/gui_management.c:28: case 0:
+;src/scripts/gui_management.c:27: case 0:
 00101$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;src/scripts/gui_management.c:30: set_mini_menu();
+;src/scripts/gui_management.c:29: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;src/scripts/gui_management.c:31: SHOW_SPRITES;
+;src/scripts/gui_management.c:30: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;src/scripts/gui_management.c:32: menu_opened = 0;
+;src/scripts/gui_management.c:31: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;src/scripts/gui_management.c:33: break;
+;src/scripts/gui_management.c:32: break;
 	jp	00110$
-;src/scripts/gui_management.c:34: case 1:
+;src/scripts/gui_management.c:33: case 1:
 00102$:
-;src/scripts/gui_management.c:35: menu_opened = 6;
+;src/scripts/gui_management.c:34: menu_opened = 6;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x06
-;src/scripts/gui_management.c:36: set_win_tiles(0, 0, 20, 18, stats_menu);
+;src/scripts/gui_management.c:35: set_win_tiles(0, 0, 20, 18, stats_menu);
 	ld	de, #_stats_menu
 	push	de
 	ld	hl, #0x1214
@@ -233,7 +235,7 @@ _check_map_menu_input::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:41: def_en[0] = enemies_defeated / 100 + 154;
+;src/scripts/gui_management.c:40: def_en[0] = enemies_defeated / 100 + 154;
 	ld	a, (_enemies_defeated)
 	ld	e, #0x64
 	call	__divuchar
@@ -241,7 +243,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:42: def_en[1] = enemies_defeated % 100 / 10 + 154;
+;src/scripts/gui_management.c:41: def_en[1] = enemies_defeated % 100 / 10 + 154;
 	ld	a, (_enemies_defeated)
 	ld	e, #0x64
 	call	__moduchar
@@ -252,7 +254,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/gui_management.c:43: def_en[2] = enemies_defeated % 10 + 154;
+;src/scripts/gui_management.c:42: def_en[2] = enemies_defeated % 10 + 154;
 	ld	a, (_enemies_defeated)
 	ld	e, #0x0a
 	call	__moduchar
@@ -260,7 +262,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#2
 	ld	(hl), a
-;src/scripts/gui_management.c:44: pups[0] = power_ups / 10 + 154;
+;src/scripts/gui_management.c:43: pups[0] = power_ups / 10 + 154;
 	ld	a, (_power_ups)
 	ld	e, #0x0a
 	call	__divuchar
@@ -268,7 +270,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:45: pups[1] = power_ups % 10 + 154;
+;src/scripts/gui_management.c:44: pups[1] = power_ups % 10 + 154;
 	ld	a, (_power_ups)
 	ld	e, #0x0a
 	call	__moduchar
@@ -276,7 +278,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#4
 	ld	(hl), a
-;src/scripts/gui_management.c:46: mfloor[0] = max_floor / 10 + 154;
+;src/scripts/gui_management.c:45: mfloor[0] = max_floor / 10 + 154;
 	ld	a, (_max_floor)
 	ld	e, #0x0a
 	call	__divuchar
@@ -284,7 +286,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/gui_management.c:47: mfloor[1] = max_floor % 10 + 154;
+;src/scripts/gui_management.c:46: mfloor[1] = max_floor % 10 + 154;
 	ld	a, (_max_floor)
 	ld	e, #0x0a
 	call	__moduchar
@@ -292,7 +294,7 @@ _check_map_menu_input::
 	add	a, #0x9a
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/gui_management.c:48: set_win_tiles(16, 4, 3, 1, def_en);
+;src/scripts/gui_management.c:47: set_win_tiles(16, 4, 3, 1, def_en);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -302,7 +304,7 @@ _check_map_menu_input::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:49: set_win_tiles(17, 7, 2, 1, mfloor);
+;src/scripts/gui_management.c:48: set_win_tiles(17, 7, 2, 1, mfloor);
 	ld	hl, #5
 	add	hl, sp
 	push	hl
@@ -312,7 +314,7 @@ _check_map_menu_input::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:50: set_win_tiles(17, 10, 2, 1, pups);
+;src/scripts/gui_management.c:49: set_win_tiles(17, 10, 2, 1, pups);
 	ld	hl, #3
 	add	hl, sp
 	push	hl
@@ -322,38 +324,38 @@ _check_map_menu_input::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:51: show_time();
+;src/scripts/gui_management.c:50: show_time();
 	ld	e, #b_show_time
 	ld	hl, #_show_time
 	call	___sdcc_bcall_ehl
-;src/scripts/gui_management.c:52: delay(300);
+;src/scripts/gui_management.c:51: delay(300);
 	ld	de, #0x012c
 	call	_delay
-;src/scripts/gui_management.c:53: break;
+;src/scripts/gui_management.c:52: break;
 	jr	00110$
-;src/scripts/gui_management.c:54: case 2:
+;src/scripts/gui_management.c:53: case 2:
 00103$:
-;src/scripts/gui_management.c:55: if (current_location == 1) {
+;src/scripts/gui_management.c:54: if (current_location == 1) {
 	ld	a, (#_current_location)
 	dec	a
 	jr	NZ, 00110$
-;src/scripts/gui_management.c:56: returning_to_camp = 1;
+;src/scripts/gui_management.c:55: returning_to_camp = 1;
 	ld	hl, #_returning_to_camp
 	ld	(hl), #0x01
-;src/scripts/gui_management.c:57: return;
-;src/scripts/gui_management.c:60: }
+;src/scripts/gui_management.c:56: return;
+;src/scripts/gui_management.c:59: }
 00110$:
-;src/scripts/gui_management.c:62: }
+;src/scripts/gui_management.c:61: }
 	add	sp, #7
 	ret
-;src/scripts/gui_management.c:64: void show_time() BANKED {
+;src/scripts/gui_management.c:63: void show_time() BANKED {
 ;	---------------------------------
 ; Function show_time
 ; ---------------------------------
 	b_show_time	= 3
 _show_time::
 	add	sp, #-8
-;src/scripts/gui_management.c:66: t[0] = hours / 10 + 154;
+;src/scripts/gui_management.c:65: t[0] = hours / 10 + 154;
 	ld	a, (_hours)
 	ld	e, #0x0a
 	call	__divuchar
@@ -361,17 +363,17 @@ _show_time::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:67: t[1] = hours % 10 + 154;
+;src/scripts/gui_management.c:66: t[1] = hours % 10 + 154;
 	ld	a, (_hours)
 	ld	e, #0x0a
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
 	ldhl	sp,	#1
-;src/scripts/gui_management.c:68: t[2] = 177;
+;src/scripts/gui_management.c:67: t[2] = 177;
 	ld	(hl+), a
 	ld	(hl), #0xb1
-;src/scripts/gui_management.c:69: t[3] = minutes / 10 + 154;
+;src/scripts/gui_management.c:68: t[3] = minutes / 10 + 154;
 	ld	a, (_minutes)
 	ld	e, #0x0a
 	call	__divuchar
@@ -379,17 +381,17 @@ _show_time::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:70: t[4] = minutes % 10 + 154;
+;src/scripts/gui_management.c:69: t[4] = minutes % 10 + 154;
 	ld	a, (_minutes)
 	ld	e, #0x0a
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
 	ldhl	sp,	#4
-;src/scripts/gui_management.c:71: t[5] = 177;
+;src/scripts/gui_management.c:70: t[5] = 177;
 	ld	(hl+), a
 	ld	(hl), #0xb1
-;src/scripts/gui_management.c:72: t[6] = seconds / 10 + 154;
+;src/scripts/gui_management.c:71: t[6] = seconds / 10 + 154;
 	ld	a, (_seconds)
 	ld	e, #0x0a
 	call	__divuchar
@@ -397,7 +399,7 @@ _show_time::
 	add	a, #0x9a
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/gui_management.c:73: t[7] = seconds % 10 + 154;
+;src/scripts/gui_management.c:72: t[7] = seconds % 10 + 154;
 	ld	a, (_seconds)
 	ld	e, #0x0a
 	call	__moduchar
@@ -405,7 +407,7 @@ _show_time::
 	add	a, #0x9a
 	ldhl	sp,	#7
 	ld	(hl), a
-;src/scripts/gui_management.c:74: set_win_tiles(11, 13, 8, 1, t);
+;src/scripts/gui_management.c:73: set_win_tiles(11, 13, 8, 1, t);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -414,21 +416,21 @@ _show_time::
 	ld	hl, #0xd0b
 	push	hl
 	call	_set_win_tiles
-;src/scripts/gui_management.c:75: }
+;src/scripts/gui_management.c:74: }
 	add	sp, #14
 	ret
-;src/scripts/gui_management.c:77: void check_menu_options(uint8_t chara) BANKED {
+;src/scripts/gui_management.c:76: void check_menu_options(uint8_t chara) BANKED {
 ;	---------------------------------
 ; Function check_menu_options
 ; ---------------------------------
 	b_check_menu_options	= 3
 _check_menu_options::
-;src/scripts/gui_management.c:78: if (chara == 0) // Hector
+;src/scripts/gui_management.c:77: if (chara == 0) // Hector
 	ldhl	sp,	#6
 	ld	a, (hl)
 	or	a, a
 	jp	NZ, 00109$
-;src/scripts/gui_management.c:80: if (joypad() & J_UP && hector_option > 1) {
+;src/scripts/gui_management.c:79: if (joypad() & J_UP && hector_option > 1) {
 	call	_joypad
 	bit	2, a
 	jr	Z, 00105$
@@ -436,7 +438,7 @@ _check_menu_options::
 	ld	hl, #_hector_option
 	sub	a, (hl)
 	jr	NC, 00105$
-;src/scripts/gui_management.c:81: set_win_tiles(1, hector_option*2 - 1, 1, 1, menu_body);
+;src/scripts/gui_management.c:80: set_win_tiles(1, hector_option*2 - 1, 1, 1, menu_body);
 	ld	bc, #_menu_body+0
 	ld	a, (hl)
 	add	a, a
@@ -453,10 +455,10 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:82: hector_option--;
+;src/scripts/gui_management.c:81: hector_option--;
 	ld	hl, #_hector_option
 	dec	(hl)
-;src/scripts/gui_management.c:83: set_win_tiles(1, hector_option*2 - 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:82: set_win_tiles(1, hector_option*2 - 1, 1, 1, &arrow_tile);
 	ld	bc, #_arrow_tile+0
 	ld	a, (hl)
 	add	a, a
@@ -473,12 +475,12 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:84: delay(150);
+;src/scripts/gui_management.c:83: delay(150);
 	ld	de, #0x0096
 	call	_delay
 	jr	00106$
 00105$:
-;src/scripts/gui_management.c:86: else if (joypad() & J_DOWN && hector_option < 4) {
+;src/scripts/gui_management.c:85: else if (joypad() & J_DOWN && hector_option < 4) {
 	call	_joypad
 	bit	3, a
 	jr	Z, 00106$
@@ -486,7 +488,7 @@ _check_menu_options::
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00106$
-;src/scripts/gui_management.c:87: set_win_tiles(1, hector_option*2 - 1, 1, 1, menu_body);
+;src/scripts/gui_management.c:86: set_win_tiles(1, hector_option*2 - 1, 1, 1, menu_body);
 	ld	bc, #_menu_body+0
 	ld	a, (hl)
 	add	a, a
@@ -503,10 +505,10 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:88: hector_option++;
+;src/scripts/gui_management.c:87: hector_option++;
 	ld	hl, #_hector_option
 	inc	(hl)
-;src/scripts/gui_management.c:89: set_win_tiles(1, hector_option*2 - 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:88: set_win_tiles(1, hector_option*2 - 1, 1, 1, &arrow_tile);
 	ld	bc, #_arrow_tile+0
 	ld	a, (hl)
 	add	a, a
@@ -523,19 +525,19 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:90: delay(150);
+;src/scripts/gui_management.c:89: delay(150);
 	ld	de, #0x0096
 	call	_delay
 00106$:
-;src/scripts/gui_management.c:92: hector_upgrades();
+;src/scripts/gui_management.c:91: hector_upgrades();
 	call	_hector_upgrades
 00109$:
-;src/scripts/gui_management.c:94: if (chara == 1) {
+;src/scripts/gui_management.c:93: if (chara == 1) {
 	ldhl	sp,	#6
 	ld	a, (hl)
 	dec	a
 	ret	NZ
-;src/scripts/gui_management.c:95: if (joypad() & J_UP && safy_option > 1) {
+;src/scripts/gui_management.c:94: if (joypad() & J_UP && safy_option > 1) {
 	call	_joypad
 	bit	2, a
 	jr	Z, 00114$
@@ -543,7 +545,7 @@ _check_menu_options::
 	ld	hl, #_safy_option
 	sub	a, (hl)
 	jr	NC, 00114$
-;src/scripts/gui_management.c:96: set_win_tiles(1, safy_option*2 - 1, 1, 1, menu_body);
+;src/scripts/gui_management.c:95: set_win_tiles(1, safy_option*2 - 1, 1, 1, menu_body);
 	ld	a, (hl)
 	add	a, a
 	dec	a
@@ -560,10 +562,10 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:97: safy_option--;
+;src/scripts/gui_management.c:96: safy_option--;
 	ld	hl, #_safy_option
 	dec	(hl)
-;src/scripts/gui_management.c:98: set_win_tiles(1, safy_option*2 - 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:97: set_win_tiles(1, safy_option*2 - 1, 1, 1, &arrow_tile);
 	ld	a, (hl)
 	add	a, a
 	dec	a
@@ -580,12 +582,12 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:99: delay(150);
+;src/scripts/gui_management.c:98: delay(150);
 	ld	de, #0x0096
 	call	_delay
 	jp	_safy_upgrades
 00114$:
-;src/scripts/gui_management.c:101: else if (joypad() & J_DOWN && safy_option < 3) {
+;src/scripts/gui_management.c:100: else if (joypad() & J_DOWN && safy_option < 3) {
 	call	_joypad
 	bit	3, a
 	jp	Z, _safy_upgrades
@@ -593,7 +595,7 @@ _check_menu_options::
 	ld	a, (hl)
 	sub	a, #0x03
 	jp	NC, _safy_upgrades
-;src/scripts/gui_management.c:102: set_win_tiles(1, safy_option*2 - 1, 1, 1, menu_body);
+;src/scripts/gui_management.c:101: set_win_tiles(1, safy_option*2 - 1, 1, 1, menu_body);
 	ld	a, (hl)
 	add	a, a
 	dec	a
@@ -610,10 +612,10 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:103: safy_option++;
+;src/scripts/gui_management.c:102: safy_option++;
 	ld	hl, #_safy_option
 	inc	(hl)
-;src/scripts/gui_management.c:104: set_win_tiles(1, safy_option*2 - 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:103: set_win_tiles(1, safy_option*2 - 1, 1, 1, &arrow_tile);
 	ld	a, (hl)
 	add	a, a
 	dec	a
@@ -630,19 +632,19 @@ _check_menu_options::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:105: delay(150);
+;src/scripts/gui_management.c:104: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;src/scripts/gui_management.c:107: safy_upgrades();
-;src/scripts/gui_management.c:109: }
+;src/scripts/gui_management.c:106: safy_upgrades();
+;src/scripts/gui_management.c:108: }
 	jp	_safy_upgrades
-;src/scripts/gui_management.c:111: void hector_upgrades() {
+;src/scripts/gui_management.c:110: void hector_upgrades() {
 ;	---------------------------------
 ; Function hector_upgrades
 ; ---------------------------------
 _hector_upgrades::
 	add	sp, #-4
-;src/scripts/gui_management.c:112: uint8_t cost = upgrade_costs[sword_lvl-1];
+;src/scripts/gui_management.c:111: uint8_t cost = upgrade_costs[sword_lvl-1];
 	ld	de, #_upgrade_costs+0
 	ld	a, (_sword_lvl)
 	ld	h, #0x00
@@ -651,7 +653,7 @@ _hector_upgrades::
 	add	hl, de
 	ld	b, (hl)
 	ld	c, b
-;src/scripts/gui_management.c:114: switch(hector_option) {
+;src/scripts/gui_management.c:113: switch(hector_option) {
 	ld	a, (#_hector_option)
 	dec	a
 	jr	Z, 00101$
@@ -665,173 +667,173 @@ _hector_upgrades::
 	sub	a, #0x04
 	jp	Z, 00119$
 	jp	00125$
-;src/scripts/gui_management.c:115: case 1:
+;src/scripts/gui_management.c:114: case 1:
 00101$:
-;src/scripts/gui_management.c:116: if (sword_lvl < 9) {
+;src/scripts/gui_management.c:115: if (sword_lvl < 9) {
 	ld	a, (#_sword_lvl)
 	sub	a, #0x09
 	jp	NC, 00125$
-;src/scripts/gui_management.c:117: cost = upgrade_costs[sword_lvl-1];
+;src/scripts/gui_management.c:116: cost = upgrade_costs[sword_lvl-1];
 	ld	c, b
-;src/scripts/gui_management.c:118: if (minerals >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:117: if (minerals >= cost && joypad() & J_A) {
 	ld	a, (#_minerals)
 	sub	a, c
 	jp	C, 00125$
 	call	_joypad
 	bit	4, a
 	jp	Z, 00125$
-;src/scripts/gui_management.c:119: minerals = minerals - cost;
+;src/scripts/gui_management.c:118: minerals = minerals - cost;
 	ld	hl, #_minerals
 	ld	a, (hl)
 	sub	a, c
 	ld	(hl), a
-;src/scripts/gui_management.c:120: sword_lvl++;
+;src/scripts/gui_management.c:119: sword_lvl++;
 	ld	hl, #_sword_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:121: power_ups++;
+;src/scripts/gui_management.c:120: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:123: attack += 10;
+;src/scripts/gui_management.c:122: attack += 10;
 	ld	a, (_attack)
 	add	a, #0x0a
 	ld	(#_attack),a
-;src/scripts/gui_management.c:124: delay(300);
+;src/scripts/gui_management.c:123: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:127: break;
+;src/scripts/gui_management.c:126: break;
 	jp	00125$
-;src/scripts/gui_management.c:128: case 2:
+;src/scripts/gui_management.c:127: case 2:
 00107$:
-;src/scripts/gui_management.c:129: if (shield_lvl < 9) {
+;src/scripts/gui_management.c:128: if (shield_lvl < 9) {
 	ld	hl, #_shield_lvl
 	ld	a, (hl)
 	sub	a, #0x09
 	jp	NC, 00125$
-;src/scripts/gui_management.c:130: cost = upgrade_costs[shield_lvl-1];
+;src/scripts/gui_management.c:129: cost = upgrade_costs[shield_lvl-1];
 	ld	a, (hl)
 	ld	h, #0x00
 	ld	l, a
 	dec	hl
 	add	hl, de
 	ld	c, (hl)
-;src/scripts/gui_management.c:131: if (minerals >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:130: if (minerals >= cost && joypad() & J_A) {
 	ld	a, (#_minerals)
 	sub	a, c
 	jp	C, 00125$
 	call	_joypad
 	bit	4, a
 	jp	Z, 00125$
-;src/scripts/gui_management.c:132: minerals = minerals - cost;
+;src/scripts/gui_management.c:131: minerals = minerals - cost;
 	ld	hl, #_minerals
 	ld	a, (hl)
 	sub	a, c
 	ld	(hl), a
-;src/scripts/gui_management.c:133: shield_lvl++;
+;src/scripts/gui_management.c:132: shield_lvl++;
 	ld	hl, #_shield_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:134: power_ups++;
+;src/scripts/gui_management.c:133: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:136: defense += 8;
+;src/scripts/gui_management.c:135: defense += 8;
 	ld	a, (_defense)
 	add	a, #0x08
 	ld	(#_defense),a
-;src/scripts/gui_management.c:137: delay(300);
+;src/scripts/gui_management.c:136: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:140: break;
+;src/scripts/gui_management.c:139: break;
 	jr	00125$
-;src/scripts/gui_management.c:141: case 3:
+;src/scripts/gui_management.c:140: case 3:
 00113$:
-;src/scripts/gui_management.c:142: if (arrow_lvl < 9) {
+;src/scripts/gui_management.c:141: if (arrow_lvl < 9) {
 	ld	hl, #_arrow_lvl
 	ld	a, (hl)
 	sub	a, #0x09
 	jr	NC, 00125$
-;src/scripts/gui_management.c:143: cost = upgrade_costs[arrow_lvl-1];
+;src/scripts/gui_management.c:142: cost = upgrade_costs[arrow_lvl-1];
 	ld	a, (hl)
 	ld	h, #0x00
 	ld	l, a
 	dec	hl
 	add	hl, de
 	ld	c, (hl)
-;src/scripts/gui_management.c:144: if (minerals >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:143: if (minerals >= cost && joypad() & J_A) {
 	ld	a, (#_minerals)
 	sub	a, c
 	jr	C, 00125$
 	call	_joypad
 	bit	4, a
 	jr	Z, 00125$
-;src/scripts/gui_management.c:145: minerals = minerals - cost;
+;src/scripts/gui_management.c:144: minerals = minerals - cost;
 	ld	hl, #_minerals
 	ld	a, (hl)
 	sub	a, c
 	ld	(hl), a
-;src/scripts/gui_management.c:146: arrow_lvl++;
+;src/scripts/gui_management.c:145: arrow_lvl++;
 	ld	hl, #_arrow_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:147: power_ups++;
+;src/scripts/gui_management.c:146: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:149: arrow_damage += 17;
+;src/scripts/gui_management.c:148: arrow_damage += 17;
 	ld	a, (_arrow_damage)
 	add	a, #0x11
 	ld	(#_arrow_damage),a
-;src/scripts/gui_management.c:150: delay(300);
+;src/scripts/gui_management.c:149: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:153: break;
+;src/scripts/gui_management.c:152: break;
 	jr	00125$
-;src/scripts/gui_management.c:154: case 4:
+;src/scripts/gui_management.c:153: case 4:
 00119$:
-;src/scripts/gui_management.c:155: if (quiver_lvl < 9) {
+;src/scripts/gui_management.c:154: if (quiver_lvl < 9) {
 	ld	hl, #_quiver_lvl
 	ld	a, (hl)
 	sub	a, #0x09
 	jr	NC, 00125$
-;src/scripts/gui_management.c:156: cost = upgrade_costs[quiver_lvl-1];
+;src/scripts/gui_management.c:155: cost = upgrade_costs[quiver_lvl-1];
 	ld	a, (hl)
 	ld	h, #0x00
 	ld	l, a
 	dec	hl
 	add	hl, de
 	ld	c, (hl)
-;src/scripts/gui_management.c:157: if (minerals >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:156: if (minerals >= cost && joypad() & J_A) {
 	ld	a, (#_minerals)
 	sub	a, c
 	jr	C, 00125$
 	call	_joypad
 	bit	4, a
 	jr	Z, 00125$
-;src/scripts/gui_management.c:158: minerals = minerals - cost;
+;src/scripts/gui_management.c:157: minerals = minerals - cost;
 	ld	hl, #_minerals
 	ld	a, (hl)
 	sub	a, c
 	ld	(hl), a
-;src/scripts/gui_management.c:159: quiver_lvl++;
+;src/scripts/gui_management.c:158: quiver_lvl++;
 	ld	hl, #_quiver_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:160: power_ups++;
+;src/scripts/gui_management.c:159: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:162: max_num_arrows = max_num_arrows + 2;
+;src/scripts/gui_management.c:161: max_num_arrows = max_num_arrows + 2;
 	ld	a, (_max_num_arrows)
 	add	a, #0x02
 	ld	(#_max_num_arrows),a
-;src/scripts/gui_management.c:163: delay(300);
+;src/scripts/gui_management.c:162: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:167: }
+;src/scripts/gui_management.c:166: }
 00125$:
-;src/scripts/gui_management.c:170: costs[0] = cost / 10 + 154;
+;src/scripts/gui_management.c:169: costs[0] = cost / 10 + 154;
 	push	bc
 	ld	e, #0x0a
 	ld	a, c
@@ -841,7 +843,7 @@ _hector_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:171: costs[1] = cost % 10 + 154;
+;src/scripts/gui_management.c:170: costs[1] = cost % 10 + 154;
 	ld	e, #0x0a
 	ld	a, c
 	call	__moduchar
@@ -849,7 +851,7 @@ _hector_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/gui_management.c:172: obt[0] = minerals / 10 + 154;
+;src/scripts/gui_management.c:171: obt[0] = minerals / 10 + 154;
 	ld	a, (_minerals)
 	ld	e, #0x0a
 	call	__divuchar
@@ -857,7 +859,7 @@ _hector_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#2
 	ld	(hl), a
-;src/scripts/gui_management.c:173: obt[1] = minerals % 10 + 154;
+;src/scripts/gui_management.c:172: obt[1] = minerals % 10 + 154;
 	ld	a, (_minerals)
 	ld	e, #0x0a
 	call	__moduchar
@@ -865,7 +867,7 @@ _hector_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:174: set_win_tiles(16, 10, 2, 1, costs);
+;src/scripts/gui_management.c:173: set_win_tiles(16, 10, 2, 1, costs);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -875,7 +877,7 @@ _hector_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:175: set_win_tiles(16, 12, 2, 1, obt);
+;src/scripts/gui_management.c:174: set_win_tiles(16, 12, 2, 1, obt);
 	ld	hl, #2
 	add	hl, sp
 	push	hl
@@ -885,14 +887,14 @@ _hector_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:177: if (joypad() & J_B) {
+;src/scripts/gui_management.c:176: if (joypad() & J_B) {
 	call	_joypad
 	bit	5, a
 	jr	Z, 00128$
-;src/scripts/gui_management.c:178: hector_option = 1;
+;src/scripts/gui_management.c:177: hector_option = 1;
 	ld	hl, #_hector_option
 	ld	(hl), #0x01
-;src/scripts/gui_management.c:179: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:178: set_win_tiles(1, 1, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -900,28 +902,28 @@ _hector_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:180: menu_opened = 0;
+;src/scripts/gui_management.c:179: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;src/scripts/gui_management.c:181: SHOW_SPRITES;
+;src/scripts/gui_management.c:180: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;src/scripts/gui_management.c:182: set_mini_menu();
+;src/scripts/gui_management.c:181: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
 00128$:
-;src/scripts/gui_management.c:184: }
+;src/scripts/gui_management.c:183: }
 	add	sp, #4
 	ret
-;src/scripts/gui_management.c:186: void safy_upgrades() {
+;src/scripts/gui_management.c:185: void safy_upgrades() {
 ;	---------------------------------
 ; Function safy_upgrades
 ; ---------------------------------
 _safy_upgrades::
 	add	sp, #-11
-;src/scripts/gui_management.c:187: uint8_t cost = cure_upgrade_costs[potion_quant_lvl-1];
+;src/scripts/gui_management.c:186: uint8_t cost = cure_upgrade_costs[potion_quant_lvl-1];
 	ld	a, (_potion_quant_lvl)
 	ld	h, #0x00
 	ld	l, a
@@ -931,7 +933,7 @@ _safy_upgrades::
 	add	hl, de
 	ld	e, (hl)
 	ld	c, e
-;src/scripts/gui_management.c:188: switch(safy_option) {
+;src/scripts/gui_management.c:187: switch(safy_option) {
 	ld	a, (#_safy_option)
 	dec	a
 	jr	Z, 00101$
@@ -942,14 +944,14 @@ _safy_upgrades::
 	sub	a, #0x03
 	jp	Z, 00113$
 	jp	00119$
-;src/scripts/gui_management.c:189: case 1:
+;src/scripts/gui_management.c:188: case 1:
 00101$:
-;src/scripts/gui_management.c:190: if (potion_quant_lvl < 9) {
+;src/scripts/gui_management.c:189: if (potion_quant_lvl < 9) {
 	ld	a, (#_potion_quant_lvl)
 	sub	a, #0x09
 	jp	NC, 00119$
-;src/scripts/gui_management.c:191: cost = cure_upgrade_costs[potion_quant_lvl-1];
-;src/scripts/gui_management.c:192: if (experience >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:190: cost = cure_upgrade_costs[potion_quant_lvl-1];
+;src/scripts/gui_management.c:191: if (experience >= cost && joypad() & J_A) {
 	ld	c,e
 	ld	b, #0x00
 	ld	hl, #_experience
@@ -961,7 +963,7 @@ _safy_upgrades::
 	call	_joypad
 	bit	4, a
 	jp	Z, 00119$
-;src/scripts/gui_management.c:193: experience = experience - cost;
+;src/scripts/gui_management.c:192: experience = experience - cost;
 	ld	e, c
 	ld	d, #0x00
 	ld	a, (_experience)
@@ -977,34 +979,34 @@ _safy_upgrades::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:194: potion_quant_lvl++;
+;src/scripts/gui_management.c:193: potion_quant_lvl++;
 	ld	hl, #_potion_quant_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:195: heals = heals + 1;
+;src/scripts/gui_management.c:194: heals = heals + 1;
 	ld	a, (_heals)
 	inc	a
 	ld	(#_heals),a
-;src/scripts/gui_management.c:196: max_heals++;
+;src/scripts/gui_management.c:195: max_heals++;
 	ld	hl, #_max_heals
 	inc	(hl)
-;src/scripts/gui_management.c:197: power_ups++;
+;src/scripts/gui_management.c:196: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:198: delay(300);
+;src/scripts/gui_management.c:197: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:201: break;
+;src/scripts/gui_management.c:200: break;
 	jp	00119$
-;src/scripts/gui_management.c:202: case 2:
+;src/scripts/gui_management.c:201: case 2:
 00107$:
-;src/scripts/gui_management.c:203: if (potion_heal_lvl < 9) {
+;src/scripts/gui_management.c:202: if (potion_heal_lvl < 9) {
 	ld	hl, #_potion_heal_lvl
 	ld	a, (hl)
 	sub	a, #0x09
 	jp	NC, 00119$
-;src/scripts/gui_management.c:204: cost = cure_upgrade_costs[potion_heal_lvl-1];
+;src/scripts/gui_management.c:203: cost = cure_upgrade_costs[potion_heal_lvl-1];
 	ld	a, (hl)
 	ld	h, #0x00
 	ld	l, a
@@ -1013,7 +1015,7 @@ _safy_upgrades::
 	ld	de, #_cure_upgrade_costs
 	add	hl, de
 	ld	c, (hl)
-;src/scripts/gui_management.c:205: if (experience >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:204: if (experience >= cost && joypad() & J_A) {
 	ld	b, c
 	ld	e, #0x00
 	ld	hl, #_experience
@@ -1025,7 +1027,7 @@ _safy_upgrades::
 	call	_joypad
 	bit	4, a
 	jp	Z, 00119$
-;src/scripts/gui_management.c:206: experience = experience - cost;
+;src/scripts/gui_management.c:205: experience = experience - cost;
 	ld	e, c
 	ld	d, #0x00
 	ld	a, (_experience)
@@ -1039,31 +1041,31 @@ _safy_upgrades::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:207: potion_heal_lvl++;
+;src/scripts/gui_management.c:206: potion_heal_lvl++;
 	ld	hl, #_potion_heal_lvl
 	inc	(hl)
-;src/scripts/gui_management.c:208: power_ups++;
+;src/scripts/gui_management.c:207: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:209: heal_quantity = heal_quantity + 8;
+;src/scripts/gui_management.c:208: heal_quantity = heal_quantity + 8;
 	ld	a, (_heal_quantity)
 	add	a, #0x08
 	ld	(#_heal_quantity),a
-;src/scripts/gui_management.c:210: delay(300);
+;src/scripts/gui_management.c:209: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:213: break;
+;src/scripts/gui_management.c:212: break;
 	jr	00119$
-;src/scripts/gui_management.c:214: case 3:
+;src/scripts/gui_management.c:213: case 3:
 00113$:
-;src/scripts/gui_management.c:215: if (level < 20) {
+;src/scripts/gui_management.c:214: if (level < 50) {
 	ld	hl, #_level
 	ld	a, (hl)
-	sub	a, #0x14
+	sub	a, #0x32
 	jr	NC, 00119$
-;src/scripts/gui_management.c:216: cost = level_curve[level-1];
+;src/scripts/gui_management.c:215: cost = level_curve[level-1];
 	ld	bc, #_level_curve+0
 	ld	l, (hl)
 	ld	h, #0x00
@@ -1071,7 +1073,7 @@ _safy_upgrades::
 	add	hl, hl
 	add	hl, bc
 	ld	c, (hl)
-;src/scripts/gui_management.c:217: if (experience >= cost && joypad() & J_A) {
+;src/scripts/gui_management.c:216: if (experience >= cost && joypad() & J_A) {
 	ld	b, c
 	ld	e, #0x00
 	ld	hl, #_experience
@@ -1083,7 +1085,7 @@ _safy_upgrades::
 	call	_joypad
 	bit	4, a
 	jr	Z, 00119$
-;src/scripts/gui_management.c:218: experience = experience - cost;
+;src/scripts/gui_management.c:217: experience = experience - cost;
 	ld	e, c
 	ld	d, #0x00
 	ld	a, (_experience)
@@ -1097,43 +1099,43 @@ _safy_upgrades::
 	ld	(hl), e
 	inc	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:219: level++;
+;src/scripts/gui_management.c:218: level++;
 	ld	hl, #_level
 	inc	(hl)
-;src/scripts/gui_management.c:220: power_ups++;
+;src/scripts/gui_management.c:219: power_ups++;
 	ld	hl, #_power_ups
 	inc	(hl)
-;src/scripts/gui_management.c:222: attack = attack + 2;
+;src/scripts/gui_management.c:221: attack = attack + 2;
 	ld	a, (_attack)
 	add	a, #0x02
 	ld	(#_attack),a
-;src/scripts/gui_management.c:223: defense = defense + 1;
+;src/scripts/gui_management.c:222: defense = defense + 1;
 	ld	a, (_defense)
 	inc	a
 	ld	(#_defense),a
-;src/scripts/gui_management.c:224: max_hp = max_hp + 4;
+;src/scripts/gui_management.c:223: max_hp = max_hp + 4;
 	ld	a, (_max_hp)
 	add	a, #0x04
 	ld	hl, #_max_hp
 	ld	(hl), a
-;src/scripts/gui_management.c:225: current_hp = max_hp;
+;src/scripts/gui_management.c:224: current_hp = max_hp;
 	ld	a, (hl)
 	ld	(#_current_hp),a
-;src/scripts/gui_management.c:226: delay(300);
+;src/scripts/gui_management.c:225: delay(300);
 	push	bc
 	ld	de, #0x012c
 	call	_delay
 	pop	bc
-;src/scripts/gui_management.c:230: }
+;src/scripts/gui_management.c:229: }
 00119$:
-;src/scripts/gui_management.c:233: costs[0] = cost / 1000 + 154;
+;src/scripts/gui_management.c:232: costs[0] = cost / 1000 + 154;
 	ldhl	sp,	#0
 	ld	(hl), c
 	inc	hl
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x9a
-;src/scripts/gui_management.c:234: costs[1] = cost % 1000 / 100 + 154;
+;src/scripts/gui_management.c:233: costs[1] = cost % 1000 / 100 + 154;
 	ld	bc, #0x03e8
 	pop	de
 	push	de
@@ -1145,7 +1147,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:235: costs[2] = cost % 100 / 10 + 154;
+;src/scripts/gui_management.c:234: costs[2] = cost % 100 / 10 + 154;
 	ldhl	sp,	#0
 	ld	c, (hl)
 	push	bc
@@ -1160,7 +1162,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#4
 	ld	(hl), a
-;src/scripts/gui_management.c:236: costs[3] = cost % 10 + 154;
+;src/scripts/gui_management.c:235: costs[3] = cost % 10 + 154;
 	ld	e, #0x0a
 	ld	a, c
 	call	__moduchar
@@ -1168,7 +1170,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/gui_management.c:237: if (experience > 9999) {
+;src/scripts/gui_management.c:236: if (experience > 9999) {
 	ld	a, (#_experience)
 	ldhl	sp,	#0
 	ld	(hl), a
@@ -1181,21 +1183,21 @@ _safy_upgrades::
 	ld	a, #0x27
 	sbc	a, (hl)
 	jr	NC, 00121$
-;src/scripts/gui_management.c:238: exp[0] = 163;
+;src/scripts/gui_management.c:237: exp[0] = 163;
 	ldhl	sp,	#6
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:239: exp[1] = 163;
+;src/scripts/gui_management.c:238: exp[1] = 163;
 	inc	hl
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:240: exp[2] = 163;
+;src/scripts/gui_management.c:239: exp[2] = 163;
 	inc	hl
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:241: exp[3] = 163;
+;src/scripts/gui_management.c:240: exp[3] = 163;
 	inc	hl
 	ld	(hl), #0xa3
 	jr	00122$
 00121$:
-;src/scripts/gui_management.c:244: exp[0] = experience % 10000 / 1000 + 154;
+;src/scripts/gui_management.c:243: exp[0] = experience % 10000 / 1000 + 154;
 	ld	bc, #0x2710
 	pop	de
 	push	de
@@ -1214,7 +1216,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/gui_management.c:245: exp[1] = experience % 1000 / 100 + 154;
+;src/scripts/gui_management.c:244: exp[1] = experience % 1000 / 100 + 154;
 	ld	a, (_experience)
 	ld	hl, #_experience + 1
 	ld	d, (hl)
@@ -1235,7 +1237,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#7
 	ld	(hl), a
-;src/scripts/gui_management.c:246: exp[2] = experience % 100 / 10 + 154;
+;src/scripts/gui_management.c:245: exp[2] = experience % 100 / 10 + 154;
 	ld	a, (_experience)
 	ld	hl, #_experience + 1
 	ld	d, (hl)
@@ -1249,7 +1251,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ldhl	sp,	#8
 	ld	(hl), a
-;src/scripts/gui_management.c:247: exp[3] = experience % 10 + 154;
+;src/scripts/gui_management.c:246: exp[3] = experience % 10 + 154;
 	ld	a, (_experience)
 	ld	hl, #_experience + 1
 	ld	d, (hl)
@@ -1266,7 +1268,7 @@ _safy_upgrades::
 	add	a, #0x9a
 	ld	(hl), a
 00122$:
-;src/scripts/gui_management.c:249: set_win_tiles(15, 10, 3, 1, costs);
+;src/scripts/gui_management.c:248: set_win_tiles(15, 10, 3, 1, costs);
 	ld	hl, #2
 	add	hl, sp
 	push	hl
@@ -1276,7 +1278,7 @@ _safy_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:250: set_win_tiles(14, 12, 4, 1, exp);
+;src/scripts/gui_management.c:249: set_win_tiles(14, 12, 4, 1, exp);
 	ld	hl, #6
 	add	hl, sp
 	push	hl
@@ -1286,14 +1288,14 @@ _safy_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:252: if (joypad() & J_B) {
+;src/scripts/gui_management.c:251: if (joypad() & J_B) {
 	call	_joypad
 	bit	5, a
 	jr	Z, 00125$
-;src/scripts/gui_management.c:253: safy_option = 1;
+;src/scripts/gui_management.c:252: safy_option = 1;
 	ld	hl, #_safy_option
 	ld	(hl), #0x01
-;src/scripts/gui_management.c:254: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+;src/scripts/gui_management.c:253: set_win_tiles(1, 1, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -1301,29 +1303,29 @@ _safy_upgrades::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:255: menu_opened = 0;
+;src/scripts/gui_management.c:254: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;src/scripts/gui_management.c:256: SHOW_SPRITES;
+;src/scripts/gui_management.c:255: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;src/scripts/gui_management.c:257: set_mini_menu();
+;src/scripts/gui_management.c:256: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
 00125$:
-;src/scripts/gui_management.c:259: }
+;src/scripts/gui_management.c:258: }
 	add	sp, #11
 	ret
-;src/scripts/gui_management.c:261: void set_stats() BANKED {
+;src/scripts/gui_management.c:260: void set_stats() BANKED {
 ;	---------------------------------
 ; Function set_stats
 ; ---------------------------------
 	b_set_stats	= 3
 _set_stats::
 	add	sp, #-21
-;src/scripts/gui_management.c:268: hp[0] = current_hp/10 + 154;
+;src/scripts/gui_management.c:267: hp[0] = current_hp/10 + 154;
 	ld	a, (_current_hp)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1331,17 +1333,17 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:269: hp[1] = current_hp % 10 + 154;
+;src/scripts/gui_management.c:268: hp[1] = current_hp % 10 + 154;
 	ld	a, (_current_hp)
 	ld	e, #0x0a
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
 	ldhl	sp,	#1
-;src/scripts/gui_management.c:270: hp[2] = 176;
+;src/scripts/gui_management.c:269: hp[2] = 176;
 	ld	(hl+), a
 	ld	(hl), #0xb0
-;src/scripts/gui_management.c:271: hp[3] = max_hp/10 + 154;
+;src/scripts/gui_management.c:270: hp[3] = max_hp/10 + 154;
 	ld	a, (_max_hp)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1349,7 +1351,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:272: hp[4] = max_hp % 10 + 154;
+;src/scripts/gui_management.c:271: hp[4] = max_hp % 10 + 154;
 	ld	a, (_max_hp)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1357,7 +1359,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#4
 	ld	(hl), a
-;src/scripts/gui_management.c:273: atk[0] = attack / 10 + 154;
+;src/scripts/gui_management.c:272: atk[0] = attack / 10 + 154;
 	ld	a, (_attack)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1365,7 +1367,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/gui_management.c:274: atk[1] = attack % 10 + 154;
+;src/scripts/gui_management.c:273: atk[1] = attack % 10 + 154;
 	ld	a, (_attack)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1373,7 +1375,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/gui_management.c:275: def[0] = defense / 10 + 154;
+;src/scripts/gui_management.c:274: def[0] = defense / 10 + 154;
 	ld	a, (_defense)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1381,7 +1383,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#7
 	ld	(hl), a
-;src/scripts/gui_management.c:276: def[1] = defense % 10 + 154;
+;src/scripts/gui_management.c:275: def[1] = defense % 10 + 154;
 	ld	a, (_defense)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1389,7 +1391,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#8
 	ld	(hl), a
-;src/scripts/gui_management.c:278: uint8_t d3 = (experience% 10000 / 1000);
+;src/scripts/gui_management.c:277: uint8_t d3 = (experience% 10000 / 1000);
 	ld	a, (#_experience)
 	ldhl	sp,	#15
 	ld	(hl), a
@@ -1406,7 +1408,7 @@ _set_stats::
 	ld	bc, #0x03e8
 	call	__divuint
 	ldhl	sp,	#17
-;src/scripts/gui_management.c:279: uint8_t d2 = (experience % 1000) / 100;
+;src/scripts/gui_management.c:278: uint8_t d2 = (experience % 1000) / 100;
 	ld	a, c
 	ld	(hl-), a
 	dec	hl
@@ -1421,7 +1423,7 @@ _set_stats::
 	call	__divuint
 	ldhl	sp,	#18
 	ld	(hl), c
-;src/scripts/gui_management.c:280: uint8_t d1 = (experience % 100) / 10;
+;src/scripts/gui_management.c:279: uint8_t d1 = (experience % 100) / 10;
 	ld	bc, #0x0064
 	ldhl	sp,	#15
 	ld	a, (hl+)
@@ -1433,7 +1435,7 @@ _set_stats::
 	call	__divuchar
 	ldhl	sp,	#19
 	ld	(hl), c
-;src/scripts/gui_management.c:281: uint8_t d0 = (experience % 10);
+;src/scripts/gui_management.c:280: uint8_t d0 = (experience % 10);
 	ld	bc, #0x000a
 	ldhl	sp,	#15
 	ld	a, (hl+)
@@ -1442,7 +1444,7 @@ _set_stats::
 	call	__moduint
 	ldhl	sp,	#20
 	ld	(hl), c
-;src/scripts/gui_management.c:282: if (experience > 9999) {
+;src/scripts/gui_management.c:281: if (experience > 9999) {
 	ldhl	sp,	#15
 	ld	a, #0x0f
 	sub	a, (hl)
@@ -1450,21 +1452,21 @@ _set_stats::
 	ld	a, #0x27
 	sbc	a, (hl)
 	jr	NC, 00102$
-;src/scripts/gui_management.c:283: exp[0] = 163;
+;src/scripts/gui_management.c:282: exp[0] = 163;
 	ldhl	sp,	#9
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:284: exp[1] = 163;
+;src/scripts/gui_management.c:283: exp[1] = 163;
 	inc	hl
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:285: exp[2] = 163;
+;src/scripts/gui_management.c:284: exp[2] = 163;
 	inc	hl
 	ld	(hl), #0xa3
-;src/scripts/gui_management.c:286: exp[3] = 163;
+;src/scripts/gui_management.c:285: exp[3] = 163;
 	inc	hl
 	ld	(hl), #0xa3
 	jr	00103$
 00102$:
-;src/scripts/gui_management.c:289: exp[0] = (d3 == 0) ? 12 : (d3 + 154);
+;src/scripts/gui_management.c:288: exp[0] = (d3 == 0) ? 12 : (d3 + 154);
 	ldhl	sp,	#17
 	ld	a, (hl)
 	or	a, a
@@ -1478,7 +1480,7 @@ _set_stats::
 00107$:
 	ldhl	sp,	#9
 	ld	(hl), a
-;src/scripts/gui_management.c:290: exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
+;src/scripts/gui_management.c:289: exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
 	ldhl	sp,	#18
 	ld	a, (hl)
 	or	a, a
@@ -1496,7 +1498,7 @@ _set_stats::
 00109$:
 	ldhl	sp,	#10
 	ld	(hl), a
-;src/scripts/gui_management.c:291: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
+;src/scripts/gui_management.c:290: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
 	ld	hl,#0xb
 	add	hl,sp
 	ld	e, l
@@ -1521,14 +1523,14 @@ _set_stats::
 	add	a, #0x9a
 00114$:
 	ld	(de), a
-;src/scripts/gui_management.c:292: exp[3] = d0 + 154;
+;src/scripts/gui_management.c:291: exp[3] = d0 + 154;
 	ldhl	sp,	#20
 	ld	a, (hl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
 00103$:
-;src/scripts/gui_management.c:295: mythril[0] = minerals / 10 + 154;
+;src/scripts/gui_management.c:294: mythril[0] = minerals / 10 + 154;
 	ld	a, (_minerals)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1536,7 +1538,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#13
 	ld	(hl), a
-;src/scripts/gui_management.c:296: mythril[1] = minerals % 10 + 154;
+;src/scripts/gui_management.c:295: mythril[1] = minerals % 10 + 154;
 	ld	a, (_minerals)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1544,7 +1546,7 @@ _set_stats::
 	add	a, #0x9a
 	ldhl	sp,	#14
 	ld	(hl), a
-;src/scripts/gui_management.c:297: set_win_tiles(12, 6, 5, 1, hp);
+;src/scripts/gui_management.c:296: set_win_tiles(12, 6, 5, 1, hp);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -1554,7 +1556,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:298: set_win_tiles(14, 4, 5, 1, player_name);
+;src/scripts/gui_management.c:297: set_win_tiles(14, 4, 5, 1, player_name);
 	ld	de, #_player_name
 	push	de
 	ld	hl, #0x105
@@ -1563,7 +1565,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:299: set_win_tiles(12, 8, 2, 1, atk);
+;src/scripts/gui_management.c:298: set_win_tiles(12, 8, 2, 1, atk);
 	ld	hl, #5
 	add	hl, sp
 	push	hl
@@ -1573,7 +1575,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:300: set_win_tiles(12, 10, 2, 1, def);
+;src/scripts/gui_management.c:299: set_win_tiles(12, 10, 2, 1, def);
 	ld	hl, #7
 	add	hl, sp
 	push	hl
@@ -1583,7 +1585,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:301: set_win_tiles(15, 14, 4, 1, exp);
+;src/scripts/gui_management.c:300: set_win_tiles(15, 14, 4, 1, exp);
 	ld	hl, #9
 	add	hl, sp
 	push	hl
@@ -1593,7 +1595,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:302: set_win_tiles(14, 16, 2, 1, mythril);
+;src/scripts/gui_management.c:301: set_win_tiles(14, 16, 2, 1, mythril);
 	ld	hl, #13
 	add	hl, sp
 	push	hl
@@ -1603,12 +1605,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:303: stat = sword_lvl + 154;
+;src/scripts/gui_management.c:302: stat = sword_lvl + 154;
 	ld	a, (_sword_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:304: set_win_tiles(4, 12, 1, 1, &stat);
+;src/scripts/gui_management.c:303: set_win_tiles(4, 12, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1618,12 +1620,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:305: stat = shield_lvl + 154;
+;src/scripts/gui_management.c:304: stat = shield_lvl + 154;
 	ld	a, (_shield_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:306: set_win_tiles(4, 14, 1, 1, &stat);
+;src/scripts/gui_management.c:305: set_win_tiles(4, 14, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1633,12 +1635,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:307: stat = arrow_lvl + 154;
+;src/scripts/gui_management.c:306: stat = arrow_lvl + 154;
 	ld	a, (_arrow_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:308: set_win_tiles(4, 16, 1, 1, &stat);
+;src/scripts/gui_management.c:307: set_win_tiles(4, 16, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1648,12 +1650,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:309: stat = quiver_lvl + 154;
+;src/scripts/gui_management.c:308: stat = quiver_lvl + 154;
 	ld	a, (_quiver_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:310: set_win_tiles(9, 12, 1, 1, &stat);
+;src/scripts/gui_management.c:309: set_win_tiles(9, 12, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1663,12 +1665,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:311: stat = potion_quant_lvl + 154;
+;src/scripts/gui_management.c:310: stat = potion_quant_lvl + 154;
 	ld	a, (_potion_quant_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:312: set_win_tiles(9, 14, 1, 1, &stat);
+;src/scripts/gui_management.c:311: set_win_tiles(9, 14, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1678,12 +1680,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:313: stat = potion_heal_lvl + 154;
+;src/scripts/gui_management.c:312: stat = potion_heal_lvl + 154;
 	ld	a, (_potion_heal_lvl)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:314: set_win_tiles(9, 16, 1, 1, &stat);
+;src/scripts/gui_management.c:313: set_win_tiles(9, 16, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1693,12 +1695,12 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:315: stat = level + 154;
+;src/scripts/gui_management.c:314: stat = level + 154;
 	ld	a, (_level)
 	add	a, #0x9a
 	ldhl	sp,	#12
 	ld	(hl), a
-;src/scripts/gui_management.c:316: set_win_tiles(15, 12, 1, 1, &stat);
+;src/scripts/gui_management.c:315: set_win_tiles(15, 12, 1, 1, &stat);
 	ld	hl, #12
 	add	hl, sp
 	push	hl
@@ -1707,22 +1709,22 @@ _set_stats::
 	ld	hl, #0xc0f
 	push	hl
 	call	_set_win_tiles
-;src/scripts/gui_management.c:317: }
+;src/scripts/gui_management.c:316: }
 	add	sp, #27
 	ret
-;src/scripts/gui_management.c:319: void set_mini_menu() BANKED {
+;src/scripts/gui_management.c:318: void set_mini_menu() BANKED {
 ;	---------------------------------
 ; Function set_mini_menu
 ; ---------------------------------
 	b_set_mini_menu	= 3
 _set_mini_menu::
 	add	sp, #-9
-;src/scripts/gui_management.c:320: if (menu_opened != 0) {
+;src/scripts/gui_management.c:319: if (menu_opened != 0) {
 	ld	a, (#_menu_opened)
 	or	a, a
-;src/scripts/gui_management.c:321: return;
+;src/scripts/gui_management.c:320: return;
 	jp	NZ, 00104$
-;src/scripts/gui_management.c:327: hp[0] = current_hp / 100 + 154;
+;src/scripts/gui_management.c:326: hp[0] = current_hp / 100 + 154;
 	ld	a, (_current_hp)
 	ld	e, #0x64
 	call	__divuchar
@@ -1730,7 +1732,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:328: hp[1] = current_hp % 100 / 10 + 154;
+;src/scripts/gui_management.c:327: hp[1] = current_hp % 100 / 10 + 154;
 	ld	a, (_current_hp)
 	ld	e, #0x64
 	call	__moduchar
@@ -1741,7 +1743,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/gui_management.c:329: hp[2] = max_hp % 10 + 154;
+;src/scripts/gui_management.c:328: hp[2] = max_hp % 10 + 154;
 	ld	a, (_max_hp)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1749,7 +1751,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#2
 	ld	(hl), a
-;src/scripts/gui_management.c:330: n_arr[0] = num_arrows / 10 + 154;
+;src/scripts/gui_management.c:329: n_arr[0] = num_arrows / 10 + 154;
 	ld	a, (_num_arrows)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1757,7 +1759,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
-;src/scripts/gui_management.c:331: n_arr[1] = num_arrows % 10 + 154;
+;src/scripts/gui_management.c:330: n_arr[1] = num_arrows % 10 + 154;
 	ld	a, (_num_arrows)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1765,7 +1767,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#4
 	ld	(hl), a
-;src/scripts/gui_management.c:332: n_heals[0] = heals / 10 + 154;
+;src/scripts/gui_management.c:331: n_heals[0] = heals / 10 + 154;
 	ld	a, (_heals)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1773,7 +1775,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#5
 	ld	(hl), a
-;src/scripts/gui_management.c:333: n_heals[1] = heals % 10 + 154;
+;src/scripts/gui_management.c:332: n_heals[1] = heals % 10 + 154;
 	ld	a, (_heals)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1781,7 +1783,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/gui_management.c:334: n_floor[0] = current_floor / 10 + 154;
+;src/scripts/gui_management.c:333: n_floor[0] = current_floor / 10 + 154;
 	ld	a, (_current_floor)
 	ld	e, #0x0a
 	call	__divuchar
@@ -1789,7 +1791,7 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#7
 	ld	(hl), a
-;src/scripts/gui_management.c:335: n_floor[1] = current_floor % 10 + 154;
+;src/scripts/gui_management.c:334: n_floor[1] = current_floor % 10 + 154;
 	ld	a, (_current_floor)
 	ld	e, #0x0a
 	call	__moduchar
@@ -1802,7 +1804,7 @@ _set_mini_menu::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;src/scripts/gui_management.c:337: set_win_tiles(0, 0, 20, 1, mini_gui);
+;src/scripts/gui_management.c:336: set_win_tiles(0, 0, 20, 1, mini_gui);
 	ld	de, #_mini_gui
 	push	de
 	ld	hl, #0x114
@@ -2078,6 +2080,58 @@ _show_number::
 ;src/scripts/gui_management.c:392: move_sprite(2, 0, 0);
 ;src/scripts/gui_management.c:393: }
 	add	sp, #4
+	ret
+;src/scripts/gui_management.c:395: void print_debug(uint8_t value) BANKED {
+;	---------------------------------
+; Function print_debug
+; ---------------------------------
+	b_print_debug	= 3
+_print_debug::
+	add	sp, #-3
+;src/scripts/gui_management.c:397: values[0] = value / 100 + 154;
+	ldhl	sp,	#9
+	ld	c, (hl)
+	push	bc
+	ld	e, #0x64
+	ld	a, c
+	call	__divuchar
+	ld	a, c
+	pop	bc
+	add	a, #0x9a
+	ldhl	sp,	#0
+	ld	(hl), a
+;src/scripts/gui_management.c:398: values[1] = value % 100 / 10 + 154;
+	push	bc
+	ld	e, #0x64
+	ld	a, c
+	call	__moduchar
+	ld	a, c
+	ld	e, #0x0a
+	call	__divuchar
+	ld	a, c
+	pop	bc
+	add	a, #0x9a
+	ldhl	sp,	#1
+	ld	(hl), a
+;src/scripts/gui_management.c:399: values[2] = value % 10 + 154;
+	ld	e, #0x0a
+	ld	a, c
+	call	__moduchar
+	ld	a, c
+	add	a, #0x9a
+	ldhl	sp,	#2
+	ld	(hl), a
+;src/scripts/gui_management.c:400: set_win_tiles(6, 0, 3, 1, values);
+	ld	hl, #0
+	add	hl, sp
+	push	hl
+	ld	hl, #0x103
+	push	hl
+	ld	hl, #0x06
+	push	hl
+	call	_set_win_tiles
+;src/scripts/gui_management.c:401: }
+	add	sp, #9
 	ret
 	.area _CODE_3
 	.area _INITIALIZER
