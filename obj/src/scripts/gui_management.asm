@@ -1718,12 +1718,12 @@ _set_stats::
 ; ---------------------------------
 	b_set_mini_menu	= 3
 _set_mini_menu::
-	add	sp, #-9
+	add	sp, #-10
 ;src/scripts/gui_management.c:319: if (menu_opened != 0) {
 	ld	a, (#_menu_opened)
 	or	a, a
 ;src/scripts/gui_management.c:320: return;
-	jp	NZ, 00104$
+	jp	NZ, 00107$
 ;src/scripts/gui_management.c:326: hp[0] = current_hp / 100 + 154;
 	ld	a, (_current_hp)
 	ld	e, #0x64
@@ -1743,8 +1743,8 @@ _set_mini_menu::
 	add	a, #0x9a
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/gui_management.c:328: hp[2] = max_hp % 10 + 154;
-	ld	a, (_max_hp)
+;src/scripts/gui_management.c:328: hp[2] = current_hp % 10 + 154;
+	ld	a, (_current_hp)
 	ld	e, #0x0a
 	call	__moduchar
 	ld	a, c
@@ -1814,7 +1814,33 @@ _set_mini_menu::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:338: set_win_tiles(3, 0, 3, 1, hp);
+;src/scripts/gui_management.c:337: uint8_t obtained = 223;
+	ldhl	sp,	#9
+	ld	(hl), #0xdf
+;src/scripts/gui_management.c:338: if (key_obtained) {
+	ld	a, (#_key_obtained)
+	or	a, a
+	jr	Z, 00104$
+;src/scripts/gui_management.c:339: obtained = 223;
+	ldhl	sp,	#9
+	ld	(hl), #0xdf
+	jr	00105$
+00104$:
+;src/scripts/gui_management.c:342: obtained = 187;
+	ldhl	sp,	#9
+	ld	(hl), #0xbb
+00105$:
+;src/scripts/gui_management.c:344: set_win_tiles(7, 0, 1, 1, &obtained);
+	ld	hl, #9
+	add	hl, sp
+	push	hl
+	ld	hl, #0x101
+	push	hl
+	ld	hl, #0x07
+	push	hl
+	call	_set_win_tiles
+	add	sp, #6
+;src/scripts/gui_management.c:346: set_win_tiles(3, 0, 3, 1, hp);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -1824,7 +1850,7 @@ _set_mini_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:339: set_win_tiles(10, 0, 2, 1, n_arr);
+;src/scripts/gui_management.c:347: set_win_tiles(10, 0, 2, 1, n_arr);
 	ld	hl, #3
 	add	hl, sp
 	push	hl
@@ -1834,7 +1860,7 @@ _set_mini_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:340: set_win_tiles(13, 0, 2, 1, n_heals);
+;src/scripts/gui_management.c:348: set_win_tiles(13, 0, 2, 1, n_heals);
 	ld	hl, #5
 	add	hl, sp
 	push	hl
@@ -1844,7 +1870,7 @@ _set_mini_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;src/scripts/gui_management.c:341: set_win_tiles(18, 0, 2, 1, n_floor);
+;src/scripts/gui_management.c:349: set_win_tiles(18, 0, 2, 1, n_floor);
 	ld	hl, #7
 	add	hl, sp
 	push	hl
@@ -1854,49 +1880,49 @@ _set_mini_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-00104$:
-;src/scripts/gui_management.c:342: }
-	add	sp, #9
+00107$:
+;src/scripts/gui_management.c:350: }
+	add	sp, #10
 	ret
-;src/scripts/gui_management.c:344: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
+;src/scripts/gui_management.c:352: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
 ;	---------------------------------
 ; Function show_number
 ; ---------------------------------
 	b_show_number	= 3
 _show_number::
 	add	sp, #-4
-;src/scripts/gui_management.c:346: if (target == 0) {
+;src/scripts/gui_management.c:354: if (target == 0) {
 	ldhl	sp,	#12
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00105$
-;src/scripts/gui_management.c:347: dmg_x = x;
+;src/scripts/gui_management.c:355: dmg_x = x;
 	ld	a, (#_x)
 	ldhl	sp,	#0
-;src/scripts/gui_management.c:348: dmg_y = y-8;
+;src/scripts/gui_management.c:356: dmg_y = y-8;
 	ld	(hl+), a
 	ld	a, (_y)
 	add	a, #0xf8
 	ld	(hl), a
 	jr	00106$
 00105$:
-;src/scripts/gui_management.c:351: if (index == 2) {
+;src/scripts/gui_management.c:359: if (index == 2) {
 	ldhl	sp,	#13
 	ld	a, (hl)
 	sub	a, #0x02
 	jr	NZ, 00102$
-;src/scripts/gui_management.c:352: dmg_x = boss.x+8;
+;src/scripts/gui_management.c:360: dmg_x = boss.x+8;
 	ld	a, (#(_boss + 1) + 0)
 	add	a, #0x08
 	ldhl	sp,	#0
-;src/scripts/gui_management.c:353: dmg_y = boss.y-8;
+;src/scripts/gui_management.c:361: dmg_y = boss.y-8;
 	ld	(hl+), a
 	ld	a, (#(_boss + 2) + 0)
 	add	a, #0xf8
 	ld	(hl), a
 	jr	00106$
 00102$:
-;src/scripts/gui_management.c:356: dmg_x = current_enemies[index].x;
+;src/scripts/gui_management.c:364: dmg_x = current_enemies[index].x;
 	ldhl	sp,	#13
 	ld	c, (hl)
 	ld	b, #0x00
@@ -1912,14 +1938,14 @@ _show_number::
 	ld	b, h
 	ld	a, (bc)
 	ldhl	sp,	#0
-;src/scripts/gui_management.c:357: dmg_y = current_enemies[index].y-8;
+;src/scripts/gui_management.c:365: dmg_y = current_enemies[index].y-8;
 	ld	(hl+), a
 	inc	bc
 	ld	a, (bc)
 	add	a, #0xf8
 	ld	(hl), a
 00106$:
-;src/scripts/gui_management.c:360: if (mode == 0) { // damage
+;src/scripts/gui_management.c:368: if (mode == 0) { // damage
 	ldhl	sp,	#11
 	ld	a, (hl)
 	or	a, a
@@ -1927,15 +1953,15 @@ _show_number::
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x4c
-;src/scripts/gui_management.c:361: set_sprite_tile(0, 76);
+;src/scripts/gui_management.c:369: set_sprite_tile(0, 76);
 	jr	00109$
 00108$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x4b
-;src/scripts/gui_management.c:364: set_sprite_tile(0, 75);
+;src/scripts/gui_management.c:372: set_sprite_tile(0, 75);
 00109$:
-;src/scripts/gui_management.c:366: if (number / 10 != 0) {
+;src/scripts/gui_management.c:374: if (number / 10 != 0) {
 	ldhl	sp,	#10
 	ld	a, (hl)
 	ldhl	sp,	#2
@@ -1946,7 +1972,7 @@ _show_number::
 	ld	a, c
 	or	a, a
 	jr	Z, 00111$
-;src/scripts/gui_management.c:367: set_sprite_tile(1, 65 + number / 10);
+;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
 	ld	a, c
 	add	a, #0x41
 	ldhl	sp,	#3
@@ -1955,15 +1981,15 @@ _show_number::
 	ld	de, #(_shadow_OAM + 6)
 	ld	a, (hl)
 	ld	(de), a
-;src/scripts/gui_management.c:367: set_sprite_tile(1, 65 + number / 10);
+;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
 	jr	00112$
 00111$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 6)
 	ld	(hl), #0x32
-;src/scripts/gui_management.c:370: set_sprite_tile(1, 50);
+;src/scripts/gui_management.c:378: set_sprite_tile(1, 50);
 00112$:
-;src/scripts/gui_management.c:373: set_sprite_tile(2, 65 + number % 10);
+;src/scripts/gui_management.c:381: set_sprite_tile(2, 65 + number % 10);
 	ldhl	sp,	#2
 	ld	a, (hl)
 	push	bc
@@ -1976,7 +2002,7 @@ _show_number::
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 10)
 	ld	(hl), b
-;src/scripts/gui_management.c:375: while (frame < 30) {
+;src/scripts/gui_management.c:383: while (frame < 30) {
 	ldhl	sp,	#1
 	ld	a, (hl+)
 	inc	hl
@@ -1987,16 +2013,16 @@ _show_number::
 	ld	a, (hl)
 	sub	a, #0x1e
 	jr	NC, 00120$
-;src/scripts/gui_management.c:376: wait_vbl_done();
+;src/scripts/gui_management.c:384: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/gui_management.c:377: if (frame %2) {
+;src/scripts/gui_management.c:385: if (frame %2) {
 	ldhl	sp,	#3
 	ld	a, (hl)
 	and	a, #0x01
 	jr	Z, 00117$
-;src/scripts/gui_management.c:378: dmg_y--;
+;src/scripts/gui_management.c:386: dmg_y--;
 	dec	e
-;src/scripts/gui_management.c:379: if (number / 10 == 0) {
+;src/scripts/gui_management.c:387: if (number / 10 == 0) {
 	ld	a, c
 	or	a, a
 	jr	NZ, 00114$
@@ -2010,10 +2036,10 @@ _show_number::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:380: move_sprite(0, dmg_x, dmg_y);
+;src/scripts/gui_management.c:388: move_sprite(0, dmg_x, dmg_y);
 	jr	00115$
 00114$:
-;src/scripts/gui_management.c:383: move_sprite(0, dmg_x-8, dmg_y);
+;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
 	ldhl	sp,	#0
 	ld	a, (hl)
 	add	a, #0xf8
@@ -2024,7 +2050,7 @@ _show_number::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), b
-;src/scripts/gui_management.c:383: move_sprite(0, dmg_x-8, dmg_y);
+;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
 00115$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
@@ -2036,7 +2062,7 @@ _show_number::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:386: move_sprite(2, dmg_x+8, dmg_y);
+;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
 	ldhl	sp,	#0
 	ld	a, (hl+)
 	inc	hl
@@ -2052,9 +2078,9 @@ _show_number::
 	ld	a, (hl)
 	pop	hl
 	ld	(hl), a
-;src/scripts/gui_management.c:386: move_sprite(2, dmg_x+8, dmg_y);
+;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
 00117$:
-;src/scripts/gui_management.c:388: frame++;
+;src/scripts/gui_management.c:396: frame++;
 	ldhl	sp,	#3
 	inc	(hl)
 	jr	00118$
@@ -2077,18 +2103,18 @@ _show_number::
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-;src/scripts/gui_management.c:392: move_sprite(2, 0, 0);
-;src/scripts/gui_management.c:393: }
+;src/scripts/gui_management.c:400: move_sprite(2, 0, 0);
+;src/scripts/gui_management.c:401: }
 	add	sp, #4
 	ret
-;src/scripts/gui_management.c:395: void print_debug(uint8_t value) BANKED {
+;src/scripts/gui_management.c:403: void print_debug(uint8_t value) BANKED {
 ;	---------------------------------
 ; Function print_debug
 ; ---------------------------------
 	b_print_debug	= 3
 _print_debug::
 	add	sp, #-3
-;src/scripts/gui_management.c:397: values[0] = value / 100 + 154;
+;src/scripts/gui_management.c:405: values[0] = value / 100 + 154;
 	ldhl	sp,	#9
 	ld	c, (hl)
 	push	bc
@@ -2100,7 +2126,7 @@ _print_debug::
 	add	a, #0x9a
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/gui_management.c:398: values[1] = value % 100 / 10 + 154;
+;src/scripts/gui_management.c:406: values[1] = value % 100 / 10 + 154;
 	push	bc
 	ld	e, #0x64
 	ld	a, c
@@ -2113,7 +2139,7 @@ _print_debug::
 	add	a, #0x9a
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/gui_management.c:399: values[2] = value % 10 + 154;
+;src/scripts/gui_management.c:407: values[2] = value % 10 + 154;
 	ld	e, #0x0a
 	ld	a, c
 	call	__moduchar
@@ -2121,7 +2147,7 @@ _print_debug::
 	add	a, #0x9a
 	ldhl	sp,	#2
 	ld	(hl), a
-;src/scripts/gui_management.c:400: set_win_tiles(6, 0, 3, 1, values);
+;src/scripts/gui_management.c:408: set_win_tiles(6, 0, 3, 1, values);
 	ld	hl, #0
 	add	hl, sp
 	push	hl
@@ -2130,7 +2156,7 @@ _print_debug::
 	ld	hl, #0x06
 	push	hl
 	call	_set_win_tiles
-;src/scripts/gui_management.c:401: }
+;src/scripts/gui_management.c:409: }
 	add	sp, #9
 	ret
 	.area _CODE_3

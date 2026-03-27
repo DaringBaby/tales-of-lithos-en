@@ -1718,12 +1718,12 @@
                                    1718 ; ---------------------------------
                          00000003  1719 	b_set_mini_menu	= 3
     000009D7                       1720 _set_mini_menu::
-    000009D7 E8 F7            [16] 1721 	add	sp, #-9
+    000009D7 E8 F6            [16] 1721 	add	sp, #-10
                                    1722 ;src/scripts/gui_management.c:319: if (menu_opened != 0) {
     000009D9 FAr00r00         [16] 1723 	ld	a, (#_menu_opened)
     000009DC B7               [ 4] 1724 	or	a, a
                                    1725 ;src/scripts/gui_management.c:320: return;
-    000009DD C2rC4r0A         [16] 1726 	jp	NZ, 00104$
+    000009DD C2rEAr0A         [16] 1726 	jp	NZ, 00107$
                                    1727 ;src/scripts/gui_management.c:326: hp[0] = current_hp / 100 + 154;
     000009E0 FAr00r00         [16] 1728 	ld	a, (_current_hp)
     000009E3 1E 64            [ 8] 1729 	ld	e, #0x64
@@ -1743,8 +1743,8 @@
     000009FD C6 9A            [ 8] 1743 	add	a, #0x9a
     000009FF F8 01            [12] 1744 	ldhl	sp,	#1
     00000A01 77               [ 8] 1745 	ld	(hl), a
-                                   1746 ;src/scripts/gui_management.c:328: hp[2] = max_hp % 10 + 154;
-    00000A02 FAr00r00         [16] 1747 	ld	a, (_max_hp)
+                                   1746 ;src/scripts/gui_management.c:328: hp[2] = current_hp % 10 + 154;
+    00000A02 FAr00r00         [16] 1747 	ld	a, (_current_hp)
     00000A05 1E 0A            [ 8] 1748 	ld	e, #0x0a
     00000A07 CDr00r00         [24] 1749 	call	__moduchar
     00000A0A 79               [ 4] 1750 	ld	a, c
@@ -1814,325 +1814,351 @@
     00000A76 F5               [16] 1814 	push	af
     00000A77 CDr00r00         [24] 1815 	call	_set_win_tiles
     00000A7A E8 06            [16] 1816 	add	sp, #6
-                                   1817 ;src/scripts/gui_management.c:338: set_win_tiles(3, 0, 3, 1, hp);
-    00000A7C 21 00 00         [12] 1818 	ld	hl, #0
-    00000A7F 39               [ 8] 1819 	add	hl, sp
-    00000A80 E5               [16] 1820 	push	hl
-    00000A81 21 03 01         [12] 1821 	ld	hl, #0x103
-    00000A84 E5               [16] 1822 	push	hl
-    00000A85 21 03 00         [12] 1823 	ld	hl, #0x03
-    00000A88 E5               [16] 1824 	push	hl
-    00000A89 CDr00r00         [24] 1825 	call	_set_win_tiles
-    00000A8C E8 06            [16] 1826 	add	sp, #6
-                                   1827 ;src/scripts/gui_management.c:339: set_win_tiles(10, 0, 2, 1, n_arr);
-    00000A8E 21 03 00         [12] 1828 	ld	hl, #3
-    00000A91 39               [ 8] 1829 	add	hl, sp
-    00000A92 E5               [16] 1830 	push	hl
-    00000A93 21 02 01         [12] 1831 	ld	hl, #0x102
-    00000A96 E5               [16] 1832 	push	hl
-    00000A97 21 0A 00         [12] 1833 	ld	hl, #0x0a
-    00000A9A E5               [16] 1834 	push	hl
-    00000A9B CDr00r00         [24] 1835 	call	_set_win_tiles
-    00000A9E E8 06            [16] 1836 	add	sp, #6
-                                   1837 ;src/scripts/gui_management.c:340: set_win_tiles(13, 0, 2, 1, n_heals);
-    00000AA0 21 05 00         [12] 1838 	ld	hl, #5
-    00000AA3 39               [ 8] 1839 	add	hl, sp
-    00000AA4 E5               [16] 1840 	push	hl
-    00000AA5 21 02 01         [12] 1841 	ld	hl, #0x102
-    00000AA8 E5               [16] 1842 	push	hl
-    00000AA9 21 0D 00         [12] 1843 	ld	hl, #0x0d
-    00000AAC E5               [16] 1844 	push	hl
-    00000AAD CDr00r00         [24] 1845 	call	_set_win_tiles
-    00000AB0 E8 06            [16] 1846 	add	sp, #6
-                                   1847 ;src/scripts/gui_management.c:341: set_win_tiles(18, 0, 2, 1, n_floor);
-    00000AB2 21 07 00         [12] 1848 	ld	hl, #7
-    00000AB5 39               [ 8] 1849 	add	hl, sp
-    00000AB6 E5               [16] 1850 	push	hl
-    00000AB7 21 02 01         [12] 1851 	ld	hl, #0x102
-    00000ABA E5               [16] 1852 	push	hl
-    00000ABB 21 12 00         [12] 1853 	ld	hl, #0x12
-    00000ABE E5               [16] 1854 	push	hl
-    00000ABF CDr00r00         [24] 1855 	call	_set_win_tiles
-    00000AC2 E8 06            [16] 1856 	add	sp, #6
-    00000AC4                       1857 00104$:
-                                   1858 ;src/scripts/gui_management.c:342: }
-    00000AC4 E8 09            [16] 1859 	add	sp, #9
-    00000AC6 C9               [16] 1860 	ret
-                                   1861 ;src/scripts/gui_management.c:344: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
-                                   1862 ;	---------------------------------
-                                   1863 ; Function show_number
-                                   1864 ; ---------------------------------
-                         00000003  1865 	b_show_number	= 3
-    00000AC7                       1866 _show_number::
-    00000AC7 E8 FC            [16] 1867 	add	sp, #-4
-                                   1868 ;src/scripts/gui_management.c:346: if (target == 0) {
-    00000AC9 F8 0C            [12] 1869 	ldhl	sp,	#12
-    00000ACB 7E               [ 8] 1870 	ld	a, (hl)
-    00000ACC B7               [ 4] 1871 	or	a, a
-    00000ACD 20 0E            [12] 1872 	jr	NZ, 00105$
-                                   1873 ;src/scripts/gui_management.c:347: dmg_x = x;
-    00000ACF FAr00r00         [16] 1874 	ld	a, (#_x)
-    00000AD2 F8 00            [12] 1875 	ldhl	sp,	#0
-                                   1876 ;src/scripts/gui_management.c:348: dmg_y = y-8;
-    00000AD4 22               [ 8] 1877 	ld	(hl+), a
-    00000AD5 FAr00r00         [16] 1878 	ld	a, (_y)
-    00000AD8 C6 F8            [ 8] 1879 	add	a, #0xf8
-    00000ADA 77               [ 8] 1880 	ld	(hl), a
-    00000ADB 18 31            [12] 1881 	jr	00106$
-    00000ADD                       1882 00105$:
-                                   1883 ;src/scripts/gui_management.c:351: if (index == 2) {
-    00000ADD F8 0D            [12] 1884 	ldhl	sp,	#13
-    00000ADF 7E               [ 8] 1885 	ld	a, (hl)
-    00000AE0 D6 02            [ 8] 1886 	sub	a, #0x02
-    00000AE2 20 10            [12] 1887 	jr	NZ, 00102$
-                                   1888 ;src/scripts/gui_management.c:352: dmg_x = boss.x+8;
-    00000AE4 FAr01r00         [16] 1889 	ld	a, (#(_boss + 1) + 0)
-    00000AE7 C6 08            [ 8] 1890 	add	a, #0x08
-    00000AE9 F8 00            [12] 1891 	ldhl	sp,	#0
-                                   1892 ;src/scripts/gui_management.c:353: dmg_y = boss.y-8;
-    00000AEB 22               [ 8] 1893 	ld	(hl+), a
-    00000AEC FAr02r00         [16] 1894 	ld	a, (#(_boss + 2) + 0)
-    00000AEF C6 F8            [ 8] 1895 	add	a, #0xf8
-    00000AF1 77               [ 8] 1896 	ld	(hl), a
-    00000AF2 18 1A            [12] 1897 	jr	00106$
-    00000AF4                       1898 00102$:
-                                   1899 ;src/scripts/gui_management.c:356: dmg_x = current_enemies[index].x;
-    00000AF4 F8 0D            [12] 1900 	ldhl	sp,	#13
-    00000AF6 4E               [ 8] 1901 	ld	c, (hl)
-    00000AF7 06 00            [ 8] 1902 	ld	b, #0x00
-    00000AF9 69               [ 4] 1903 	ld	l, c
-    00000AFA 60               [ 4] 1904 	ld	h, b
-    00000AFB 29               [ 8] 1905 	add	hl, hl
-    00000AFC 09               [ 8] 1906 	add	hl, bc
-    00000AFD 29               [ 8] 1907 	add	hl, hl
-    00000AFE 29               [ 8] 1908 	add	hl, hl
-    00000AFF 01r00r00         [12] 1909 	ld	bc, #_current_enemies
-    00000B02 09               [ 8] 1910 	add	hl, bc
-    00000B03 4D               [ 4] 1911 	ld	c, l
-    00000B04 44               [ 4] 1912 	ld	b, h
-    00000B05 0A               [ 8] 1913 	ld	a, (bc)
-    00000B06 F8 00            [12] 1914 	ldhl	sp,	#0
-                                   1915 ;src/scripts/gui_management.c:357: dmg_y = current_enemies[index].y-8;
-    00000B08 22               [ 8] 1916 	ld	(hl+), a
-    00000B09 03               [ 8] 1917 	inc	bc
-    00000B0A 0A               [ 8] 1918 	ld	a, (bc)
-    00000B0B C6 F8            [ 8] 1919 	add	a, #0xf8
-    00000B0D 77               [ 8] 1920 	ld	(hl), a
-    00000B0E                       1921 00106$:
-                                   1922 ;src/scripts/gui_management.c:360: if (mode == 0) { // damage
-    00000B0E F8 0B            [12] 1923 	ldhl	sp,	#11
-    00000B10 7E               [ 8] 1924 	ld	a, (hl)
-    00000B11 B7               [ 4] 1925 	or	a, a
-    00000B12 20 07            [12] 1926 	jr	NZ, 00108$
-                                   1927 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B14 21r02r00         [12] 1928 	ld	hl, #(_shadow_OAM + 2)
-    00000B17 36 4C            [12] 1929 	ld	(hl), #0x4c
-                                   1930 ;src/scripts/gui_management.c:361: set_sprite_tile(0, 76);
-    00000B19 18 05            [12] 1931 	jr	00109$
-    00000B1B                       1932 00108$:
-                                   1933 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B1B 21r02r00         [12] 1934 	ld	hl, #(_shadow_OAM + 2)
-    00000B1E 36 4B            [12] 1935 	ld	(hl), #0x4b
-                                   1936 ;src/scripts/gui_management.c:364: set_sprite_tile(0, 75);
-    00000B20                       1937 00109$:
-                                   1938 ;src/scripts/gui_management.c:366: if (number / 10 != 0) {
-    00000B20 F8 0A            [12] 1939 	ldhl	sp,	#10
-    00000B22 7E               [ 8] 1940 	ld	a, (hl)
-    00000B23 F8 02            [12] 1941 	ldhl	sp,	#2
-    00000B25 77               [ 8] 1942 	ld	(hl), a
-    00000B26 7E               [ 8] 1943 	ld	a, (hl)
-    00000B27 1E 0A            [ 8] 1944 	ld	e, #0x0a
-    00000B29 CDr00r00         [24] 1945 	call	__divuchar
-    00000B2C 79               [ 4] 1946 	ld	a, c
-    00000B2D B7               [ 4] 1947 	or	a, a
-    00000B2E 28 0D            [12] 1948 	jr	Z, 00111$
-                                   1949 ;src/scripts/gui_management.c:367: set_sprite_tile(1, 65 + number / 10);
-    00000B30 79               [ 4] 1950 	ld	a, c
-    00000B31 C6 41            [ 8] 1951 	add	a, #0x41
-    00000B33 F8 03            [12] 1952 	ldhl	sp,	#3
-    00000B35 77               [ 8] 1953 	ld	(hl), a
-                                   1954 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B36 11r06r00         [12] 1955 	ld	de, #(_shadow_OAM + 6)
-    00000B39 7E               [ 8] 1956 	ld	a, (hl)
-    00000B3A 12               [ 8] 1957 	ld	(de), a
-                                   1958 ;src/scripts/gui_management.c:367: set_sprite_tile(1, 65 + number / 10);
-    00000B3B 18 05            [12] 1959 	jr	00112$
-    00000B3D                       1960 00111$:
-                                   1961 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B3D 21r06r00         [12] 1962 	ld	hl, #(_shadow_OAM + 6)
-    00000B40 36 32            [12] 1963 	ld	(hl), #0x32
-                                   1964 ;src/scripts/gui_management.c:370: set_sprite_tile(1, 50);
-    00000B42                       1965 00112$:
-                                   1966 ;src/scripts/gui_management.c:373: set_sprite_tile(2, 65 + number % 10);
-    00000B42 F8 02            [12] 1967 	ldhl	sp,	#2
-    00000B44 7E               [ 8] 1968 	ld	a, (hl)
-    00000B45 C5               [16] 1969 	push	bc
-    00000B46 1E 0A            [ 8] 1970 	ld	e, #0x0a
-    00000B48 CDr00r00         [24] 1971 	call	__moduchar
-    00000B4B 79               [ 4] 1972 	ld	a, c
-    00000B4C C1               [12] 1973 	pop	bc
-    00000B4D C6 41            [ 8] 1974 	add	a, #0x41
-    00000B4F 47               [ 4] 1975 	ld	b, a
-                                   1976 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B50 21r0Ar00         [12] 1977 	ld	hl, #(_shadow_OAM + 10)
-    00000B53 70               [ 8] 1978 	ld	(hl), b
-                                   1979 ;src/scripts/gui_management.c:375: while (frame < 30) {
-    00000B54 F8 01            [12] 1980 	ldhl	sp,	#1
-    00000B56 2A               [ 8] 1981 	ld	a, (hl+)
-    00000B57 23               [ 8] 1982 	inc	hl
-    00000B58 5F               [ 4] 1983 	ld	e, a
-    00000B59 36 00            [12] 1984 	ld	(hl), #0x00
-    00000B5B                       1985 00118$:
-    00000B5B F8 03            [12] 1986 	ldhl	sp,	#3
-    00000B5D 7E               [ 8] 1987 	ld	a, (hl)
-    00000B5E D6 1E            [ 8] 1988 	sub	a, #0x1e
-    00000B60 30 4A            [12] 1989 	jr	NC, 00120$
-                                   1990 ;src/scripts/gui_management.c:376: wait_vbl_done();
-    00000B62 CDr00r00         [24] 1991 	call	_wait_vbl_done
-                                   1992 ;src/scripts/gui_management.c:377: if (frame %2) {
-    00000B65 F8 03            [12] 1993 	ldhl	sp,	#3
-    00000B67 7E               [ 8] 1994 	ld	a, (hl)
-    00000B68 E6 01            [ 8] 1995 	and	a, #0x01
-    00000B6A 28 3B            [12] 1996 	jr	Z, 00117$
-                                   1997 ;src/scripts/gui_management.c:378: dmg_y--;
-    00000B6C 1D               [ 4] 1998 	dec	e
-                                   1999 ;src/scripts/gui_management.c:379: if (number / 10 == 0) {
-    00000B6D 79               [ 4] 2000 	ld	a, c
-    00000B6E B7               [ 4] 2001 	or	a, a
-    00000B6F 20 0D            [12] 2002 	jr	NZ, 00114$
-                                   2003 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000B71 21r00r00         [12] 2004 	ld	hl, #_shadow_OAM
-                                   2005 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000B74 7B               [ 4] 2006 	ld	a, e
-    00000B75 22               [ 8] 2007 	ld	(hl+), a
-    00000B76 E5               [16] 2008 	push	hl
-    00000B77 F8 02            [12] 2009 	ldhl	sp,	#2
-    00000B79 7E               [ 8] 2010 	ld	a, (hl)
-    00000B7A E1               [12] 2011 	pop	hl
-    00000B7B 77               [ 8] 2012 	ld	(hl), a
-                                   2013 ;src/scripts/gui_management.c:380: move_sprite(0, dmg_x, dmg_y);
-    00000B7C 18 0C            [12] 2014 	jr	00115$
-    00000B7E                       2015 00114$:
-                                   2016 ;src/scripts/gui_management.c:383: move_sprite(0, dmg_x-8, dmg_y);
-    00000B7E F8 00            [12] 2017 	ldhl	sp,	#0
-    00000B80 7E               [ 8] 2018 	ld	a, (hl)
-    00000B81 C6 F8            [ 8] 2019 	add	a, #0xf8
-    00000B83 47               [ 4] 2020 	ld	b, a
-                                   2021 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000B84 21r00r00         [12] 2022 	ld	hl, #_shadow_OAM
-                                   2023 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000B87 7B               [ 4] 2024 	ld	a, e
-    00000B88 22               [ 8] 2025 	ld	(hl+), a
-    00000B89 70               [ 8] 2026 	ld	(hl), b
-                                   2027 ;src/scripts/gui_management.c:383: move_sprite(0, dmg_x-8, dmg_y);
-    00000B8A                       2028 00115$:
+                                   1817 ;src/scripts/gui_management.c:337: uint8_t obtained = 223;
+    00000A7C F8 09            [12] 1818 	ldhl	sp,	#9
+    00000A7E 36 DF            [12] 1819 	ld	(hl), #0xdf
+                                   1820 ;src/scripts/gui_management.c:338: if (key_obtained) {
+    00000A80 FAr00r00         [16] 1821 	ld	a, (#_key_obtained)
+    00000A83 B7               [ 4] 1822 	or	a, a
+    00000A84 28 06            [12] 1823 	jr	Z, 00104$
+                                   1824 ;src/scripts/gui_management.c:339: obtained = 223;
+    00000A86 F8 09            [12] 1825 	ldhl	sp,	#9
+    00000A88 36 DF            [12] 1826 	ld	(hl), #0xdf
+    00000A8A 18 04            [12] 1827 	jr	00105$
+    00000A8C                       1828 00104$:
+                                   1829 ;src/scripts/gui_management.c:342: obtained = 187;
+    00000A8C F8 09            [12] 1830 	ldhl	sp,	#9
+    00000A8E 36 BB            [12] 1831 	ld	(hl), #0xbb
+    00000A90                       1832 00105$:
+                                   1833 ;src/scripts/gui_management.c:344: set_win_tiles(7, 0, 1, 1, &obtained);
+    00000A90 21 09 00         [12] 1834 	ld	hl, #9
+    00000A93 39               [ 8] 1835 	add	hl, sp
+    00000A94 E5               [16] 1836 	push	hl
+    00000A95 21 01 01         [12] 1837 	ld	hl, #0x101
+    00000A98 E5               [16] 1838 	push	hl
+    00000A99 21 07 00         [12] 1839 	ld	hl, #0x07
+    00000A9C E5               [16] 1840 	push	hl
+    00000A9D CDr00r00         [24] 1841 	call	_set_win_tiles
+    00000AA0 E8 06            [16] 1842 	add	sp, #6
+                                   1843 ;src/scripts/gui_management.c:346: set_win_tiles(3, 0, 3, 1, hp);
+    00000AA2 21 00 00         [12] 1844 	ld	hl, #0
+    00000AA5 39               [ 8] 1845 	add	hl, sp
+    00000AA6 E5               [16] 1846 	push	hl
+    00000AA7 21 03 01         [12] 1847 	ld	hl, #0x103
+    00000AAA E5               [16] 1848 	push	hl
+    00000AAB 21 03 00         [12] 1849 	ld	hl, #0x03
+    00000AAE E5               [16] 1850 	push	hl
+    00000AAF CDr00r00         [24] 1851 	call	_set_win_tiles
+    00000AB2 E8 06            [16] 1852 	add	sp, #6
+                                   1853 ;src/scripts/gui_management.c:347: set_win_tiles(10, 0, 2, 1, n_arr);
+    00000AB4 21 03 00         [12] 1854 	ld	hl, #3
+    00000AB7 39               [ 8] 1855 	add	hl, sp
+    00000AB8 E5               [16] 1856 	push	hl
+    00000AB9 21 02 01         [12] 1857 	ld	hl, #0x102
+    00000ABC E5               [16] 1858 	push	hl
+    00000ABD 21 0A 00         [12] 1859 	ld	hl, #0x0a
+    00000AC0 E5               [16] 1860 	push	hl
+    00000AC1 CDr00r00         [24] 1861 	call	_set_win_tiles
+    00000AC4 E8 06            [16] 1862 	add	sp, #6
+                                   1863 ;src/scripts/gui_management.c:348: set_win_tiles(13, 0, 2, 1, n_heals);
+    00000AC6 21 05 00         [12] 1864 	ld	hl, #5
+    00000AC9 39               [ 8] 1865 	add	hl, sp
+    00000ACA E5               [16] 1866 	push	hl
+    00000ACB 21 02 01         [12] 1867 	ld	hl, #0x102
+    00000ACE E5               [16] 1868 	push	hl
+    00000ACF 21 0D 00         [12] 1869 	ld	hl, #0x0d
+    00000AD2 E5               [16] 1870 	push	hl
+    00000AD3 CDr00r00         [24] 1871 	call	_set_win_tiles
+    00000AD6 E8 06            [16] 1872 	add	sp, #6
+                                   1873 ;src/scripts/gui_management.c:349: set_win_tiles(18, 0, 2, 1, n_floor);
+    00000AD8 21 07 00         [12] 1874 	ld	hl, #7
+    00000ADB 39               [ 8] 1875 	add	hl, sp
+    00000ADC E5               [16] 1876 	push	hl
+    00000ADD 21 02 01         [12] 1877 	ld	hl, #0x102
+    00000AE0 E5               [16] 1878 	push	hl
+    00000AE1 21 12 00         [12] 1879 	ld	hl, #0x12
+    00000AE4 E5               [16] 1880 	push	hl
+    00000AE5 CDr00r00         [24] 1881 	call	_set_win_tiles
+    00000AE8 E8 06            [16] 1882 	add	sp, #6
+    00000AEA                       1883 00107$:
+                                   1884 ;src/scripts/gui_management.c:350: }
+    00000AEA E8 0A            [16] 1885 	add	sp, #10
+    00000AEC C9               [16] 1886 	ret
+                                   1887 ;src/scripts/gui_management.c:352: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
+                                   1888 ;	---------------------------------
+                                   1889 ; Function show_number
+                                   1890 ; ---------------------------------
+                         00000003  1891 	b_show_number	= 3
+    00000AED                       1892 _show_number::
+    00000AED E8 FC            [16] 1893 	add	sp, #-4
+                                   1894 ;src/scripts/gui_management.c:354: if (target == 0) {
+    00000AEF F8 0C            [12] 1895 	ldhl	sp,	#12
+    00000AF1 7E               [ 8] 1896 	ld	a, (hl)
+    00000AF2 B7               [ 4] 1897 	or	a, a
+    00000AF3 20 0E            [12] 1898 	jr	NZ, 00105$
+                                   1899 ;src/scripts/gui_management.c:355: dmg_x = x;
+    00000AF5 FAr00r00         [16] 1900 	ld	a, (#_x)
+    00000AF8 F8 00            [12] 1901 	ldhl	sp,	#0
+                                   1902 ;src/scripts/gui_management.c:356: dmg_y = y-8;
+    00000AFA 22               [ 8] 1903 	ld	(hl+), a
+    00000AFB FAr00r00         [16] 1904 	ld	a, (_y)
+    00000AFE C6 F8            [ 8] 1905 	add	a, #0xf8
+    00000B00 77               [ 8] 1906 	ld	(hl), a
+    00000B01 18 31            [12] 1907 	jr	00106$
+    00000B03                       1908 00105$:
+                                   1909 ;src/scripts/gui_management.c:359: if (index == 2) {
+    00000B03 F8 0D            [12] 1910 	ldhl	sp,	#13
+    00000B05 7E               [ 8] 1911 	ld	a, (hl)
+    00000B06 D6 02            [ 8] 1912 	sub	a, #0x02
+    00000B08 20 10            [12] 1913 	jr	NZ, 00102$
+                                   1914 ;src/scripts/gui_management.c:360: dmg_x = boss.x+8;
+    00000B0A FAr01r00         [16] 1915 	ld	a, (#(_boss + 1) + 0)
+    00000B0D C6 08            [ 8] 1916 	add	a, #0x08
+    00000B0F F8 00            [12] 1917 	ldhl	sp,	#0
+                                   1918 ;src/scripts/gui_management.c:361: dmg_y = boss.y-8;
+    00000B11 22               [ 8] 1919 	ld	(hl+), a
+    00000B12 FAr02r00         [16] 1920 	ld	a, (#(_boss + 2) + 0)
+    00000B15 C6 F8            [ 8] 1921 	add	a, #0xf8
+    00000B17 77               [ 8] 1922 	ld	(hl), a
+    00000B18 18 1A            [12] 1923 	jr	00106$
+    00000B1A                       1924 00102$:
+                                   1925 ;src/scripts/gui_management.c:364: dmg_x = current_enemies[index].x;
+    00000B1A F8 0D            [12] 1926 	ldhl	sp,	#13
+    00000B1C 4E               [ 8] 1927 	ld	c, (hl)
+    00000B1D 06 00            [ 8] 1928 	ld	b, #0x00
+    00000B1F 69               [ 4] 1929 	ld	l, c
+    00000B20 60               [ 4] 1930 	ld	h, b
+    00000B21 29               [ 8] 1931 	add	hl, hl
+    00000B22 09               [ 8] 1932 	add	hl, bc
+    00000B23 29               [ 8] 1933 	add	hl, hl
+    00000B24 29               [ 8] 1934 	add	hl, hl
+    00000B25 01r00r00         [12] 1935 	ld	bc, #_current_enemies
+    00000B28 09               [ 8] 1936 	add	hl, bc
+    00000B29 4D               [ 4] 1937 	ld	c, l
+    00000B2A 44               [ 4] 1938 	ld	b, h
+    00000B2B 0A               [ 8] 1939 	ld	a, (bc)
+    00000B2C F8 00            [12] 1940 	ldhl	sp,	#0
+                                   1941 ;src/scripts/gui_management.c:365: dmg_y = current_enemies[index].y-8;
+    00000B2E 22               [ 8] 1942 	ld	(hl+), a
+    00000B2F 03               [ 8] 1943 	inc	bc
+    00000B30 0A               [ 8] 1944 	ld	a, (bc)
+    00000B31 C6 F8            [ 8] 1945 	add	a, #0xf8
+    00000B33 77               [ 8] 1946 	ld	(hl), a
+    00000B34                       1947 00106$:
+                                   1948 ;src/scripts/gui_management.c:368: if (mode == 0) { // damage
+    00000B34 F8 0B            [12] 1949 	ldhl	sp,	#11
+    00000B36 7E               [ 8] 1950 	ld	a, (hl)
+    00000B37 B7               [ 4] 1951 	or	a, a
+    00000B38 20 07            [12] 1952 	jr	NZ, 00108$
+                                   1953 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B3A 21r02r00         [12] 1954 	ld	hl, #(_shadow_OAM + 2)
+    00000B3D 36 4C            [12] 1955 	ld	(hl), #0x4c
+                                   1956 ;src/scripts/gui_management.c:369: set_sprite_tile(0, 76);
+    00000B3F 18 05            [12] 1957 	jr	00109$
+    00000B41                       1958 00108$:
+                                   1959 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B41 21r02r00         [12] 1960 	ld	hl, #(_shadow_OAM + 2)
+    00000B44 36 4B            [12] 1961 	ld	(hl), #0x4b
+                                   1962 ;src/scripts/gui_management.c:372: set_sprite_tile(0, 75);
+    00000B46                       1963 00109$:
+                                   1964 ;src/scripts/gui_management.c:374: if (number / 10 != 0) {
+    00000B46 F8 0A            [12] 1965 	ldhl	sp,	#10
+    00000B48 7E               [ 8] 1966 	ld	a, (hl)
+    00000B49 F8 02            [12] 1967 	ldhl	sp,	#2
+    00000B4B 77               [ 8] 1968 	ld	(hl), a
+    00000B4C 7E               [ 8] 1969 	ld	a, (hl)
+    00000B4D 1E 0A            [ 8] 1970 	ld	e, #0x0a
+    00000B4F CDr00r00         [24] 1971 	call	__divuchar
+    00000B52 79               [ 4] 1972 	ld	a, c
+    00000B53 B7               [ 4] 1973 	or	a, a
+    00000B54 28 0D            [12] 1974 	jr	Z, 00111$
+                                   1975 ;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
+    00000B56 79               [ 4] 1976 	ld	a, c
+    00000B57 C6 41            [ 8] 1977 	add	a, #0x41
+    00000B59 F8 03            [12] 1978 	ldhl	sp,	#3
+    00000B5B 77               [ 8] 1979 	ld	(hl), a
+                                   1980 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B5C 11r06r00         [12] 1981 	ld	de, #(_shadow_OAM + 6)
+    00000B5F 7E               [ 8] 1982 	ld	a, (hl)
+    00000B60 12               [ 8] 1983 	ld	(de), a
+                                   1984 ;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
+    00000B61 18 05            [12] 1985 	jr	00112$
+    00000B63                       1986 00111$:
+                                   1987 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B63 21r06r00         [12] 1988 	ld	hl, #(_shadow_OAM + 6)
+    00000B66 36 32            [12] 1989 	ld	(hl), #0x32
+                                   1990 ;src/scripts/gui_management.c:378: set_sprite_tile(1, 50);
+    00000B68                       1991 00112$:
+                                   1992 ;src/scripts/gui_management.c:381: set_sprite_tile(2, 65 + number % 10);
+    00000B68 F8 02            [12] 1993 	ldhl	sp,	#2
+    00000B6A 7E               [ 8] 1994 	ld	a, (hl)
+    00000B6B C5               [16] 1995 	push	bc
+    00000B6C 1E 0A            [ 8] 1996 	ld	e, #0x0a
+    00000B6E CDr00r00         [24] 1997 	call	__moduchar
+    00000B71 79               [ 4] 1998 	ld	a, c
+    00000B72 C1               [12] 1999 	pop	bc
+    00000B73 C6 41            [ 8] 2000 	add	a, #0x41
+    00000B75 47               [ 4] 2001 	ld	b, a
+                                   2002 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B76 21r0Ar00         [12] 2003 	ld	hl, #(_shadow_OAM + 10)
+    00000B79 70               [ 8] 2004 	ld	(hl), b
+                                   2005 ;src/scripts/gui_management.c:383: while (frame < 30) {
+    00000B7A F8 01            [12] 2006 	ldhl	sp,	#1
+    00000B7C 2A               [ 8] 2007 	ld	a, (hl+)
+    00000B7D 23               [ 8] 2008 	inc	hl
+    00000B7E 5F               [ 4] 2009 	ld	e, a
+    00000B7F 36 00            [12] 2010 	ld	(hl), #0x00
+    00000B81                       2011 00118$:
+    00000B81 F8 03            [12] 2012 	ldhl	sp,	#3
+    00000B83 7E               [ 8] 2013 	ld	a, (hl)
+    00000B84 D6 1E            [ 8] 2014 	sub	a, #0x1e
+    00000B86 30 4A            [12] 2015 	jr	NC, 00120$
+                                   2016 ;src/scripts/gui_management.c:384: wait_vbl_done();
+    00000B88 CDr00r00         [24] 2017 	call	_wait_vbl_done
+                                   2018 ;src/scripts/gui_management.c:385: if (frame %2) {
+    00000B8B F8 03            [12] 2019 	ldhl	sp,	#3
+    00000B8D 7E               [ 8] 2020 	ld	a, (hl)
+    00000B8E E6 01            [ 8] 2021 	and	a, #0x01
+    00000B90 28 3B            [12] 2022 	jr	Z, 00117$
+                                   2023 ;src/scripts/gui_management.c:386: dmg_y--;
+    00000B92 1D               [ 4] 2024 	dec	e
+                                   2025 ;src/scripts/gui_management.c:387: if (number / 10 == 0) {
+    00000B93 79               [ 4] 2026 	ld	a, c
+    00000B94 B7               [ 4] 2027 	or	a, a
+    00000B95 20 0D            [12] 2028 	jr	NZ, 00114$
                                    2029 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000B8A 21r04r00         [12] 2030 	ld	hl, #(_shadow_OAM + 4)
+    00000B97 21r00r00         [12] 2030 	ld	hl, #_shadow_OAM
                                    2031 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000B8D 7B               [ 4] 2032 	ld	a, e
-    00000B8E 22               [ 8] 2033 	ld	(hl+), a
-    00000B8F E5               [16] 2034 	push	hl
-    00000B90 F8 02            [12] 2035 	ldhl	sp,	#2
-    00000B92 7E               [ 8] 2036 	ld	a, (hl)
-    00000B93 E1               [12] 2037 	pop	hl
-    00000B94 77               [ 8] 2038 	ld	(hl), a
-                                   2039 ;src/scripts/gui_management.c:386: move_sprite(2, dmg_x+8, dmg_y);
-    00000B95 F8 00            [12] 2040 	ldhl	sp,	#0
-    00000B97 2A               [ 8] 2041 	ld	a, (hl+)
-    00000B98 23               [ 8] 2042 	inc	hl
-    00000B99 C6 08            [ 8] 2043 	add	a, #0x08
-    00000B9B 77               [ 8] 2044 	ld	(hl), a
-                                   2045 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000B9C 21r08r00         [12] 2046 	ld	hl, #(_shadow_OAM + 8)
-                                   2047 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000B9F 7B               [ 4] 2048 	ld	a, e
-    00000BA0 22               [ 8] 2049 	ld	(hl+), a
-    00000BA1 E5               [16] 2050 	push	hl
-    00000BA2 F8 04            [12] 2051 	ldhl	sp,	#4
-    00000BA4 7E               [ 8] 2052 	ld	a, (hl)
-    00000BA5 E1               [12] 2053 	pop	hl
-    00000BA6 77               [ 8] 2054 	ld	(hl), a
-                                   2055 ;src/scripts/gui_management.c:386: move_sprite(2, dmg_x+8, dmg_y);
-    00000BA7                       2056 00117$:
-                                   2057 ;src/scripts/gui_management.c:388: frame++;
-    00000BA7 F8 03            [12] 2058 	ldhl	sp,	#3
-    00000BA9 34               [12] 2059 	inc	(hl)
-    00000BAA 18 AF            [12] 2060 	jr	00118$
-    00000BAC                       2061 00120$:
-                                   2062 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BAC 21r00r00         [12] 2063 	ld	hl, #_shadow_OAM
-                                   2064 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BAF 36 00            [12] 2065 	ld	(hl), #0x00
-    00000BB1 23               [ 8] 2066 	inc	hl
-    00000BB2 36 00            [12] 2067 	ld	(hl), #0x00
-                                   2068 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BB4 21r04r00         [12] 2069 	ld	hl, #(_shadow_OAM + 4)
-                                   2070 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BB7 36 00            [12] 2071 	ld	(hl), #0x00
-    00000BB9 23               [ 8] 2072 	inc	hl
-    00000BBA 36 00            [12] 2073 	ld	(hl), #0x00
-                                   2074 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BBC 21r08r00         [12] 2075 	ld	hl, #(_shadow_OAM + 8)
-                                   2076 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BBF 36 00            [12] 2077 	ld	(hl), #0x00
-    00000BC1 23               [ 8] 2078 	inc	hl
-    00000BC2 36 00            [12] 2079 	ld	(hl), #0x00
-                                   2080 ;src/scripts/gui_management.c:392: move_sprite(2, 0, 0);
-                                   2081 ;src/scripts/gui_management.c:393: }
-    00000BC4 E8 04            [16] 2082 	add	sp, #4
-    00000BC6 C9               [16] 2083 	ret
-                                   2084 ;src/scripts/gui_management.c:395: void print_debug(uint8_t value) BANKED {
-                                   2085 ;	---------------------------------
-                                   2086 ; Function print_debug
-                                   2087 ; ---------------------------------
-                         00000003  2088 	b_print_debug	= 3
-    00000BC7                       2089 _print_debug::
-    00000BC7 E8 FD            [16] 2090 	add	sp, #-3
-                                   2091 ;src/scripts/gui_management.c:397: values[0] = value / 100 + 154;
-    00000BC9 F8 09            [12] 2092 	ldhl	sp,	#9
-    00000BCB 4E               [ 8] 2093 	ld	c, (hl)
-    00000BCC C5               [16] 2094 	push	bc
-    00000BCD 1E 64            [ 8] 2095 	ld	e, #0x64
-    00000BCF 79               [ 4] 2096 	ld	a, c
-    00000BD0 CDr00r00         [24] 2097 	call	__divuchar
-    00000BD3 79               [ 4] 2098 	ld	a, c
-    00000BD4 C1               [12] 2099 	pop	bc
-    00000BD5 C6 9A            [ 8] 2100 	add	a, #0x9a
-    00000BD7 F8 00            [12] 2101 	ldhl	sp,	#0
-    00000BD9 77               [ 8] 2102 	ld	(hl), a
-                                   2103 ;src/scripts/gui_management.c:398: values[1] = value % 100 / 10 + 154;
-    00000BDA C5               [16] 2104 	push	bc
-    00000BDB 1E 64            [ 8] 2105 	ld	e, #0x64
-    00000BDD 79               [ 4] 2106 	ld	a, c
-    00000BDE CDr00r00         [24] 2107 	call	__moduchar
-    00000BE1 79               [ 4] 2108 	ld	a, c
-    00000BE2 1E 0A            [ 8] 2109 	ld	e, #0x0a
-    00000BE4 CDr00r00         [24] 2110 	call	__divuchar
-    00000BE7 79               [ 4] 2111 	ld	a, c
-    00000BE8 C1               [12] 2112 	pop	bc
-    00000BE9 C6 9A            [ 8] 2113 	add	a, #0x9a
-    00000BEB F8 01            [12] 2114 	ldhl	sp,	#1
-    00000BED 77               [ 8] 2115 	ld	(hl), a
-                                   2116 ;src/scripts/gui_management.c:399: values[2] = value % 10 + 154;
-    00000BEE 1E 0A            [ 8] 2117 	ld	e, #0x0a
-    00000BF0 79               [ 4] 2118 	ld	a, c
-    00000BF1 CDr00r00         [24] 2119 	call	__moduchar
-    00000BF4 79               [ 4] 2120 	ld	a, c
-    00000BF5 C6 9A            [ 8] 2121 	add	a, #0x9a
-    00000BF7 F8 02            [12] 2122 	ldhl	sp,	#2
-    00000BF9 77               [ 8] 2123 	ld	(hl), a
-                                   2124 ;src/scripts/gui_management.c:400: set_win_tiles(6, 0, 3, 1, values);
-    00000BFA 21 00 00         [12] 2125 	ld	hl, #0
-    00000BFD 39               [ 8] 2126 	add	hl, sp
-    00000BFE E5               [16] 2127 	push	hl
-    00000BFF 21 03 01         [12] 2128 	ld	hl, #0x103
-    00000C02 E5               [16] 2129 	push	hl
-    00000C03 21 06 00         [12] 2130 	ld	hl, #0x06
-    00000C06 E5               [16] 2131 	push	hl
-    00000C07 CDr00r00         [24] 2132 	call	_set_win_tiles
-                                   2133 ;src/scripts/gui_management.c:401: }
-    00000C0A E8 09            [16] 2134 	add	sp, #9
-    00000C0C C9               [16] 2135 	ret
-                                   2136 	.area _CODE_3
-                                   2137 	.area _INITIALIZER
-                                   2138 	.area _CABS (ABS)
+    00000B9A 7B               [ 4] 2032 	ld	a, e
+    00000B9B 22               [ 8] 2033 	ld	(hl+), a
+    00000B9C E5               [16] 2034 	push	hl
+    00000B9D F8 02            [12] 2035 	ldhl	sp,	#2
+    00000B9F 7E               [ 8] 2036 	ld	a, (hl)
+    00000BA0 E1               [12] 2037 	pop	hl
+    00000BA1 77               [ 8] 2038 	ld	(hl), a
+                                   2039 ;src/scripts/gui_management.c:388: move_sprite(0, dmg_x, dmg_y);
+    00000BA2 18 0C            [12] 2040 	jr	00115$
+    00000BA4                       2041 00114$:
+                                   2042 ;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
+    00000BA4 F8 00            [12] 2043 	ldhl	sp,	#0
+    00000BA6 7E               [ 8] 2044 	ld	a, (hl)
+    00000BA7 C6 F8            [ 8] 2045 	add	a, #0xf8
+    00000BA9 47               [ 4] 2046 	ld	b, a
+                                   2047 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BAA 21r00r00         [12] 2048 	ld	hl, #_shadow_OAM
+                                   2049 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BAD 7B               [ 4] 2050 	ld	a, e
+    00000BAE 22               [ 8] 2051 	ld	(hl+), a
+    00000BAF 70               [ 8] 2052 	ld	(hl), b
+                                   2053 ;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
+    00000BB0                       2054 00115$:
+                                   2055 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BB0 21r04r00         [12] 2056 	ld	hl, #(_shadow_OAM + 4)
+                                   2057 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BB3 7B               [ 4] 2058 	ld	a, e
+    00000BB4 22               [ 8] 2059 	ld	(hl+), a
+    00000BB5 E5               [16] 2060 	push	hl
+    00000BB6 F8 02            [12] 2061 	ldhl	sp,	#2
+    00000BB8 7E               [ 8] 2062 	ld	a, (hl)
+    00000BB9 E1               [12] 2063 	pop	hl
+    00000BBA 77               [ 8] 2064 	ld	(hl), a
+                                   2065 ;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
+    00000BBB F8 00            [12] 2066 	ldhl	sp,	#0
+    00000BBD 2A               [ 8] 2067 	ld	a, (hl+)
+    00000BBE 23               [ 8] 2068 	inc	hl
+    00000BBF C6 08            [ 8] 2069 	add	a, #0x08
+    00000BC1 77               [ 8] 2070 	ld	(hl), a
+                                   2071 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BC2 21r08r00         [12] 2072 	ld	hl, #(_shadow_OAM + 8)
+                                   2073 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BC5 7B               [ 4] 2074 	ld	a, e
+    00000BC6 22               [ 8] 2075 	ld	(hl+), a
+    00000BC7 E5               [16] 2076 	push	hl
+    00000BC8 F8 04            [12] 2077 	ldhl	sp,	#4
+    00000BCA 7E               [ 8] 2078 	ld	a, (hl)
+    00000BCB E1               [12] 2079 	pop	hl
+    00000BCC 77               [ 8] 2080 	ld	(hl), a
+                                   2081 ;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
+    00000BCD                       2082 00117$:
+                                   2083 ;src/scripts/gui_management.c:396: frame++;
+    00000BCD F8 03            [12] 2084 	ldhl	sp,	#3
+    00000BCF 34               [12] 2085 	inc	(hl)
+    00000BD0 18 AF            [12] 2086 	jr	00118$
+    00000BD2                       2087 00120$:
+                                   2088 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BD2 21r00r00         [12] 2089 	ld	hl, #_shadow_OAM
+                                   2090 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BD5 36 00            [12] 2091 	ld	(hl), #0x00
+    00000BD7 23               [ 8] 2092 	inc	hl
+    00000BD8 36 00            [12] 2093 	ld	(hl), #0x00
+                                   2094 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BDA 21r04r00         [12] 2095 	ld	hl, #(_shadow_OAM + 4)
+                                   2096 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BDD 36 00            [12] 2097 	ld	(hl), #0x00
+    00000BDF 23               [ 8] 2098 	inc	hl
+    00000BE0 36 00            [12] 2099 	ld	(hl), #0x00
+                                   2100 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BE2 21r08r00         [12] 2101 	ld	hl, #(_shadow_OAM + 8)
+                                   2102 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BE5 36 00            [12] 2103 	ld	(hl), #0x00
+    00000BE7 23               [ 8] 2104 	inc	hl
+    00000BE8 36 00            [12] 2105 	ld	(hl), #0x00
+                                   2106 ;src/scripts/gui_management.c:400: move_sprite(2, 0, 0);
+                                   2107 ;src/scripts/gui_management.c:401: }
+    00000BEA E8 04            [16] 2108 	add	sp, #4
+    00000BEC C9               [16] 2109 	ret
+                                   2110 ;src/scripts/gui_management.c:403: void print_debug(uint8_t value) BANKED {
+                                   2111 ;	---------------------------------
+                                   2112 ; Function print_debug
+                                   2113 ; ---------------------------------
+                         00000003  2114 	b_print_debug	= 3
+    00000BED                       2115 _print_debug::
+    00000BED E8 FD            [16] 2116 	add	sp, #-3
+                                   2117 ;src/scripts/gui_management.c:405: values[0] = value / 100 + 154;
+    00000BEF F8 09            [12] 2118 	ldhl	sp,	#9
+    00000BF1 4E               [ 8] 2119 	ld	c, (hl)
+    00000BF2 C5               [16] 2120 	push	bc
+    00000BF3 1E 64            [ 8] 2121 	ld	e, #0x64
+    00000BF5 79               [ 4] 2122 	ld	a, c
+    00000BF6 CDr00r00         [24] 2123 	call	__divuchar
+    00000BF9 79               [ 4] 2124 	ld	a, c
+    00000BFA C1               [12] 2125 	pop	bc
+    00000BFB C6 9A            [ 8] 2126 	add	a, #0x9a
+    00000BFD F8 00            [12] 2127 	ldhl	sp,	#0
+    00000BFF 77               [ 8] 2128 	ld	(hl), a
+                                   2129 ;src/scripts/gui_management.c:406: values[1] = value % 100 / 10 + 154;
+    00000C00 C5               [16] 2130 	push	bc
+    00000C01 1E 64            [ 8] 2131 	ld	e, #0x64
+    00000C03 79               [ 4] 2132 	ld	a, c
+    00000C04 CDr00r00         [24] 2133 	call	__moduchar
+    00000C07 79               [ 4] 2134 	ld	a, c
+    00000C08 1E 0A            [ 8] 2135 	ld	e, #0x0a
+    00000C0A CDr00r00         [24] 2136 	call	__divuchar
+    00000C0D 79               [ 4] 2137 	ld	a, c
+    00000C0E C1               [12] 2138 	pop	bc
+    00000C0F C6 9A            [ 8] 2139 	add	a, #0x9a
+    00000C11 F8 01            [12] 2140 	ldhl	sp,	#1
+    00000C13 77               [ 8] 2141 	ld	(hl), a
+                                   2142 ;src/scripts/gui_management.c:407: values[2] = value % 10 + 154;
+    00000C14 1E 0A            [ 8] 2143 	ld	e, #0x0a
+    00000C16 79               [ 4] 2144 	ld	a, c
+    00000C17 CDr00r00         [24] 2145 	call	__moduchar
+    00000C1A 79               [ 4] 2146 	ld	a, c
+    00000C1B C6 9A            [ 8] 2147 	add	a, #0x9a
+    00000C1D F8 02            [12] 2148 	ldhl	sp,	#2
+    00000C1F 77               [ 8] 2149 	ld	(hl), a
+                                   2150 ;src/scripts/gui_management.c:408: set_win_tiles(6, 0, 3, 1, values);
+    00000C20 21 00 00         [12] 2151 	ld	hl, #0
+    00000C23 39               [ 8] 2152 	add	hl, sp
+    00000C24 E5               [16] 2153 	push	hl
+    00000C25 21 03 01         [12] 2154 	ld	hl, #0x103
+    00000C28 E5               [16] 2155 	push	hl
+    00000C29 21 06 00         [12] 2156 	ld	hl, #0x06
+    00000C2C E5               [16] 2157 	push	hl
+    00000C2D CDr00r00         [24] 2158 	call	_set_win_tiles
+                                   2159 ;src/scripts/gui_management.c:409: }
+    00000C30 E8 09            [16] 2160 	add	sp, #9
+    00000C32 C9               [16] 2161 	ret
+                                   2162 	.area _CODE_3
+                                   2163 	.area _INITIALIZER
+                                   2164 	.area _CABS (ABS)

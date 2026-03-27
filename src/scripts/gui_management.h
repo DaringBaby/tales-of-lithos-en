@@ -23,6 +23,7 @@ extern Enemy current_enemies[2];
 extern const unsigned char mini_gui[];
 extern uint8_t num_arrows;
 extern uint8_t current_floor;
+extern uint8_t key_obtained;
  /* STAT MENU */
 extern const uint8_t menu_body[];
 extern uint8_t map_option;
@@ -36,7 +37,6 @@ extern uint8_t minutes;
 extern uint8_t hours ;
 extern uint8_t x;
 extern uint8_t y;
-
 /* HECTOR/SAFY MENU */
 extern uint8_t hector_option;
 extern uint8_t safy_option;

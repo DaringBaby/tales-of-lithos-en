@@ -197,6 +197,11 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             e->exp_reward = 1000;
             break;
     }
+    /* DEBUG ENEMIES */
+    e->hp = 1;
+    e->atk = 1;
+    e->def = 1;
+    ////////////////////
     e->sprite_id = sprite_id;
     e->alive = 1; // cambiato
     e->targeting = 0;

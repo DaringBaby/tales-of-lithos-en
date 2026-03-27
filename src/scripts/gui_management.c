@@ -325,7 +325,7 @@ void set_mini_menu() BANKED {
     uint8_t n_floor[2];
     hp[0] = current_hp / 100 + 154;
     hp[1] = current_hp % 100 / 10 + 154;
-    hp[2] = max_hp % 10 + 154;
+    hp[2] = current_hp % 10 + 154;
     n_arr[0] = num_arrows / 10 + 154;
     n_arr[1] = num_arrows % 10 + 154;
     n_heals[0] = heals / 10 + 154;
@@ -334,6 +334,14 @@ void set_mini_menu() BANKED {
     n_floor[1] = current_floor % 10 + 154;
     move_win(7, 136);
     set_win_tiles(0, 0, 20, 1, mini_gui);
+    uint8_t obtained = 223;
+    if (key_obtained) {
+        obtained = 223;
+    }
+    else {
+        obtained = 187;
+    }
+    set_win_tiles(7, 0, 1, 1, &obtained);
     // print_debug(debug);
     set_win_tiles(3, 0, 3, 1, hp);
     set_win_tiles(10, 0, 2, 1, n_arr);

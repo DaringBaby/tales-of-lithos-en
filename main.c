@@ -42,6 +42,7 @@
 #include "src/scripts/locked_doors.h"
 #include "src/scripts/sound.h"
 #include "src/scripts/dungeon_management.h"
+#include "src/scripts/ending_sequence.h"
 #include "src/scripts/save_manager.h"
 #include "src/scripts/play_effects.h"
 
@@ -115,8 +116,8 @@ uint8_t current_joypad = 0;
 
 /* PLAYER STATS */
 uint8_t player_name[] = {164, 164, 164, 164, 164};
-uint8_t max_hp = 25;
-uint8_t current_hp = 25;
+uint8_t max_hp = 99;
+uint8_t current_hp = 99;
 uint8_t attack = 5;
 uint8_t defense = 3;
 uint8_t level = 1;
@@ -264,7 +265,7 @@ void main(void) {
     set_bkg_data(179, 9, Textbox);
     set_bkg_data(188, 16, Mugshot);
     SWITCH_ROM(2);
-    set_bkg_data(220, 3, MiniGUI);
+    set_bkg_data(220, 4, MiniGUI);
     SWITCH_ROM(1);
     set_bkg_data(225, 20, Objects);
     set_bkg_data(245, 1, arrow);
@@ -405,7 +406,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 5;
+                current_floor = 25;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -1059,15 +1060,22 @@ void player_attack(uint8_t wpn, uint8_t index) {
             SWITCH_ROM(3);
             hUGE_init(&boss_defeated_jingle);
             SWITCH_ROM(1);
-            set_textbox(3);
-            uint8_t door = doors[player_coords.x][player_coords.y];
-            const unsigned char* room_ptr;
-            set_room_tiles(door, room_ptr, player_coords);
-            set_bkg_tiles(2, 2, 2, 2, stairs);
-            current_song_bank = 4;
-            SWITCH_ROM(current_song_bank);
-            hUGE_init(&dungeon_theme);
-            SWITCH_ROM(1);
+            if (current_floor != 25) {
+                set_textbox(3);
+                uint8_t door = doors[player_coords.x][player_coords.y];
+                const unsigned char* room_ptr;
+                set_room_tiles(door, room_ptr, player_coords);
+                set_bkg_tiles(2, 2, 2, 2, stairs);
+                current_song_bank = 4;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&dungeon_theme);
+                SWITCH_ROM(1);
+            }
+            else {
+                play_ending();
+                save_game();
+                reset();
+            }
         }
         return;
     }

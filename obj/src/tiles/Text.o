@@ -10,7 +10,7 @@ A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
 A _GSINIT size 0 flags 0 addr 0
 A _GSFINAL size 0 flags 0 addr 0
-A _CODE_2 size 360 flags 0 addr 0
+A _CODE_2 size 370 flags 0 addr 0
 S _Text Def00000000
 S _MiniGUI Def00000330
 A _INITIALIZER size 0 flags 0 addr 0
@@ -162,4 +162,8 @@ R 00 00 08 00
 T 48 03 00 00 42 7E 81 FF 81 FF 7E 7E F0 F0 F0 90
 R 00 00 08 00
 T 54 03 00 00 BC DC 9C E4 8F F7 87 F9 83 FD FF FF
+R 00 00 08 00
+T 60 03 00 00 18 18 24 24 24 24 18 18 10 10 18 18
+R 00 00 08 00
+T 6C 03 00 00 10 10 18 18
 R 00 00 08 00

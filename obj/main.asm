@@ -19,6 +19,8 @@
 	.globl _play_attack_animation
 	.globl _save_game
 	.globl _load_game
+	.globl b_play_ending
+	.globl _play_ending
 	.globl b_set_room_tiles
 	.globl _set_room_tiles
 	.globl b_enemy_death_sfx
@@ -101,6 +103,7 @@
 	.globl _set_bkg_data
 	.globl _display_off
 	.globl _wait_vbl_done
+	.globl _reset
 	.globl _joypad
 	.globl _delay
 	.globl _add_VBL
@@ -348,33 +351,33 @@ _walk_step::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;main.c:222: void main(void) {
+;main.c:223: void main(void) {
 ;	---------------------------------
 ; Function main
 ; ---------------------------------
 _main::
-;main.c:223: cls();
+;main.c:224: cls();
 	call	_cls
-;main.c:224: SWITCH_ROM(2);
+;main.c:225: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:225: set_bkg_data(0, 241, Titlescreen);
+;main.c:226: set_bkg_data(0, 241, Titlescreen);
 	ld	de, #_Titlescreen
 	push	de
 	ld	hl, #0xf100
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:226: set_bkg_data(241, 8, TitleText);
+;main.c:227: set_bkg_data(241, 8, TitleText);
 	ld	de, #_TitleText
 	push	de
 	ld	hl, #0x8f1
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:227: set_bkg_tiles(0, 0, 20, 18, Title);
+;main.c:228: set_bkg_tiles(0, 0, 20, 18, Title);
 	ld	de, #_Title
 	push	de
 	ld	hl, #0x1214
@@ -384,256 +387,256 @@ _main::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:228: SWITCH_ROM(1);
+;main.c:229: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:229: init_sound();
+;main.c:230: init_sound();
 	ld	e, #b_init_sound
 	ld	hl, #_init_sound
 	call	___sdcc_bcall_ehl
-;main.c:233: }
+;main.c:234: }
 	di
-;main.c:232: add_VBL(music_vbl_interrupt);
+;main.c:233: add_VBL(music_vbl_interrupt);
 	ld	de, #_music_vbl_interrupt
 	call	_add_VBL
 	ei
-;main.c:235: current_song_bank = 5;
+;main.c:236: current_song_bank = 5;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x05
-;main.c:236: SWITCH_ROM(current_song_bank);
+;main.c:237: SWITCH_ROM(current_song_bank);
 	ld	a, #0x05
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x05
-;main.c:237: hUGE_init(&intro_theme);
+;main.c:238: hUGE_init(&intro_theme);
 	ld	de, #_intro_theme
 	call	_hUGE_init
-;main.c:238: SWITCH_ROM(1);
+;main.c:239: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:239: DISPLAY_ON;
+;main.c:240: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:240: ng = set_titlescreen();
+;main.c:241: ng = set_titlescreen();
 	ld	e, #b_set_titlescreen
 	ld	hl, #_set_titlescreen
 	call	___sdcc_bcall_ehl
 	ld	(#_ng),a
-;main.c:241: start_sfx();
+;main.c:242: start_sfx();
 	ld	e, #b_start_sfx
 	ld	hl, #_start_sfx
 	call	___sdcc_bcall_ehl
-;main.c:243: if (ng) {
+;main.c:244: if (ng) {
 	ld	a, (#_ng)
 	or	a, a
 	jr	Z, 00102$
-;main.c:244: start_intro();
+;main.c:245: start_intro();
 	ld	e, #b_start_intro
 	ld	hl, #_start_intro
 	call	___sdcc_bcall_ehl
 00102$:
-;main.c:247: set_sprite_data(0, 4, MC_down);
+;main.c:248: set_sprite_data(0, 4, MC_down);
 	ld	de, #_MC_down
 	push	de
 	ld	hl, #0x400
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:248: set_sprite_data(8, 4, MC_right);
+;main.c:249: set_sprite_data(8, 4, MC_right);
 	ld	de, #_MC_right
 	push	de
 	ld	hl, #0x408
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:249: set_sprite_data(12, 4, MC_left);
+;main.c:250: set_sprite_data(12, 4, MC_left);
 	ld	de, #_MC_left
 	push	de
 	ld	hl, #0x40c
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:250: set_sprite_data(16, 4, Hector);
+;main.c:251: set_sprite_data(16, 4, Hector);
 	ld	de, #_Hector
 	push	de
 	ld	hl, #0x410
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:251: set_sprite_data(20, 4, Safy);
+;main.c:252: set_sprite_data(20, 4, Safy);
 	ld	de, #_Safy
 	push	de
 	ld	hl, #0x414
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:252: set_sprite_data(50, 1, blank);
+;main.c:253: set_sprite_data(50, 1, blank);
 	ld	de, #_blank
 	push	de
 	ld	hl, #0x132
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:253: set_sprite_data(51, 8, Lock);
+;main.c:254: set_sprite_data(51, 8, Lock);
 	ld	de, #_Lock
 	push	de
 	ld	hl, #0x833
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:254: set_sprite_data(59, 2, Key);
+;main.c:255: set_sprite_data(59, 2, Key);
 	ld	de, #_Key
 	push	de
 	ld	hl, #0x23b
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:255: set_sprite_data(61, 4, Mythril);
+;main.c:256: set_sprite_data(61, 4, Mythril);
 	ld	de, #_Mythril
 	push	de
 	ld	hl, #0x43d
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:256: set_sprite_data(65, 12, Numbers);
+;main.c:257: set_sprite_data(65, 12, Numbers);
 	ld	de, #_Numbers
 	push	de
 	ld	hl, #0xc41
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:257: set_sprite_data(80, 2, Arrow);
+;main.c:258: set_sprite_data(80, 2, Arrow);
 	ld	de, #_Arrow
 	push	de
 	ld	hl, #0x250
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:258: set_sprite_data(82, 2, Drops);
+;main.c:259: set_sprite_data(82, 2, Drops);
 	ld	de, #_Drops
 	push	de
 	ld	hl, #0x252
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:259: SWITCH_ROM(3);
+;main.c:260: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:260: set_bkg_data(108, 17, Minimap);
+;main.c:261: set_bkg_data(108, 17, Minimap);
 	ld	de, #_Minimap
 	push	de
 	ld	hl, #0x116c
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:261: SWITCH_ROM(2);
+;main.c:262: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:262: set_bkg_data(128, 51, Text);
+;main.c:263: set_bkg_data(128, 51, Text);
 	ld	de, #_Text
 	push	de
 	ld	hl, #0x3380
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:263: SWITCH_ROM(1);
+;main.c:264: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:264: set_bkg_data(179, 9, Textbox);
+;main.c:265: set_bkg_data(179, 9, Textbox);
 	ld	de, #_Textbox
 	push	de
 	ld	hl, #0x9b3
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:265: set_bkg_data(188, 16, Mugshot);
+;main.c:266: set_bkg_data(188, 16, Mugshot);
 	ld	de, #_Mugshot
 	push	de
 	ld	hl, #0x10bc
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:266: SWITCH_ROM(2);
+;main.c:267: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:267: set_bkg_data(220, 3, MiniGUI);
+;main.c:268: set_bkg_data(220, 4, MiniGUI);
 	ld	de, #_MiniGUI
 	push	de
-	ld	hl, #0x3dc
+	ld	hl, #0x4dc
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:268: SWITCH_ROM(1);
+;main.c:269: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:269: set_bkg_data(225, 20, Objects);
+;main.c:270: set_bkg_data(225, 20, Objects);
 	ld	de, #_Objects
 	push	de
 	ld	hl, #0x14e1
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:270: set_bkg_data(245, 1, arrow);
+;main.c:271: set_bkg_data(245, 1, arrow);
 	ld	de, #_arrow
 	push	de
 	ld	hl, #0x1f5
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:271: set_bkg_data(246, 1, black);
+;main.c:272: set_bkg_data(246, 1, black);
 	ld	de, #_black
 	push	de
 	ld	hl, #0x1f6
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:273: if (!load_game()) {
+;main.c:274: if (!load_game()) {
 	call	_load_game
 	or	a, a
 	jr	NZ, 00104$
-;main.c:274: insert_name();
+;main.c:275: insert_name();
 	ld	e, #b_insert_name
 	ld	hl, #_insert_name
 	call	___sdcc_bcall_ehl
 00104$:
-;main.c:277: set_sprite_data(4, 4, MC_up);
+;main.c:278: set_sprite_data(4, 4, MC_up);
 	ld	de, #_MC_up
 	push	de
 	ld	hl, #0x404
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:279: if (current_location == 0){
+;main.c:280: if (current_location == 0){
 	ld	a, (#_current_location)
 	or	a, a
 	jr	NZ, 00106$
-;main.c:280: set_camp_map();
+;main.c:281: set_camp_map();
 	call	_set_camp_map
 	jr	00107$
 00106$:
-;main.c:284: go_into_dungeon();
+;main.c:285: go_into_dungeon();
 	call	_go_into_dungeon
 00107$:
-;main.c:286: if (ng) { // tutorial
+;main.c:287: if (ng) { // tutorial
 	ld	a, (#_ng)
 	or	a, a
 	jr	Z, 00109$
-;main.c:287: set_tutorial();
+;main.c:288: set_tutorial();
 	call	_set_tutorial
 00109$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
@@ -641,7 +644,7 @@ _main::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:291: set_mini_menu();
+;main.c:292: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
@@ -662,52 +665,52 @@ _main::
 	ld	(hl), #0x3f
 	ld	hl, #(_shadow_OAM + 154)
 	ld	(hl), #0x40
-;main.c:306: move_character();
+;main.c:307: move_character();
 	call	_move_character
-;main.c:307: SHOW_SPRITES;
+;main.c:308: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:308: SHOW_BKG;
+;main.c:309: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;main.c:309: SHOW_WIN;
+;main.c:310: SHOW_WIN;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x20
 	ldh	(_LCDC_REG + 0), a
-;main.c:310: delay(100);
+;main.c:311: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:311: DISPLAY_ON;
+;main.c:312: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:314: while(1) {
+;main.c:315: while(1) {
 00133$:
-;main.c:315: check_open_menu();
+;main.c:316: check_open_menu();
 	call	_check_open_menu
-;main.c:316: if (menu_opened == 0){
+;main.c:317: if (menu_opened == 0){
 	ld	a, (#_menu_opened)
 	or	a, a
 	jr	NZ, 00128$
-;main.c:317: check_input_movement();
+;main.c:318: check_input_movement();
 	call	_check_input_movement
-;main.c:318: check_input_keys();
+;main.c:319: check_input_keys();
 	call	_check_input_keys
-;main.c:319: set_mini_menu(); //sus
+;main.c:320: set_mini_menu(); //sus
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:320: change_room();
+;main.c:321: change_room();
 	call	_change_room
 	jp	00129$
 00128$:
-;main.c:322: else if (menu_opened == 2) {
+;main.c:323: else if (menu_opened == 2) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x02
 	jr	NZ, 00125$
-;main.c:323: check_menu_options(0);
+;main.c:324: check_menu_options(0);
 	xor	a, a
 	push	af
 	inc	sp
@@ -717,11 +720,11 @@ _main::
 	inc	sp
 	jr	00129$
 00125$:
-;main.c:325: else if (menu_opened == 3) {
+;main.c:326: else if (menu_opened == 3) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x03
 	jr	NZ, 00122$
-;main.c:326: check_menu_options(1);
+;main.c:327: check_menu_options(1);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -731,25 +734,25 @@ _main::
 	inc	sp
 	jr	00129$
 00122$:
-;main.c:328: else if (menu_opened == 4) {
+;main.c:329: else if (menu_opened == 4) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x04
 	jr	Z, 00129$
-;main.c:331: else if (menu_opened == 5) {
+;main.c:332: else if (menu_opened == 5) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x05
 	jr	NZ, 00116$
-;main.c:332: check_map_options();
+;main.c:333: check_map_options();
 	ld	e, #b_check_map_options
 	ld	hl, #_check_map_options
 	call	___sdcc_bcall_ehl
 	jr	00129$
 00116$:
-;main.c:334: else if (menu_opened == 6) {
+;main.c:335: else if (menu_opened == 6) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x06
 	jr	NZ, 00129$
-;main.c:335: if (joypad() & J_A || joypad() & J_B) {
+;main.c:336: if (joypad() & J_A || joypad() & J_B) {
 	call	_joypad
 	bit	4, a
 	jr	NZ, 00110$
@@ -757,52 +760,52 @@ _main::
 	bit	5, a
 	jr	Z, 00111$
 00110$:
-;main.c:336: DISPLAY_OFF;
+;main.c:337: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:338: menu_opened = 0;
+;main.c:339: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:339: set_mini_menu();
+;main.c:340: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:340: SHOW_SPRITES;
+;main.c:341: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:341: DISPLAY_ON;
+;main.c:342: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:342: delay(300);
+;main.c:343: delay(300);
 	ld	de, #0x012c
 	call	_delay
 00111$:
-;main.c:344: show_time();
+;main.c:345: show_time();
 	ld	e, #b_show_time
 	ld	hl, #_show_time
 	call	___sdcc_bcall_ehl
 00129$:
-;main.c:347: if (returning_to_camp) {
+;main.c:348: if (returning_to_camp) {
 	ld	hl, #_returning_to_camp
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00131$
-;main.c:348: returning_to_camp = 0;
+;main.c:349: returning_to_camp = 0;
 	ld	(hl), #0x00
-;main.c:349: return_to_camp();
+;main.c:350: return_to_camp();
 	call	_return_to_camp
 00131$:
-;main.c:351: check_time();
+;main.c:352: check_time();
 	call	_check_time
-;main.c:352: wait_vbl_done();
+;main.c:353: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:354: }
+;main.c:355: }
 	jp	00133$
 _blank:
 	.db #0x00	; 0
@@ -935,12 +938,12 @@ _level_curve:
 	.dw #0x0ad2
 	.dw #0x0ae6
 	.dw #0x0af0
-;main.c:356: void move_character() {
+;main.c:357: void move_character() {
 ;	---------------------------------
 ; Function move_character
 ; ---------------------------------
 _move_character::
-;main.c:357: move_sprite(4, x, y);
+;main.c:358: move_sprite(4, x, y);
 	ld	a, (_y)
 	ld	b, a
 	ld	a, (_x)
@@ -951,7 +954,7 @@ _move_character::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:358: move_sprite(5, x+8, y);
+;main.c:359: move_sprite(5, x+8, y);
 	ld	a, (_y)
 	ld	b, a
 	ld	a, (_x)
@@ -963,7 +966,7 @@ _move_character::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:359: move_sprite(6, x, y + 8);
+;main.c:360: move_sprite(6, x, y + 8);
 	ld	a, (_y)
 	add	a, #0x08
 	ld	b, a
@@ -975,7 +978,7 @@ _move_character::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:360: move_sprite(7, x + 8, y + 8);
+;main.c:361: move_sprite(7, x + 8, y + 8);
 	ld	a, (_y)
 	add	a, #0x08
 	ld	b, a
@@ -988,7 +991,7 @@ _move_character::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:362: if (y == 144) {
+;main.c:363: if (y == 144) {
 	ld	a, (#_y)
 	sub	a, #0x90
 	ret	NZ
@@ -997,26 +1000,26 @@ _move_character::
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x32
-;main.c:364: set_sprite_tile(7, 50);
-;main.c:367: }
+;main.c:365: set_sprite_tile(7, 50);
+;main.c:368: }
 	ret
-;main.c:369: void check_input_movement() {
+;main.c:370: void check_input_movement() {
 ;	---------------------------------
 ; Function check_input_movement
 ; ---------------------------------
 _check_input_movement::
 	dec	sp
-;main.c:370: uint8_t moved = 0;
+;main.c:371: uint8_t moved = 0;
 	ldhl	sp,	#0
 	ld	(hl), #0x00
-;main.c:372: if (joypad() & J_DOWN) {
+;main.c:373: if (joypad() & J_DOWN) {
 	call	_joypad
 	bit	3, a
 	jp	Z, 00137$
-;main.c:373: last_direction = 4;
+;main.c:374: last_direction = 4;
 	ld	hl, #_last_direction
 	ld	(hl), #0x04
-;main.c:374: set_character_sprite(4);
+;main.c:375: set_character_sprite(4);
 	ld	a, #0x04
 	push	af
 	inc	sp
@@ -1024,7 +1027,7 @@ _check_input_movement::
 	ld	hl, #_set_character_sprite
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:375: if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
+;main.c:376: if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
 	ld	a, (_y)
 	add	a, #0x18
 	ld	e, a
@@ -1040,10 +1043,10 @@ _check_input_movement::
 	call	_is_sprite_at
 	or	a, a
 	jp	NZ, 00138$
-;main.c:376: moved = 1;
+;main.c:377: moved = 1;
 	ldhl	sp,	#0
 	ld	(hl), #0x01
-;main.c:377: if (!check_enemy(4)) {
+;main.c:378: if (!check_enemy(4)) {
 	ld	a, #0x04
 	push	af
 	inc	sp
@@ -1053,18 +1056,18 @@ _check_input_movement::
 	inc	sp
 	or	a, a
 	jr	NZ, 00102$
-;main.c:378: last_y = y;
+;main.c:379: last_y = y;
 	ld	a, (#_y)
 	ld	(#_last_y),a
-;main.c:379: last_x = x;
+;main.c:380: last_x = x;
 	ld	a, (#_x)
 	ld	(#_last_x),a
-;main.c:380: smooth_movement(4);
+;main.c:381: smooth_movement(4);
 	ld	a, #0x04
 	call	_smooth_movement
 	jp	00138$
 00102$:
-;main.c:383: uint8_t enemy_idx = check_enemy(4);
+;main.c:384: uint8_t enemy_idx = check_enemy(4);
 	ld	a, #0x04
 	push	af
 	inc	sp
@@ -1073,7 +1076,7 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	ld	e, a
-;main.c:384: play_attack_animation(4);
+;main.c:385: play_attack_animation(4);
 	push	de
 	ld	a, #0x04
 	push	af
@@ -1083,11 +1086,11 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	de
-;main.c:385: player_attack(0, enemy_idx-1);
+;main.c:386: player_attack(0, enemy_idx-1);
 	dec	e
 	xor	a, a
 	call	_player_attack
-;main.c:386: set_character_sprite(4);
+;main.c:387: set_character_sprite(4);
 	ld	a, #0x04
 	push	af
 	inc	sp
@@ -1097,11 +1100,11 @@ _check_input_movement::
 	inc	sp
 	jp	00138$
 00137$:
-;main.c:390: else if (joypad() & J_UP) {
+;main.c:391: else if (joypad() & J_UP) {
 	call	_joypad
 	bit	2, a
 	jp	Z, 00134$
-;main.c:391: set_character_sprite(1);
+;main.c:392: set_character_sprite(1);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -1109,7 +1112,7 @@ _check_input_movement::
 	ld	hl, #_set_character_sprite
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:392: if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
+;main.c:393: if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
 	ld	a, (_y)
 	add	a, #0xf8
 	ld	e, a
@@ -1125,13 +1128,13 @@ _check_input_movement::
 	call	_is_sprite_at
 	or	a, a
 	jp	NZ, 00138$
-;main.c:393: last_direction = 1;
+;main.c:394: last_direction = 1;
 	ld	hl, #_last_direction
 	ld	(hl), #0x01
-;main.c:394: moved = 1;
+;main.c:395: moved = 1;
 	ldhl	sp,	#0
 	ld	(hl), #0x01
-;main.c:395: if (!check_enemy(1)) {
+;main.c:396: if (!check_enemy(1)) {
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -1141,18 +1144,18 @@ _check_input_movement::
 	inc	sp
 	or	a, a
 	jr	NZ, 00108$
-;main.c:396: last_y = y;
+;main.c:397: last_y = y;
 	ld	a, (#_y)
 	ld	(#_last_y),a
-;main.c:397: last_x = x;
+;main.c:398: last_x = x;
 	ld	a, (#_x)
 	ld	(#_last_x),a
-;main.c:398: smooth_movement(1);
+;main.c:399: smooth_movement(1);
 	ld	a, #0x01
 	call	_smooth_movement
 	jr	00109$
 00108$:
-;main.c:401: uint8_t enemy_idx = check_enemy(1);
+;main.c:402: uint8_t enemy_idx = check_enemy(1);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -1161,7 +1164,7 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	ld	e, a
-;main.c:402: play_attack_animation(1);
+;main.c:403: play_attack_animation(1);
 	push	de
 	ld	a, #0x01
 	push	af
@@ -1171,11 +1174,11 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	de
-;main.c:403: player_attack(0, enemy_idx-1);
+;main.c:404: player_attack(0, enemy_idx-1);
 	dec	e
 	xor	a, a
 	call	_player_attack
-;main.c:404: set_character_sprite(1);
+;main.c:405: set_character_sprite(1);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -1184,7 +1187,7 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 00109$:
-;main.c:406: if (current_location == 0 && y <= 40) {
+;main.c:407: if (current_location == 0 && y <= 40) {
 	ld	a, (#_current_location)
 	or	a, a
 	jp	NZ, 00138$
@@ -1192,38 +1195,38 @@ _check_input_movement::
 	ld	hl, #_y
 	sub	a, (hl)
 	jp	C, 00138$
-;main.c:407: current_location = 1;
+;main.c:408: current_location = 1;
 	ld	hl, #_current_location
 	ld	(hl), #0x01
-;main.c:408: current_floor = 5;
+;main.c:409: current_floor = 25;
 	ld	hl, #_current_floor
-	ld	(hl), #0x05
-;main.c:409: obt_mythril = 0;
-;main.c:410: obt_exp = 0;
+	ld	(hl), #0x19
+;main.c:410: obt_mythril = 0;
+;main.c:411: obt_exp = 0;
 	xor	a, a
 	ld	(#_obt_mythril), a
 	ld	(#_obt_exp),a
-;main.c:411: boss.defeated = 1;
+;main.c:412: boss.defeated = 1;
 	ld	hl, #(_boss + 9)
 	ld	(hl), #0x01
-;main.c:412: hide_camp_sprites();
+;main.c:413: hide_camp_sprites();
 	call	_hide_camp_sprites
-;main.c:413: save_game();
+;main.c:414: save_game();
 	call	_save_game
-;main.c:414: go_into_dungeon();
+;main.c:415: go_into_dungeon();
 	call	_go_into_dungeon
-;main.c:415: current_song_bank = 4;
+;main.c:416: current_song_bank = 4;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x04
-;main.c:416: SWITCH_ROM(current_song_bank);
+;main.c:417: SWITCH_ROM(current_song_bank);
 	ld	a, #0x04
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x04
-;main.c:417: hUGE_init(&dungeon_theme);
+;main.c:418: hUGE_init(&dungeon_theme);
 	ld	de, #_dungeon_theme
 	call	_hUGE_init
-;main.c:418: SWITCH_ROM(1);
+;main.c:419: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
@@ -1237,23 +1240,23 @@ _check_input_movement::
 	ld	(hl), #0x02
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x03
-;main.c:423: x = 120;
+;main.c:424: x = 120;
 	ld	hl, #_x
 	ld	(hl), #0x78
-;main.c:424: y = 112;
+;main.c:425: y = 112;
 	ld	hl, #_y
 	ld	(hl), #0x70
-;main.c:425: return;
+;main.c:426: return;
 	jp	00155$
 00134$:
-;main.c:429: else if (joypad() & J_LEFT) {
+;main.c:430: else if (joypad() & J_LEFT) {
 	call	_joypad
 	bit	1, a
 	jp	Z, 00131$
-;main.c:430: last_direction = 8;
+;main.c:431: last_direction = 8;
 	ld	hl, #_last_direction
 	ld	(hl), #0x08
-;main.c:431: set_character_sprite(8);
+;main.c:432: set_character_sprite(8);
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -1261,7 +1264,7 @@ _check_input_movement::
 	ld	hl, #_set_character_sprite
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:432: if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
+;main.c:433: if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
 	ld	a, (_y)
 	add	a, #0x08
 	ld	e, a
@@ -1277,10 +1280,10 @@ _check_input_movement::
 	call	_is_sprite_at
 	or	a, a
 	jp	NZ, 00138$
-;main.c:433: moved = 1;
+;main.c:434: moved = 1;
 	ldhl	sp,	#0
 	ld	(hl), #0x01
-;main.c:434: if (!check_enemy(8)) {
+;main.c:435: if (!check_enemy(8)) {
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -1290,18 +1293,18 @@ _check_input_movement::
 	inc	sp
 	or	a, a
 	jr	NZ, 00117$
-;main.c:435: last_y = y;
+;main.c:436: last_y = y;
 	ld	a, (#_y)
 	ld	(#_last_y),a
-;main.c:436: last_x = x;
+;main.c:437: last_x = x;
 	ld	a, (#_x)
 	ld	(#_last_x),a
-;main.c:437: smooth_movement(8);
+;main.c:438: smooth_movement(8);
 	ld	a, #0x08
 	call	_smooth_movement
 	jp	00138$
 00117$:
-;main.c:440: uint8_t enemy_idx = check_enemy(8);
+;main.c:441: uint8_t enemy_idx = check_enemy(8);
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -1310,7 +1313,7 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	ld	e, a
-;main.c:441: play_attack_animation(8);
+;main.c:442: play_attack_animation(8);
 	push	de
 	ld	a, #0x08
 	push	af
@@ -1320,11 +1323,11 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	de
-;main.c:442: player_attack(0, enemy_idx-1);
+;main.c:443: player_attack(0, enemy_idx-1);
 	dec	e
 	xor	a, a
 	call	_player_attack
-;main.c:443: set_character_sprite(8);
+;main.c:444: set_character_sprite(8);
 	ld	a, #0x08
 	push	af
 	inc	sp
@@ -1334,11 +1337,11 @@ _check_input_movement::
 	inc	sp
 	jp	00138$
 00131$:
-;main.c:447: else if (joypad() & J_RIGHT) {
+;main.c:448: else if (joypad() & J_RIGHT) {
 	call	_joypad
 	rrca
 	jp	NC, 00138$
-;main.c:448: set_character_sprite(2);
+;main.c:449: set_character_sprite(2);
 	ld	a, #0x02
 	push	af
 	inc	sp
@@ -1346,10 +1349,10 @@ _check_input_movement::
 	ld	hl, #_set_character_sprite
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:449: last_direction = 2;
+;main.c:450: last_direction = 2;
 	ld	hl, #_last_direction
 	ld	(hl), #0x02
-;main.c:450: if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
+;main.c:451: if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
 	ld	a, (_y)
 	add	a, #0x08
 	ld	e, a
@@ -1365,10 +1368,10 @@ _check_input_movement::
 	call	_is_sprite_at
 	or	a, a
 	jr	NZ, 00138$
-;main.c:451: moved = 1;
+;main.c:452: moved = 1;
 	ldhl	sp,	#0
 	ld	(hl), #0x01
-;main.c:452: if (!check_enemy(2)) {
+;main.c:453: if (!check_enemy(2)) {
 	ld	a, #0x02
 	push	af
 	inc	sp
@@ -1378,18 +1381,18 @@ _check_input_movement::
 	inc	sp
 	or	a, a
 	jr	NZ, 00123$
-;main.c:453: last_y = y;
+;main.c:454: last_y = y;
 	ld	a, (#_y)
 	ld	(#_last_y),a
-;main.c:454: last_x = x;
+;main.c:455: last_x = x;
 	ld	a, (#_x)
 	ld	(#_last_x),a
-;main.c:455: smooth_movement(2);
+;main.c:456: smooth_movement(2);
 	ld	a, #0x02
 	call	_smooth_movement
 	jr	00138$
 00123$:
-;main.c:458: uint8_t enemy_idx = check_enemy(2);
+;main.c:459: uint8_t enemy_idx = check_enemy(2);
 	ld	a, #0x02
 	push	af
 	inc	sp
@@ -1398,7 +1401,7 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	ld	e, a
-;main.c:459: play_attack_animation(2);
+;main.c:460: play_attack_animation(2);
 	push	de
 	ld	a, #0x02
 	push	af
@@ -1408,11 +1411,11 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	de
-;main.c:460: player_attack(0, enemy_idx-1);
+;main.c:461: player_attack(0, enemy_idx-1);
 	dec	e
 	xor	a, a
 	call	_player_attack
-;main.c:461: set_character_sprite(2);
+;main.c:462: set_character_sprite(2);
 	ld	a, #0x02
 	push	af
 	inc	sp
@@ -1421,37 +1424,37 @@ _check_input_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 00138$:
-;main.c:466: if (moved) {
+;main.c:467: if (moved) {
 	ldhl	sp,	#0
 	ld	a, (hl)
 	or	a, a
 	jp	Z, 00155$
-;main.c:468: check_drops(x, y);
+;main.c:469: check_drops(x, y);
 	ld	a, (_y)
 	ld	e, a
 	ld	a, (_x)
 	call	_check_drops
-;main.c:469: delay(20);
+;main.c:470: delay(20);
 	ld	de, #0x0014
 	call	_delay
-;main.c:470: if (current_location == 1) {
+;main.c:471: if (current_location == 1) {
 	ld	a, (#_current_location)
 	dec	a
 	jp	NZ, 00155$
-;main.c:471: move_enemy(&current_enemies[0]);
+;main.c:472: move_enemy(&current_enemies[0]);
 	ld	de, #_current_enemies
 	call	_move_enemy
-;main.c:472: move_enemy(&current_enemies[1]);
+;main.c:473: move_enemy(&current_enemies[1]);
 	ld	de, #(_current_enemies + 12)
 	call	_move_enemy
-;main.c:473: move_boss(&boss);
+;main.c:474: move_boss(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_move_boss
 	ld	hl, #_move_boss
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:475: if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
+;main.c:476: if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
 	ld	de, #_dungeon+0
 	ld	bc, #_player_coords+0
 	ld	a, (bc)
@@ -1481,59 +1484,59 @@ _check_input_movement::
 	ld	a, (#_boss_battle)
 	or	a, a
 	jr	NZ, 00140$
-;main.c:476: stairs_sfx();
+;main.c:477: stairs_sfx();
 	ld	e, #b_stairs_sfx
 	ld	hl, #_stairs_sfx
 	call	___sdcc_bcall_ehl
-;main.c:477: go_next_floor();
+;main.c:478: go_next_floor();
 	call	_go_next_floor
 00140$:
-;main.c:480: if (current_hp == 0) {
+;main.c:481: if (current_hp == 0) {
 	ld	a, (#_current_hp)
 	or	a, a
 	jp	NZ, 00155$
-;main.c:481: death_sfx();
+;main.c:482: death_sfx();
 	ld	e, #b_death_sfx
 	ld	hl, #_death_sfx
 	call	___sdcc_bcall_ehl
-;main.c:482: delay(100);
+;main.c:483: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:483: current_song_bank = 3;
+;main.c:484: current_song_bank = 3;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x03
-;main.c:484: SWITCH_ROM(current_song_bank);
+;main.c:485: SWITCH_ROM(current_song_bank);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:485: hUGE_init(&gameover_jingle);
+;main.c:486: hUGE_init(&gameover_jingle);
 	ld	de, #_gameover_jingle
 	call	_hUGE_init
-;main.c:486: SWITCH_ROM(1);
+;main.c:487: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:487: game_over();
+;main.c:488: game_over();
 	ld	e, #b_game_over
 	ld	hl, #_game_over
 	call	___sdcc_bcall_ehl
-;main.c:488: enemy_death(&current_enemies[0]);
+;main.c:489: enemy_death(&current_enemies[0]);
 	ld	de, #_current_enemies
 	call	_enemy_death
-;main.c:489: enemy_death(&current_enemies[1]);
+;main.c:490: enemy_death(&current_enemies[1]);
 	ld	de, #(_current_enemies + 12)
 	call	_enemy_death
-;main.c:490: boss_death(&boss);
+;main.c:491: boss_death(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_boss_death
 	ld	hl, #_boss_death
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:491: boss_floor_defeated = 0;
-;main.c:492: boss_battle = 0;
+;main.c:492: boss_floor_defeated = 0;
+;main.c:493: boss_battle = 0;
 	xor	a, a
 	ld	(#_boss_floor_defeated), a
 	ld	(#_boss_battle),a
@@ -1542,46 +1545,46 @@ _check_input_movement::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:494: set_mini_menu();
+;main.c:495: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:495: set_camp_map();
+;main.c:496: set_camp_map();
 	call	_set_camp_map
-;main.c:496: x = 120;
+;main.c:497: x = 120;
 	ld	hl, #_x
 	ld	(hl), #0x78
-;main.c:497: y = 112;
+;main.c:498: y = 112;
 	ld	hl, #_y
 	ld	(hl), #0x70
-;main.c:498: move_character();
+;main.c:499: move_character();
 	call	_move_character
-;main.c:499: delay(100);
+;main.c:500: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:500: SHOW_WIN;
+;main.c:501: SHOW_WIN;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x20
 	ldh	(_LCDC_REG + 0), a
-;main.c:501: DISPLAY_ON;
+;main.c:502: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 00155$:
-;main.c:506: }
+;main.c:507: }
 	inc	sp
 	ret
-;main.c:508: void check_input_keys() {
+;main.c:509: void check_input_keys() {
 ;	---------------------------------
 ; Function check_input_keys
 ; ---------------------------------
 _check_input_keys::
 	add	sp, #-9
-;main.c:509: if (joypad() & J_A) {
+;main.c:510: if (joypad() & J_A) {
 	call	_joypad
 	bit	4, a
 	jp	Z, 00178$
-;main.c:511: uint8_t gx = (x - 8) / 8;
+;main.c:512: uint8_t gx = (x - 8) / 8;
 	ld	a, (_x)
 	ld	c, a
 	ld	b, #0x00
@@ -1626,7 +1629,7 @@ _check_input_keys::
 	rr	c
 	ldhl	sp,	#2
 	ld	(hl), c
-;main.c:512: uint8_t gy = (y - 16) / 8;
+;main.c:513: uint8_t gy = (y - 16) / 8;
 	ld	a, (#_y)
 	ldhl	sp,	#3
 	ld	(hl+), a
@@ -1682,7 +1685,7 @@ _check_input_keys::
 	rr	c
 	ldhl	sp,	#3
 	ld	(hl), c
-;main.c:514: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
+;main.c:515: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
 	ld	a, (hl+)
 	sub	a, #0x08
 	ld	a, #0x00
@@ -1695,11 +1698,11 @@ _check_input_keys::
 	ld	a, #0x00
 	rla
 	ld	(hl), a
-;main.c:513: if (current_location == 1) {
+;main.c:514: if (current_location == 1) {
 	ld	a, (#_current_location)
 	dec	a
 	jp	NZ, 00170$
-;main.c:514: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
+;main.c:515: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
 	ld	a, (#_player_coords + 0)
 	ldhl	sp,#8
 	ld	(hl), a
@@ -1780,20 +1783,20 @@ _check_input_keys::
 	ld	a, (#_treasure_obtained)
 	or	a, a
 	jr	NZ, 00137$
-;main.c:515: unlock_sfx();
+;main.c:516: unlock_sfx();
 	ld	e, #b_unlock_sfx
 	ld	hl, #_unlock_sfx
 	call	___sdcc_bcall_ehl
-;main.c:516: treasure_obtained = 1;
+;main.c:517: treasure_obtained = 1;
 	ld	hl, #_treasure_obtained
 	ld	(hl), #0x01
-;main.c:517: minerals++;
+;main.c:518: minerals++;
 	ld	hl, #_minerals
 	inc	(hl)
-;main.c:518: obt_mythril++;
+;main.c:519: obt_mythril++;
 	ld	hl, #_obt_mythril
 	inc	(hl)
-;main.c:519: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:520: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -1802,18 +1805,18 @@ _check_input_keys::
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:520: delay(150);
+;main.c:521: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;main.c:521: menu_opened = 4;
+;main.c:522: menu_opened = 4;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x04
-;main.c:522: set_textbox(2);
+;main.c:523: set_textbox(2);
 	ld	a, #0x02
 	call	_set_textbox
 	jp	00184$
 00137$:
-;main.c:524: else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
+;main.c:525: else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x4b
@@ -1833,7 +1836,7 @@ _check_input_keys::
 	ld	a, (#_key_obtained)
 	or	a, a
 	jr	NZ, 00129$
-;main.c:525: unlock_sfx();
+;main.c:526: unlock_sfx();
 	ld	e, #b_unlock_sfx
 	ld	hl, #_unlock_sfx
 	call	___sdcc_bcall_ehl
@@ -1842,10 +1845,10 @@ _check_input_keys::
 	ld	(hl), #0x3b
 	ld	hl, #(_shadow_OAM + 138)
 	ld	(hl), #0x3c
-;main.c:528: key_obtained = 1;
+;main.c:529: key_obtained = 1;
 	ld	hl, #_key_obtained
 	ld	(hl), #0x01
-;main.c:529: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:530: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -1854,18 +1857,18 @@ _check_input_keys::
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:530: delay(150);
+;main.c:531: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;main.c:531: menu_opened = 4;
+;main.c:532: menu_opened = 4;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x04
-;main.c:532: set_textbox(1);
+;main.c:533: set_textbox(1);
 	ld	a, #0x01
 	call	_set_textbox
 	jp	00184$
 00129$:
-;main.c:534: else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
+;main.c:535: else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x4c
@@ -1873,7 +1876,7 @@ _check_input_keys::
 	ld	a, (#_key_obtained)
 	dec	a
 	jp	NZ, 00125$
-;main.c:535: switch (locked_door) {
+;main.c:536: switch (locked_door) {
 	ld	a, (#_locked_door)
 	dec	a
 	jr	Z, 00101$
@@ -1887,9 +1890,9 @@ _check_input_keys::
 	sub	a, #0x08
 	jr	Z, 00116$
 	jp	00121$
-;main.c:536: case 1:
+;main.c:537: case 1:
 00101$:
-;main.c:537: if (gx >= 8 && gx <= 11 && gy <= 3) {
+;main.c:538: if (gx >= 8 && gx <= 11 && gy <= 3) {
 	ldhl	sp,	#7
 	bit	0, (hl)
 	jr	NZ, 00121$
@@ -1900,18 +1903,18 @@ _check_input_keys::
 	ldhl	sp,	#3
 	sub	a, (hl)
 	jr	C, 00121$
-;main.c:538: lock_opened = 1;
+;main.c:539: lock_opened = 1;
 	ld	hl, #_lock_opened
 	ld	(hl), #0x01
-;main.c:539: hide_door();
+;main.c:540: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
-;main.c:541: break;
+;main.c:542: break;
 	jr	00121$
-;main.c:542: case 2:
+;main.c:543: case 2:
 00106$:
-;main.c:543: if (gy >= 8 && gy <= 9 && gx >= 16) {
+;main.c:544: if (gy >= 8 && gy <= 9 && gx >= 16) {
 	ldhl	sp,	#4
 	bit	0, (hl)
 	jr	NZ, 00121$
@@ -1922,18 +1925,18 @@ _check_input_keys::
 	ld	a, (hl)
 	sub	a, #0x10
 	jr	C, 00121$
-;main.c:544: lock_opened = 1;
+;main.c:545: lock_opened = 1;
 	ld	hl, #_lock_opened
 	ld	(hl), #0x01
-;main.c:545: hide_door();
+;main.c:546: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
-;main.c:547: break;
+;main.c:548: break;
 	jr	00121$
-;main.c:548: case 4:
+;main.c:549: case 4:
 00111$:
-;main.c:549: if (gy >= 14 && gx >= 8 && gx <= 11) {
+;main.c:550: if (gy >= 14 && gx >= 8 && gx <= 11) {
 	ldhl	sp,	#3
 	ld	a, (hl)
 	sub	a, #0x0e
@@ -1944,18 +1947,18 @@ _check_input_keys::
 	inc	hl
 	bit	0, (hl)
 	jr	NZ, 00121$
-;main.c:550: lock_opened = 1;
+;main.c:551: lock_opened = 1;
 	ld	hl, #_lock_opened
 	ld	(hl), #0x01
-;main.c:551: hide_door();
+;main.c:552: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
-;main.c:553: break;
+;main.c:554: break;
 	jr	00121$
-;main.c:554: case 8:
+;main.c:555: case 8:
 00116$:
-;main.c:555: if (gx <= 3 && gy >= 8 && gy <= 9) {
+;main.c:556: if (gx <= 3 && gy >= 8 && gy <= 9) {
 	ld	a, #0x03
 	ldhl	sp,	#2
 	sub	a, (hl)
@@ -1967,40 +1970,40 @@ _check_input_keys::
 	inc	hl
 	bit	0, (hl)
 	jr	NZ, 00121$
-;main.c:556: lock_opened = 1;
+;main.c:557: lock_opened = 1;
 	ld	hl, #_lock_opened
 	ld	(hl), #0x01
-;main.c:557: hide_door();
+;main.c:558: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
-;main.c:560: }
+;main.c:561: }
 00121$:
-;main.c:561: unlock_sfx();
+;main.c:562: unlock_sfx();
 	ld	e, #b_unlock_sfx
 	ld	hl, #_unlock_sfx
 	call	___sdcc_bcall_ehl
 	jp	00184$
 00125$:
-;main.c:564: if (num_arrows > 0) {
+;main.c:565: if (num_arrows > 0) {
 	ld	a, (#_num_arrows)
 	or	a, a
 	jp	Z, 00184$
-;main.c:565: shoot_arrow();
+;main.c:566: shoot_arrow();
 	call	_shoot_arrow
-;main.c:566: num_arrows--;
+;main.c:567: num_arrows--;
 	ld	hl, #_num_arrows
 	dec	(hl)
-;main.c:567: delay(100);
+;main.c:568: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:568: move_enemy(&current_enemies[0]);
+;main.c:569: move_enemy(&current_enemies[0]);
 	ld	de, #_current_enemies
 	call	_move_enemy
-;main.c:569: move_enemy(&current_enemies[1]);
+;main.c:570: move_enemy(&current_enemies[1]);
 	ld	de, #(_current_enemies + 12)
 	call	_move_enemy
-;main.c:570: move_boss(&boss);
+;main.c:571: move_boss(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_move_boss
@@ -2009,11 +2012,11 @@ _check_input_keys::
 	pop	hl
 	jp	00184$
 00170$:
-;main.c:574: else if (current_location == 0) {
+;main.c:575: else if (current_location == 0) {
 	ld	a, (#_current_location)
 	or	a, a
 	jp	NZ, 00184$
-;main.c:575: if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
+;main.c:576: if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
 	ldhl	sp,	#3
 	ld	a, (hl)
 	sub	a, #0x0a
@@ -2041,7 +2044,7 @@ _check_input_keys::
 	inc	hl
 	bit	0, (hl)
 	jr	NZ, 00162$
-;main.c:576: while(joypad() & J_A) { wait_vbl_done(); }
+;main.c:577: while(joypad() & J_A) { wait_vbl_done(); }
 00144$:
 	call	_joypad
 	bit	4, a
@@ -2049,10 +2052,10 @@ _check_input_keys::
 	call	_wait_vbl_done
 	jr	00144$
 00146$:
-;main.c:577: menu_opened = 2;
+;main.c:578: menu_opened = 2;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x02
-;main.c:578: HIDE_SPRITES;
+;main.c:579: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
@@ -2061,7 +2064,7 @@ _check_input_keys::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x20
 	ldh	(_WY_REG + 0), a
-;main.c:580: set_win_tiles(0, 0, 20, 14, hector_menu);
+;main.c:581: set_win_tiles(0, 0, 20, 14, hector_menu);
 	ld	de, #_hector_menu
 	push	de
 	ld	hl, #0xe14
@@ -2071,7 +2074,7 @@ _check_input_keys::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:581: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+;main.c:582: set_win_tiles(1, 1, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -2079,12 +2082,12 @@ _check_input_keys::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:582: delay(300);
+;main.c:583: delay(300);
 	ld	de, #0x012c
 	call	_delay
 	jp	00184$
 00162$:
-;main.c:584: else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
+;main.c:585: else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	sub	a, #0x0e
@@ -2099,7 +2102,7 @@ _check_input_keys::
 	inc	hl
 	bit	0, (hl)
 	jr	NZ, 00156$
-;main.c:585: while(joypad() & J_A) { wait_vbl_done(); }
+;main.c:586: while(joypad() & J_A) { wait_vbl_done(); }
 00147$:
 	call	_joypad
 	bit	4, a
@@ -2107,10 +2110,10 @@ _check_input_keys::
 	call	_wait_vbl_done
 	jr	00147$
 00149$:
-;main.c:586: menu_opened = 3;
+;main.c:587: menu_opened = 3;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x03
-;main.c:587: HIDE_SPRITES;
+;main.c:588: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
@@ -2119,7 +2122,7 @@ _check_input_keys::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x20
 	ldh	(_WY_REG + 0), a
-;main.c:589: set_win_tiles(0, 0, 20, 14, safy_menu);
+;main.c:590: set_win_tiles(0, 0, 20, 14, safy_menu);
 	ld	de, #_safy_menu
 	push	de
 	ld	hl, #0xe14
@@ -2129,7 +2132,7 @@ _check_input_keys::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:590: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+;main.c:591: set_win_tiles(1, 1, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -2137,12 +2140,12 @@ _check_input_keys::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:591: delay(300);
+;main.c:592: delay(300);
 	ld	de, #0x012c
 	call	_delay
 	jr	00184$
 00156$:
-;main.c:593: else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
+;main.c:594: else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	sub	a, #0x0c
@@ -2156,53 +2159,53 @@ _check_input_keys::
 	inc	hl
 	bit	0, (hl)
 	jr	NZ, 00184$
-;main.c:594: save_game();
+;main.c:595: save_game();
 	call	_save_game
-;main.c:595: delay(150);
+;main.c:596: delay(150);
 	ld	de, #0x0096
 	call	_delay
-;main.c:596: heal_sfx();
+;main.c:597: heal_sfx();
 	ld	e, #b_heal_sfx
 	ld	hl, #_heal_sfx
 	call	___sdcc_bcall_ehl
-;main.c:597: menu_opened = 4;
+;main.c:598: menu_opened = 4;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x04
-;main.c:598: set_textbox(0);
+;main.c:599: set_textbox(0);
 	xor	a, a
 	call	_set_textbox
 	jr	00184$
 00178$:
-;main.c:603: else if (joypad() & J_B && current_location == 1) {
+;main.c:604: else if (joypad() & J_B && current_location == 1) {
 	call	_joypad
 	bit	5, a
 	jr	Z, 00184$
 	ld	a, (#_current_location)
 	dec	a
 	jr	NZ, 00184$
-;main.c:604: if (heals > 0) {
+;main.c:605: if (heals > 0) {
 	ld	a, (#_heals)
 	or	a, a
 	jr	Z, 00184$
-;main.c:605: heal_sfx();
+;main.c:606: heal_sfx();
 	ld	e, #b_heal_sfx
 	ld	hl, #_heal_sfx
 	call	___sdcc_bcall_ehl
-;main.c:606: heal_player();
+;main.c:607: heal_player();
 	call	_heal_player
-;main.c:607: heals--;
+;main.c:608: heals--;
 	ld	hl, #_heals
 	dec	(hl)
-;main.c:608: delay(100);
+;main.c:609: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:609: move_enemy(&current_enemies[0]);
+;main.c:610: move_enemy(&current_enemies[0]);
 	ld	de, #_current_enemies
 	call	_move_enemy
-;main.c:610: move_enemy(&current_enemies[1]);
+;main.c:611: move_enemy(&current_enemies[1]);
 	ld	de, #(_current_enemies + 12)
 	call	_move_enemy
-;main.c:611: move_boss(&boss);
+;main.c:612: move_boss(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_move_boss
@@ -2210,10 +2213,10 @@ _check_input_keys::
 	call	___sdcc_bcall_ehl
 	pop	hl
 00184$:
-;main.c:614: }
+;main.c:615: }
 	add	sp, #9
 	ret
-;main.c:617: uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
+;main.c:618: uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
 ;	---------------------------------
 ; Function check_terrain
 ; ---------------------------------
@@ -2222,11 +2225,11 @@ _check_terrain::
 	ld	c, a
 	ldhl	sp,	#7
 	ld	(hl), e
-;main.c:619: if (current_location != 0) {
+;main.c:620: if (current_location != 0) {
 	ld	a, (#_current_location)
 	or	a, a
 	jr	Z, 00107$
-;main.c:620: if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
+;main.c:621: if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
 	ld	a, c
 	sub	a, #0x08
 	jr	C, 00101$
@@ -2241,11 +2244,11 @@ _check_terrain::
 	sub	a, (hl)
 	jr	NC, 00107$
 00101$:
-;main.c:621: return 1;
+;main.c:622: return 1;
 	ld	a, #0x01
 	jp	00144$
 00107$:
-;main.c:626: int16_t gx = ((int16_t)new_x - 8) / 8;
+;main.c:627: int16_t gx = ((int16_t)new_x - 8) / 8;
 	ld	b, #0x00
 	ld	de, #0x0008
 	ld	a, c
@@ -2289,7 +2292,7 @@ _check_terrain::
 	rr	c
 	ld	a, c
 	ld	(hl+), a
-;main.c:627: int16_t gy = ((int16_t)new_y - 16) / 8;
+;main.c:628: int16_t gy = ((int16_t)new_y - 16) / 8;
 	ld	a, b
 	ld	(hl+), a
 	ld	a, (hl)
@@ -2334,7 +2337,7 @@ _check_terrain::
 	inc	sp
 	inc	sp
 	push	bc
-;main.c:629: if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
+;main.c:630: if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
 	ldhl	sp,	#5
 	ld	a, (hl+)
 	ld	c, a
@@ -2362,11 +2365,11 @@ _check_terrain::
 	sbc	a, #0x00
 	jr	C, 00109$
 00108$:
-;main.c:630: return 0;
+;main.c:631: return 0;
 	xor	a, a
 	jp	00144$
 00109$:
-;main.c:633: uint16_t tile_index = (uint16_t)gy * 20 + gx;
+;main.c:634: uint16_t tile_index = (uint16_t)gy * 20 + gx;
 	ldhl	sp,	#0
 	ld	a, (hl+)
 	ld	e, (hl)
@@ -2400,16 +2403,16 @@ _check_terrain::
 	ld	a, h
 	ldhl	sp,	#5
 	ld	(hl), a
-;main.c:635: if (current_location == 0) {
+;main.c:636: if (current_location == 0) {
 	ld	a, (#_current_location)
 	or	a, a
 	jr	NZ, 00142$
-;main.c:636: SWITCH_ROM(2);
+;main.c:637: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:637: uint8_t tile_id = Camp[tile_index];             // collisioni campo
+;main.c:638: uint8_t tile_id = Camp[tile_index];             // collisioni campo
 	ld	de, #_Camp
 	ldhl	sp,	#4
 	ld	a,	(hl+)
@@ -2420,23 +2423,23 @@ _check_terrain::
 	ld	b, h
 	ld	a, (bc)
 	ld	c, a
-;main.c:638: uint8_t camp_colliding = camp_collisions[tile_id];
+;main.c:639: uint8_t camp_colliding = camp_collisions[tile_id];
 	ld	hl, #_camp_collisions
 	ld	b, #0x00
 	add	hl, bc
 	ld	c, (hl)
-;main.c:639: SWITCH_ROM(1);
+;main.c:640: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:640: if (camp_colliding == 1) return 0;
+;main.c:641: if (camp_colliding == 1) return 0;
 	dec	c
 	jp	NZ,00143$
 	ld	a, c
 	jp	00144$
 00142$:
-;main.c:642: if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
+;main.c:643: if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
 	ld	a, (#_player_coords + 0)
 	ld	l, a
 	rlca
@@ -2464,7 +2467,7 @@ _check_terrain::
 	sub	a, #0x4b
 	jr	NZ, 00121$
 00120$:
-;main.c:643: if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
+;main.c:644: if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
 	ld	a, c
 	sub	a, #0x08
 	jr	C, 00121$
@@ -2484,11 +2487,11 @@ _check_terrain::
 	ld	a, #0x00
 	sbc	a, (hl)
 	jr	C, 00121$
-;main.c:644: return 0;
+;main.c:645: return 0;
 	xor	a, a
 	jp	00144$
 00121$:
-;main.c:647: if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
+;main.c:648: if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x4c
@@ -2496,7 +2499,7 @@ _check_terrain::
 	ld	a, (#_lock_opened)
 	or	a, a
 	jr	NZ, 00137$
-;main.c:648: switch (locked_door) {
+;main.c:649: switch (locked_door) {
 	ld	a, (#_locked_door)
 	dec	a
 	jr	Z, 00123$
@@ -2510,9 +2513,9 @@ _check_terrain::
 	sub	a, #0x08
 	jr	Z, 00132$
 	jr	00137$
-;main.c:649: case 1:
+;main.c:650: case 1:
 00123$:
-;main.c:650: if (gy <= 1) {
+;main.c:651: if (gy <= 1) {
 	ldhl	sp,	#2
 	ld	a, #0x01
 	sub	a, (hl)
@@ -2520,47 +2523,47 @@ _check_terrain::
 	ld	a, #0x00
 	sbc	a, (hl)
 	jr	C, 00137$
-;main.c:651: return 0;
+;main.c:652: return 0;
 	xor	a, a
 	jr	00144$
-;main.c:654: case 2:
+;main.c:655: case 2:
 00126$:
-;main.c:655: if (gx >= 18) {
+;main.c:656: if (gx >= 18) {
 	ld	a, c
 	sub	a, #0x12
 	jr	C, 00137$
-;main.c:656: return 0;
+;main.c:657: return 0;
 	xor	a, a
 	jr	00144$
-;main.c:659: case 4:
+;main.c:660: case 4:
 00129$:
-;main.c:660: if (gy >= 16) {
+;main.c:661: if (gy >= 16) {
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	sub	a, #0x10
 	ld	a, (hl)
 	sbc	a, #0x00
 	jr	C, 00137$
-;main.c:661: return 0;
+;main.c:662: return 0;
 	xor	a, a
 	jr	00144$
-;main.c:664: case 8:
+;main.c:665: case 8:
 00132$:
-;main.c:665: if (gx <= 1) {
+;main.c:666: if (gx <= 1) {
 	ld	a, #0x01
 	cp	a, c
 	jr	C, 00137$
-;main.c:666: return 0;
+;main.c:667: return 0;
 	xor	a, a
 	jr	00144$
-;main.c:669: }
+;main.c:670: }
 00137$:
-;main.c:671: SWITCH_ROM(2);
+;main.c:672: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:672: uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
+;main.c:673: uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
 	ld	de, #_current_room
 	ldhl	sp,	#4
 	ld	a,	(hl+)
@@ -2571,49 +2574,49 @@ _check_terrain::
 	ld	b, h
 	ld	a, (bc)
 	ld	c, a
-;main.c:673: SWITCH_ROM(1);
+;main.c:674: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:674: if (tile_id > 3) return 0;
+;main.c:675: if (tile_id > 3) return 0;
 	ld	a, #0x03
 	sub	a, c
 	jr	NC, 00143$
 	xor	a, a
 	jr	00144$
 00143$:
-;main.c:677: return 1;
+;main.c:678: return 1;
 	ld	a, #0x01
 00144$:
-;main.c:678: }
+;main.c:679: }
 	add	sp, #8
 	ret
-;main.c:680: uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
+;main.c:681: uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
 ;	---------------------------------
 ; Function is_sprite_at
 ; ---------------------------------
 _is_sprite_at::
 	ld	c, a
-;main.c:681: if (current_location == 0){
+;main.c:682: if (current_location == 0){
 	ld	a, (#_current_location)
 	or	a, a
 	jr	NZ, 00105$
-;main.c:682: if (target_x == 120 && target_y == 64) {
+;main.c:683: if (target_x == 120 && target_y == 64) {
 	ld	a, c
 	sub	a, #0x78
 	jr	NZ, 00105$
 	ld	a, e
 	sub	a, #0x40
-;main.c:683: return 1;
-;main.c:686: return 0;
+;main.c:684: return 1;
+;main.c:687: return 0;
 	ld	a, #0x01
 	ret	Z
 00105$:
 	xor	a, a
-;main.c:688: }
+;main.c:689: }
 	ret
-;main.c:690: void set_camp_map(){
+;main.c:691: void set_camp_map(){
 ;	---------------------------------
 ; Function set_camp_map
 ; ---------------------------------
@@ -2627,33 +2630,33 @@ _set_camp_map::
 	ld	(hl), #0x06
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x07
-;main.c:695: set_sprite_data(16, 4, Hector);
+;main.c:696: set_sprite_data(16, 4, Hector);
 	ld	de, #_Hector
 	push	de
 	ld	hl, #0x410
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:696: set_sprite_data(20, 4, Safy);
+;main.c:697: set_sprite_data(20, 4, Safy);
 	ld	de, #_Safy
 	push	de
 	ld	hl, #0x414
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;main.c:697: SWITCH_ROM(2);
+;main.c:698: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:698: set_bkg_data(0, 108, CampTiles);
+;main.c:699: set_bkg_data(0, 108, CampTiles);
 	ld	de, #_CampTiles
 	push	de
 	ld	hl, #0x6c00
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;main.c:699: set_bkg_tiles(0, 0, 20, 18, Camp);
+;main.c:700: set_bkg_tiles(0, 0, 20, 18, Camp);
 	ld	de, #_Camp
 	push	de
 	ld	hl, #0x1214
@@ -2663,7 +2666,7 @@ _set_camp_map::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:700: SWITCH_ROM(1);
+;main.c:701: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
@@ -2733,29 +2736,29 @@ _set_camp_map::
 	ld	a, #0x48
 	ld	(hl+), a
 	ld	(hl), #0x80
-;main.c:723: empty_map_tiles();
+;main.c:724: empty_map_tiles();
 	ld	e, #b_empty_map_tiles
 	ld	hl, #_empty_map_tiles
 	call	___sdcc_bcall_ehl
-;main.c:724: current_song_bank = 5;
+;main.c:725: current_song_bank = 5;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x05
-;main.c:725: SWITCH_ROM(current_song_bank);
+;main.c:726: SWITCH_ROM(current_song_bank);
 	ld	a, #0x05
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x05
-;main.c:726: hUGE_init(&camp_theme);
+;main.c:727: hUGE_init(&camp_theme);
 	ld	de, #_camp_theme
 	call	_hUGE_init
-;main.c:727: SWITCH_ROM(1);
+;main.c:728: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:728: }
+;main.c:729: }
 	ret
-;main.c:731: void hide_camp_sprites() {
+;main.c:732: void hide_camp_sprites() {
 ;	---------------------------------
 ; Function hide_camp_sprites
 ; ---------------------------------
@@ -2825,25 +2828,25 @@ _hide_camp_sprites::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;main.c:750: move_sprite(15, 00, 0);
-;main.c:751: }
+;main.c:751: move_sprite(15, 00, 0);
+;main.c:752: }
 	ret
-;main.c:753: void set_dungeon_map(){
+;main.c:754: void set_dungeon_map(){
 ;	---------------------------------
 ; Function set_dungeon_map
 ; ---------------------------------
 _set_dungeon_map::
-;main.c:754: if (current_floor <= 5) {
+;main.c:755: if (current_floor <= 5) {
 	ld	a, #0x05
 	ld	hl, #_current_floor
 	sub	a, (hl)
 	jr	C, 00111$
-;main.c:755: SWITCH_ROM(2);
+;main.c:756: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:756: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
+;main.c:757: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
 	ld	bc, #_DungeonTiles+0
 	push	bc
 	ld	hl, #0x3500
@@ -2852,17 +2855,17 @@ _set_dungeon_map::
 	add	sp, #4
 	jr	00112$
 00111$:
-;main.c:758: else if (current_floor <= 10) {
+;main.c:759: else if (current_floor <= 10) {
 	ld	a, #0x0a
 	ld	hl, #_current_floor
 	sub	a, (hl)
 	jr	C, 00108$
-;main.c:759: SWITCH_ROM(2);
+;main.c:760: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;main.c:760: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles2);
+;main.c:761: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles2);
 	ld	bc, #_DungeonTiles2+0
 	push	bc
 	ld	hl, #0x3500
@@ -2871,17 +2874,17 @@ _set_dungeon_map::
 	add	sp, #4
 	jr	00112$
 00108$:
-;main.c:762: else if (current_floor <= 15) {
+;main.c:763: else if (current_floor <= 15) {
 	ld	a, #0x0f
 	ld	hl, #_current_floor
 	sub	a, (hl)
 	jr	C, 00105$
-;main.c:763: SWITCH_ROM(5);
+;main.c:764: SWITCH_ROM(5);
 	ld	a, #0x05
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x05
-;main.c:764: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles3);
+;main.c:765: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles3);
 	ld	bc, #_DungeonTiles3+0
 	push	bc
 	ld	hl, #0x3500
@@ -2890,17 +2893,17 @@ _set_dungeon_map::
 	add	sp, #4
 	jr	00112$
 00105$:
-;main.c:766: else if (current_floor <= 20) {
+;main.c:767: else if (current_floor <= 20) {
 	ld	a, #0x14
 	ld	hl, #_current_floor
 	sub	a, (hl)
 	jr	C, 00102$
-;main.c:767: SWITCH_ROM(5);
+;main.c:768: SWITCH_ROM(5);
 	ld	a, #0x05
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x05
-;main.c:768: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles4);
+;main.c:769: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles4);
 	ld	bc, #_DungeonTiles4+0
 	push	bc
 	ld	hl, #0x3500
@@ -2909,12 +2912,12 @@ _set_dungeon_map::
 	add	sp, #4
 	jr	00112$
 00102$:
-;main.c:771: SWITCH_ROM(5);
+;main.c:772: SWITCH_ROM(5);
 	ld	a, #0x05
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x05
-;main.c:772: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles5);
+;main.c:773: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles5);
 	ld	bc, #_DungeonTiles5+0
 	push	bc
 	ld	hl, #0x3500
@@ -2922,20 +2925,20 @@ _set_dungeon_map::
 	call	_set_bkg_data
 	add	sp, #4
 00112$:
-;main.c:774: SWITCH_ROM(1);
+;main.c:775: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:775: }
+;main.c:776: }
 	ret
-;main.c:777: void set_room(Coords coord){
+;main.c:778: void set_room(Coords coord){
 ;	---------------------------------
 ; Function set_room
 ; ---------------------------------
 _set_room::
 	add	sp, #-4
-;main.c:778: uint8_t door = doors[coord.x][coord.y];
+;main.c:779: uint8_t door = doors[coord.x][coord.y];
 	ld	hl, #6
 	add	hl, sp
 	ld	c, l
@@ -2971,7 +2974,7 @@ _set_room::
 	ld	d, h
 	ld	a, (de)
 	ld	d, a
-;main.c:780: set_room_tiles(door, room_ptr, coord);
+;main.c:781: set_room_tiles(door, room_ptr, coord);
 	push	bc
 	ld	hl,#0x9
 	add	hl,sp
@@ -2990,12 +2993,12 @@ _set_room::
 	ld	hl, #_set_room_tiles
 	call	___sdcc_bcall_ehl
 	add	sp, #5
-;main.c:781: hide_door();
+;main.c:782: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
 	pop	bc
-;main.c:782: if (dungeon[coord.x][coord.y] == 'K') {
+;main.c:783: if (dungeon[coord.x][coord.y] == 'K') {
 	ld	a, (bc)
 	ld	l, a
 	rlca
@@ -3028,11 +3031,11 @@ _set_room::
 	ld	a, (de)
 	cp	a, #0x4b
 	jr	NZ, 00124$
-;main.c:783: if (key_obtained == 0){
+;main.c:784: if (key_obtained == 0){
 	ld	a, (#_key_obtained)
 	or	a, a
 	jr	NZ, 00102$
-;main.c:784: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+;main.c:785: set_bkg_tiles(8, 6, 4, 2, chest_closed);
 	ld	de, #_chest_closed
 	push	de
 	ld	hl, #0x204
@@ -3043,7 +3046,7 @@ _set_room::
 	add	sp, #6
 	jp	00125$
 00102$:
-;main.c:787: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:788: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -3054,14 +3057,14 @@ _set_room::
 	add	sp, #6
 	jp	00125$
 00124$:
-;main.c:790: else if (dungeon[coord.x][coord.y] == 'L') {
+;main.c:791: else if (dungeon[coord.x][coord.y] == 'L') {
 	cp	a, #0x4c
 	jr	NZ, 00121$
-;main.c:791: if (lock_opened == 0) {
+;main.c:792: if (lock_opened == 0) {
 	ld	a, (#_lock_opened)
 	or	a, a
 	jp	NZ, 00125$
-;main.c:792: switch (locked_door) {
+;main.c:793: switch (locked_door) {
 	ld	a, (#_locked_door)
 	dec	a
 	jr	Z, 00104$
@@ -3075,9 +3078,9 @@ _set_room::
 	sub	a, #0x08
 	jr	Z, 00107$
 	jp	00125$
-;main.c:793: case 1:
+;main.c:794: case 1:
 00104$:
-;main.c:794: draw_lock_v(72, 16);
+;main.c:795: draw_lock_v(72, 16);
 	push	bc
 	ld	a, #0x10
 	push	af
@@ -3090,11 +3093,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:795: break;
+;main.c:796: break;
 	jp	00125$
-;main.c:796: case 2:
+;main.c:797: case 2:
 00105$:
-;main.c:797: draw_lock_h(152, 80);
+;main.c:798: draw_lock_h(152, 80);
 	push	bc
 	ld	a, #0x50
 	push	af
@@ -3107,11 +3110,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:798: break;
+;main.c:799: break;
 	jr	00125$
-;main.c:799: case 4:
+;main.c:800: case 4:
 00106$:
-;main.c:800: draw_flip_lock_v(72, 144);
+;main.c:801: draw_flip_lock_v(72, 144);
 	push	bc
 	ld	a, #0x90
 	push	af
@@ -3124,11 +3127,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:801: break;
+;main.c:802: break;
 	jr	00125$
-;main.c:802: case 8:
+;main.c:803: case 8:
 00107$:
-;main.c:803: draw_flip_lock_h(8, 80);
+;main.c:804: draw_flip_lock_h(8, 80);
 	push	bc
 	ld	a, #0x50
 	push	af
@@ -3141,17 +3144,17 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:805: }
+;main.c:806: }
 	jr	00125$
 00121$:
-;main.c:808: else if (dungeon[coord.x][coord.y] == 'T') {
+;main.c:809: else if (dungeon[coord.x][coord.y] == 'T') {
 	cp	a, #0x54
 	jr	NZ, 00118$
-;main.c:809: if (treasure_obtained == 0){
+;main.c:810: if (treasure_obtained == 0){
 	ld	a, (#_treasure_obtained)
 	or	a, a
 	jr	NZ, 00112$
-;main.c:810: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+;main.c:811: set_bkg_tiles(8, 6, 4, 2, chest_closed);
 	ld	de, #_chest_closed
 	push	de
 	ld	hl, #0x204
@@ -3162,7 +3165,7 @@ _set_room::
 	add	sp, #6
 	jr	00125$
 00112$:
-;main.c:813: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:814: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -3173,7 +3176,7 @@ _set_room::
 	add	sp, #6
 	jr	00125$
 00118$:
-;main.c:816: else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
+;main.c:817: else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
 	sub	a, #0x45
 	jr	NZ, 00125$
 	ld	a, (_current_floor)
@@ -3184,7 +3187,7 @@ _set_room::
 	pop	bc
 	or	a, a
 	jr	Z, 00125$
-;main.c:817: set_bkg_tiles(2, 2, 2, 2, stairs);
+;main.c:818: set_bkg_tiles(2, 2, 2, 2, stairs);
 	ld	de, #_stairs
 	push	de
 	ld	hl, #0x202
@@ -3193,7 +3196,7 @@ _set_room::
 	call	_set_bkg_tiles
 	add	sp, #6
 00125$:
-;main.c:820: spawn_enemies_in_room(coord.x, coord.y, current_enemies);
+;main.c:821: spawn_enemies_in_room(coord.x, coord.y, current_enemies);
 	ldhl	sp,	#7
 	ld	h, (hl)
 	ld	a, (bc)
@@ -3211,7 +3214,7 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	add	sp, #4
 	pop	bc
-;main.c:821: if (dungeon[coord.x][coord.y] != 'E') {
+;main.c:822: if (dungeon[coord.x][coord.y] != 'E') {
 	ld	a, (bc)
 	ld	l, a
 	rlca
@@ -3232,13 +3235,13 @@ _set_room::
 	ld	a, (hl)
 	sub	a, #0x45
 	jr	Z, 00131$
-;main.c:822: set_enemy_sprite();
+;main.c:823: set_enemy_sprite();
 	ld	e, #b_set_enemy_sprite
 	ld	hl, #_set_enemy_sprite
 	call	___sdcc_bcall_ehl
 	jp	00132$
 00131$:
-;main.c:824: else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
+;main.c:825: else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
 	ld	a, (_current_floor)
 	ld	e, #0x05
 	call	__moduchar
@@ -3248,27 +3251,27 @@ _set_room::
 	ld	a, (#_boss_floor_defeated)
 	or	a, a
 	jr	NZ, 00132$
-;main.c:825: boss_battle = 1;
+;main.c:826: boss_battle = 1;
 	ld	hl, #_boss_battle
 	ld	(hl), #0x01
-;main.c:826: spawn_boss(&boss);
+;main.c:827: spawn_boss(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_spawn_boss
 	ld	hl, #_spawn_boss
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:827: smooth_movement(last_direction);
+;main.c:828: smooth_movement(last_direction);
 	ld	a, (_last_direction)
 	call	_smooth_movement
-;main.c:828: SWITCH_ROM(2);
+;main.c:829: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
 	ld	de, #0x0000
 00134$:
-;main.c:829: for (uint16_t i; i<360; i++) {
+;main.c:830: for (uint16_t i; i<360; i++) {
 	ld	c, e
 	ld	b, d
 	ld	a, c
@@ -3276,7 +3279,7 @@ _set_room::
 	ld	a, b
 	sbc	a, #0x01
 	jr	NC, 00126$
-;main.c:830: current_room[i] = NoExit[i];
+;main.c:831: current_room[i] = NoExit[i];
 	ld	hl, #_current_room
 	add	hl, de
 	ld	c, l
@@ -3285,11 +3288,11 @@ _set_room::
 	add	hl, de
 	ld	a, (hl)
 	ld	(bc), a
-;main.c:829: for (uint16_t i; i<360; i++) {
+;main.c:830: for (uint16_t i; i<360; i++) {
 	inc	de
 	jr	00134$
 00126$:
-;main.c:832: set_bkg_tiles(0, 0, 20, 18, current_room);
+;main.c:833: set_bkg_tiles(0, 0, 20, 18, current_room);
 	ld	de, #_current_room
 	push	de
 	ld	hl, #0x1214
@@ -3299,45 +3302,45 @@ _set_room::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:833: SWITCH_ROM(1);
+;main.c:834: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:834: current_song_bank = 4;
+;main.c:835: current_song_bank = 4;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x04
-;main.c:835: SWITCH_ROM(current_song_bank);
+;main.c:836: SWITCH_ROM(current_song_bank);
 	ld	a, #0x04
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x04
-;main.c:836: hUGE_init(&boss_theme);
+;main.c:837: hUGE_init(&boss_theme);
 	ld	de, #_boss_theme
 	call	_hUGE_init
-;main.c:837: SWITCH_ROM(1);
+;main.c:838: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
 00132$:
-;main.c:839: clear_drops();
+;main.c:840: clear_drops();
 	call	_clear_drops
-;main.c:840: DISPLAY_ON;
+;main.c:841: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:841: }
+;main.c:842: }
 	add	sp, #4
 	pop	hl
 	pop	af
 	jp	(hl)
-;main.c:843: void change_room() {
+;main.c:844: void change_room() {
 ;	---------------------------------
 ; Function change_room
 ; ---------------------------------
 _change_room::
-;main.c:844: if (x > 160 && x < 240) {
+;main.c:845: if (x > 160 && x < 240) {
 	ld	a, #0xa0
 	ld	hl, #_x
 	sub	a, (hl)
@@ -3345,14 +3348,14 @@ _change_room::
 	ld	a, (hl)
 	sub	a, #0xf0
 	jr	NC, 00110$
-;main.c:845: player_coords.x++;
+;main.c:846: player_coords.x++;
 	ld	hl, #_player_coords
 	inc	(hl)
 	ld	a, (hl)
-;main.c:846: x = 8;
+;main.c:847: x = 8;
 	ld	hl, #_x
 	ld	(hl), #0x08
-;main.c:847: set_room(player_coords);
+;main.c:848: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3362,19 +3365,19 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00110$:
-;main.c:849: else if (x > 240) {
+;main.c:850: else if (x > 240) {
 	ld	a, #0xf0
 	ld	hl, #_x
 	sub	a, (hl)
 	jr	NC, 00107$
-;main.c:850: player_coords.x--;
+;main.c:851: player_coords.x--;
 	ld	hl, #_player_coords
 	dec	(hl)
 	ld	a, (hl)
-;main.c:851: x = 152;
+;main.c:852: x = 152;
 	ld	hl, #_x
 	ld	(hl), #0x98
-;main.c:852: set_room(player_coords);
+;main.c:853: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3384,16 +3387,16 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00107$:
-;main.c:854: else if (y > 144) {
+;main.c:855: else if (y > 144) {
 	ld	a, #0x90
 	ld	hl, #_y
 	sub	a, (hl)
 	jr	NC, 00104$
-;main.c:855: player_coords.y++;
+;main.c:856: player_coords.y++;
 	ld	hl, #_player_coords + 1
 	inc	(hl)
 	ld	a, (hl)
-;main.c:856: y = 16;
+;main.c:857: y = 16;
 	ld	hl, #_y
 	ld	(hl), #0x10
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
@@ -3401,7 +3404,7 @@ _change_room::
 	ld	(hl), #0x02
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x03
-;main.c:859: set_room(player_coords);
+;main.c:860: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3411,18 +3414,18 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00104$:
-;main.c:861: else if (y < 8) {
+;main.c:862: else if (y < 8) {
 	ld	a, (#_y)
 	sub	a, #0x08
 	jp	NC, _move_character
-;main.c:862: player_coords.y--;
+;main.c:863: player_coords.y--;
 	ld	hl, #_player_coords + 1
 	dec	(hl)
 	ld	a, (hl)
-;main.c:863: y = 144;
+;main.c:864: y = 144;
 	ld	hl, #_y
 	ld	(hl), #0x90
-;main.c:864: set_room(player_coords);
+;main.c:865: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3430,37 +3433,37 @@ _change_room::
 	ld	c, (hl)
 	push	bc
 	call	_set_room
-;main.c:866: move_character();
-;main.c:867: }
+;main.c:867: move_character();
+;main.c:868: }
 	jp	_move_character
-;main.c:870: void check_open_menu() {
+;main.c:871: void check_open_menu() {
 ;	---------------------------------
 ; Function check_open_menu
 ; ---------------------------------
 _check_open_menu::
-;main.c:871: current_joypad = joypad();
+;main.c:872: current_joypad = joypad();
 	call	_joypad
 	ld	hl, #_current_joypad
 	ld	(hl), a
-;main.c:872: if ((current_joypad & J_START) && !(last_joypad & J_START)) {
+;main.c:873: if ((current_joypad & J_START) && !(last_joypad & J_START)) {
 	ld	a, (hl)
 	rlca
 	jr	NC, 00107$
 	ld	a, (_last_joypad)
 	rlca
 	jr	C, 00107$
-;main.c:873: if (menu_opened == 0){
+;main.c:874: if (menu_opened == 0){
 	ld	a, (#_menu_opened)
 	or	a, a
 	jr	NZ, 00104$
-;main.c:874: DISPLAY_OFF;
+;main.c:875: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	xor	a, a
 	ldh	(_WY_REG + 0), a
-;main.c:876: set_win_tiles(0, 0, 20, 18, gui_map);
+;main.c:877: set_win_tiles(0, 0, 20, 18, gui_map);
 	ld	de, #_gui_map
 	push	de
 	ld	hl, #0x1214
@@ -3470,74 +3473,74 @@ _check_open_menu::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:877: set_stats();
+;main.c:878: set_stats();
 	ld	e, #b_set_stats
 	ld	hl, #_set_stats
 	call	___sdcc_bcall_ehl
-;main.c:878: HIDE_SPRITES;
+;main.c:879: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:879: DISPLAY_ON;
+;main.c:880: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:880: menu_opened = 1;
+;main.c:881: menu_opened = 1;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x01
 	jr	00107$
 00104$:
-;main.c:882: else if (menu_opened == 1) {
+;main.c:883: else if (menu_opened == 1) {
 	ld	a, (#_menu_opened)
 	dec	a
 	jr	NZ, 00107$
-;main.c:883: DISPLAY_OFF;
+;main.c:884: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:885: set_mini_menu();
+;main.c:886: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:887: SHOW_SPRITES;
+;main.c:888: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:888: menu_opened = 0;
+;main.c:889: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:889: DISPLAY_ON;
+;main.c:890: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 00107$:
-;main.c:892: if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
+;main.c:893: if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
 	ld	a, (_current_joypad)
 	bit	6, a
 	jp	Z, 00115$
 	ld	a, (_last_joypad)
 	bit	6, a
 	jp	NZ, 00115$
-;main.c:893: if (menu_opened == 0){
+;main.c:894: if (menu_opened == 0){
 	ld	a, (#_menu_opened)
 	or	a, a
 	jr	NZ, 00112$
-;main.c:894: DISPLAY_OFF;
+;main.c:895: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	xor	a, a
 	ldh	(_WY_REG + 0), a
-;main.c:896: SWITCH_ROM(3);
+;main.c:897: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:897: set_win_tiles(0, 0, 20, 18, map_menu);
+;main.c:898: set_win_tiles(0, 0, 20, 18, map_menu);
 	ld	de, #_map_menu
 	push	de
 	ld	hl, #0x1214
@@ -3547,19 +3550,19 @@ _check_open_menu::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:898: SWITCH_ROM(1);
+;main.c:899: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:899: set_map_menu();
+;main.c:900: set_map_menu();
 	ld	e, #b_set_map_menu
 	ld	hl, #_set_map_menu
 	call	___sdcc_bcall_ehl
-;main.c:900: map_option = 0;
+;main.c:901: map_option = 0;
 	xor	a, a
 	ld	(#_map_option),a
-;main.c:901: set_win_tiles(2, 4, 1, 1, &arrow_tile);
+;main.c:902: set_win_tiles(2, 4, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -3568,64 +3571,64 @@ _check_open_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:902: HIDE_SPRITES;
+;main.c:903: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:903: menu_opened = 5;
+;main.c:904: menu_opened = 5;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x05
-;main.c:904: DISPLAY_ON;
+;main.c:905: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 	jr	00115$
 00112$:
-;main.c:906: else if (menu_opened == 5) {
+;main.c:907: else if (menu_opened == 5) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x05
 	jr	NZ, 00115$
-;main.c:907: DISPLAY_OFF;
+;main.c:908: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:909: set_mini_menu();
+;main.c:910: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:911: SHOW_SPRITES;
+;main.c:912: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:912: menu_opened = 0;
+;main.c:913: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:913: DISPLAY_ON;
+;main.c:914: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 00115$:
-;main.c:916: last_joypad = current_joypad;
+;main.c:917: last_joypad = current_joypad;
 	ld	a, (#_current_joypad)
 	ld	(#_last_joypad),a
-;main.c:917: }
+;main.c:918: }
 	ret
-;main.c:920: void go_into_dungeon() {
+;main.c:921: void go_into_dungeon() {
 ;	---------------------------------
 ; Function go_into_dungeon
 ; ---------------------------------
 _go_into_dungeon::
 	add	sp, #-6
-;main.c:921: wait_vbl_done();
+;main.c:922: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:922: DISPLAY_OFF;
+;main.c:923: DISPLAY_OFF;
 	call	_display_off
-;main.c:923: set_dungeon_map();
+;main.c:924: set_dungeon_map();
 	call	_set_dungeon_map
-;main.c:924: generate_dungeon(current_floor);
+;main.c:925: generate_dungeon(current_floor);
 	ld	a, (_current_floor)
 	push	af
 	inc	sp
@@ -3633,10 +3636,10 @@ _go_into_dungeon::
 	ld	hl, #_generate_dungeon
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:926: for (int i = 0; i < 4; i++) {
+;main.c:927: for (int i = 0; i < 4; i++) {
 	ld	bc, #0x0000
 00111$:
-;main.c:927: for (int j = 0; j < 4; j++) {
+;main.c:928: for (int j = 0; j < 4; j++) {
 	ld	a,c
 	cp	a,#0x04
 	jr	NC, 00104$
@@ -3663,7 +3666,7 @@ _go_into_dungeon::
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00112$
-;main.c:928: if (dungeon[i][j] == 'S') {
+;main.c:929: if (dungeon[i][j] == 'S') {
 	dec	hl
 	dec	hl
 	dec	hl
@@ -3680,38 +3683,38 @@ _go_into_dungeon::
 	ld	a, (de)
 	sub	a, #0x53
 	jr	NZ, 00109$
-;main.c:929: start.x = i;
+;main.c:930: start.x = i;
 	ldhl	sp,	#4
 	ld	(hl), c
 	ld	a, (hl)
 	ldhl	sp,	#0
 	ld	(hl), a
-;main.c:930: start.y = j;
+;main.c:931: start.y = j;
 	ldhl	sp,	#5
 	ld	a, (hl)
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:931: player_coords.x = i;
+;main.c:932: player_coords.x = i;
 	ld	de, #_player_coords
 	push	af
 	ldhl	sp,	#6
 	ld	a, (hl)
 	ld	(de), a
 	pop	af
-;main.c:932: player_coords.y = j;
+;main.c:933: player_coords.y = j;
 	ld	de, #_player_coords + 1
 	ld	(de), a
 00109$:
-;main.c:927: for (int j = 0; j < 4; j++) {
+;main.c:928: for (int j = 0; j < 4; j++) {
 	ldhl	sp,	#5
 	inc	(hl)
 	jr	00108$
 00112$:
-;main.c:926: for (int i = 0; i < 4; i++) {
+;main.c:927: for (int i = 0; i < 4; i++) {
 	inc	bc
 	jr	00111$
 00104$:
-;main.c:936: set_room(start);
+;main.c:937: set_room(start);
 	ld	hl,#0x1
 	add	hl,sp
 	ld	a, (hl-)
@@ -3719,58 +3722,58 @@ _go_into_dungeon::
 	ld	c, (hl)
 	push	bc
 	call	_set_room
-;main.c:937: if (max_floor == 0) {
+;main.c:938: if (max_floor == 0) {
 	ld	hl, #_max_floor
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00113$
-;main.c:938: max_floor = 1;
+;main.c:939: max_floor = 1;
 	ld	(hl), #0x01
 00113$:
-;main.c:940: }
+;main.c:941: }
 	add	sp, #6
 	ret
-;main.c:942: void go_next_floor() {
+;main.c:943: void go_next_floor() {
 ;	---------------------------------
 ; Function go_next_floor
 ; ---------------------------------
 _go_next_floor::
 	add	sp, #-6
-;main.c:943: current_floor+=5;
+;main.c:944: current_floor+=5;
 	ld	a, (_current_floor)
 	add	a, #0x05
-;main.c:944: if (current_floor % 5 == 0) {
+;main.c:945: if (current_floor % 5 == 0) {
 	ld	(#_current_floor),a
 	ld	e, #0x05
 	call	__moduchar
 	ld	a, c
 	or	a, a
 	jr	NZ, 00102$
-;main.c:945: boss.defeated = 1;
+;main.c:946: boss.defeated = 1;
 	ld	hl, #(_boss + 9)
 	ld	(hl), #0x01
-;main.c:946: boss_floor_defeated = 0;
+;main.c:947: boss_floor_defeated = 0;
 	xor	a, a
 	ld	(#_boss_floor_defeated),a
 00102$:
-;main.c:948: if (current_floor > max_floor) {
+;main.c:949: if (current_floor > max_floor) {
 	ld	a, (#_max_floor)
 	ld	hl, #_current_floor
 	sub	a, (hl)
 	jr	NC, 00104$
-;main.c:949: max_floor = current_floor;
+;main.c:950: max_floor = current_floor;
 	ld	a, (hl)
 	ld	(#_max_floor),a
 00104$:
-;main.c:951: key_obtained = 1;
+;main.c:952: key_obtained = 1;
 	ld	hl, #_key_obtained
 	ld	(hl), #0x01
-;main.c:952: treasure_obtained = 0;
-;main.c:953: lock_opened = 0;
+;main.c:953: treasure_obtained = 0;
+;main.c:954: lock_opened = 0;
 	xor	a, a
 	ld	(#_treasure_obtained), a
 	ld	(#_lock_opened),a
-;main.c:954: generate_dungeon(current_floor);
+;main.c:955: generate_dungeon(current_floor);
 	ld	a, (_current_floor)
 	push	af
 	inc	sp
@@ -3778,10 +3781,10 @@ _go_next_floor::
 	ld	hl, #_generate_dungeon
 	call	___sdcc_bcall_ehl
 	inc	sp
-;main.c:956: for (int i = 0; i < 4; i++) {
+;main.c:957: for (int i = 0; i < 4; i++) {
 	ld	bc, #0x0000
 00113$:
-;main.c:957: for (int j = 0; j < 4; j++) {
+;main.c:958: for (int j = 0; j < 4; j++) {
 	ld	a,c
 	cp	a,#0x04
 	jr	NC, 00108$
@@ -3808,7 +3811,7 @@ _go_next_floor::
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00114$
-;main.c:958: if (dungeon[i][j] == 'S') {
+;main.c:959: if (dungeon[i][j] == 'S') {
 	dec	hl
 	dec	hl
 	dec	hl
@@ -3825,38 +3828,38 @@ _go_next_floor::
 	ld	a, (de)
 	sub	a, #0x53
 	jr	NZ, 00111$
-;main.c:959: start.x = i;
+;main.c:960: start.x = i;
 	ldhl	sp,	#4
 	ld	(hl), c
 	ld	a, (hl)
 	ldhl	sp,	#0
 	ld	(hl), a
-;main.c:960: start.y = j;
+;main.c:961: start.y = j;
 	ldhl	sp,	#5
 	ld	a, (hl)
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:961: player_coords.x = i;
+;main.c:962: player_coords.x = i;
 	ld	de, #_player_coords
 	push	af
 	ldhl	sp,	#6
 	ld	a, (hl)
 	ld	(de), a
 	pop	af
-;main.c:962: player_coords.y = j;
+;main.c:963: player_coords.y = j;
 	ld	de, #_player_coords + 1
 	ld	(de), a
 00111$:
-;main.c:957: for (int j = 0; j < 4; j++) {
+;main.c:958: for (int j = 0; j < 4; j++) {
 	ldhl	sp,	#5
 	inc	(hl)
 	jr	00110$
 00114$:
-;main.c:956: for (int i = 0; i < 4; i++) {
+;main.c:957: for (int i = 0; i < 4; i++) {
 	inc	bc
 	jr	00113$
 00108$:
-;main.c:966: set_room(start);
+;main.c:967: set_room(start);
 	ld	hl,#0x1
 	add	hl,sp
 	ld	a, (hl-)
@@ -3864,16 +3867,16 @@ _go_next_floor::
 	ld	c, (hl)
 	push	bc
 	call	_set_room
-;main.c:967: }
+;main.c:968: }
 	add	sp, #6
 	ret
-;main.c:974: void set_textbox(uint8_t item) {
+;main.c:975: void set_textbox(uint8_t item) {
 ;	---------------------------------
 ; Function set_textbox
 ; ---------------------------------
 _set_textbox::
 	ld	c, a
-;main.c:975: menu_opened = 4;
+;main.c:976: menu_opened = 4;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x04
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
@@ -3881,11 +3884,11 @@ _set_textbox::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x68
 	ldh	(_WY_REG + 0), a
-;main.c:977: if (item == 0) {
+;main.c:978: if (item == 0) {
 	ld	a, c
 	or	a, a
 	jr	NZ, 00110$
-;main.c:978: set_win_tiles(0, 0, 20, 5, game_saved);
+;main.c:979: set_win_tiles(0, 0, 20, 5, game_saved);
 	ld	de, #_game_saved
 	push	de
 	ld	hl, #0x514
@@ -3897,17 +3900,17 @@ _set_textbox::
 	add	sp, #6
 	jp	00111$
 00110$:
-;main.c:981: move_sprite(33, x, y-32);
+;main.c:982: move_sprite(33, x, y-32);
 	ld	a, (_y)
 	ld	hl, #_x
 	ld	l, (hl)
 	add	a, #0xe0
 	ld	e, a
-;main.c:980: else if (item == 1) {
+;main.c:981: else if (item == 1) {
 	ld	a, c
 	dec	a
 	jr	NZ, 00107$
-;main.c:981: move_sprite(33, x, y-32);
+;main.c:982: move_sprite(33, x, y-32);
 	ld	c, l
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 132)
@@ -3915,7 +3918,7 @@ _set_textbox::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:982: move_sprite(34, x+8, y-32);
+;main.c:983: move_sprite(34, x+8, y-32);
 	ld	a, (_y)
 	add	a, #0xe0
 	ld	e, a
@@ -3928,7 +3931,7 @@ _set_textbox::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:983: set_win_tiles(0, 0, 20, 5, obtained_key);
+;main.c:984: set_win_tiles(0, 0, 20, 5, obtained_key);
 	ld	de, #_obtained_key
 	push	de
 	ld	hl, #0x514
@@ -3940,11 +3943,11 @@ _set_textbox::
 	add	sp, #6
 	jr	00111$
 00107$:
-;main.c:985: else if (item == 2) {
+;main.c:986: else if (item == 2) {
 	ld	a, c
 	sub	a, #0x02
 	jr	NZ, 00104$
-;main.c:986: move_sprite(35, x, y-32);
+;main.c:987: move_sprite(35, x, y-32);
 	ld	c, l
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 140)
@@ -3952,7 +3955,7 @@ _set_textbox::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:987: move_sprite(36, x+8, y-32);
+;main.c:988: move_sprite(36, x+8, y-32);
 	ld	a, (_y)
 	add	a, #0xe0
 	ld	e, a
@@ -3965,7 +3968,7 @@ _set_textbox::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:988: move_sprite(37, x, y-24);
+;main.c:989: move_sprite(37, x, y-24);
 	ld	a, (_y)
 	add	a, #0xe8
 	ld	b, a
@@ -3977,7 +3980,7 @@ _set_textbox::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:989: move_sprite(38, x+8, y-24);
+;main.c:990: move_sprite(38, x+8, y-24);
 	ld	a, (_y)
 	add	a, #0xe8
 	ld	e, a
@@ -3990,7 +3993,7 @@ _set_textbox::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:990: set_win_tiles(0, 0, 20, 5, obtained_mythril);
+;main.c:991: set_win_tiles(0, 0, 20, 5, obtained_mythril);
 	ld	de, #_obtained_mythril
 	push	de
 	ld	hl, #0x514
@@ -4002,15 +4005,15 @@ _set_textbox::
 	add	sp, #6
 	jr	00111$
 00104$:
-;main.c:992: else if (item == 3) {
+;main.c:993: else if (item == 3) {
 	ld	a, c
 	sub	a, #0x03
 	jr	NZ, 00111$
-;main.c:993: HIDE_SPRITES;
+;main.c:994: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:994: set_win_tiles(0, 0, 20, 5, boss_defeated);
+;main.c:995: set_win_tiles(0, 0, 20, 5, boss_defeated);
 	ld	de, #_boss_defeated
 	push	de
 	ld	hl, #0x514
@@ -4021,22 +4024,22 @@ _set_textbox::
 	call	_set_win_tiles
 	add	sp, #6
 00111$:
-;main.c:997: wait_vbl_done();
+;main.c:998: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:999: while(!(joypad() & (J_A))) {
+;main.c:1000: while(!(joypad() & (J_A))) {
 00112$:
 	call	_joypad
 	bit	4, a
 	jr	NZ, 00115$
-;main.c:1000: wait_vbl_done();
+;main.c:1001: wait_vbl_done();
 	call	_wait_vbl_done
 	jr	00112$
-;main.c:1003: while(joypad() & (J_A)) {
+;main.c:1004: while(joypad() & (J_A)) {
 00115$:
 	call	_joypad
 	bit	4, a
 	jr	Z, 00117$
-;main.c:1004: wait_vbl_done();
+;main.c:1005: wait_vbl_done();
 	call	_wait_vbl_done
 	jr	00115$
 00117$:
@@ -4076,19 +4079,19 @@ _set_textbox::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;main.c:1013: menu_opened = 0;
+;main.c:1014: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:1014: SHOW_SPRITES;
+;main.c:1015: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:1015: set_mini_menu();
+;main.c:1016: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
-;main.c:1016: }
+;main.c:1017: }
 	jp  ___sdcc_bcall_ehl
-;main.c:1020: void player_attack(uint8_t wpn, uint8_t index) {
+;main.c:1021: void player_attack(uint8_t wpn, uint8_t index) {
 ;	---------------------------------
 ; Function player_attack
 ; ---------------------------------
@@ -4097,48 +4100,48 @@ _player_attack::
 	ld	c, a
 	ldhl	sp,	#9
 	ld	(hl), e
-;main.c:1021: hit_sfx();
+;main.c:1022: hit_sfx();
 	push	bc
 	ld	e, #b_hit_sfx
 	ld	hl, #_hit_sfx
 	call	___sdcc_bcall_ehl
 	pop	bc
-;main.c:1024: if (wpn == 0) { // spada
+;main.c:1025: if (wpn == 0) { // spada
 	ld	a, c
 	or	a, a
 	jr	NZ, 00102$
-;main.c:1025: atk_stat = attack;
+;main.c:1026: atk_stat = attack;
 	ld	a, (_attack)
 	ld	c, a
 	jr	00103$
 00102$:
-;main.c:1028: atk_stat = arrow_damage;
+;main.c:1029: atk_stat = arrow_damage;
 	ld	a, (_arrow_damage)
 	ld	c, a
 00103$:
-;main.c:1030: if (index == 2) {
+;main.c:1031: if (index == 2) {
 	ldhl	sp,	#9
 	ld	a, (hl)
 	sub	a, #0x02
-	jp	NZ, 00113$
-;main.c:1031: if (atk_stat > boss.def) {
+	jp	NZ, 00116$
+;main.c:1032: if (atk_stat > boss.def) {
 	ld	hl, #_boss + 6
 	ld	b, (hl)
 	ld	a, b
 	sub	a, c
 	jr	NC, 00105$
-;main.c:1032: damage = atk_stat - boss.def;
+;main.c:1033: damage = atk_stat - boss.def;
 	ld	a, c
 	sub	a, b
 	ldhl	sp,	#8
 	ld	(hl), a
 	jr	00106$
 00105$:
-;main.c:1035: damage = 1;
+;main.c:1036: damage = 1;
 	ldhl	sp,	#8
 	ld	(hl), #0x01
 00106$:
-;main.c:1037: show_number(damage, 0, 1, index);
+;main.c:1038: show_number(damage, 0, 1, index);
 	ldhl	sp,	#9
 	ld	a, (hl-)
 	ld	b, a
@@ -4154,7 +4157,7 @@ _player_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;main.c:1038: if (damage < boss.hp) {
+;main.c:1039: if (damage < boss.hp) {
 	ld	de, #(_boss + 3)
 	ld	a, (de)
 	ldhl	sp,	#6
@@ -4172,7 +4175,7 @@ _player_attack::
 	ld	a, b
 	sbc	a, (hl)
 	jr	NC, 00108$
-;main.c:1039: boss.hp -= damage;
+;main.c:1040: boss.hp -= damage;
 	ldhl	sp,	#6
 	ld	a, (hl)
 	ldhl	sp,	#0
@@ -4208,28 +4211,28 @@ _player_attack::
 	ld	(hl), b
 	jr	00109$
 00108$:
-;main.c:1042: boss.hp = 0;
+;main.c:1043: boss.hp = 0;
 	ld	hl, #(_boss + 3)
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
 00109$:
-;main.c:1044: if (boss.hp == 0) {
+;main.c:1045: if (boss.hp == 0) {
 	ld	hl, #(_boss + 3)
 	ld	a, (hl+)
 	or	a, (hl)
-	jp	NZ, 00122$
-;main.c:1045: enemy_death_sfx();
+	jp	NZ, 00125$
+;main.c:1046: enemy_death_sfx();
 	ld	e, #b_enemy_death_sfx
 	ld	hl, #_enemy_death_sfx
 	call	___sdcc_bcall_ehl
-;main.c:1046: uint8_t b_x = boss.x;
+;main.c:1047: uint8_t b_x = boss.x;
 	ld	hl, #_boss + 1
 	ld	c, (hl)
-;main.c:1047: uint8_t b_y = boss.y;
+;main.c:1048: uint8_t b_y = boss.y;
 	ld	hl, #_boss + 2
 	ld	b, (hl)
-;main.c:1048: boss_death(&boss);
+;main.c:1049: boss_death(&boss);
 	push	bc
 	ld	de, #_boss
 	push	de
@@ -4237,7 +4240,7 @@ _player_attack::
 	ld	hl, #_boss_death
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:1049: set_character_sprite(last_direction);
+;main.c:1050: set_character_sprite(last_direction);
 	ld	a, (_last_direction)
 	push	af
 	inc	sp
@@ -4246,9 +4249,9 @@ _player_attack::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	bc
-;main.c:1050: wait_vbl_done();
+;main.c:1051: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:1051: play_explosion_animation(b_x, b_y);
+;main.c:1052: play_explosion_animation(b_x, b_y);
 	push	bc
 	inc	sp
 	ld	a, c
@@ -4258,16 +4261,16 @@ _player_attack::
 	ld	hl, #_play_explosion_animation
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:1052: boss_floor_defeated = 1;
+;main.c:1053: boss_floor_defeated = 1;
 	ld	hl, #_boss_floor_defeated
 	ld	(hl), #0x01
-;main.c:1053: boss_battle = 0;
+;main.c:1054: boss_battle = 0;
 	xor	a, a
 	ld	(#_boss_battle),a
-;main.c:1054: enemies_defeated++;
+;main.c:1055: enemies_defeated++;
 	ld	hl, #_enemies_defeated
 	inc	(hl)
-;main.c:1055: experience += boss.exp_reward;
+;main.c:1056: experience += boss.exp_reward;
 	ld	hl, #_boss + 7
 	ld	a, (hl+)
 	ld	c, a
@@ -4279,33 +4282,37 @@ _player_attack::
 	ld	a, (hl)
 	adc	a, b
 	ld	(hl), a
-;main.c:1056: minerals+=2;
+;main.c:1057: minerals+=2;
 	ld	a, (_minerals)
 	add	a, #0x02
 	ld	(#_minerals),a
-;main.c:1057: menu_opened = 4;
+;main.c:1058: menu_opened = 4;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x04
-;main.c:1058: current_song_bank = 3;
+;main.c:1059: current_song_bank = 3;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x03
-;main.c:1059: SWITCH_ROM(3);
+;main.c:1060: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:1060: hUGE_init(&boss_defeated_jingle);
+;main.c:1061: hUGE_init(&boss_defeated_jingle);
 	ld	de, #_boss_defeated_jingle
 	call	_hUGE_init
-;main.c:1061: SWITCH_ROM(1);
+;main.c:1062: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:1062: set_textbox(3);
+;main.c:1063: if (current_floor != 25) {
+	ld	a, (#_current_floor)
+	sub	a, #0x19
+	jr	Z, 00111$
+;main.c:1064: set_textbox(3);
 	ld	a, #0x03
 	call	_set_textbox
-;main.c:1063: uint8_t door = doors[player_coords.x][player_coords.y];
+;main.c:1065: uint8_t door = doors[player_coords.x][player_coords.y];
 	ld	bc, #_doors+0
 	ld	a, (#_player_coords + 0)
 	ld	l, a
@@ -4321,7 +4328,7 @@ _player_attack::
 	ld	d, #0x00
 	add	hl, de
 	ld	d, (hl)
-;main.c:1065: set_room_tiles(door, room_ptr, player_coords);
+;main.c:1067: set_room_tiles(door, room_ptr, player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	b, (hl)
@@ -4339,7 +4346,7 @@ _player_attack::
 	ld	hl, #_set_room_tiles
 	call	___sdcc_bcall_ehl
 	add	sp, #5
-;main.c:1066: set_bkg_tiles(2, 2, 2, 2, stairs);
+;main.c:1068: set_bkg_tiles(2, 2, 2, 2, stairs);
 	ld	de, #_stairs
 	push	de
 	ld	hl, #0x202
@@ -4347,26 +4354,36 @@ _player_attack::
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:1067: current_song_bank = 4;
+;main.c:1069: current_song_bank = 4;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x04
-;main.c:1068: SWITCH_ROM(current_song_bank);
+;main.c:1070: SWITCH_ROM(current_song_bank);
 	ld	a, #0x04
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x04
-;main.c:1069: hUGE_init(&dungeon_theme);
+;main.c:1071: hUGE_init(&dungeon_theme);
 	ld	de, #_dungeon_theme
 	call	_hUGE_init
-;main.c:1070: SWITCH_ROM(1);
+;main.c:1072: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:1072: return;
-	jp	00122$
-00113$:
-;main.c:1076: if (atk_stat > current_enemies[index].def) {
+	jp	00125$
+00111$:
+;main.c:1075: play_ending();
+	ld	e, #b_play_ending
+	ld	hl, #_play_ending
+	call	___sdcc_bcall_ehl
+;main.c:1076: save_game();
+	call	_save_game
+;main.c:1077: reset();
+	call	_reset
+;main.c:1080: return;
+	jp	00125$
+00116$:
+;main.c:1084: if (atk_stat > current_enemies[index].def) {
 	ldhl	sp,	#9
 	ld	e, (hl)
 	ld	d, #0x00
@@ -4407,19 +4424,19 @@ _player_attack::
 	ld	a, (de)
 	ld	b, a
 	sub	a, c
-	jr	NC, 00115$
-;main.c:1077: damage = atk_stat - current_enemies[index].def;
+	jr	NC, 00118$
+;main.c:1085: damage = atk_stat - current_enemies[index].def;
 	ld	a, c
 	sub	a, b
 	ldhl	sp,	#6
 	ld	(hl), a
-	jr	00116$
-00115$:
-;main.c:1080: damage = 1;
+	jr	00119$
+00118$:
+;main.c:1088: damage = 1;
 	ldhl	sp,	#6
 	ld	(hl), #0x01
-00116$:
-;main.c:1082: show_number(damage, 0, 1, index);
+00119$:
+;main.c:1090: show_number(damage, 0, 1, index);
 	ldhl	sp,	#9
 	ld	h, (hl)
 	ld	l, #0x01
@@ -4435,7 +4452,7 @@ _player_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;main.c:1083: if (damage < current_enemies[index].hp) {
+;main.c:1091: if (damage < current_enemies[index].hp) {
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	c, a
@@ -4460,8 +4477,8 @@ _player_attack::
 	inc	hl
 	ld	a, d
 	sbc	a, (hl)
-	jr	NC, 00118$
-;main.c:1084: current_enemies[index].hp -= damage;
+	jr	NC, 00121$
+;main.c:1092: current_enemies[index].hp -= damage;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	e, a
@@ -4478,15 +4495,15 @@ _player_attack::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), d
-	jr	00119$
-00118$:
-;main.c:1087: current_enemies[index].hp = 0;
+	jr	00122$
+00121$:
+;main.c:1095: current_enemies[index].hp = 0;
 	ld	l, c
 	ld	h, b
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;main.c:1088: current_enemies[index].alive = 0;
+;main.c:1096: current_enemies[index].alive = 0;
 	ldhl	sp,#4
 	ld	a, (hl+)
 	ld	e, a
@@ -4497,27 +4514,27 @@ _player_attack::
 	ld	d, h
 	xor	a, a
 	ld	(de), a
-00119$:
-;main.c:1090: if (current_enemies[index].hp == 0) {
+00122$:
+;main.c:1098: if (current_enemies[index].hp == 0) {
 	ld	l, c
 	ld	h, b
 	ld	a, (hl+)
 	or	a, (hl)
-	jr	NZ, 00122$
-;main.c:1091: uint8_t e_x = current_enemies[index].x;
+	jr	NZ, 00125$
+;main.c:1099: uint8_t e_x = current_enemies[index].x;
 	ldhl	sp,#4
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	ld	c, a
-;main.c:1092: uint8_t e_y = current_enemies[index].y;
+;main.c:1100: uint8_t e_y = current_enemies[index].y;
 	ld	a, (hl-)
 	ld	l, (hl)
 	ld	h, a
 	inc	hl
 	ld	b, (hl)
-;main.c:1093: set_character_sprite(last_direction);
+;main.c:1101: set_character_sprite(last_direction);
 	push	bc
 	ld	a, (_last_direction)
 	push	af
@@ -4527,21 +4544,21 @@ _player_attack::
 	call	___sdcc_bcall_ehl
 	inc	sp
 	pop	bc
-;main.c:1094: wait_vbl_done();
+;main.c:1102: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:1095: enemy_death(&current_enemies[index]);
+;main.c:1103: enemy_death(&current_enemies[index]);
 	ldhl	sp,	#4
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	push	bc
 	call	_enemy_death
-;main.c:1096: enemy_death_sfx();
+;main.c:1104: enemy_death_sfx();
 	ld	e, #b_enemy_death_sfx
 	ld	hl, #_enemy_death_sfx
 	call	___sdcc_bcall_ehl
 	pop	bc
-;main.c:1097: play_explosion_animation(e_x, e_y);
+;main.c:1105: play_explosion_animation(e_x, e_y);
 	push	bc
 	inc	sp
 	ld	a, c
@@ -4551,10 +4568,10 @@ _player_attack::
 	ld	hl, #_play_explosion_animation
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:1098: enemies_defeated++;
+;main.c:1106: enemies_defeated++;
 	ld	hl, #_enemies_defeated
 	inc	(hl)
-;main.c:1099: experience += current_enemies[index].exp_reward;
+;main.c:1107: experience += current_enemies[index].exp_reward;
 	ldhl	sp,#4
 	ld	a, (hl+)
 	ld	e, a
@@ -4571,27 +4588,27 @@ _player_attack::
 	ld	a, (hl)
 	adc	a, b
 	ld	(hl), a
-00122$:
-;main.c:1101: }
+00125$:
+;main.c:1109: }
 	add	sp, #10
 	ret
-;main.c:1105: void shoot_arrow() {
+;main.c:1113: void shoot_arrow() {
 ;	---------------------------------
 ; Function shoot_arrow
 ; ---------------------------------
 _shoot_arrow::
 	add	sp, #-3
-;main.c:1106: arrow_sfx();
+;main.c:1114: arrow_sfx();
 	ld	e, #b_arrow_sfx
 	ld	hl, #_arrow_sfx
 	call	___sdcc_bcall_ehl
-;main.c:1107: uint8_t arrow_x = x;
+;main.c:1115: uint8_t arrow_x = x;
 	ld	a, (_x)
 	ld	c, a
-;main.c:1108: uint8_t arrow_y = y;
+;main.c:1116: uint8_t arrow_y = y;
 	ld	a, (_y)
 	ld	b, a
-;main.c:1109: switch (last_direction) {
+;main.c:1117: switch (last_direction) {
 	ld	a, (#_last_direction)
 	dec	a
 	jr	Z, 00101$
@@ -4605,7 +4622,7 @@ _shoot_arrow::
 	sub	a, #0x08
 	jr	Z, 00104$
 	jr	00126$
-;main.c:1110: case 1:
+;main.c:1118: case 1:
 00101$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -4613,9 +4630,9 @@ _shoot_arrow::
 	ld	a, #0x50
 	ld	(hl+), a
 	ld	(hl), #0x00
-;main.c:1113: break;
+;main.c:1121: break;
 	jr	00126$
-;main.c:1114: case 2:
+;main.c:1122: case 2:
 00102$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -4623,9 +4640,9 @@ _shoot_arrow::
 	ld	a, #0x51
 	ld	(hl+), a
 	ld	(hl), #0x00
-;main.c:1117: break;
+;main.c:1125: break;
 	jr	00126$
-;main.c:1118: case 4:
+;main.c:1126: case 4:
 00103$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -4633,9 +4650,9 @@ _shoot_arrow::
 	ld	a, #0x50
 	ld	(hl+), a
 	ld	(hl), #0x40
-;main.c:1121: break;
+;main.c:1129: break;
 	jr	00126$
-;main.c:1122: case 8:
+;main.c:1130: case 8:
 00104$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -4643,19 +4660,19 @@ _shoot_arrow::
 	ld	a, #0x51
 	ld	(hl+), a
 	ld	(hl), #0x20
-;main.c:1127: while (1) {
+;main.c:1135: while (1) {
 00126$:
-;main.c:1128: wait_vbl_done();
+;main.c:1136: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:1131: arrow_y-=2;
+;main.c:1139: arrow_y-=2;
 	ld	e, b
-;main.c:1129: switch (last_direction) {
+;main.c:1137: switch (last_direction) {
 	ld	a, (#_last_direction)
 	dec	a
 	jr	Z, 00106$
-;main.c:1134: arrow_x+=2;
+;main.c:1142: arrow_x+=2;
 	ld	d, c
-;main.c:1129: switch (last_direction) {
+;main.c:1137: switch (last_direction) {
 	ld	a, (#_last_direction)
 	sub	a, #0x02
 	jr	Z, 00107$
@@ -4666,37 +4683,37 @@ _shoot_arrow::
 	sub	a, #0x08
 	jr	Z, 00109$
 	jr	00110$
-;main.c:1130: case 1:
+;main.c:1138: case 1:
 00106$:
-;main.c:1131: arrow_y-=2;
+;main.c:1139: arrow_y-=2;
 	ld	b, e
 	dec	b
 	dec	b
-;main.c:1132: break;
+;main.c:1140: break;
 	jr	00110$
-;main.c:1133: case 2:
+;main.c:1141: case 2:
 00107$:
-;main.c:1134: arrow_x+=2;
+;main.c:1142: arrow_x+=2;
 	ld	c, d
 	inc	c
 	inc	c
-;main.c:1135: break;
+;main.c:1143: break;
 	jr	00110$
-;main.c:1136: case 4:
+;main.c:1144: case 4:
 00108$:
-;main.c:1137: arrow_y+=2;
+;main.c:1145: arrow_y+=2;
 	ld	b, e
 	inc	b
 	inc	b
-;main.c:1138: break;
+;main.c:1146: break;
 	jr	00110$
-;main.c:1139: case 8:
+;main.c:1147: case 8:
 00109$:
-;main.c:1140: arrow_x-=2;
+;main.c:1148: arrow_x-=2;
 	ld	c, d
 	dec	c
 	dec	c
-;main.c:1142: }
+;main.c:1150: }
 00110$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 156)
@@ -4704,7 +4721,7 @@ _shoot_arrow::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:1144: if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
+;main.c:1152: if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
 	ld	a, c
 	sub	a, #0x01
 	jr	C, 00111$
@@ -4728,10 +4745,10 @@ _shoot_arrow::
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-;main.c:1147: return;
+;main.c:1155: return;
 	jp	00146$
 00112$:
-;main.c:1149: for (int i=0; i<2; i++) {
+;main.c:1157: for (int i=0; i<2; i++) {
 	ldhl	sp,	#0
 	xor	a, a
 	ld	(hl+), a
@@ -4744,7 +4761,7 @@ _shoot_arrow::
 	ld	a, (hl)
 	sbc	a, #0x00
 	jr	NC, 00119$
-;main.c:1150: uint8_t enemy_x = current_enemies[i].x;
+;main.c:1158: uint8_t enemy_x = current_enemies[i].x;
 	dec	hl
 	ld	a, (hl+)
 	ld	e, a
@@ -4757,10 +4774,10 @@ _shoot_arrow::
 	add	hl, hl
 	ld	de, #_current_enemies
 	add	hl, de
-;main.c:1151: uint8_t enemy_y = current_enemies[i].y;
+;main.c:1159: uint8_t enemy_y = current_enemies[i].y;
 	ld	a, (hl+)
 	ld	e, (hl)
-;main.c:1152: if (arrow_x == enemy_x && arrow_y == enemy_y) {
+;main.c:1160: if (arrow_x == enemy_x && arrow_y == enemy_y) {
 	sub	a, c
 	jr	NZ, 00145$
 	ld	a, b
@@ -4768,7 +4785,7 @@ _shoot_arrow::
 	jr	NZ, 00145$
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
-;main.c:1154: move_sprite(39, x, y);
+;main.c:1162: move_sprite(39, x, y);
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	a, #0x32
 	ld	(hl-), a
@@ -4781,15 +4798,15 @@ _shoot_arrow::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:1155: player_attack(1, i); // arrow atk
+;main.c:1163: player_attack(1, i); // arrow atk
 	ldhl	sp,	#0
 	ld	e, (hl)
 	ld	a, #0x01
 	call	_player_attack
-;main.c:1156: return;
+;main.c:1164: return;
 	jr	00146$
 00145$:
-;main.c:1149: for (int i=0; i<2; i++) {
+;main.c:1157: for (int i=0; i<2; i++) {
 	ldhl	sp,	#1
 	inc	(hl)
 	ldhl	sp,	#1
@@ -4797,7 +4814,7 @@ _shoot_arrow::
 	ld	(hl), a
 	jr	00144$
 00119$:
-;main.c:1159: if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
+;main.c:1167: if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
 	ld	a, (#(_boss + 1) + 0)
 	cp	a, c
 	jr	Z, 00124$
@@ -4832,7 +4849,7 @@ _shoot_arrow::
 00120$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
-;main.c:1161: move_sprite(39, x, y);
+;main.c:1169: move_sprite(39, x, y);
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	a, #0x32
 	ld	(hl-), a
@@ -4845,33 +4862,33 @@ _shoot_arrow::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;main.c:1162: player_attack(1, 2);
+;main.c:1170: player_attack(1, 2);
 	ld	e, #0x02
 	ld	a, #0x01
 	call	_player_attack
-;main.c:1163: return;
+;main.c:1171: return;
 00146$:
-;main.c:1166: }
+;main.c:1174: }
 	add	sp, #3
 	ret
-;main.c:1168: void heal_player() {
+;main.c:1176: void heal_player() {
 ;	---------------------------------
 ; Function heal_player
 ; ---------------------------------
 _heal_player::
-;main.c:1169: uint8_t heal = heal_quantity;
+;main.c:1177: uint8_t heal = heal_quantity;
 	ld	a, (_heal_quantity)
 	ld	b, a
-;main.c:1170: current_hp += heal;
+;main.c:1178: current_hp += heal;
 	ld	hl, #_current_hp
 	ld	a, (hl)
 	add	a, b
-;main.c:1171: if (current_hp >= max_hp) {
+;main.c:1179: if (current_hp >= max_hp) {
 	ld	(hl), a
 	ld	hl, #_max_hp
 	sub	a, (hl)
 	jr	C, 00102$
-;main.c:1172: heal = heal_quantity - (current_hp - max_hp);
+;main.c:1180: heal = heal_quantity - (current_hp - max_hp);
 	ld	a, (#_current_hp)
 	ld	hl, #_max_hp
 	sub	a, (hl)
@@ -4879,17 +4896,17 @@ _heal_player::
 	ld	a, (#_heal_quantity)
 	sub	a, c
 	ld	b, a
-;main.c:1173: current_hp = max_hp;
+;main.c:1181: current_hp = max_hp;
 	ld	a, (#_max_hp)
 	ld	(#_current_hp),a
 00102$:
-;main.c:1175: play_heal_animation();
+;main.c:1183: play_heal_animation();
 	push	bc
 	ld	e, #b_play_heal_animation
 	ld	hl, #_play_heal_animation
 	call	___sdcc_bcall_ehl
 	pop	bc
-;main.c:1176: show_number(heal, 1, 0, 0);
+;main.c:1184: show_number(heal, 1, 0, 0);
 	xor	a, a
 	rrca
 	push	af
@@ -4903,9 +4920,9 @@ _heal_player::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;main.c:1177: }
+;main.c:1185: }
 	ret
-;main.c:1180: void smooth_movement(uint8_t dir) {
+;main.c:1188: void smooth_movement(uint8_t dir) {
 ;	---------------------------------
 ; Function smooth_movement
 ; ---------------------------------
@@ -4913,15 +4930,15 @@ _smooth_movement::
 	add	sp, #-11
 	ldhl	sp,	#9
 	ld	(hl), a
-;main.c:1182: mov_x = x;
+;main.c:1190: mov_x = x;
 	ld	a, (#_x)
 	ldhl	sp,	#0
 	ld	(hl), a
-;main.c:1183: mov_y = y;
+;main.c:1191: mov_y = y;
 	ld	a, (#_y)
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:1185: switch (dir) {
+;main.c:1193: switch (dir) {
 	ldhl	sp,	#9
 	ld	a, (hl)
 	dec	a
@@ -4955,17 +4972,17 @@ _smooth_movement::
 	xor	a, a
 00269$:
 	ld	c, a
-;main.c:1187: y-=16;
+;main.c:1195: y-=16;
 	ld	a, (_y)
 	ld	d, a
-;main.c:1185: switch (dir) {
+;main.c:1193: switch (dir) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00101$
-;main.c:1190: x+=16;
+;main.c:1198: x+=16;
 	ld	a, (_x)
-;main.c:1185: switch (dir) {
+;main.c:1193: switch (dir) {
 	inc	e
 	dec	e
 	jr	NZ, 00102$
@@ -4976,37 +4993,37 @@ _smooth_movement::
 	dec	c
 	jr	NZ, 00104$
 	jr	00105$
-;main.c:1186: case 1:
+;main.c:1194: case 1:
 00101$:
-;main.c:1187: y-=16;
+;main.c:1195: y-=16;
 	ld	a, d
 	add	a, #0xf0
 	ld	(#_y),a
-;main.c:1188: break;
+;main.c:1196: break;
 	jr	00105$
-;main.c:1189: case 2:
+;main.c:1197: case 2:
 00102$:
-;main.c:1190: x+=16;
+;main.c:1198: x+=16;
 	add	a, #0x10
 	ld	(#_x),a
-;main.c:1191: break;
+;main.c:1199: break;
 	jr	00105$
-;main.c:1192: case 4:
+;main.c:1200: case 4:
 00103$:
-;main.c:1193: y+=16;
+;main.c:1201: y+=16;
 	ld	a, d
 	add	a, #0x10
 	ld	(#_y),a
-;main.c:1194: break;
+;main.c:1202: break;
 	jr	00105$
-;main.c:1195: case 8:
+;main.c:1203: case 8:
 00104$:
-;main.c:1196: x-=16;
+;main.c:1204: x-=16;
 	add	a, #0xf0
 	ld	(#_x),a
-;main.c:1198: }
+;main.c:1206: }
 00105$:
-;main.c:1200: play_walk_animation(dir);
+;main.c:1208: play_walk_animation(dir);
 	push	bc
 	push	de
 	ldhl	sp,	#13
@@ -5019,7 +5036,7 @@ _smooth_movement::
 	inc	sp
 	pop	de
 	pop	bc
-;main.c:1202: while (frame < 16) {
+;main.c:1210: while (frame < 16) {
 	ldhl	sp,	#3
 	ld	a, e
 	ld	(hl+), a
@@ -5040,11 +5057,11 @@ _smooth_movement::
 	ld	a, (hl)
 	sub	a, #0x10
 	jp	NC, 00140$
-;main.c:1203: if (frame > 7) {
+;main.c:1211: if (frame > 7) {
 	ld	a, #0x07
 	sub	a, (hl)
 	jr	NC, 00107$
-;main.c:1204: set_character_sprite(dir);
+;main.c:1212: set_character_sprite(dir);
 	dec	hl
 	ld	a, (hl)
 	push	af
@@ -5054,7 +5071,7 @@ _smooth_movement::
 	call	___sdcc_bcall_ehl
 	inc	sp
 00107$:
-;main.c:1206: if (mov_y >= 136) {
+;main.c:1214: if (mov_y >= 136) {
 	ldhl	sp,	#1
 	ld	a, (hl)
 	sub	a, #0x88
@@ -5064,15 +5081,15 @@ _smooth_movement::
 	ld	(hl), #0x32
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x32
-;main.c:1208: set_sprite_tile(7, 50);
+;main.c:1216: set_sprite_tile(7, 50);
 	jr	00117$
 00116$:
-;main.c:1210: else if (mov_y == 134){
+;main.c:1218: else if (mov_y == 134){
 	ldhl	sp,	#1
 	ld	a, (hl)
 	sub	a, #0x86
 	jr	NZ, 00117$
-;main.c:1211: switch (dir) {
+;main.c:1219: switch (dir) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
@@ -5090,57 +5107,57 @@ _smooth_movement::
 	or	a, a
 	jr	NZ, 00111$
 	jr	00117$
-;main.c:1212: case 1:
+;main.c:1220: case 1:
 00108$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 26)
 	ld	(hl), #0x06
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x07
-;main.c:1215: break;
+;main.c:1223: break;
 	jr	00117$
-;main.c:1216: case 2:
+;main.c:1224: case 2:
 00109$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 26)
 	ld	(hl), #0x0a
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x0b
-;main.c:1219: break;
+;main.c:1227: break;
 	jr	00117$
-;main.c:1220: case 4:
+;main.c:1228: case 4:
 00110$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 26)
 	ld	(hl), #0x02
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x03
-;main.c:1223: break;
+;main.c:1231: break;
 	jr	00117$
-;main.c:1224: case 8:
+;main.c:1232: case 8:
 00111$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 26)
 	ld	(hl), #0x0e
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x0f
-;main.c:1228: }
+;main.c:1236: }
 00117$:
-;main.c:1230: wait_vbl_done();
+;main.c:1238: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:1233: mov_y-=1;
+;main.c:1241: mov_y-=1;
 	ldhl	sp,	#1
-;main.c:1231: switch (dir) {
+;main.c:1239: switch (dir) {
 	ld	a, (hl+)
 	ld	c, a
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00118$
-;main.c:1236: mov_x+=1;
+;main.c:1244: mov_x+=1;
 	dec	hl
 	dec	hl
 	ld	b, (hl)
-;main.c:1231: switch (dir) {
+;main.c:1239: switch (dir) {
 	ldhl	sp,	#6
 	ld	a, (hl)
 	or	a, a
@@ -5154,41 +5171,41 @@ _smooth_movement::
 	or	a, a
 	jr	NZ, 00121$
 	jr	00122$
-;main.c:1232: case 1:
+;main.c:1240: case 1:
 00118$:
-;main.c:1233: mov_y-=1;
+;main.c:1241: mov_y-=1;
 	ld	a, c
 	dec	a
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:1234: break;
+;main.c:1242: break;
 	jr	00122$
-;main.c:1235: case 2:
+;main.c:1243: case 2:
 00119$:
-;main.c:1236: mov_x+=1;
+;main.c:1244: mov_x+=1;
 	ld	a, b
 	inc	a
 	ldhl	sp,	#0
 	ld	(hl), a
-;main.c:1237: break;
+;main.c:1245: break;
 	jr	00122$
-;main.c:1238: case 4:
+;main.c:1246: case 4:
 00120$:
-;main.c:1239: mov_y+=1;
+;main.c:1247: mov_y+=1;
 	ld	a, c
 	inc	a
 	ldhl	sp,	#1
 	ld	(hl), a
-;main.c:1240: break;
+;main.c:1248: break;
 	jr	00122$
-;main.c:1241: case 8:
+;main.c:1249: case 8:
 00121$:
-;main.c:1242: mov_x-=1;
+;main.c:1250: mov_x-=1;
 	ld	a, b
 	dec	a
 	ldhl	sp,	#0
 	ld	(hl), a
-;main.c:1244: }
+;main.c:1252: }
 00122$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	bc, #(_shadow_OAM + 16)
@@ -5199,7 +5216,7 @@ _smooth_movement::
 	inc	bc
 	ld	a, (hl)
 	ld	(bc), a
-;main.c:1246: move_sprite(5, mov_x+8, mov_y);
+;main.c:1254: move_sprite(5, mov_x+8, mov_y);
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	ld	a, (hl+)
@@ -5212,7 +5229,7 @@ _smooth_movement::
 	inc	de
 	ld	a, b
 	ld	(de), a
-;main.c:1247: move_sprite(6, mov_x, mov_y + 8);
+;main.c:1255: move_sprite(6, mov_x, mov_y + 8);
 	ld	a, (hl)
 	add	a, #0x08
 	ld	b, a
@@ -5231,112 +5248,112 @@ _smooth_movement::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;main.c:1249: frame++;
+;main.c:1257: frame++;
 	ldhl	sp,	#10
 	inc	(hl)
 	jp	00123$
 00140$:
-;main.c:1252: }
+;main.c:1260: }
 	add	sp, #11
 	ret
-;main.c:1258: void check_time() {
+;main.c:1266: void check_time() {
 ;	---------------------------------
 ; Function check_time
 ; ---------------------------------
 _check_time::
-;main.c:1259: frames++;
+;main.c:1267: frames++;
 	ld	hl, #_frames
 	inc	(hl)
-;main.c:1260: if (frames == 60) {
+;main.c:1268: if (frames == 60) {
 	ld	a, (hl)
 	sub	a, #0x3c
 	jr	NZ, 00102$
-;main.c:1261: frames = 0;
+;main.c:1269: frames = 0;
 	xor	a, a
 	ld	(#_frames),a
-;main.c:1262: seconds++;
+;main.c:1270: seconds++;
 	ld	hl, #_seconds
 	inc	(hl)
 00102$:
-;main.c:1264: if (seconds == 60) {
+;main.c:1272: if (seconds == 60) {
 	ld	a, (#_seconds)
 	sub	a, #0x3c
 	jr	NZ, 00104$
-;main.c:1265: seconds = 0;
+;main.c:1273: seconds = 0;
 	xor	a, a
 	ld	(#_seconds),a
-;main.c:1266: minutes++;
+;main.c:1274: minutes++;
 	ld	hl, #_minutes
 	inc	(hl)
 00104$:
-;main.c:1268: if (minutes == 60) {
+;main.c:1276: if (minutes == 60) {
 	ld	a, (#_minutes)
 	sub	a, #0x3c
 	jr	NZ, 00106$
-;main.c:1269: minutes = 0;
+;main.c:1277: minutes = 0;
 	xor	a, a
 	ld	(#_minutes),a
-;main.c:1270: hours++;
+;main.c:1278: hours++;
 	ld	hl, #_hours
 	inc	(hl)
 00106$:
-;main.c:1272: if (hours > 99) {
+;main.c:1280: if (hours > 99) {
 	ld	a, #0x63
 	ld	hl, #_hours
 	sub	a, (hl)
 	ret	NC
-;main.c:1273: hours = 99;
+;main.c:1281: hours = 99;
 	ld	(hl), #0x63
-;main.c:1275: }
+;main.c:1283: }
 	ret
-;main.c:1280: void music_vbl_interrupt() {
+;main.c:1288: void music_vbl_interrupt() {
 ;	---------------------------------
 ; Function music_vbl_interrupt
 ; ---------------------------------
 _music_vbl_interrupt::
-;main.c:1281: uint8_t bank_precedente = _current_bank;
+;main.c:1289: uint8_t bank_precedente = _current_bank;
 	ldh	a, (__current_bank + 0)
 	ld	c, a
-;main.c:1282: SWITCH_ROM(current_song_bank);
+;main.c:1290: SWITCH_ROM(current_song_bank);
 	ld	a, (_current_song_bank)
 	ldh	(__current_bank + 0), a
 	ld	(#_rROMB0),a
-;main.c:1283: hUGE_dosound();
+;main.c:1291: hUGE_dosound();
 	push	bc
 	call	_hUGE_dosound
 	pop	bc
-;main.c:1284: SWITCH_ROM(bank_precedente);
+;main.c:1292: SWITCH_ROM(bank_precedente);
 	ld	a, c
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), c
-;main.c:1285: }
+;main.c:1293: }
 	ret
-;main.c:1287: void return_to_camp() {
+;main.c:1295: void return_to_camp() {
 ;	---------------------------------
 ; Function return_to_camp
 ; ---------------------------------
 _return_to_camp::
-;main.c:1288: menu_opened = 0;
+;main.c:1296: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:1289: current_song_bank = 3;
+;main.c:1297: current_song_bank = 3;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x03
-;main.c:1290: SWITCH_ROM(current_song_bank);
+;main.c:1298: SWITCH_ROM(current_song_bank);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:1291: hUGE_init(&gameover_jingle);
+;main.c:1299: hUGE_init(&gameover_jingle);
 	ld	de, #_gameover_jingle
 	call	_hUGE_init
-;main.c:1292: SWITCH_ROM(1);
+;main.c:1300: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:1293: game_over();
+;main.c:1301: game_over();
 	ld	e, #b_game_over
 	ld	hl, #_game_over
 	call	___sdcc_bcall_ehl
@@ -5345,35 +5362,35 @@ _return_to_camp::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:1295: set_mini_menu();
+;main.c:1303: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:1296: set_camp_map();
+;main.c:1304: set_camp_map();
 	call	_set_camp_map
-;main.c:1297: x = 120;
+;main.c:1305: x = 120;
 	ld	hl, #_x
 	ld	(hl), #0x78
-;main.c:1298: y = 112;
+;main.c:1306: y = 112;
 	ld	hl, #_y
 	ld	(hl), #0x70
-;main.c:1299: move_character();
+;main.c:1307: move_character();
 	call	_move_character
-;main.c:1300: delay(100);
+;main.c:1308: delay(100);
 	ld	de, #0x0064
 	call	_delay
-;main.c:1301: SHOW_WIN;
+;main.c:1309: SHOW_WIN;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x20
 	ldh	(_LCDC_REG + 0), a
-;main.c:1302: DISPLAY_ON;
+;main.c:1310: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:1303: return;
-;main.c:1304: }
+;main.c:1311: return;
+;main.c:1312: }
 	ret
-;main.c:1306: void set_tutorial() {
+;main.c:1314: void set_tutorial() {
 ;	---------------------------------
 ; Function set_tutorial
 ; ---------------------------------
@@ -5437,12 +5454,12 @@ _set_tutorial::
 	ld	a, #0x58
 	ld	(hl+), a
 	ld	(hl), #0x20
-;main.c:1317: SWITCH_ROM(3);
+;main.c:1325: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:1318: set_win_tiles(0, 0, 20, 18, TutorialMap);
+;main.c:1326: set_win_tiles(0, 0, 20, 18, TutorialMap);
 	ld	de, #_TutorialMap
 	push	de
 	ld	hl, #0x1214
@@ -5452,17 +5469,17 @@ _set_tutorial::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:1319: SHOW_SPRITES;
+;main.c:1327: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:1320: SHOW_WIN;
+;main.c:1328: SHOW_WIN;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x20
 	ldh	(_LCDC_REG + 0), a
-;main.c:1321: while (1) {
+;main.c:1329: while (1) {
 00104$:
-;main.c:1322: if (joypad() & J_A) {
+;main.c:1330: if (joypad() & J_A) {
 	call	_joypad
 	bit	4, a
 	jr	Z, 00104$
@@ -5514,17 +5531,17 @@ _set_tutorial::
 	ld	a, #0x48
 	ld	(hl+), a
 	ld	(hl), #0x80
-;main.c:1331: return;
-;main.c:1334: }
+;main.c:1339: return;
+;main.c:1342: }
 	ret
-;main.c:1336: void debug_value(uint8_t value) {
+;main.c:1344: void debug_value(uint8_t value) {
 ;	---------------------------------
 ; Function debug_value
 ; ---------------------------------
 _debug_value::
 	ld	(#_debug),a
-;main.c:1337: debug = value;
-;main.c:1338: }
+;main.c:1345: debug = value;
+;main.c:1346: }
 	ret
 	.area _CODE
 	.area _INITIALIZER
@@ -5563,9 +5580,9 @@ __xinit__player_name:
 	.db #0xa4	; 164
 	.db #0xa4	; 164
 __xinit__max_hp:
-	.db #0x19	; 25
+	.db #0x63	; 99	'c'
 __xinit__current_hp:
-	.db #0x19	; 25
+	.db #0x63	; 99	'c'
 __xinit__attack:
 	.db #0x05	; 5
 __xinit__defense:

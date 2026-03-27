@@ -908,5 +908,21 @@ _MiniGUI:
 	.db #0xfd	; 253
 	.db #0xff	; 255
 	.db #0xff	; 255
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x24	; 36
+	.db #0x24	; 36
+	.db #0x24	; 36
+	.db #0x24	; 36
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x18	; 24
+	.db #0x18	; 24
+	.db #0x10	; 16
+	.db #0x10	; 16
+	.db #0x18	; 24
+	.db #0x18	; 24
 	.area _INITIALIZER
 	.area _CABS (ABS)
