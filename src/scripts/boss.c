@@ -100,7 +100,7 @@ void move_boss(Boss *boss) BANKED {
     if (boss->defeated) {
         return;
     }
-    uint8_t dx, dy;
+    int8_t dx, dy;
 
 
     // controllo distanza per attacco
@@ -109,7 +109,7 @@ void move_boss(Boss *boss) BANKED {
 
     // da vedere bene come far funzionare bene il nemico che segue
 
-    if (dx == 0 && dy == 16 || dx == 16 && dy == 16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == 16 && dy == 0) {
+    if (dx == 0 && dy == -16 || dx == 16 && dy == -16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == -16 && dy == 16 || dx == -16 && dy == 0) {
         boss_attack(boss);
         return;
     }
@@ -160,21 +160,11 @@ void move_boss(Boss *boss) BANKED {
 }
 
 uint8_t boss_check_distance_x(Boss* boss) {
-    if (x > boss->x) {
-            return(x - boss->x);
-        }
-    else {
-        return(boss->x - x);
-    }
+    return x - boss->x;
 }
 
 uint8_t boss_check_distance_y(Boss* boss) {
-    if (y > boss->y) {
-        return(y - boss->y);
-    }
-    else {
-        return(boss->y - y);
-    }
+    return y - boss->y;
 }
 
 void boss_attack(Boss* boss) {

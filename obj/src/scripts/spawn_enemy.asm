@@ -24,6 +24,8 @@
 	.globl _set_enemy_tiles
 	.globl b_set_enemy_sprite
 	.globl _set_enemy_sprite
+	.globl _set_enemy1_spawnpoint
+	.globl _set_enemy2_spawnpoint
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -582,19 +584,17 @@ _spawn_enemies_in_room::
 	jr	Z, 00104$
 ;src/scripts/spawn_enemy.c:156: set_enemy_stats(&enemies[1], id_high, 12);
 	push	bc
-	push	de
 	ld	a, #0x0c
 	push	af
 	inc	sp
 	ld	a, b
 	call	_set_enemy_stats
-	pop	de
-;src/scripts/spawn_enemy.c:157: set_enemy_position(&enemies[1], 72, 48);
-	ld	a, #0x30
-	push	af
-	inc	sp
-	ld	a, #0x48
-	call	_set_enemy_position
+;src/scripts/spawn_enemy.c:157: set_enemy1_spawnpoint(enemies);
+	ldhl	sp,	#12
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	call	_set_enemy1_spawnpoint
 	pop	bc
 00104$:
 ;src/scripts/spawn_enemy.c:160: uint8_t id_low = room_data & 0x0F;
@@ -620,16 +620,14 @@ _spawn_enemies_in_room::
 	inc	hl
 	ld	d, (hl)
 	call	_set_enemy_stats
-;src/scripts/spawn_enemy.c:166: set_enemy_position(&enemies[0], 120, 48);
-	ld	a, #0x30
-	push	af
-	inc	sp
-	ld	a, #0x78
-	ldhl	sp,	#1
-	ld	e, (hl)
-	inc	hl
+;src/scripts/spawn_enemy.c:166: set_enemy2_spawnpoint(enemies);
+	ldhl	sp,	#10
+	ld	a, (hl+)
+	ld	e, a
 	ld	d, (hl)
-	call	_set_enemy_position
+	inc	sp
+	inc	sp
+	jp	_set_enemy2_spawnpoint
 00107$:
 ;src/scripts/spawn_enemy.c:168: }
 	inc	sp
@@ -971,6 +969,228 @@ _set_enemy_sprite::
 ;src/scripts/spawn_enemy.c:254: return;
 ;src/scripts/spawn_enemy.c:255: }
 	jp  ___sdcc_bcall_ehl
+;src/scripts/spawn_enemy.c:257: void set_enemy1_spawnpoint(Enemy enemies[2]) {
+;	---------------------------------
+; Function set_enemy1_spawnpoint
+; ---------------------------------
+_set_enemy1_spawnpoint::
+;src/scripts/spawn_enemy.c:258: uint8_t rng = DIV_REG & 7;
+	ldh	a, (_DIV_REG + 0)
+	and	a, #0x07
+	ld	c, a
+;src/scripts/spawn_enemy.c:260: switch (rng) {
+	ld	b, #0x00
+	ld	hl, #00114$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00114$:
+	.dw	00101$
+	.dw	00102$
+	.dw	00103$
+	.dw	00104$
+	.dw	00105$
+	.dw	00106$
+	.dw	00107$
+	.dw	00108$
+;src/scripts/spawn_enemy.c:261: case 0:
+00101$:
+;src/scripts/spawn_enemy.c:262: x_coord = 4;
+	ld	c, #0x04
+;src/scripts/spawn_enemy.c:263: y_coord = 6;
+	ld	a, #0x06
+;src/scripts/spawn_enemy.c:264: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:265: case 1:
+00102$:
+;src/scripts/spawn_enemy.c:266: x_coord = 6;
+;src/scripts/spawn_enemy.c:267: y_coord = 6;
+	ld	a,#0x06
+	ld	c,a
+;src/scripts/spawn_enemy.c:268: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:269: case 2:
+00103$:
+;src/scripts/spawn_enemy.c:270: x_coord = 8;
+	ld	c, #0x08
+;src/scripts/spawn_enemy.c:271: y_coord = 4;
+	ld	a, #0x04
+;src/scripts/spawn_enemy.c:272: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:273: case 3:
+00104$:
+;src/scripts/spawn_enemy.c:274: x_coord = 8;
+	ld	c, #0x08
+;src/scripts/spawn_enemy.c:275: y_coord = 12;
+	ld	a, #0x0c
+;src/scripts/spawn_enemy.c:276: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:277: case 4:
+00105$:
+;src/scripts/spawn_enemy.c:278: x_coord = 10;
+;src/scripts/spawn_enemy.c:279: y_coord = 10;
+	ld	a,#0x0a
+	ld	c,a
+;src/scripts/spawn_enemy.c:280: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:281: case 5:
+00106$:
+;src/scripts/spawn_enemy.c:282: x_coord = 12;
+	ld	c, #0x0c
+;src/scripts/spawn_enemy.c:283: y_coord = 8;
+	ld	a, #0x08
+;src/scripts/spawn_enemy.c:284: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:285: case 6:
+00107$:
+;src/scripts/spawn_enemy.c:286: x_coord = 14;
+	ld	c, #0x0e
+;src/scripts/spawn_enemy.c:287: y_coord = 4;
+	ld	a, #0x04
+;src/scripts/spawn_enemy.c:288: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:289: case 7:
+00108$:
+;src/scripts/spawn_enemy.c:290: x_coord = 14;
+	ld	c, #0x0e
+;src/scripts/spawn_enemy.c:291: y_coord = 8;
+	ld	a, #0x08
+;src/scripts/spawn_enemy.c:293: }
+00109$:
+;src/scripts/spawn_enemy.c:294: set_enemy_position(&enemies[1], x_coord*8 + 8, y_coord*8 + 16);
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x10
+	ld	b, a
+	ld	a, c
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x08
+	ld	c, a
+	ld	hl, #0x000c
+	add	hl, de
+	ld	e, l
+	ld	d, h
+	push	bc
+	inc	sp
+	ld	a, c
+	call	_set_enemy_position
+;src/scripts/spawn_enemy.c:295: }
+	ret
+;src/scripts/spawn_enemy.c:297: void set_enemy2_spawnpoint(Enemy enemies[2]) {
+;	---------------------------------
+; Function set_enemy2_spawnpoint
+; ---------------------------------
+_set_enemy2_spawnpoint::
+;src/scripts/spawn_enemy.c:298: uint8_t rng = DIV_REG & 7;
+	ldh	a, (_DIV_REG + 0)
+	and	a, #0x07
+	ld	c, a
+;src/scripts/spawn_enemy.c:300: switch (rng) {
+	ld	b, #0x00
+	ld	hl, #00114$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00114$:
+	.dw	00101$
+	.dw	00102$
+	.dw	00103$
+	.dw	00104$
+	.dw	00105$
+	.dw	00106$
+	.dw	00107$
+	.dw	00108$
+;src/scripts/spawn_enemy.c:301: case 0:
+00101$:
+;src/scripts/spawn_enemy.c:302: x_coord = 4;
+	ld	c, #0x04
+;src/scripts/spawn_enemy.c:303: y_coord = 8;
+	ld	a, #0x08
+;src/scripts/spawn_enemy.c:304: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:305: case 1:
+00102$:
+;src/scripts/spawn_enemy.c:306: x_coord = 6;
+;src/scripts/spawn_enemy.c:307: y_coord = 6;
+	ld	a,#0x06
+	ld	c,a
+;src/scripts/spawn_enemy.c:308: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:309: case 2:
+00103$:
+;src/scripts/spawn_enemy.c:310: x_coord = 8;
+	ld	c, #0x08
+;src/scripts/spawn_enemy.c:311: y_coord = 6;
+	ld	a, #0x06
+;src/scripts/spawn_enemy.c:312: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:313: case 3:
+00104$:
+;src/scripts/spawn_enemy.c:314: x_coord = 10;
+	ld	c, #0x0a
+;src/scripts/spawn_enemy.c:315: y_coord = 8;
+	ld	a, #0x08
+;src/scripts/spawn_enemy.c:316: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:317: case 4:
+00105$:
+;src/scripts/spawn_enemy.c:318: x_coord = 10;
+	ld	c, #0x0a
+;src/scripts/spawn_enemy.c:319: y_coord = 12;
+	ld	a, #0x0c
+;src/scripts/spawn_enemy.c:320: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:321: case 5:
+00106$:
+;src/scripts/spawn_enemy.c:322: x_coord = 12;
+	ld	c, #0x0c
+;src/scripts/spawn_enemy.c:323: y_coord = 10;
+	ld	a, #0x0a
+;src/scripts/spawn_enemy.c:324: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:325: case 6:
+00107$:
+;src/scripts/spawn_enemy.c:326: x_coord = 14;
+	ld	c, #0x0e
+;src/scripts/spawn_enemy.c:327: y_coord = 6;
+	ld	a, #0x06
+;src/scripts/spawn_enemy.c:328: break;
+	jr	00109$
+;src/scripts/spawn_enemy.c:329: case 7:
+00108$:
+;src/scripts/spawn_enemy.c:330: x_coord = 14;
+	ld	c, #0x0e
+;src/scripts/spawn_enemy.c:331: y_coord = 10;
+	ld	a, #0x0a
+;src/scripts/spawn_enemy.c:333: }
+00109$:
+;src/scripts/spawn_enemy.c:334: set_enemy_position(&enemies[0], x_coord*8 + 8, y_coord*8 + 16);
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x10
+	ld	b, a
+	ld	a, c
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x08
+	push	bc
+	inc	sp
+	call	_set_enemy_position
+;src/scripts/spawn_enemy.c:335: }
+	ret
 	.area _CODE_3
 	.area _INITIALIZER
 	.area _CABS (ABS)

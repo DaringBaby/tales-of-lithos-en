@@ -31,10 +31,12 @@ Symbol Table
   8 _generate_enemies                                               00000142 GR
   8 _get_num_enemies                                                00000000 GR
   2 _room_enemies                                                   00000000 GR
+  8 _set_enemy1_spawnpoint                                          00000436 GR
+  8 _set_enemy2_spawnpoint                                          0000049D GR
     _set_enemy_position                                             ******** GX
-  8 _set_enemy_sprite                                               0000028F GR
+  8 _set_enemy_sprite                                               00000288 GR
     _set_enemy_stats                                                ******** GX
-  8 _set_enemy_tiles                                                00000266 GR
+  8 _set_enemy_tiles                                                0000025F GR
     _set_sprite_data                                                ******** GX
     _shadow_OAM                                                     ******** GX
   8 _spawn_enemies_in_room                                          000001DE GR
@@ -43,7 +45,6 @@ Symbol Table
     b_set_enemy_sprite                                          =   00000003 G
     b_set_enemy_tiles                                           =   00000003 G
     b_spawn_enemies_in_room                                     =   00000003 G
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
@@ -58,7 +59,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_3                                    size      43D   flags    0
+   8 _CODE_3                                    size      4FD   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

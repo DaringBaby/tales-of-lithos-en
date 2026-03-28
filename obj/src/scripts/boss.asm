@@ -850,7 +850,7 @@ _move_boss::
 	ld	a, (bc)
 	or	a, a
 ;src/scripts/boss.c:101: return;
-	jp	NZ, 00132$
+	jp	NZ, 00134$
 ;src/scripts/boss.c:107: dx = boss_check_distance_x(boss);
 	pop	de
 	push	de
@@ -863,61 +863,69 @@ _move_boss::
 	ld	e, a
 	ld	d, (hl)
 	call	_boss_check_distance_y
-	ld	c, a
 	pop	de
-;src/scripts/boss.c:112: if (dx == 0 && dy == 16 || dx == 16 && dy == 16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == 16 && dy == 0) {
-	ld	a, c
-	sub	a, #0x10
+;src/scripts/boss.c:112: if (dx == 0 && dy == -16 || dx == 16 && dy == -16 || dx == 32 && dy == 0 || dx == 32 && dy == 16 || dx == 16 && dy == 32 || dx == 0 && dy == 32 || dx == -16 && dy == 16 || dx == -16 && dy == 0) {
+	ld	c, a
+	sub	a, #0xf0
 	ld	a, #0x01
-	jr	Z, 00214$
+	jr	Z, 00223$
 	xor	a, a
-00214$:
-	ld	d, a
+00223$:
+	ld	b, a
 	ld	a, e
 	or	a, a
 	jr	NZ, 00107$
-	or	a, d
+	or	a, b
 	jr	NZ, 00103$
 00107$:
 	ld	a, e
 	sub	a, #0x10
 	ld	a, #0x01
-	jr	Z, 00216$
+	jr	Z, 00225$
 	xor	a, a
-00216$:
-	ld	b, a
+00225$:
+	ld	d, a
 	or	a, a
 	jr	Z, 00109$
-	ld	a, d
+	ld	a, b
 	or	a, a
 	jr	NZ, 00103$
 00109$:
 	ld	a, e
 	sub	a, #0x20
 	ld	a, #0x01
-	jr	Z, 00218$
+	jr	Z, 00227$
 	xor	a, a
-00218$:
+00227$:
+	ld	l, a
 	or	a, a
 	jr	Z, 00111$
-	inc	c
-	dec	c
+	ld	a, c
+	or	a, a
 	jr	Z, 00103$
 00111$:
+	ld	a, c
+	sub	a, #0x10
+	ld	a, #0x01
+	jr	Z, 00229$
+	xor	a, a
+00229$:
+	ld	b, a
+	ld	a, l
 	or	a, a
 	jr	Z, 00113$
-	ld	a, d
+	ld	a, b
 	or	a, a
 	jr	NZ, 00103$
 00113$:
 	ld	a, c
 	sub	a, #0x20
 	ld	a, #0x01
-	jr	Z, 00220$
+	jr	Z, 00231$
 	xor	a, a
-00220$:
-	inc	b
-	dec	b
+00231$:
+	inc	d
+	dec	d
 	jr	Z, 00115$
 	or	a, a
 	jr	NZ, 00103$
@@ -928,7 +936,18 @@ _move_boss::
 	or	a, a
 	jr	NZ, 00103$
 00117$:
-	ld	a, b
+	ld	a, e
+	sub	a, #0xf0
+	ld	a, #0x01
+	jr	Z, 00233$
+	xor	a, a
+00233$:
+	or	a, a
+	jr	Z, 00119$
+	inc	b
+	dec	b
+	jr	NZ, 00103$
+00119$:
 	or	a, a
 	jr	Z, 00104$
 	ld	a, c
@@ -940,7 +959,7 @@ _move_boss::
 	push	de
 	call	_boss_attack
 ;src/scripts/boss.c:114: return;
-	jp	00132$
+	jp	00134$
 00104$:
 ;src/scripts/boss.c:120: int16_t diff_x = boss_check_distance_x(boss);
 	pop	de
@@ -1002,32 +1021,32 @@ _move_boss::
 	ldhl	sp,	#3
 	ld	a, (hl-)
 	sub	a, (hl)
-	jr	NC, 00125$
+	jr	NC, 00127$
 ;src/scripts/boss.c:124: if (x > boss->x) {
 	ld	a, c
 	ld	hl, #_x
 	sub	a, (hl)
-	jr	NC, 00119$
+	jr	NC, 00121$
 ;src/scripts/boss.c:125: direction = 1;
 	ld	e, #0x01
-	jr	00126$
-00119$:
+	jr	00128$
+00121$:
 ;src/scripts/boss.c:128: direction = 3;
 	ld	e, #0x03
-	jr	00126$
-00125$:
+	jr	00128$
+00127$:
 ;src/scripts/boss.c:132: if (y > boss->y) {
 	ld	a, b
 	ld	hl, #_y
 	sub	a, (hl)
-	jr	NC, 00122$
+	jr	NC, 00124$
 ;src/scripts/boss.c:133: direction = 2;
 	ld	e, #0x02
-	jr	00126$
-00122$:
+	jr	00128$
+00124$:
 ;src/scripts/boss.c:136: direction = 0;
 	ld	e, #0x00
-00126$:
+00128$:
 ;src/scripts/boss.c:140: uint8_t next_x = boss->x;
 ;src/scripts/boss.c:141: uint8_t next_y = boss->y;
 ;src/scripts/boss.c:144: next_y -= 16;
@@ -1038,7 +1057,7 @@ _move_boss::
 ;src/scripts/boss.c:142: switch (direction) {
 	push	de
 	ld	d, #0x00
-	ld	hl, #00221$
+	ld	hl, #00234$
 	add	hl, de
 	add	hl, de
 	ld	e, (hl)
@@ -1047,45 +1066,45 @@ _move_boss::
 	ld	l, e
 	pop	de
 	jp	(hl)
-00221$:
-	.dw	00127$
-	.dw	00128$
+00234$:
 	.dw	00129$
 	.dw	00130$
+	.dw	00131$
+	.dw	00132$
 ;src/scripts/boss.c:143: case 0:
-00127$:
+00129$:
 ;src/scripts/boss.c:144: next_y -= 16;
 	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, #0xf0
 	ld	b, a
 ;src/scripts/boss.c:145: break;
-	jr	00131$
+	jr	00133$
 ;src/scripts/boss.c:146: case 1:
-00128$:
+00130$:
 ;src/scripts/boss.c:147: next_x += 16;
 	ld	a, d
 	add	a, #0x10
 	ld	c, a
 ;src/scripts/boss.c:148: break;
-	jr	00131$
+	jr	00133$
 ;src/scripts/boss.c:149: case 2:
-00129$:
+00131$:
 ;src/scripts/boss.c:150: next_y += 16;
 	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, #0x10
 	ld	b, a
 ;src/scripts/boss.c:151: break;
-	jr	00131$
+	jr	00133$
 ;src/scripts/boss.c:152: case 3:
-00130$:
+00132$:
 ;src/scripts/boss.c:153: next_x -= 16;
 	ld	a, d
 	add	a, #0xf0
 	ld	c, a
 ;src/scripts/boss.c:155: }
-00131$:
+00133$:
 ;src/scripts/boss.c:156: boss_smooth_movement(boss, direction);
 	push	bc
 	ld	a, e
@@ -1108,7 +1127,7 @@ _move_boss::
 	ld	l, a
 	ld	(hl), b
 ;src/scripts/boss.c:159: return;
-00132$:
+00134$:
 ;src/scripts/boss.c:160: }
 	add	sp, #8
 	ret
@@ -1117,60 +1136,40 @@ _move_boss::
 ; Function boss_check_distance_x
 ; ---------------------------------
 _boss_check_distance_x::
-;src/scripts/boss.c:163: if (x > boss->x) {
+;src/scripts/boss.c:163: return x - boss->x;
 	inc	de
 	ld	a, (de)
 	ld	c, a
-	ld	hl, #_x
-	sub	a, (hl)
-	jr	NC, 00102$
-;src/scripts/boss.c:164: return(x - boss->x);
-	ld	a, (hl)
+	ld	a, (#_x)
 	sub	a, c
+;src/scripts/boss.c:164: }
 	ret
-00102$:
-;src/scripts/boss.c:167: return(boss->x - x);
-	ld	a, c
-	ld	hl, #_x
-	sub	a, (hl)
-;src/scripts/boss.c:169: }
-	ret
-;src/scripts/boss.c:171: uint8_t boss_check_distance_y(Boss* boss) {
+;src/scripts/boss.c:166: uint8_t boss_check_distance_y(Boss* boss) {
 ;	---------------------------------
 ; Function boss_check_distance_y
 ; ---------------------------------
 _boss_check_distance_y::
-;src/scripts/boss.c:172: if (y > boss->y) {
+;src/scripts/boss.c:167: return y - boss->y;
 	inc	de
 	inc	de
 	ld	a, (de)
 	ld	c, a
-	ld	hl, #_y
-	sub	a, (hl)
-	jr	NC, 00102$
-;src/scripts/boss.c:173: return(y - boss->y);
-	ld	a, (hl)
+	ld	a, (#_y)
 	sub	a, c
+;src/scripts/boss.c:168: }
 	ret
-00102$:
-;src/scripts/boss.c:176: return(boss->y - y);
-	ld	a, c
-	ld	hl, #_y
-	sub	a, (hl)
-;src/scripts/boss.c:178: }
-	ret
-;src/scripts/boss.c:180: void boss_attack(Boss* boss) {
+;src/scripts/boss.c:170: void boss_attack(Boss* boss) {
 ;	---------------------------------
 ; Function boss_attack
 ; ---------------------------------
 _boss_attack::
-;src/scripts/boss.c:181: hit_sfx();
+;src/scripts/boss.c:171: hit_sfx();
 	push	de
 	ld	e, #b_hit_sfx
 	ld	hl, #_hit_sfx
 	call	___sdcc_bcall_ehl
 	pop	de
-;src/scripts/boss.c:183: if (boss->atk > defense) {
+;src/scripts/boss.c:173: if (boss->atk > defense) {
 	ld	hl, #0x0005
 	add	hl, de
 	ld	c, (hl)
@@ -1178,37 +1177,37 @@ _boss_attack::
 	ld	a, (hl)
 	sub	a, c
 	jr	NC, 00102$
-;src/scripts/boss.c:184: damage = boss->atk - defense;
+;src/scripts/boss.c:174: damage = boss->atk - defense;
 	ld	a, c
 	sub	a, (hl)
 	ld	b, a
 	jr	00103$
 00102$:
-;src/scripts/boss.c:187: damage = 1;
+;src/scripts/boss.c:177: damage = 1;
 	ld	b, #0x01
 00103$:
-;src/scripts/boss.c:190: if (damage < current_hp) {
+;src/scripts/boss.c:180: if (damage < current_hp) {
 	ld	a, b
 	ld	hl, #_current_hp
 	sub	a, (hl)
 	jr	NC, 00105$
-;src/scripts/boss.c:191: current_hp -= damage;
+;src/scripts/boss.c:181: current_hp -= damage;
 	ld	a, (hl)
 	sub	a, b
 	ld	(hl), a
 	jr	00106$
 00105$:
-;src/scripts/boss.c:194: current_hp = 0;
+;src/scripts/boss.c:184: current_hp = 0;
 	xor	a, a
 	ld	(#_current_hp),a
 00106$:
-;src/scripts/boss.c:196: play_hit_animation();
+;src/scripts/boss.c:186: play_hit_animation();
 	push	bc
 	ld	e, #b_play_hit_animation
 	ld	hl, #_play_hit_animation
 	call	___sdcc_bcall_ehl
 	pop	bc
-;src/scripts/boss.c:197: show_number(damage, 0, 0, 0);
+;src/scripts/boss.c:187: show_number(damage, 0, 0, 0);
 	xor	a, a
 	rrca
 	push	af
@@ -1221,9 +1220,9 @@ _boss_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;src/scripts/boss.c:199: }
+;src/scripts/boss.c:189: }
 	ret
-;src/scripts/boss.c:201: void boss_smooth_movement(Boss* boss, uint8_t dir) {
+;src/scripts/boss.c:191: void boss_smooth_movement(Boss* boss, uint8_t dir) {
 ;	---------------------------------
 ; Function boss_smooth_movement
 ; ---------------------------------
@@ -1231,19 +1230,19 @@ _boss_smooth_movement::
 	add	sp, #-8
 	ldhl	sp,	#6
 	ld	(hl), a
-;src/scripts/boss.c:204: mov_x = boss->x;
+;src/scripts/boss.c:194: mov_x = boss->x;
 	ld	c, e
 	ld	b, d
 	inc	bc
 	ld	a, (bc)
 	ldhl	sp,	#0
-;src/scripts/boss.c:205: mov_y = boss->y;
+;src/scripts/boss.c:195: mov_y = boss->y;
 	ld	(hl+), a
 	inc	de
 	inc	de
 	ld	a, (de)
 	ld	(hl), a
-;src/scripts/boss.c:206: while (frame < 8) {
+;src/scripts/boss.c:196: while (frame < 8) {
 	ld	a, #0x03
 	ldhl	sp,	#6
 	sub	a, (hl)
@@ -1258,20 +1257,20 @@ _boss_smooth_movement::
 	ld	a, (hl)
 	sub	a, #0x08
 	jp	NC, 00125$
-;src/scripts/boss.c:207: wait_vbl_done();
+;src/scripts/boss.c:197: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/boss.c:208: switch (dir) {
+;src/scripts/boss.c:198: switch (dir) {
 	ldhl	sp,	#2
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00105$
-;src/scripts/boss.c:210: mov_y-=2;
+;src/scripts/boss.c:200: mov_y-=2;
 	dec	hl
 	ld	c, (hl)
-;src/scripts/boss.c:213: mov_x+=2;
+;src/scripts/boss.c:203: mov_x+=2;
 	dec	hl
 	ld	b, (hl)
-;src/scripts/boss.c:208: switch (dir) {
+;src/scripts/boss.c:198: switch (dir) {
 	ldhl	sp,	#6
 	ld	e, (hl)
 	ld	d, #0x00
@@ -1288,41 +1287,41 @@ _boss_smooth_movement::
 	.dw	00102$
 	.dw	00103$
 	.dw	00104$
-;src/scripts/boss.c:209: case 0:
+;src/scripts/boss.c:199: case 0:
 00101$:
-;src/scripts/boss.c:210: mov_y-=2;
+;src/scripts/boss.c:200: mov_y-=2;
 	ld	a, c
 	add	a, #0xfe
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/boss.c:211: break;
+;src/scripts/boss.c:201: break;
 	jr	00105$
-;src/scripts/boss.c:212: case 1:
+;src/scripts/boss.c:202: case 1:
 00102$:
-;src/scripts/boss.c:213: mov_x+=2;
+;src/scripts/boss.c:203: mov_x+=2;
 	ld	a, b
 	add	a, #0x02
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/boss.c:214: break;
+;src/scripts/boss.c:204: break;
 	jr	00105$
-;src/scripts/boss.c:215: case 2:
+;src/scripts/boss.c:205: case 2:
 00103$:
-;src/scripts/boss.c:216: mov_y+=2;
+;src/scripts/boss.c:206: mov_y+=2;
 	ld	a, c
 	add	a, #0x02
 	ldhl	sp,	#1
 	ld	(hl), a
-;src/scripts/boss.c:217: break;
+;src/scripts/boss.c:207: break;
 	jr	00105$
-;src/scripts/boss.c:218: case 3:
+;src/scripts/boss.c:208: case 3:
 00104$:
-;src/scripts/boss.c:219: mov_x-=2;
+;src/scripts/boss.c:209: mov_x-=2;
 	ld	a, b
 	add	a, #0xfe
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/boss.c:221: }
+;src/scripts/boss.c:211: }
 00105$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	bc, #(_shadow_OAM + 32)
@@ -1333,7 +1332,7 @@ _boss_smooth_movement::
 	inc	bc
 	ld	a, (hl)
 	ld	(bc), a
-;src/scripts/boss.c:223: move_sprite(9, mov_x+8, mov_y);
+;src/scripts/boss.c:213: move_sprite(9, mov_x+8, mov_y);
 	ld	b, (hl)
 	ld	a, b
 	add	a, #0x08
@@ -1350,7 +1349,7 @@ _boss_smooth_movement::
 	inc	de
 	ld	a, c
 	ld	(de), a
-;src/scripts/boss.c:224: move_sprite(10, mov_x+16, mov_y);
+;src/scripts/boss.c:214: move_sprite(10, mov_x+16, mov_y);
 	ld	a, b
 	add	a, #0x10
 	ld	c, a
@@ -1364,7 +1363,7 @@ _boss_smooth_movement::
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
-;src/scripts/boss.c:225: move_sprite(11, mov_x+24, mov_y);
+;src/scripts/boss.c:215: move_sprite(11, mov_x+24, mov_y);
 	ld	a, b
 	add	a, #0x18
 	ldhl	sp,	#4
@@ -1379,7 +1378,7 @@ _boss_smooth_movement::
 	inc	de
 	ld	a, b
 	ld	(de), a
-;src/scripts/boss.c:226: move_sprite(12, mov_x, mov_y+8);
+;src/scripts/boss.c:216: move_sprite(12, mov_x, mov_y+8);
 	ld	a, (hl)
 	ldhl	sp,	#5
 	ld	(hl), a
@@ -1417,7 +1416,7 @@ _boss_smooth_movement::
 	ld	(de), a
 	inc	de
 	ldhl	sp,	#4
-;src/scripts/boss.c:230: move_sprite(16, mov_x, mov_y+16);
+;src/scripts/boss.c:220: move_sprite(16, mov_x, mov_y+16);
 	ld	a, (hl+)
 	ld	(de), a
 	ld	a, (hl)
@@ -1454,7 +1453,7 @@ _boss_smooth_movement::
 	ld	(hl), e
 	ld	de, #(_shadow_OAM + 77)
 	ldhl	sp,	#4
-;src/scripts/boss.c:234: move_sprite(20, mov_x, mov_y+24);
+;src/scripts/boss.c:224: move_sprite(20, mov_x, mov_y+24);
 	ld	a, (hl+)
 	ld	(de), a
 	ld	a, (hl)
@@ -1496,21 +1495,21 @@ _boss_smooth_movement::
 	ld	de, #(_shadow_OAM + 93)
 	ld	a, (hl)
 	ld	(de), a
-;src/scripts/boss.c:238: frame++;
+;src/scripts/boss.c:228: frame++;
 	ldhl	sp,	#7
 	inc	(hl)
 	jp	00106$
 00125$:
-;src/scripts/boss.c:240: }
+;src/scripts/boss.c:230: }
 	add	sp, #8
 	ret
-;src/scripts/boss.c:242: void boss_death(Boss* boss) BANKED {
+;src/scripts/boss.c:232: void boss_death(Boss* boss) BANKED {
 ;	---------------------------------
 ; Function boss_death
 ; ---------------------------------
 	b_boss_death	= 3
 _boss_death::
-;src/scripts/boss.c:245: boss->hp = 0;
+;src/scripts/boss.c:235: boss->hp = 0;
 	ldhl	sp,	#6
 	ld	a, (hl+)
 	ld	c, a
@@ -1524,21 +1523,21 @@ _boss_death::
 	ld	(de), a
 	inc	de
 	ld	(de), a
-;src/scripts/boss.c:246: boss->defeated = 1;
+;src/scripts/boss.c:236: boss->defeated = 1;
 	ld	hl, #0x0009
 	add	hl, bc
 	ld	(hl), #0x01
-;src/scripts/boss.c:247: boss->x = 0;
+;src/scripts/boss.c:237: boss->x = 0;
 	ld	l, c
 	ld	h, b
 	inc	hl
 	ld	(hl), #0x00
-;src/scripts/boss.c:248: boss->y = 0;
+;src/scripts/boss.c:238: boss->y = 0;
 	inc	bc
 	inc	bc
 	xor	a, a
 	ld	(bc), a
-;src/scripts/boss.c:249: for (uint8_t i = 0; i < 16; i++) {
+;src/scripts/boss.c:239: for (uint8_t i = 0; i < 16; i++) {
 	ld	c, #0x00
 00105$:
 	ld	a, c
@@ -1547,7 +1546,7 @@ _boss_death::
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 38)
 	ld	(hl), #0x32
-;src/scripts/boss.c:251: move_sprite(8+i, 0, 0);
+;src/scripts/boss.c:241: move_sprite(8+i, 0, 0);
 	ld	a, c
 	add	a, #0x08
 	ld	b, a
@@ -1563,9 +1562,9 @@ _boss_death::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/boss.c:249: for (uint8_t i = 0; i < 16; i++) {
+;src/scripts/boss.c:239: for (uint8_t i = 0; i < 16; i++) {
 	inc	c
-;src/scripts/boss.c:253: }
+;src/scripts/boss.c:243: }
 	jr	00105$
 	.area _CODE_3
 	.area _INITIALIZER

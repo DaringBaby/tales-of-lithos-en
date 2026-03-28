@@ -13,3 +13,5 @@ extern const unsigned char Trisguardo[];
 extern const unsigned char PredatoreOmbra[];
 
 extern void debug_value(uint8_t debug);
+extern void set_enemy1_spawnpoint(Enemy enemies[2]);
+extern void set_enemy2_spawnpoint(Enemy enemies[2]);

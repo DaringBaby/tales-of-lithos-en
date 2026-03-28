@@ -154,7 +154,7 @@ void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
 
     if (id_high > 0) {
         set_enemy_stats(&enemies[1], id_high, 12);
-        set_enemy_position(&enemies[1], 72, 48);
+        set_enemy1_spawnpoint(enemies);
     }
 
     uint8_t id_low = room_data & 0x0F;
@@ -163,7 +163,7 @@ void spawn_enemies_in_room(uint8_t i, uint8_t j, Enemy enemies[2]) BANKED {
 
     if (id_low > 0) {
         set_enemy_stats(&enemies[0], id_low, 8);
-        set_enemy_position(&enemies[0], 120, 48);
+        set_enemy2_spawnpoint(enemies);
     }
 }
 
@@ -253,3 +253,83 @@ void set_enemy_sprite() BANKED {
     set_enemy_tiles();
     return;
 }
+
+void set_enemy1_spawnpoint(Enemy enemies[2]) {
+    uint8_t rng = DIV_REG & 7;
+    uint8_t x_coord, y_coord;
+    switch (rng) {
+        case 0:
+            x_coord = 4;
+            y_coord = 6;
+            break;
+        case 1:
+            x_coord = 6;
+            y_coord = 6;
+            break;
+        case 2:
+            x_coord = 8;
+            y_coord = 4;
+            break;
+        case 3:
+            x_coord = 8;
+            y_coord = 12;
+            break;
+        case 4:
+            x_coord = 10;
+            y_coord = 10;
+            break;
+        case 5:
+            x_coord = 12;
+            y_coord = 8;
+            break;
+        case 6:
+            x_coord = 14;
+            y_coord = 4;
+            break;
+        case 7:
+            x_coord = 14;
+            y_coord = 8;
+            break;
+    }
+    set_enemy_position(&enemies[1], x_coord*8 + 8, y_coord*8 + 16);
+}
+
+void set_enemy2_spawnpoint(Enemy enemies[2]) {
+    uint8_t rng = DIV_REG & 7;
+    uint8_t x_coord, y_coord;
+    switch (rng) {
+        case 0:
+            x_coord = 4;
+            y_coord = 8;
+            break;
+        case 1:
+            x_coord = 6;
+            y_coord = 6;
+            break;
+        case 2:
+            x_coord = 8;
+            y_coord = 6;
+            break;
+        case 3:
+            x_coord = 10;
+            y_coord = 8;
+            break;
+        case 4:
+            x_coord = 10;
+            y_coord = 12;
+            break;
+        case 5:
+            x_coord = 12;
+            y_coord = 10;
+            break;
+        case 6:
+            x_coord = 14;
+            y_coord = 6;
+            break;
+        case 7:
+            x_coord = 14;
+            y_coord = 10;
+            break;
+        }
+        set_enemy_position(&enemies[0], x_coord*8 + 8, y_coord*8 + 16);
+    }

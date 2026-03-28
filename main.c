@@ -172,6 +172,7 @@ extern const hUGESong_t dungeon_theme;
 extern const hUGESong_t boss_theme;
 extern const hUGESong_t camp_theme;
 extern const hUGESong_t intro_theme;
+extern const hUGESong_t ending_song;
 
 /* GAME VARS*/
 uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
@@ -197,7 +198,7 @@ const uint16_t level_curve[] = {
     2410, 2470, 2530, 2590, 2650, 2710, 2740, 2770, 2790, 2800  // 41-50
 };
 /* FLAGS */
-uint8_t key_obtained = 1;
+uint8_t key_obtained = 0;
 uint8_t treasure_obtained = 0;
 uint8_t lock_opened = 0;
 uint8_t boss_battle = 0;
@@ -1056,11 +1057,11 @@ void player_attack(uint8_t wpn, uint8_t index) {
             experience += boss.exp_reward;
             minerals+=2;
             menu_opened = 4;
-            current_song_bank = 3;
-            SWITCH_ROM(3);
-            hUGE_init(&boss_defeated_jingle);
-            SWITCH_ROM(1);
             if (current_floor != 25) {
+                current_song_bank = 3;
+                SWITCH_ROM(3);
+                hUGE_init(&boss_defeated_jingle);
+                SWITCH_ROM(1);
                 set_textbox(3);
                 uint8_t door = doors[player_coords.x][player_coords.y];
                 const unsigned char* room_ptr;
@@ -1072,6 +1073,10 @@ void player_attack(uint8_t wpn, uint8_t index) {
                 SWITCH_ROM(1);
             }
             else {
+                current_song_bank = 5;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&ending_song);
+                SWITCH_ROM(1);
                 play_ending();
                 save_game();
                 reset();
@@ -1149,7 +1154,7 @@ void shoot_arrow() {
                 break;
         }
         move_sprite(39, arrow_x, arrow_y);
-        if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8) {
+        if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8 || !check_terrain(arrow_x, arrow_y)) { // pulu
             set_sprite_tile(39, 50);
             move_sprite(39, 0, 0);
             return;

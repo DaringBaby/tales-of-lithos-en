@@ -1,2 +1,2 @@
-0|1774538628|Refactoring codice|0
-1|1774543843|Aggiungi gioco completato schermata|0
+1|1774636062|Aggiungere suono oggetto trovato e canzone fine gioco|0
+3|1774636136|A volte il dungeon si genera male e genera una porta verso la stanza della chiave e poi lucchetto|0

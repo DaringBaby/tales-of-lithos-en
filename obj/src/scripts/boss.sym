@@ -13,11 +13,11 @@ Symbol Table
     _BossOrb                                                        ******** GX
     _EyeBoss                                                        ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
-  8 _boss_attack                                                    000004E6 GR
-  8 _boss_check_distance_x                                          000004C1 GR
-  8 _boss_check_distance_y                                          000004D3 GR
-  8 _boss_death                                                     00000662 GR
-  8 _boss_smooth_movement                                           00000530 GR
+  8 _boss_attack                                                    000004EA GR
+  8 _boss_check_distance_x                                          000004D9 GR
+  8 _boss_check_distance_y                                          000004E1 GR
+  8 _boss_death                                                     00000666 GR
+  8 _boss_smooth_movement                                           00000534 GR
     _current_floor                                                  ******** GX
     _current_hp                                                     ******** GX
     _defense                                                        ******** GX
@@ -52,7 +52,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_3                                    size      69D   flags    0
+   8 _CODE_3                                    size      6A1   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

@@ -13,7 +13,7 @@ B6_SOURCES = src/tiles/IntroSlide1Tiles.c src/maps/IntroSlide1.c src/scripts/int
 			 src/maps/IntroSlide3.c src/maps/IntroText.c src/tiles/ending.c src/maps/EndingMap.c \
 			 src/scripts/ending_sequence.c
 B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c src/tiles/DungeonTiles3.c src/tiles/DungeonTiles4.c \
-			 src/tiles/DungeonTiles5.c
+			 src/tiles/DungeonTiles5.c src/songs/ending_song.c
 B4_SOURCES = src/songs/dungeon_song.c src/songs/boss_song.c
 B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_management.c \
              src/scripts/spawn_enemy.c src/scripts/combat_system.c src/scripts/insert_name.c \
