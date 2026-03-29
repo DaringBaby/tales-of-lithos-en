@@ -1116,22 +1116,6 @@ _set_enemy_stats::
 	ld	(hl), #0x03
 ;src/scripts/enemy.c:199: }
 00112$:
-;src/scripts/enemy.c:201: e->hp = 1;
-	ld	l, e
-	ld	h, d
-	inc	hl
-	inc	hl
-	ld	a, #0x01
-	ld	(hl+), a
-	ld	(hl), #0x00
-;src/scripts/enemy.c:202: e->atk = 1;
-	ld	hl, #0x0004
-	add	hl, de
-	ld	(hl), #0x01
-;src/scripts/enemy.c:203: e->def = 1;
-	ld	hl, #0x0005
-	add	hl, de
-	ld	(hl), #0x01
 ;src/scripts/enemy.c:205: e->sprite_id = sprite_id;
 	ld	hl, #0x0008
 	add	hl, de

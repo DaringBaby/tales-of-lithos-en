@@ -209,7 +209,7 @@
     000000CC E0r00            [12]  209 	ldh	(_WY_REG + 0), a
                                     210 ;src/scripts/gui_management.c:29: set_mini_menu();
     000000CE 1Er00            [ 8]  211 	ld	e, #b_set_mini_menu
-    000000D0 21rD7r09         [12]  212 	ld	hl, #_set_mini_menu
+    000000D0 21r19r0A         [12]  212 	ld	hl, #_set_mini_menu
     000000D3 CDr00r00         [24]  213 	call	___sdcc_bcall_ehl
                                     214 ;src/scripts/gui_management.c:30: SHOW_SPRITES;
     000000D6 F0r00            [12]  215 	ldh	a, (_LCDC_REG + 0)
@@ -911,7 +911,7 @@
     000004F7 E0r00            [12]  911 	ldh	(_LCDC_REG + 0), a
                                     912 ;src/scripts/gui_management.c:181: set_mini_menu();
     000004F9 1Er00            [ 8]  913 	ld	e, #b_set_mini_menu
-    000004FB 21rD7r09         [12]  914 	ld	hl, #_set_mini_menu
+    000004FB 21r19r0A         [12]  914 	ld	hl, #_set_mini_menu
     000004FE CDr00r00         [24]  915 	call	___sdcc_bcall_ehl
     00000501                        916 00128$:
                                     917 ;src/scripts/gui_management.c:183: }
@@ -1312,7 +1312,7 @@
     00000755 E0r00            [12] 1312 	ldh	(_LCDC_REG + 0), a
                                    1313 ;src/scripts/gui_management.c:256: set_mini_menu();
     00000757 1Er00            [ 8] 1314 	ld	e, #b_set_mini_menu
-    00000759 21rD7r09         [12] 1315 	ld	hl, #_set_mini_menu
+    00000759 21r19r0A         [12] 1315 	ld	hl, #_set_mini_menu
     0000075C CDr00r00         [24] 1316 	call	___sdcc_bcall_ehl
     0000075F                       1317 00125$:
                                    1318 ;src/scripts/gui_management.c:258: }
@@ -1324,841 +1324,894 @@
                                    1324 ; ---------------------------------
                          00000003  1325 	b_set_stats	= 3
     00000762                       1326 _set_stats::
-    00000762 E8 EB            [16] 1327 	add	sp, #-21
-                                   1328 ;src/scripts/gui_management.c:267: hp[0] = current_hp/10 + 154;
-    00000764 FAr00r00         [16] 1329 	ld	a, (_current_hp)
-    00000767 1E 0A            [ 8] 1330 	ld	e, #0x0a
-    00000769 CDr00r00         [24] 1331 	call	__divuchar
-    0000076C 79               [ 4] 1332 	ld	a, c
-    0000076D C6 9A            [ 8] 1333 	add	a, #0x9a
-    0000076F F8 00            [12] 1334 	ldhl	sp,	#0
-    00000771 77               [ 8] 1335 	ld	(hl), a
-                                   1336 ;src/scripts/gui_management.c:268: hp[1] = current_hp % 10 + 154;
-    00000772 FAr00r00         [16] 1337 	ld	a, (_current_hp)
-    00000775 1E 0A            [ 8] 1338 	ld	e, #0x0a
-    00000777 CDr00r00         [24] 1339 	call	__moduchar
-    0000077A 79               [ 4] 1340 	ld	a, c
-    0000077B C6 9A            [ 8] 1341 	add	a, #0x9a
-    0000077D F8 01            [12] 1342 	ldhl	sp,	#1
-                                   1343 ;src/scripts/gui_management.c:269: hp[2] = 176;
-    0000077F 22               [ 8] 1344 	ld	(hl+), a
-    00000780 36 B0            [12] 1345 	ld	(hl), #0xb0
-                                   1346 ;src/scripts/gui_management.c:270: hp[3] = max_hp/10 + 154;
-    00000782 FAr00r00         [16] 1347 	ld	a, (_max_hp)
-    00000785 1E 0A            [ 8] 1348 	ld	e, #0x0a
-    00000787 CDr00r00         [24] 1349 	call	__divuchar
-    0000078A 79               [ 4] 1350 	ld	a, c
-    0000078B C6 9A            [ 8] 1351 	add	a, #0x9a
-    0000078D F8 03            [12] 1352 	ldhl	sp,	#3
-    0000078F 77               [ 8] 1353 	ld	(hl), a
-                                   1354 ;src/scripts/gui_management.c:271: hp[4] = max_hp % 10 + 154;
-    00000790 FAr00r00         [16] 1355 	ld	a, (_max_hp)
-    00000793 1E 0A            [ 8] 1356 	ld	e, #0x0a
-    00000795 CDr00r00         [24] 1357 	call	__moduchar
-    00000798 79               [ 4] 1358 	ld	a, c
-    00000799 C6 9A            [ 8] 1359 	add	a, #0x9a
-    0000079B F8 04            [12] 1360 	ldhl	sp,	#4
-    0000079D 77               [ 8] 1361 	ld	(hl), a
-                                   1362 ;src/scripts/gui_management.c:272: atk[0] = attack / 10 + 154;
-    0000079E FAr00r00         [16] 1363 	ld	a, (_attack)
-    000007A1 1E 0A            [ 8] 1364 	ld	e, #0x0a
-    000007A3 CDr00r00         [24] 1365 	call	__divuchar
-    000007A6 79               [ 4] 1366 	ld	a, c
-    000007A7 C6 9A            [ 8] 1367 	add	a, #0x9a
-    000007A9 F8 05            [12] 1368 	ldhl	sp,	#5
-    000007AB 77               [ 8] 1369 	ld	(hl), a
-                                   1370 ;src/scripts/gui_management.c:273: atk[1] = attack % 10 + 154;
-    000007AC FAr00r00         [16] 1371 	ld	a, (_attack)
-    000007AF 1E 0A            [ 8] 1372 	ld	e, #0x0a
-    000007B1 CDr00r00         [24] 1373 	call	__moduchar
-    000007B4 79               [ 4] 1374 	ld	a, c
-    000007B5 C6 9A            [ 8] 1375 	add	a, #0x9a
-    000007B7 F8 06            [12] 1376 	ldhl	sp,	#6
-    000007B9 77               [ 8] 1377 	ld	(hl), a
-                                   1378 ;src/scripts/gui_management.c:274: def[0] = defense / 10 + 154;
-    000007BA FAr00r00         [16] 1379 	ld	a, (_defense)
-    000007BD 1E 0A            [ 8] 1380 	ld	e, #0x0a
-    000007BF CDr00r00         [24] 1381 	call	__divuchar
-    000007C2 79               [ 4] 1382 	ld	a, c
-    000007C3 C6 9A            [ 8] 1383 	add	a, #0x9a
-    000007C5 F8 07            [12] 1384 	ldhl	sp,	#7
-    000007C7 77               [ 8] 1385 	ld	(hl), a
-                                   1386 ;src/scripts/gui_management.c:275: def[1] = defense % 10 + 154;
-    000007C8 FAr00r00         [16] 1387 	ld	a, (_defense)
-    000007CB 1E 0A            [ 8] 1388 	ld	e, #0x0a
-    000007CD CDr00r00         [24] 1389 	call	__moduchar
-    000007D0 79               [ 4] 1390 	ld	a, c
-    000007D1 C6 9A            [ 8] 1391 	add	a, #0x9a
-    000007D3 F8 08            [12] 1392 	ldhl	sp,	#8
-    000007D5 77               [ 8] 1393 	ld	(hl), a
-                                   1394 ;src/scripts/gui_management.c:277: uint8_t d3 = (experience% 10000 / 1000);
-    000007D6 FAr00r00         [16] 1395 	ld	a, (#_experience)
-    000007D9 F8 0F            [12] 1396 	ldhl	sp,	#15
-    000007DB 77               [ 8] 1397 	ld	(hl), a
-    000007DC FAr01r00         [16] 1398 	ld	a, (#_experience + 1)
-    000007DF F8 10            [12] 1399 	ldhl	sp,	#16
-    000007E1 32               [ 8] 1400 	ld	(hl-), a
-    000007E2 01 10 27         [12] 1401 	ld	bc, #0x2710
-    000007E5 2A               [ 8] 1402 	ld	a, (hl+)
-    000007E6 5F               [ 4] 1403 	ld	e, a
-    000007E7 56               [ 8] 1404 	ld	d, (hl)
-    000007E8 CDr00r00         [24] 1405 	call	__moduint
-    000007EB 59               [ 4] 1406 	ld	e, c
-    000007EC 50               [ 4] 1407 	ld	d, b
-    000007ED 01 E8 03         [12] 1408 	ld	bc, #0x03e8
-    000007F0 CDr00r00         [24] 1409 	call	__divuint
-    000007F3 F8 11            [12] 1410 	ldhl	sp,	#17
-                                   1411 ;src/scripts/gui_management.c:278: uint8_t d2 = (experience % 1000) / 100;
-    000007F5 79               [ 4] 1412 	ld	a, c
-    000007F6 32               [ 8] 1413 	ld	(hl-), a
-    000007F7 2B               [ 8] 1414 	dec	hl
-    000007F8 01 E8 03         [12] 1415 	ld	bc, #0x03e8
-    000007FB 2A               [ 8] 1416 	ld	a, (hl+)
-    000007FC 5F               [ 4] 1417 	ld	e, a
-    000007FD 56               [ 8] 1418 	ld	d, (hl)
-    000007FE CDr00r00         [24] 1419 	call	__moduint
-    00000801 59               [ 4] 1420 	ld	e, c
-    00000802 50               [ 4] 1421 	ld	d, b
-    00000803 01 64 00         [12] 1422 	ld	bc, #0x0064
-    00000806 CDr00r00         [24] 1423 	call	__divuint
-    00000809 F8 12            [12] 1424 	ldhl	sp,	#18
-    0000080B 71               [ 8] 1425 	ld	(hl), c
-                                   1426 ;src/scripts/gui_management.c:279: uint8_t d1 = (experience % 100) / 10;
-    0000080C 01 64 00         [12] 1427 	ld	bc, #0x0064
-    0000080F F8 0F            [12] 1428 	ldhl	sp,	#15
-    00000811 2A               [ 8] 1429 	ld	a, (hl+)
-    00000812 5F               [ 4] 1430 	ld	e, a
-    00000813 56               [ 8] 1431 	ld	d, (hl)
-    00000814 CDr00r00         [24] 1432 	call	__moduint
-    00000817 79               [ 4] 1433 	ld	a, c
-    00000818 1E 0A            [ 8] 1434 	ld	e, #0x0a
-    0000081A CDr00r00         [24] 1435 	call	__divuchar
-    0000081D F8 13            [12] 1436 	ldhl	sp,	#19
-    0000081F 71               [ 8] 1437 	ld	(hl), c
-                                   1438 ;src/scripts/gui_management.c:280: uint8_t d0 = (experience % 10);
-    00000820 01 0A 00         [12] 1439 	ld	bc, #0x000a
-    00000823 F8 0F            [12] 1440 	ldhl	sp,	#15
-    00000825 2A               [ 8] 1441 	ld	a, (hl+)
-    00000826 5F               [ 4] 1442 	ld	e, a
-    00000827 56               [ 8] 1443 	ld	d, (hl)
-    00000828 CDr00r00         [24] 1444 	call	__moduint
-    0000082B F8 14            [12] 1445 	ldhl	sp,	#20
-    0000082D 71               [ 8] 1446 	ld	(hl), c
-                                   1447 ;src/scripts/gui_management.c:281: if (experience > 9999) {
-    0000082E F8 0F            [12] 1448 	ldhl	sp,	#15
-    00000830 3E 0F            [ 8] 1449 	ld	a, #0x0f
-    00000832 96               [ 8] 1450 	sub	a, (hl)
-    00000833 23               [ 8] 1451 	inc	hl
-    00000834 3E 27            [ 8] 1452 	ld	a, #0x27
-    00000836 9E               [ 8] 1453 	sbc	a, (hl)
-    00000837 30 0F            [12] 1454 	jr	NC, 00102$
-                                   1455 ;src/scripts/gui_management.c:282: exp[0] = 163;
-    00000839 F8 09            [12] 1456 	ldhl	sp,	#9
-    0000083B 36 A3            [12] 1457 	ld	(hl), #0xa3
-                                   1458 ;src/scripts/gui_management.c:283: exp[1] = 163;
-    0000083D 23               [ 8] 1459 	inc	hl
-    0000083E 36 A3            [12] 1460 	ld	(hl), #0xa3
-                                   1461 ;src/scripts/gui_management.c:284: exp[2] = 163;
-    00000840 23               [ 8] 1462 	inc	hl
-    00000841 36 A3            [12] 1463 	ld	(hl), #0xa3
-                                   1464 ;src/scripts/gui_management.c:285: exp[3] = 163;
-    00000843 23               [ 8] 1465 	inc	hl
-    00000844 36 A3            [12] 1466 	ld	(hl), #0xa3
-    00000846 18 51            [12] 1467 	jr	00103$
-    00000848                       1468 00102$:
-                                   1469 ;src/scripts/gui_management.c:288: exp[0] = (d3 == 0) ? 12 : (d3 + 154);
-    00000848 F8 11            [12] 1470 	ldhl	sp,	#17
-    0000084A 7E               [ 8] 1471 	ld	a, (hl)
-    0000084B B7               [ 4] 1472 	or	a, a
-    0000084C 20 04            [12] 1473 	jr	NZ, 00106$
-    0000084E 3E 0C            [ 8] 1474 	ld	a, #0x0c
-    00000850 18 05            [12] 1475 	jr	00107$
-    00000852                       1476 00106$:
-    00000852 F8 11            [12] 1477 	ldhl	sp,	#17
-    00000854 7E               [ 8] 1478 	ld	a, (hl)
-    00000855 C6 9A            [ 8] 1479 	add	a, #0x9a
-    00000857                       1480 00107$:
-    00000857 F8 09            [12] 1481 	ldhl	sp,	#9
-    00000859 77               [ 8] 1482 	ld	(hl), a
-                                   1483 ;src/scripts/gui_management.c:289: exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
-    0000085A F8 12            [12] 1484 	ldhl	sp,	#18
-    0000085C 7E               [ 8] 1485 	ld	a, (hl)
-    0000085D B7               [ 4] 1486 	or	a, a
-    0000085E 20 09            [12] 1487 	jr	NZ, 00108$
-    00000860 2B               [ 8] 1488 	dec	hl
-    00000861 7E               [ 8] 1489 	ld	a, (hl)
-    00000862 B7               [ 4] 1490 	or	a, a
-    00000863 20 04            [12] 1491 	jr	NZ, 00108$
-    00000865 3E 0C            [ 8] 1492 	ld	a, #0x0c
-    00000867 18 05            [12] 1493 	jr	00109$
-    00000869                       1494 00108$:
-    00000869 F8 12            [12] 1495 	ldhl	sp,	#18
-    0000086B 7E               [ 8] 1496 	ld	a, (hl)
-    0000086C C6 9A            [ 8] 1497 	add	a, #0x9a
-    0000086E                       1498 00109$:
-    0000086E F8 0A            [12] 1499 	ldhl	sp,	#10
-    00000870 77               [ 8] 1500 	ld	(hl), a
-                                   1501 ;src/scripts/gui_management.c:290: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
-    00000871 21 0B 00         [12] 1502 	ld	hl,#0xb
-    00000874 39               [ 8] 1503 	add	hl,sp
-    00000875 5D               [ 4] 1504 	ld	e, l
-    00000876 54               [ 4] 1505 	ld	d, h
-    00000877 F8 13            [12] 1506 	ldhl	sp,	#19
-    00000879 7E               [ 8] 1507 	ld	a, (hl)
-    0000087A B7               [ 4] 1508 	or	a, a
-    0000087B 20 0E            [12] 1509 	jr	NZ, 00113$
-    0000087D 2B               [ 8] 1510 	dec	hl
-    0000087E 7E               [ 8] 1511 	ld	a, (hl)
-    0000087F B7               [ 4] 1512 	or	a, a
-    00000880 20 09            [12] 1513 	jr	NZ, 00113$
-    00000882 2B               [ 8] 1514 	dec	hl
-    00000883 7E               [ 8] 1515 	ld	a, (hl)
-    00000884 B7               [ 4] 1516 	or	a, a
-    00000885 20 04            [12] 1517 	jr	NZ, 00113$
-    00000887 3E 0C            [ 8] 1518 	ld	a, #0x0c
-    00000889 18 05            [12] 1519 	jr	00114$
-    0000088B                       1520 00113$:
-    0000088B F8 13            [12] 1521 	ldhl	sp,	#19
-    0000088D 7E               [ 8] 1522 	ld	a, (hl)
-    0000088E C6 9A            [ 8] 1523 	add	a, #0x9a
-    00000890                       1524 00114$:
-    00000890 12               [ 8] 1525 	ld	(de), a
-                                   1526 ;src/scripts/gui_management.c:291: exp[3] = d0 + 154;
-    00000891 F8 14            [12] 1527 	ldhl	sp,	#20
-    00000893 7E               [ 8] 1528 	ld	a, (hl)
-    00000894 C6 9A            [ 8] 1529 	add	a, #0x9a
-    00000896 F8 0C            [12] 1530 	ldhl	sp,	#12
-    00000898 77               [ 8] 1531 	ld	(hl), a
-    00000899                       1532 00103$:
-                                   1533 ;src/scripts/gui_management.c:294: mythril[0] = minerals / 10 + 154;
-    00000899 FAr00r00         [16] 1534 	ld	a, (_minerals)
-    0000089C 1E 0A            [ 8] 1535 	ld	e, #0x0a
-    0000089E CDr00r00         [24] 1536 	call	__divuchar
-    000008A1 79               [ 4] 1537 	ld	a, c
-    000008A2 C6 9A            [ 8] 1538 	add	a, #0x9a
-    000008A4 F8 0D            [12] 1539 	ldhl	sp,	#13
-    000008A6 77               [ 8] 1540 	ld	(hl), a
-                                   1541 ;src/scripts/gui_management.c:295: mythril[1] = minerals % 10 + 154;
-    000008A7 FAr00r00         [16] 1542 	ld	a, (_minerals)
-    000008AA 1E 0A            [ 8] 1543 	ld	e, #0x0a
-    000008AC CDr00r00         [24] 1544 	call	__moduchar
-    000008AF 79               [ 4] 1545 	ld	a, c
-    000008B0 C6 9A            [ 8] 1546 	add	a, #0x9a
-    000008B2 F8 0E            [12] 1547 	ldhl	sp,	#14
-    000008B4 77               [ 8] 1548 	ld	(hl), a
-                                   1549 ;src/scripts/gui_management.c:296: set_win_tiles(12, 6, 5, 1, hp);
-    000008B5 21 00 00         [12] 1550 	ld	hl, #0
-    000008B8 39               [ 8] 1551 	add	hl, sp
-    000008B9 E5               [16] 1552 	push	hl
-    000008BA 21 05 01         [12] 1553 	ld	hl, #0x105
-    000008BD E5               [16] 1554 	push	hl
-    000008BE 21 0C 06         [12] 1555 	ld	hl, #0x60c
-    000008C1 E5               [16] 1556 	push	hl
-    000008C2 CDr00r00         [24] 1557 	call	_set_win_tiles
-    000008C5 E8 06            [16] 1558 	add	sp, #6
-                                   1559 ;src/scripts/gui_management.c:297: set_win_tiles(14, 4, 5, 1, player_name);
-    000008C7 11r00r00         [12] 1560 	ld	de, #_player_name
-    000008CA D5               [16] 1561 	push	de
-    000008CB 21 05 01         [12] 1562 	ld	hl, #0x105
-    000008CE E5               [16] 1563 	push	hl
-    000008CF 21 0E 04         [12] 1564 	ld	hl, #0x40e
-    000008D2 E5               [16] 1565 	push	hl
-    000008D3 CDr00r00         [24] 1566 	call	_set_win_tiles
-    000008D6 E8 06            [16] 1567 	add	sp, #6
-                                   1568 ;src/scripts/gui_management.c:298: set_win_tiles(12, 8, 2, 1, atk);
-    000008D8 21 05 00         [12] 1569 	ld	hl, #5
-    000008DB 39               [ 8] 1570 	add	hl, sp
-    000008DC E5               [16] 1571 	push	hl
-    000008DD 21 02 01         [12] 1572 	ld	hl, #0x102
-    000008E0 E5               [16] 1573 	push	hl
-    000008E1 21 0C 08         [12] 1574 	ld	hl, #0x80c
-    000008E4 E5               [16] 1575 	push	hl
-    000008E5 CDr00r00         [24] 1576 	call	_set_win_tiles
-    000008E8 E8 06            [16] 1577 	add	sp, #6
-                                   1578 ;src/scripts/gui_management.c:299: set_win_tiles(12, 10, 2, 1, def);
-    000008EA 21 07 00         [12] 1579 	ld	hl, #7
-    000008ED 39               [ 8] 1580 	add	hl, sp
-    000008EE E5               [16] 1581 	push	hl
-    000008EF 21 02 01         [12] 1582 	ld	hl, #0x102
-    000008F2 E5               [16] 1583 	push	hl
-    000008F3 21 0C 0A         [12] 1584 	ld	hl, #0xa0c
-    000008F6 E5               [16] 1585 	push	hl
-    000008F7 CDr00r00         [24] 1586 	call	_set_win_tiles
-    000008FA E8 06            [16] 1587 	add	sp, #6
-                                   1588 ;src/scripts/gui_management.c:300: set_win_tiles(15, 14, 4, 1, exp);
-    000008FC 21 09 00         [12] 1589 	ld	hl, #9
-    000008FF 39               [ 8] 1590 	add	hl, sp
-    00000900 E5               [16] 1591 	push	hl
-    00000901 21 04 01         [12] 1592 	ld	hl, #0x104
-    00000904 E5               [16] 1593 	push	hl
-    00000905 21 0F 0E         [12] 1594 	ld	hl, #0xe0f
-    00000908 E5               [16] 1595 	push	hl
-    00000909 CDr00r00         [24] 1596 	call	_set_win_tiles
-    0000090C E8 06            [16] 1597 	add	sp, #6
-                                   1598 ;src/scripts/gui_management.c:301: set_win_tiles(14, 16, 2, 1, mythril);
-    0000090E 21 0D 00         [12] 1599 	ld	hl, #13
-    00000911 39               [ 8] 1600 	add	hl, sp
-    00000912 E5               [16] 1601 	push	hl
-    00000913 21 02 01         [12] 1602 	ld	hl, #0x102
-    00000916 E5               [16] 1603 	push	hl
-    00000917 21 0E 10         [12] 1604 	ld	hl, #0x100e
-    0000091A E5               [16] 1605 	push	hl
-    0000091B CDr00r00         [24] 1606 	call	_set_win_tiles
-    0000091E E8 06            [16] 1607 	add	sp, #6
-                                   1608 ;src/scripts/gui_management.c:302: stat = sword_lvl + 154;
-    00000920 FAr00r00         [16] 1609 	ld	a, (_sword_lvl)
-    00000923 C6 9A            [ 8] 1610 	add	a, #0x9a
-    00000925 F8 0C            [12] 1611 	ldhl	sp,	#12
-    00000927 77               [ 8] 1612 	ld	(hl), a
-                                   1613 ;src/scripts/gui_management.c:303: set_win_tiles(4, 12, 1, 1, &stat);
-    00000928 21 0C 00         [12] 1614 	ld	hl, #12
-    0000092B 39               [ 8] 1615 	add	hl, sp
-    0000092C E5               [16] 1616 	push	hl
-    0000092D 21 01 01         [12] 1617 	ld	hl, #0x101
-    00000930 E5               [16] 1618 	push	hl
-    00000931 21 04 0C         [12] 1619 	ld	hl, #0xc04
-    00000934 E5               [16] 1620 	push	hl
-    00000935 CDr00r00         [24] 1621 	call	_set_win_tiles
-    00000938 E8 06            [16] 1622 	add	sp, #6
-                                   1623 ;src/scripts/gui_management.c:304: stat = shield_lvl + 154;
-    0000093A FAr00r00         [16] 1624 	ld	a, (_shield_lvl)
-    0000093D C6 9A            [ 8] 1625 	add	a, #0x9a
-    0000093F F8 0C            [12] 1626 	ldhl	sp,	#12
-    00000941 77               [ 8] 1627 	ld	(hl), a
-                                   1628 ;src/scripts/gui_management.c:305: set_win_tiles(4, 14, 1, 1, &stat);
-    00000942 21 0C 00         [12] 1629 	ld	hl, #12
-    00000945 39               [ 8] 1630 	add	hl, sp
-    00000946 E5               [16] 1631 	push	hl
-    00000947 21 01 01         [12] 1632 	ld	hl, #0x101
-    0000094A E5               [16] 1633 	push	hl
-    0000094B 21 04 0E         [12] 1634 	ld	hl, #0xe04
-    0000094E E5               [16] 1635 	push	hl
-    0000094F CDr00r00         [24] 1636 	call	_set_win_tiles
-    00000952 E8 06            [16] 1637 	add	sp, #6
-                                   1638 ;src/scripts/gui_management.c:306: stat = arrow_lvl + 154;
-    00000954 FAr00r00         [16] 1639 	ld	a, (_arrow_lvl)
-    00000957 C6 9A            [ 8] 1640 	add	a, #0x9a
-    00000959 F8 0C            [12] 1641 	ldhl	sp,	#12
-    0000095B 77               [ 8] 1642 	ld	(hl), a
-                                   1643 ;src/scripts/gui_management.c:307: set_win_tiles(4, 16, 1, 1, &stat);
-    0000095C 21 0C 00         [12] 1644 	ld	hl, #12
-    0000095F 39               [ 8] 1645 	add	hl, sp
-    00000960 E5               [16] 1646 	push	hl
-    00000961 21 01 01         [12] 1647 	ld	hl, #0x101
-    00000964 E5               [16] 1648 	push	hl
-    00000965 21 04 10         [12] 1649 	ld	hl, #0x1004
-    00000968 E5               [16] 1650 	push	hl
-    00000969 CDr00r00         [24] 1651 	call	_set_win_tiles
-    0000096C E8 06            [16] 1652 	add	sp, #6
-                                   1653 ;src/scripts/gui_management.c:308: stat = quiver_lvl + 154;
-    0000096E FAr00r00         [16] 1654 	ld	a, (_quiver_lvl)
-    00000971 C6 9A            [ 8] 1655 	add	a, #0x9a
-    00000973 F8 0C            [12] 1656 	ldhl	sp,	#12
-    00000975 77               [ 8] 1657 	ld	(hl), a
-                                   1658 ;src/scripts/gui_management.c:309: set_win_tiles(9, 12, 1, 1, &stat);
-    00000976 21 0C 00         [12] 1659 	ld	hl, #12
-    00000979 39               [ 8] 1660 	add	hl, sp
-    0000097A E5               [16] 1661 	push	hl
-    0000097B 21 01 01         [12] 1662 	ld	hl, #0x101
-    0000097E E5               [16] 1663 	push	hl
-    0000097F 21 09 0C         [12] 1664 	ld	hl, #0xc09
-    00000982 E5               [16] 1665 	push	hl
-    00000983 CDr00r00         [24] 1666 	call	_set_win_tiles
-    00000986 E8 06            [16] 1667 	add	sp, #6
-                                   1668 ;src/scripts/gui_management.c:310: stat = potion_quant_lvl + 154;
-    00000988 FAr00r00         [16] 1669 	ld	a, (_potion_quant_lvl)
-    0000098B C6 9A            [ 8] 1670 	add	a, #0x9a
-    0000098D F8 0C            [12] 1671 	ldhl	sp,	#12
-    0000098F 77               [ 8] 1672 	ld	(hl), a
-                                   1673 ;src/scripts/gui_management.c:311: set_win_tiles(9, 14, 1, 1, &stat);
-    00000990 21 0C 00         [12] 1674 	ld	hl, #12
-    00000993 39               [ 8] 1675 	add	hl, sp
-    00000994 E5               [16] 1676 	push	hl
-    00000995 21 01 01         [12] 1677 	ld	hl, #0x101
-    00000998 E5               [16] 1678 	push	hl
-    00000999 21 09 0E         [12] 1679 	ld	hl, #0xe09
-    0000099C E5               [16] 1680 	push	hl
-    0000099D CDr00r00         [24] 1681 	call	_set_win_tiles
-    000009A0 E8 06            [16] 1682 	add	sp, #6
-                                   1683 ;src/scripts/gui_management.c:312: stat = potion_heal_lvl + 154;
-    000009A2 FAr00r00         [16] 1684 	ld	a, (_potion_heal_lvl)
-    000009A5 C6 9A            [ 8] 1685 	add	a, #0x9a
-    000009A7 F8 0C            [12] 1686 	ldhl	sp,	#12
-    000009A9 77               [ 8] 1687 	ld	(hl), a
-                                   1688 ;src/scripts/gui_management.c:313: set_win_tiles(9, 16, 1, 1, &stat);
-    000009AA 21 0C 00         [12] 1689 	ld	hl, #12
-    000009AD 39               [ 8] 1690 	add	hl, sp
-    000009AE E5               [16] 1691 	push	hl
-    000009AF 21 01 01         [12] 1692 	ld	hl, #0x101
-    000009B2 E5               [16] 1693 	push	hl
-    000009B3 21 09 10         [12] 1694 	ld	hl, #0x1009
-    000009B6 E5               [16] 1695 	push	hl
-    000009B7 CDr00r00         [24] 1696 	call	_set_win_tiles
-    000009BA E8 06            [16] 1697 	add	sp, #6
-                                   1698 ;src/scripts/gui_management.c:314: stat = level + 154;
-    000009BC FAr00r00         [16] 1699 	ld	a, (_level)
-    000009BF C6 9A            [ 8] 1700 	add	a, #0x9a
-    000009C1 F8 0C            [12] 1701 	ldhl	sp,	#12
-    000009C3 77               [ 8] 1702 	ld	(hl), a
-                                   1703 ;src/scripts/gui_management.c:315: set_win_tiles(15, 12, 1, 1, &stat);
-    000009C4 21 0C 00         [12] 1704 	ld	hl, #12
-    000009C7 39               [ 8] 1705 	add	hl, sp
-    000009C8 E5               [16] 1706 	push	hl
-    000009C9 21 01 01         [12] 1707 	ld	hl, #0x101
-    000009CC E5               [16] 1708 	push	hl
-    000009CD 21 0F 0C         [12] 1709 	ld	hl, #0xc0f
-    000009D0 E5               [16] 1710 	push	hl
-    000009D1 CDr00r00         [24] 1711 	call	_set_win_tiles
-                                   1712 ;src/scripts/gui_management.c:316: }
-    000009D4 E8 1B            [16] 1713 	add	sp, #27
-    000009D6 C9               [16] 1714 	ret
-                                   1715 ;src/scripts/gui_management.c:318: void set_mini_menu() BANKED {
-                                   1716 ;	---------------------------------
-                                   1717 ; Function set_mini_menu
-                                   1718 ; ---------------------------------
-                         00000003  1719 	b_set_mini_menu	= 3
-    000009D7                       1720 _set_mini_menu::
-    000009D7 E8 F6            [16] 1721 	add	sp, #-10
-                                   1722 ;src/scripts/gui_management.c:319: if (menu_opened != 0) {
-    000009D9 FAr00r00         [16] 1723 	ld	a, (#_menu_opened)
-    000009DC B7               [ 4] 1724 	or	a, a
-                                   1725 ;src/scripts/gui_management.c:320: return;
-    000009DD C2rEAr0A         [16] 1726 	jp	NZ, 00107$
-                                   1727 ;src/scripts/gui_management.c:326: hp[0] = current_hp / 100 + 154;
-    000009E0 FAr00r00         [16] 1728 	ld	a, (_current_hp)
-    000009E3 1E 64            [ 8] 1729 	ld	e, #0x64
-    000009E5 CDr00r00         [24] 1730 	call	__divuchar
-    000009E8 79               [ 4] 1731 	ld	a, c
-    000009E9 C6 9A            [ 8] 1732 	add	a, #0x9a
-    000009EB F8 00            [12] 1733 	ldhl	sp,	#0
-    000009ED 77               [ 8] 1734 	ld	(hl), a
-                                   1735 ;src/scripts/gui_management.c:327: hp[1] = current_hp % 100 / 10 + 154;
-    000009EE FAr00r00         [16] 1736 	ld	a, (_current_hp)
-    000009F1 1E 64            [ 8] 1737 	ld	e, #0x64
-    000009F3 CDr00r00         [24] 1738 	call	__moduchar
-    000009F6 79               [ 4] 1739 	ld	a, c
-    000009F7 1E 0A            [ 8] 1740 	ld	e, #0x0a
-    000009F9 CDr00r00         [24] 1741 	call	__divuchar
-    000009FC 79               [ 4] 1742 	ld	a, c
-    000009FD C6 9A            [ 8] 1743 	add	a, #0x9a
-    000009FF F8 01            [12] 1744 	ldhl	sp,	#1
-    00000A01 77               [ 8] 1745 	ld	(hl), a
-                                   1746 ;src/scripts/gui_management.c:328: hp[2] = current_hp % 10 + 154;
-    00000A02 FAr00r00         [16] 1747 	ld	a, (_current_hp)
-    00000A05 1E 0A            [ 8] 1748 	ld	e, #0x0a
-    00000A07 CDr00r00         [24] 1749 	call	__moduchar
-    00000A0A 79               [ 4] 1750 	ld	a, c
-    00000A0B C6 9A            [ 8] 1751 	add	a, #0x9a
-    00000A0D F8 02            [12] 1752 	ldhl	sp,	#2
-    00000A0F 77               [ 8] 1753 	ld	(hl), a
-                                   1754 ;src/scripts/gui_management.c:329: n_arr[0] = num_arrows / 10 + 154;
-    00000A10 FAr00r00         [16] 1755 	ld	a, (_num_arrows)
-    00000A13 1E 0A            [ 8] 1756 	ld	e, #0x0a
-    00000A15 CDr00r00         [24] 1757 	call	__divuchar
-    00000A18 79               [ 4] 1758 	ld	a, c
-    00000A19 C6 9A            [ 8] 1759 	add	a, #0x9a
-    00000A1B F8 03            [12] 1760 	ldhl	sp,	#3
-    00000A1D 77               [ 8] 1761 	ld	(hl), a
-                                   1762 ;src/scripts/gui_management.c:330: n_arr[1] = num_arrows % 10 + 154;
-    00000A1E FAr00r00         [16] 1763 	ld	a, (_num_arrows)
-    00000A21 1E 0A            [ 8] 1764 	ld	e, #0x0a
-    00000A23 CDr00r00         [24] 1765 	call	__moduchar
-    00000A26 79               [ 4] 1766 	ld	a, c
-    00000A27 C6 9A            [ 8] 1767 	add	a, #0x9a
-    00000A29 F8 04            [12] 1768 	ldhl	sp,	#4
-    00000A2B 77               [ 8] 1769 	ld	(hl), a
-                                   1770 ;src/scripts/gui_management.c:331: n_heals[0] = heals / 10 + 154;
-    00000A2C FAr00r00         [16] 1771 	ld	a, (_heals)
-    00000A2F 1E 0A            [ 8] 1772 	ld	e, #0x0a
-    00000A31 CDr00r00         [24] 1773 	call	__divuchar
-    00000A34 79               [ 4] 1774 	ld	a, c
-    00000A35 C6 9A            [ 8] 1775 	add	a, #0x9a
-    00000A37 F8 05            [12] 1776 	ldhl	sp,	#5
-    00000A39 77               [ 8] 1777 	ld	(hl), a
-                                   1778 ;src/scripts/gui_management.c:332: n_heals[1] = heals % 10 + 154;
-    00000A3A FAr00r00         [16] 1779 	ld	a, (_heals)
-    00000A3D 1E 0A            [ 8] 1780 	ld	e, #0x0a
-    00000A3F CDr00r00         [24] 1781 	call	__moduchar
-    00000A42 79               [ 4] 1782 	ld	a, c
-    00000A43 C6 9A            [ 8] 1783 	add	a, #0x9a
-    00000A45 F8 06            [12] 1784 	ldhl	sp,	#6
-    00000A47 77               [ 8] 1785 	ld	(hl), a
-                                   1786 ;src/scripts/gui_management.c:333: n_floor[0] = current_floor / 10 + 154;
-    00000A48 FAr00r00         [16] 1787 	ld	a, (_current_floor)
-    00000A4B 1E 0A            [ 8] 1788 	ld	e, #0x0a
-    00000A4D CDr00r00         [24] 1789 	call	__divuchar
-    00000A50 79               [ 4] 1790 	ld	a, c
-    00000A51 C6 9A            [ 8] 1791 	add	a, #0x9a
-    00000A53 F8 07            [12] 1792 	ldhl	sp,	#7
-    00000A55 77               [ 8] 1793 	ld	(hl), a
-                                   1794 ;src/scripts/gui_management.c:334: n_floor[1] = current_floor % 10 + 154;
-    00000A56 FAr00r00         [16] 1795 	ld	a, (_current_floor)
-    00000A59 1E 0A            [ 8] 1796 	ld	e, #0x0a
-    00000A5B CDr00r00         [24] 1797 	call	__moduchar
-    00000A5E 79               [ 4] 1798 	ld	a, c
-    00000A5F C6 9A            [ 8] 1799 	add	a, #0x9a
-    00000A61 F8 08            [12] 1800 	ldhl	sp,	#8
-    00000A63 77               [ 8] 1801 	ld	(hl), a
-                                   1802 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
-    00000A64 3E 07            [ 8] 1803 	ld	a, #0x07
-    00000A66 E0r00            [12] 1804 	ldh	(_WX_REG + 0), a
-    00000A68 3E 88            [ 8] 1805 	ld	a, #0x88
-    00000A6A E0r00            [12] 1806 	ldh	(_WY_REG + 0), a
-                                   1807 ;src/scripts/gui_management.c:336: set_win_tiles(0, 0, 20, 1, mini_gui);
-    00000A6C 11r00r00         [12] 1808 	ld	de, #_mini_gui
-    00000A6F D5               [16] 1809 	push	de
-    00000A70 21 14 01         [12] 1810 	ld	hl, #0x114
-    00000A73 E5               [16] 1811 	push	hl
-    00000A74 AF               [ 4] 1812 	xor	a, a
-    00000A75 0F               [ 4] 1813 	rrca
-    00000A76 F5               [16] 1814 	push	af
-    00000A77 CDr00r00         [24] 1815 	call	_set_win_tiles
-    00000A7A E8 06            [16] 1816 	add	sp, #6
-                                   1817 ;src/scripts/gui_management.c:337: uint8_t obtained = 223;
-    00000A7C F8 09            [12] 1818 	ldhl	sp,	#9
-    00000A7E 36 DF            [12] 1819 	ld	(hl), #0xdf
-                                   1820 ;src/scripts/gui_management.c:338: if (key_obtained) {
-    00000A80 FAr00r00         [16] 1821 	ld	a, (#_key_obtained)
-    00000A83 B7               [ 4] 1822 	or	a, a
-    00000A84 28 06            [12] 1823 	jr	Z, 00104$
-                                   1824 ;src/scripts/gui_management.c:339: obtained = 223;
-    00000A86 F8 09            [12] 1825 	ldhl	sp,	#9
-    00000A88 36 DF            [12] 1826 	ld	(hl), #0xdf
-    00000A8A 18 04            [12] 1827 	jr	00105$
-    00000A8C                       1828 00104$:
-                                   1829 ;src/scripts/gui_management.c:342: obtained = 187;
-    00000A8C F8 09            [12] 1830 	ldhl	sp,	#9
-    00000A8E 36 BB            [12] 1831 	ld	(hl), #0xbb
-    00000A90                       1832 00105$:
-                                   1833 ;src/scripts/gui_management.c:344: set_win_tiles(7, 0, 1, 1, &obtained);
-    00000A90 21 09 00         [12] 1834 	ld	hl, #9
-    00000A93 39               [ 8] 1835 	add	hl, sp
-    00000A94 E5               [16] 1836 	push	hl
-    00000A95 21 01 01         [12] 1837 	ld	hl, #0x101
-    00000A98 E5               [16] 1838 	push	hl
-    00000A99 21 07 00         [12] 1839 	ld	hl, #0x07
-    00000A9C E5               [16] 1840 	push	hl
-    00000A9D CDr00r00         [24] 1841 	call	_set_win_tiles
-    00000AA0 E8 06            [16] 1842 	add	sp, #6
-                                   1843 ;src/scripts/gui_management.c:346: set_win_tiles(3, 0, 3, 1, hp);
-    00000AA2 21 00 00         [12] 1844 	ld	hl, #0
-    00000AA5 39               [ 8] 1845 	add	hl, sp
-    00000AA6 E5               [16] 1846 	push	hl
-    00000AA7 21 03 01         [12] 1847 	ld	hl, #0x103
-    00000AAA E5               [16] 1848 	push	hl
-    00000AAB 21 03 00         [12] 1849 	ld	hl, #0x03
-    00000AAE E5               [16] 1850 	push	hl
-    00000AAF CDr00r00         [24] 1851 	call	_set_win_tiles
-    00000AB2 E8 06            [16] 1852 	add	sp, #6
-                                   1853 ;src/scripts/gui_management.c:347: set_win_tiles(10, 0, 2, 1, n_arr);
-    00000AB4 21 03 00         [12] 1854 	ld	hl, #3
-    00000AB7 39               [ 8] 1855 	add	hl, sp
-    00000AB8 E5               [16] 1856 	push	hl
-    00000AB9 21 02 01         [12] 1857 	ld	hl, #0x102
-    00000ABC E5               [16] 1858 	push	hl
-    00000ABD 21 0A 00         [12] 1859 	ld	hl, #0x0a
-    00000AC0 E5               [16] 1860 	push	hl
-    00000AC1 CDr00r00         [24] 1861 	call	_set_win_tiles
-    00000AC4 E8 06            [16] 1862 	add	sp, #6
-                                   1863 ;src/scripts/gui_management.c:348: set_win_tiles(13, 0, 2, 1, n_heals);
-    00000AC6 21 05 00         [12] 1864 	ld	hl, #5
-    00000AC9 39               [ 8] 1865 	add	hl, sp
-    00000ACA E5               [16] 1866 	push	hl
-    00000ACB 21 02 01         [12] 1867 	ld	hl, #0x102
-    00000ACE E5               [16] 1868 	push	hl
-    00000ACF 21 0D 00         [12] 1869 	ld	hl, #0x0d
-    00000AD2 E5               [16] 1870 	push	hl
-    00000AD3 CDr00r00         [24] 1871 	call	_set_win_tiles
-    00000AD6 E8 06            [16] 1872 	add	sp, #6
-                                   1873 ;src/scripts/gui_management.c:349: set_win_tiles(18, 0, 2, 1, n_floor);
-    00000AD8 21 07 00         [12] 1874 	ld	hl, #7
-    00000ADB 39               [ 8] 1875 	add	hl, sp
-    00000ADC E5               [16] 1876 	push	hl
-    00000ADD 21 02 01         [12] 1877 	ld	hl, #0x102
-    00000AE0 E5               [16] 1878 	push	hl
-    00000AE1 21 12 00         [12] 1879 	ld	hl, #0x12
-    00000AE4 E5               [16] 1880 	push	hl
-    00000AE5 CDr00r00         [24] 1881 	call	_set_win_tiles
-    00000AE8 E8 06            [16] 1882 	add	sp, #6
-    00000AEA                       1883 00107$:
-                                   1884 ;src/scripts/gui_management.c:350: }
-    00000AEA E8 0A            [16] 1885 	add	sp, #10
-    00000AEC C9               [16] 1886 	ret
-                                   1887 ;src/scripts/gui_management.c:352: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
-                                   1888 ;	---------------------------------
-                                   1889 ; Function show_number
-                                   1890 ; ---------------------------------
-                         00000003  1891 	b_show_number	= 3
-    00000AED                       1892 _show_number::
-    00000AED E8 FC            [16] 1893 	add	sp, #-4
-                                   1894 ;src/scripts/gui_management.c:354: if (target == 0) {
-    00000AEF F8 0C            [12] 1895 	ldhl	sp,	#12
-    00000AF1 7E               [ 8] 1896 	ld	a, (hl)
-    00000AF2 B7               [ 4] 1897 	or	a, a
-    00000AF3 20 0E            [12] 1898 	jr	NZ, 00105$
-                                   1899 ;src/scripts/gui_management.c:355: dmg_x = x;
-    00000AF5 FAr00r00         [16] 1900 	ld	a, (#_x)
-    00000AF8 F8 00            [12] 1901 	ldhl	sp,	#0
-                                   1902 ;src/scripts/gui_management.c:356: dmg_y = y-8;
-    00000AFA 22               [ 8] 1903 	ld	(hl+), a
-    00000AFB FAr00r00         [16] 1904 	ld	a, (_y)
-    00000AFE C6 F8            [ 8] 1905 	add	a, #0xf8
-    00000B00 77               [ 8] 1906 	ld	(hl), a
-    00000B01 18 31            [12] 1907 	jr	00106$
-    00000B03                       1908 00105$:
-                                   1909 ;src/scripts/gui_management.c:359: if (index == 2) {
-    00000B03 F8 0D            [12] 1910 	ldhl	sp,	#13
-    00000B05 7E               [ 8] 1911 	ld	a, (hl)
-    00000B06 D6 02            [ 8] 1912 	sub	a, #0x02
-    00000B08 20 10            [12] 1913 	jr	NZ, 00102$
-                                   1914 ;src/scripts/gui_management.c:360: dmg_x = boss.x+8;
-    00000B0A FAr01r00         [16] 1915 	ld	a, (#(_boss + 1) + 0)
-    00000B0D C6 08            [ 8] 1916 	add	a, #0x08
-    00000B0F F8 00            [12] 1917 	ldhl	sp,	#0
-                                   1918 ;src/scripts/gui_management.c:361: dmg_y = boss.y-8;
-    00000B11 22               [ 8] 1919 	ld	(hl+), a
-    00000B12 FAr02r00         [16] 1920 	ld	a, (#(_boss + 2) + 0)
-    00000B15 C6 F8            [ 8] 1921 	add	a, #0xf8
-    00000B17 77               [ 8] 1922 	ld	(hl), a
-    00000B18 18 1A            [12] 1923 	jr	00106$
-    00000B1A                       1924 00102$:
-                                   1925 ;src/scripts/gui_management.c:364: dmg_x = current_enemies[index].x;
-    00000B1A F8 0D            [12] 1926 	ldhl	sp,	#13
-    00000B1C 4E               [ 8] 1927 	ld	c, (hl)
-    00000B1D 06 00            [ 8] 1928 	ld	b, #0x00
-    00000B1F 69               [ 4] 1929 	ld	l, c
-    00000B20 60               [ 4] 1930 	ld	h, b
-    00000B21 29               [ 8] 1931 	add	hl, hl
-    00000B22 09               [ 8] 1932 	add	hl, bc
-    00000B23 29               [ 8] 1933 	add	hl, hl
-    00000B24 29               [ 8] 1934 	add	hl, hl
-    00000B25 01r00r00         [12] 1935 	ld	bc, #_current_enemies
-    00000B28 09               [ 8] 1936 	add	hl, bc
-    00000B29 4D               [ 4] 1937 	ld	c, l
-    00000B2A 44               [ 4] 1938 	ld	b, h
-    00000B2B 0A               [ 8] 1939 	ld	a, (bc)
-    00000B2C F8 00            [12] 1940 	ldhl	sp,	#0
-                                   1941 ;src/scripts/gui_management.c:365: dmg_y = current_enemies[index].y-8;
-    00000B2E 22               [ 8] 1942 	ld	(hl+), a
-    00000B2F 03               [ 8] 1943 	inc	bc
-    00000B30 0A               [ 8] 1944 	ld	a, (bc)
-    00000B31 C6 F8            [ 8] 1945 	add	a, #0xf8
-    00000B33 77               [ 8] 1946 	ld	(hl), a
-    00000B34                       1947 00106$:
-                                   1948 ;src/scripts/gui_management.c:368: if (mode == 0) { // damage
-    00000B34 F8 0B            [12] 1949 	ldhl	sp,	#11
-    00000B36 7E               [ 8] 1950 	ld	a, (hl)
-    00000B37 B7               [ 4] 1951 	or	a, a
-    00000B38 20 07            [12] 1952 	jr	NZ, 00108$
-                                   1953 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B3A 21r02r00         [12] 1954 	ld	hl, #(_shadow_OAM + 2)
-    00000B3D 36 4C            [12] 1955 	ld	(hl), #0x4c
-                                   1956 ;src/scripts/gui_management.c:369: set_sprite_tile(0, 76);
-    00000B3F 18 05            [12] 1957 	jr	00109$
-    00000B41                       1958 00108$:
-                                   1959 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B41 21r02r00         [12] 1960 	ld	hl, #(_shadow_OAM + 2)
-    00000B44 36 4B            [12] 1961 	ld	(hl), #0x4b
-                                   1962 ;src/scripts/gui_management.c:372: set_sprite_tile(0, 75);
-    00000B46                       1963 00109$:
-                                   1964 ;src/scripts/gui_management.c:374: if (number / 10 != 0) {
-    00000B46 F8 0A            [12] 1965 	ldhl	sp,	#10
-    00000B48 7E               [ 8] 1966 	ld	a, (hl)
-    00000B49 F8 02            [12] 1967 	ldhl	sp,	#2
-    00000B4B 77               [ 8] 1968 	ld	(hl), a
-    00000B4C 7E               [ 8] 1969 	ld	a, (hl)
-    00000B4D 1E 0A            [ 8] 1970 	ld	e, #0x0a
-    00000B4F CDr00r00         [24] 1971 	call	__divuchar
-    00000B52 79               [ 4] 1972 	ld	a, c
-    00000B53 B7               [ 4] 1973 	or	a, a
-    00000B54 28 0D            [12] 1974 	jr	Z, 00111$
-                                   1975 ;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
-    00000B56 79               [ 4] 1976 	ld	a, c
-    00000B57 C6 41            [ 8] 1977 	add	a, #0x41
-    00000B59 F8 03            [12] 1978 	ldhl	sp,	#3
-    00000B5B 77               [ 8] 1979 	ld	(hl), a
-                                   1980 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B5C 11r06r00         [12] 1981 	ld	de, #(_shadow_OAM + 6)
-    00000B5F 7E               [ 8] 1982 	ld	a, (hl)
-    00000B60 12               [ 8] 1983 	ld	(de), a
-                                   1984 ;src/scripts/gui_management.c:375: set_sprite_tile(1, 65 + number / 10);
-    00000B61 18 05            [12] 1985 	jr	00112$
-    00000B63                       1986 00111$:
-                                   1987 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B63 21r06r00         [12] 1988 	ld	hl, #(_shadow_OAM + 6)
-    00000B66 36 32            [12] 1989 	ld	(hl), #0x32
-                                   1990 ;src/scripts/gui_management.c:378: set_sprite_tile(1, 50);
-    00000B68                       1991 00112$:
-                                   1992 ;src/scripts/gui_management.c:381: set_sprite_tile(2, 65 + number % 10);
-    00000B68 F8 02            [12] 1993 	ldhl	sp,	#2
-    00000B6A 7E               [ 8] 1994 	ld	a, (hl)
-    00000B6B C5               [16] 1995 	push	bc
-    00000B6C 1E 0A            [ 8] 1996 	ld	e, #0x0a
-    00000B6E CDr00r00         [24] 1997 	call	__moduchar
-    00000B71 79               [ 4] 1998 	ld	a, c
-    00000B72 C1               [12] 1999 	pop	bc
-    00000B73 C6 41            [ 8] 2000 	add	a, #0x41
-    00000B75 47               [ 4] 2001 	ld	b, a
-                                   2002 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000B76 21r0Ar00         [12] 2003 	ld	hl, #(_shadow_OAM + 10)
-    00000B79 70               [ 8] 2004 	ld	(hl), b
-                                   2005 ;src/scripts/gui_management.c:383: while (frame < 30) {
-    00000B7A F8 01            [12] 2006 	ldhl	sp,	#1
-    00000B7C 2A               [ 8] 2007 	ld	a, (hl+)
-    00000B7D 23               [ 8] 2008 	inc	hl
-    00000B7E 5F               [ 4] 2009 	ld	e, a
-    00000B7F 36 00            [12] 2010 	ld	(hl), #0x00
-    00000B81                       2011 00118$:
-    00000B81 F8 03            [12] 2012 	ldhl	sp,	#3
-    00000B83 7E               [ 8] 2013 	ld	a, (hl)
-    00000B84 D6 1E            [ 8] 2014 	sub	a, #0x1e
-    00000B86 30 4A            [12] 2015 	jr	NC, 00120$
-                                   2016 ;src/scripts/gui_management.c:384: wait_vbl_done();
-    00000B88 CDr00r00         [24] 2017 	call	_wait_vbl_done
-                                   2018 ;src/scripts/gui_management.c:385: if (frame %2) {
-    00000B8B F8 03            [12] 2019 	ldhl	sp,	#3
-    00000B8D 7E               [ 8] 2020 	ld	a, (hl)
-    00000B8E E6 01            [ 8] 2021 	and	a, #0x01
-    00000B90 28 3B            [12] 2022 	jr	Z, 00117$
-                                   2023 ;src/scripts/gui_management.c:386: dmg_y--;
-    00000B92 1D               [ 4] 2024 	dec	e
-                                   2025 ;src/scripts/gui_management.c:387: if (number / 10 == 0) {
-    00000B93 79               [ 4] 2026 	ld	a, c
-    00000B94 B7               [ 4] 2027 	or	a, a
-    00000B95 20 0D            [12] 2028 	jr	NZ, 00114$
-                                   2029 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000B97 21r00r00         [12] 2030 	ld	hl, #_shadow_OAM
-                                   2031 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000B9A 7B               [ 4] 2032 	ld	a, e
-    00000B9B 22               [ 8] 2033 	ld	(hl+), a
-    00000B9C E5               [16] 2034 	push	hl
-    00000B9D F8 02            [12] 2035 	ldhl	sp,	#2
-    00000B9F 7E               [ 8] 2036 	ld	a, (hl)
-    00000BA0 E1               [12] 2037 	pop	hl
-    00000BA1 77               [ 8] 2038 	ld	(hl), a
-                                   2039 ;src/scripts/gui_management.c:388: move_sprite(0, dmg_x, dmg_y);
-    00000BA2 18 0C            [12] 2040 	jr	00115$
-    00000BA4                       2041 00114$:
-                                   2042 ;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
-    00000BA4 F8 00            [12] 2043 	ldhl	sp,	#0
-    00000BA6 7E               [ 8] 2044 	ld	a, (hl)
-    00000BA7 C6 F8            [ 8] 2045 	add	a, #0xf8
-    00000BA9 47               [ 4] 2046 	ld	b, a
-                                   2047 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BAA 21r00r00         [12] 2048 	ld	hl, #_shadow_OAM
-                                   2049 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BAD 7B               [ 4] 2050 	ld	a, e
-    00000BAE 22               [ 8] 2051 	ld	(hl+), a
-    00000BAF 70               [ 8] 2052 	ld	(hl), b
-                                   2053 ;src/scripts/gui_management.c:391: move_sprite(0, dmg_x-8, dmg_y);
-    00000BB0                       2054 00115$:
-                                   2055 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BB0 21r04r00         [12] 2056 	ld	hl, #(_shadow_OAM + 4)
-                                   2057 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BB3 7B               [ 4] 2058 	ld	a, e
-    00000BB4 22               [ 8] 2059 	ld	(hl+), a
-    00000BB5 E5               [16] 2060 	push	hl
-    00000BB6 F8 02            [12] 2061 	ldhl	sp,	#2
-    00000BB8 7E               [ 8] 2062 	ld	a, (hl)
-    00000BB9 E1               [12] 2063 	pop	hl
-    00000BBA 77               [ 8] 2064 	ld	(hl), a
-                                   2065 ;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
-    00000BBB F8 00            [12] 2066 	ldhl	sp,	#0
-    00000BBD 2A               [ 8] 2067 	ld	a, (hl+)
-    00000BBE 23               [ 8] 2068 	inc	hl
-    00000BBF C6 08            [ 8] 2069 	add	a, #0x08
-    00000BC1 77               [ 8] 2070 	ld	(hl), a
-                                   2071 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BC2 21r08r00         [12] 2072 	ld	hl, #(_shadow_OAM + 8)
-                                   2073 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BC5 7B               [ 4] 2074 	ld	a, e
-    00000BC6 22               [ 8] 2075 	ld	(hl+), a
-    00000BC7 E5               [16] 2076 	push	hl
-    00000BC8 F8 04            [12] 2077 	ldhl	sp,	#4
-    00000BCA 7E               [ 8] 2078 	ld	a, (hl)
-    00000BCB E1               [12] 2079 	pop	hl
-    00000BCC 77               [ 8] 2080 	ld	(hl), a
-                                   2081 ;src/scripts/gui_management.c:394: move_sprite(2, dmg_x+8, dmg_y);
-    00000BCD                       2082 00117$:
-                                   2083 ;src/scripts/gui_management.c:396: frame++;
-    00000BCD F8 03            [12] 2084 	ldhl	sp,	#3
-    00000BCF 34               [12] 2085 	inc	(hl)
-    00000BD0 18 AF            [12] 2086 	jr	00118$
-    00000BD2                       2087 00120$:
-                                   2088 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BD2 21r00r00         [12] 2089 	ld	hl, #_shadow_OAM
-                                   2090 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BD5 36 00            [12] 2091 	ld	(hl), #0x00
-    00000BD7 23               [ 8] 2092 	inc	hl
-    00000BD8 36 00            [12] 2093 	ld	(hl), #0x00
-                                   2094 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BDA 21r04r00         [12] 2095 	ld	hl, #(_shadow_OAM + 4)
-                                   2096 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BDD 36 00            [12] 2097 	ld	(hl), #0x00
-    00000BDF 23               [ 8] 2098 	inc	hl
-    00000BE0 36 00            [12] 2099 	ld	(hl), #0x00
+    00000762 E8 E9            [16] 1327 	add	sp, #-23
+                                   1328 ;src/scripts/gui_management.c:267: if (current_hp < 100) {
+    00000764 FAr00r00         [16] 1329 	ld	a, (#_current_hp)
+    00000767 D6 64            [ 8] 1330 	sub	a, #0x64
+    00000769 30 06            [12] 1331 	jr	NC, 00102$
+                                   1332 ;src/scripts/gui_management.c:268: hp[0] = 187;
+    0000076B F8 00            [12] 1333 	ldhl	sp,	#0
+    0000076D 36 BB            [12] 1334 	ld	(hl), #0xbb
+    0000076F 18 0E            [12] 1335 	jr	00103$
+    00000771                       1336 00102$:
+                                   1337 ;src/scripts/gui_management.c:271: hp[0] = current_hp / 100 + 154;
+    00000771 FAr00r00         [16] 1338 	ld	a, (_current_hp)
+    00000774 1E 64            [ 8] 1339 	ld	e, #0x64
+    00000776 CDr00r00         [24] 1340 	call	__divuchar
+    00000779 79               [ 4] 1341 	ld	a, c
+    0000077A C6 9A            [ 8] 1342 	add	a, #0x9a
+    0000077C F8 00            [12] 1343 	ldhl	sp,	#0
+    0000077E 77               [ 8] 1344 	ld	(hl), a
+    0000077F                       1345 00103$:
+                                   1346 ;src/scripts/gui_management.c:273: hp[1] = current_hp % 100 / 10 + 154;
+    0000077F FAr00r00         [16] 1347 	ld	a, (_current_hp)
+    00000782 1E 64            [ 8] 1348 	ld	e, #0x64
+    00000784 CDr00r00         [24] 1349 	call	__moduchar
+    00000787 79               [ 4] 1350 	ld	a, c
+    00000788 1E 0A            [ 8] 1351 	ld	e, #0x0a
+    0000078A CDr00r00         [24] 1352 	call	__divuchar
+    0000078D 79               [ 4] 1353 	ld	a, c
+    0000078E C6 9A            [ 8] 1354 	add	a, #0x9a
+    00000790 F8 01            [12] 1355 	ldhl	sp,	#1
+    00000792 77               [ 8] 1356 	ld	(hl), a
+                                   1357 ;src/scripts/gui_management.c:274: hp[2] = current_hp % 10 + 154;
+    00000793 FAr00r00         [16] 1358 	ld	a, (_current_hp)
+    00000796 1E 0A            [ 8] 1359 	ld	e, #0x0a
+    00000798 CDr00r00         [24] 1360 	call	__moduchar
+    0000079B 79               [ 4] 1361 	ld	a, c
+    0000079C C6 9A            [ 8] 1362 	add	a, #0x9a
+    0000079E F8 02            [12] 1363 	ldhl	sp,	#2
+                                   1364 ;src/scripts/gui_management.c:275: hp[3] = 176;
+    000007A0 22               [ 8] 1365 	ld	(hl+), a
+    000007A1 36 B0            [12] 1366 	ld	(hl), #0xb0
+                                   1367 ;src/scripts/gui_management.c:277: hp[4] = 187;
+                                   1368 ;src/scripts/gui_management.c:276: if (max_hp < 100) {
+    000007A3 FAr00r00         [16] 1369 	ld	a, (#_max_hp)
+    000007A6 D6 64            [ 8] 1370 	sub	a, #0x64
+    000007A8 30 06            [12] 1371 	jr	NC, 00105$
+                                   1372 ;src/scripts/gui_management.c:277: hp[4] = 187;
+    000007AA F8 04            [12] 1373 	ldhl	sp,	#4
+    000007AC 36 BB            [12] 1374 	ld	(hl), #0xbb
+    000007AE 18 0E            [12] 1375 	jr	00106$
+    000007B0                       1376 00105$:
+                                   1377 ;src/scripts/gui_management.c:280: hp[4] = max_hp / 100 + 154;
+    000007B0 FAr00r00         [16] 1378 	ld	a, (_max_hp)
+    000007B3 1E 64            [ 8] 1379 	ld	e, #0x64
+    000007B5 CDr00r00         [24] 1380 	call	__divuchar
+    000007B8 79               [ 4] 1381 	ld	a, c
+    000007B9 C6 9A            [ 8] 1382 	add	a, #0x9a
+    000007BB F8 04            [12] 1383 	ldhl	sp,	#4
+    000007BD 77               [ 8] 1384 	ld	(hl), a
+    000007BE                       1385 00106$:
+                                   1386 ;src/scripts/gui_management.c:282: hp[5] = max_hp % 100 / 10 + 154;
+    000007BE FAr00r00         [16] 1387 	ld	a, (_max_hp)
+    000007C1 1E 64            [ 8] 1388 	ld	e, #0x64
+    000007C3 CDr00r00         [24] 1389 	call	__moduchar
+    000007C6 79               [ 4] 1390 	ld	a, c
+    000007C7 1E 0A            [ 8] 1391 	ld	e, #0x0a
+    000007C9 CDr00r00         [24] 1392 	call	__divuchar
+    000007CC 79               [ 4] 1393 	ld	a, c
+    000007CD C6 9A            [ 8] 1394 	add	a, #0x9a
+    000007CF F8 05            [12] 1395 	ldhl	sp,	#5
+    000007D1 77               [ 8] 1396 	ld	(hl), a
+                                   1397 ;src/scripts/gui_management.c:283: hp[6] = max_hp % 10 + 154;
+    000007D2 FAr00r00         [16] 1398 	ld	a, (_max_hp)
+    000007D5 1E 0A            [ 8] 1399 	ld	e, #0x0a
+    000007D7 CDr00r00         [24] 1400 	call	__moduchar
+    000007DA 79               [ 4] 1401 	ld	a, c
+    000007DB C6 9A            [ 8] 1402 	add	a, #0x9a
+    000007DD F8 06            [12] 1403 	ldhl	sp,	#6
+    000007DF 77               [ 8] 1404 	ld	(hl), a
+                                   1405 ;src/scripts/gui_management.c:284: atk[0] = attack / 10 + 154;
+    000007E0 FAr00r00         [16] 1406 	ld	a, (_attack)
+    000007E3 1E 0A            [ 8] 1407 	ld	e, #0x0a
+    000007E5 CDr00r00         [24] 1408 	call	__divuchar
+    000007E8 79               [ 4] 1409 	ld	a, c
+    000007E9 C6 9A            [ 8] 1410 	add	a, #0x9a
+    000007EB F8 07            [12] 1411 	ldhl	sp,	#7
+    000007ED 77               [ 8] 1412 	ld	(hl), a
+                                   1413 ;src/scripts/gui_management.c:285: atk[1] = attack % 10 + 154;
+    000007EE FAr00r00         [16] 1414 	ld	a, (_attack)
+    000007F1 1E 0A            [ 8] 1415 	ld	e, #0x0a
+    000007F3 CDr00r00         [24] 1416 	call	__moduchar
+    000007F6 79               [ 4] 1417 	ld	a, c
+    000007F7 C6 9A            [ 8] 1418 	add	a, #0x9a
+    000007F9 F8 08            [12] 1419 	ldhl	sp,	#8
+    000007FB 77               [ 8] 1420 	ld	(hl), a
+                                   1421 ;src/scripts/gui_management.c:286: def[0] = defense / 10 + 154;
+    000007FC FAr00r00         [16] 1422 	ld	a, (_defense)
+    000007FF 1E 0A            [ 8] 1423 	ld	e, #0x0a
+    00000801 CDr00r00         [24] 1424 	call	__divuchar
+    00000804 79               [ 4] 1425 	ld	a, c
+    00000805 C6 9A            [ 8] 1426 	add	a, #0x9a
+    00000807 F8 09            [12] 1427 	ldhl	sp,	#9
+    00000809 77               [ 8] 1428 	ld	(hl), a
+                                   1429 ;src/scripts/gui_management.c:287: def[1] = defense % 10 + 154;
+    0000080A FAr00r00         [16] 1430 	ld	a, (_defense)
+    0000080D 1E 0A            [ 8] 1431 	ld	e, #0x0a
+    0000080F CDr00r00         [24] 1432 	call	__moduchar
+    00000812 79               [ 4] 1433 	ld	a, c
+    00000813 C6 9A            [ 8] 1434 	add	a, #0x9a
+    00000815 F8 0A            [12] 1435 	ldhl	sp,	#10
+    00000817 77               [ 8] 1436 	ld	(hl), a
+                                   1437 ;src/scripts/gui_management.c:289: uint8_t d3 = (experience% 10000 / 1000);
+    00000818 FAr00r00         [16] 1438 	ld	a, (#_experience)
+    0000081B F8 11            [12] 1439 	ldhl	sp,	#17
+    0000081D 77               [ 8] 1440 	ld	(hl), a
+    0000081E FAr01r00         [16] 1441 	ld	a, (#_experience + 1)
+    00000821 F8 12            [12] 1442 	ldhl	sp,	#18
+    00000823 32               [ 8] 1443 	ld	(hl-), a
+    00000824 01 10 27         [12] 1444 	ld	bc, #0x2710
+    00000827 2A               [ 8] 1445 	ld	a, (hl+)
+    00000828 5F               [ 4] 1446 	ld	e, a
+    00000829 56               [ 8] 1447 	ld	d, (hl)
+    0000082A CDr00r00         [24] 1448 	call	__moduint
+    0000082D 59               [ 4] 1449 	ld	e, c
+    0000082E 50               [ 4] 1450 	ld	d, b
+    0000082F 01 E8 03         [12] 1451 	ld	bc, #0x03e8
+    00000832 CDr00r00         [24] 1452 	call	__divuint
+    00000835 F8 13            [12] 1453 	ldhl	sp,	#19
+                                   1454 ;src/scripts/gui_management.c:290: uint8_t d2 = (experience % 1000) / 100;
+    00000837 79               [ 4] 1455 	ld	a, c
+    00000838 32               [ 8] 1456 	ld	(hl-), a
+    00000839 2B               [ 8] 1457 	dec	hl
+    0000083A 01 E8 03         [12] 1458 	ld	bc, #0x03e8
+    0000083D 2A               [ 8] 1459 	ld	a, (hl+)
+    0000083E 5F               [ 4] 1460 	ld	e, a
+    0000083F 56               [ 8] 1461 	ld	d, (hl)
+    00000840 CDr00r00         [24] 1462 	call	__moduint
+    00000843 59               [ 4] 1463 	ld	e, c
+    00000844 50               [ 4] 1464 	ld	d, b
+    00000845 01 64 00         [12] 1465 	ld	bc, #0x0064
+    00000848 CDr00r00         [24] 1466 	call	__divuint
+    0000084B F8 14            [12] 1467 	ldhl	sp,	#20
+    0000084D 71               [ 8] 1468 	ld	(hl), c
+                                   1469 ;src/scripts/gui_management.c:291: uint8_t d1 = (experience % 100) / 10;
+    0000084E 01 64 00         [12] 1470 	ld	bc, #0x0064
+    00000851 F8 11            [12] 1471 	ldhl	sp,	#17
+    00000853 2A               [ 8] 1472 	ld	a, (hl+)
+    00000854 5F               [ 4] 1473 	ld	e, a
+    00000855 56               [ 8] 1474 	ld	d, (hl)
+    00000856 CDr00r00         [24] 1475 	call	__moduint
+    00000859 79               [ 4] 1476 	ld	a, c
+    0000085A 1E 0A            [ 8] 1477 	ld	e, #0x0a
+    0000085C CDr00r00         [24] 1478 	call	__divuchar
+    0000085F F8 15            [12] 1479 	ldhl	sp,	#21
+    00000861 71               [ 8] 1480 	ld	(hl), c
+                                   1481 ;src/scripts/gui_management.c:292: uint8_t d0 = (experience % 10);
+    00000862 01 0A 00         [12] 1482 	ld	bc, #0x000a
+    00000865 F8 11            [12] 1483 	ldhl	sp,	#17
+    00000867 2A               [ 8] 1484 	ld	a, (hl+)
+    00000868 5F               [ 4] 1485 	ld	e, a
+    00000869 56               [ 8] 1486 	ld	d, (hl)
+    0000086A CDr00r00         [24] 1487 	call	__moduint
+    0000086D F8 16            [12] 1488 	ldhl	sp,	#22
+    0000086F 71               [ 8] 1489 	ld	(hl), c
+                                   1490 ;src/scripts/gui_management.c:293: if (experience > 9999) {
+    00000870 F8 11            [12] 1491 	ldhl	sp,	#17
+    00000872 3E 0F            [ 8] 1492 	ld	a, #0x0f
+    00000874 96               [ 8] 1493 	sub	a, (hl)
+    00000875 23               [ 8] 1494 	inc	hl
+    00000876 3E 27            [ 8] 1495 	ld	a, #0x27
+    00000878 9E               [ 8] 1496 	sbc	a, (hl)
+    00000879 30 0F            [12] 1497 	jr	NC, 00108$
+                                   1498 ;src/scripts/gui_management.c:294: exp[0] = 163;
+    0000087B F8 0B            [12] 1499 	ldhl	sp,	#11
+    0000087D 36 A3            [12] 1500 	ld	(hl), #0xa3
+                                   1501 ;src/scripts/gui_management.c:295: exp[1] = 163;
+    0000087F 23               [ 8] 1502 	inc	hl
+    00000880 36 A3            [12] 1503 	ld	(hl), #0xa3
+                                   1504 ;src/scripts/gui_management.c:296: exp[2] = 163;
+    00000882 23               [ 8] 1505 	inc	hl
+    00000883 36 A3            [12] 1506 	ld	(hl), #0xa3
+                                   1507 ;src/scripts/gui_management.c:297: exp[3] = 163;
+    00000885 23               [ 8] 1508 	inc	hl
+    00000886 36 A3            [12] 1509 	ld	(hl), #0xa3
+    00000888 18 51            [12] 1510 	jr	00109$
+    0000088A                       1511 00108$:
+                                   1512 ;src/scripts/gui_management.c:300: exp[0] = (d3 == 0) ? 12 : (d3 + 154);
+    0000088A F8 13            [12] 1513 	ldhl	sp,	#19
+    0000088C 7E               [ 8] 1514 	ld	a, (hl)
+    0000088D B7               [ 4] 1515 	or	a, a
+    0000088E 20 04            [12] 1516 	jr	NZ, 00112$
+    00000890 3E 0C            [ 8] 1517 	ld	a, #0x0c
+    00000892 18 05            [12] 1518 	jr	00113$
+    00000894                       1519 00112$:
+    00000894 F8 13            [12] 1520 	ldhl	sp,	#19
+    00000896 7E               [ 8] 1521 	ld	a, (hl)
+    00000897 C6 9A            [ 8] 1522 	add	a, #0x9a
+    00000899                       1523 00113$:
+    00000899 F8 0B            [12] 1524 	ldhl	sp,	#11
+    0000089B 77               [ 8] 1525 	ld	(hl), a
+                                   1526 ;src/scripts/gui_management.c:301: exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
+    0000089C F8 14            [12] 1527 	ldhl	sp,	#20
+    0000089E 7E               [ 8] 1528 	ld	a, (hl)
+    0000089F B7               [ 4] 1529 	or	a, a
+    000008A0 20 09            [12] 1530 	jr	NZ, 00114$
+    000008A2 2B               [ 8] 1531 	dec	hl
+    000008A3 7E               [ 8] 1532 	ld	a, (hl)
+    000008A4 B7               [ 4] 1533 	or	a, a
+    000008A5 20 04            [12] 1534 	jr	NZ, 00114$
+    000008A7 3E 0C            [ 8] 1535 	ld	a, #0x0c
+    000008A9 18 05            [12] 1536 	jr	00115$
+    000008AB                       1537 00114$:
+    000008AB F8 14            [12] 1538 	ldhl	sp,	#20
+    000008AD 7E               [ 8] 1539 	ld	a, (hl)
+    000008AE C6 9A            [ 8] 1540 	add	a, #0x9a
+    000008B0                       1541 00115$:
+    000008B0 F8 0C            [12] 1542 	ldhl	sp,	#12
+    000008B2 77               [ 8] 1543 	ld	(hl), a
+                                   1544 ;src/scripts/gui_management.c:302: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
+    000008B3 21 0D 00         [12] 1545 	ld	hl,#0xd
+    000008B6 39               [ 8] 1546 	add	hl,sp
+    000008B7 5D               [ 4] 1547 	ld	e, l
+    000008B8 54               [ 4] 1548 	ld	d, h
+    000008B9 F8 15            [12] 1549 	ldhl	sp,	#21
+    000008BB 7E               [ 8] 1550 	ld	a, (hl)
+    000008BC B7               [ 4] 1551 	or	a, a
+    000008BD 20 0E            [12] 1552 	jr	NZ, 00119$
+    000008BF 2B               [ 8] 1553 	dec	hl
+    000008C0 7E               [ 8] 1554 	ld	a, (hl)
+    000008C1 B7               [ 4] 1555 	or	a, a
+    000008C2 20 09            [12] 1556 	jr	NZ, 00119$
+    000008C4 2B               [ 8] 1557 	dec	hl
+    000008C5 7E               [ 8] 1558 	ld	a, (hl)
+    000008C6 B7               [ 4] 1559 	or	a, a
+    000008C7 20 04            [12] 1560 	jr	NZ, 00119$
+    000008C9 3E 0C            [ 8] 1561 	ld	a, #0x0c
+    000008CB 18 05            [12] 1562 	jr	00120$
+    000008CD                       1563 00119$:
+    000008CD F8 15            [12] 1564 	ldhl	sp,	#21
+    000008CF 7E               [ 8] 1565 	ld	a, (hl)
+    000008D0 C6 9A            [ 8] 1566 	add	a, #0x9a
+    000008D2                       1567 00120$:
+    000008D2 12               [ 8] 1568 	ld	(de), a
+                                   1569 ;src/scripts/gui_management.c:303: exp[3] = d0 + 154;
+    000008D3 F8 16            [12] 1570 	ldhl	sp,	#22
+    000008D5 7E               [ 8] 1571 	ld	a, (hl)
+    000008D6 C6 9A            [ 8] 1572 	add	a, #0x9a
+    000008D8 F8 0E            [12] 1573 	ldhl	sp,	#14
+    000008DA 77               [ 8] 1574 	ld	(hl), a
+    000008DB                       1575 00109$:
+                                   1576 ;src/scripts/gui_management.c:306: mythril[0] = minerals / 10 + 154;
+    000008DB FAr00r00         [16] 1577 	ld	a, (_minerals)
+    000008DE 1E 0A            [ 8] 1578 	ld	e, #0x0a
+    000008E0 CDr00r00         [24] 1579 	call	__divuchar
+    000008E3 79               [ 4] 1580 	ld	a, c
+    000008E4 C6 9A            [ 8] 1581 	add	a, #0x9a
+    000008E6 F8 0F            [12] 1582 	ldhl	sp,	#15
+    000008E8 77               [ 8] 1583 	ld	(hl), a
+                                   1584 ;src/scripts/gui_management.c:307: mythril[1] = minerals % 10 + 154;
+    000008E9 FAr00r00         [16] 1585 	ld	a, (_minerals)
+    000008EC 1E 0A            [ 8] 1586 	ld	e, #0x0a
+    000008EE CDr00r00         [24] 1587 	call	__moduchar
+    000008F1 79               [ 4] 1588 	ld	a, c
+    000008F2 C6 9A            [ 8] 1589 	add	a, #0x9a
+    000008F4 F8 10            [12] 1590 	ldhl	sp,	#16
+    000008F6 77               [ 8] 1591 	ld	(hl), a
+                                   1592 ;src/scripts/gui_management.c:308: set_win_tiles(12, 6, 7, 1, hp);
+    000008F7 21 00 00         [12] 1593 	ld	hl, #0
+    000008FA 39               [ 8] 1594 	add	hl, sp
+    000008FB E5               [16] 1595 	push	hl
+    000008FC 21 07 01         [12] 1596 	ld	hl, #0x107
+    000008FF E5               [16] 1597 	push	hl
+    00000900 21 0C 06         [12] 1598 	ld	hl, #0x60c
+    00000903 E5               [16] 1599 	push	hl
+    00000904 CDr00r00         [24] 1600 	call	_set_win_tiles
+    00000907 E8 06            [16] 1601 	add	sp, #6
+                                   1602 ;src/scripts/gui_management.c:309: set_win_tiles(14, 4, 5, 1, player_name);
+    00000909 11r00r00         [12] 1603 	ld	de, #_player_name
+    0000090C D5               [16] 1604 	push	de
+    0000090D 21 05 01         [12] 1605 	ld	hl, #0x105
+    00000910 E5               [16] 1606 	push	hl
+    00000911 21 0E 04         [12] 1607 	ld	hl, #0x40e
+    00000914 E5               [16] 1608 	push	hl
+    00000915 CDr00r00         [24] 1609 	call	_set_win_tiles
+    00000918 E8 06            [16] 1610 	add	sp, #6
+                                   1611 ;src/scripts/gui_management.c:310: set_win_tiles(12, 8, 2, 1, atk);
+    0000091A 21 07 00         [12] 1612 	ld	hl, #7
+    0000091D 39               [ 8] 1613 	add	hl, sp
+    0000091E E5               [16] 1614 	push	hl
+    0000091F 21 02 01         [12] 1615 	ld	hl, #0x102
+    00000922 E5               [16] 1616 	push	hl
+    00000923 21 0C 08         [12] 1617 	ld	hl, #0x80c
+    00000926 E5               [16] 1618 	push	hl
+    00000927 CDr00r00         [24] 1619 	call	_set_win_tiles
+    0000092A E8 06            [16] 1620 	add	sp, #6
+                                   1621 ;src/scripts/gui_management.c:311: set_win_tiles(12, 10, 2, 1, def);
+    0000092C 21 09 00         [12] 1622 	ld	hl, #9
+    0000092F 39               [ 8] 1623 	add	hl, sp
+    00000930 E5               [16] 1624 	push	hl
+    00000931 21 02 01         [12] 1625 	ld	hl, #0x102
+    00000934 E5               [16] 1626 	push	hl
+    00000935 21 0C 0A         [12] 1627 	ld	hl, #0xa0c
+    00000938 E5               [16] 1628 	push	hl
+    00000939 CDr00r00         [24] 1629 	call	_set_win_tiles
+    0000093C E8 06            [16] 1630 	add	sp, #6
+                                   1631 ;src/scripts/gui_management.c:312: set_win_tiles(15, 14, 4, 1, exp);
+    0000093E 21 0B 00         [12] 1632 	ld	hl, #11
+    00000941 39               [ 8] 1633 	add	hl, sp
+    00000942 E5               [16] 1634 	push	hl
+    00000943 21 04 01         [12] 1635 	ld	hl, #0x104
+    00000946 E5               [16] 1636 	push	hl
+    00000947 21 0F 0E         [12] 1637 	ld	hl, #0xe0f
+    0000094A E5               [16] 1638 	push	hl
+    0000094B CDr00r00         [24] 1639 	call	_set_win_tiles
+    0000094E E8 06            [16] 1640 	add	sp, #6
+                                   1641 ;src/scripts/gui_management.c:313: set_win_tiles(14, 16, 2, 1, mythril);
+    00000950 21 0F 00         [12] 1642 	ld	hl, #15
+    00000953 39               [ 8] 1643 	add	hl, sp
+    00000954 E5               [16] 1644 	push	hl
+    00000955 21 02 01         [12] 1645 	ld	hl, #0x102
+    00000958 E5               [16] 1646 	push	hl
+    00000959 21 0E 10         [12] 1647 	ld	hl, #0x100e
+    0000095C E5               [16] 1648 	push	hl
+    0000095D CDr00r00         [24] 1649 	call	_set_win_tiles
+    00000960 E8 06            [16] 1650 	add	sp, #6
+                                   1651 ;src/scripts/gui_management.c:314: stat = sword_lvl + 154;
+    00000962 FAr00r00         [16] 1652 	ld	a, (_sword_lvl)
+    00000965 C6 9A            [ 8] 1653 	add	a, #0x9a
+    00000967 F8 0E            [12] 1654 	ldhl	sp,	#14
+    00000969 77               [ 8] 1655 	ld	(hl), a
+                                   1656 ;src/scripts/gui_management.c:315: set_win_tiles(4, 12, 1, 1, &stat);
+    0000096A 21 0E 00         [12] 1657 	ld	hl, #14
+    0000096D 39               [ 8] 1658 	add	hl, sp
+    0000096E E5               [16] 1659 	push	hl
+    0000096F 21 01 01         [12] 1660 	ld	hl, #0x101
+    00000972 E5               [16] 1661 	push	hl
+    00000973 21 04 0C         [12] 1662 	ld	hl, #0xc04
+    00000976 E5               [16] 1663 	push	hl
+    00000977 CDr00r00         [24] 1664 	call	_set_win_tiles
+    0000097A E8 06            [16] 1665 	add	sp, #6
+                                   1666 ;src/scripts/gui_management.c:316: stat = shield_lvl + 154;
+    0000097C FAr00r00         [16] 1667 	ld	a, (_shield_lvl)
+    0000097F C6 9A            [ 8] 1668 	add	a, #0x9a
+    00000981 F8 0E            [12] 1669 	ldhl	sp,	#14
+    00000983 77               [ 8] 1670 	ld	(hl), a
+                                   1671 ;src/scripts/gui_management.c:317: set_win_tiles(4, 14, 1, 1, &stat);
+    00000984 21 0E 00         [12] 1672 	ld	hl, #14
+    00000987 39               [ 8] 1673 	add	hl, sp
+    00000988 E5               [16] 1674 	push	hl
+    00000989 21 01 01         [12] 1675 	ld	hl, #0x101
+    0000098C E5               [16] 1676 	push	hl
+    0000098D 21 04 0E         [12] 1677 	ld	hl, #0xe04
+    00000990 E5               [16] 1678 	push	hl
+    00000991 CDr00r00         [24] 1679 	call	_set_win_tiles
+    00000994 E8 06            [16] 1680 	add	sp, #6
+                                   1681 ;src/scripts/gui_management.c:318: stat = arrow_lvl + 154;
+    00000996 FAr00r00         [16] 1682 	ld	a, (_arrow_lvl)
+    00000999 C6 9A            [ 8] 1683 	add	a, #0x9a
+    0000099B F8 0E            [12] 1684 	ldhl	sp,	#14
+    0000099D 77               [ 8] 1685 	ld	(hl), a
+                                   1686 ;src/scripts/gui_management.c:319: set_win_tiles(4, 16, 1, 1, &stat);
+    0000099E 21 0E 00         [12] 1687 	ld	hl, #14
+    000009A1 39               [ 8] 1688 	add	hl, sp
+    000009A2 E5               [16] 1689 	push	hl
+    000009A3 21 01 01         [12] 1690 	ld	hl, #0x101
+    000009A6 E5               [16] 1691 	push	hl
+    000009A7 21 04 10         [12] 1692 	ld	hl, #0x1004
+    000009AA E5               [16] 1693 	push	hl
+    000009AB CDr00r00         [24] 1694 	call	_set_win_tiles
+    000009AE E8 06            [16] 1695 	add	sp, #6
+                                   1696 ;src/scripts/gui_management.c:320: stat = quiver_lvl + 154;
+    000009B0 FAr00r00         [16] 1697 	ld	a, (_quiver_lvl)
+    000009B3 C6 9A            [ 8] 1698 	add	a, #0x9a
+    000009B5 F8 0E            [12] 1699 	ldhl	sp,	#14
+    000009B7 77               [ 8] 1700 	ld	(hl), a
+                                   1701 ;src/scripts/gui_management.c:321: set_win_tiles(9, 12, 1, 1, &stat);
+    000009B8 21 0E 00         [12] 1702 	ld	hl, #14
+    000009BB 39               [ 8] 1703 	add	hl, sp
+    000009BC E5               [16] 1704 	push	hl
+    000009BD 21 01 01         [12] 1705 	ld	hl, #0x101
+    000009C0 E5               [16] 1706 	push	hl
+    000009C1 21 09 0C         [12] 1707 	ld	hl, #0xc09
+    000009C4 E5               [16] 1708 	push	hl
+    000009C5 CDr00r00         [24] 1709 	call	_set_win_tiles
+    000009C8 E8 06            [16] 1710 	add	sp, #6
+                                   1711 ;src/scripts/gui_management.c:322: stat = potion_quant_lvl + 154;
+    000009CA FAr00r00         [16] 1712 	ld	a, (_potion_quant_lvl)
+    000009CD C6 9A            [ 8] 1713 	add	a, #0x9a
+    000009CF F8 0E            [12] 1714 	ldhl	sp,	#14
+    000009D1 77               [ 8] 1715 	ld	(hl), a
+                                   1716 ;src/scripts/gui_management.c:323: set_win_tiles(9, 14, 1, 1, &stat);
+    000009D2 21 0E 00         [12] 1717 	ld	hl, #14
+    000009D5 39               [ 8] 1718 	add	hl, sp
+    000009D6 E5               [16] 1719 	push	hl
+    000009D7 21 01 01         [12] 1720 	ld	hl, #0x101
+    000009DA E5               [16] 1721 	push	hl
+    000009DB 21 09 0E         [12] 1722 	ld	hl, #0xe09
+    000009DE E5               [16] 1723 	push	hl
+    000009DF CDr00r00         [24] 1724 	call	_set_win_tiles
+    000009E2 E8 06            [16] 1725 	add	sp, #6
+                                   1726 ;src/scripts/gui_management.c:324: stat = potion_heal_lvl + 154;
+    000009E4 FAr00r00         [16] 1727 	ld	a, (_potion_heal_lvl)
+    000009E7 C6 9A            [ 8] 1728 	add	a, #0x9a
+    000009E9 F8 0E            [12] 1729 	ldhl	sp,	#14
+    000009EB 77               [ 8] 1730 	ld	(hl), a
+                                   1731 ;src/scripts/gui_management.c:325: set_win_tiles(9, 16, 1, 1, &stat);
+    000009EC 21 0E 00         [12] 1732 	ld	hl, #14
+    000009EF 39               [ 8] 1733 	add	hl, sp
+    000009F0 E5               [16] 1734 	push	hl
+    000009F1 21 01 01         [12] 1735 	ld	hl, #0x101
+    000009F4 E5               [16] 1736 	push	hl
+    000009F5 21 09 10         [12] 1737 	ld	hl, #0x1009
+    000009F8 E5               [16] 1738 	push	hl
+    000009F9 CDr00r00         [24] 1739 	call	_set_win_tiles
+    000009FC E8 06            [16] 1740 	add	sp, #6
+                                   1741 ;src/scripts/gui_management.c:326: stat = level + 154;
+    000009FE FAr00r00         [16] 1742 	ld	a, (_level)
+    00000A01 C6 9A            [ 8] 1743 	add	a, #0x9a
+    00000A03 F8 0E            [12] 1744 	ldhl	sp,	#14
+    00000A05 77               [ 8] 1745 	ld	(hl), a
+                                   1746 ;src/scripts/gui_management.c:327: set_win_tiles(15, 12, 1, 1, &stat);
+    00000A06 21 0E 00         [12] 1747 	ld	hl, #14
+    00000A09 39               [ 8] 1748 	add	hl, sp
+    00000A0A E5               [16] 1749 	push	hl
+    00000A0B 21 01 01         [12] 1750 	ld	hl, #0x101
+    00000A0E E5               [16] 1751 	push	hl
+    00000A0F 21 0F 0C         [12] 1752 	ld	hl, #0xc0f
+    00000A12 E5               [16] 1753 	push	hl
+    00000A13 CDr00r00         [24] 1754 	call	_set_win_tiles
+                                   1755 ;src/scripts/gui_management.c:328: }
+    00000A16 E8 1D            [16] 1756 	add	sp, #29
+    00000A18 C9               [16] 1757 	ret
+                                   1758 ;src/scripts/gui_management.c:330: void set_mini_menu() BANKED {
+                                   1759 ;	---------------------------------
+                                   1760 ; Function set_mini_menu
+                                   1761 ; ---------------------------------
+                         00000003  1762 	b_set_mini_menu	= 3
+    00000A19                       1763 _set_mini_menu::
+    00000A19 E8 F6            [16] 1764 	add	sp, #-10
+                                   1765 ;src/scripts/gui_management.c:331: if (menu_opened != 0) {
+    00000A1B FAr00r00         [16] 1766 	ld	a, (#_menu_opened)
+    00000A1E B7               [ 4] 1767 	or	a, a
+                                   1768 ;src/scripts/gui_management.c:332: return;
+    00000A1F C2r39r0B         [16] 1769 	jp	NZ, 00110$
+                                   1770 ;src/scripts/gui_management.c:338: if (max_hp < 100) {
+    00000A22 FAr00r00         [16] 1771 	ld	a, (#_max_hp)
+    00000A25 D6 64            [ 8] 1772 	sub	a, #0x64
+    00000A27 30 06            [12] 1773 	jr	NC, 00104$
+                                   1774 ;src/scripts/gui_management.c:339: hp[0] = 187;
+    00000A29 F8 00            [12] 1775 	ldhl	sp,	#0
+    00000A2B 36 BB            [12] 1776 	ld	(hl), #0xbb
+    00000A2D 18 0E            [12] 1777 	jr	00105$
+    00000A2F                       1778 00104$:
+                                   1779 ;src/scripts/gui_management.c:342: hp[0] = current_hp / 100 + 154;
+    00000A2F FAr00r00         [16] 1780 	ld	a, (_current_hp)
+    00000A32 1E 64            [ 8] 1781 	ld	e, #0x64
+    00000A34 CDr00r00         [24] 1782 	call	__divuchar
+    00000A37 79               [ 4] 1783 	ld	a, c
+    00000A38 C6 9A            [ 8] 1784 	add	a, #0x9a
+    00000A3A F8 00            [12] 1785 	ldhl	sp,	#0
+    00000A3C 77               [ 8] 1786 	ld	(hl), a
+    00000A3D                       1787 00105$:
+                                   1788 ;src/scripts/gui_management.c:344: hp[1] = current_hp % 100 / 10 + 154;
+    00000A3D FAr00r00         [16] 1789 	ld	a, (_current_hp)
+    00000A40 1E 64            [ 8] 1790 	ld	e, #0x64
+    00000A42 CDr00r00         [24] 1791 	call	__moduchar
+    00000A45 79               [ 4] 1792 	ld	a, c
+    00000A46 1E 0A            [ 8] 1793 	ld	e, #0x0a
+    00000A48 CDr00r00         [24] 1794 	call	__divuchar
+    00000A4B 79               [ 4] 1795 	ld	a, c
+    00000A4C C6 9A            [ 8] 1796 	add	a, #0x9a
+    00000A4E F8 01            [12] 1797 	ldhl	sp,	#1
+    00000A50 77               [ 8] 1798 	ld	(hl), a
+                                   1799 ;src/scripts/gui_management.c:345: hp[2] = current_hp % 10 + 154;
+    00000A51 FAr00r00         [16] 1800 	ld	a, (_current_hp)
+    00000A54 1E 0A            [ 8] 1801 	ld	e, #0x0a
+    00000A56 CDr00r00         [24] 1802 	call	__moduchar
+    00000A59 79               [ 4] 1803 	ld	a, c
+    00000A5A C6 9A            [ 8] 1804 	add	a, #0x9a
+    00000A5C F8 02            [12] 1805 	ldhl	sp,	#2
+    00000A5E 77               [ 8] 1806 	ld	(hl), a
+                                   1807 ;src/scripts/gui_management.c:346: n_arr[0] = num_arrows / 10 + 154;
+    00000A5F FAr00r00         [16] 1808 	ld	a, (_num_arrows)
+    00000A62 1E 0A            [ 8] 1809 	ld	e, #0x0a
+    00000A64 CDr00r00         [24] 1810 	call	__divuchar
+    00000A67 79               [ 4] 1811 	ld	a, c
+    00000A68 C6 9A            [ 8] 1812 	add	a, #0x9a
+    00000A6A F8 03            [12] 1813 	ldhl	sp,	#3
+    00000A6C 77               [ 8] 1814 	ld	(hl), a
+                                   1815 ;src/scripts/gui_management.c:347: n_arr[1] = num_arrows % 10 + 154;
+    00000A6D FAr00r00         [16] 1816 	ld	a, (_num_arrows)
+    00000A70 1E 0A            [ 8] 1817 	ld	e, #0x0a
+    00000A72 CDr00r00         [24] 1818 	call	__moduchar
+    00000A75 79               [ 4] 1819 	ld	a, c
+    00000A76 C6 9A            [ 8] 1820 	add	a, #0x9a
+    00000A78 F8 04            [12] 1821 	ldhl	sp,	#4
+    00000A7A 77               [ 8] 1822 	ld	(hl), a
+                                   1823 ;src/scripts/gui_management.c:348: n_heals[0] = heals / 10 + 154;
+    00000A7B FAr00r00         [16] 1824 	ld	a, (_heals)
+    00000A7E 1E 0A            [ 8] 1825 	ld	e, #0x0a
+    00000A80 CDr00r00         [24] 1826 	call	__divuchar
+    00000A83 79               [ 4] 1827 	ld	a, c
+    00000A84 C6 9A            [ 8] 1828 	add	a, #0x9a
+    00000A86 F8 05            [12] 1829 	ldhl	sp,	#5
+    00000A88 77               [ 8] 1830 	ld	(hl), a
+                                   1831 ;src/scripts/gui_management.c:349: n_heals[1] = heals % 10 + 154;
+    00000A89 FAr00r00         [16] 1832 	ld	a, (_heals)
+    00000A8C 1E 0A            [ 8] 1833 	ld	e, #0x0a
+    00000A8E CDr00r00         [24] 1834 	call	__moduchar
+    00000A91 79               [ 4] 1835 	ld	a, c
+    00000A92 C6 9A            [ 8] 1836 	add	a, #0x9a
+    00000A94 F8 06            [12] 1837 	ldhl	sp,	#6
+    00000A96 77               [ 8] 1838 	ld	(hl), a
+                                   1839 ;src/scripts/gui_management.c:350: n_floor[0] = current_floor / 10 + 154;
+    00000A97 FAr00r00         [16] 1840 	ld	a, (_current_floor)
+    00000A9A 1E 0A            [ 8] 1841 	ld	e, #0x0a
+    00000A9C CDr00r00         [24] 1842 	call	__divuchar
+    00000A9F 79               [ 4] 1843 	ld	a, c
+    00000AA0 C6 9A            [ 8] 1844 	add	a, #0x9a
+    00000AA2 F8 07            [12] 1845 	ldhl	sp,	#7
+    00000AA4 77               [ 8] 1846 	ld	(hl), a
+                                   1847 ;src/scripts/gui_management.c:351: n_floor[1] = current_floor % 10 + 154;
+    00000AA5 FAr00r00         [16] 1848 	ld	a, (_current_floor)
+    00000AA8 1E 0A            [ 8] 1849 	ld	e, #0x0a
+    00000AAA CDr00r00         [24] 1850 	call	__moduchar
+    00000AAD 79               [ 4] 1851 	ld	a, c
+    00000AAE C6 9A            [ 8] 1852 	add	a, #0x9a
+    00000AB0 F8 08            [12] 1853 	ldhl	sp,	#8
+    00000AB2 77               [ 8] 1854 	ld	(hl), a
+                                   1855 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    00000AB3 3E 07            [ 8] 1856 	ld	a, #0x07
+    00000AB5 E0r00            [12] 1857 	ldh	(_WX_REG + 0), a
+    00000AB7 3E 88            [ 8] 1858 	ld	a, #0x88
+    00000AB9 E0r00            [12] 1859 	ldh	(_WY_REG + 0), a
+                                   1860 ;src/scripts/gui_management.c:353: set_win_tiles(0, 0, 20, 1, mini_gui);
+    00000ABB 11r00r00         [12] 1861 	ld	de, #_mini_gui
+    00000ABE D5               [16] 1862 	push	de
+    00000ABF 21 14 01         [12] 1863 	ld	hl, #0x114
+    00000AC2 E5               [16] 1864 	push	hl
+    00000AC3 AF               [ 4] 1865 	xor	a, a
+    00000AC4 0F               [ 4] 1866 	rrca
+    00000AC5 F5               [16] 1867 	push	af
+    00000AC6 CDr00r00         [24] 1868 	call	_set_win_tiles
+    00000AC9 E8 06            [16] 1869 	add	sp, #6
+                                   1870 ;src/scripts/gui_management.c:354: uint8_t obtained = 223;
+    00000ACB F8 09            [12] 1871 	ldhl	sp,	#9
+    00000ACD 36 DF            [12] 1872 	ld	(hl), #0xdf
+                                   1873 ;src/scripts/gui_management.c:355: if (key_obtained) {
+    00000ACF FAr00r00         [16] 1874 	ld	a, (#_key_obtained)
+    00000AD2 B7               [ 4] 1875 	or	a, a
+    00000AD3 28 06            [12] 1876 	jr	Z, 00107$
+                                   1877 ;src/scripts/gui_management.c:356: obtained = 223;
+    00000AD5 F8 09            [12] 1878 	ldhl	sp,	#9
+    00000AD7 36 DF            [12] 1879 	ld	(hl), #0xdf
+    00000AD9 18 04            [12] 1880 	jr	00108$
+    00000ADB                       1881 00107$:
+                                   1882 ;src/scripts/gui_management.c:359: obtained = 187;
+    00000ADB F8 09            [12] 1883 	ldhl	sp,	#9
+    00000ADD 36 BB            [12] 1884 	ld	(hl), #0xbb
+    00000ADF                       1885 00108$:
+                                   1886 ;src/scripts/gui_management.c:361: set_win_tiles(7, 0, 1, 1, &obtained);
+    00000ADF 21 09 00         [12] 1887 	ld	hl, #9
+    00000AE2 39               [ 8] 1888 	add	hl, sp
+    00000AE3 E5               [16] 1889 	push	hl
+    00000AE4 21 01 01         [12] 1890 	ld	hl, #0x101
+    00000AE7 E5               [16] 1891 	push	hl
+    00000AE8 21 07 00         [12] 1892 	ld	hl, #0x07
+    00000AEB E5               [16] 1893 	push	hl
+    00000AEC CDr00r00         [24] 1894 	call	_set_win_tiles
+    00000AEF E8 06            [16] 1895 	add	sp, #6
+                                   1896 ;src/scripts/gui_management.c:363: set_win_tiles(3, 0, 3, 1, hp);
+    00000AF1 21 00 00         [12] 1897 	ld	hl, #0
+    00000AF4 39               [ 8] 1898 	add	hl, sp
+    00000AF5 E5               [16] 1899 	push	hl
+    00000AF6 21 03 01         [12] 1900 	ld	hl, #0x103
+    00000AF9 E5               [16] 1901 	push	hl
+    00000AFA 21 03 00         [12] 1902 	ld	hl, #0x03
+    00000AFD E5               [16] 1903 	push	hl
+    00000AFE CDr00r00         [24] 1904 	call	_set_win_tiles
+    00000B01 E8 06            [16] 1905 	add	sp, #6
+                                   1906 ;src/scripts/gui_management.c:364: set_win_tiles(10, 0, 2, 1, n_arr);
+    00000B03 21 03 00         [12] 1907 	ld	hl, #3
+    00000B06 39               [ 8] 1908 	add	hl, sp
+    00000B07 E5               [16] 1909 	push	hl
+    00000B08 21 02 01         [12] 1910 	ld	hl, #0x102
+    00000B0B E5               [16] 1911 	push	hl
+    00000B0C 21 0A 00         [12] 1912 	ld	hl, #0x0a
+    00000B0F E5               [16] 1913 	push	hl
+    00000B10 CDr00r00         [24] 1914 	call	_set_win_tiles
+    00000B13 E8 06            [16] 1915 	add	sp, #6
+                                   1916 ;src/scripts/gui_management.c:365: set_win_tiles(13, 0, 2, 1, n_heals);
+    00000B15 21 05 00         [12] 1917 	ld	hl, #5
+    00000B18 39               [ 8] 1918 	add	hl, sp
+    00000B19 E5               [16] 1919 	push	hl
+    00000B1A 21 02 01         [12] 1920 	ld	hl, #0x102
+    00000B1D E5               [16] 1921 	push	hl
+    00000B1E 21 0D 00         [12] 1922 	ld	hl, #0x0d
+    00000B21 E5               [16] 1923 	push	hl
+    00000B22 CDr00r00         [24] 1924 	call	_set_win_tiles
+    00000B25 E8 06            [16] 1925 	add	sp, #6
+                                   1926 ;src/scripts/gui_management.c:366: set_win_tiles(18, 0, 2, 1, n_floor);
+    00000B27 21 07 00         [12] 1927 	ld	hl, #7
+    00000B2A 39               [ 8] 1928 	add	hl, sp
+    00000B2B E5               [16] 1929 	push	hl
+    00000B2C 21 02 01         [12] 1930 	ld	hl, #0x102
+    00000B2F E5               [16] 1931 	push	hl
+    00000B30 21 12 00         [12] 1932 	ld	hl, #0x12
+    00000B33 E5               [16] 1933 	push	hl
+    00000B34 CDr00r00         [24] 1934 	call	_set_win_tiles
+    00000B37 E8 06            [16] 1935 	add	sp, #6
+    00000B39                       1936 00110$:
+                                   1937 ;src/scripts/gui_management.c:367: }
+    00000B39 E8 0A            [16] 1938 	add	sp, #10
+    00000B3B C9               [16] 1939 	ret
+                                   1940 ;src/scripts/gui_management.c:369: void show_number(uint8_t number, uint8_t mode, uint8_t target, uint8_t index) BANKED {
+                                   1941 ;	---------------------------------
+                                   1942 ; Function show_number
+                                   1943 ; ---------------------------------
+                         00000003  1944 	b_show_number	= 3
+    00000B3C                       1945 _show_number::
+    00000B3C E8 FC            [16] 1946 	add	sp, #-4
+                                   1947 ;src/scripts/gui_management.c:371: if (target == 0) {
+    00000B3E F8 0C            [12] 1948 	ldhl	sp,	#12
+    00000B40 7E               [ 8] 1949 	ld	a, (hl)
+    00000B41 B7               [ 4] 1950 	or	a, a
+    00000B42 20 0E            [12] 1951 	jr	NZ, 00105$
+                                   1952 ;src/scripts/gui_management.c:372: dmg_x = x;
+    00000B44 FAr00r00         [16] 1953 	ld	a, (#_x)
+    00000B47 F8 00            [12] 1954 	ldhl	sp,	#0
+                                   1955 ;src/scripts/gui_management.c:373: dmg_y = y-8;
+    00000B49 22               [ 8] 1956 	ld	(hl+), a
+    00000B4A FAr00r00         [16] 1957 	ld	a, (_y)
+    00000B4D C6 F8            [ 8] 1958 	add	a, #0xf8
+    00000B4F 77               [ 8] 1959 	ld	(hl), a
+    00000B50 18 31            [12] 1960 	jr	00106$
+    00000B52                       1961 00105$:
+                                   1962 ;src/scripts/gui_management.c:376: if (index == 2) {
+    00000B52 F8 0D            [12] 1963 	ldhl	sp,	#13
+    00000B54 7E               [ 8] 1964 	ld	a, (hl)
+    00000B55 D6 02            [ 8] 1965 	sub	a, #0x02
+    00000B57 20 10            [12] 1966 	jr	NZ, 00102$
+                                   1967 ;src/scripts/gui_management.c:377: dmg_x = boss.x+8;
+    00000B59 FAr01r00         [16] 1968 	ld	a, (#(_boss + 1) + 0)
+    00000B5C C6 08            [ 8] 1969 	add	a, #0x08
+    00000B5E F8 00            [12] 1970 	ldhl	sp,	#0
+                                   1971 ;src/scripts/gui_management.c:378: dmg_y = boss.y-8;
+    00000B60 22               [ 8] 1972 	ld	(hl+), a
+    00000B61 FAr02r00         [16] 1973 	ld	a, (#(_boss + 2) + 0)
+    00000B64 C6 F8            [ 8] 1974 	add	a, #0xf8
+    00000B66 77               [ 8] 1975 	ld	(hl), a
+    00000B67 18 1A            [12] 1976 	jr	00106$
+    00000B69                       1977 00102$:
+                                   1978 ;src/scripts/gui_management.c:381: dmg_x = current_enemies[index].x;
+    00000B69 F8 0D            [12] 1979 	ldhl	sp,	#13
+    00000B6B 4E               [ 8] 1980 	ld	c, (hl)
+    00000B6C 06 00            [ 8] 1981 	ld	b, #0x00
+    00000B6E 69               [ 4] 1982 	ld	l, c
+    00000B6F 60               [ 4] 1983 	ld	h, b
+    00000B70 29               [ 8] 1984 	add	hl, hl
+    00000B71 09               [ 8] 1985 	add	hl, bc
+    00000B72 29               [ 8] 1986 	add	hl, hl
+    00000B73 29               [ 8] 1987 	add	hl, hl
+    00000B74 01r00r00         [12] 1988 	ld	bc, #_current_enemies
+    00000B77 09               [ 8] 1989 	add	hl, bc
+    00000B78 4D               [ 4] 1990 	ld	c, l
+    00000B79 44               [ 4] 1991 	ld	b, h
+    00000B7A 0A               [ 8] 1992 	ld	a, (bc)
+    00000B7B F8 00            [12] 1993 	ldhl	sp,	#0
+                                   1994 ;src/scripts/gui_management.c:382: dmg_y = current_enemies[index].y-8;
+    00000B7D 22               [ 8] 1995 	ld	(hl+), a
+    00000B7E 03               [ 8] 1996 	inc	bc
+    00000B7F 0A               [ 8] 1997 	ld	a, (bc)
+    00000B80 C6 F8            [ 8] 1998 	add	a, #0xf8
+    00000B82 77               [ 8] 1999 	ld	(hl), a
+    00000B83                       2000 00106$:
+                                   2001 ;src/scripts/gui_management.c:385: if (mode == 0) { // damage
+    00000B83 F8 0B            [12] 2002 	ldhl	sp,	#11
+    00000B85 7E               [ 8] 2003 	ld	a, (hl)
+    00000B86 B7               [ 4] 2004 	or	a, a
+    00000B87 20 07            [12] 2005 	jr	NZ, 00108$
+                                   2006 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B89 21r02r00         [12] 2007 	ld	hl, #(_shadow_OAM + 2)
+    00000B8C 36 4C            [12] 2008 	ld	(hl), #0x4c
+                                   2009 ;src/scripts/gui_management.c:386: set_sprite_tile(0, 76);
+    00000B8E 18 05            [12] 2010 	jr	00109$
+    00000B90                       2011 00108$:
+                                   2012 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000B90 21r02r00         [12] 2013 	ld	hl, #(_shadow_OAM + 2)
+    00000B93 36 4B            [12] 2014 	ld	(hl), #0x4b
+                                   2015 ;src/scripts/gui_management.c:389: set_sprite_tile(0, 75);
+    00000B95                       2016 00109$:
+                                   2017 ;src/scripts/gui_management.c:391: if (number / 10 != 0) {
+    00000B95 F8 0A            [12] 2018 	ldhl	sp,	#10
+    00000B97 7E               [ 8] 2019 	ld	a, (hl)
+    00000B98 F8 02            [12] 2020 	ldhl	sp,	#2
+    00000B9A 77               [ 8] 2021 	ld	(hl), a
+    00000B9B 7E               [ 8] 2022 	ld	a, (hl)
+    00000B9C 1E 0A            [ 8] 2023 	ld	e, #0x0a
+    00000B9E CDr00r00         [24] 2024 	call	__divuchar
+    00000BA1 79               [ 4] 2025 	ld	a, c
+    00000BA2 B7               [ 4] 2026 	or	a, a
+    00000BA3 28 0D            [12] 2027 	jr	Z, 00111$
+                                   2028 ;src/scripts/gui_management.c:392: set_sprite_tile(1, 65 + number / 10);
+    00000BA5 79               [ 4] 2029 	ld	a, c
+    00000BA6 C6 41            [ 8] 2030 	add	a, #0x41
+    00000BA8 F8 03            [12] 2031 	ldhl	sp,	#3
+    00000BAA 77               [ 8] 2032 	ld	(hl), a
+                                   2033 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000BAB 11r06r00         [12] 2034 	ld	de, #(_shadow_OAM + 6)
+    00000BAE 7E               [ 8] 2035 	ld	a, (hl)
+    00000BAF 12               [ 8] 2036 	ld	(de), a
+                                   2037 ;src/scripts/gui_management.c:392: set_sprite_tile(1, 65 + number / 10);
+    00000BB0 18 05            [12] 2038 	jr	00112$
+    00000BB2                       2039 00111$:
+                                   2040 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000BB2 21r06r00         [12] 2041 	ld	hl, #(_shadow_OAM + 6)
+    00000BB5 36 32            [12] 2042 	ld	(hl), #0x32
+                                   2043 ;src/scripts/gui_management.c:395: set_sprite_tile(1, 50);
+    00000BB7                       2044 00112$:
+                                   2045 ;src/scripts/gui_management.c:398: set_sprite_tile(2, 65 + number % 10);
+    00000BB7 F8 02            [12] 2046 	ldhl	sp,	#2
+    00000BB9 7E               [ 8] 2047 	ld	a, (hl)
+    00000BBA C5               [16] 2048 	push	bc
+    00000BBB 1E 0A            [ 8] 2049 	ld	e, #0x0a
+    00000BBD CDr00r00         [24] 2050 	call	__moduchar
+    00000BC0 79               [ 4] 2051 	ld	a, c
+    00000BC1 C1               [12] 2052 	pop	bc
+    00000BC2 C6 41            [ 8] 2053 	add	a, #0x41
+    00000BC4 47               [ 4] 2054 	ld	b, a
+                                   2055 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000BC5 21r0Ar00         [12] 2056 	ld	hl, #(_shadow_OAM + 10)
+    00000BC8 70               [ 8] 2057 	ld	(hl), b
+                                   2058 ;src/scripts/gui_management.c:400: while (frame < 30) {
+    00000BC9 F8 01            [12] 2059 	ldhl	sp,	#1
+    00000BCB 2A               [ 8] 2060 	ld	a, (hl+)
+    00000BCC 23               [ 8] 2061 	inc	hl
+    00000BCD 5F               [ 4] 2062 	ld	e, a
+    00000BCE 36 00            [12] 2063 	ld	(hl), #0x00
+    00000BD0                       2064 00118$:
+    00000BD0 F8 03            [12] 2065 	ldhl	sp,	#3
+    00000BD2 7E               [ 8] 2066 	ld	a, (hl)
+    00000BD3 D6 1E            [ 8] 2067 	sub	a, #0x1e
+    00000BD5 30 4A            [12] 2068 	jr	NC, 00120$
+                                   2069 ;src/scripts/gui_management.c:401: wait_vbl_done();
+    00000BD7 CDr00r00         [24] 2070 	call	_wait_vbl_done
+                                   2071 ;src/scripts/gui_management.c:402: if (frame %2) {
+    00000BDA F8 03            [12] 2072 	ldhl	sp,	#3
+    00000BDC 7E               [ 8] 2073 	ld	a, (hl)
+    00000BDD E6 01            [ 8] 2074 	and	a, #0x01
+    00000BDF 28 3B            [12] 2075 	jr	Z, 00117$
+                                   2076 ;src/scripts/gui_management.c:403: dmg_y--;
+    00000BE1 1D               [ 4] 2077 	dec	e
+                                   2078 ;src/scripts/gui_management.c:404: if (number / 10 == 0) {
+    00000BE2 79               [ 4] 2079 	ld	a, c
+    00000BE3 B7               [ 4] 2080 	or	a, a
+    00000BE4 20 0D            [12] 2081 	jr	NZ, 00114$
+                                   2082 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BE6 21r00r00         [12] 2083 	ld	hl, #_shadow_OAM
+                                   2084 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000BE9 7B               [ 4] 2085 	ld	a, e
+    00000BEA 22               [ 8] 2086 	ld	(hl+), a
+    00000BEB E5               [16] 2087 	push	hl
+    00000BEC F8 02            [12] 2088 	ldhl	sp,	#2
+    00000BEE 7E               [ 8] 2089 	ld	a, (hl)
+    00000BEF E1               [12] 2090 	pop	hl
+    00000BF0 77               [ 8] 2091 	ld	(hl), a
+                                   2092 ;src/scripts/gui_management.c:405: move_sprite(0, dmg_x, dmg_y);
+    00000BF1 18 0C            [12] 2093 	jr	00115$
+    00000BF3                       2094 00114$:
+                                   2095 ;src/scripts/gui_management.c:408: move_sprite(0, dmg_x-8, dmg_y);
+    00000BF3 F8 00            [12] 2096 	ldhl	sp,	#0
+    00000BF5 7E               [ 8] 2097 	ld	a, (hl)
+    00000BF6 C6 F8            [ 8] 2098 	add	a, #0xf8
+    00000BF8 47               [ 4] 2099 	ld	b, a
                                    2100 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000BE2 21r08r00         [12] 2101 	ld	hl, #(_shadow_OAM + 8)
+    00000BF9 21r00r00         [12] 2101 	ld	hl, #_shadow_OAM
                                    2102 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000BE5 36 00            [12] 2103 	ld	(hl), #0x00
-    00000BE7 23               [ 8] 2104 	inc	hl
-    00000BE8 36 00            [12] 2105 	ld	(hl), #0x00
-                                   2106 ;src/scripts/gui_management.c:400: move_sprite(2, 0, 0);
-                                   2107 ;src/scripts/gui_management.c:401: }
-    00000BEA E8 04            [16] 2108 	add	sp, #4
-    00000BEC C9               [16] 2109 	ret
-                                   2110 ;src/scripts/gui_management.c:403: void print_debug(uint8_t value) BANKED {
-                                   2111 ;	---------------------------------
-                                   2112 ; Function print_debug
-                                   2113 ; ---------------------------------
-                         00000003  2114 	b_print_debug	= 3
-    00000BED                       2115 _print_debug::
-    00000BED E8 FD            [16] 2116 	add	sp, #-3
-                                   2117 ;src/scripts/gui_management.c:405: values[0] = value / 100 + 154;
-    00000BEF F8 09            [12] 2118 	ldhl	sp,	#9
-    00000BF1 4E               [ 8] 2119 	ld	c, (hl)
-    00000BF2 C5               [16] 2120 	push	bc
-    00000BF3 1E 64            [ 8] 2121 	ld	e, #0x64
-    00000BF5 79               [ 4] 2122 	ld	a, c
-    00000BF6 CDr00r00         [24] 2123 	call	__divuchar
-    00000BF9 79               [ 4] 2124 	ld	a, c
-    00000BFA C1               [12] 2125 	pop	bc
-    00000BFB C6 9A            [ 8] 2126 	add	a, #0x9a
-    00000BFD F8 00            [12] 2127 	ldhl	sp,	#0
-    00000BFF 77               [ 8] 2128 	ld	(hl), a
-                                   2129 ;src/scripts/gui_management.c:406: values[1] = value % 100 / 10 + 154;
-    00000C00 C5               [16] 2130 	push	bc
-    00000C01 1E 64            [ 8] 2131 	ld	e, #0x64
-    00000C03 79               [ 4] 2132 	ld	a, c
-    00000C04 CDr00r00         [24] 2133 	call	__moduchar
-    00000C07 79               [ 4] 2134 	ld	a, c
-    00000C08 1E 0A            [ 8] 2135 	ld	e, #0x0a
-    00000C0A CDr00r00         [24] 2136 	call	__divuchar
-    00000C0D 79               [ 4] 2137 	ld	a, c
-    00000C0E C1               [12] 2138 	pop	bc
-    00000C0F C6 9A            [ 8] 2139 	add	a, #0x9a
-    00000C11 F8 01            [12] 2140 	ldhl	sp,	#1
-    00000C13 77               [ 8] 2141 	ld	(hl), a
-                                   2142 ;src/scripts/gui_management.c:407: values[2] = value % 10 + 154;
-    00000C14 1E 0A            [ 8] 2143 	ld	e, #0x0a
-    00000C16 79               [ 4] 2144 	ld	a, c
-    00000C17 CDr00r00         [24] 2145 	call	__moduchar
-    00000C1A 79               [ 4] 2146 	ld	a, c
-    00000C1B C6 9A            [ 8] 2147 	add	a, #0x9a
-    00000C1D F8 02            [12] 2148 	ldhl	sp,	#2
-    00000C1F 77               [ 8] 2149 	ld	(hl), a
-                                   2150 ;src/scripts/gui_management.c:408: set_win_tiles(6, 0, 3, 1, values);
-    00000C20 21 00 00         [12] 2151 	ld	hl, #0
-    00000C23 39               [ 8] 2152 	add	hl, sp
-    00000C24 E5               [16] 2153 	push	hl
-    00000C25 21 03 01         [12] 2154 	ld	hl, #0x103
-    00000C28 E5               [16] 2155 	push	hl
-    00000C29 21 06 00         [12] 2156 	ld	hl, #0x06
-    00000C2C E5               [16] 2157 	push	hl
-    00000C2D CDr00r00         [24] 2158 	call	_set_win_tiles
-                                   2159 ;src/scripts/gui_management.c:409: }
-    00000C30 E8 09            [16] 2160 	add	sp, #9
-    00000C32 C9               [16] 2161 	ret
-                                   2162 	.area _CODE_3
-                                   2163 	.area _INITIALIZER
-                                   2164 	.area _CABS (ABS)
+    00000BFC 7B               [ 4] 2103 	ld	a, e
+    00000BFD 22               [ 8] 2104 	ld	(hl+), a
+    00000BFE 70               [ 8] 2105 	ld	(hl), b
+                                   2106 ;src/scripts/gui_management.c:408: move_sprite(0, dmg_x-8, dmg_y);
+    00000BFF                       2107 00115$:
+                                   2108 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000BFF 21r04r00         [12] 2109 	ld	hl, #(_shadow_OAM + 4)
+                                   2110 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000C02 7B               [ 4] 2111 	ld	a, e
+    00000C03 22               [ 8] 2112 	ld	(hl+), a
+    00000C04 E5               [16] 2113 	push	hl
+    00000C05 F8 02            [12] 2114 	ldhl	sp,	#2
+    00000C07 7E               [ 8] 2115 	ld	a, (hl)
+    00000C08 E1               [12] 2116 	pop	hl
+    00000C09 77               [ 8] 2117 	ld	(hl), a
+                                   2118 ;src/scripts/gui_management.c:411: move_sprite(2, dmg_x+8, dmg_y);
+    00000C0A F8 00            [12] 2119 	ldhl	sp,	#0
+    00000C0C 2A               [ 8] 2120 	ld	a, (hl+)
+    00000C0D 23               [ 8] 2121 	inc	hl
+    00000C0E C6 08            [ 8] 2122 	add	a, #0x08
+    00000C10 77               [ 8] 2123 	ld	(hl), a
+                                   2124 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000C11 21r08r00         [12] 2125 	ld	hl, #(_shadow_OAM + 8)
+                                   2126 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000C14 7B               [ 4] 2127 	ld	a, e
+    00000C15 22               [ 8] 2128 	ld	(hl+), a
+    00000C16 E5               [16] 2129 	push	hl
+    00000C17 F8 04            [12] 2130 	ldhl	sp,	#4
+    00000C19 7E               [ 8] 2131 	ld	a, (hl)
+    00000C1A E1               [12] 2132 	pop	hl
+    00000C1B 77               [ 8] 2133 	ld	(hl), a
+                                   2134 ;src/scripts/gui_management.c:411: move_sprite(2, dmg_x+8, dmg_y);
+    00000C1C                       2135 00117$:
+                                   2136 ;src/scripts/gui_management.c:413: frame++;
+    00000C1C F8 03            [12] 2137 	ldhl	sp,	#3
+    00000C1E 34               [12] 2138 	inc	(hl)
+    00000C1F 18 AF            [12] 2139 	jr	00118$
+    00000C21                       2140 00120$:
+                                   2141 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000C21 21r00r00         [12] 2142 	ld	hl, #_shadow_OAM
+                                   2143 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000C24 36 00            [12] 2144 	ld	(hl), #0x00
+    00000C26 23               [ 8] 2145 	inc	hl
+    00000C27 36 00            [12] 2146 	ld	(hl), #0x00
+                                   2147 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000C29 21r04r00         [12] 2148 	ld	hl, #(_shadow_OAM + 4)
+                                   2149 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000C2C 36 00            [12] 2150 	ld	(hl), #0x00
+    00000C2E 23               [ 8] 2151 	inc	hl
+    00000C2F 36 00            [12] 2152 	ld	(hl), #0x00
+                                   2153 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000C31 21r08r00         [12] 2154 	ld	hl, #(_shadow_OAM + 8)
+                                   2155 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000C34 36 00            [12] 2156 	ld	(hl), #0x00
+    00000C36 23               [ 8] 2157 	inc	hl
+    00000C37 36 00            [12] 2158 	ld	(hl), #0x00
+                                   2159 ;src/scripts/gui_management.c:417: move_sprite(2, 0, 0);
+                                   2160 ;src/scripts/gui_management.c:418: }
+    00000C39 E8 04            [16] 2161 	add	sp, #4
+    00000C3B C9               [16] 2162 	ret
+                                   2163 ;src/scripts/gui_management.c:420: void print_debug(uint8_t value) BANKED {
+                                   2164 ;	---------------------------------
+                                   2165 ; Function print_debug
+                                   2166 ; ---------------------------------
+                         00000003  2167 	b_print_debug	= 3
+    00000C3C                       2168 _print_debug::
+    00000C3C E8 FD            [16] 2169 	add	sp, #-3
+                                   2170 ;src/scripts/gui_management.c:422: values[0] = value / 100 + 154;
+    00000C3E F8 09            [12] 2171 	ldhl	sp,	#9
+    00000C40 4E               [ 8] 2172 	ld	c, (hl)
+    00000C41 C5               [16] 2173 	push	bc
+    00000C42 1E 64            [ 8] 2174 	ld	e, #0x64
+    00000C44 79               [ 4] 2175 	ld	a, c
+    00000C45 CDr00r00         [24] 2176 	call	__divuchar
+    00000C48 79               [ 4] 2177 	ld	a, c
+    00000C49 C1               [12] 2178 	pop	bc
+    00000C4A C6 9A            [ 8] 2179 	add	a, #0x9a
+    00000C4C F8 00            [12] 2180 	ldhl	sp,	#0
+    00000C4E 77               [ 8] 2181 	ld	(hl), a
+                                   2182 ;src/scripts/gui_management.c:423: values[1] = value % 100 / 10 + 154;
+    00000C4F C5               [16] 2183 	push	bc
+    00000C50 1E 64            [ 8] 2184 	ld	e, #0x64
+    00000C52 79               [ 4] 2185 	ld	a, c
+    00000C53 CDr00r00         [24] 2186 	call	__moduchar
+    00000C56 79               [ 4] 2187 	ld	a, c
+    00000C57 1E 0A            [ 8] 2188 	ld	e, #0x0a
+    00000C59 CDr00r00         [24] 2189 	call	__divuchar
+    00000C5C 79               [ 4] 2190 	ld	a, c
+    00000C5D C1               [12] 2191 	pop	bc
+    00000C5E C6 9A            [ 8] 2192 	add	a, #0x9a
+    00000C60 F8 01            [12] 2193 	ldhl	sp,	#1
+    00000C62 77               [ 8] 2194 	ld	(hl), a
+                                   2195 ;src/scripts/gui_management.c:424: values[2] = value % 10 + 154;
+    00000C63 1E 0A            [ 8] 2196 	ld	e, #0x0a
+    00000C65 79               [ 4] 2197 	ld	a, c
+    00000C66 CDr00r00         [24] 2198 	call	__moduchar
+    00000C69 79               [ 4] 2199 	ld	a, c
+    00000C6A C6 9A            [ 8] 2200 	add	a, #0x9a
+    00000C6C F8 02            [12] 2201 	ldhl	sp,	#2
+    00000C6E 77               [ 8] 2202 	ld	(hl), a
+                                   2203 ;src/scripts/gui_management.c:425: set_win_tiles(6, 0, 3, 1, values);
+    00000C6F 21 00 00         [12] 2204 	ld	hl, #0
+    00000C72 39               [ 8] 2205 	add	hl, sp
+    00000C73 E5               [16] 2206 	push	hl
+    00000C74 21 03 01         [12] 2207 	ld	hl, #0x103
+    00000C77 E5               [16] 2208 	push	hl
+    00000C78 21 06 00         [12] 2209 	ld	hl, #0x06
+    00000C7B E5               [16] 2210 	push	hl
+    00000C7C CDr00r00         [24] 2211 	call	_set_win_tiles
+                                   2212 ;src/scripts/gui_management.c:426: }
+    00000C7F E8 09            [16] 2213 	add	sp, #9
+    00000C81 C9               [16] 2214 	ret
+                                   2215 	.area _CODE_3
+                                   2216 	.area _INITIALIZER
+                                   2217 	.area _CABS (ABS)

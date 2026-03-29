@@ -258,17 +258,29 @@ void safy_upgrades() {
 }
 
 void set_stats() BANKED {
-    uint8_t hp[5];
+    uint8_t hp[7];
     uint8_t atk[2];
     uint8_t def[2];
     uint8_t exp[3];
     uint8_t stat;
     uint8_t mythril[2];
-    hp[0] = current_hp/10 + 154;
-    hp[1] = current_hp % 10 + 154;
-    hp[2] = 176;
-    hp[3] = max_hp/10 + 154;
-    hp[4] = max_hp % 10 + 154;
+    if (current_hp < 100) {
+        hp[0] = 187;
+    }
+    else {
+        hp[0] = current_hp / 100 + 154;
+    }
+    hp[1] = current_hp % 100 / 10 + 154;
+    hp[2] = current_hp % 10 + 154;
+    hp[3] = 176;
+    if (max_hp < 100) {
+        hp[4] = 187;
+    }
+    else {
+        hp[4] = max_hp / 100 + 154;
+    }
+    hp[5] = max_hp % 100 / 10 + 154;
+    hp[6] = max_hp % 10 + 154;
     atk[0] = attack / 10 + 154;
     atk[1] = attack % 10 + 154;
     def[0] = defense / 10 + 154;
@@ -293,7 +305,7 @@ void set_stats() BANKED {
 
     mythril[0] = minerals / 10 + 154;
     mythril[1] = minerals % 10 + 154;
-    set_win_tiles(12, 6, 5, 1, hp);
+    set_win_tiles(12, 6, 7, 1, hp);
     set_win_tiles(14, 4, 5, 1, player_name);
     set_win_tiles(12, 8, 2, 1, atk);
     set_win_tiles(12, 10, 2, 1, def);
@@ -323,7 +335,12 @@ void set_mini_menu() BANKED {
     uint8_t n_arr[2];
     uint8_t n_heals[2];
     uint8_t n_floor[2];
-    hp[0] = current_hp / 100 + 154;
+    if (max_hp < 100) {
+        hp[0] = 187;
+    }
+    else {
+        hp[0] = current_hp / 100 + 154;
+    }
     hp[1] = current_hp % 100 / 10 + 154;
     hp[2] = current_hp % 10 + 154;
     n_arr[0] = num_arrows / 10 + 154;

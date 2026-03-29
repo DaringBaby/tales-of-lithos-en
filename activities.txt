@@ -1,2 +1,1 @@
-1|1774636062|Aggiungere suono oggetto trovato e canzone fine gioco|0
 3|1774636136|A volte il dungeon si genera male e genera una porta verso la stanza della chiave e poi lucchetto|0

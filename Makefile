@@ -31,7 +31,8 @@ B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
              src/tiles/mugshot.c src/tiles/mythril.c src/tiles/numbers.c \
              src/tiles/wpn_arrow.c src/tiles/enemyDrops.c src/scripts/generate_dungeon.c \
              src/maps/GameOver.c src/tiles/GameOverText.c src/scripts/gameover.c \
-             src/tiles/sword.c src/tiles/effects.c src/scripts/play_effects.c src/scripts/save_manager.c
+             src/tiles/sword.c src/tiles/effects.c src/scripts/play_effects.c src/scripts/save_manager.c \
+             src/songs/item_found.c
 B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c  src/scripts/drop.c
 
 

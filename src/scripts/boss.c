@@ -70,9 +70,9 @@ void spawn_boss(Boss *boss) BANKED {
     }
 
     /* DEBUG BOSS */
-    boss->hp = 1;
-    boss->atk = 1;
-    boss->def = 1;
+    //boss->hp = 1;
+    //boss->atk = 1;
+    //boss->def = 1;
     ////////////////
 
     for (uint8_t i=0; i<16; i++) {

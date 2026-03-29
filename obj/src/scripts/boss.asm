@@ -63,7 +63,7 @@
 ; ---------------------------------
 	b_spawn_boss	= 3
 _spawn_boss::
-	add	sp, #-14
+	add	sp, #-12
 ;src/scripts/boss.c:9: for (uint8_t i = 0; i < 16; i++) {
 	ld	c, #0x00
 00129$:
@@ -94,7 +94,7 @@ _spawn_boss::
 	jr	00129$
 00101$:
 ;src/scripts/boss.c:16: boss->id = 1;
-	ldhl	sp,	#20
+	ldhl	sp,	#18
 	ld	a, (hl+)
 	ld	c, a
 	ld	b, (hl)
@@ -165,14 +165,8 @@ _spawn_boss::
 ;src/scripts/boss.c:23: boss->defeated = 0;
 	ld	hl, #0x0009
 	add	hl, bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#14
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#13
-	ld	(hl), a
+	ld	c, l
+	ld	b, h
 ;src/scripts/boss.c:14: switch (current_floor) {
 	ld	a, (#_current_floor)
 	sub	a, #0x05
@@ -189,7 +183,7 @@ _spawn_boss::
 	ld	a, (#_current_floor)
 	sub	a, #0x19
 	jp	Z, 00106$
-	jp	00107$
+	jp	00144$
 ;src/scripts/boss.c:15: case 5:
 00102$:
 ;src/scripts/boss.c:16: boss->id = 1;
@@ -234,11 +228,8 @@ _spawn_boss::
 	ld	l, a
 	ld	(hl), #0x40
 ;src/scripts/boss.c:23: boss->defeated = 0;
-	ldhl	sp,	#12
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
+	xor	a, a
+	ld	(bc), a
 ;src/scripts/boss.c:24: set_sprite_data(98, 16, EyeBoss);
 	ld	de, #_EyeBoss
 	push	de
@@ -247,7 +238,7 @@ _spawn_boss::
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/boss.c:25: break;
-	jp	00107$
+	jp	00144$
 ;src/scripts/boss.c:26: case 10:
 00103$:
 ;src/scripts/boss.c:27: boss->id = 2;
@@ -292,11 +283,8 @@ _spawn_boss::
 	ld	l, a
 	ld	(hl), #0x40
 ;src/scripts/boss.c:34: boss->defeated = 0;
-	ldhl	sp,	#12
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
+	xor	a, a
+	ld	(bc), a
 ;src/scripts/boss.c:35: set_sprite_data(98, 16, BossMantis);
 	ld	de, #_BossMantis
 	push	de
@@ -305,7 +293,7 @@ _spawn_boss::
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/boss.c:36: break;
-	jp	00107$
+	jp	00144$
 ;src/scripts/boss.c:37: case 15:
 00104$:
 ;src/scripts/boss.c:38: boss->id = 3;
@@ -350,11 +338,8 @@ _spawn_boss::
 	ld	l, a
 	ld	(hl), #0x40
 ;src/scripts/boss.c:45: boss->defeated = 0;
-	ldhl	sp,	#12
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
+	xor	a, a
+	ld	(bc), a
 ;src/scripts/boss.c:46: set_sprite_data(98, 16, BossOrb);
 	ld	de, #_BossOrb
 	push	de
@@ -363,7 +348,7 @@ _spawn_boss::
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/boss.c:47: break;
-	jp	00107$
+	jp	00144$
 ;src/scripts/boss.c:48: case 20:
 00105$:
 ;src/scripts/boss.c:49: boss->id = 4;
@@ -408,11 +393,8 @@ _spawn_boss::
 	ld	l, a
 	ld	(hl), #0x40
 ;src/scripts/boss.c:56: boss->defeated = 0;
-	ldhl	sp,	#12
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
+	xor	a, a
+	ld	(bc), a
 ;src/scripts/boss.c:57: set_sprite_data(98, 16, BossArmored);
 	ld	de, #_BossArmored
 	push	de
@@ -421,7 +403,7 @@ _spawn_boss::
 	call	_set_sprite_data
 	add	sp, #4
 ;src/scripts/boss.c:58: break;
-	jr	00107$
+	jr	00144$
 ;src/scripts/boss.c:59: case 25:
 00106$:
 ;src/scripts/boss.c:60: boss->id = 5;
@@ -466,11 +448,8 @@ _spawn_boss::
 	ld	l, a
 	ld	(hl), #0x40
 ;src/scripts/boss.c:67: boss->defeated = 0;
-	ldhl	sp,	#12
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
+	xor	a, a
+	ld	(bc), a
 ;src/scripts/boss.c:68: set_sprite_data(98, 16, BossDragon);
 	ld	de, #_BossDragon
 	push	de
@@ -478,44 +457,26 @@ _spawn_boss::
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/boss.c:70: }
-00107$:
-;src/scripts/boss.c:73: boss->hp = 1;
-	pop	hl
-	push	hl
-	ld	a, #0x01
-	ld	(hl+), a
-	ld	(hl), #0x00
-;src/scripts/boss.c:74: boss->atk = 1;
-	ldhl	sp,	#2
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x01
-;src/scripts/boss.c:75: boss->def = 1;
-	ldhl	sp,	#4
-	ld	a, (hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x01
 ;src/scripts/boss.c:78: for (uint8_t i=0; i<16; i++) {
-	ldhl	sp,	#13
-	ld	(hl), #0x00
+00144$:
+	ld	c, #0x00
 00132$:
-	ldhl	sp,	#13
-	ld	a, (hl)
+	ld	a, c
 	sub	a, #0x10
 	jr	NC, 00108$
 ;src/scripts/boss.c:79: set_sprite_tile(8+i, 98+i);
-	ld	a, (hl-)
-	ld	e, a
+	ld	e, c
+	ld	a, e
 	add	a, #0x62
+	ldhl	sp,	#11
 	ld	(hl), a
 	ld	a, e
 	add	a, #0x08
+	ld	e, a
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-	ld	l, a
-	ld	h, #0x00
+	xor	a, a
+	ld	l, e
+	ld	h, a
 	add	hl, hl
 	add	hl, hl
 	ld	de, #_shadow_OAM
@@ -524,23 +485,27 @@ _spawn_boss::
 	inc	hl
 	ld	e, l
 	ld	d, h
-	ldhl	sp,	#12
-;src/scripts/boss.c:78: for (uint8_t i=0; i<16; i++) {
-	ld	a, (hl+)
+	ldhl	sp,	#11
+	ld	a, (hl)
 	ld	(de), a
-	inc	(hl)
+;src/scripts/boss.c:78: for (uint8_t i=0; i<16; i++) {
+	inc	c
 	jr	00132$
 00108$:
 ;src/scripts/boss.c:81: move_sprite(8, boss->x, boss->y);
+	ldhl	sp,	#18
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
 	ld	hl, #0x0002
 	add	hl, bc
 	push	hl
 	ld	a, l
-	ldhl	sp,	#13
+	ldhl	sp,	#11
 	ld	(hl), a
 	pop	hl
 	ld	a, h
-	ldhl	sp,	#12
+	ldhl	sp,	#10
 	ld	(hl-), a
 	ld	a, (hl+)
 	ld	e, a
@@ -555,13 +520,13 @@ _spawn_boss::
 	ld	hl, #(_shadow_OAM + 32)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
-	ldhl	sp,	#15
+	ldhl	sp,	#13
 	ld	a, (hl)
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/boss.c:82: move_sprite(9, boss->x+8, boss->y);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	a, (hl+)
@@ -575,13 +540,13 @@ _spawn_boss::
 	ld	hl, #(_shadow_OAM + 36)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
-	ldhl	sp,	#15
+	ldhl	sp,	#13
 	ld	a, (hl)
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/boss.c:83: move_sprite(10, boss->x+16, boss->y);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	a, (hl+)
@@ -595,13 +560,13 @@ _spawn_boss::
 	ld	hl, #(_shadow_OAM + 40)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
-	ldhl	sp,	#15
+	ldhl	sp,	#13
 	ld	a, (hl)
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/boss.c:84: move_sprite(11, boss->x+24, boss->y);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	a, (hl+)
@@ -615,13 +580,13 @@ _spawn_boss::
 	ld	hl, #(_shadow_OAM + 44)
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
 	push	hl
-	ldhl	sp,	#15
+	ldhl	sp,	#13
 	ld	a, (hl)
 	pop	hl
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/boss.c:85: move_sprite(12, boss->x, boss->y+8);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -637,7 +602,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:86: move_sprite(13, boss->x+8, boss->y+8);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -654,7 +619,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:87: move_sprite(14, boss->x+16, boss->y+8);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -671,7 +636,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:88: move_sprite(15, boss->x+24, boss->y+8);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -688,7 +653,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:89: move_sprite(16, boss->x, boss->y+16);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -704,7 +669,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:90: move_sprite(17, boss->x+8, boss->y+16);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -721,7 +686,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:91: move_sprite(18, boss->x+16, boss->y+16);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -738,7 +703,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:92: move_sprite(19, boss->x+24, boss->y+16);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -755,7 +720,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:93: move_sprite(20, boss->x, boss->y+24);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -771,7 +736,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:94: move_sprite(21, boss->x+8, boss->y+24);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -788,7 +753,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), d
 ;src/scripts/boss.c:95: move_sprite(22, boss->x+16, boss->y+24);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -805,7 +770,7 @@ _spawn_boss::
 	ld	(hl+), a
 	ld	(hl), e
 ;src/scripts/boss.c:96: move_sprite(23, boss->x+24, boss->y+24);
-	ldhl	sp,#11
+	ldhl	sp,#9
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
@@ -823,7 +788,7 @@ _spawn_boss::
 	ld	(hl), c
 ;src/scripts/boss.c:96: move_sprite(23, boss->x+24, boss->y+24);
 ;src/scripts/boss.c:97: }
-	add	sp, #14
+	add	sp, #12
 	ret
 ;src/scripts/boss.c:99: void move_boss(Boss *boss) BANKED {
 ;	---------------------------------

@@ -116,12 +116,12 @@ uint8_t current_joypad = 0;
 
 /* PLAYER STATS */
 uint8_t player_name[] = {164, 164, 164, 164, 164};
-uint8_t max_hp = 99;
-uint8_t current_hp = 99;
+uint8_t max_hp = 23;
+uint8_t current_hp = 23;
 uint8_t attack = 5;
 uint8_t defense = 3;
 uint8_t level = 1;
-uint16_t experience = 1;
+uint16_t experience = 0;
 uint8_t sword_lvl = 1;
 uint8_t shield_lvl = 1;
 uint8_t arrow_lvl = 1;
@@ -168,6 +168,7 @@ extern uint8_t locked_door;
 /* MUSIC */
 extern const hUGESong_t gameover_jingle;
 extern const hUGESong_t boss_defeated_jingle;
+extern const hUGESong_t item_found;
 extern const hUGESong_t dungeon_theme;
 extern const hUGESong_t boss_theme;
 extern const hUGESong_t camp_theme;
@@ -407,7 +408,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 25;
+                current_floor = 1;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -514,7 +515,10 @@ void check_input_keys() {
         uint8_t gy = (y - 16) / 8;
         if (current_location == 1) {
             if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
-                unlock_sfx();
+                current_song_bank = 1;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&item_found);
+                SWITCH_ROM(1);
                 treasure_obtained = 1;
                 minerals++;
                 obt_mythril++;
@@ -522,9 +526,16 @@ void check_input_keys() {
                 delay(150);
                 menu_opened = 4;
                 set_textbox(2);
+                current_song_bank = 4;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&dungeon_theme);
+                SWITCH_ROM(1);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
-                unlock_sfx();
+                current_song_bank = 1;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&item_found);
+                SWITCH_ROM(1);
                 set_sprite_tile(33, 59);
                 set_sprite_tile(34, 60);
                 key_obtained = 1;
@@ -532,6 +543,10 @@ void check_input_keys() {
                 delay(150);
                 menu_opened = 4;
                 set_textbox(1);
+                current_song_bank = 4;
+                SWITCH_ROM(current_song_bank);
+                hUGE_init(&dungeon_theme);
+                SWITCH_ROM(1);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
                 switch (locked_door) {
