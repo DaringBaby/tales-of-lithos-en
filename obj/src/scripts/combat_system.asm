@@ -697,7 +697,7 @@ _set_character_sprite::
 	ld	(hl), #0x0f
 ;src/scripts/combat_system.c:86: }
 00105$:
-;src/scripts/combat_system.c:87: if (y == 144) { 
+;src/scripts/combat_system.c:87: if (y == 144) {
 	ld	a, (#_y)
 	sub	a, #0x90
 	jr	NZ, 00107$

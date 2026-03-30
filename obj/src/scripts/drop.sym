@@ -7,10 +7,10 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
+    _DIV_REG                                                        ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
-    _arand                                                          ******** GX
-  0 _check_drops                                                    000000E9 GR
-  0 _clear_drops                                                    000000BC GR
+  0 _check_drops                                                    000000F6 GR
+  0 _clear_drops                                                    000000B9 GR
     _current_hp                                                     ******** GX
   2 _drops                                                          00000000 GR
     _heal_sfx                                                       ******** GX
@@ -27,7 +27,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      1B5   flags    0
+   0 _CODE                                      size      1C2   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        6   flags    0
    3 _INITIALIZED                               size        0   flags    0

@@ -55,394 +55,408 @@
     00000000 E8 FD            [16]   55 	add	sp, #-3
     00000002 F8 02            [12]   56 	ldhl	sp,	#2
     00000004 32               [ 8]   57 	ld	(hl-), a
-    00000005 73               [ 8]   58 	ld	(hl), e
-                                     59 ;src/scripts/drop.c:8: uint8_t drop_chance = arand() & 3;
-    00000006 CDr00r00         [24]   60 	call	_arand
-    00000009 79               [ 4]   61 	ld	a, c
-    0000000A E6 03            [ 8]   62 	and	a, #0x03
-    0000000C F8 00            [12]   63 	ldhl	sp,	#0
-    0000000E 77               [ 8]   64 	ld	(hl), a
-                                     65 ;src/scripts/drop.c:9: if (drops[0].drop_type == 0) {
-    0000000F FAr00r00         [16]   66 	ld	a, (#_drops + 0)
-                                     67 ;src/scripts/drop.c:10: drop_idx = 0;
-    00000012 B7               [ 4]   68 	or	a, a
-    00000013 20 03            [12]   69 	jr	NZ, 00102$
-    00000015 4F               [ 4]   70 	ld	c, a
-    00000016 18 02            [12]   71 	jr	00103$
-    00000018                         72 00102$:
-                                     73 ;src/scripts/drop.c:13: drop_idx = 1;
-    00000018 0E 01            [ 8]   74 	ld	c, #0x01
-    0000001A                         75 00103$:
-                                     76 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
-    0000001A 06 00            [ 8]   77 	ld	b, #0x00
-    0000001C 69               [ 4]   78 	ld	l, c
-    0000001D 60               [ 4]   79 	ld	h, b
-    0000001E 29               [ 8]   80 	add	hl, hl
-    0000001F 09               [ 8]   81 	add	hl, bc
-                                     82 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
-    00000020 41               [ 4]   83 	ld	b, c
-                                     84 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
-    00000021 3Er00            [ 8]   85 	ld	a, #<(_drops)
-    00000023 85               [ 4]   86 	add	a, l
-    00000024 5F               [ 4]   87 	ld	e, a
-    00000025 3Es00            [ 8]   88 	ld	a, #>(_drops)
-    00000027 8C               [ 4]   89 	adc	a, h
-    00000028 57               [ 4]   90 	ld	d, a
-                                     91 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
-    00000029 78               [ 4]   92 	ld	a, b
-    0000002A C6 21            [ 8]   93 	add	a, #0x21
-    0000002C 47               [ 4]   94 	ld	b, a
-                                     95 ;src/scripts/drop.c:15: if (drop_chance == 3) {
-    0000002D F8 00            [12]   96 	ldhl	sp,	#0
-    0000002F 7E               [ 8]   97 	ld	a, (hl)
-    00000030 D6 03            [ 8]   98 	sub	a, #0x03
-    00000032 20 24            [12]   99 	jr	NZ, 00108$
-                                    100 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
-    00000034 3E 01            [ 8]  101 	ld	a, #0x01
-    00000036 12               [ 8]  102 	ld	(de), a
-                                    103 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
-                                    104 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000037 68               [ 4]  105 	ld	l, b
-    00000038 26 00            [ 8]  106 	ld	h, #0x00
-    0000003A 29               [ 8]  107 	add	hl, hl
-    0000003B 29               [ 8]  108 	add	hl, hl
-    0000003C 11r00r00         [12]  109 	ld	de, #_shadow_OAM
-    0000003F 19               [ 8]  110 	add	hl, de
-    00000040 23               [ 8]  111 	inc	hl
-    00000041 23               [ 8]  112 	inc	hl
-    00000042 36 52            [12]  113 	ld	(hl), #0x52
-                                    114 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
-                                    115 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000044 68               [ 4]  116 	ld	l, b
-    00000045 26 00            [ 8]  117 	ld	h, #0x00
-    00000047 29               [ 8]  118 	add	hl, hl
-    00000048 29               [ 8]  119 	add	hl, hl
-    00000049 11r00r00         [12]  120 	ld	de, #_shadow_OAM
-    0000004C 19               [ 8]  121 	add	hl, de
-    0000004D 5D               [ 4]  122 	ld	e, l
-    0000004E 54               [ 4]  123 	ld	d, h
-                                    124 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000004F F8 01            [12]  125 	ldhl	sp,	#1
-    00000051 2A               [ 8]  126 	ld	a, (hl+)
-    00000052 12               [ 8]  127 	ld	(de), a
-    00000053 13               [ 8]  128 	inc	de
-    00000054 7E               [ 8]  129 	ld	a, (hl)
-    00000055 12               [ 8]  130 	ld	(de), a
-                                    131 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
-    00000056 18 48            [12]  132 	jr	00109$
-    00000058                        133 00108$:
-                                    134 ;src/scripts/drop.c:20: else if (drop_chance == 2) {
-    00000058 F8 00            [12]  135 	ldhl	sp,	#0
-    0000005A 7E               [ 8]  136 	ld	a, (hl)
-    0000005B D6 02            [ 8]  137 	sub	a, #0x02
-    0000005D 20 25            [12]  138 	jr	NZ, 00105$
-                                    139 ;src/scripts/drop.c:21: drops[drop_idx].drop_type = 2;
-    0000005F 3E 02            [ 8]  140 	ld	a, #0x02
-    00000061 12               [ 8]  141 	ld	(de), a
-                                    142 ;src/scripts/drop.c:22: set_sprite_tile(33+drop_idx, 83);
-    00000062 58               [ 4]  143 	ld	e, b
-                                    144 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000063 AF               [ 4]  145 	xor	a, a
-    00000064 6B               [ 4]  146 	ld	l, e
-    00000065 67               [ 4]  147 	ld	h, a
-    00000066 29               [ 8]  148 	add	hl, hl
-    00000067 29               [ 8]  149 	add	hl, hl
-    00000068 11r00r00         [12]  150 	ld	de, #_shadow_OAM
-    0000006B 19               [ 8]  151 	add	hl, de
-    0000006C 23               [ 8]  152 	inc	hl
-    0000006D 23               [ 8]  153 	inc	hl
-    0000006E 36 53            [12]  154 	ld	(hl), #0x53
-                                    155 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
-                                    156 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000070 AF               [ 4]  157 	xor	a, a
-    00000071 68               [ 4]  158 	ld	l, b
-    00000072 67               [ 4]  159 	ld	h, a
-    00000073 29               [ 8]  160 	add	hl, hl
-    00000074 29               [ 8]  161 	add	hl, hl
-    00000075 11r00r00         [12]  162 	ld	de, #_shadow_OAM
-    00000078 19               [ 8]  163 	add	hl, de
-    00000079 5D               [ 4]  164 	ld	e, l
-    0000007A 54               [ 4]  165 	ld	d, h
-                                    166 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000007B F8 01            [12]  167 	ldhl	sp,	#1
-    0000007D 2A               [ 8]  168 	ld	a, (hl+)
-    0000007E 12               [ 8]  169 	ld	(de), a
-    0000007F 13               [ 8]  170 	inc	de
-    00000080 7E               [ 8]  171 	ld	a, (hl)
-    00000081 12               [ 8]  172 	ld	(de), a
-                                    173 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
-    00000082 18 1C            [12]  174 	jr	00109$
-    00000084                        175 00105$:
-                                    176 ;src/scripts/drop.c:26: drops[drop_idx].drop_type = 0;
-    00000084 AF               [ 4]  177 	xor	a, a
-    00000085 12               [ 8]  178 	ld	(de), a
-                                    179 ;src/scripts/drop.c:27: set_sprite_tile(33+drop_idx, 50);
-    00000086 58               [ 4]  180 	ld	e, b
-                                    181 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000087 AF               [ 4]  182 	xor	a, a
-    00000088 6B               [ 4]  183 	ld	l, e
-    00000089 67               [ 4]  184 	ld	h, a
-    0000008A 29               [ 8]  185 	add	hl, hl
-    0000008B 29               [ 8]  186 	add	hl, hl
-    0000008C 11r00r00         [12]  187 	ld	de, #_shadow_OAM
-    0000008F 19               [ 8]  188 	add	hl, de
-    00000090 23               [ 8]  189 	inc	hl
-    00000091 23               [ 8]  190 	inc	hl
-    00000092 36 32            [12]  191 	ld	(hl), #0x32
-                                    192 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
-                                    193 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000094 AF               [ 4]  194 	xor	a, a
-    00000095 68               [ 4]  195 	ld	l, b
-    00000096 67               [ 4]  196 	ld	h, a
-    00000097 29               [ 8]  197 	add	hl, hl
-    00000098 29               [ 8]  198 	add	hl, hl
-    00000099 11r00r00         [12]  199 	ld	de, #_shadow_OAM
-    0000009C 19               [ 8]  200 	add	hl, de
-                                    201 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    0000009D AF               [ 4]  202 	xor	a, a
-    0000009E 22               [ 8]  203 	ld	(hl+), a
-    0000009F 77               [ 8]  204 	ld	(hl), a
-                                    205 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
-    000000A0                        206 00109$:
-                                    207 ;src/scripts/drop.c:30: drops[drop_idx].x = x;
-    000000A0 06 00            [ 8]  208 	ld	b, #0x00
-    000000A2 69               [ 4]  209 	ld	l, c
-    000000A3 60               [ 4]  210 	ld	h, b
-    000000A4 29               [ 8]  211 	add	hl, hl
-    000000A5 09               [ 8]  212 	add	hl, bc
-    000000A6 7D               [ 4]  213 	ld	a, l
-    000000A7 C6r00            [ 8]  214 	add	a, #<(_drops)
-    000000A9 4F               [ 4]  215 	ld	c, a
-    000000AA 7C               [ 4]  216 	ld	a, h
-    000000AB CEs00            [ 8]  217 	adc	a, #>(_drops)
-    000000AD 47               [ 4]  218 	ld	b, a
-    000000AE 59               [ 4]  219 	ld	e, c
-    000000AF 50               [ 4]  220 	ld	d, b
-    000000B0 13               [ 8]  221 	inc	de
-    000000B1 F8 02            [12]  222 	ldhl	sp,	#2
-                                    223 ;src/scripts/drop.c:31: drops[drop_idx].y = y;
-    000000B3 3A               [ 8]  224 	ld	a, (hl-)
-    000000B4 12               [ 8]  225 	ld	(de), a
-    000000B5 03               [ 8]  226 	inc	bc
-    000000B6 03               [ 8]  227 	inc	bc
-    000000B7 7E               [ 8]  228 	ld	a, (hl)
-    000000B8 02               [ 8]  229 	ld	(bc), a
-                                    230 ;src/scripts/drop.c:32: }
-    000000B9 E8 03            [16]  231 	add	sp, #3
-    000000BB C9               [16]  232 	ret
-                                    233 ;src/scripts/drop.c:34: void clear_drops() {
-                                    234 ;	---------------------------------
-                                    235 ; Function clear_drops
-                                    236 ; ---------------------------------
-    000000BC                        237 _clear_drops::
-                                    238 ;src/scripts/drop.c:35: for (int i=0; i<2; i++) {
-    000000BC 01 00 00         [12]  239 	ld	bc, #0x0000
-    000000BF                        240 00104$:
-    000000BF 79               [ 4]  241 	ld	a, c
-    000000C0 D6 02            [ 8]  242 	sub	a, #0x02
-    000000C2 D0               [20]  243 	ret	NC
-                                    244 ;src/scripts/drop.c:36: drops[i].drop_type = 0;
-    000000C3 69               [ 4]  245 	ld	l, c
-    000000C4 60               [ 4]  246 	ld	h, b
-    000000C5 29               [ 8]  247 	add	hl, hl
-    000000C6 09               [ 8]  248 	add	hl, bc
-    000000C7 11r00r00         [12]  249 	ld	de, #_drops
-    000000CA 19               [ 8]  250 	add	hl, de
-    000000CB 36 00            [12]  251 	ld	(hl), #0x00
-                                    252 ;src/scripts/drop.c:37: drops[i].x = 0;
-    000000CD 5D               [ 4]  253 	ld	e, l
-    000000CE 54               [ 4]  254 	ld	d, h
-                                    255 ;src/scripts/drop.c:38: drops[i].y = 0;
-    000000CF 23               [ 8]  256 	inc	hl
-    000000D0 23               [ 8]  257 	inc	hl
-    000000D1 13               [ 8]  258 	inc	de
-    000000D2 AF               [ 4]  259 	xor	a, a
-    000000D3 12               [ 8]  260 	ld	(de), a
-    000000D4 36 00            [12]  261 	ld	(hl), #0x00
-                                    262 ;src/scripts/drop.c:39: move_sprite(33+i, 0, 0);
-    000000D6 79               [ 4]  263 	ld	a, c
-    000000D7 C6 21            [ 8]  264 	add	a, #0x21
-    000000D9 5F               [ 4]  265 	ld	e, a
-                                    266 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000000DA AF               [ 4]  267 	xor	a, a
-    000000DB 6B               [ 4]  268 	ld	l, e
-    000000DC 67               [ 4]  269 	ld	h, a
-    000000DD 29               [ 8]  270 	add	hl, hl
-    000000DE 29               [ 8]  271 	add	hl, hl
-    000000DF 11r00r00         [12]  272 	ld	de, #_shadow_OAM
-    000000E2 19               [ 8]  273 	add	hl, de
-                                    274 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000000E3 AF               [ 4]  275 	xor	a, a
-    000000E4 22               [ 8]  276 	ld	(hl+), a
-    000000E5 77               [ 8]  277 	ld	(hl), a
-                                    278 ;src/scripts/drop.c:35: for (int i=0; i<2; i++) {
-    000000E6 03               [ 8]  279 	inc	bc
-                                    280 ;src/scripts/drop.c:41: }
-    000000E7 18 D6            [12]  281 	jr	00104$
-                                    282 ;src/scripts/drop.c:43: void check_drops(uint8_t x, uint8_t y) {
-                                    283 ;	---------------------------------
-                                    284 ; Function check_drops
-                                    285 ; ---------------------------------
-    000000E9                        286 _check_drops::
-    000000E9 E8 F8            [16]  287 	add	sp, #-8
-    000000EB F8 07            [12]  288 	ldhl	sp,	#7
-    000000ED 32               [ 8]  289 	ld	(hl-), a
-    000000EE 73               [ 8]  290 	ld	(hl), e
-                                    291 ;src/scripts/drop.c:44: for (int i=0; i<2; i++) {
-    000000EF 01 00 00         [12]  292 	ld	bc, #0x0000
-    000000F2                        293 00116$:
-    000000F2 79               [ 4]  294 	ld	a, c
-    000000F3 D6 02            [ 8]  295 	sub	a, #0x02
-    000000F5 D2rB2r01         [16]  296 	jp	NC, 00118$
-                                    297 ;src/scripts/drop.c:45: if (x==drops[i].x && y==drops[i].y) {
-    000000F8 69               [ 4]  298 	ld	l, c
-    000000F9 60               [ 4]  299 	ld	h, b
-    000000FA 29               [ 8]  300 	add	hl, hl
-    000000FB 09               [ 8]  301 	add	hl, bc
-    000000FC E5               [16]  302 	push	hl
-    000000FD 7D               [ 4]  303 	ld	a, l
-    000000FE F8 04            [12]  304 	ldhl	sp,	#4
-    00000100 77               [ 8]  305 	ld	(hl), a
-    00000101 E1               [12]  306 	pop	hl
-    00000102 7C               [ 4]  307 	ld	a, h
-    00000103 F8 03            [12]  308 	ldhl	sp,	#3
-    00000105 32               [ 8]  309 	ld	(hl-), a
-    00000106 2A               [ 8]  310 	ld	a, (hl+)
-    00000107 5F               [ 4]  311 	ld	e, a
-    00000108 56               [ 8]  312 	ld	d, (hl)
-    00000109 21r00r00         [12]  313 	ld	hl, #_drops
-    0000010C 19               [ 8]  314 	add	hl, de
-    0000010D E5               [16]  315 	push	hl
-    0000010E 7D               [ 4]  316 	ld	a, l
-    0000010F F8 06            [12]  317 	ldhl	sp,	#6
-    00000111 77               [ 8]  318 	ld	(hl), a
-    00000112 E1               [12]  319 	pop	hl
-    00000113 7C               [ 4]  320 	ld	a, h
-    00000114 F8 05            [12]  321 	ldhl	sp,	#5
-    00000116 32               [ 8]  322 	ld	(hl-), a
-    00000117 2A               [ 8]  323 	ld	a, (hl+)
-    00000118 5F               [ 4]  324 	ld	e, a
-    00000119 56               [ 8]  325 	ld	d, (hl)
-    0000011A 6B               [ 4]  326 	ld	l, e
-    0000011B 62               [ 4]  327 	ld	h, d
-    0000011C 23               [ 8]  328 	inc	hl
-    0000011D 33               [ 8]  329 	inc	sp
-    0000011E 33               [ 8]  330 	inc	sp
-    0000011F 5D               [ 4]  331 	ld	e, l
-    00000120 54               [ 4]  332 	ld	d, h
-    00000121 D5               [16]  333 	push	de
-    00000122 1A               [ 8]  334 	ld	a, (de)
-    00000123 F8 07            [12]  335 	ldhl	sp,	#7
-    00000125 96               [ 8]  336 	sub	a, (hl)
-    00000126 C2rAEr01         [16]  337 	jp	NZ, 00117$
-    00000129 F8 04            [12]  338 	ldhl	sp,#4
-    0000012B 2A               [ 8]  339 	ld	a, (hl+)
-    0000012C 5F               [ 4]  340 	ld	e, a
-    0000012D 56               [ 8]  341 	ld	d, (hl)
-    0000012E 21 02 00         [12]  342 	ld	hl, #0x0002
-    00000131 19               [ 8]  343 	add	hl, de
-    00000132 E5               [16]  344 	push	hl
-    00000133 7D               [ 4]  345 	ld	a, l
-    00000134 F8 04            [12]  346 	ldhl	sp,	#4
-    00000136 77               [ 8]  347 	ld	(hl), a
-    00000137 E1               [12]  348 	pop	hl
-    00000138 7C               [ 4]  349 	ld	a, h
-    00000139 F8 03            [12]  350 	ldhl	sp,	#3
-    0000013B 32               [ 8]  351 	ld	(hl-), a
-    0000013C 2A               [ 8]  352 	ld	a, (hl+)
-    0000013D 5F               [ 4]  353 	ld	e, a
-    0000013E 56               [ 8]  354 	ld	d, (hl)
-    0000013F 1A               [ 8]  355 	ld	a, (de)
-    00000140 F8 06            [12]  356 	ldhl	sp,	#6
-    00000142 96               [ 8]  357 	sub	a, (hl)
-    00000143 20 69            [12]  358 	jr	NZ, 00117$
-                                    359 ;src/scripts/drop.c:46: if (drops[i].drop_type == 2) {
-    00000145 F8 04            [12]  360 	ldhl	sp,#4
-    00000147 2A               [ 8]  361 	ld	a, (hl+)
-    00000148 5F               [ 4]  362 	ld	e, a
-    00000149 56               [ 8]  363 	ld	d, (hl)
-    0000014A 1A               [ 8]  364 	ld	a, (de)
-    0000014B FE 02            [ 8]  365 	cp	a, #0x02
-    0000014D 20 19            [12]  366 	jr	NZ, 00108$
-                                    367 ;src/scripts/drop.c:47: if (num_arrows < max_num_arrows) {
-    0000014F FAr00r00         [16]  368 	ld	a, (#_num_arrows)
-    00000152 21r00r00         [12]  369 	ld	hl, #_max_num_arrows
-    00000155 96               [ 8]  370 	sub	a, (hl)
-    00000156 30 34            [12]  371 	jr	NC, 00109$
-                                    372 ;src/scripts/drop.c:48: num_arrows++;
-    00000158 21r00r00         [12]  373 	ld	hl, #_num_arrows
-    0000015B 34               [12]  374 	inc	(hl)
-                                    375 ;src/scripts/drop.c:49: heal_sfx();
-    0000015C C5               [16]  376 	push	bc
-    0000015D 1Er00            [ 8]  377 	ld	e, #b_heal_sfx
-    0000015F 21r00r00         [12]  378 	ld	hl, #_heal_sfx
-    00000162 CDr00r00         [24]  379 	call	___sdcc_bcall_ehl
-    00000165 C1               [12]  380 	pop	bc
-    00000166 18 24            [12]  381 	jr	00109$
-    00000168                        382 00108$:
-                                    383 ;src/scripts/drop.c:52: else if (drops[i].drop_type == 1) {
-    00000168 3D               [ 4]  384 	dec	a
-    00000169 20 21            [12]  385 	jr	NZ, 00109$
-                                    386 ;src/scripts/drop.c:53: current_hp += 5;
-    0000016B FAr00r00         [16]  387 	ld	a, (_current_hp)
-    0000016E C6 05            [ 8]  388 	add	a, #0x05
-    00000170 EAr00r00         [16]  389 	ld	(#_current_hp),a
-                                    390 ;src/scripts/drop.c:54: if (current_hp > max_hp) {
-    00000173 FAr00r00         [16]  391 	ld	a, (#_max_hp)
-    00000176 21r00r00         [12]  392 	ld	hl, #_current_hp
-    00000179 96               [ 8]  393 	sub	a, (hl)
-    0000017A 30 10            [12]  394 	jr	NC, 00109$
-                                    395 ;src/scripts/drop.c:55: current_hp = max_hp;
-    0000017C FAr00r00         [16]  396 	ld	a, (#_max_hp)
-    0000017F EAr00r00         [16]  397 	ld	(#_current_hp),a
-                                    398 ;src/scripts/drop.c:56: heal_sfx();
-    00000182 C5               [16]  399 	push	bc
-    00000183 1Er00            [ 8]  400 	ld	e, #b_heal_sfx
-    00000185 21r00r00         [12]  401 	ld	hl, #_heal_sfx
-    00000188 CDr00r00         [24]  402 	call	___sdcc_bcall_ehl
-    0000018B C1               [12]  403 	pop	bc
-    0000018C                        404 00109$:
-                                    405 ;src/scripts/drop.c:59: drops[i].x = 0;
-    0000018C E1               [12]  406 	pop	hl
-    0000018D 36 00            [12]  407 	ld	(hl), #0x00
-    0000018F E5               [16]  408 	push	hl
-                                    409 ;src/scripts/drop.c:60: drops[i].y = 0;
-    00000190 F8 02            [12]  410 	ldhl	sp,	#2
-    00000192 2A               [ 8]  411 	ld	a, (hl+)
-    00000193 66               [ 8]  412 	ld	h, (hl)
-    00000194 6F               [ 4]  413 	ld	l, a
-    00000195 36 00            [12]  414 	ld	(hl), #0x00
-                                    415 ;src/scripts/drop.c:61: drops[i].drop_type = 0;
-    00000197 F8 04            [12]  416 	ldhl	sp,	#4
-    00000199 2A               [ 8]  417 	ld	a, (hl+)
-    0000019A 66               [ 8]  418 	ld	h, (hl)
-    0000019B 6F               [ 4]  419 	ld	l, a
-    0000019C 36 00            [12]  420 	ld	(hl), #0x00
-                                    421 ;src/scripts/drop.c:62: move_sprite(33+i, 0, 0);
-    0000019E 79               [ 4]  422 	ld	a, c
-    0000019F C6 21            [ 8]  423 	add	a, #0x21
-    000001A1 5F               [ 4]  424 	ld	e, a
-                                    425 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000001A2 AF               [ 4]  426 	xor	a, a
-    000001A3 6B               [ 4]  427 	ld	l, e
-    000001A4 67               [ 4]  428 	ld	h, a
-    000001A5 29               [ 8]  429 	add	hl, hl
-    000001A6 29               [ 8]  430 	add	hl, hl
-    000001A7 11r00r00         [12]  431 	ld	de, #_shadow_OAM
-    000001AA 19               [ 8]  432 	add	hl, de
-                                    433 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000001AB AF               [ 4]  434 	xor	a, a
-    000001AC 22               [ 8]  435 	ld	(hl+), a
-    000001AD 77               [ 8]  436 	ld	(hl), a
-                                    437 ;src/scripts/drop.c:62: move_sprite(33+i, 0, 0);
-    000001AE                        438 00117$:
-                                    439 ;src/scripts/drop.c:44: for (int i=0; i<2; i++) {
-    000001AE 03               [ 8]  440 	inc	bc
-    000001AF C3rF2r00         [16]  441 	jp	00116$
-    000001B2                        442 00118$:
-                                    443 ;src/scripts/drop.c:65: }
-    000001B2 E8 08            [16]  444 	add	sp, #8
-    000001B4 C9               [16]  445 	ret
-                                    446 	.area _CODE
-                                    447 	.area _INITIALIZER
-                                    448 	.area _CABS (ABS)
+                                     58 ;src/scripts/drop.c:8: uint8_t drop_chance = DIV_REG & 3;
+    00000005 7B               [ 4]   59 	ld	a, e
+    00000006 32               [ 8]   60 	ld	(hl-), a
+    00000007 F0r00            [12]   61 	ldh	a, (_DIV_REG + 0)
+    00000009 E6 03            [ 8]   62 	and	a, #0x03
+    0000000B 77               [ 8]   63 	ld	(hl), a
+                                     64 ;src/scripts/drop.c:9: if (drops[0].drop_type == 0) {
+    0000000C FAr00r00         [16]   65 	ld	a, (#_drops + 0)
+                                     66 ;src/scripts/drop.c:10: drop_idx = 0;
+    0000000F B7               [ 4]   67 	or	a, a
+    00000010 20 03            [12]   68 	jr	NZ, 00102$
+    00000012 4F               [ 4]   69 	ld	c, a
+    00000013 18 02            [12]   70 	jr	00103$
+    00000015                         71 00102$:
+                                     72 ;src/scripts/drop.c:13: drop_idx = 1;
+    00000015 0E 01            [ 8]   73 	ld	c, #0x01
+    00000017                         74 00103$:
+                                     75 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
+    00000017 06 00            [ 8]   76 	ld	b, #0x00
+    00000019 69               [ 4]   77 	ld	l, c
+    0000001A 60               [ 4]   78 	ld	h, b
+    0000001B 29               [ 8]   79 	add	hl, hl
+    0000001C 09               [ 8]   80 	add	hl, bc
+                                     81 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
+    0000001D 41               [ 4]   82 	ld	b, c
+                                     83 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
+    0000001E 3Er00            [ 8]   84 	ld	a, #<(_drops)
+    00000020 85               [ 4]   85 	add	a, l
+    00000021 5F               [ 4]   86 	ld	e, a
+    00000022 3Es00            [ 8]   87 	ld	a, #>(_drops)
+    00000024 8C               [ 4]   88 	adc	a, h
+    00000025 57               [ 4]   89 	ld	d, a
+                                     90 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
+    00000026 78               [ 4]   91 	ld	a, b
+    00000027 C6 21            [ 8]   92 	add	a, #0x21
+    00000029 47               [ 4]   93 	ld	b, a
+                                     94 ;src/scripts/drop.c:15: if (drop_chance == 3) {
+    0000002A F8 00            [12]   95 	ldhl	sp,	#0
+    0000002C 7E               [ 8]   96 	ld	a, (hl)
+    0000002D D6 03            [ 8]   97 	sub	a, #0x03
+    0000002F 20 24            [12]   98 	jr	NZ, 00108$
+                                     99 ;src/scripts/drop.c:16: drops[drop_idx].drop_type = 1;
+    00000031 3E 01            [ 8]  100 	ld	a, #0x01
+    00000033 12               [ 8]  101 	ld	(de), a
+                                    102 ;src/scripts/drop.c:17: set_sprite_tile(33+drop_idx, 82);
+                                    103 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000034 68               [ 4]  104 	ld	l, b
+    00000035 26 00            [ 8]  105 	ld	h, #0x00
+    00000037 29               [ 8]  106 	add	hl, hl
+    00000038 29               [ 8]  107 	add	hl, hl
+    00000039 11r00r00         [12]  108 	ld	de, #_shadow_OAM
+    0000003C 19               [ 8]  109 	add	hl, de
+    0000003D 23               [ 8]  110 	inc	hl
+    0000003E 23               [ 8]  111 	inc	hl
+    0000003F 36 52            [12]  112 	ld	(hl), #0x52
+                                    113 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
+                                    114 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000041 68               [ 4]  115 	ld	l, b
+    00000042 26 00            [ 8]  116 	ld	h, #0x00
+    00000044 29               [ 8]  117 	add	hl, hl
+    00000045 29               [ 8]  118 	add	hl, hl
+    00000046 11r00r00         [12]  119 	ld	de, #_shadow_OAM
+    00000049 19               [ 8]  120 	add	hl, de
+    0000004A 5D               [ 4]  121 	ld	e, l
+    0000004B 54               [ 4]  122 	ld	d, h
+                                    123 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000004C F8 01            [12]  124 	ldhl	sp,	#1
+    0000004E 2A               [ 8]  125 	ld	a, (hl+)
+    0000004F 12               [ 8]  126 	ld	(de), a
+    00000050 13               [ 8]  127 	inc	de
+    00000051 7E               [ 8]  128 	ld	a, (hl)
+    00000052 12               [ 8]  129 	ld	(de), a
+                                    130 ;src/scripts/drop.c:18: move_sprite(33+drop_idx, x, y);
+    00000053 18 48            [12]  131 	jr	00109$
+    00000055                        132 00108$:
+                                    133 ;src/scripts/drop.c:20: else if (drop_chance == 2) {
+    00000055 F8 00            [12]  134 	ldhl	sp,	#0
+    00000057 7E               [ 8]  135 	ld	a, (hl)
+    00000058 D6 02            [ 8]  136 	sub	a, #0x02
+    0000005A 20 25            [12]  137 	jr	NZ, 00105$
+                                    138 ;src/scripts/drop.c:21: drops[drop_idx].drop_type = 2;
+    0000005C 3E 02            [ 8]  139 	ld	a, #0x02
+    0000005E 12               [ 8]  140 	ld	(de), a
+                                    141 ;src/scripts/drop.c:22: set_sprite_tile(33+drop_idx, 83);
+    0000005F 58               [ 4]  142 	ld	e, b
+                                    143 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000060 AF               [ 4]  144 	xor	a, a
+    00000061 6B               [ 4]  145 	ld	l, e
+    00000062 67               [ 4]  146 	ld	h, a
+    00000063 29               [ 8]  147 	add	hl, hl
+    00000064 29               [ 8]  148 	add	hl, hl
+    00000065 11r00r00         [12]  149 	ld	de, #_shadow_OAM
+    00000068 19               [ 8]  150 	add	hl, de
+    00000069 23               [ 8]  151 	inc	hl
+    0000006A 23               [ 8]  152 	inc	hl
+    0000006B 36 53            [12]  153 	ld	(hl), #0x53
+                                    154 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
+                                    155 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000006D AF               [ 4]  156 	xor	a, a
+    0000006E 68               [ 4]  157 	ld	l, b
+    0000006F 67               [ 4]  158 	ld	h, a
+    00000070 29               [ 8]  159 	add	hl, hl
+    00000071 29               [ 8]  160 	add	hl, hl
+    00000072 11r00r00         [12]  161 	ld	de, #_shadow_OAM
+    00000075 19               [ 8]  162 	add	hl, de
+    00000076 5D               [ 4]  163 	ld	e, l
+    00000077 54               [ 4]  164 	ld	d, h
+                                    165 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000078 F8 01            [12]  166 	ldhl	sp,	#1
+    0000007A 2A               [ 8]  167 	ld	a, (hl+)
+    0000007B 12               [ 8]  168 	ld	(de), a
+    0000007C 13               [ 8]  169 	inc	de
+    0000007D 7E               [ 8]  170 	ld	a, (hl)
+    0000007E 12               [ 8]  171 	ld	(de), a
+                                    172 ;src/scripts/drop.c:23: move_sprite(33+drop_idx, x, y);
+    0000007F 18 1C            [12]  173 	jr	00109$
+    00000081                        174 00105$:
+                                    175 ;src/scripts/drop.c:26: drops[drop_idx].drop_type = 0;
+    00000081 AF               [ 4]  176 	xor	a, a
+    00000082 12               [ 8]  177 	ld	(de), a
+                                    178 ;src/scripts/drop.c:27: set_sprite_tile(33+drop_idx, 50);
+    00000083 58               [ 4]  179 	ld	e, b
+                                    180 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000084 AF               [ 4]  181 	xor	a, a
+    00000085 6B               [ 4]  182 	ld	l, e
+    00000086 67               [ 4]  183 	ld	h, a
+    00000087 29               [ 8]  184 	add	hl, hl
+    00000088 29               [ 8]  185 	add	hl, hl
+    00000089 11r00r00         [12]  186 	ld	de, #_shadow_OAM
+    0000008C 19               [ 8]  187 	add	hl, de
+    0000008D 23               [ 8]  188 	inc	hl
+    0000008E 23               [ 8]  189 	inc	hl
+    0000008F 36 32            [12]  190 	ld	(hl), #0x32
+                                    191 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
+                                    192 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000091 AF               [ 4]  193 	xor	a, a
+    00000092 68               [ 4]  194 	ld	l, b
+    00000093 67               [ 4]  195 	ld	h, a
+    00000094 29               [ 8]  196 	add	hl, hl
+    00000095 29               [ 8]  197 	add	hl, hl
+    00000096 11r00r00         [12]  198 	ld	de, #_shadow_OAM
+    00000099 19               [ 8]  199 	add	hl, de
+                                    200 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000009A AF               [ 4]  201 	xor	a, a
+    0000009B 22               [ 8]  202 	ld	(hl+), a
+    0000009C 77               [ 8]  203 	ld	(hl), a
+                                    204 ;src/scripts/drop.c:28: move_sprite(33+drop_idx, 0, 0);
+    0000009D                        205 00109$:
+                                    206 ;src/scripts/drop.c:30: drops[drop_idx].x = x;
+    0000009D 06 00            [ 8]  207 	ld	b, #0x00
+    0000009F 69               [ 4]  208 	ld	l, c
+    000000A0 60               [ 4]  209 	ld	h, b
+    000000A1 29               [ 8]  210 	add	hl, hl
+    000000A2 09               [ 8]  211 	add	hl, bc
+    000000A3 7D               [ 4]  212 	ld	a, l
+    000000A4 C6r00            [ 8]  213 	add	a, #<(_drops)
+    000000A6 4F               [ 4]  214 	ld	c, a
+    000000A7 7C               [ 4]  215 	ld	a, h
+    000000A8 CEs00            [ 8]  216 	adc	a, #>(_drops)
+    000000AA 47               [ 4]  217 	ld	b, a
+    000000AB 59               [ 4]  218 	ld	e, c
+    000000AC 50               [ 4]  219 	ld	d, b
+    000000AD 13               [ 8]  220 	inc	de
+    000000AE F8 02            [12]  221 	ldhl	sp,	#2
+                                    222 ;src/scripts/drop.c:31: drops[drop_idx].y = y;
+    000000B0 3A               [ 8]  223 	ld	a, (hl-)
+    000000B1 12               [ 8]  224 	ld	(de), a
+    000000B2 03               [ 8]  225 	inc	bc
+    000000B3 03               [ 8]  226 	inc	bc
+    000000B4 7E               [ 8]  227 	ld	a, (hl)
+    000000B5 02               [ 8]  228 	ld	(bc), a
+                                    229 ;src/scripts/drop.c:32: }
+    000000B6 E8 03            [16]  230 	add	sp, #3
+    000000B8 C9               [16]  231 	ret
+                                    232 ;src/scripts/drop.c:34: void clear_drops() {
+                                    233 ;	---------------------------------
+                                    234 ; Function clear_drops
+                                    235 ; ---------------------------------
+    000000B9                        236 _clear_drops::
+                                    237 ;src/scripts/drop.c:35: for (int i=0; i<2; i++) {
+    000000B9 01 00 00         [12]  238 	ld	bc, #0x0000
+    000000BC                        239 00105$:
+    000000BC 79               [ 4]  240 	ld	a, c
+    000000BD D6 02            [ 8]  241 	sub	a, #0x02
+    000000BF D0               [20]  242 	ret	NC
+                                    243 ;src/scripts/drop.c:36: drops[i].drop_type = 0;
+    000000C0 69               [ 4]  244 	ld	l, c
+    000000C1 60               [ 4]  245 	ld	h, b
+    000000C2 29               [ 8]  246 	add	hl, hl
+    000000C3 09               [ 8]  247 	add	hl, bc
+    000000C4 11r00r00         [12]  248 	ld	de, #_drops
+    000000C7 19               [ 8]  249 	add	hl, de
+    000000C8 36 00            [12]  250 	ld	(hl), #0x00
+                                    251 ;src/scripts/drop.c:37: drops[i].x = 0;
+    000000CA 5D               [ 4]  252 	ld	e, l
+    000000CB 54               [ 4]  253 	ld	d, h
+                                    254 ;src/scripts/drop.c:38: drops[i].y = 0;
+    000000CC 23               [ 8]  255 	inc	hl
+    000000CD 23               [ 8]  256 	inc	hl
+    000000CE 13               [ 8]  257 	inc	de
+    000000CF AF               [ 4]  258 	xor	a, a
+    000000D0 12               [ 8]  259 	ld	(de), a
+    000000D1 36 00            [12]  260 	ld	(hl), #0x00
+                                    261 ;src/scripts/drop.c:39: set_sprite_tile(33+i, 50);
+    000000D3 79               [ 4]  262 	ld	a, c
+    000000D4 C6 21            [ 8]  263 	add	a, #0x21
+    000000D6 5F               [ 4]  264 	ld	e, a
+    000000D7 53               [ 4]  265 	ld	d, e
+                                    266 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000D8 AF               [ 4]  267 	xor	a, a
+    000000D9 6A               [ 4]  268 	ld	l, d
+    000000DA 67               [ 4]  269 	ld	h, a
+    000000DB 29               [ 8]  270 	add	hl, hl
+    000000DC 29               [ 8]  271 	add	hl, hl
+    000000DD D5               [16]  272 	push	de
+    000000DE 11r00r00         [12]  273 	ld	de, #_shadow_OAM
+    000000E1 19               [ 8]  274 	add	hl, de
+    000000E2 23               [ 8]  275 	inc	hl
+    000000E3 23               [ 8]  276 	inc	hl
+    000000E4 D1               [12]  277 	pop	de
+    000000E5 36 32            [12]  278 	ld	(hl), #0x32
+                                    279 ;src/scripts/drop.c:40: move_sprite(33+i, 0, 0);
+                                    280 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000E7 AF               [ 4]  281 	xor	a, a
+    000000E8 6B               [ 4]  282 	ld	l, e
+    000000E9 67               [ 4]  283 	ld	h, a
+    000000EA 29               [ 8]  284 	add	hl, hl
+    000000EB 29               [ 8]  285 	add	hl, hl
+    000000EC 11r00r00         [12]  286 	ld	de, #_shadow_OAM
+    000000EF 19               [ 8]  287 	add	hl, de
+                                    288 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000F0 AF               [ 4]  289 	xor	a, a
+    000000F1 22               [ 8]  290 	ld	(hl+), a
+    000000F2 77               [ 8]  291 	ld	(hl), a
+                                    292 ;src/scripts/drop.c:35: for (int i=0; i<2; i++) {
+    000000F3 03               [ 8]  293 	inc	bc
+                                    294 ;src/scripts/drop.c:42: }
+    000000F4 18 C6            [12]  295 	jr	00105$
+                                    296 ;src/scripts/drop.c:44: void check_drops(uint8_t x, uint8_t y) {
+                                    297 ;	---------------------------------
+                                    298 ; Function check_drops
+                                    299 ; ---------------------------------
+    000000F6                        300 _check_drops::
+    000000F6 E8 F8            [16]  301 	add	sp, #-8
+    000000F8 F8 07            [12]  302 	ldhl	sp,	#7
+    000000FA 32               [ 8]  303 	ld	(hl-), a
+    000000FB 73               [ 8]  304 	ld	(hl), e
+                                    305 ;src/scripts/drop.c:45: for (int i=0; i<2; i++) {
+    000000FC 01 00 00         [12]  306 	ld	bc, #0x0000
+    000000FF                        307 00116$:
+    000000FF 79               [ 4]  308 	ld	a, c
+    00000100 D6 02            [ 8]  309 	sub	a, #0x02
+    00000102 D2rBFr01         [16]  310 	jp	NC, 00118$
+                                    311 ;src/scripts/drop.c:46: if (x==drops[i].x && y==drops[i].y) {
+    00000105 69               [ 4]  312 	ld	l, c
+    00000106 60               [ 4]  313 	ld	h, b
+    00000107 29               [ 8]  314 	add	hl, hl
+    00000108 09               [ 8]  315 	add	hl, bc
+    00000109 E5               [16]  316 	push	hl
+    0000010A 7D               [ 4]  317 	ld	a, l
+    0000010B F8 04            [12]  318 	ldhl	sp,	#4
+    0000010D 77               [ 8]  319 	ld	(hl), a
+    0000010E E1               [12]  320 	pop	hl
+    0000010F 7C               [ 4]  321 	ld	a, h
+    00000110 F8 03            [12]  322 	ldhl	sp,	#3
+    00000112 32               [ 8]  323 	ld	(hl-), a
+    00000113 2A               [ 8]  324 	ld	a, (hl+)
+    00000114 5F               [ 4]  325 	ld	e, a
+    00000115 56               [ 8]  326 	ld	d, (hl)
+    00000116 21r00r00         [12]  327 	ld	hl, #_drops
+    00000119 19               [ 8]  328 	add	hl, de
+    0000011A E5               [16]  329 	push	hl
+    0000011B 7D               [ 4]  330 	ld	a, l
+    0000011C F8 06            [12]  331 	ldhl	sp,	#6
+    0000011E 77               [ 8]  332 	ld	(hl), a
+    0000011F E1               [12]  333 	pop	hl
+    00000120 7C               [ 4]  334 	ld	a, h
+    00000121 F8 05            [12]  335 	ldhl	sp,	#5
+    00000123 32               [ 8]  336 	ld	(hl-), a
+    00000124 2A               [ 8]  337 	ld	a, (hl+)
+    00000125 5F               [ 4]  338 	ld	e, a
+    00000126 56               [ 8]  339 	ld	d, (hl)
+    00000127 6B               [ 4]  340 	ld	l, e
+    00000128 62               [ 4]  341 	ld	h, d
+    00000129 23               [ 8]  342 	inc	hl
+    0000012A 33               [ 8]  343 	inc	sp
+    0000012B 33               [ 8]  344 	inc	sp
+    0000012C 5D               [ 4]  345 	ld	e, l
+    0000012D 54               [ 4]  346 	ld	d, h
+    0000012E D5               [16]  347 	push	de
+    0000012F 1A               [ 8]  348 	ld	a, (de)
+    00000130 F8 07            [12]  349 	ldhl	sp,	#7
+    00000132 96               [ 8]  350 	sub	a, (hl)
+    00000133 C2rBBr01         [16]  351 	jp	NZ, 00117$
+    00000136 F8 04            [12]  352 	ldhl	sp,#4
+    00000138 2A               [ 8]  353 	ld	a, (hl+)
+    00000139 5F               [ 4]  354 	ld	e, a
+    0000013A 56               [ 8]  355 	ld	d, (hl)
+    0000013B 21 02 00         [12]  356 	ld	hl, #0x0002
+    0000013E 19               [ 8]  357 	add	hl, de
+    0000013F E5               [16]  358 	push	hl
+    00000140 7D               [ 4]  359 	ld	a, l
+    00000141 F8 04            [12]  360 	ldhl	sp,	#4
+    00000143 77               [ 8]  361 	ld	(hl), a
+    00000144 E1               [12]  362 	pop	hl
+    00000145 7C               [ 4]  363 	ld	a, h
+    00000146 F8 03            [12]  364 	ldhl	sp,	#3
+    00000148 32               [ 8]  365 	ld	(hl-), a
+    00000149 2A               [ 8]  366 	ld	a, (hl+)
+    0000014A 5F               [ 4]  367 	ld	e, a
+    0000014B 56               [ 8]  368 	ld	d, (hl)
+    0000014C 1A               [ 8]  369 	ld	a, (de)
+    0000014D F8 06            [12]  370 	ldhl	sp,	#6
+    0000014F 96               [ 8]  371 	sub	a, (hl)
+    00000150 20 69            [12]  372 	jr	NZ, 00117$
+                                    373 ;src/scripts/drop.c:47: if (drops[i].drop_type == 2) {
+    00000152 F8 04            [12]  374 	ldhl	sp,#4
+    00000154 2A               [ 8]  375 	ld	a, (hl+)
+    00000155 5F               [ 4]  376 	ld	e, a
+    00000156 56               [ 8]  377 	ld	d, (hl)
+    00000157 1A               [ 8]  378 	ld	a, (de)
+    00000158 FE 02            [ 8]  379 	cp	a, #0x02
+    0000015A 20 19            [12]  380 	jr	NZ, 00108$
+                                    381 ;src/scripts/drop.c:48: if (num_arrows < max_num_arrows) {
+    0000015C FAr00r00         [16]  382 	ld	a, (#_num_arrows)
+    0000015F 21r00r00         [12]  383 	ld	hl, #_max_num_arrows
+    00000162 96               [ 8]  384 	sub	a, (hl)
+    00000163 30 34            [12]  385 	jr	NC, 00109$
+                                    386 ;src/scripts/drop.c:49: num_arrows++;
+    00000165 21r00r00         [12]  387 	ld	hl, #_num_arrows
+    00000168 34               [12]  388 	inc	(hl)
+                                    389 ;src/scripts/drop.c:50: heal_sfx();
+    00000169 C5               [16]  390 	push	bc
+    0000016A 1Er00            [ 8]  391 	ld	e, #b_heal_sfx
+    0000016C 21r00r00         [12]  392 	ld	hl, #_heal_sfx
+    0000016F CDr00r00         [24]  393 	call	___sdcc_bcall_ehl
+    00000172 C1               [12]  394 	pop	bc
+    00000173 18 24            [12]  395 	jr	00109$
+    00000175                        396 00108$:
+                                    397 ;src/scripts/drop.c:53: else if (drops[i].drop_type == 1) {
+    00000175 3D               [ 4]  398 	dec	a
+    00000176 20 21            [12]  399 	jr	NZ, 00109$
+                                    400 ;src/scripts/drop.c:54: current_hp += 5;
+    00000178 FAr00r00         [16]  401 	ld	a, (_current_hp)
+    0000017B C6 05            [ 8]  402 	add	a, #0x05
+    0000017D EAr00r00         [16]  403 	ld	(#_current_hp),a
+                                    404 ;src/scripts/drop.c:55: if (current_hp > max_hp) {
+    00000180 FAr00r00         [16]  405 	ld	a, (#_max_hp)
+    00000183 21r00r00         [12]  406 	ld	hl, #_current_hp
+    00000186 96               [ 8]  407 	sub	a, (hl)
+    00000187 30 10            [12]  408 	jr	NC, 00109$
+                                    409 ;src/scripts/drop.c:56: current_hp = max_hp;
+    00000189 FAr00r00         [16]  410 	ld	a, (#_max_hp)
+    0000018C EAr00r00         [16]  411 	ld	(#_current_hp),a
+                                    412 ;src/scripts/drop.c:57: heal_sfx();
+    0000018F C5               [16]  413 	push	bc
+    00000190 1Er00            [ 8]  414 	ld	e, #b_heal_sfx
+    00000192 21r00r00         [12]  415 	ld	hl, #_heal_sfx
+    00000195 CDr00r00         [24]  416 	call	___sdcc_bcall_ehl
+    00000198 C1               [12]  417 	pop	bc
+    00000199                        418 00109$:
+                                    419 ;src/scripts/drop.c:60: drops[i].x = 0;
+    00000199 E1               [12]  420 	pop	hl
+    0000019A 36 00            [12]  421 	ld	(hl), #0x00
+    0000019C E5               [16]  422 	push	hl
+                                    423 ;src/scripts/drop.c:61: drops[i].y = 0;
+    0000019D F8 02            [12]  424 	ldhl	sp,	#2
+    0000019F 2A               [ 8]  425 	ld	a, (hl+)
+    000001A0 66               [ 8]  426 	ld	h, (hl)
+    000001A1 6F               [ 4]  427 	ld	l, a
+    000001A2 36 00            [12]  428 	ld	(hl), #0x00
+                                    429 ;src/scripts/drop.c:62: drops[i].drop_type = 0;
+    000001A4 F8 04            [12]  430 	ldhl	sp,	#4
+    000001A6 2A               [ 8]  431 	ld	a, (hl+)
+    000001A7 66               [ 8]  432 	ld	h, (hl)
+    000001A8 6F               [ 4]  433 	ld	l, a
+    000001A9 36 00            [12]  434 	ld	(hl), #0x00
+                                    435 ;src/scripts/drop.c:63: move_sprite(33+i, 0, 0);
+    000001AB 79               [ 4]  436 	ld	a, c
+    000001AC C6 21            [ 8]  437 	add	a, #0x21
+    000001AE 5F               [ 4]  438 	ld	e, a
+                                    439 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000001AF AF               [ 4]  440 	xor	a, a
+    000001B0 6B               [ 4]  441 	ld	l, e
+    000001B1 67               [ 4]  442 	ld	h, a
+    000001B2 29               [ 8]  443 	add	hl, hl
+    000001B3 29               [ 8]  444 	add	hl, hl
+    000001B4 11r00r00         [12]  445 	ld	de, #_shadow_OAM
+    000001B7 19               [ 8]  446 	add	hl, de
+                                    447 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000001B8 AF               [ 4]  448 	xor	a, a
+    000001B9 22               [ 8]  449 	ld	(hl+), a
+    000001BA 77               [ 8]  450 	ld	(hl), a
+                                    451 ;src/scripts/drop.c:63: move_sprite(33+i, 0, 0);
+    000001BB                        452 00117$:
+                                    453 ;src/scripts/drop.c:45: for (int i=0; i<2; i++) {
+    000001BB 03               [ 8]  454 	inc	bc
+    000001BC C3rFFr00         [16]  455 	jp	00116$
+    000001BF                        456 00118$:
+                                    457 ;src/scripts/drop.c:66: }
+    000001BF E8 08            [16]  458 	add	sp, #8
+    000001C1 C9               [16]  459 	ret
+                                    460 	.area _CODE
+                                    461 	.area _INITIALIZER
+                                    462 	.area _CABS (ABS)

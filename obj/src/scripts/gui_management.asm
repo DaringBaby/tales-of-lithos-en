@@ -29,6 +29,8 @@
 	.globl _show_number
 	.globl b_print_debug
 	.globl _print_debug
+	.globl b_check_time
+	.globl _check_time
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -1268,13 +1270,13 @@ _safy_upgrades::
 	add	a, #0x9a
 	ld	(hl), a
 00122$:
-;src/scripts/gui_management.c:248: set_win_tiles(15, 10, 3, 1, costs);
+;src/scripts/gui_management.c:248: set_win_tiles(14, 10, 4, 1, costs);
 	ld	hl, #2
 	add	hl, sp
 	push	hl
-	ld	hl, #0x103
+	ld	hl, #0x104
 	push	hl
-	ld	hl, #0xa0f
+	ld	hl, #0xa0e
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
@@ -1324,13 +1326,13 @@ _safy_upgrades::
 ; ---------------------------------
 	b_set_stats	= 3
 _set_stats::
-	add	sp, #-23
+	add	sp, #-25
 ;src/scripts/gui_management.c:267: if (current_hp < 100) {
 	ld	a, (#_current_hp)
 	sub	a, #0x64
 	jr	NC, 00102$
 ;src/scripts/gui_management.c:268: hp[0] = 187;
-	ldhl	sp,	#0
+	ldhl	sp,	#2
 	ld	(hl), #0xbb
 	jr	00103$
 00102$:
@@ -1340,7 +1342,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#0
+	ldhl	sp,	#2
 	ld	(hl), a
 00103$:
 ;src/scripts/gui_management.c:273: hp[1] = current_hp % 100 / 10 + 154;
@@ -1352,7 +1354,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#1
+	ldhl	sp,	#3
 	ld	(hl), a
 ;src/scripts/gui_management.c:274: hp[2] = current_hp % 10 + 154;
 	ld	a, (_current_hp)
@@ -1360,7 +1362,7 @@ _set_stats::
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#2
+	ldhl	sp,	#4
 ;src/scripts/gui_management.c:275: hp[3] = 176;
 	ld	(hl+), a
 	ld	(hl), #0xb0
@@ -1370,7 +1372,7 @@ _set_stats::
 	sub	a, #0x64
 	jr	NC, 00105$
 ;src/scripts/gui_management.c:277: hp[4] = 187;
-	ldhl	sp,	#4
+	ldhl	sp,	#6
 	ld	(hl), #0xbb
 	jr	00106$
 00105$:
@@ -1380,7 +1382,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#4
+	ldhl	sp,	#6
 	ld	(hl), a
 00106$:
 ;src/scripts/gui_management.c:282: hp[5] = max_hp % 100 / 10 + 154;
@@ -1392,7 +1394,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#5
+	ldhl	sp,	#7
 	ld	(hl), a
 ;src/scripts/gui_management.c:283: hp[6] = max_hp % 10 + 154;
 	ld	a, (_max_hp)
@@ -1400,7 +1402,7 @@ _set_stats::
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#6
+	ldhl	sp,	#8
 	ld	(hl), a
 ;src/scripts/gui_management.c:284: atk[0] = attack / 10 + 154;
 	ld	a, (_attack)
@@ -1408,7 +1410,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#7
+	ldhl	sp,	#9
 	ld	(hl), a
 ;src/scripts/gui_management.c:285: atk[1] = attack % 10 + 154;
 	ld	a, (_attack)
@@ -1416,7 +1418,7 @@ _set_stats::
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#8
+	ldhl	sp,	#10
 	ld	(hl), a
 ;src/scripts/gui_management.c:286: def[0] = defense / 10 + 154;
 	ld	a, (_defense)
@@ -1424,7 +1426,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#9
+	ldhl	sp,	#11
 	ld	(hl), a
 ;src/scripts/gui_management.c:287: def[1] = defense % 10 + 154;
 	ld	a, (_defense)
@@ -1432,63 +1434,55 @@ _set_stats::
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#10
+	ldhl	sp,	#12
 	ld	(hl), a
 ;src/scripts/gui_management.c:289: uint8_t d3 = (experience% 10000 / 1000);
 	ld	a, (#_experience)
-	ldhl	sp,	#17
+	ldhl	sp,	#0
 	ld	(hl), a
 	ld	a, (#_experience + 1)
-	ldhl	sp,	#18
-	ld	(hl-), a
+	ldhl	sp,	#1
+	ld	(hl), a
 	ld	bc, #0x2710
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
+	pop	de
+	push	de
 	call	__moduint
 	ld	e, c
 	ld	d, b
 	ld	bc, #0x03e8
-	call	__divuint
-	ldhl	sp,	#19
-;src/scripts/gui_management.c:290: uint8_t d2 = (experience % 1000) / 100;
-	ld	a, c
-	ld	(hl-), a
-	dec	hl
-	ld	bc, #0x03e8
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	call	__moduint
-	ld	e, c
-	ld	d, b
-	ld	bc, #0x0064
 	call	__divuint
 	ldhl	sp,	#20
 	ld	(hl), c
+;src/scripts/gui_management.c:290: uint8_t d2 = (experience % 1000) / 100;
+	ld	bc, #0x03e8
+	pop	de
+	push	de
+	call	__moduint
+	ld	e, c
+	ld	d, b
+	ld	bc, #0x0064
+	call	__divuint
+	ldhl	sp,	#21
+	ld	(hl), c
 ;src/scripts/gui_management.c:291: uint8_t d1 = (experience % 100) / 10;
 	ld	bc, #0x0064
-	ldhl	sp,	#17
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
+	pop	de
+	push	de
 	call	__moduint
 	ld	a, c
 	ld	e, #0x0a
 	call	__divuchar
-	ldhl	sp,	#21
+	ldhl	sp,	#22
 	ld	(hl), c
 ;src/scripts/gui_management.c:292: uint8_t d0 = (experience % 10);
 	ld	bc, #0x000a
-	ldhl	sp,	#17
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
+	pop	de
+	push	de
 	call	__moduint
-	ldhl	sp,	#22
+	ldhl	sp,	#23
 	ld	(hl), c
 ;src/scripts/gui_management.c:293: if (experience > 9999) {
-	ldhl	sp,	#17
+	ldhl	sp,	#0
 	ld	a, #0x0f
 	sub	a, (hl)
 	inc	hl
@@ -1496,7 +1490,7 @@ _set_stats::
 	sbc	a, (hl)
 	jr	NC, 00108$
 ;src/scripts/gui_management.c:294: exp[0] = 163;
-	ldhl	sp,	#11
+	ldhl	sp,	#13
 	ld	(hl), #0xa3
 ;src/scripts/gui_management.c:295: exp[1] = 163;
 	inc	hl
@@ -1509,22 +1503,36 @@ _set_stats::
 	ld	(hl), #0xa3
 	jr	00109$
 00108$:
-;src/scripts/gui_management.c:300: exp[0] = (d3 == 0) ? 12 : (d3 + 154);
-	ldhl	sp,	#19
+;src/scripts/gui_management.c:300: exp[0] = (d3 == 0) ? 187 : (d3 + 154);
+	ldhl	sp,	#20
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00112$
-	ld	a, #0x0c
+	ldhl	sp,	#0
+	ld	a, #0xbb
+	ld	(hl+), a
+	xor	a, a
+	ld	(hl), a
 	jr	00113$
 00112$:
-	ldhl	sp,	#19
-	ld	a, (hl)
-	add	a, #0x9a
-00113$:
-	ldhl	sp,	#11
-	ld	(hl), a
-;src/scripts/gui_management.c:301: exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
 	ldhl	sp,	#20
+	ld	a, (hl)
+	ldhl	sp,	#24
+	ld	(hl), a
+	add	a, #0x9a
+	ld	(hl), a
+	ldhl	sp,	#0
+	ld	(hl+), a
+	rlca
+	sbc	a, a
+	ld	(hl), a
+00113$:
+	ldhl	sp,	#0
+	ld	a, (hl)
+	ldhl	sp,	#13
+	ld	(hl), a
+;src/scripts/gui_management.c:301: exp[1] = (d2 == 0 && d3 == 0) ? 187 : (d2 + 154);
+	ldhl	sp,	#21
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00114$
@@ -1532,25 +1540,18 @@ _set_stats::
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00114$
-	ld	a, #0x0c
+	ld	c, #0xbb
 	jr	00115$
 00114$:
-	ldhl	sp,	#20
-	ld	a, (hl)
-	add	a, #0x9a
-00115$:
-	ldhl	sp,	#12
-	ld	(hl), a
-;src/scripts/gui_management.c:302: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
-	ld	hl,#0xd
-	add	hl,sp
-	ld	e, l
-	ld	d, h
 	ldhl	sp,	#21
 	ld	a, (hl)
-	or	a, a
-	jr	NZ, 00119$
-	dec	hl
+	add	a, #0x9a
+	ld	c, a
+00115$:
+	ldhl	sp,	#14
+	ld	(hl), c
+;src/scripts/gui_management.c:302: exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 187 : (d1 + 154);
+	ldhl	sp,	#22
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00119$
@@ -1558,19 +1559,26 @@ _set_stats::
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00119$
-	ld	a, #0x0c
+	dec	hl
+	ld	a, (hl)
+	or	a, a
+	jr	NZ, 00119$
+	ld	de, #0x00bb
 	jr	00120$
 00119$:
-	ldhl	sp,	#21
-	ld	a, (hl)
-	add	a, #0x9a
-00120$:
-	ld	(de), a
-;src/scripts/gui_management.c:303: exp[3] = d0 + 154;
 	ldhl	sp,	#22
 	ld	a, (hl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ld	e, a
+00120$:
+	ld	a, e
+	ldhl	sp,	#15
+	ld	(hl), a
+;src/scripts/gui_management.c:303: exp[3] = d0 + 154;
+	ldhl	sp,	#23
+	ld	a, (hl)
+	add	a, #0x9a
+	ldhl	sp,	#16
 	ld	(hl), a
 00109$:
 ;src/scripts/gui_management.c:306: mythril[0] = minerals / 10 + 154;
@@ -1579,7 +1587,7 @@ _set_stats::
 	call	__divuchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#15
+	ldhl	sp,	#18
 	ld	(hl), a
 ;src/scripts/gui_management.c:307: mythril[1] = minerals % 10 + 154;
 	ld	a, (_minerals)
@@ -1587,10 +1595,10 @@ _set_stats::
 	call	__moduchar
 	ld	a, c
 	add	a, #0x9a
-	ldhl	sp,	#16
+	ldhl	sp,	#19
 	ld	(hl), a
 ;src/scripts/gui_management.c:308: set_win_tiles(12, 6, 7, 1, hp);
-	ld	hl, #0
+	ld	hl, #2
 	add	hl, sp
 	push	hl
 	ld	hl, #0x107
@@ -1609,7 +1617,7 @@ _set_stats::
 	call	_set_win_tiles
 	add	sp, #6
 ;src/scripts/gui_management.c:310: set_win_tiles(12, 8, 2, 1, atk);
-	ld	hl, #7
+	ld	hl, #9
 	add	hl, sp
 	push	hl
 	ld	hl, #0x102
@@ -1619,7 +1627,7 @@ _set_stats::
 	call	_set_win_tiles
 	add	sp, #6
 ;src/scripts/gui_management.c:311: set_win_tiles(12, 10, 2, 1, def);
-	ld	hl, #9
+	ld	hl, #11
 	add	hl, sp
 	push	hl
 	ld	hl, #0x102
@@ -1629,7 +1637,7 @@ _set_stats::
 	call	_set_win_tiles
 	add	sp, #6
 ;src/scripts/gui_management.c:312: set_win_tiles(15, 14, 4, 1, exp);
-	ld	hl, #11
+	ld	hl, #13
 	add	hl, sp
 	push	hl
 	ld	hl, #0x104
@@ -1639,7 +1647,7 @@ _set_stats::
 	call	_set_win_tiles
 	add	sp, #6
 ;src/scripts/gui_management.c:313: set_win_tiles(14, 16, 2, 1, mythril);
-	ld	hl, #15
+	ld	hl, #18
 	add	hl, sp
 	push	hl
 	ld	hl, #0x102
@@ -1651,10 +1659,10 @@ _set_stats::
 ;src/scripts/gui_management.c:314: stat = sword_lvl + 154;
 	ld	a, (_sword_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:315: set_win_tiles(4, 12, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1666,10 +1674,10 @@ _set_stats::
 ;src/scripts/gui_management.c:316: stat = shield_lvl + 154;
 	ld	a, (_shield_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:317: set_win_tiles(4, 14, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1681,10 +1689,10 @@ _set_stats::
 ;src/scripts/gui_management.c:318: stat = arrow_lvl + 154;
 	ld	a, (_arrow_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:319: set_win_tiles(4, 16, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1696,10 +1704,10 @@ _set_stats::
 ;src/scripts/gui_management.c:320: stat = quiver_lvl + 154;
 	ld	a, (_quiver_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:321: set_win_tiles(9, 12, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1711,10 +1719,10 @@ _set_stats::
 ;src/scripts/gui_management.c:322: stat = potion_quant_lvl + 154;
 	ld	a, (_potion_quant_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:323: set_win_tiles(9, 14, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1726,10 +1734,10 @@ _set_stats::
 ;src/scripts/gui_management.c:324: stat = potion_heal_lvl + 154;
 	ld	a, (_potion_heal_lvl)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:325: set_win_tiles(9, 16, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1741,10 +1749,10 @@ _set_stats::
 ;src/scripts/gui_management.c:326: stat = level + 154;
 	ld	a, (_level)
 	add	a, #0x9a
-	ldhl	sp,	#14
+	ldhl	sp,	#17
 	ld	(hl), a
 ;src/scripts/gui_management.c:327: set_win_tiles(15, 12, 1, 1, &stat);
-	ld	hl, #14
+	ld	hl, #17
 	add	hl, sp
 	push	hl
 	ld	hl, #0x101
@@ -1753,7 +1761,7 @@ _set_stats::
 	push	hl
 	call	_set_win_tiles
 ;src/scripts/gui_management.c:328: }
-	add	sp, #29
+	add	sp, #31
 	ret
 ;src/scripts/gui_management.c:330: void set_mini_menu() BANKED {
 ;	---------------------------------
@@ -2211,6 +2219,57 @@ _print_debug::
 	call	_set_win_tiles
 ;src/scripts/gui_management.c:426: }
 	add	sp, #9
+	ret
+;src/scripts/gui_management.c:428: void check_time() BANKED {
+;	---------------------------------
+; Function check_time
+; ---------------------------------
+	b_check_time	= 3
+_check_time::
+;src/scripts/gui_management.c:429: frames++;
+	ld	hl, #_frames
+	inc	(hl)
+;src/scripts/gui_management.c:430: if (frames == 60) {
+	ld	a, (hl)
+	sub	a, #0x3c
+	jr	NZ, 00102$
+;src/scripts/gui_management.c:431: frames = 0;
+	xor	a, a
+	ld	(#_frames),a
+;src/scripts/gui_management.c:432: seconds++;
+	ld	hl, #_seconds
+	inc	(hl)
+00102$:
+;src/scripts/gui_management.c:434: if (seconds == 60) {
+	ld	a, (#_seconds)
+	sub	a, #0x3c
+	jr	NZ, 00104$
+;src/scripts/gui_management.c:435: seconds = 0;
+	xor	a, a
+	ld	(#_seconds),a
+;src/scripts/gui_management.c:436: minutes++;
+	ld	hl, #_minutes
+	inc	(hl)
+00104$:
+;src/scripts/gui_management.c:438: if (minutes == 60) {
+	ld	a, (#_minutes)
+	sub	a, #0x3c
+	jr	NZ, 00106$
+;src/scripts/gui_management.c:439: minutes = 0;
+	xor	a, a
+	ld	(#_minutes),a
+;src/scripts/gui_management.c:440: hours++;
+	ld	hl, #_hours
+	inc	(hl)
+00106$:
+;src/scripts/gui_management.c:442: if (hours > 99) {
+	ld	a, #0x63
+	ld	hl, #_hours
+	sub	a, (hl)
+	ret	NC
+;src/scripts/gui_management.c:443: hours = 99;
+	ld	(hl), #0x63
+;src/scripts/gui_management.c:445: }
 	ret
 	.area _CODE_3
 	.area _INITIALIZER

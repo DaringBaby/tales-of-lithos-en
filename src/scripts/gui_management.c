@@ -245,7 +245,7 @@ void safy_upgrades() {
         exp[2] = experience % 100 / 10 + 154;
         exp[3] = experience % 10 + 154;
     }
-    set_win_tiles(15, 10, 3, 1, costs);
+    set_win_tiles(14, 10, 4, 1, costs);
     set_win_tiles(14, 12, 4, 1, exp);
 
     if (joypad() & J_B) {
@@ -261,7 +261,7 @@ void set_stats() BANKED {
     uint8_t hp[7];
     uint8_t atk[2];
     uint8_t def[2];
-    uint8_t exp[3];
+    uint8_t exp[4];
     uint8_t stat;
     uint8_t mythril[2];
     if (current_hp < 100) {
@@ -297,9 +297,9 @@ void set_stats() BANKED {
         exp[3] = 163;
     }
     else {
-        exp[0] = (d3 == 0) ? 12 : (d3 + 154);
-        exp[1] = (d2 == 0 && d3 == 0) ? 12 : (d2 + 154);
-        exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 12 : (d1 + 154);
+        exp[0] = (d3 == 0) ? 187 : (d3 + 154);
+        exp[1] = (d2 == 0 && d3 == 0) ? 187 : (d2 + 154);
+        exp[2] = (d1 == 0 && d2 == 0 && d3 == 0) ? 187 : (d1 + 154);
         exp[3] = d0 + 154;
     }
 
@@ -423,4 +423,23 @@ void print_debug(uint8_t value) BANKED {
     values[1] = value % 100 / 10 + 154;
     values[2] = value % 10 + 154;
     set_win_tiles(6, 0, 3, 1, values);
+}
+
+void check_time() BANKED {
+    frames++;
+    if (frames == 60) {
+        frames = 0;
+        seconds++;
+    }
+    if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+    }
+    if (minutes == 60) {
+        minutes = 0;
+        hours++;
+    }
+    if (hours > 99) {
+        hours = 99;
+    }
 }

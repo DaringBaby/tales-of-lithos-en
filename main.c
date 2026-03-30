@@ -66,7 +66,6 @@ void set_textbox(uint8_t item);
 void player_attack(uint8_t wpn, uint8_t index);
 void shoot_arrow();
 void smooth_movement(uint8_t dir);
-void check_time();
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
@@ -491,7 +490,9 @@ void check_input_movement() {
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);
                 boss_death(&boss);
+                clear_drops();
                 boss_floor_defeated = 0;
+                key_obtained = 0;
                 boss_battle = 0;
                 move_win(7, 136);
                 set_mini_menu();
@@ -957,7 +958,7 @@ void go_into_dungeon() {
 }
 
 void go_next_floor() {
-    current_floor+=5;
+    current_floor++;
     if (current_floor % 5 == 0) {
         boss.defeated = 1;
         boss_floor_defeated = 0;
@@ -965,7 +966,7 @@ void go_next_floor() {
     if (current_floor > max_floor) {
         max_floor = current_floor;
     }
-    key_obtained = 1;
+    key_obtained = 0;
     treasure_obtained = 0;
     lock_opened = 0;
     generate_dungeon(current_floor);
@@ -1070,6 +1071,7 @@ void player_attack(uint8_t wpn, uint8_t index) {
             boss_battle = 0;
             enemies_defeated++;
             experience += boss.exp_reward;
+            obt_exp += boss.exp_reward;
             minerals+=2;
             menu_opened = 4;
             if (current_floor != 25) {
@@ -1125,6 +1127,7 @@ void player_attack(uint8_t wpn, uint8_t index) {
         play_explosion_animation(e_x, e_y);
         enemies_defeated++;
         experience += current_enemies[index].exp_reward;
+        obt_exp += current_enemies[index].exp_reward;
     }
 }
 
@@ -1281,26 +1284,6 @@ void smooth_movement(uint8_t dir) {
 
 
 
-
-
-void check_time() {
-    frames++;
-    if (frames == 60) {
-        frames = 0;
-        seconds++;
-    }
-    if (seconds == 60) {
-        seconds = 0;
-        minutes++;
-    }
-    if (minutes == 60) {
-        minutes = 0;
-        hours++;
-    }
-    if (hours > 99) {
-        hours = 99;
-    }
-}
 
 
 

@@ -29,34 +29,34 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      00000002  b_put_on_ |    00000002  b_set_roo |    00000002  l__HEADER
      00000002  l__HEADER |    00000002  l__HEADER |    00000003  b_arrow_s
      00000003  b_boss_de |    00000003  b_check_e |    00000003  b_check_m
-     00000003  b_check_m |    00000003  b_check_m |    00000003  b_death_s
-     00000003  b_draw_fl |    00000003  b_draw_fl |    00000003  b_draw_lo
-     00000003  b_draw_lo |    00000003  b_empty_m |    00000003  b_enemy_d
-     00000003  b_generat |    00000003  b_get_num |    00000003  b_heal_sf
-     00000003  b_hide_do |    00000003  b_hit_sfx |    00000003  b_init_so
-     00000003  b_insert_ |    00000003  b_move_bo |    00000003  b_print_d
-     00000003  b_set_cha |    00000003  b_set_ene |    00000003  b_set_ene
-     00000003  b_set_map |    00000003  b_set_min |    00000003  b_set_sta
-     00000003  b_set_tit |    00000003  b_show_nu |    00000003  b_show_ti
-     00000003  b_spawn_b |    00000003  b_spawn_e |    00000003  b_stairs_
-     00000003  b_start_s |    00000003  b_unlock_ |    00000003  l__FONT_H
-     00000003  l__HEADER |    00000003  l__HEADER |    00000005  l__HEADER
-     00000006  b_play_en |    00000006  b_start_i |    00000006  l__HEADER
-     00000007  l__HEADER |    00000008  l__HEADER |    0000000C  l__GSINIT
-     00000013  l__HRAM   |    00000030  l__HEADER |    00000043  l__INITIA
-     00000043  l__INITIA |    00000060  l__HEADER |    000000AB  l__HEADER
-     00000200  s__CODE   |    000002C1  l__DATA   |    0000087F  l__HOME  
-     00002000  _rROMB0   |    000025DB  l__CODE_1 |    00003000  _rROMB1  
-     0000350C  l__CODE   |    0000370C  s__HOME   |    00003C0A  l__CODE_6
-     00003C1A  l__CODE_4 |    00003D6A  l__CODE_5 |    00003D7C  l__CODE_3
-     00003DF5  l__CODE_2 |    00003F8B  s__BASE   |    00003F8B  s__CODE_0
-     00003F8B  s__INITIA |    00003F8B  s__LIT    |    00003FCE  s__GSINIT
-     00003FDA  s__GSFINA |    00004000  _rMBC7_SR |    00004000  _rRAMB   
-     00008000  __VRAM    |    00008000  __VRAM800 |    00008800  __VRAM880
-     00009000  __VRAM900 |    00009800  __SCRN0   |    00009C00  __SCRN1  
-     0000A000  __SRAM    |    0000A000  _rMBC7_LA |    0000A000  _sram_dat
-     0000A010  _rMBC7_LA |    0000A020  _rMBC7_AC |    0000A030  _rMBC7_AC
-     0000A040  _rMBC7_AC |    0000A050  _rMBC7_AC |    0000C000  __RAM    
+     00000003  b_check_m |    00000003  b_check_m |    00000003  b_check_t
+     00000003  b_death_s |    00000003  b_draw_fl |    00000003  b_draw_fl
+     00000003  b_draw_lo |    00000003  b_draw_lo |    00000003  b_empty_m
+     00000003  b_enemy_d |    00000003  b_generat |    00000003  b_get_num
+     00000003  b_heal_sf |    00000003  b_hide_do |    00000003  b_hit_sfx
+     00000003  b_init_so |    00000003  b_insert_ |    00000003  b_move_bo
+     00000003  b_print_d |    00000003  b_set_cha |    00000003  b_set_ene
+     00000003  b_set_ene |    00000003  b_set_map |    00000003  b_set_min
+     00000003  b_set_sta |    00000003  b_set_tit |    00000003  b_show_nu
+     00000003  b_show_ti |    00000003  b_spawn_b |    00000003  b_spawn_e
+     00000003  b_stairs_ |    00000003  b_start_s |    00000003  b_unlock_
+     00000003  l__FONT_H |    00000003  l__HEADER |    00000003  l__HEADER
+     00000005  l__HEADER |    00000006  b_play_en |    00000006  b_start_i
+     00000006  l__HEADER |    00000007  l__HEADER |    00000008  l__HEADER
+     0000000C  l__GSINIT |    00000013  l__HRAM   |    00000030  l__HEADER
+     00000043  l__INITIA |    00000043  l__INITIA |    00000060  l__HEADER
+     000000AB  l__HEADER |    00000200  s__CODE   |    000002C1  l__DATA  
+     0000087F  l__HOME   |    00002000  _rROMB0   |    000025DB  l__CODE_1
+     00003000  _rROMB1   |    0000352D  l__CODE   |    0000372D  s__HOME  
+     00003C0A  l__CODE_6 |    00003C1A  l__CODE_4 |    00003D6A  l__CODE_5
+     00003DBD  l__CODE_3 |    00003DF5  l__CODE_2 |    00003FAC  s__BASE  
+     00003FAC  s__CODE_0 |    00003FAC  s__INITIA |    00003FAC  s__LIT   
+     00003FEF  s__GSINIT |    00003FFB  s__GSFINA |    00004000  _rMBC7_SR
+     00004000  _rRAMB    |    00008000  __VRAM    |    00008000  __VRAM800
+     00008800  __VRAM880 |    00009000  __VRAM900 |    00009800  __SCRN0  
+     00009C00  __SCRN1   |    0000A000  __SRAM    |    0000A000  _rMBC7_LA
+     0000A000  _sram_dat |    0000A010  _rMBC7_LA |    0000A020  _rMBC7_AC
+     0000A030  _rMBC7_AC |    0000A040  _rMBC7_AC |    0000A050  _rMBC7_AC
 ASxxxx Linker V03.00/V05.40 + sdld,  page 2.
 Hexadecimal  [32-Bits]
 
@@ -66,72 +66,73 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000C000  _shadow_O |    0000C0A0  s__DATA   |    0000C361  s__BSS   
-     0000C361  s__INITIA |    0000C3A4  s__HEAP   |    0000C3A4  s__HEAP_E
-     0000D000  __RAMBANK |    0000E000  .STACK    |    0000FE00  __OAMRAM 
-     0000FF00  _P1_REG   |    0000FF00  __IO      |    0000FF01  _SB_REG  
-     0000FF02  _SC_REG   |    0000FF04  _DIV_REG  |    0000FF05  _TIMA_REG
-     0000FF06  _TMA_REG  |    0000FF07  _TAC_REG  |    0000FF0F  _IF_REG  
-     0000FF10  _NR10_REG |    0000FF11  _NR11_REG |    0000FF12  _NR12_REG
-     0000FF13  _NR13_REG |    0000FF14  _NR14_REG |    0000FF16  _NR21_REG
-     0000FF17  _NR22_REG |    0000FF18  _NR23_REG |    0000FF19  _NR24_REG
-     0000FF1A  _NR30_REG |    0000FF1B  _NR31_REG |    0000FF1C  _NR32_REG
-     0000FF1D  _NR33_REG |    0000FF1E  _NR34_REG |    0000FF20  _NR41_REG
-     0000FF21  _NR42_REG |    0000FF22  _NR43_REG |    0000FF23  _NR44_REG
-     0000FF24  _NR50_REG |    0000FF25  _NR51_REG |    0000FF26  _NR52_REG
-     0000FF30  _AUD3WAVE |    0000FF30  _PCM_SAMP |    0000FF30  __AUD3WAV
-     0000FF40  _LCDC_REG |    0000FF41  _STAT_REG |    0000FF42  _SCY_REG 
-     0000FF43  _SCX_REG  |    0000FF44  _LY_REG   |    0000FF45  _LYC_REG 
-     0000FF46  _DMA_REG  |    0000FF47  _BGP_REG  |    0000FF48  _OBP0_REG
-     0000FF49  _OBP1_REG |    0000FF4A  _WY_REG   |    0000FF4B  _WX_REG  
-     0000FF4D  _KEY1_REG |    0000FF4F  _VBK_REG  |    0000FF51  _HDMA1_RE
-     0000FF52  _HDMA2_RE |    0000FF53  _HDMA3_RE |    0000FF54  _HDMA4_RE
-     0000FF55  _HDMA5_RE |    0000FF56  _RP_REG   |    0000FF68  _BCPS_REG
-     0000FF69  _BCPD_REG |    0000FF6A  _OCPS_REG |    0000FF6B  _OCPD_REG
-     0000FF70  _SVBK_REG |    0000FF76  _PCM12_RE |    0000FF77  _PCM34_RE
-     0000FF80  __HRAM    |    0000FF80  s__HRAM   |    0000FFFF  _IE_REG  
-     00014000  s__CODE_1 |    00024000  s__CODE_2 |    00034000  s__CODE_3
-     00044000  s__CODE_4 |    00054000  s__CODE_5 |    00064000  s__CODE_6
+     0000C000  __RAM     |    0000C000  _shadow_O |    0000C0A0  s__DATA  
+     0000C361  s__BSS    |    0000C361  s__INITIA |    0000C3A4  s__HEAP  
+     0000C3A4  s__HEAP_E |    0000D000  __RAMBANK |    0000E000  .STACK   
+     0000FE00  __OAMRAM  |    0000FF00  _P1_REG   |    0000FF00  __IO     
+     0000FF01  _SB_REG   |    0000FF02  _SC_REG   |    0000FF04  _DIV_REG 
+     0000FF05  _TIMA_REG |    0000FF06  _TMA_REG  |    0000FF07  _TAC_REG 
+     0000FF0F  _IF_REG   |    0000FF10  _NR10_REG |    0000FF11  _NR11_REG
+     0000FF12  _NR12_REG |    0000FF13  _NR13_REG |    0000FF14  _NR14_REG
+     0000FF16  _NR21_REG |    0000FF17  _NR22_REG |    0000FF18  _NR23_REG
+     0000FF19  _NR24_REG |    0000FF1A  _NR30_REG |    0000FF1B  _NR31_REG
+     0000FF1C  _NR32_REG |    0000FF1D  _NR33_REG |    0000FF1E  _NR34_REG
+     0000FF20  _NR41_REG |    0000FF21  _NR42_REG |    0000FF22  _NR43_REG
+     0000FF23  _NR44_REG |    0000FF24  _NR50_REG |    0000FF25  _NR51_REG
+     0000FF26  _NR52_REG |    0000FF30  _AUD3WAVE |    0000FF30  _PCM_SAMP
+     0000FF30  __AUD3WAV |    0000FF40  _LCDC_REG |    0000FF41  _STAT_REG
+     0000FF42  _SCY_REG  |    0000FF43  _SCX_REG  |    0000FF44  _LY_REG  
+     0000FF45  _LYC_REG  |    0000FF46  _DMA_REG  |    0000FF47  _BGP_REG 
+     0000FF48  _OBP0_REG |    0000FF49  _OBP1_REG |    0000FF4A  _WY_REG  
+     0000FF4B  _WX_REG   |    0000FF4D  _KEY1_REG |    0000FF4F  _VBK_REG 
+     0000FF51  _HDMA1_RE |    0000FF52  _HDMA2_RE |    0000FF53  _HDMA3_RE
+     0000FF54  _HDMA4_RE |    0000FF55  _HDMA5_RE |    0000FF56  _RP_REG  
+     0000FF68  _BCPS_REG |    0000FF69  _BCPD_REG |    0000FF6A  _OCPS_REG
+     0000FF6B  _OCPD_REG |    0000FF70  _SVBK_REG |    0000FF76  _PCM12_RE
+     0000FF77  _PCM34_RE |    0000FF80  __HRAM    |    0000FF80  s__HRAM  
+     0000FFFF  _IE_REG   |    00014000  s__CODE_1 |    00024000  s__CODE_2
+     00034000  s__CODE_3 |    00044000  s__CODE_4 |    00054000  s__CODE_5
+     00064000  s__CODE_6
 ASxxxx Linker V03.00/V05.40 + sdld,  page 3.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    0000350C =       13580. bytes (REL,CON)
+_CODE                  00000200    0000352D =       13613. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  _main     |    0000050A  _blank    |    0000051A  _black   
-     0000052A  _chest_cl |    00000532  _chest_op |    0000053A  _stairs  
-     0000053E  _menu_bod |    0000053F  _arrow_ti |    00000540  _upgrade_
-     00000548  _cure_upg |    0000055A  _level_cu |    000005BE  _move_cha
-     0000060F  _check_in |    000009CD  _check_in |    00000E27  _check_te
-     00001012  _is_sprit |    00001026  _set_camp |    00001111  _hide_cam
-     0000116A  _set_dung |    0000120A  _set_room |    00001453  _change_r
-     000014E2  _check_op |    000015FA  _go_into_ |    00001687  _go_next_
-     00001735  _set_text |    00001851  _player_a |    00001B09  _shoot_ar
-     00001C61  _heal_pla |    00001CA3  _smooth_m |    00001E24  _check_ti
-     00001E5D  _music_vb |    00001E75  _return_t |    00001ED1  _set_tuto
-     00001F8B  _debug_va |    00001F8F  _gui_map  |    000020F7  _mini_gui
-     0000210B  _hector_m |    00002223  _safy_men |    0000233B  _obtained
-     0000239F  _obtained |    00002403  _boss_def |    00002467  _game_sav
-     000024CB  _move_ene |    00002724  _set_enem |    000027D6  _set_enem
-     000029C1  _check_di |    000029D2  _check_di |    000029E4  _enemy_at
-     00002A2E  _enemy_de |    00002AE6  _enemy_sm |    00002BDB  _is_enemy
-     00002C20  _spawn_dr |    00002CDC  _clear_dr |    00002D09  _check_dr
-     00002DD5  _hUGE_ini |    00002DD7  hUGE_init |    00002E2D  _hUGE_mut
-     00002E2F  hUGE_mute |    00003069  _hUGE_set |    0000306A  hUGE_set_
-     0000322B  _hUGE_dos |    0000322B  _hUGE_dos |    0000322B  hUGE_doso
-     00003557  __divsuch |    0000355D  __modsuch |    00003566  __divusch
-     0000356F  __modusch |    0000357B  __divscha |    00003580  __modscha
-     00003587  __divsint |    00003590  __modsint |    0000359C  __divucha
-     000035A1  __moducha |    000035A8  __divuint |    000035B1  __moduint
-     000035BD  .div8     |    000035BD  .mod8     |    000035C5  .div16   
-     000035C5  .mod16    |    000035FB  .divu8    |    000035FB  .modu8   
-     000035FE  .divu16   |    000035FE  .modu16   |    0000363E  _arand   
-     0000366A  _initaran |    00003695  __mulsuch |    00003698  __mulusch
-     000036A1  __mulscha |    000036A9  __mulint  |    000036C8  __mulucha
-     000036DA  ___memcpy |    000036DA  _memcpy  
+     00000200  _main     |    0000050F  _blank    |    0000051F  _black   
+     0000052F  _chest_cl |    00000537  _chest_op |    0000053F  _stairs  
+     00000543  _menu_bod |    00000544  _arrow_ti |    00000545  _upgrade_
+     0000054D  _cure_upg |    0000055F  _level_cu |    000005C3  _move_cha
+     00000614  _check_in |    000009D9  _check_in |    00000E33  _check_te
+     0000101E  _is_sprit |    00001032  _set_camp |    0000111D  _hide_cam
+     00001176  _set_dung |    00001216  _set_room |    0000145F  _change_r
+     000014EE  _check_op |    00001606  _go_into_ |    00001693  _go_next_
+     0000173D  _set_text |    00001859  _player_a |    00001B56  _shoot_ar
+     00001CAE  _heal_pla |    00001CF0  _smooth_m |    00001E71  _music_vb
+     00001E89  _return_t |    00001EE5  _set_tuto |    00001F9F  _debug_va
+     00001FA3  _gui_map  |    0000210B  _mini_gui |    0000211F  _hector_m
+     00002237  _safy_men |    0000234F  _obtained |    000023B3  _obtained
+     00002417  _boss_def |    0000247B  _game_sav |    000024DF  _move_ene
+     00002738  _set_enem |    000027EA  _set_enem |    000029D5  _check_di
+     000029E6  _check_di |    000029F8  _enemy_at |    00002A42  _enemy_de
+     00002AFA  _enemy_sm |    00002BEF  _is_enemy |    00002C34  _spawn_dr
+     00002CED  _clear_dr |    00002D2A  _check_dr |    00002DF6  _hUGE_ini
+     00002DF8  hUGE_init |    00002E4E  _hUGE_mut |    00002E50  hUGE_mute
+     0000308A  _hUGE_set |    0000308B  hUGE_set_ |    0000324C  _hUGE_dos
+     0000324C  _hUGE_dos |    0000324C  hUGE_doso |    00003578  __divsuch
+     0000357E  __modsuch |    00003587  __divusch |    00003590  __modusch
+     0000359C  __divscha |    000035A1  __modscha |    000035A8  __divsint
+     000035B1  __modsint |    000035BD  __divucha |    000035C2  __moducha
+     000035C9  __divuint |    000035D2  __moduint |    000035DE  .div8    
+     000035DE  .mod8     |    000035E6  .div16    |    000035E6  .mod16   
+     0000361C  .divu8    |    0000361C  .modu8    |    0000361F  .divu16  
+     0000361F  .modu16   |    0000365F  _arand    |    0000368B  _initaran
+     000036B6  __mulsuch |    000036B9  __mulusch |    000036C2  __mulscha
+     000036CA  __mulint  |    000036E9  __mulucha |    000036FB  ___memcpy
+     000036FB  _memcpy  
 ASxxxx Linker V03.00/V05.40 + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -309,36 +310,36 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  0000370C    0000087F =        2175. bytes (REL,CON)
+_HOME                  0000372D    0000087F =        2175. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     0000370C  .memset_s |    00003715  .memcpy_s |    00003732  .display_
-     00003732  _display_ |    0000374A  _set_win_ |    0000375E  _set_tile
-     00003763  _set_bkg_ |    00003763  _set_win_ |    0000376B  _set_spri
-     0000379B  _font_loa |    000037A2  font_load |    000037EA  font_copy
-     00003820  font_set  |    0000382D  .put_char |    00003845  .out_char
-     0000384B  .del_char |    000038A1  _putchar  |    000038AA  _setchar 
-     000038B3  _font_loa |    000038C1  _font_set |    000038D0  _font_ini
-     000038EF  .cls      |    000038EF  _cls      |    00003911  _gotoxy  
-     0000391C  _posx     |    0000392D  _posy     |    00003955  .cr_curs 
-     0000396A  .adv_curs |    000039C6  .tmode    |    000039E3  .tmode_ou
-     000039EC  .padup    |    000039EC  _waitpadu |    000039FC  .jpad    
-     000039FC  _joypad   |    00003A24  _waitpad  |    00003A25  .wait_pad
-     00003A2C  _color    |    00003A2C  _set_1bpp |    00003A3B  .drawing_
-     00003A58  _font_ibm |    00003E39  .add_LCD  |    00003E39  _add_LCD 
-     00003E3F  .remove_L |    00003E3F  _remove_L |    00003E45  .delay   
-     00003E45  _delay    |    00003E71  ___sdcc_b |    00003E85  _rand    
-     00003E85  _randw    |    00003EB0  _initrand |    00003EB2  .initrand
-     00003EBB  _set_bkg_ |    00003ECF  .set_xy_w |    00003ED8  .set_xy_b
-     00003EE7  .set_xy_t |    00003F2B  _set_bkg_ |    00003F2B  _set_win_
-     00003F33  _set_spri
+     0000372D  .memset_s |    00003736  .memcpy_s |    00003753  .display_
+     00003753  _display_ |    0000376B  _set_win_ |    0000377F  _set_tile
+     00003784  _set_bkg_ |    00003784  _set_win_ |    0000378C  _set_spri
+     000037BC  _font_loa |    000037C3  font_load |    0000380B  font_copy
+     00003841  font_set  |    0000384E  .put_char |    00003866  .out_char
+     0000386C  .del_char |    000038C2  _putchar  |    000038CB  _setchar 
+     000038D4  _font_loa |    000038E2  _font_set |    000038F1  _font_ini
+     00003910  .cls      |    00003910  _cls      |    00003932  _gotoxy  
+     0000393D  _posx     |    0000394E  _posy     |    00003976  .cr_curs 
+     0000398B  .adv_curs |    000039E7  .tmode    |    00003A04  .tmode_ou
+     00003A0D  .padup    |    00003A0D  _waitpadu |    00003A1D  .jpad    
+     00003A1D  _joypad   |    00003A45  _waitpad  |    00003A46  .wait_pad
+     00003A4D  _color    |    00003A4D  _set_1bpp |    00003A5C  .drawing_
+     00003A79  _font_ibm |    00003E5A  .add_LCD  |    00003E5A  _add_LCD 
+     00003E60  .remove_L |    00003E60  _remove_L |    00003E66  .delay   
+     00003E66  _delay    |    00003E92  ___sdcc_b |    00003EA6  _rand    
+     00003EA6  _randw    |    00003ED1  _initrand |    00003ED3  .initrand
+     00003EDC  _set_bkg_ |    00003EF0  .set_xy_w |    00003EF9  .set_xy_b
+     00003F08  .set_xy_t |    00003F4C  _set_bkg_ |    00003F4C  _set_win_
+     00003F54  _set_spri
 ASxxxx Linker V03.00/V05.40 + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           00003F8B    00000043 =          67. bytes (REL,CON)
+_INITIALIZER           00003FAC    00000043 =          67. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -347,17 +348,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00003FCE    0000000C =          12. bytes (REL,CON)
+_GSINIT                00003FEF    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00003FCE  gsinit   
+     00003FEF  gsinit   
 ASxxxx Linker V03.00/V05.40 + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               00003FDA    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00003FFB    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -474,7 +475,7 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE_3                00034000    00003D7C =       15740. bytes (REL,CON)
+_CODE_3                00034000    00003DBD =       15805. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -482,26 +483,26 @@ _CODE_3                00034000    00003D7C =       15740. bytes (REL,CON)
      00034297  _map_menu |    000343FF  _stats_me |    00034567  _empty_ma
      00034589  _check_ma |    0003462E  _check_ma |    0003473D  _show_tim
      000347AA  _check_me |    000348E7  _hector_u |    00034A8D  _safy_upg
-     00034CEB  _set_stat |    00034FA2  _set_mini |    000350C5  _show_num
-     000351C5  _print_de |    0003520B  _get_num_ |    00035250  _add_enem
-     0003534D  _generate |    000353E9  _spawn_en |    0003546A  _set_enem
-     00035493  _set_enem |    00035641  _set_enem |    000356A8  _set_enem
-     00035708  _check_en |    00035A04  _set_char |    00035A8E  _insert_n
-     00035B45  _name_arr |    00035B55  _check_na |    00035C9D  _NameMap 
-     00035E05  _draw_loc |    00035EA4  _draw_fli |    00035F46  _draw_loc
-     00035FAC  _draw_fli |    0003601A  _hide_doo |    00036043  _EyeBoss 
-     00036143  _BossArmo |    00036243  _BossDrag |    00036343  _BossMant
-     00036443  _BossOrb  |    00036543  _spawn_bo |    0003689B  _move_bos
-     000369EA  _boss_che |    000369F2  _boss_che |    000369FB  _boss_att
-     00036A45  _boss_smo |    00036B77  _boss_dea |    00036BB2  _init_sou
-     00036BBF  _arrow_sf |    00036BD3  _hit_sfx  |    00036BE4  _heal_sfx
-     00036BF9  _stairs_s |    00036C20  _unlock_s |    00036C31  _start_sf
-     00036C46  _death_sf |    00036C5B  _enemy_de |    000370CD  _gameover
-     000370E2  _LarvaOsc |    00037122  _Predator |    00037162  _Trisguar
-     000371A2  _Armatura |    000371E2  _Ragnocch |    00037222  _Pipistre
-     00037262  _Dragocch |    000372A2  _OcchioIn |    000372E2  _Quadrato
-     00037322  _Cervelli |    00037362  _Cristall |    00037BFF  _boss_def
-     00037C14  _Tutorial
+     00034CEB  _set_stat |    00034FAA  _set_mini |    000350CD  _show_num
+     000351CD  _print_de |    00035213  _check_ti |    0003524C  _get_num_
+     00035291  _add_enem |    0003538E  _generate |    0003542A  _spawn_en
+     000354AB  _set_enem |    000354D4  _set_enem |    00035682  _set_enem
+     000356E9  _set_enem |    00035749  _check_en |    00035A45  _set_char
+     00035ACF  _insert_n |    00035B86  _name_arr |    00035B96  _check_na
+     00035CDE  _NameMap  |    00035E46  _draw_loc |    00035EE5  _draw_fli
+     00035F87  _draw_loc |    00035FED  _draw_fli |    0003605B  _hide_doo
+     00036084  _EyeBoss  |    00036184  _BossArmo |    00036284  _BossDrag
+     00036384  _BossMant |    00036484  _BossOrb  |    00036584  _spawn_bo
+     000368DC  _move_bos |    00036A2B  _boss_che |    00036A33  _boss_che
+     00036A3C  _boss_att |    00036A86  _boss_smo |    00036BB8  _boss_dea
+     00036BF3  _init_sou |    00036C00  _arrow_sf |    00036C14  _hit_sfx 
+     00036C25  _heal_sfx |    00036C3A  _stairs_s |    00036C61  _unlock_s
+     00036C72  _start_sf |    00036C87  _death_sf |    00036C9C  _enemy_de
+     0003710E  _gameover |    00037123  _LarvaOsc |    00037163  _Predator
+     000371A3  _Trisguar |    000371E3  _Armatura |    00037223  _Ragnocch
+     00037263  _Pipistre |    000372A3  _Dragocch |    000372E3  _OcchioIn
+     00037323  _Quadrato |    00037363  _Cervelli |    000373A3  _Cristall
+     00037C40  _boss_def |    00037C55  _Tutorial
 ASxxxx Linker V03.00/V05.40 + sdld,  page 32.
 Hexadecimal  [32-Bits]
 

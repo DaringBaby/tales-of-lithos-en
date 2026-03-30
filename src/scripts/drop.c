@@ -5,7 +5,7 @@ Drop drops[2];
 
 void spawn_drop(uint8_t x, uint8_t y) {
     uint8_t drop_idx = 0;
-    uint8_t drop_chance = arand() & 3;
+    uint8_t drop_chance = DIV_REG & 3;
     if (drops[0].drop_type == 0) {
         drop_idx = 0;
     }
@@ -36,6 +36,7 @@ void clear_drops() {
         drops[i].drop_type = 0;
         drops[i].x = 0;
         drops[i].y = 0;
+        set_sprite_tile(33+i, 50);
         move_sprite(33+i, 0, 0);
     }
 }

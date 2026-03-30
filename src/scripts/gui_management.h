@@ -12,6 +12,8 @@ void set_mini_menu() BANKED;
 void show_number(uint8_t damage, uint8_t mode, uint8_t target, uint8_t index) BANKED;
 void print_debug(uint8_t value) BANKED;
 
+
+extern void check_time() BANKED;
 extern uint8_t debug;
 
 /* SHOW NUMBERS */
@@ -32,6 +34,7 @@ extern uint8_t menu_opened;
 extern uint8_t power_ups;
 extern uint8_t enemies_defeated;
 extern uint8_t max_floor;
+extern uint8_t frames;
 extern uint8_t seconds;
 extern uint8_t minutes;
 extern uint8_t hours ;

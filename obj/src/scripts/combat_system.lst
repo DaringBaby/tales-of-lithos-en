@@ -697,7 +697,7 @@
     0000036D 36 0F            [12]  697 	ld	(hl), #0x0f
                                     698 ;src/scripts/combat_system.c:86: }
     0000036F                        699 00105$:
-                                    700 ;src/scripts/combat_system.c:87: if (y == 144) { 
+                                    700 ;src/scripts/combat_system.c:87: if (y == 144) {
     0000036F FAr00r00         [16]  701 	ld	a, (#_y)
     00000372 D6 90            [ 8]  702 	sub	a, #0x90
     00000374 20 0A            [12]  703 	jr	NZ, 00107$
