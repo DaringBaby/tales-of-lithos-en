@@ -100,32 +100,32 @@ _get_num_enemies::
 	.dw	00104$
 ;src/scripts/spawn_enemy.c:14: case 1:
 00101$:
-;src/scripts/spawn_enemy.c:15: num_enemies = 3;
-	ld	a, #0x03
+;src/scripts/spawn_enemy.c:15: num_enemies = 5;
+	ld	a, #0x05
 ;src/scripts/spawn_enemy.c:16: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:17: case 2:
 00102$:
-;src/scripts/spawn_enemy.c:18: num_enemies = 6;
-	ld	a, #0x06
+;src/scripts/spawn_enemy.c:18: num_enemies = 7;
+	ld	a, #0x07
 ;src/scripts/spawn_enemy.c:19: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:20: case 3:
 00103$:
-;src/scripts/spawn_enemy.c:21: num_enemies = 8;
-	ld	a, #0x08
+;src/scripts/spawn_enemy.c:21: num_enemies = 9;
+	ld	a, #0x09
 ;src/scripts/spawn_enemy.c:22: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:23: case 4:
 00104$:
-;src/scripts/spawn_enemy.c:24: num_enemies = 10;
-	ld	a, #0x0a
+;src/scripts/spawn_enemy.c:24: num_enemies = 11;
+	ld	a, #0x0b
 ;src/scripts/spawn_enemy.c:25: break;
 	jr	00106$
 ;src/scripts/spawn_enemy.c:26: case 0:
 00105$:
-;src/scripts/spawn_enemy.c:27: num_enemies = 11;
-	ld	a, #0x0b
+;src/scripts/spawn_enemy.c:27: num_enemies = 13;
+	ld	a, #0x0d
 ;src/scripts/spawn_enemy.c:29: }
 00106$:
 ;src/scripts/spawn_enemy.c:30: num_enemies += enemy_var;
@@ -1122,9 +1122,9 @@ _set_enemy2_spawnpoint::
 ;src/scripts/spawn_enemy.c:305: case 1:
 00102$:
 ;src/scripts/spawn_enemy.c:306: x_coord = 6;
-;src/scripts/spawn_enemy.c:307: y_coord = 6;
-	ld	a,#0x06
-	ld	c,a
+	ld	c, #0x06
+;src/scripts/spawn_enemy.c:307: y_coord = 12;
+	ld	a, #0x0c
 ;src/scripts/spawn_enemy.c:308: break;
 	jr	00109$
 ;src/scripts/spawn_enemy.c:309: case 2:

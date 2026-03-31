@@ -1,3 +1,2 @@
-quando arriva al secondo piano crasha a volte 
-non droppa frecce
-quando game over rimane drop nemico? e anche ogni tanto quando entri dal boss
+non cambia tiles al cambio di piano
+a volte c'è uno strano incrocio, forse perchè la porta viene messa prima della stanza L e quindi può essere usata per fare incroci

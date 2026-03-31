@@ -407,7 +407,7 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 1;
+                current_floor = 5;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
@@ -470,8 +470,8 @@ void check_input_movement() {
         check_drops(x, y);
         delay(20);
         if (current_location == 1) {
-            move_enemy(&current_enemies[0]);
-            move_enemy(&current_enemies[1]);
+            // move_enemy(&current_enemies[0]);
+            // move_enemy(&current_enemies[1]);
             move_boss(&boss);
 
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
@@ -793,6 +793,7 @@ void set_dungeon_map(){
 }
 
 void set_room(Coords coord){
+    set_dungeon_map();
     uint8_t door = doors[coord.x][coord.y];
     const unsigned char* room_ptr;
     set_room_tiles(door, room_ptr, coord);
@@ -836,6 +837,7 @@ void set_room(Coords coord){
     }
     // spawna nemici
     spawn_enemies_in_room(coord.x, coord.y, current_enemies);
+    clear_drops();
     if (dungeon[coord.x][coord.y] != 'E') {
         set_enemy_sprite();
     }
@@ -854,7 +856,6 @@ void set_room(Coords coord){
         hUGE_init(&boss_theme);
         SWITCH_ROM(1);
     }
-    clear_drops();
     DISPLAY_ON;
 }
 
@@ -938,7 +939,6 @@ void check_open_menu() {
 void go_into_dungeon() {
     wait_vbl_done();
     DISPLAY_OFF;
-    set_dungeon_map();
     generate_dungeon(current_floor);
     Coords start;
     for (int i = 0; i < 4; i++) {

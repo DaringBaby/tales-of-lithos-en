@@ -106,14 +106,12 @@ _generate_dungeon::
 	jp	NZ, 00113$
 ;src/scripts/generate_dungeon.c:30: empty_array();
 	call	_empty_array
-;src/scripts/generate_dungeon.c:31: uint8_t start_x = arand() % 4;
-	call	_arand
-	ld	a, e
+;src/scripts/generate_dungeon.c:31: uint8_t start_x = DIV_REG & 3;
+	ldh	a, (_DIV_REG + 0)
 	and	a, #0x03
 	ld	c, a
-;src/scripts/generate_dungeon.c:32: uint8_t start_y = arand() % 4;
-	call	_arand
-	ld	a, e
+;src/scripts/generate_dungeon.c:32: uint8_t start_y = DIV_REG & 3;
+	ldh	a, (_DIV_REG + 0)
 	and	a, #0x03
 	ld	b, a
 ;src/scripts/generate_dungeon.c:35: switch (current_floor % 5) {
@@ -830,7 +828,21 @@ _create_layout::
 	ldhl	sp,	#5
 	ld	a, (hl)
 	ld	(#_locked_door),a
-;src/scripts/generate_dungeon.c:147: add_obstacles(curr_x, curr_y);
+;src/scripts/generate_dungeon.c:147: dungeon[curr_x][curr_y] = 'B';
+	ld	de, #_dungeon
+	ldhl	sp,	#6
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	ldhl	sp,	#12
+	ld	l, (hl)
+	ld	h, #0x00
+	add	hl, bc
+	ld	(hl), #0x42
+;src/scripts/generate_dungeon.c:148: add_obstacles(curr_x, curr_y);
 	ldhl	sp,	#12
 	ld	a, (hl+)
 	ld	e, a
@@ -838,7 +850,7 @@ _create_layout::
 	call	_add_obstacles
 	jp	00134$
 00126$:
-;src/scripts/generate_dungeon.c:149: else if (curr_room < (int)(target_rooms / 2) + 1) {
+;src/scripts/generate_dungeon.c:150: else if (curr_room < (int)(target_rooms / 2) + 1) {
 	ldhl	sp,	#8
 	ld	a, (hl+)
 	inc	hl
@@ -852,7 +864,7 @@ _create_layout::
 	ld	a, (hl)
 	sbc	a, b
 	jr	NC, 00123$
-;src/scripts/generate_dungeon.c:150: dungeon[curr_x][curr_y] = 'A';
+;src/scripts/generate_dungeon.c:151: dungeon[curr_x][curr_y] = 'A';
 	ldhl	sp,#6
 	ld	a, (hl+)
 	ld	e, a
@@ -886,7 +898,7 @@ _create_layout::
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x41
-;src/scripts/generate_dungeon.c:151: add_obstacles(curr_x, curr_y);
+;src/scripts/generate_dungeon.c:152: add_obstacles(curr_x, curr_y);
 	ldhl	sp,	#12
 	ld	a, (hl+)
 	ld	e, a
@@ -894,7 +906,7 @@ _create_layout::
 	call	_add_obstacles
 	jp	00134$
 00123$:
-;src/scripts/generate_dungeon.c:153: else if (curr_room > (int) (target_rooms / 2) + 1) {
+;src/scripts/generate_dungeon.c:154: else if (curr_room > (int) (target_rooms / 2) + 1) {
 	ldhl	sp,	#8
 	ld	a, (hl+)
 	inc	hl
@@ -909,7 +921,7 @@ _create_layout::
 	ld	a, b
 	sbc	a, (hl)
 	jp	NC, 00134$
-;src/scripts/generate_dungeon.c:154: dungeon[curr_x][curr_y] = 'B';
+;src/scripts/generate_dungeon.c:155: dungeon[curr_x][curr_y] = 'B';
 	ldhl	sp,#6
 	ld	a, (hl+)
 	ld	e, a
@@ -923,7 +935,7 @@ _create_layout::
 	ld	h, #0x00
 	add	hl, bc
 	ld	(hl), #0x42
-;src/scripts/generate_dungeon.c:155: add_obstacles(curr_x, curr_y);
+;src/scripts/generate_dungeon.c:156: add_obstacles(curr_x, curr_y);
 	ldhl	sp,	#12
 	ld	a, (hl+)
 	ld	e, a
@@ -931,15 +943,15 @@ _create_layout::
 	call	_add_obstacles
 	jp	00134$
 00136$:
-;src/scripts/generate_dungeon.c:159: return 1;
+;src/scripts/generate_dungeon.c:160: return 1;
 	ld	a, #0x01
 00137$:
-;src/scripts/generate_dungeon.c:160: }
+;src/scripts/generate_dungeon.c:161: }
 	add	sp, #15
 	pop	hl
 	inc	sp
 	jp	(hl)
-;src/scripts/generate_dungeon.c:163: void append(char directions[], char value, uint8_t *num_dirs) {
+;src/scripts/generate_dungeon.c:164: void append(char directions[], char value, uint8_t *num_dirs) {
 ;	---------------------------------
 ; Function append
 ; ---------------------------------
@@ -947,7 +959,7 @@ _append::
 	dec	sp
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:164: if (*num_dirs < 4) {
+;src/scripts/generate_dungeon.c:165: if (*num_dirs < 4) {
 	ldhl	sp,	#3
 	ld	a, (hl+)
 	ld	c, a
@@ -955,7 +967,7 @@ _append::
 	ld	a, (bc)
 	cp	a, #0x04
 	jr	NC, 00103$
-;src/scripts/generate_dungeon.c:165: directions[*num_dirs] = value;
+;src/scripts/generate_dungeon.c:166: directions[*num_dirs] = value;
 	add	a, e
 	ld	e, a
 	ld	a, #0x00
@@ -964,17 +976,17 @@ _append::
 	ldhl	sp,	#0
 	ld	a, (hl)
 	ld	(de), a
-;src/scripts/generate_dungeon.c:166: (*num_dirs)++;
+;src/scripts/generate_dungeon.c:167: (*num_dirs)++;
 	ld	a, (bc)
 	inc	a
 	ld	(bc), a
 00103$:
-;src/scripts/generate_dungeon.c:168: }
+;src/scripts/generate_dungeon.c:169: }
 	inc	sp
 	pop	hl
 	pop	af
 	jp	(hl)
-;src/scripts/generate_dungeon.c:170: uint8_t add_branch(char zone, char item) {
+;src/scripts/generate_dungeon.c:171: uint8_t add_branch(char zone, char item) {
 ;	---------------------------------
 ; Function add_branch
 ; ---------------------------------
@@ -983,10 +995,10 @@ _add_branch::
 	ldhl	sp,	#57
 	ld	(hl-), a
 	ld	(hl), e
-;src/scripts/generate_dungeon.c:172: uint8_t starts_count = 0;
+;src/scripts/generate_dungeon.c:173: uint8_t starts_count = 0;
 	ldhl	sp,	#44
 	ld	(hl), #0x00
-;src/scripts/generate_dungeon.c:175: for (int i=0; i<4; i++) {
+;src/scripts/generate_dungeon.c:176: for (int i=0; i<4; i++) {
 	ldhl	sp,	#56
 	ld	a, (hl)
 	sub	a, #0x4b
@@ -1016,7 +1028,7 @@ _add_branch::
 	ld	a, (hl)
 	sbc	a, #0x00
 	jp	NC, 00113$
-;src/scripts/generate_dungeon.c:176: for (int j=0; j<4; j++) {
+;src/scripts/generate_dungeon.c:177: for (int j=0; j<4; j++) {
 	dec	hl
 	ld	c, (hl)
 	ld	b, #0x00
@@ -1051,7 +1063,7 @@ _add_branch::
 	ld	a, (hl)
 	sub	a, #0x04
 	jp	NC, 00126$
-;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].x = i;
 	ldhl	sp,	#44
 	ld	c, (hl)
 	ld	b, #0x00
@@ -1059,29 +1071,29 @@ _add_branch::
 	ld	a, (hl)
 	ldhl	sp,	#51
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].y = j;
+;src/scripts/generate_dungeon.c:181: possible_starts[starts_count].y = j;
 	ldhl	sp,	#60
 	ld	a, (hl)
 	ldhl	sp,	#52
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:181: starts_count++;
+;src/scripts/generate_dungeon.c:182: starts_count++;
 	ldhl	sp,	#44
 	ld	a, (hl)
 	inc	a
 	ldhl	sp,	#53
-;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].x = i;
 	ld	(hl+), a
 	sla	c
 	rl	b
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/scripts/generate_dungeon.c:177: if (item == 'K') {
+;src/scripts/generate_dungeon.c:178: if (item == 'K') {
 	ldhl	sp,	#45
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00110$
-;src/scripts/generate_dungeon.c:178: if (dungeon[i][j] == zone || dungeon[i][j] == 'S') {
+;src/scripts/generate_dungeon.c:179: if (dungeon[i][j] == zone || dungeon[i][j] == 'S') {
 	ldhl	sp,#47
 	ld	a, (hl+)
 	ld	e, a
@@ -1102,7 +1114,7 @@ _add_branch::
 	sub	a, #0x53
 	jr	NZ, 00123$
 00101$:
-;src/scripts/generate_dungeon.c:179: possible_starts[starts_count].x = i;
+;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].x = i;
 	push	hl
 	ld	hl, #2
 	add	hl, sp
@@ -1117,11 +1129,11 @@ _add_branch::
 	ld	c, l
 	ld	b, h
 	ldhl	sp,	#51
-;src/scripts/generate_dungeon.c:180: possible_starts[starts_count].y = j;
+;src/scripts/generate_dungeon.c:181: possible_starts[starts_count].y = j;
 	ld	a, (hl+)
 	ld	(bc), a
 	inc	bc
-;src/scripts/generate_dungeon.c:181: starts_count++;
+;src/scripts/generate_dungeon.c:182: starts_count++;
 	ld	a, (hl+)
 	ld	(bc), a
 	ld	a, (hl)
@@ -1129,12 +1141,12 @@ _add_branch::
 	ld	(hl), a
 	jr	00123$
 00110$:
-;src/scripts/generate_dungeon.c:184: else if (item == 'T') {
+;src/scripts/generate_dungeon.c:185: else if (item == 'T') {
 	ldhl	sp,	#46
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00123$
-;src/scripts/generate_dungeon.c:185: if (dungeon[i][j] == zone || dungeon[i][j] == 'G') {
+;src/scripts/generate_dungeon.c:186: if (dungeon[i][j] == zone || dungeon[i][j] == 'G') {
 	ldhl	sp,#49
 	ld	a, (hl+)
 	ld	e, a
@@ -1152,7 +1164,7 @@ _add_branch::
 	sub	a, #0x47
 	jr	NZ, 00123$
 00104$:
-;src/scripts/generate_dungeon.c:186: possible_starts[starts_count].x = i;
+;src/scripts/generate_dungeon.c:187: possible_starts[starts_count].x = i;
 	push	hl
 	ld	hl, #2
 	add	hl, sp
@@ -1167,28 +1179,28 @@ _add_branch::
 	ld	c, l
 	ld	b, h
 	ldhl	sp,	#51
-;src/scripts/generate_dungeon.c:187: possible_starts[starts_count].y = j;
+;src/scripts/generate_dungeon.c:188: possible_starts[starts_count].y = j;
 	ld	a, (hl+)
 	ld	(bc), a
 	inc	bc
-;src/scripts/generate_dungeon.c:188: starts_count++;
+;src/scripts/generate_dungeon.c:189: starts_count++;
 	ld	a, (hl+)
 	ld	(bc), a
 	ld	a, (hl)
 	ldhl	sp,	#44
 	ld	(hl), a
 00123$:
-;src/scripts/generate_dungeon.c:176: for (int j=0; j<4; j++) {
+;src/scripts/generate_dungeon.c:177: for (int j=0; j<4; j++) {
 	ldhl	sp,	#60
 	inc	(hl)
 	jp	00122$
 00126$:
-;src/scripts/generate_dungeon.c:175: for (int i=0; i<4; i++) {
+;src/scripts/generate_dungeon.c:176: for (int i=0; i<4; i++) {
 	ldhl	sp,	#58
 	inc	(hl)
 	jp	00125$
 00113$:
-;src/scripts/generate_dungeon.c:194: shuffle_starts(possible_starts, starts_count);
+;src/scripts/generate_dungeon.c:195: shuffle_starts(possible_starts, starts_count);
 	ldhl	sp,	#44
 	ld	a, (hl)
 	ld	hl, #0
@@ -1196,7 +1208,7 @@ _add_branch::
 	ld	e, l
 	ld	d, h
 	call	_shuffle_starts
-;src/scripts/generate_dungeon.c:196: for (uint8_t i=0; i<starts_count; i++) {
+;src/scripts/generate_dungeon.c:197: for (uint8_t i=0; i<starts_count; i++) {
 	ldhl	sp,	#60
 	ld	(hl), #0x00
 00128$:
@@ -1205,7 +1217,7 @@ _add_branch::
 	ldhl	sp,	#44
 	sub	a, (hl)
 	jp	NC, 00120$
-;src/scripts/generate_dungeon.c:197: Coords start = possible_starts[i];
+;src/scripts/generate_dungeon.c:198: Coords start = possible_starts[i];
 	ldhl	sp,	#60
 	ld	c, (hl)
 	ld	b, #0x00
@@ -1223,7 +1235,7 @@ _add_branch::
 	ld	e, l
 	ld	d, h
 	call	___memcpy
-;src/scripts/generate_dungeon.c:198: Coords dir_branch = find_near_void_cell(start);
+;src/scripts/generate_dungeon.c:199: Coords dir_branch = find_near_void_cell(start);
 	ld	hl,#0x21
 	add	hl,sp
 	ld	a, (hl-)
@@ -1244,7 +1256,7 @@ _add_branch::
 	ld	e, l
 	ld	d, h
 	call	___memcpy
-;src/scripts/generate_dungeon.c:199: if (dir_branch.x != 0 || dir_branch.y != 0) {
+;src/scripts/generate_dungeon.c:200: if (dir_branch.x != 0 || dir_branch.y != 0) {
 	ldhl	sp,	#34
 	ld	a, (hl)
 	or	a, a
@@ -1255,20 +1267,20 @@ _add_branch::
 	dec	c
 	jp	Z, 00129$
 00117$:
-;src/scripts/generate_dungeon.c:200: uint8_t br_x = start.x + dir_branch.x;
+;src/scripts/generate_dungeon.c:201: uint8_t br_x = start.x + dir_branch.x;
 	ldhl	sp,	#32
 	ld	c, (hl)
 	add	a, c
 	ldhl	sp,	#54
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:201: uint8_t br_y = start.y + dir_branch.y;
+;src/scripts/generate_dungeon.c:202: uint8_t br_y = start.y + dir_branch.y;
 	ldhl	sp,	#33
 	ld	a, (hl+)
 	inc	hl
 	ld	c, (hl)
 	add	a, c
 	ldhl	sp,	#55
-;src/scripts/generate_dungeon.c:202: dungeon[br_x][br_y] = zone;
+;src/scripts/generate_dungeon.c:203: dungeon[br_x][br_y] = zone;
 	ld	(hl-), a
 	ld	c, (hl)
 	xor	a, a
@@ -1289,7 +1301,7 @@ _add_branch::
 	ld	c, l
 	ld	b, h
 	ldhl	sp,	#57
-;src/scripts/generate_dungeon.c:203: add_obstacles(br_x, br_y);
+;src/scripts/generate_dungeon.c:204: add_obstacles(br_x, br_y);
 	ld	a, (hl-)
 	dec	hl
 	ld	(bc), a
@@ -1297,7 +1309,7 @@ _add_branch::
 	ld	e, a
 	ld	a, (hl)
 	call	_add_obstacles
-;src/scripts/generate_dungeon.c:204: create_doors(start.x, start.y, br_x, br_y, dir_branch);
+;src/scripts/generate_dungeon.c:205: create_doors(start.x, start.y, br_x, br_y, dir_branch);
 	ldhl	sp,	#33
 	ld	a, (hl-)
 	ld	c, a
@@ -1316,7 +1328,7 @@ _add_branch::
 	ld	e, c
 	ld	a, b
 	call	_create_doors
-;src/scripts/generate_dungeon.c:205: Coords br = {br_x, br_y};
+;src/scripts/generate_dungeon.c:206: Coords br = {br_x, br_y};
 	ldhl	sp,	#54
 	ld	a, (hl)
 	ldhl	sp,	#36
@@ -1325,7 +1337,7 @@ _add_branch::
 	ld	a, (hl)
 	ldhl	sp,	#37
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:206: Coords final_dir = find_near_void_cell(br);
+;src/scripts/generate_dungeon.c:207: Coords final_dir = find_near_void_cell(br);
 	ld	hl,#0x25
 	add	hl,sp
 	ld	a, (hl-)
@@ -1346,7 +1358,7 @@ _add_branch::
 	ld	e, l
 	ld	d, h
 	call	___memcpy
-;src/scripts/generate_dungeon.c:207: if (final_dir.x != 0 || final_dir.y != 0) {
+;src/scripts/generate_dungeon.c:208: if (final_dir.x != 0 || final_dir.y != 0) {
 	ldhl	sp,	#38
 	ld	a, (hl)
 	ldhl	sp,	#58
@@ -1363,7 +1375,7 @@ _add_branch::
 	or	a, a
 	jr	Z, 00129$
 00114$:
-;src/scripts/generate_dungeon.c:208: uint8_t obj_x = br_x + final_dir.x;
+;src/scripts/generate_dungeon.c:209: uint8_t obj_x = br_x + final_dir.x;
 	ldhl	sp,	#54
 	ld	a, (hl)
 	ldhl	sp,	#58
@@ -1371,14 +1383,14 @@ _add_branch::
 	inc	hl
 	inc	hl
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:209: uint8_t obj_y = br_y + final_dir.y;
+;src/scripts/generate_dungeon.c:210: uint8_t obj_y = br_y + final_dir.y;
 	ldhl	sp,	#55
 	ld	a, (hl-)
 	dec	hl
 	ld	(hl), a
 	ldhl	sp,	#59
 	add	a, (hl)
-;src/scripts/generate_dungeon.c:210: dungeon[obj_x][obj_y] = item;
+;src/scripts/generate_dungeon.c:211: dungeon[obj_x][obj_y] = item;
 	ld	(hl+), a
 	ld	a, (hl)
 	ldhl	sp,	#52
@@ -1409,7 +1421,7 @@ _add_branch::
 	ldhl	sp,	#56
 	ld	a, (hl)
 	ld	(bc), a
-;src/scripts/generate_dungeon.c:211: create_doors(br_x, br_y, obj_x, obj_y, final_dir);
+;src/scripts/generate_dungeon.c:212: create_doors(br_x, br_y, obj_x, obj_y, final_dir);
 	ld	hl,#0x27
 	add	hl,sp
 	ld	a, (hl-)
@@ -1426,28 +1438,28 @@ _add_branch::
 	ld	e, a
 	ld	a, (hl)
 	call	_create_doors
-;src/scripts/generate_dungeon.c:212: return 1;
+;src/scripts/generate_dungeon.c:213: return 1;
 	ld	a, #0x01
 	jr	00130$
 00129$:
-;src/scripts/generate_dungeon.c:196: for (uint8_t i=0; i<starts_count; i++) {
+;src/scripts/generate_dungeon.c:197: for (uint8_t i=0; i<starts_count; i++) {
 	ldhl	sp,	#60
 	inc	(hl)
 	jp	00128$
 00120$:
-;src/scripts/generate_dungeon.c:216: return 0;
+;src/scripts/generate_dungeon.c:217: return 0;
 	xor	a, a
 00130$:
-;src/scripts/generate_dungeon.c:217: }
+;src/scripts/generate_dungeon.c:218: }
 	add	sp, #61
 	ret
-;src/scripts/generate_dungeon.c:219: Coords find_near_void_cell(Coords start) {
+;src/scripts/generate_dungeon.c:220: Coords find_near_void_cell(Coords start) {
 ;	---------------------------------
 ; Function find_near_void_cell
 ; ---------------------------------
 _find_near_void_cell::
 	add	sp, #-19
-;src/scripts/generate_dungeon.c:220: Coords dirs[4] = {{0 , -1}, {1 , 0}, {0 , 1}, {-1 , 0}};
+;src/scripts/generate_dungeon.c:221: Coords dirs[4] = {{0 , -1}, {1 , 0}, {0 , 1}, {-1 , 0}};
 	ldhl	sp,	#2
 	xor	a, a
 	ld	(hl+), a
@@ -1462,12 +1474,12 @@ _find_near_void_cell::
 	ld	(hl+), a
 	ld	a, #0xff
 	ld	(hl+), a
-;src/scripts/generate_dungeon.c:221: Coords fail = {0 , 0};
+;src/scripts/generate_dungeon.c:222: Coords fail = {0 , 0};
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl+), a
 	ld	(hl), #0x00
-;src/scripts/generate_dungeon.c:224: for (uint8_t i = 3; i > 0; i--) {
+;src/scripts/generate_dungeon.c:225: for (uint8_t i = 3; i > 0; i--) {
 	ldhl	sp,	#18
 	ld	(hl), #0x03
 00111$:
@@ -1475,7 +1487,7 @@ _find_near_void_cell::
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00126$
-;src/scripts/generate_dungeon.c:225: uint8_t j = arand() % (i+1);
+;src/scripts/generate_dungeon.c:226: uint8_t j = arand() % (i+1);
 	call	_arand
 	ldhl	sp,	#18
 	ld	a, (hl)
@@ -1490,7 +1502,7 @@ _find_near_void_cell::
 	ld	d, a
 	call	__modsint
 	ldhl	sp,	#17
-;src/scripts/generate_dungeon.c:226: Coords temp = dirs[i];
+;src/scripts/generate_dungeon.c:227: Coords temp = dirs[i];
 	ld	a, c
 	ld	(hl-), a
 	dec	hl
@@ -1514,7 +1526,7 @@ _find_near_void_cell::
 	ld	d, h
 	call	___memcpy
 	pop	de
-;src/scripts/generate_dungeon.c:227: dirs[i] = dirs[j];
+;src/scripts/generate_dungeon.c:228: dirs[i] = dirs[j];
 	ldhl	sp,	#17
 	ld	c, (hl)
 	xor	a, a
@@ -1531,7 +1543,7 @@ _find_near_void_cell::
 	ld	b, h
 	call	___memcpy
 	pop	hl
-;src/scripts/generate_dungeon.c:228: dirs[j] = temp;
+;src/scripts/generate_dungeon.c:229: dirs[j] = temp;
 	ld	de, #0x0002
 	push	de
 	push	hl
@@ -1541,11 +1553,11 @@ _find_near_void_cell::
 	ld	b, h
 	pop	de
 	call	___memcpy
-;src/scripts/generate_dungeon.c:224: for (uint8_t i = 3; i > 0; i--) {
+;src/scripts/generate_dungeon.c:225: for (uint8_t i = 3; i > 0; i--) {
 	ldhl	sp,	#18
 	dec	(hl)
 	jr	00111$
-;src/scripts/generate_dungeon.c:231: for (uint8_t i = 0; i < 4; i++) {
+;src/scripts/generate_dungeon.c:232: for (uint8_t i = 0; i < 4; i++) {
 00126$:
 	ldhl	sp,	#18
 	ld	(hl), #0x00
@@ -1554,7 +1566,7 @@ _find_near_void_cell::
 	ld	a, (hl)
 	sub	a, #0x04
 	jp	NC, 00109$
-;src/scripts/generate_dungeon.c:232: Coords dir = dirs[i];
+;src/scripts/generate_dungeon.c:233: Coords dir = dirs[i];
 	ld	c, (hl)
 	xor	a, a
 	ld	b, a
@@ -1572,14 +1584,14 @@ _find_near_void_cell::
 	ld	e, l
 	ld	d, h
 	call	___memcpy
-;src/scripts/generate_dungeon.c:233: uint8_t nx = start.x + dir.x;
+;src/scripts/generate_dungeon.c:234: uint8_t nx = start.x + dir.x;
 	ldhl	sp,	#23
 	ld	a, (hl)
 	ldhl	sp,	#12
 	ld	c, (hl)
 	add	a, c
 	ld	c, a
-;src/scripts/generate_dungeon.c:234: uint8_t ny = start.y + dir.y;
+;src/scripts/generate_dungeon.c:235: uint8_t ny = start.y + dir.y;
 	ldhl	sp,	#24
 	ld	a, (hl)
 	ldhl	sp,	#13
@@ -1587,14 +1599,14 @@ _find_near_void_cell::
 	add	a, b
 	ldhl	sp,	#17
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:235: if (nx >= 0 && nx < 4 && ny >= 0 && ny < 4) {
+;src/scripts/generate_dungeon.c:236: if (nx >= 0 && nx < 4 && ny >= 0 && ny < 4) {
 	ld	a, c
 	sub	a, #0x04
 	jr	NC, 00115$
 	ld	a, (hl)
 	sub	a, #0x04
 	jr	NC, 00115$
-;src/scripts/generate_dungeon.c:236: if (dungeon[nx][ny] == '0') {
+;src/scripts/generate_dungeon.c:237: if (dungeon[nx][ny] == '0') {
 	dec	hl
 	dec	hl
 	ld	a, c
@@ -1648,7 +1660,7 @@ _find_near_void_cell::
 	ld	(hl), a
 	sub	a, #0x30
 	jr	NZ, 00115$
-;src/scripts/generate_dungeon.c:237: return dir;
+;src/scripts/generate_dungeon.c:238: return dir;
 	ldhl	sp,	#21
 	ld	a, (hl+)
 	ld	c, a
@@ -1661,12 +1673,12 @@ _find_near_void_cell::
 	ld	(bc), a
 	jr	00116$
 00115$:
-;src/scripts/generate_dungeon.c:231: for (uint8_t i = 0; i < 4; i++) {
+;src/scripts/generate_dungeon.c:232: for (uint8_t i = 0; i < 4; i++) {
 	ldhl	sp,	#18
 	inc	(hl)
 	jp	00114$
 00109$:
-;src/scripts/generate_dungeon.c:241: return fail;
+;src/scripts/generate_dungeon.c:242: return fail;
 	ldhl	sp,	#21
 	ld	a, (hl+)
 	ld	c, a
@@ -1678,12 +1690,12 @@ _find_near_void_cell::
 	ld	a, (hl)
 	ld	(bc), a
 00116$:
-;src/scripts/generate_dungeon.c:242: }
+;src/scripts/generate_dungeon.c:243: }
 	add	sp, #19
 	pop	hl
 	add	sp, #4
 	jp	(hl)
-;src/scripts/generate_dungeon.c:245: void shuffle_starts(Coords possible_starts[], uint8_t starts_count) {
+;src/scripts/generate_dungeon.c:246: void shuffle_starts(Coords possible_starts[], uint8_t starts_count) {
 ;	---------------------------------
 ; Function shuffle_starts
 ; ---------------------------------
@@ -1695,12 +1707,12 @@ _shuffle_starts::
 	ld	(hl), d
 	dec	hl
 	dec	hl
-;src/scripts/generate_dungeon.c:246: if (starts_count < 2) {
+;src/scripts/generate_dungeon.c:247: if (starts_count < 2) {
 	ld	(hl), a
 	sub	a, #0x02
-;src/scripts/generate_dungeon.c:247: return;
+;src/scripts/generate_dungeon.c:248: return;
 	jr	C, 00107$
-;src/scripts/generate_dungeon.c:249: for (uint8_t i = starts_count - 1; i > 0; i--) {
+;src/scripts/generate_dungeon.c:250: for (uint8_t i = starts_count - 1; i > 0; i--) {
 	ldhl	sp,	#4
 	ld	a, (hl)
 	dec	a
@@ -1711,7 +1723,7 @@ _shuffle_starts::
 	ld	a, (hl)
 	or	a, a
 	jr	Z, 00107$
-;src/scripts/generate_dungeon.c:250: uint8_t j = arand() % (i+1);
+;src/scripts/generate_dungeon.c:251: uint8_t j = arand() % (i+1);
 	call	_arand
 	ld	a, e
 	ldhl	sp,	#7
@@ -1727,7 +1739,7 @@ _shuffle_starts::
 	call	__modsint
 	pop	de
 	ldhl	sp,	#3
-;src/scripts/generate_dungeon.c:251: Coords temp = possible_starts[i];
+;src/scripts/generate_dungeon.c:252: Coords temp = possible_starts[i];
 	ld	a, c
 	ld	(hl+), a
 	inc	hl
@@ -1750,7 +1762,7 @@ _shuffle_starts::
 	ld	d, h
 	call	___memcpy
 	pop	de
-;src/scripts/generate_dungeon.c:252: possible_starts[i] = possible_starts[j];
+;src/scripts/generate_dungeon.c:253: possible_starts[i] = possible_starts[j];
 	ldhl	sp,	#3
 	ld	a, (hl+)
 	inc	hl
@@ -1777,7 +1789,7 @@ _shuffle_starts::
 	ld	c, a
 	ld	b, (hl)
 	call	___memcpy
-;src/scripts/generate_dungeon.c:253: possible_starts[j] = temp;
+;src/scripts/generate_dungeon.c:254: possible_starts[j] = temp;
 	ld	de, #0x0002
 	push	de
 	ld	hl, #2
@@ -1789,15 +1801,15 @@ _shuffle_starts::
 	ld	e, a
 	ld	d, (hl)
 	call	___memcpy
-;src/scripts/generate_dungeon.c:249: for (uint8_t i = starts_count - 1; i > 0; i--) {
+;src/scripts/generate_dungeon.c:250: for (uint8_t i = starts_count - 1; i > 0; i--) {
 	ldhl	sp,	#7
 	dec	(hl)
 	jr	00105$
 00107$:
-;src/scripts/generate_dungeon.c:255: }
+;src/scripts/generate_dungeon.c:256: }
 	add	sp, #8
 	ret
-;src/scripts/generate_dungeon.c:257: void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir) {
+;src/scripts/generate_dungeon.c:258: void create_doors(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, Coords dir) {
 ;	---------------------------------
 ; Function create_doors
 ; ---------------------------------
@@ -1806,23 +1818,23 @@ _create_doors::
 	ld	c, a
 	ldhl	sp,	#3
 	ld	(hl), e
-;src/scripts/generate_dungeon.c:258: if (dir.x == 0 && dir.y == -1) {
+;src/scripts/generate_dungeon.c:259: if (dir.x == 0 && dir.y == -1) {
 	ldhl	sp,	#8
 	ld	a, (hl)
 	ldhl	sp,	#0
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+;src/scripts/generate_dungeon.c:260: doors[x1][y1] |= NORD;
 	ld	b, #0x00
-;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+;src/scripts/generate_dungeon.c:261: doors[x2][y2] |= SUD;
 	ldhl	sp,	#6
 	ld	e, (hl)
 	ld	d, #0x00
-;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+;src/scripts/generate_dungeon.c:260: doors[x1][y1] |= NORD;
 	sla	c
 	rl	b
 	sla	c
 	rl	b
-;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+;src/scripts/generate_dungeon.c:261: doors[x2][y2] |= SUD;
 	sla	e
 	rl	d
 	sla	e
@@ -1830,7 +1842,7 @@ _create_doors::
 	ldhl	sp,	#1
 	ld	a, e
 	ld	(hl+), a
-;src/scripts/generate_dungeon.c:258: if (dir.x == 0 && dir.y == -1) {
+;src/scripts/generate_dungeon.c:259: if (dir.x == 0 && dir.y == -1) {
 	ld	a, d
 	ld	(hl-), a
 	dec	hl
@@ -1841,7 +1853,7 @@ _create_doors::
 	ld	a, (hl)
 	inc	a
 	jr	NZ, 00113$
-;src/scripts/generate_dungeon.c:259: doors[x1][y1] |= NORD;
+;src/scripts/generate_dungeon.c:260: doors[x1][y1] |= NORD;
 	ld	de, #_doors+0
 	ld	a, e
 	add	a, c
@@ -1858,7 +1870,7 @@ _create_doors::
 	ld	a, (bc)
 	set	0, a
 	ld	(bc), a
-;src/scripts/generate_dungeon.c:260: doors[x2][y2] |= SUD;
+;src/scripts/generate_dungeon.c:261: doors[x2][y2] |= SUD;
 	ldhl	sp,	#1
 	ld	a,	(hl+)
 	ld	h, (hl)
@@ -1877,7 +1889,7 @@ _create_doors::
 	ld	(bc), a
 	jp	00116$
 00113$:
-;src/scripts/generate_dungeon.c:262: else if (dir.x == 1 && dir.y == 0) {
+;src/scripts/generate_dungeon.c:263: else if (dir.x == 1 && dir.y == 0) {
 	ldhl	sp,	#0
 	ld	a, (hl)
 	dec	a
@@ -1886,7 +1898,7 @@ _create_doors::
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00109$
-;src/scripts/generate_dungeon.c:263: doors[x1][y1] |= EST;
+;src/scripts/generate_dungeon.c:264: doors[x1][y1] |= EST;
 	ld	de, #_doors+0
 	ld	a, e
 	add	a, c
@@ -1903,7 +1915,7 @@ _create_doors::
 	ld	a, (bc)
 	set	1, a
 	ld	(bc), a
-;src/scripts/generate_dungeon.c:264: doors[x2][y2] |= OVEST;
+;src/scripts/generate_dungeon.c:265: doors[x2][y2] |= OVEST;
 	ldhl	sp,	#1
 	ld	a,	(hl+)
 	ld	h, (hl)
@@ -1922,7 +1934,7 @@ _create_doors::
 	ld	(bc), a
 	jr	00116$
 00109$:
-;src/scripts/generate_dungeon.c:266: else if (dir.x == 0 && dir.y == 1) {
+;src/scripts/generate_dungeon.c:267: else if (dir.x == 0 && dir.y == 1) {
 	ldhl	sp,	#0
 	ld	a, (hl)
 	or	a, a
@@ -1931,7 +1943,7 @@ _create_doors::
 	ld	a, (hl)
 	dec	a
 	jr	NZ, 00105$
-;src/scripts/generate_dungeon.c:267: doors[x1][y1] |= SUD;
+;src/scripts/generate_dungeon.c:268: doors[x1][y1] |= SUD;
 	ld	de, #_doors+0
 	ld	a, e
 	add	a, c
@@ -1948,7 +1960,7 @@ _create_doors::
 	ld	a, (bc)
 	set	2, a
 	ld	(bc), a
-;src/scripts/generate_dungeon.c:268: doors[x2][y2] |= NORD;
+;src/scripts/generate_dungeon.c:269: doors[x2][y2] |= NORD;
 	ldhl	sp,	#1
 	ld	a,	(hl+)
 	ld	h, (hl)
@@ -1967,7 +1979,7 @@ _create_doors::
 	ld	(bc), a
 	jr	00116$
 00105$:
-;src/scripts/generate_dungeon.c:270: else if (dir.x == -1 && dir.y == 0) {
+;src/scripts/generate_dungeon.c:271: else if (dir.x == -1 && dir.y == 0) {
 	ldhl	sp,	#0
 	ld	a, (hl)
 	inc	a
@@ -1976,7 +1988,7 @@ _create_doors::
 	ld	a, (hl)
 	or	a, a
 	jr	NZ, 00116$
-;src/scripts/generate_dungeon.c:271: doors[x1][y1] |= OVEST;
+;src/scripts/generate_dungeon.c:272: doors[x1][y1] |= OVEST;
 	ld	de, #_doors+0
 	ld	a, e
 	add	a, c
@@ -1993,7 +2005,7 @@ _create_doors::
 	ld	a, (bc)
 	set	3, a
 	ld	(bc), a
-;src/scripts/generate_dungeon.c:272: doors[x2][y2] |= EST;
+;src/scripts/generate_dungeon.c:273: doors[x2][y2] |= EST;
 	ldhl	sp,	#1
 	ld	a,	(hl+)
 	ld	h, (hl)
@@ -2011,24 +2023,24 @@ _create_doors::
 	set	1, a
 	ld	(bc), a
 00116$:
-;src/scripts/generate_dungeon.c:274: }
+;src/scripts/generate_dungeon.c:275: }
 	add	sp, #4
 	pop	hl
 	add	sp, #4
 	jp	(hl)
-;src/scripts/generate_dungeon.c:276: void add_obstacles(uint8_t x, uint8_t y) {
+;src/scripts/generate_dungeon.c:277: void add_obstacles(uint8_t x, uint8_t y) {
 ;	---------------------------------
 ; Function add_obstacles
 ; ---------------------------------
 _add_obstacles::
 	ld	b, a
 	ld	c, e
-;src/scripts/generate_dungeon.c:279: high_obs = arand() & 7;
+;src/scripts/generate_dungeon.c:280: high_obs = arand() & 7;
 	call	_arand
 	ld	a, e
 	and	a, #0x07
 	ld	e, a
-;src/scripts/generate_dungeon.c:280: obstacles[x][y] = (high_obs << 4);
+;src/scripts/generate_dungeon.c:281: obstacles[x][y] = (high_obs << 4);
 	xor	a, a
 	ld	l, b
 	ld	h, a
@@ -2044,17 +2056,17 @@ _add_obstacles::
 	swap	a
 	and	a, #0xf0
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:281: low_obs = arand() & 7;
+;src/scripts/generate_dungeon.c:282: low_obs = arand() & 7;
 	push	hl
 	call	_arand
 	ld	a, e
 	pop	hl
 	and	a, #0x07
-;src/scripts/generate_dungeon.c:282: obstacles[x][y] |= low_obs;
+;src/scripts/generate_dungeon.c:283: obstacles[x][y] |= low_obs;
 	ld	c, (hl)
 	or	a, c
 	ld	(hl), a
-;src/scripts/generate_dungeon.c:283: }
+;src/scripts/generate_dungeon.c:284: }
 	ret
 	.area _CODE_1
 	.area _INITIALIZER

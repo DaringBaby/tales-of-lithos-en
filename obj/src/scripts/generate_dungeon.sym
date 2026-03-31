@@ -7,29 +7,30 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
+    _DIV_REG                                                        ******** GX
     ___memcpy                                                       ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
     __modsint                                                       ******** GX
     __moduchar                                                      ******** GX
-  8 _add_branch                                                     00000460 GR
-  8 _add_obstacles                                                  00000981 GR
-  8 _append                                                         00000441 GR
+  8 _add_branch                                                     0000046F GR
+  8 _add_obstacles                                                  00000990 GR
+  8 _append                                                         00000450 GR
     _arand                                                          ******** GX
-  8 _create_doors                                                   00000878 GR
-  8 _create_layout                                                  0000011E GR
+  8 _create_doors                                                   00000887 GR
+  8 _create_layout                                                  0000011A GR
     _display_off                                                    ******** GX
   2 _doors                                                          00000010 GR
   2 _dungeon                                                        00000000 GR
-  8 _empty_array                                                    000000C9 GR
-  8 _find_near_void_cell                                            000006B5 GR
+  8 _empty_array                                                    000000C5 GR
+  8 _find_near_void_cell                                            000006C4 GR
   8 _generate_dungeon                                               00000000 GR
     _generate_enemies                                               ******** GX
     _get_num_enemies                                                ******** GX
   2 _locked_door                                                    00000030 GR
-  8 _max_length                                                     000000C8 GR
-  8 _min_length                                                     000000C7 GR
+  8 _max_length                                                     000000C4 GR
+  8 _min_length                                                     000000C3 GR
   2 _obstacles                                                      00000020 GR
-  8 _shuffle_starts                                                 000007EB GR
+  8 _shuffle_starts                                                 000007FA GR
     _wait_vbl_done                                                  ******** GX
     b_generate_dungeon                                          =   00000001 G
     b_generate_enemies                                              ******** GX
@@ -49,7 +50,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_1                                    size      9AA   flags    0
+   8 _CODE_1                                    size      9B9   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

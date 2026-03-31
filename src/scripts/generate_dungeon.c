@@ -28,8 +28,8 @@ void generate_dungeon(uint8_t current_floor) BANKED {
     uint8_t num_enemies = get_num_enemies(floor);
     while (!dungeon_complete){
         empty_array();
-        uint8_t start_x = arand() % 4;
-        uint8_t start_y = arand() % 4;
+        uint8_t start_x = DIV_REG & 3;
+        uint8_t start_y = DIV_REG & 3;
         uint8_t length;
         // per ora, num stanze dipende dal piano
         switch (current_floor % 5) {
@@ -144,6 +144,7 @@ uint8_t create_layout(uint8_t curr_x, uint8_t curr_y, uint8_t target_rooms) {
         }
         else if (curr_room == (int)(target_rooms / 2) + 2) {
             locked_door = current_door;
+            dungeon[curr_x][curr_y] = 'B';
             add_obstacles(curr_x, curr_y);
         }
         else if (curr_room < (int)(target_rooms / 2) + 1) {

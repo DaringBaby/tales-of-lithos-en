@@ -1201,9 +1201,9 @@ _check_input_movement::
 ;main.c:409: current_location = 1;
 	ld	hl, #_current_location
 	ld	(hl), #0x01
-;main.c:410: current_floor = 1;
+;main.c:410: current_floor = 5;
 	ld	hl, #_current_floor
-	ld	(hl), #0x01
+	ld	(hl), #0x05
 ;main.c:411: obt_mythril = 0;
 ;main.c:412: obt_exp = 0;
 	xor	a, a
@@ -1444,12 +1444,6 @@ _check_input_movement::
 	ld	a, (#_current_location)
 	dec	a
 	jp	NZ, 00155$
-;main.c:473: move_enemy(&current_enemies[0]);
-	ld	de, #_current_enemies
-	call	_move_enemy
-;main.c:474: move_enemy(&current_enemies[1]);
-	ld	de, #(_current_enemies + 12)
-	call	_move_enemy
 ;main.c:475: move_boss(&boss);
 	ld	de, #_boss
 	push	de
@@ -3002,7 +2996,9 @@ _set_dungeon_map::
 ; ---------------------------------
 _set_room::
 	add	sp, #-4
-;main.c:796: uint8_t door = doors[coord.x][coord.y];
+;main.c:796: set_dungeon_map();
+	call	_set_dungeon_map
+;main.c:797: uint8_t door = doors[coord.x][coord.y];
 	ld	hl, #6
 	add	hl, sp
 	ld	c, l
@@ -3038,7 +3034,7 @@ _set_room::
 	ld	d, h
 	ld	a, (de)
 	ld	d, a
-;main.c:798: set_room_tiles(door, room_ptr, coord);
+;main.c:799: set_room_tiles(door, room_ptr, coord);
 	push	bc
 	ld	hl,#0x9
 	add	hl,sp
@@ -3057,12 +3053,12 @@ _set_room::
 	ld	hl, #_set_room_tiles
 	call	___sdcc_bcall_ehl
 	add	sp, #5
-;main.c:799: hide_door();
+;main.c:800: hide_door();
 	ld	e, #b_hide_door
 	ld	hl, #_hide_door
 	call	___sdcc_bcall_ehl
 	pop	bc
-;main.c:800: if (dungeon[coord.x][coord.y] == 'K') {
+;main.c:801: if (dungeon[coord.x][coord.y] == 'K') {
 	ld	a, (bc)
 	ld	l, a
 	rlca
@@ -3095,11 +3091,11 @@ _set_room::
 	ld	a, (de)
 	cp	a, #0x4b
 	jr	NZ, 00124$
-;main.c:801: if (key_obtained == 0){
+;main.c:802: if (key_obtained == 0){
 	ld	a, (#_key_obtained)
 	or	a, a
 	jr	NZ, 00102$
-;main.c:802: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+;main.c:803: set_bkg_tiles(8, 6, 4, 2, chest_closed);
 	ld	de, #_chest_closed
 	push	de
 	ld	hl, #0x204
@@ -3110,7 +3106,7 @@ _set_room::
 	add	sp, #6
 	jp	00125$
 00102$:
-;main.c:805: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:806: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -3121,14 +3117,14 @@ _set_room::
 	add	sp, #6
 	jp	00125$
 00124$:
-;main.c:808: else if (dungeon[coord.x][coord.y] == 'L') {
+;main.c:809: else if (dungeon[coord.x][coord.y] == 'L') {
 	cp	a, #0x4c
 	jr	NZ, 00121$
-;main.c:809: if (lock_opened == 0) {
+;main.c:810: if (lock_opened == 0) {
 	ld	a, (#_lock_opened)
 	or	a, a
 	jp	NZ, 00125$
-;main.c:810: switch (locked_door) {
+;main.c:811: switch (locked_door) {
 	ld	a, (#_locked_door)
 	dec	a
 	jr	Z, 00104$
@@ -3142,9 +3138,9 @@ _set_room::
 	sub	a, #0x08
 	jr	Z, 00107$
 	jp	00125$
-;main.c:811: case 1:
+;main.c:812: case 1:
 00104$:
-;main.c:812: draw_lock_v(72, 16);
+;main.c:813: draw_lock_v(72, 16);
 	push	bc
 	ld	a, #0x10
 	push	af
@@ -3157,11 +3153,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:813: break;
+;main.c:814: break;
 	jp	00125$
-;main.c:814: case 2:
+;main.c:815: case 2:
 00105$:
-;main.c:815: draw_lock_h(152, 80);
+;main.c:816: draw_lock_h(152, 80);
 	push	bc
 	ld	a, #0x50
 	push	af
@@ -3174,11 +3170,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:816: break;
+;main.c:817: break;
 	jr	00125$
-;main.c:817: case 4:
+;main.c:818: case 4:
 00106$:
-;main.c:818: draw_flip_lock_v(72, 144);
+;main.c:819: draw_flip_lock_v(72, 144);
 	push	bc
 	ld	a, #0x90
 	push	af
@@ -3191,11 +3187,11 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:819: break;
+;main.c:820: break;
 	jr	00125$
-;main.c:820: case 8:
+;main.c:821: case 8:
 00107$:
-;main.c:821: draw_flip_lock_h(8, 80);
+;main.c:822: draw_flip_lock_h(8, 80);
 	push	bc
 	ld	a, #0x50
 	push	af
@@ -3208,17 +3204,17 @@ _set_room::
 	call	___sdcc_bcall_ehl
 	pop	hl
 	pop	bc
-;main.c:823: }
+;main.c:824: }
 	jr	00125$
 00121$:
-;main.c:826: else if (dungeon[coord.x][coord.y] == 'T') {
+;main.c:827: else if (dungeon[coord.x][coord.y] == 'T') {
 	cp	a, #0x54
 	jr	NZ, 00118$
-;main.c:827: if (treasure_obtained == 0){
+;main.c:828: if (treasure_obtained == 0){
 	ld	a, (#_treasure_obtained)
 	or	a, a
 	jr	NZ, 00112$
-;main.c:828: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+;main.c:829: set_bkg_tiles(8, 6, 4, 2, chest_closed);
 	ld	de, #_chest_closed
 	push	de
 	ld	hl, #0x204
@@ -3229,7 +3225,7 @@ _set_room::
 	add	sp, #6
 	jr	00125$
 00112$:
-;main.c:831: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+;main.c:832: set_bkg_tiles(8, 6, 4, 2, chest_opened);
 	ld	de, #_chest_opened
 	push	de
 	ld	hl, #0x204
@@ -3240,7 +3236,7 @@ _set_room::
 	add	sp, #6
 	jr	00125$
 00118$:
-;main.c:834: else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
+;main.c:835: else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
 	sub	a, #0x45
 	jr	NZ, 00125$
 	ld	a, (_current_floor)
@@ -3251,7 +3247,7 @@ _set_room::
 	pop	bc
 	or	a, a
 	jr	Z, 00125$
-;main.c:835: set_bkg_tiles(2, 2, 2, 2, stairs);
+;main.c:836: set_bkg_tiles(2, 2, 2, 2, stairs);
 	ld	de, #_stairs
 	push	de
 	ld	hl, #0x202
@@ -3260,7 +3256,7 @@ _set_room::
 	call	_set_bkg_tiles
 	add	sp, #6
 00125$:
-;main.c:838: spawn_enemies_in_room(coord.x, coord.y, current_enemies);
+;main.c:839: spawn_enemies_in_room(coord.x, coord.y, current_enemies);
 	ldhl	sp,	#7
 	ld	h, (hl)
 	ld	a, (bc)
@@ -3277,8 +3273,10 @@ _set_room::
 	ld	hl, #_spawn_enemies_in_room
 	call	___sdcc_bcall_ehl
 	add	sp, #4
+;main.c:840: clear_drops();
+	call	_clear_drops
 	pop	bc
-;main.c:839: if (dungeon[coord.x][coord.y] != 'E') {
+;main.c:841: if (dungeon[coord.x][coord.y] != 'E') {
 	ld	a, (bc)
 	ld	l, a
 	rlca
@@ -3299,13 +3297,13 @@ _set_room::
 	ld	a, (hl)
 	sub	a, #0x45
 	jr	Z, 00131$
-;main.c:840: set_enemy_sprite();
+;main.c:842: set_enemy_sprite();
 	ld	e, #b_set_enemy_sprite
 	ld	hl, #_set_enemy_sprite
 	call	___sdcc_bcall_ehl
 	jp	00132$
 00131$:
-;main.c:842: else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
+;main.c:844: else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
 	ld	a, (_current_floor)
 	ld	e, #0x05
 	call	__moduchar
@@ -3315,27 +3313,27 @@ _set_room::
 	ld	a, (#_boss_floor_defeated)
 	or	a, a
 	jr	NZ, 00132$
-;main.c:843: boss_battle = 1;
+;main.c:845: boss_battle = 1;
 	ld	hl, #_boss_battle
 	ld	(hl), #0x01
-;main.c:844: spawn_boss(&boss);
+;main.c:846: spawn_boss(&boss);
 	ld	de, #_boss
 	push	de
 	ld	e, #b_spawn_boss
 	ld	hl, #_spawn_boss
 	call	___sdcc_bcall_ehl
 	pop	hl
-;main.c:845: smooth_movement(last_direction);
+;main.c:847: smooth_movement(last_direction);
 	ld	a, (_last_direction)
 	call	_smooth_movement
-;main.c:846: SWITCH_ROM(2);
+;main.c:848: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
 	ld	de, #0x0000
 00134$:
-;main.c:847: for (uint16_t i; i<360; i++) {
+;main.c:849: for (uint16_t i; i<360; i++) {
 	ld	c, e
 	ld	b, d
 	ld	a, c
@@ -3343,7 +3341,7 @@ _set_room::
 	ld	a, b
 	sbc	a, #0x01
 	jr	NC, 00126$
-;main.c:848: current_room[i] = NoExit[i];
+;main.c:850: current_room[i] = NoExit[i];
 	ld	hl, #_current_room
 	add	hl, de
 	ld	c, l
@@ -3352,11 +3350,11 @@ _set_room::
 	add	hl, de
 	ld	a, (hl)
 	ld	(bc), a
-;main.c:847: for (uint16_t i; i<360; i++) {
+;main.c:849: for (uint16_t i; i<360; i++) {
 	inc	de
 	jr	00134$
 00126$:
-;main.c:850: set_bkg_tiles(0, 0, 20, 18, current_room);
+;main.c:852: set_bkg_tiles(0, 0, 20, 18, current_room);
 	ld	de, #_current_room
 	push	de
 	ld	hl, #0x1214
@@ -3366,45 +3364,43 @@ _set_room::
 	push	af
 	call	_set_bkg_tiles
 	add	sp, #6
-;main.c:851: SWITCH_ROM(1);
+;main.c:853: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:852: current_song_bank = 4;
+;main.c:854: current_song_bank = 4;
 	ld	hl, #_current_song_bank
 	ld	(hl), #0x04
-;main.c:853: SWITCH_ROM(current_song_bank);
+;main.c:855: SWITCH_ROM(current_song_bank);
 	ld	a, #0x04
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x04
-;main.c:854: hUGE_init(&boss_theme);
+;main.c:856: hUGE_init(&boss_theme);
 	ld	de, #_boss_theme
 	call	_hUGE_init
-;main.c:855: SWITCH_ROM(1);
+;main.c:857: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
 00132$:
-;main.c:857: clear_drops();
-	call	_clear_drops
-;main.c:858: DISPLAY_ON;
+;main.c:859: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:859: }
+;main.c:860: }
 	add	sp, #4
 	pop	hl
 	pop	af
 	jp	(hl)
-;main.c:861: void change_room() {
+;main.c:862: void change_room() {
 ;	---------------------------------
 ; Function change_room
 ; ---------------------------------
 _change_room::
-;main.c:862: if (x > 160 && x < 240) {
+;main.c:863: if (x > 160 && x < 240) {
 	ld	a, #0xa0
 	ld	hl, #_x
 	sub	a, (hl)
@@ -3412,14 +3408,14 @@ _change_room::
 	ld	a, (hl)
 	sub	a, #0xf0
 	jr	NC, 00110$
-;main.c:863: player_coords.x++;
+;main.c:864: player_coords.x++;
 	ld	hl, #_player_coords
 	inc	(hl)
 	ld	a, (hl)
-;main.c:864: x = 8;
+;main.c:865: x = 8;
 	ld	hl, #_x
 	ld	(hl), #0x08
-;main.c:865: set_room(player_coords);
+;main.c:866: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3429,19 +3425,19 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00110$:
-;main.c:867: else if (x > 240) {
+;main.c:868: else if (x > 240) {
 	ld	a, #0xf0
 	ld	hl, #_x
 	sub	a, (hl)
 	jr	NC, 00107$
-;main.c:868: player_coords.x--;
+;main.c:869: player_coords.x--;
 	ld	hl, #_player_coords
 	dec	(hl)
 	ld	a, (hl)
-;main.c:869: x = 152;
+;main.c:870: x = 152;
 	ld	hl, #_x
 	ld	(hl), #0x98
-;main.c:870: set_room(player_coords);
+;main.c:871: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3451,16 +3447,16 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00107$:
-;main.c:872: else if (y > 144) {
+;main.c:873: else if (y > 144) {
 	ld	a, #0x90
 	ld	hl, #_y
 	sub	a, (hl)
 	jr	NC, 00104$
-;main.c:873: player_coords.y++;
+;main.c:874: player_coords.y++;
 	ld	hl, #_player_coords + 1
 	inc	(hl)
 	ld	a, (hl)
-;main.c:874: y = 16;
+;main.c:875: y = 16;
 	ld	hl, #_y
 	ld	(hl), #0x10
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
@@ -3468,7 +3464,7 @@ _change_room::
 	ld	(hl), #0x02
 	ld	hl, #(_shadow_OAM + 30)
 	ld	(hl), #0x03
-;main.c:877: set_room(player_coords);
+;main.c:878: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3478,18 +3474,18 @@ _change_room::
 	call	_set_room
 	jp	_move_character
 00104$:
-;main.c:879: else if (y < 8) {
+;main.c:880: else if (y < 8) {
 	ld	a, (#_y)
 	sub	a, #0x08
 	jp	NC, _move_character
-;main.c:880: player_coords.y--;
+;main.c:881: player_coords.y--;
 	ld	hl, #_player_coords + 1
 	dec	(hl)
 	ld	a, (hl)
-;main.c:881: y = 144;
+;main.c:882: y = 144;
 	ld	hl, #_y
 	ld	(hl), #0x90
-;main.c:882: set_room(player_coords);
+;main.c:883: set_room(player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	a, (hl-)
@@ -3497,37 +3493,37 @@ _change_room::
 	ld	c, (hl)
 	push	bc
 	call	_set_room
-;main.c:884: move_character();
-;main.c:885: }
+;main.c:885: move_character();
+;main.c:886: }
 	jp	_move_character
-;main.c:888: void check_open_menu() {
+;main.c:889: void check_open_menu() {
 ;	---------------------------------
 ; Function check_open_menu
 ; ---------------------------------
 _check_open_menu::
-;main.c:889: current_joypad = joypad();
+;main.c:890: current_joypad = joypad();
 	call	_joypad
 	ld	hl, #_current_joypad
 	ld	(hl), a
-;main.c:890: if ((current_joypad & J_START) && !(last_joypad & J_START)) {
+;main.c:891: if ((current_joypad & J_START) && !(last_joypad & J_START)) {
 	ld	a, (hl)
 	rlca
 	jr	NC, 00107$
 	ld	a, (_last_joypad)
 	rlca
 	jr	C, 00107$
-;main.c:891: if (menu_opened == 0){
+;main.c:892: if (menu_opened == 0){
 	ld	a, (#_menu_opened)
 	or	a, a
 	jr	NZ, 00104$
-;main.c:892: DISPLAY_OFF;
+;main.c:893: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	xor	a, a
 	ldh	(_WY_REG + 0), a
-;main.c:894: set_win_tiles(0, 0, 20, 18, gui_map);
+;main.c:895: set_win_tiles(0, 0, 20, 18, gui_map);
 	ld	de, #_gui_map
 	push	de
 	ld	hl, #0x1214
@@ -3537,74 +3533,74 @@ _check_open_menu::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:895: set_stats();
+;main.c:896: set_stats();
 	ld	e, #b_set_stats
 	ld	hl, #_set_stats
 	call	___sdcc_bcall_ehl
-;main.c:896: HIDE_SPRITES;
+;main.c:897: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:897: DISPLAY_ON;
+;main.c:898: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:898: menu_opened = 1;
+;main.c:899: menu_opened = 1;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x01
 	jr	00107$
 00104$:
-;main.c:900: else if (menu_opened == 1) {
+;main.c:901: else if (menu_opened == 1) {
 	ld	a, (#_menu_opened)
 	dec	a
 	jr	NZ, 00107$
-;main.c:901: DISPLAY_OFF;
+;main.c:902: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:903: set_mini_menu();
+;main.c:904: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:905: SHOW_SPRITES;
+;main.c:906: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:906: menu_opened = 0;
+;main.c:907: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:907: DISPLAY_ON;
+;main.c:908: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 00107$:
-;main.c:910: if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
+;main.c:911: if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
 	ld	a, (_current_joypad)
 	bit	6, a
 	jp	Z, 00115$
 	ld	a, (_last_joypad)
 	bit	6, a
 	jp	NZ, 00115$
-;main.c:911: if (menu_opened == 0){
+;main.c:912: if (menu_opened == 0){
 	ld	a, (#_menu_opened)
 	or	a, a
 	jr	NZ, 00112$
-;main.c:912: DISPLAY_OFF;
+;main.c:913: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	xor	a, a
 	ldh	(_WY_REG + 0), a
-;main.c:914: SWITCH_ROM(3);
+;main.c:915: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;main.c:915: set_win_tiles(0, 0, 20, 18, map_menu);
+;main.c:916: set_win_tiles(0, 0, 20, 18, map_menu);
 	ld	de, #_map_menu
 	push	de
 	ld	hl, #0x1214
@@ -3614,19 +3610,19 @@ _check_open_menu::
 	push	af
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:916: SWITCH_ROM(1);
+;main.c:917: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;main.c:917: set_map_menu();
+;main.c:918: set_map_menu();
 	ld	e, #b_set_map_menu
 	ld	hl, #_set_map_menu
 	call	___sdcc_bcall_ehl
-;main.c:918: map_option = 0;
+;main.c:919: map_option = 0;
 	xor	a, a
 	ld	(#_map_option),a
-;main.c:919: set_win_tiles(2, 4, 1, 1, &arrow_tile);
+;main.c:920: set_win_tiles(2, 4, 1, 1, &arrow_tile);
 	ld	de, #_arrow_tile
 	push	de
 	ld	hl, #0x101
@@ -3635,63 +3631,61 @@ _check_open_menu::
 	push	hl
 	call	_set_win_tiles
 	add	sp, #6
-;main.c:920: HIDE_SPRITES;
+;main.c:921: HIDE_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	and	a, #0xfd
 	ldh	(_LCDC_REG + 0), a
-;main.c:921: menu_opened = 5;
+;main.c:922: menu_opened = 5;
 	ld	hl, #_menu_opened
 	ld	(hl), #0x05
-;main.c:922: DISPLAY_ON;
+;main.c:923: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 	jr	00115$
 00112$:
-;main.c:924: else if (menu_opened == 5) {
+;main.c:925: else if (menu_opened == 5) {
 	ld	a, (#_menu_opened)
 	sub	a, #0x05
 	jr	NZ, 00115$
-;main.c:925: DISPLAY_OFF;
+;main.c:926: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:927: set_mini_menu();
+;main.c:928: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:929: SHOW_SPRITES;
+;main.c:930: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:930: menu_opened = 0;
+;main.c:931: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:931: DISPLAY_ON;
+;main.c:932: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 00115$:
-;main.c:934: last_joypad = current_joypad;
+;main.c:935: last_joypad = current_joypad;
 	ld	a, (#_current_joypad)
 	ld	(#_last_joypad),a
-;main.c:935: }
+;main.c:936: }
 	ret
-;main.c:938: void go_into_dungeon() {
+;main.c:939: void go_into_dungeon() {
 ;	---------------------------------
 ; Function go_into_dungeon
 ; ---------------------------------
 _go_into_dungeon::
 	add	sp, #-6
-;main.c:939: wait_vbl_done();
+;main.c:940: wait_vbl_done();
 	call	_wait_vbl_done
-;main.c:940: DISPLAY_OFF;
+;main.c:941: DISPLAY_OFF;
 	call	_display_off
-;main.c:941: set_dungeon_map();
-	call	_set_dungeon_map
 ;main.c:942: generate_dungeon(current_floor);
 	ld	a, (_current_floor)
 	push	af

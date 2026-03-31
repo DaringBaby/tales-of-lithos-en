@@ -117,7 +117,7 @@ Symbol Table
     _boss_theme                                                     ******** GX
     _camp_collisions                                                ******** GX
     _camp_theme                                                     ******** GX
-  0 _change_room                                                    0000125F GR
+  0 _change_room                                                    00001256 GR
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
@@ -125,12 +125,12 @@ Symbol Table
 
     _check_drops                                                    ******** GX
     _check_enemy                                                    ******** GX
-  0 _check_input_keys                                               000007D9 GR
+  0 _check_input_keys                                               000007CD GR
   0 _check_input_movement                                           00000414 GR
     _check_map_options                                              ******** GX
     _check_menu_options                                             ******** GX
-  0 _check_open_menu                                                000012EE GR
-  0 _check_terrain                                                  00000C33 GR
+  0 _check_open_menu                                                000012E5 GR
+  0 _check_terrain                                                  00000C27 GR
     _check_time                                                     ******** GX
   0 _chest_closed                                                   0000032F GR
   0 _chest_opened                                                   00000337 GR
@@ -146,7 +146,7 @@ Symbol Table
   3 _current_song_bank                                              00000036 GR
     _death_sfx                                                      ******** GX
   3 _debug                                                          00000000 GR
-  0 _debug_value                                                    00001D9F GR
+  0 _debug_value                                                    00001D93 GR
   3 _defense                                                        00000017 GR
     _delay                                                          ******** GX
     _display_off                                                    ******** GX
@@ -169,12 +169,12 @@ Symbol Table
     _game_saved                                                     ******** GX
     _gameover_jingle                                                ******** GX
     _generate_dungeon                                               ******** GX
-  0 _go_into_dungeon                                                00001406 GR
-  0 _go_next_floor                                                  00001493 GR
+  0 _go_into_dungeon                                                000013FD GR
+  0 _go_next_floor                                                  00001487 GR
     _gui_map                                                        ******** GX
     _hUGE_dosound                                                   ******** GX
     _hUGE_init                                                      ******** GX
-  0 _heal_player                                                    00001AAE GR
+  0 _heal_player                                                    00001AA2 GR
   3 _heal_quantity                                                  00000023 GR
     _heal_sfx                                                       ******** GX
   3 _heals                                                          00000022 GR
@@ -185,14 +185,14 @@ Symbol Table
 
     _hector_menu                                                    ******** GX
   3 _hector_option                                                  0000002D GR
-  0 _hide_camp_sprites                                              00000F1D GR
+  0 _hide_camp_sprites                                              00000F11 GR
     _hide_door                                                      ******** GX
     _hit_sfx                                                        ******** GX
   3 _hours                                                          00000009 GR
     _init_sound                                                     ******** GX
     _insert_name                                                    ******** GX
     _intro_theme                                                    ******** GX
-  0 _is_sprite_at                                                   00000E1E GR
+  0 _is_sprite_at                                                   00000E12 GR
     _item_found                                                     ******** GX
     _joypad                                                         ******** GX
   3 _key_obtained                                                   00000030 GR
@@ -220,7 +220,7 @@ Symbol Table
     _move_boss                                                      ******** GX
   0 _move_character                                                 000003C3 GR
     _move_enemy                                                     ******** GX
-  0 _music_vbl_interrupt                                            00001C71 GR
+  0 _music_vbl_interrupt                                            00001C65 GR
   3 _ng                                                             00000037 GR
   3 _num_arrows                                                     00000025 GR
   3 _obt_exp                                                        00000029 GR
@@ -232,7 +232,7 @@ Symbol Table
     _play_explosion_animation                                       ******** GX
     _play_heal_animation                                            ******** GX
     _play_walk_animation                                            ******** GX
-  0 _player_attack                                                  00001659 GR
+  0 _player_attack                                                  0000164D GR
   2 _player_coords                                                  00000002 GR
   3 _player_name                                                    0000000F GR
   3 _potion_heal_lvl                                                00000020 GR
@@ -246,7 +246,7 @@ Symbol Table
   3 _quiver_lvl                                                     0000001E GR
     _rROMB0                                                         ******** GX
     _reset                                                          ******** GX
-  0 _return_to_camp                                                 00001C89 GR
+  0 _return_to_camp                                                 00001C7D GR
   3 _returning_to_camp                                              00000035 GR
     _safy_menu                                                      ******** GX
   3 _safy_option                                                    0000002E GR
@@ -255,26 +255,26 @@ Symbol Table
   2 _seed                                                           0000017C GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
-  0 _set_camp_map                                                   00000E32 GR
+  0 _set_camp_map                                                   00000E26 GR
     _set_character_sprite                                           ******** GX
-  0 _set_dungeon_map                                                00000F76 GR
+  0 _set_dungeon_map                                                00000F6A GR
     _set_enemy_sprite                                               ******** GX
     _set_map_menu                                                   ******** GX
     _set_mini_menu                                                  ******** GX
-  0 _set_room                                                       00001016 GR
+  0 _set_room                                                       0000100A GR
     _set_room_tiles                                                 ******** GX
     _set_sprite_data                                                ******** GX
     _set_stats                                                      ******** GX
-  0 _set_textbox                                                    0000153D GR
+  0 _set_textbox                                                    00001531 GR
     _set_titlescreen                                                ******** GX
-  0 _set_tutorial                                                   00001CE5 GR
+  0 _set_tutorial                                                   00001CD9 GR
     _set_win_tiles                                                  ******** GX
     _shadow_OAM                                                     ******** GX
   3 _shield_lvl                                                     0000001C GR
-  0 _shoot_arrow                                                    00001956 GR
+  0 _shoot_arrow                                                    0000194A GR
     _show_number                                                    ******** GX
     _show_time                                                      ******** GX
-  0 _smooth_movement                                                00001AF0 GR
+  0 _smooth_movement                                                00001AE4 GR
     _spawn_boss                                                     ******** GX
     _spawn_enemies_in_room                                          ******** GX
   0 _stairs                                                         0000033F GR
@@ -343,7 +343,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size     1DA3   flags    0
+   0 _CODE                                      size     1D97   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size      1AC   flags    0
    3 _INITIALIZED                               size       39   flags    0

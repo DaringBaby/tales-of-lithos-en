@@ -12,19 +12,19 @@ uint8_t get_num_enemies(uint8_t floor) BANKED {
     uint8_t enemy_var = arand() % 3;
     switch (floor_type) {
         case 1:
-            num_enemies = 3;
+            num_enemies = 5;
             break;
         case 2:
-            num_enemies = 6;
+            num_enemies = 7;
             break;
         case 3:
-            num_enemies = 8;
+            num_enemies = 9;
             break;
         case 4:
-            num_enemies = 10;
+            num_enemies = 11;
             break;
         case 0:
-            num_enemies = 11;
+            num_enemies = 13;
             break;
     }
     num_enemies += enemy_var;
@@ -304,7 +304,7 @@ void set_enemy2_spawnpoint(Enemy enemies[2]) {
             break;
         case 1:
             x_coord = 6;
-            y_coord = 6;
+            y_coord = 12;
             break;
         case 2:
             x_coord = 8;
