@@ -13,7 +13,6 @@ Symbol Table
     ___sdcc_bcall_ehl                                               ******** GX
     __divuchar                                                      ******** GX
     __divuint                                                       ******** GX
-    __modsint                                                       ******** GX
     __moduchar                                                      ******** GX
     __moduint                                                       ******** GX
     _arrow_damage                                                   ******** GX
@@ -24,7 +23,7 @@ Symbol Table
   8 _check_map_menu_input                                           000000A5 GR
   8 _check_map_options                                              00000000 GR
   8 _check_menu_options                                             00000221 GR
-  8 _check_time                                                     00000C8A GR
+  8 _check_time                                                     00000C7A GR
     _cure_upgrade_costs                                             ******** GX
     _current_enemies                                                ******** GX
     _current_floor                                                  ******** GX
@@ -58,24 +57,24 @@ Symbol Table
     _player_name                                                    ******** GX
     _potion_heal_lvl                                                ******** GX
     _potion_quant_lvl                                               ******** GX
+    _power_ups                                                      ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-    _power_ups                                                      ******** GX
-  8 _print_debug                                                    00000C44 GR
+  8 _print_debug                                                    00000C34 GR
     _quiver_lvl                                                     ******** GX
     _returning_to_camp                                              ******** GX
     _safy_option                                                    ******** GX
   8 _safy_upgrades                                                  00000504 GR
     _seconds                                                        ******** GX
-  8 _set_mini_menu                                                  00000A21 GR
-  8 _set_stats                                                      00000762 GR
+  8 _set_mini_menu                                                  00000A11 GR
+  8 _set_stats                                                      00000752 GR
     _set_win_tiles                                                  ******** GX
     _shadow_OAM                                                     ******** GX
     _shield_lvl                                                     ******** GX
-  8 _show_number                                                    00000B44 GR
+  8 _show_number                                                    00000B34 GR
   8 _show_time                                                      000001B4 GR
     _stats_menu                                                     ******** GX
     _sword_lvl                                                      ******** GX
@@ -93,6 +92,7 @@ Symbol Table
     b_show_number                                               =   00000003 G
     b_show_time                                                 =   00000003 G
 
+
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
@@ -106,7 +106,7 @@ Area Table
    5 _HOME                                      size        0   flags    0
    6 _GSINIT                                    size        0   flags    0
    7 _GSFINAL                                   size        0   flags    0
-   8 _CODE_3                                    size      CC3   flags    0
+   8 _CODE_3                                    size      CB3   flags    0
    9 _INITIALIZER                               size        0   flags    0
    A _CABS                                      size        0   flags    8
 

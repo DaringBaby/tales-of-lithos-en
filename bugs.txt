@@ -1,2 +1,1 @@
-non cambia tiles al cambio di piano
-a volte c'è uno strano incrocio, forse perchè la porta viene messa prima della stanza L e quindi può essere usata per fare incroci
+strano bug con il menu di safy per il livello (dopo il 220 diventa un numero a due cifre inoltre il livello dopo il 9 diventa strano

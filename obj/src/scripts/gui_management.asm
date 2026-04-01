@@ -925,7 +925,7 @@ _hector_upgrades::
 ; ---------------------------------
 _safy_upgrades::
 	add	sp, #-11
-;src/scripts/gui_management.c:186: uint8_t cost = cure_upgrade_costs[potion_quant_lvl-1];
+;src/scripts/gui_management.c:186: uint16_t cost = cure_upgrade_costs[potion_quant_lvl-1];
 	ld	a, (_potion_quant_lvl)
 	ld	h, #0x00
 	ld	l, a
@@ -933,8 +933,16 @@ _safy_upgrades::
 	add	hl, hl
 	ld	de, #_cure_upgrade_costs
 	add	hl, de
-	ld	e, (hl)
-	ld	c, e
+	ld	e, l
+	ld	d, h
+	ld	a, (de)
+	ldhl	sp,	#0
+	ld	(hl+), a
+	inc	de
+	ld	a, (de)
+	ld	(hl), a
+	pop	bc
+	push	bc
 ;src/scripts/gui_management.c:187: switch(safy_option) {
 	ld	a, (#_safy_option)
 	dec	a
@@ -953,12 +961,12 @@ _safy_upgrades::
 	sub	a, #0x09
 	jp	NC, 00119$
 ;src/scripts/gui_management.c:190: cost = cure_upgrade_costs[potion_quant_lvl-1];
+	pop	bc
+	push	bc
 ;src/scripts/gui_management.c:191: if (experience >= cost && joypad() & J_A) {
-	ld	c,e
-	ld	b, #0x00
 	ld	hl, #_experience
 	ld	a, (hl+)
-	sub	a, e
+	sub	a, c
 	ld	a, (hl)
 	sbc	a, b
 	jp	C, 00119$
@@ -966,20 +974,12 @@ _safy_upgrades::
 	bit	4, a
 	jp	Z, 00119$
 ;src/scripts/gui_management.c:192: experience = experience - cost;
-	ld	e, c
-	ld	d, #0x00
-	ld	a, (_experience)
-	ld	l, a
-	ld	a, (_experience + 1)
-	ld	h, a
-	ld	a, l
-	sub	a, e
-	ld	e, a
-	ld	a, h
-	sbc	a, d
 	ld	hl, #_experience
-	ld	(hl), e
-	inc	hl
+	ld	a, (hl)
+	sub	a, c
+	ld	(hl+), a
+	ld	a, (hl)
+	sbc	a, b
 	ld	(hl), a
 ;src/scripts/gui_management.c:193: potion_quant_lvl++;
 	ld	hl, #_potion_quant_lvl
@@ -1009,39 +1009,32 @@ _safy_upgrades::
 	sub	a, #0x09
 	jp	NC, 00119$
 ;src/scripts/gui_management.c:203: cost = cure_upgrade_costs[potion_heal_lvl-1];
-	ld	a, (hl)
+	ld	l, (hl)
 	ld	h, #0x00
-	ld	l, a
 	dec	hl
 	add	hl, hl
 	ld	de, #_cure_upgrade_costs
 	add	hl, de
-	ld	c, (hl)
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
 ;src/scripts/gui_management.c:204: if (experience >= cost && joypad() & J_A) {
-	ld	b, c
-	ld	e, #0x00
 	ld	hl, #_experience
 	ld	a, (hl+)
-	sub	a, b
+	sub	a, c
 	ld	a, (hl)
-	sbc	a, e
+	sbc	a, b
 	jp	C, 00119$
 	call	_joypad
 	bit	4, a
 	jp	Z, 00119$
 ;src/scripts/gui_management.c:205: experience = experience - cost;
-	ld	e, c
-	ld	d, #0x00
-	ld	a, (_experience)
-	ld	hl, #_experience + 1
-	ld	b, (hl)
-	dec	hl
-	sub	a, e
-	ld	e, a
-	ld	a, b
-	sbc	a, d
-	ld	(hl), e
-	inc	hl
+	ld	hl, #_experience
+	ld	a, (hl)
+	sub	a, c
+	ld	(hl+), a
+	ld	a, (hl)
+	sbc	a, b
 	ld	(hl), a
 ;src/scripts/gui_management.c:206: potion_heal_lvl++;
 	ld	hl, #_potion_heal_lvl
@@ -1069,37 +1062,32 @@ _safy_upgrades::
 	jr	NC, 00119$
 ;src/scripts/gui_management.c:215: cost = level_curve[level-1];
 	ld	bc, #_level_curve+0
-	ld	l, (hl)
+	ld	a, (hl)
 	ld	h, #0x00
+	ld	l, a
 	dec	hl
 	add	hl, hl
 	add	hl, bc
-	ld	c, (hl)
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
 ;src/scripts/gui_management.c:216: if (experience >= cost && joypad() & J_A) {
-	ld	b, c
-	ld	e, #0x00
 	ld	hl, #_experience
 	ld	a, (hl+)
-	sub	a, b
+	sub	a, c
 	ld	a, (hl)
-	sbc	a, e
+	sbc	a, b
 	jr	C, 00119$
 	call	_joypad
 	bit	4, a
 	jr	Z, 00119$
 ;src/scripts/gui_management.c:217: experience = experience - cost;
-	ld	e, c
-	ld	d, #0x00
-	ld	a, (_experience)
-	ld	hl, #_experience + 1
-	ld	b, (hl)
-	dec	hl
-	sub	a, e
-	ld	e, a
-	ld	a, b
-	sbc	a, d
-	ld	(hl), e
-	inc	hl
+	ld	hl, #_experience
+	ld	a, (hl)
+	sub	a, c
+	ld	(hl+), a
+	ld	a, (hl)
+	sbc	a, b
 	ld	(hl), a
 ;src/scripts/gui_management.c:218: level++;
 	ld	hl, #_level
@@ -1131,43 +1119,47 @@ _safy_upgrades::
 ;src/scripts/gui_management.c:229: }
 00119$:
 ;src/scripts/gui_management.c:232: costs[0] = cost / 1000 + 154;
-	ldhl	sp,	#0
-	ld	(hl), c
-	inc	hl
-	ld	(hl), #0x00
-	inc	hl
-	ld	(hl), #0x9a
+	inc	sp
+	inc	sp
+	ld	e, c
+	ld	d, b
+	ld	bc, #0x03e8
+	push	de
+	call	__divuint
+	ld	a, c
+	add	a, #0x9a
+	ldhl	sp,	#2
+	ld	(hl), a
 ;src/scripts/gui_management.c:233: costs[1] = cost % 1000 / 100 + 154;
 	ld	bc, #0x03e8
 	pop	de
 	push	de
-	call	__modsint
-	ld	a, c
-	ld	e, #0x64
-	call	__divuchar
+	call	__moduint
+	ld	e, c
+	ld	d, b
+	ld	bc, #0x0064
+	call	__divuint
 	ld	a, c
 	add	a, #0x9a
 	ldhl	sp,	#3
 	ld	(hl), a
 ;src/scripts/gui_management.c:234: costs[2] = cost % 100 / 10 + 154;
-	ldhl	sp,	#0
-	ld	c, (hl)
-	push	bc
-	ld	e, #0x64
-	ld	a, c
-	call	__moduchar
+	ld	bc, #0x0064
+	pop	de
+	push	de
+	call	__moduint
 	ld	a, c
 	ld	e, #0x0a
 	call	__divuchar
 	ld	a, c
-	pop	bc
 	add	a, #0x9a
 	ldhl	sp,	#4
 	ld	(hl), a
 ;src/scripts/gui_management.c:235: costs[3] = cost % 10 + 154;
-	ld	e, #0x0a
-	ld	a, c
-	call	__moduchar
+	ld	bc, #0x000a
+	pop	de
+	push	de
+	call	__moduint
 	ld	a, c
 	add	a, #0x9a
 	ldhl	sp,	#5

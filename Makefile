@@ -33,7 +33,8 @@ B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
              src/maps/GameOver.c src/tiles/GameOverText.c src/scripts/gameover.c \
              src/tiles/sword.c src/tiles/effects.c src/scripts/play_effects.c src/scripts/save_manager.c \
              src/songs/item_found.c
-B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c  src/scripts/drop.c
+B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c  src/scripts/drop.c src/scripts/movement.c src/scripts/player_vars.c \
+			 src/scripts/game_vars.c src/scripts/actions.c
 
 
 define make_obj_list

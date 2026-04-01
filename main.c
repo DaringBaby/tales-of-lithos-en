@@ -45,11 +45,13 @@
 #include "src/scripts/ending_sequence.h"
 #include "src/scripts/save_manager.h"
 #include "src/scripts/play_effects.h"
+#include "src/scripts/movement.h"
+#include "src/scripts/actions.h"
+#include "src/scripts/player_vars.h"
+#include "src/scripts/game_vars.h"
+#include "src/scripts/songs.h"
 
 /* PROTOTYPES */
-
-void move_character();
-void check_input_movement();
 uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
 uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y);
 void set_camp_map();
@@ -58,42 +60,17 @@ void set_room(Coords coord);
 void change_room();
 void check_open_menu();
 void clean_window();
-void check_input_keys();
 void go_into_dungeon();
 void hide_camp_sprites();
 void go_next_floor();
 void set_textbox(uint8_t item);
 void player_attack(uint8_t wpn, uint8_t index);
 void shoot_arrow();
-void smooth_movement(uint8_t dir);
 void music_vbl_interrupt();
 void return_to_camp();
 void set_tutorial();
 void debug_value(uint8_t value);
 
-
-/* DEBUG */
-uint8_t debug = 0;
-
-/* VARS */
-
-int tile_id = 0;
-uint8_t x = 120;
-uint8_t y = 112;
-
-uint8_t last_x;
-uint8_t last_y;
-
-uint8_t last_direction = 1;
-
-uint8_t frames = 0;
-uint8_t seconds = 0;
-uint8_t minutes = 0;
-uint8_t hours = 0;
-
-uint8_t enemies_defeated = 0;
-uint8_t max_floor = 0;
-uint8_t power_ups = 0;
 
 const unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 const unsigned char black[16] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -105,40 +82,8 @@ const uint8_t menu_body[] = {187};
 const uint8_t arrow_tile = 245;
 
 
-Coords player_coords;
 unsigned char current_room[360];
 
-
-uint8_t last_joypad = 0;
-uint8_t current_joypad = 0;
-
-
-/* PLAYER STATS */
-uint8_t player_name[] = {164, 164, 164, 164, 164};
-uint8_t max_hp = 23;
-uint8_t current_hp = 23;
-uint8_t attack = 5;
-uint8_t defense = 3;
-uint8_t level = 1;
-uint16_t experience = 0;
-uint8_t sword_lvl = 1;
-uint8_t shield_lvl = 1;
-uint8_t arrow_lvl = 1;
-uint8_t quiver_lvl = 1;
-uint8_t potion_quant_lvl = 1;
-uint8_t potion_heal_lvl = 1;
-
-/* NUMBER OF ITEMS */
-uint8_t max_heals = 5;
-uint8_t heals = 5;
-uint8_t heal_quantity = 10;
-uint8_t arrow_damage = 3;
-uint8_t num_arrows = 10;
-uint8_t max_num_arrows = 10;
-uint8_t minerals = 0;
-
-uint8_t obt_mythril = 0;
-uint8_t obt_exp = 0;
 
 /* BANK 2 VARIABLES*/
 extern const unsigned char CampTiles[];
@@ -164,56 +109,9 @@ extern uint8_t room_enemies[4][4];
 extern uint8_t obstacles[4][4];
 extern uint8_t locked_door;
 
-/* MUSIC */
-extern const hUGESong_t gameover_jingle;
-extern const hUGESong_t boss_defeated_jingle;
-extern const hUGESong_t item_found;
-extern const hUGESong_t dungeon_theme;
-extern const hUGESong_t boss_theme;
-extern const hUGESong_t camp_theme;
-extern const hUGESong_t intro_theme;
-extern const hUGESong_t ending_song;
 
-/* GAME VARS*/
-uint8_t menu_opened = 0; // 0: no menu, 1: main menu, 2: hector menu, 3: safy menu, 4 textbox, 5: map menu, 6: stats menu
-uint8_t current_location = 0; // 0 camp, 1 dungeon
-uint8_t current_floor = 1;
-
-uint8_t map[4][4];
-
-
-uint8_t hector_option = 1;
-uint8_t safy_option = 1;
-uint8_t map_option = 0;
-
-const uint8_t upgrade_costs[] = {2, 4, 7, 10, 14, 18, 24, 30};
-const uint16_t cure_upgrade_costs[] = {
-    10, 60, 150, 350, 700, 1200, 1800, 2300, 2800
-};
-const uint16_t level_curve[] = {
-    10, 25, 45, 70, 100, 135, 175, 220, 270, 325,   // 1-10
-    385, 450, 520, 595, 675, 760, 850, 945, 1045, 1150, // 11-20
-    1210, 1270, 1330, 1390, 1450, 1510, 1570, 1630, 1690, 1750, // 21-30
-    1810, 1870, 1930, 1990, 2050, 2110, 2170, 2230, 2290, 2350, // 31-40
-    2410, 2470, 2530, 2590, 2650, 2710, 2740, 2770, 2790, 2800  // 41-50
-};
-/* FLAGS */
-uint8_t key_obtained = 0;
-uint8_t treasure_obtained = 0;
-uint8_t lock_opened = 0;
-uint8_t boss_battle = 0;
-uint8_t boss_floor_defeated = 0;
-uint8_t returning_to_camp = 0;
-uint8_t current_song_bank = 3;
-uint8_t ng = 0;
-uint8_t walk_step = 0;
-
-/* SEED PER GENERAZIONE CASUALE */
-
-uint16_t seed;
 
 /* ENEMIES */
-
 Enemy current_enemies[2];
 Enemy enemy;
 Boss boss;
@@ -355,281 +253,7 @@ void main(void) {
     }
 }
 
-void move_character() {
-    move_sprite(4, x, y);
-    move_sprite(5, x+8, y);
-    move_sprite(6, x, y + 8);
-    move_sprite(7, x + 8, y + 8);
-    // per ora che non ci sono altri tiles per il player
-    if (y == 144) {
-            set_sprite_tile(6, 50);
-            set_sprite_tile(7, 50);
-        }
 
-}
-
-void check_input_movement() {
-    uint8_t moved = 0;
-
-    if (joypad() & J_DOWN) {
-        last_direction = 4;
-        set_character_sprite(4);
-        if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
-            moved = 1;
-            if (!check_enemy(4)) {
-                last_y = y;
-                last_x = x;
-                smooth_movement(4);
-            }
-            else {
-                uint8_t enemy_idx = check_enemy(4);
-                play_attack_animation(4);
-                player_attack(0, enemy_idx-1);
-                set_character_sprite(4);
-            }
-        }
-    }
-    else if (joypad() & J_UP) {
-        set_character_sprite(1);
-        if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
-            last_direction = 1;
-            moved = 1;
-            if (!check_enemy(1)) {
-                last_y = y;
-                last_x = x;
-                smooth_movement(1);
-            }
-            else {
-                uint8_t enemy_idx = check_enemy(1);
-                play_attack_animation(1);
-                player_attack(0, enemy_idx-1);
-                set_character_sprite(1);
-            }
-            if (current_location == 0 && y <= 40) {
-                current_location = 1;
-                current_floor = 5;
-                obt_mythril = 0;
-                obt_exp = 0;
-                boss.defeated = 1;
-                hide_camp_sprites();
-                save_game();
-                go_into_dungeon();
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
-                set_sprite_tile(4, 0);
-                set_sprite_tile(5, 1);
-                set_sprite_tile(6, 2);
-                set_sprite_tile(7, 3);
-                x = 120;
-                y = 112;
-                return;
-            }
-        }
-    }
-    else if (joypad() & J_LEFT) {
-        last_direction = 8;
-        set_character_sprite(8);
-        if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
-            moved = 1;
-            if (!check_enemy(8)) {
-                last_y = y;
-                last_x = x;
-                smooth_movement(8);
-            }
-            else {
-                uint8_t enemy_idx = check_enemy(8);
-                play_attack_animation(8);
-                player_attack(0, enemy_idx-1);
-                set_character_sprite(8);
-            }
-        }
-    }
-    else if (joypad() & J_RIGHT) {
-        set_character_sprite(2);
-        last_direction = 2;
-        if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
-            moved = 1;
-            if (!check_enemy(2)) {
-                last_y = y;
-                last_x = x;
-                smooth_movement(2);
-            }
-            else {
-                uint8_t enemy_idx = check_enemy(2);
-                play_attack_animation(2);
-                player_attack(0, enemy_idx-1);
-                set_character_sprite(2);
-            }
-        }
-    }
-
-    if (moved) {
-        // move_character();
-        check_drops(x, y);
-        delay(20);
-        if (current_location == 1) {
-            // move_enemy(&current_enemies[0]);
-            // move_enemy(&current_enemies[1]);
-            move_boss(&boss);
-
-            if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
-                stairs_sfx();
-                go_next_floor();
-            }
-
-            if (current_hp == 0) {
-                death_sfx();
-                delay(100);
-                current_song_bank = 3;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&gameover_jingle);
-                SWITCH_ROM(1);
-                game_over();
-                enemy_death(&current_enemies[0]);
-                enemy_death(&current_enemies[1]);
-                boss_death(&boss);
-                clear_drops();
-                boss_floor_defeated = 0;
-                key_obtained = 0;
-                boss_battle = 0;
-                move_win(7, 136);
-                set_mini_menu();
-                set_camp_map();
-                x = 120;
-                y = 112;
-                move_character();
-                delay(100);
-                SHOW_WIN;
-                DISPLAY_ON;
-            }
-        }
-
-    }
-}
-
-void check_input_keys() {
-    if (joypad() & J_A) {
-        // interazione con oggetti
-        uint8_t gx = (x - 8) / 8;
-        uint8_t gy = (y - 16) / 8;
-        if (current_location == 1) {
-            if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
-                current_song_bank = 1;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&item_found);
-                SWITCH_ROM(1);
-                treasure_obtained = 1;
-                minerals++;
-                obt_mythril++;
-                set_bkg_tiles(8, 6, 4, 2, chest_opened);
-                delay(150);
-                menu_opened = 4;
-                set_textbox(2);
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
-            }
-            else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
-                current_song_bank = 1;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&item_found);
-                SWITCH_ROM(1);
-                set_sprite_tile(33, 59);
-                set_sprite_tile(34, 60);
-                key_obtained = 1;
-                set_bkg_tiles(8, 6, 4, 2, chest_opened);
-                delay(150);
-                menu_opened = 4;
-                set_textbox(1);
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
-            }
-            else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
-                switch (locked_door) {
-                    case 1:
-                        if (gx >= 8 && gx <= 11 && gy <= 3) {
-                            lock_opened = 1;
-                            hide_door();
-                        }
-                        break;
-                    case 2:
-                        if (gy >= 8 && gy <= 9 && gx >= 16) {
-                            lock_opened = 1;
-                            hide_door();
-                        }
-                        break;
-                    case 4:
-                        if (gy >= 14 && gx >= 8 && gx <= 11) {
-                            lock_opened = 1;
-                            hide_door();
-                        }
-                        break;
-                    case 8:
-                        if (gx <= 3 && gy >= 8 && gy <= 9) {
-                            lock_opened = 1;
-                            hide_door();
-                        }
-                        break;
-                }
-                unlock_sfx();
-            }
-            else {
-                if (num_arrows > 0) {
-                    shoot_arrow();
-                    num_arrows--;
-                    delay(100);
-                    move_enemy(&current_enemies[0]);
-                    move_enemy(&current_enemies[1]);
-                    move_boss(&boss);
-                }
-            }
-        }
-        else if (current_location == 0) {
-            if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
-                while(joypad() & J_A) { wait_vbl_done(); }
-                menu_opened = 2;
-                HIDE_SPRITES;
-                move_win(7, 32);
-                set_win_tiles(0, 0, 20, 14, hector_menu);
-                set_win_tiles(1, 1, 1, 1, &arrow_tile);
-                delay(300);
-            }
-            else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
-                while(joypad() & J_A) { wait_vbl_done(); }
-                menu_opened = 3;
-                HIDE_SPRITES;
-                move_win(7, 32);
-                set_win_tiles(0, 0, 20, 14, safy_menu);
-                set_win_tiles(1, 1, 1, 1, &arrow_tile);
-                delay(300);
-            }
-            else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
-                save_game();
-                delay(150);
-                heal_sfx();
-                menu_opened = 4;
-                set_textbox(0);
-            }
-        }
-    }
-
-    else if (joypad() & J_B && current_location == 1) {
-        if (heals > 0) {
-            heal_sfx();
-            heal_player();
-            heals--;
-            delay(100);
-            move_enemy(&current_enemies[0]);
-            move_enemy(&current_enemies[1]);
-            move_boss(&boss);
-        }
-    }
-}
 
 
 uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
@@ -1206,85 +830,6 @@ void heal_player() {
     play_heal_animation();
     show_number(heal, 1, 0, 0);
 }
-
-
-void smooth_movement(uint8_t dir) {
-    uint8_t mov_x, mov_y;
-    mov_x = x;
-    mov_y = y;
-    uint8_t frame = 0;
-    switch (dir) {
-        case 1:
-            y-=16;
-            break;
-        case 2:
-            x+=16;
-            break;
-        case 4:
-            y+=16;
-            break;
-        case 8:
-            x-=16;
-            break;
-    }
-
-    play_walk_animation(dir);
-
-    while (frame < 16) {
-        if (frame > 7) {
-            set_character_sprite(dir);
-        }
-        if (mov_y >= 136) {
-            set_sprite_tile(6, 50);
-            set_sprite_tile(7, 50);
-        }
-        else if (mov_y == 134){
-            switch (dir) {
-                case 1:
-                    set_sprite_tile(6, 6);
-                    set_sprite_tile(7, 7);
-                    break;
-                case 2:
-                    set_sprite_tile(6, 10);
-                    set_sprite_tile(7, 11);
-                    break;
-                case 4:
-                    set_sprite_tile(6, 2);
-                    set_sprite_tile(7, 3);
-                    break;
-                case 8:
-                    set_sprite_tile(6, 14);
-                    set_sprite_tile(7, 15);
-                    break;
-            }
-        }
-        wait_vbl_done();
-        switch (dir) {
-            case 1:
-                mov_y-=1;
-                break;
-            case 2:
-                mov_x+=1;
-                break;
-            case 4:
-                mov_y+=1;
-                break;
-            case 8:
-                mov_x-=1;
-                break;
-        }
-        move_sprite(4, mov_x, mov_y);
-        move_sprite(5, mov_x+8, mov_y);
-        move_sprite(6, mov_x, mov_y + 8);
-        move_sprite(7, mov_x + 8, mov_y + 8);
-        frame++;
-    }
-
-}
-
-
-
-
 
 
 

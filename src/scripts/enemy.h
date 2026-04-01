@@ -21,8 +21,6 @@ extern uint8_t attack; // attacco player
 extern uint8_t defense; // difesa player
 extern uint8_t x; // pos. x player
 extern uint8_t y; // pos. y player
-extern uint8_t last_x; // x precedente player
-extern uint8_t last_y; // y precedente player
 extern Enemy current_enemies[2];
 
 

@@ -183,7 +183,7 @@ void hector_upgrades() {
 }
 
 void safy_upgrades() {
-    uint8_t cost = cure_upgrade_costs[potion_quant_lvl-1];
+    uint16_t cost = cure_upgrade_costs[potion_quant_lvl-1];
     switch(safy_option) {
         case 1:
             if (potion_quant_lvl < 9) {

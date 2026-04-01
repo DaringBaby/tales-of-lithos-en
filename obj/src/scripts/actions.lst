@@ -1,0 +1,762 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module actions
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _heal_player
+                                     11 	.globl _save_game
+                                     12 	.globl _set_textbox
+                                     13 	.globl b_move_boss
+                                     14 	.globl _move_boss
+                                     15 	.globl _move_enemy
+                                     16 	.globl _shoot_arrow
+                                     17 	.globl b_hide_door
+                                     18 	.globl _hide_door
+                                     19 	.globl b_unlock_sfx
+                                     20 	.globl _unlock_sfx
+                                     21 	.globl b_heal_sfx
+                                     22 	.globl _heal_sfx
+                                     23 	.globl _hUGE_init
+                                     24 	.globl _set_win_tiles
+                                     25 	.globl _set_bkg_tiles
+                                     26 	.globl _wait_vbl_done
+                                     27 	.globl _joypad
+                                     28 	.globl _delay
+                                     29 	.globl _check_input_keys
+                                     30 ;--------------------------------------------------------
+                                     31 ; special function registers
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HRAM
+                                     34 ;--------------------------------------------------------
+                                     35 ; ram data
+                                     36 ;--------------------------------------------------------
+                                     37 	.area _DATA
+                                     38 ;--------------------------------------------------------
+                                     39 ; ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _INITIALIZED
+                                     42 ;--------------------------------------------------------
+                                     43 ; absolute external ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _DABS (ABS)
+                                     46 ;--------------------------------------------------------
+                                     47 ; global & static initialisations
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _HOME
+                                     50 	.area _GSINIT
+                                     51 	.area _GSFINAL
+                                     52 	.area _GSINIT
+                                     53 ;--------------------------------------------------------
+                                     54 ; Home
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _HOME
+                                     57 	.area _HOME
+                                     58 ;--------------------------------------------------------
+                                     59 ; code
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _CODE
+                                     62 ;src/scripts/actions.c:3: void check_input_keys() {
+                                     63 ;	---------------------------------
+                                     64 ; Function check_input_keys
+                                     65 ; ---------------------------------
+    00000000                         66 _check_input_keys::
+    00000000 E8 F7            [16]   67 	add	sp, #-9
+                                     68 ;src/scripts/actions.c:4: if (joypad() & J_A) {
+    00000002 CDr00r00         [24]   69 	call	_joypad
+    00000005 CB 67            [ 8]   70 	bit	4, a
+    00000007 CAr16r04         [16]   71 	jp	Z, 00178$
+                                     72 ;src/scripts/actions.c:6: uint8_t gx = (x - 8) / 8;
+    0000000A FAr00r00         [16]   73 	ld	a, (_x)
+    0000000D 4F               [ 4]   74 	ld	c, a
+    0000000E 06 00            [ 8]   75 	ld	b, #0x00
+    00000010 11 08 00         [12]   76 	ld	de, #0x0008
+    00000013 79               [ 4]   77 	ld	a, c
+    00000014 93               [ 4]   78 	sub	a, e
+    00000015 5F               [ 4]   79 	ld	e, a
+    00000016 78               [ 4]   80 	ld	a, b
+    00000017 9A               [ 4]   81 	sbc	a, d
+    00000018 F8 06            [12]   82 	ldhl	sp,	#6
+    0000001A 32               [ 8]   83 	ld	(hl-), a
+    0000001B 73               [ 8]   84 	ld	(hl), e
+    0000001C 2A               [ 8]   85 	ld	a, (hl+)
+    0000001D 23               [ 8]   86 	inc	hl
+    0000001E 32               [ 8]   87 	ld	(hl-), a
+    0000001F 2A               [ 8]   88 	ld	a, (hl+)
+    00000020 23               [ 8]   89 	inc	hl
+    00000021 32               [ 8]   90 	ld	(hl-), a
+    00000022 2B               [ 8]   91 	dec	hl
+    00000023 CB 7E            [12]   92 	bit	7, (hl)
+    00000025 28 0E            [12]   93 	jr	Z, 00186$
+    00000027 21 FF FF         [12]   94 	ld	hl, #0xffff
+    0000002A 09               [ 8]   95 	add	hl, bc
+    0000002B E5               [16]   96 	push	hl
+    0000002C 7D               [ 4]   97 	ld	a, l
+    0000002D F8 09            [12]   98 	ldhl	sp,	#9
+    0000002F 77               [ 8]   99 	ld	(hl), a
+    00000030 E1               [12]  100 	pop	hl
+    00000031 7C               [ 4]  101 	ld	a, h
+    00000032 F8 08            [12]  102 	ldhl	sp,	#8
+    00000034 77               [ 8]  103 	ld	(hl), a
+    00000035                        104 00186$:
+    00000035 F8 07            [12]  105 	ldhl	sp,#7
+    00000037 2A               [ 8]  106 	ld	a, (hl+)
+    00000038 4F               [ 4]  107 	ld	c, a
+    00000039 46               [ 8]  108 	ld	b, (hl)
+    0000003A CB 28            [ 8]  109 	sra	b
+    0000003C CB 19            [ 8]  110 	rr	c
+    0000003E CB 28            [ 8]  111 	sra	b
+    00000040 CB 19            [ 8]  112 	rr	c
+    00000042 CB 28            [ 8]  113 	sra	b
+    00000044 CB 19            [ 8]  114 	rr	c
+    00000046 F8 02            [12]  115 	ldhl	sp,	#2
+    00000048 71               [ 8]  116 	ld	(hl), c
+                                    117 ;src/scripts/actions.c:7: uint8_t gy = (y - 16) / 8;
+    00000049 FAr00r00         [16]  118 	ld	a, (#_y)
+    0000004C F8 03            [12]  119 	ldhl	sp,	#3
+    0000004E 22               [ 8]  120 	ld	(hl+), a
+    0000004F AF               [ 4]  121 	xor	a, a
+    00000050 32               [ 8]  122 	ld	(hl-), a
+    00000051 2A               [ 8]  123 	ld	a, (hl+)
+    00000052 5F               [ 4]  124 	ld	e, a
+    00000053 56               [ 8]  125 	ld	d, (hl)
+    00000054 21 10 00         [12]  126 	ld	hl, #0x0010
+    00000057 7B               [ 4]  127 	ld	a, e
+    00000058 95               [ 4]  128 	sub	a, l
+    00000059 5F               [ 4]  129 	ld	e, a
+    0000005A 7A               [ 4]  130 	ld	a, d
+    0000005B 9C               [ 4]  131 	sbc	a, h
+    0000005C F8 06            [12]  132 	ldhl	sp,	#6
+    0000005E 32               [ 8]  133 	ld	(hl-), a
+    0000005F 73               [ 8]  134 	ld	(hl), e
+    00000060 2A               [ 8]  135 	ld	a, (hl+)
+    00000061 23               [ 8]  136 	inc	hl
+    00000062 32               [ 8]  137 	ld	(hl-), a
+    00000063 2A               [ 8]  138 	ld	a, (hl+)
+    00000064 23               [ 8]  139 	inc	hl
+    00000065 32               [ 8]  140 	ld	(hl-), a
+    00000066 2B               [ 8]  141 	dec	hl
+    00000067 CB 7E            [12]  142 	bit	7, (hl)
+    00000069 28 14            [12]  143 	jr	Z, 00187$
+    0000006B 2B               [ 8]  144 	dec	hl
+    0000006C 2B               [ 8]  145 	dec	hl
+    0000006D 2B               [ 8]  146 	dec	hl
+    0000006E 2A               [ 8]  147 	ld	a, (hl+)
+    0000006F 5F               [ 4]  148 	ld	e, a
+    00000070 56               [ 8]  149 	ld	d, (hl)
+    00000071 21 F7 FF         [12]  150 	ld	hl, #0xfff7
+    00000074 19               [ 8]  151 	add	hl, de
+    00000075 E5               [16]  152 	push	hl
+    00000076 7D               [ 4]  153 	ld	a, l
+    00000077 F8 09            [12]  154 	ldhl	sp,	#9
+    00000079 77               [ 8]  155 	ld	(hl), a
+    0000007A E1               [12]  156 	pop	hl
+    0000007B 7C               [ 4]  157 	ld	a, h
+    0000007C F8 08            [12]  158 	ldhl	sp,	#8
+    0000007E 77               [ 8]  159 	ld	(hl), a
+    0000007F                        160 00187$:
+    0000007F F8 07            [12]  161 	ldhl	sp,#7
+    00000081 2A               [ 8]  162 	ld	a, (hl+)
+    00000082 4F               [ 4]  163 	ld	c, a
+    00000083 46               [ 8]  164 	ld	b, (hl)
+    00000084 CB 28            [ 8]  165 	sra	b
+    00000086 CB 19            [ 8]  166 	rr	c
+    00000088 CB 28            [ 8]  167 	sra	b
+    0000008A CB 19            [ 8]  168 	rr	c
+    0000008C CB 28            [ 8]  169 	sra	b
+    0000008E CB 19            [ 8]  170 	rr	c
+    00000090 F8 03            [12]  171 	ldhl	sp,	#3
+    00000092 71               [ 8]  172 	ld	(hl), c
+                                    173 ;src/scripts/actions.c:9: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
+    00000093 2A               [ 8]  174 	ld	a, (hl+)
+    00000094 D6 08            [ 8]  175 	sub	a, #0x08
+    00000096 3E 00            [ 8]  176 	ld	a, #0x00
+    00000098 17               [ 4]  177 	rla
+    00000099 32               [ 8]  178 	ld	(hl-), a
+    0000009A 3E 09            [ 8]  179 	ld	a, #0x09
+    0000009C 96               [ 8]  180 	sub	a, (hl)
+    0000009D 23               [ 8]  181 	inc	hl
+    0000009E 23               [ 8]  182 	inc	hl
+    0000009F 3E 00            [ 8]  183 	ld	a, #0x00
+    000000A1 17               [ 4]  184 	rla
+    000000A2 77               [ 8]  185 	ld	(hl), a
+                                    186 ;src/scripts/actions.c:8: if (current_location == 1) {
+    000000A3 FAr00r00         [16]  187 	ld	a, (#_current_location)
+    000000A6 3D               [ 4]  188 	dec	a
+    000000A7 C2r0Dr03         [16]  189 	jp	NZ, 00170$
+                                    190 ;src/scripts/actions.c:9: if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
+    000000AA FAr00r00         [16]  191 	ld	a, (#_player_coords + 0)
+    000000AD F8 08            [12]  192 	ldhl	sp,#8
+    000000AF 77               [ 8]  193 	ld	(hl), a
+    000000B0 3A               [ 8]  194 	ld	a, (hl-)
+    000000B1 22               [ 8]  195 	ld	(hl+), a
+    000000B2 07               [ 4]  196 	rlca
+    000000B3 9F               [ 4]  197 	sbc	a, a
+    000000B4 32               [ 8]  198 	ld	(hl-), a
+    000000B5 7E               [ 8]  199 	ld	a, (hl)
+    000000B6 F8 00            [12]  200 	ldhl	sp,	#0
+    000000B8 77               [ 8]  201 	ld	(hl), a
+    000000B9 F8 08            [12]  202 	ldhl	sp,	#8
+    000000BB 7E               [ 8]  203 	ld	a, (hl)
+    000000BC F8 01            [12]  204 	ldhl	sp,	#1
+    000000BE 77               [ 8]  205 	ld	(hl), a
+    000000BF 3E 02            [ 8]  206 	ld	a, #0x02
+    000000C1                        207 00562$:
+    000000C1 F8 00            [12]  208 	ldhl	sp,	#0
+    000000C3 CB 26            [16]  209 	sla	(hl)
+    000000C5 23               [ 8]  210 	inc	hl
+    000000C6 CB 16            [16]  211 	rl	(hl)
+    000000C8 3D               [ 4]  212 	dec	a
+    000000C9 20 F6            [12]  213 	jr	NZ, 00562$
+    000000CB D1               [12]  214 	pop	de
+    000000CC D5               [16]  215 	push	de
+    000000CD 21r00r00         [12]  216 	ld	hl, #_dungeon
+    000000D0 19               [ 8]  217 	add	hl, de
+    000000D1 E5               [16]  218 	push	hl
+    000000D2 7D               [ 4]  219 	ld	a, l
+    000000D3 F8 09            [12]  220 	ldhl	sp,	#9
+    000000D5 77               [ 8]  221 	ld	(hl), a
+    000000D6 E1               [12]  222 	pop	hl
+    000000D7 7C               [ 4]  223 	ld	a, h
+    000000D8 F8 08            [12]  224 	ldhl	sp,	#8
+    000000DA 77               [ 8]  225 	ld	(hl), a
+    000000DB FAr01r00         [16]  226 	ld	a, (#(_player_coords + 1) + 0)
+    000000DE 5F               [ 4]  227 	ld	e, a
+    000000DF 16 00            [ 8]  228 	ld	d, #0x00
+    000000E1 3A               [ 8]  229 	ld	a, (hl-)
+    000000E2 6E               [ 8]  230 	ld	l, (hl)
+    000000E3 67               [ 4]  231 	ld	h, a
+    000000E4 19               [ 8]  232 	add	hl, de
+    000000E5 4D               [ 4]  233 	ld	c, l
+    000000E6 44               [ 4]  234 	ld	b, h
+    000000E7 0A               [ 8]  235 	ld	a, (bc)
+    000000E8 F8 06            [12]  236 	ldhl	sp,	#6
+    000000EA 77               [ 8]  237 	ld	(hl), a
+    000000EB F8 02            [12]  238 	ldhl	sp,	#2
+    000000ED 7E               [ 8]  239 	ld	a, (hl)
+    000000EE D6 08            [ 8]  240 	sub	a, #0x08
+    000000F0 3E 00            [ 8]  241 	ld	a, #0x00
+    000000F2 17               [ 4]  242 	rla
+    000000F3 F8 07            [12]  243 	ldhl	sp,	#7
+    000000F5 77               [ 8]  244 	ld	(hl), a
+    000000F6 3E 0B            [ 8]  245 	ld	a, #0x0b
+    000000F8 F8 02            [12]  246 	ldhl	sp,	#2
+    000000FA 96               [ 8]  247 	sub	a, (hl)
+    000000FB 3E 00            [ 8]  248 	ld	a, #0x00
+    000000FD 17               [ 4]  249 	rla
+    000000FE F8 08            [12]  250 	ldhl	sp,	#8
+    00000100 32               [ 8]  251 	ld	(hl-), a
+    00000101 2B               [ 8]  252 	dec	hl
+    00000102 7E               [ 8]  253 	ld	a, (hl)
+    00000103 D6 54            [ 8]  254 	sub	a, #0x54
+    00000105 C2r90r01         [16]  255 	jp	NZ, 00137$
+    00000108 F8 07            [12]  256 	ldhl	sp,	#7
+    0000010A CB 46            [12]  257 	bit	0, (hl)
+    0000010C C2r90r01         [16]  258 	jp	NZ, 00137$
+    0000010F 23               [ 8]  259 	inc	hl
+    00000110 CB 46            [12]  260 	bit	0, (hl)
+    00000112 20 7C            [12]  261 	jr	NZ, 00137$
+    00000114 F8 04            [12]  262 	ldhl	sp,	#4
+    00000116 CB 46            [12]  263 	bit	0, (hl)
+    00000118 20 76            [12]  264 	jr	NZ, 00137$
+    0000011A 23               [ 8]  265 	inc	hl
+    0000011B CB 46            [12]  266 	bit	0, (hl)
+    0000011D 20 71            [12]  267 	jr	NZ, 00137$
+    0000011F FAr00r00         [16]  268 	ld	a, (#_treasure_obtained)
+    00000122 B7               [ 4]  269 	or	a, a
+    00000123 20 6B            [12]  270 	jr	NZ, 00137$
+                                    271 ;src/scripts/actions.c:10: current_song_bank = 1;
+    00000125 21r00r00         [12]  272 	ld	hl, #_current_song_bank
+    00000128 36 01            [12]  273 	ld	(hl), #0x01
+                                    274 ;src/scripts/actions.c:11: SWITCH_ROM(current_song_bank);
+    0000012A 3E 01            [ 8]  275 	ld	a, #0x01
+    0000012C E0r00            [12]  276 	ldh	(__current_bank + 0), a
+    0000012E 21r00r00         [12]  277 	ld	hl, #_rROMB0
+    00000131 36 01            [12]  278 	ld	(hl), #0x01
+                                    279 ;src/scripts/actions.c:12: hUGE_init(&item_found);
+    00000133 11r00r00         [12]  280 	ld	de, #_item_found
+    00000136 CDr00r00         [24]  281 	call	_hUGE_init
+                                    282 ;src/scripts/actions.c:13: SWITCH_ROM(1);
+    00000139 3E 01            [ 8]  283 	ld	a, #0x01
+    0000013B E0r00            [12]  284 	ldh	(__current_bank + 0), a
+    0000013D 21r00r00         [12]  285 	ld	hl, #_rROMB0
+    00000140 36 01            [12]  286 	ld	(hl), #0x01
+                                    287 ;src/scripts/actions.c:14: treasure_obtained = 1;
+    00000142 21r00r00         [12]  288 	ld	hl, #_treasure_obtained
+    00000145 36 01            [12]  289 	ld	(hl), #0x01
+                                    290 ;src/scripts/actions.c:15: minerals++;
+    00000147 21r00r00         [12]  291 	ld	hl, #_minerals
+    0000014A 34               [12]  292 	inc	(hl)
+                                    293 ;src/scripts/actions.c:16: obt_mythril++;
+    0000014B 21r00r00         [12]  294 	ld	hl, #_obt_mythril
+    0000014E 34               [12]  295 	inc	(hl)
+                                    296 ;src/scripts/actions.c:17: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+    0000014F 11r00r00         [12]  297 	ld	de, #_chest_opened
+    00000152 D5               [16]  298 	push	de
+    00000153 21 04 02         [12]  299 	ld	hl, #0x204
+    00000156 E5               [16]  300 	push	hl
+    00000157 21 08 06         [12]  301 	ld	hl, #0x608
+    0000015A E5               [16]  302 	push	hl
+    0000015B CDr00r00         [24]  303 	call	_set_bkg_tiles
+    0000015E E8 06            [16]  304 	add	sp, #6
+                                    305 ;src/scripts/actions.c:18: delay(150);
+    00000160 11 96 00         [12]  306 	ld	de, #0x0096
+    00000163 CDr00r00         [24]  307 	call	_delay
+                                    308 ;src/scripts/actions.c:19: menu_opened = 4;
+    00000166 21r00r00         [12]  309 	ld	hl, #_menu_opened
+    00000169 36 04            [12]  310 	ld	(hl), #0x04
+                                    311 ;src/scripts/actions.c:20: set_textbox(2);
+    0000016B 3E 02            [ 8]  312 	ld	a, #0x02
+    0000016D CDr00r00         [24]  313 	call	_set_textbox
+                                    314 ;src/scripts/actions.c:21: current_song_bank = 4;
+    00000170 21r00r00         [12]  315 	ld	hl, #_current_song_bank
+    00000173 36 04            [12]  316 	ld	(hl), #0x04
+                                    317 ;src/scripts/actions.c:22: SWITCH_ROM(current_song_bank);
+    00000175 3E 04            [ 8]  318 	ld	a, #0x04
+    00000177 E0r00            [12]  319 	ldh	(__current_bank + 0), a
+    00000179 21r00r00         [12]  320 	ld	hl, #_rROMB0
+    0000017C 36 04            [12]  321 	ld	(hl), #0x04
+                                    322 ;src/scripts/actions.c:23: hUGE_init(&dungeon_theme);
+    0000017E 11r00r00         [12]  323 	ld	de, #_dungeon_theme
+    00000181 CDr00r00         [24]  324 	call	_hUGE_init
+                                    325 ;src/scripts/actions.c:24: SWITCH_ROM(1);
+    00000184 3E 01            [ 8]  326 	ld	a, #0x01
+    00000186 E0r00            [12]  327 	ldh	(__current_bank + 0), a
+    00000188 21r00r00         [12]  328 	ld	hl, #_rROMB0
+    0000018B 36 01            [12]  329 	ld	(hl), #0x01
+    0000018D C3r57r04         [16]  330 	jp	00184$
+    00000190                        331 00137$:
+                                    332 ;src/scripts/actions.c:26: else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
+    00000190 F8 06            [12]  333 	ldhl	sp,	#6
+    00000192 7E               [ 8]  334 	ld	a, (hl)
+    00000193 D6 4B            [ 8]  335 	sub	a, #0x4b
+    00000195 C2r23r02         [16]  336 	jp	NZ, 00129$
+    00000198 F8 07            [12]  337 	ldhl	sp,	#7
+    0000019A CB 46            [12]  338 	bit	0, (hl)
+    0000019C C2r23r02         [16]  339 	jp	NZ, 00129$
+    0000019F 23               [ 8]  340 	inc	hl
+    000001A0 CB 46            [12]  341 	bit	0, (hl)
+    000001A2 C2r23r02         [16]  342 	jp	NZ, 00129$
+    000001A5 F8 04            [12]  343 	ldhl	sp,	#4
+    000001A7 CB 46            [12]  344 	bit	0, (hl)
+    000001A9 20 78            [12]  345 	jr	NZ, 00129$
+    000001AB 23               [ 8]  346 	inc	hl
+    000001AC CB 46            [12]  347 	bit	0, (hl)
+    000001AE 20 73            [12]  348 	jr	NZ, 00129$
+    000001B0 FAr00r00         [16]  349 	ld	a, (#_key_obtained)
+    000001B3 B7               [ 4]  350 	or	a, a
+    000001B4 20 6D            [12]  351 	jr	NZ, 00129$
+                                    352 ;src/scripts/actions.c:27: current_song_bank = 1;
+    000001B6 21r00r00         [12]  353 	ld	hl, #_current_song_bank
+    000001B9 36 01            [12]  354 	ld	(hl), #0x01
+                                    355 ;src/scripts/actions.c:28: SWITCH_ROM(current_song_bank);
+    000001BB 3E 01            [ 8]  356 	ld	a, #0x01
+    000001BD E0r00            [12]  357 	ldh	(__current_bank + 0), a
+    000001BF 21r00r00         [12]  358 	ld	hl, #_rROMB0
+    000001C2 36 01            [12]  359 	ld	(hl), #0x01
+                                    360 ;src/scripts/actions.c:29: hUGE_init(&item_found);
+    000001C4 11r00r00         [12]  361 	ld	de, #_item_found
+    000001C7 CDr00r00         [24]  362 	call	_hUGE_init
+                                    363 ;src/scripts/actions.c:30: SWITCH_ROM(1);
+    000001CA 3E 01            [ 8]  364 	ld	a, #0x01
+    000001CC E0r00            [12]  365 	ldh	(__current_bank + 0), a
+    000001CE 21r00r00         [12]  366 	ld	hl, #_rROMB0
+    000001D1 36 01            [12]  367 	ld	(hl), #0x01
+                                    368 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000001D3 21r86r00         [12]  369 	ld	hl, #(_shadow_OAM + 134)
+    000001D6 36 3B            [12]  370 	ld	(hl), #0x3b
+    000001D8 21r8Ar00         [12]  371 	ld	hl, #(_shadow_OAM + 138)
+    000001DB 36 3C            [12]  372 	ld	(hl), #0x3c
+                                    373 ;src/scripts/actions.c:33: key_obtained = 1;
+    000001DD 21r00r00         [12]  374 	ld	hl, #_key_obtained
+    000001E0 36 01            [12]  375 	ld	(hl), #0x01
+                                    376 ;src/scripts/actions.c:34: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+    000001E2 11r00r00         [12]  377 	ld	de, #_chest_opened
+    000001E5 D5               [16]  378 	push	de
+    000001E6 21 04 02         [12]  379 	ld	hl, #0x204
+    000001E9 E5               [16]  380 	push	hl
+    000001EA 21 08 06         [12]  381 	ld	hl, #0x608
+    000001ED E5               [16]  382 	push	hl
+    000001EE CDr00r00         [24]  383 	call	_set_bkg_tiles
+    000001F1 E8 06            [16]  384 	add	sp, #6
+                                    385 ;src/scripts/actions.c:35: delay(150);
+    000001F3 11 96 00         [12]  386 	ld	de, #0x0096
+    000001F6 CDr00r00         [24]  387 	call	_delay
+                                    388 ;src/scripts/actions.c:36: menu_opened = 4;
+    000001F9 21r00r00         [12]  389 	ld	hl, #_menu_opened
+    000001FC 36 04            [12]  390 	ld	(hl), #0x04
+                                    391 ;src/scripts/actions.c:37: set_textbox(1);
+    000001FE 3E 01            [ 8]  392 	ld	a, #0x01
+    00000200 CDr00r00         [24]  393 	call	_set_textbox
+                                    394 ;src/scripts/actions.c:38: current_song_bank = 4;
+    00000203 21r00r00         [12]  395 	ld	hl, #_current_song_bank
+    00000206 36 04            [12]  396 	ld	(hl), #0x04
+                                    397 ;src/scripts/actions.c:39: SWITCH_ROM(current_song_bank);
+    00000208 3E 04            [ 8]  398 	ld	a, #0x04
+    0000020A E0r00            [12]  399 	ldh	(__current_bank + 0), a
+    0000020C 21r00r00         [12]  400 	ld	hl, #_rROMB0
+    0000020F 36 04            [12]  401 	ld	(hl), #0x04
+                                    402 ;src/scripts/actions.c:40: hUGE_init(&dungeon_theme);
+    00000211 11r00r00         [12]  403 	ld	de, #_dungeon_theme
+    00000214 CDr00r00         [24]  404 	call	_hUGE_init
+                                    405 ;src/scripts/actions.c:41: SWITCH_ROM(1);
+    00000217 3E 01            [ 8]  406 	ld	a, #0x01
+    00000219 E0r00            [12]  407 	ldh	(__current_bank + 0), a
+    0000021B 21r00r00         [12]  408 	ld	hl, #_rROMB0
+    0000021E 36 01            [12]  409 	ld	(hl), #0x01
+    00000220 C3r57r04         [16]  410 	jp	00184$
+    00000223                        411 00129$:
+                                    412 ;src/scripts/actions.c:43: else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
+    00000223 F8 06            [12]  413 	ldhl	sp,	#6
+    00000225 7E               [ 8]  414 	ld	a, (hl)
+    00000226 D6 4C            [ 8]  415 	sub	a, #0x4c
+    00000228 C2rDDr02         [16]  416 	jp	NZ, 00125$
+    0000022B FAr00r00         [16]  417 	ld	a, (#_key_obtained)
+    0000022E 3D               [ 4]  418 	dec	a
+    0000022F C2rDDr02         [16]  419 	jp	NZ, 00125$
+                                    420 ;src/scripts/actions.c:44: switch (locked_door) {
+    00000232 FAr00r00         [16]  421 	ld	a, (#_locked_door)
+    00000235 3D               [ 4]  422 	dec	a
+    00000236 28 18            [12]  423 	jr	Z, 00101$
+    00000238 FAr00r00         [16]  424 	ld	a, (#_locked_door)
+    0000023B D6 02            [ 8]  425 	sub	a, #0x02
+    0000023D 28 32            [12]  426 	jr	Z, 00106$
+    0000023F FAr00r00         [16]  427 	ld	a, (#_locked_door)
+    00000242 D6 04            [ 8]  428 	sub	a, #0x04
+    00000244 28 4C            [12]  429 	jr	Z, 00111$
+    00000246 FAr00r00         [16]  430 	ld	a, (#_locked_door)
+    00000249 D6 08            [ 8]  431 	sub	a, #0x08
+    0000024B 28 66            [12]  432 	jr	Z, 00116$
+    0000024D C3rD2r02         [16]  433 	jp	00121$
+                                    434 ;src/scripts/actions.c:45: case 1:
+    00000250                        435 00101$:
+                                    436 ;src/scripts/actions.c:46: if (gx >= 8 && gx <= 11 && gy <= 3) {
+    00000250 F8 07            [12]  437 	ldhl	sp,	#7
+    00000252 CB 46            [12]  438 	bit	0, (hl)
+    00000254 20 7C            [12]  439 	jr	NZ, 00121$
+    00000256 23               [ 8]  440 	inc	hl
+    00000257 CB 46            [12]  441 	bit	0, (hl)
+    00000259 20 77            [12]  442 	jr	NZ, 00121$
+    0000025B 3E 03            [ 8]  443 	ld	a, #0x03
+    0000025D F8 03            [12]  444 	ldhl	sp,	#3
+    0000025F 96               [ 8]  445 	sub	a, (hl)
+    00000260 38 70            [12]  446 	jr	C, 00121$
+                                    447 ;src/scripts/actions.c:47: lock_opened = 1;
+    00000262 21r00r00         [12]  448 	ld	hl, #_lock_opened
+    00000265 36 01            [12]  449 	ld	(hl), #0x01
+                                    450 ;src/scripts/actions.c:48: hide_door();
+    00000267 1Er00            [ 8]  451 	ld	e, #b_hide_door
+    00000269 21r00r00         [12]  452 	ld	hl, #_hide_door
+    0000026C CDr00r00         [24]  453 	call	___sdcc_bcall_ehl
+                                    454 ;src/scripts/actions.c:50: break;
+    0000026F 18 61            [12]  455 	jr	00121$
+                                    456 ;src/scripts/actions.c:51: case 2:
+    00000271                        457 00106$:
+                                    458 ;src/scripts/actions.c:52: if (gy >= 8 && gy <= 9 && gx >= 16) {
+    00000271 F8 04            [12]  459 	ldhl	sp,	#4
+    00000273 CB 46            [12]  460 	bit	0, (hl)
+    00000275 20 5B            [12]  461 	jr	NZ, 00121$
+    00000277 23               [ 8]  462 	inc	hl
+    00000278 CB 46            [12]  463 	bit	0, (hl)
+    0000027A 20 56            [12]  464 	jr	NZ, 00121$
+    0000027C F8 02            [12]  465 	ldhl	sp,	#2
+    0000027E 7E               [ 8]  466 	ld	a, (hl)
+    0000027F D6 10            [ 8]  467 	sub	a, #0x10
+    00000281 38 4F            [12]  468 	jr	C, 00121$
+                                    469 ;src/scripts/actions.c:53: lock_opened = 1;
+    00000283 21r00r00         [12]  470 	ld	hl, #_lock_opened
+    00000286 36 01            [12]  471 	ld	(hl), #0x01
+                                    472 ;src/scripts/actions.c:54: hide_door();
+    00000288 1Er00            [ 8]  473 	ld	e, #b_hide_door
+    0000028A 21r00r00         [12]  474 	ld	hl, #_hide_door
+    0000028D CDr00r00         [24]  475 	call	___sdcc_bcall_ehl
+                                    476 ;src/scripts/actions.c:56: break;
+    00000290 18 40            [12]  477 	jr	00121$
+                                    478 ;src/scripts/actions.c:57: case 4:
+    00000292                        479 00111$:
+                                    480 ;src/scripts/actions.c:58: if (gy >= 14 && gx >= 8 && gx <= 11) {
+    00000292 F8 03            [12]  481 	ldhl	sp,	#3
+    00000294 7E               [ 8]  482 	ld	a, (hl)
+    00000295 D6 0E            [ 8]  483 	sub	a, #0x0e
+    00000297 38 39            [12]  484 	jr	C, 00121$
+    00000299 F8 07            [12]  485 	ldhl	sp,	#7
+    0000029B CB 46            [12]  486 	bit	0, (hl)
+    0000029D 20 33            [12]  487 	jr	NZ, 00121$
+    0000029F 23               [ 8]  488 	inc	hl
+    000002A0 CB 46            [12]  489 	bit	0, (hl)
+    000002A2 20 2E            [12]  490 	jr	NZ, 00121$
+                                    491 ;src/scripts/actions.c:59: lock_opened = 1;
+    000002A4 21r00r00         [12]  492 	ld	hl, #_lock_opened
+    000002A7 36 01            [12]  493 	ld	(hl), #0x01
+                                    494 ;src/scripts/actions.c:60: hide_door();
+    000002A9 1Er00            [ 8]  495 	ld	e, #b_hide_door
+    000002AB 21r00r00         [12]  496 	ld	hl, #_hide_door
+    000002AE CDr00r00         [24]  497 	call	___sdcc_bcall_ehl
+                                    498 ;src/scripts/actions.c:62: break;
+    000002B1 18 1F            [12]  499 	jr	00121$
+                                    500 ;src/scripts/actions.c:63: case 8:
+    000002B3                        501 00116$:
+                                    502 ;src/scripts/actions.c:64: if (gx <= 3 && gy >= 8 && gy <= 9) {
+    000002B3 3E 03            [ 8]  503 	ld	a, #0x03
+    000002B5 F8 02            [12]  504 	ldhl	sp,	#2
+    000002B7 96               [ 8]  505 	sub	a, (hl)
+    000002B8 38 18            [12]  506 	jr	C, 00121$
+    000002BA 23               [ 8]  507 	inc	hl
+    000002BB 23               [ 8]  508 	inc	hl
+    000002BC CB 46            [12]  509 	bit	0, (hl)
+    000002BE 20 12            [12]  510 	jr	NZ, 00121$
+    000002C0 23               [ 8]  511 	inc	hl
+    000002C1 CB 46            [12]  512 	bit	0, (hl)
+    000002C3 20 0D            [12]  513 	jr	NZ, 00121$
+                                    514 ;src/scripts/actions.c:65: lock_opened = 1;
+    000002C5 21r00r00         [12]  515 	ld	hl, #_lock_opened
+    000002C8 36 01            [12]  516 	ld	(hl), #0x01
+                                    517 ;src/scripts/actions.c:66: hide_door();
+    000002CA 1Er00            [ 8]  518 	ld	e, #b_hide_door
+    000002CC 21r00r00         [12]  519 	ld	hl, #_hide_door
+    000002CF CDr00r00         [24]  520 	call	___sdcc_bcall_ehl
+                                    521 ;src/scripts/actions.c:69: }
+    000002D2                        522 00121$:
+                                    523 ;src/scripts/actions.c:70: unlock_sfx();
+    000002D2 1Er00            [ 8]  524 	ld	e, #b_unlock_sfx
+    000002D4 21r00r00         [12]  525 	ld	hl, #_unlock_sfx
+    000002D7 CDr00r00         [24]  526 	call	___sdcc_bcall_ehl
+    000002DA C3r57r04         [16]  527 	jp	00184$
+    000002DD                        528 00125$:
+                                    529 ;src/scripts/actions.c:73: if (num_arrows > 0) {
+    000002DD FAr00r00         [16]  530 	ld	a, (#_num_arrows)
+    000002E0 B7               [ 4]  531 	or	a, a
+    000002E1 CAr57r04         [16]  532 	jp	Z, 00184$
+                                    533 ;src/scripts/actions.c:74: shoot_arrow();
+    000002E4 CDr00r00         [24]  534 	call	_shoot_arrow
+                                    535 ;src/scripts/actions.c:75: num_arrows--;
+    000002E7 21r00r00         [12]  536 	ld	hl, #_num_arrows
+    000002EA 35               [12]  537 	dec	(hl)
+                                    538 ;src/scripts/actions.c:76: delay(100);
+    000002EB 11 64 00         [12]  539 	ld	de, #0x0064
+    000002EE CDr00r00         [24]  540 	call	_delay
+                                    541 ;src/scripts/actions.c:77: move_enemy(&current_enemies[0]);
+    000002F1 11r00r00         [12]  542 	ld	de, #_current_enemies
+    000002F4 CDr00r00         [24]  543 	call	_move_enemy
+                                    544 ;src/scripts/actions.c:78: move_enemy(&current_enemies[1]);
+    000002F7 11r0Cr00         [12]  545 	ld	de, #(_current_enemies + 12)
+    000002FA CDr00r00         [24]  546 	call	_move_enemy
+                                    547 ;src/scripts/actions.c:79: move_boss(&boss);
+    000002FD 11r00r00         [12]  548 	ld	de, #_boss
+    00000300 D5               [16]  549 	push	de
+    00000301 1Er00            [ 8]  550 	ld	e, #b_move_boss
+    00000303 21r00r00         [12]  551 	ld	hl, #_move_boss
+    00000306 CDr00r00         [24]  552 	call	___sdcc_bcall_ehl
+    00000309 E1               [12]  553 	pop	hl
+    0000030A C3r57r04         [16]  554 	jp	00184$
+    0000030D                        555 00170$:
+                                    556 ;src/scripts/actions.c:83: else if (current_location == 0) {
+    0000030D FAr00r00         [16]  557 	ld	a, (#_current_location)
+    00000310 B7               [ 4]  558 	or	a, a
+    00000311 C2r57r04         [16]  559 	jp	NZ, 00184$
+                                    560 ;src/scripts/actions.c:84: if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
+    00000314 F8 03            [12]  561 	ldhl	sp,	#3
+    00000316 7E               [ 8]  562 	ld	a, (hl)
+    00000317 D6 0A            [ 8]  563 	sub	a, #0x0a
+    00000319 3E 00            [ 8]  564 	ld	a, #0x00
+    0000031B 17               [ 4]  565 	rla
+    0000031C F8 07            [12]  566 	ldhl	sp,	#7
+    0000031E 77               [ 8]  567 	ld	(hl), a
+    0000031F 3E 0B            [ 8]  568 	ld	a, #0x0b
+    00000321 F8 03            [12]  569 	ldhl	sp,	#3
+    00000323 96               [ 8]  570 	sub	a, (hl)
+    00000324 3E 00            [ 8]  571 	ld	a, #0x00
+    00000326 17               [ 4]  572 	rla
+    00000327 F8 08            [12]  573 	ldhl	sp,	#8
+    00000329 77               [ 8]  574 	ld	(hl), a
+    0000032A F8 02            [12]  575 	ldhl	sp,	#2
+    0000032C 7E               [ 8]  576 	ld	a, (hl)
+    0000032D D6 04            [ 8]  577 	sub	a, #0x04
+    0000032F 38 56            [12]  578 	jr	C, 00162$
+    00000331 3E 05            [ 8]  579 	ld	a, #0x05
+    00000333 96               [ 8]  580 	sub	a, (hl)
+    00000334 38 51            [12]  581 	jr	C, 00162$
+    00000336 F8 07            [12]  582 	ldhl	sp,	#7
+    00000338 CB 46            [12]  583 	bit	0, (hl)
+    0000033A 20 4B            [12]  584 	jr	NZ, 00162$
+    0000033C 23               [ 8]  585 	inc	hl
+    0000033D CB 46            [12]  586 	bit	0, (hl)
+    0000033F 20 46            [12]  587 	jr	NZ, 00162$
+                                    588 ;src/scripts/actions.c:85: while(joypad() & J_A) { wait_vbl_done(); }
+    00000341                        589 00144$:
+    00000341 CDr00r00         [24]  590 	call	_joypad
+    00000344 CB 67            [ 8]  591 	bit	4, a
+    00000346 28 05            [12]  592 	jr	Z, 00146$
+    00000348 CDr00r00         [24]  593 	call	_wait_vbl_done
+    0000034B 18 F4            [12]  594 	jr	00144$
+    0000034D                        595 00146$:
+                                    596 ;src/scripts/actions.c:86: menu_opened = 2;
+    0000034D 21r00r00         [12]  597 	ld	hl, #_menu_opened
+    00000350 36 02            [12]  598 	ld	(hl), #0x02
+                                    599 ;src/scripts/actions.c:87: HIDE_SPRITES;
+    00000352 F0r00            [12]  600 	ldh	a, (_LCDC_REG + 0)
+    00000354 E6 FD            [ 8]  601 	and	a, #0xfd
+    00000356 E0r00            [12]  602 	ldh	(_LCDC_REG + 0), a
+                                    603 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    00000358 3E 07            [ 8]  604 	ld	a, #0x07
+    0000035A E0r00            [12]  605 	ldh	(_WX_REG + 0), a
+    0000035C 3E 20            [ 8]  606 	ld	a, #0x20
+    0000035E E0r00            [12]  607 	ldh	(_WY_REG + 0), a
+                                    608 ;src/scripts/actions.c:89: set_win_tiles(0, 0, 20, 14, hector_menu);
+    00000360 11r00r00         [12]  609 	ld	de, #_hector_menu
+    00000363 D5               [16]  610 	push	de
+    00000364 21 14 0E         [12]  611 	ld	hl, #0xe14
+    00000367 E5               [16]  612 	push	hl
+    00000368 AF               [ 4]  613 	xor	a, a
+    00000369 0F               [ 4]  614 	rrca
+    0000036A F5               [16]  615 	push	af
+    0000036B CDr00r00         [24]  616 	call	_set_win_tiles
+    0000036E E8 06            [16]  617 	add	sp, #6
+                                    618 ;src/scripts/actions.c:90: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+    00000370 11r00r00         [12]  619 	ld	de, #_arrow_tile
+    00000373 D5               [16]  620 	push	de
+    00000374 21 01 01         [12]  621 	ld	hl, #0x101
+    00000377 E5               [16]  622 	push	hl
+    00000378 E5               [16]  623 	push	hl
+    00000379 CDr00r00         [24]  624 	call	_set_win_tiles
+    0000037C E8 06            [16]  625 	add	sp, #6
+                                    626 ;src/scripts/actions.c:91: delay(300);
+    0000037E 11 2C 01         [12]  627 	ld	de, #0x012c
+    00000381 CDr00r00         [24]  628 	call	_delay
+    00000384 C3r57r04         [16]  629 	jp	00184$
+    00000387                        630 00162$:
+                                    631 ;src/scripts/actions.c:93: else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
+    00000387 F8 02            [12]  632 	ldhl	sp,	#2
+    00000389 7E               [ 8]  633 	ld	a, (hl)
+    0000038A D6 0E            [ 8]  634 	sub	a, #0x0e
+    0000038C 38 55            [12]  635 	jr	C, 00156$
+    0000038E 3E 0F            [ 8]  636 	ld	a, #0x0f
+    00000390 96               [ 8]  637 	sub	a, (hl)
+    00000391 38 50            [12]  638 	jr	C, 00156$
+    00000393 23               [ 8]  639 	inc	hl
+    00000394 23               [ 8]  640 	inc	hl
+    00000395 CB 46            [12]  641 	bit	0, (hl)
+    00000397 20 4A            [12]  642 	jr	NZ, 00156$
+    00000399 23               [ 8]  643 	inc	hl
+    0000039A CB 46            [12]  644 	bit	0, (hl)
+    0000039C 20 45            [12]  645 	jr	NZ, 00156$
+                                    646 ;src/scripts/actions.c:94: while(joypad() & J_A) { wait_vbl_done(); }
+    0000039E                        647 00147$:
+    0000039E CDr00r00         [24]  648 	call	_joypad
+    000003A1 CB 67            [ 8]  649 	bit	4, a
+    000003A3 28 05            [12]  650 	jr	Z, 00149$
+    000003A5 CDr00r00         [24]  651 	call	_wait_vbl_done
+    000003A8 18 F4            [12]  652 	jr	00147$
+    000003AA                        653 00149$:
+                                    654 ;src/scripts/actions.c:95: menu_opened = 3;
+    000003AA 21r00r00         [12]  655 	ld	hl, #_menu_opened
+    000003AD 36 03            [12]  656 	ld	(hl), #0x03
+                                    657 ;src/scripts/actions.c:96: HIDE_SPRITES;
+    000003AF F0r00            [12]  658 	ldh	a, (_LCDC_REG + 0)
+    000003B1 E6 FD            [ 8]  659 	and	a, #0xfd
+    000003B3 E0r00            [12]  660 	ldh	(_LCDC_REG + 0), a
+                                    661 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    000003B5 3E 07            [ 8]  662 	ld	a, #0x07
+    000003B7 E0r00            [12]  663 	ldh	(_WX_REG + 0), a
+    000003B9 3E 20            [ 8]  664 	ld	a, #0x20
+    000003BB E0r00            [12]  665 	ldh	(_WY_REG + 0), a
+                                    666 ;src/scripts/actions.c:98: set_win_tiles(0, 0, 20, 14, safy_menu);
+    000003BD 11r00r00         [12]  667 	ld	de, #_safy_menu
+    000003C0 D5               [16]  668 	push	de
+    000003C1 21 14 0E         [12]  669 	ld	hl, #0xe14
+    000003C4 E5               [16]  670 	push	hl
+    000003C5 AF               [ 4]  671 	xor	a, a
+    000003C6 0F               [ 4]  672 	rrca
+    000003C7 F5               [16]  673 	push	af
+    000003C8 CDr00r00         [24]  674 	call	_set_win_tiles
+    000003CB E8 06            [16]  675 	add	sp, #6
+                                    676 ;src/scripts/actions.c:99: set_win_tiles(1, 1, 1, 1, &arrow_tile);
+    000003CD 11r00r00         [12]  677 	ld	de, #_arrow_tile
+    000003D0 D5               [16]  678 	push	de
+    000003D1 21 01 01         [12]  679 	ld	hl, #0x101
+    000003D4 E5               [16]  680 	push	hl
+    000003D5 E5               [16]  681 	push	hl
+    000003D6 CDr00r00         [24]  682 	call	_set_win_tiles
+    000003D9 E8 06            [16]  683 	add	sp, #6
+                                    684 ;src/scripts/actions.c:100: delay(300);
+    000003DB 11 2C 01         [12]  685 	ld	de, #0x012c
+    000003DE CDr00r00         [24]  686 	call	_delay
+    000003E1 18 74            [12]  687 	jr	00184$
+    000003E3                        688 00156$:
+                                    689 ;src/scripts/actions.c:102: else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
+    000003E3 F8 02            [12]  690 	ldhl	sp,	#2
+    000003E5 7E               [ 8]  691 	ld	a, (hl)
+    000003E6 D6 0C            [ 8]  692 	sub	a, #0x0c
+    000003E8 38 6D            [12]  693 	jr	C, 00184$
+    000003EA 3E 0D            [ 8]  694 	ld	a, #0x0d
+    000003EC 96               [ 8]  695 	sub	a, (hl)
+    000003ED 38 68            [12]  696 	jr	C, 00184$
+    000003EF F8 07            [12]  697 	ldhl	sp,	#7
+    000003F1 CB 46            [12]  698 	bit	0, (hl)
+    000003F3 20 62            [12]  699 	jr	NZ, 00184$
+    000003F5 23               [ 8]  700 	inc	hl
+    000003F6 CB 46            [12]  701 	bit	0, (hl)
+    000003F8 20 5D            [12]  702 	jr	NZ, 00184$
+                                    703 ;src/scripts/actions.c:103: save_game();
+    000003FA CDr00r00         [24]  704 	call	_save_game
+                                    705 ;src/scripts/actions.c:104: delay(150);
+    000003FD 11 96 00         [12]  706 	ld	de, #0x0096
+    00000400 CDr00r00         [24]  707 	call	_delay
+                                    708 ;src/scripts/actions.c:105: heal_sfx();
+    00000403 1Er00            [ 8]  709 	ld	e, #b_heal_sfx
+    00000405 21r00r00         [12]  710 	ld	hl, #_heal_sfx
+    00000408 CDr00r00         [24]  711 	call	___sdcc_bcall_ehl
+                                    712 ;src/scripts/actions.c:106: menu_opened = 4;
+    0000040B 21r00r00         [12]  713 	ld	hl, #_menu_opened
+    0000040E 36 04            [12]  714 	ld	(hl), #0x04
+                                    715 ;src/scripts/actions.c:107: set_textbox(0);
+    00000410 AF               [ 4]  716 	xor	a, a
+    00000411 CDr00r00         [24]  717 	call	_set_textbox
+    00000414 18 41            [12]  718 	jr	00184$
+    00000416                        719 00178$:
+                                    720 ;src/scripts/actions.c:112: else if (joypad() & J_B && current_location == 1) {
+    00000416 CDr00r00         [24]  721 	call	_joypad
+    00000419 CB 6F            [ 8]  722 	bit	5, a
+    0000041B 28 3A            [12]  723 	jr	Z, 00184$
+    0000041D FAr00r00         [16]  724 	ld	a, (#_current_location)
+    00000420 3D               [ 4]  725 	dec	a
+    00000421 20 34            [12]  726 	jr	NZ, 00184$
+                                    727 ;src/scripts/actions.c:113: if (heals > 0) {
+    00000423 FAr00r00         [16]  728 	ld	a, (#_heals)
+    00000426 B7               [ 4]  729 	or	a, a
+    00000427 28 2E            [12]  730 	jr	Z, 00184$
+                                    731 ;src/scripts/actions.c:114: heal_sfx();
+    00000429 1Er00            [ 8]  732 	ld	e, #b_heal_sfx
+    0000042B 21r00r00         [12]  733 	ld	hl, #_heal_sfx
+    0000042E CDr00r00         [24]  734 	call	___sdcc_bcall_ehl
+                                    735 ;src/scripts/actions.c:115: heal_player();
+    00000431 CDr00r00         [24]  736 	call	_heal_player
+                                    737 ;src/scripts/actions.c:116: heals--;
+    00000434 21r00r00         [12]  738 	ld	hl, #_heals
+    00000437 35               [12]  739 	dec	(hl)
+                                    740 ;src/scripts/actions.c:117: delay(100);
+    00000438 11 64 00         [12]  741 	ld	de, #0x0064
+    0000043B CDr00r00         [24]  742 	call	_delay
+                                    743 ;src/scripts/actions.c:118: move_enemy(&current_enemies[0]);
+    0000043E 11r00r00         [12]  744 	ld	de, #_current_enemies
+    00000441 CDr00r00         [24]  745 	call	_move_enemy
+                                    746 ;src/scripts/actions.c:119: move_enemy(&current_enemies[1]);
+    00000444 11r0Cr00         [12]  747 	ld	de, #(_current_enemies + 12)
+    00000447 CDr00r00         [24]  748 	call	_move_enemy
+                                    749 ;src/scripts/actions.c:120: move_boss(&boss);
+    0000044A 11r00r00         [12]  750 	ld	de, #_boss
+    0000044D D5               [16]  751 	push	de
+    0000044E 1Er00            [ 8]  752 	ld	e, #b_move_boss
+    00000450 21r00r00         [12]  753 	ld	hl, #_move_boss
+    00000453 CDr00r00         [24]  754 	call	___sdcc_bcall_ehl
+    00000456 E1               [12]  755 	pop	hl
+    00000457                        756 00184$:
+                                    757 ;src/scripts/actions.c:123: }
+    00000457 E8 09            [16]  758 	add	sp, #9
+    00000459 C9               [16]  759 	ret
+                                    760 	.area _CODE
+                                    761 	.area _INITIALIZER
+                                    762 	.area _CABS (ABS)
