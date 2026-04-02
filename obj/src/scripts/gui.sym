@@ -7,21 +7,51 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
-  0 _boss_defeated                                                  00000474 GR
-  0 _game_saved                                                     000004D8 GR
-  0 _gui_map                                                        00000000 GR
-  0 _hector_menu                                                    0000017C GR
-  0 _mini_gui                                                       00000168 GR
-  0 _obtained_key                                                   000003AC GR
-  0 _obtained_mythril                                               00000410 GR
-  0 _safy_menu                                                      00000294 GR
+    _LCDC_REG                                                       ******** GX
+    _TutorialMap                                                    ******** GX
+    _WX_REG                                                         ******** GX
+    _WY_REG                                                         ******** GX
+    ___sdcc_bcall_ehl                                               ******** GX
+    __current_bank                                                  ******** GX
+    _arrow_tile                                                     ******** GX
+  0 _boss_defeated                                                  0000058C GR
+  0 _check_open_menu                                                00000000 GR
+    _current_joypad                                                 ******** GX
+    _display_off                                                    ******** GX
+  0 _game_saved                                                     000005F0 GR
+  0 _gui_map                                                        00000118 GR
+  0 _hector_menu                                                    00000294 GR
+    _joypad                                                         ******** GX
+    _last_joypad                                                    ******** GX
+    _map_menu                                                       ******** GX
+    _map_option                                                     ******** GX
+    _menu_opened                                                    ******** GX
+  0 _mini_gui                                                       00000280 GR
+  0 _obtained_key                                                   000004C4 GR
+  0 _obtained_mythril                                               00000528 GR
+    _rROMB0                                                         ******** GX
+  0 _safy_menu                                                      000003AC GR
+    _set_map_menu                                                   ******** GX
+    _set_mini_menu                                                  ******** GX
+    _set_stats                                                      ******** GX
+  0 _set_textbox                                                    00000654 GR
+  0 _set_tutorial                                                   00000770 GR
+    _set_win_tiles                                                  ******** GX
+    _shadow_OAM                                                     ******** GX
+    _wait_vbl_done                                                  ******** GX
+    _x                                                              ******** GX
+    _y                                                              ******** GX
+    b_set_map_menu                                                  ******** GX
+    b_set_mini_menu                                                 ******** GX
+    b_set_stats                                                     ******** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      53C   flags    0
+   0 _CODE                                      size      82A   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0

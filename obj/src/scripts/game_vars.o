@@ -1,5 +1,5 @@
 XL4
-H A areas 20 global symbols
+H A areas 23 global symbols
 M game_vars
 S .__.ABS. Def00000000
 A _CODE size 7E flags 0 addr 0
@@ -7,9 +7,12 @@ S _upgrade_costs Def00000000
 S _cure_upgrade_costs Def00000008
 S _level_curve Def0000001A
 A _HRAM size 0 flags 0 addr 0
-A _DATA size 12 flags 0 addr 0
+A _DATA size 40 flags 0 addr 0
 S _seed Def00000000
+S _boss Def00000036
 S _map Def00000002
+S _current_enemies Def00000012
+S _enemy Def0000002A
 A _INITIALIZED size 1B flags 0 addr 0
 S _power_ups Def00000009
 S _current_joypad Def0000000B
@@ -50,6 +53,18 @@ R 00 00 02 00
 T 02 00 00 00
 R 00 00 02 00
 T 02 00 00 00
+R 00 00 02 00
+T 12 00 00 00
+R 00 00 02 00
+T 12 00 00 00
+R 00 00 02 00
+T 2A 00 00 00
+R 00 00 02 00
+T 2A 00 00 00
+R 00 00 02 00
+T 36 00 00 00
+R 00 00 02 00
+T 36 00 00 00
 R 00 00 02 00
 T 00 00 00 00
 R 00 00 03 00

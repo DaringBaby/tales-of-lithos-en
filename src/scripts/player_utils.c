@@ -1,6 +1,6 @@
 #pragma bank 3
 
-#include "combat_system.h"
+#include "player_utils.h"
 #include <gb/gb.h>
 
 

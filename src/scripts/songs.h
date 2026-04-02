@@ -1,4 +1,5 @@
 #include "../songs/hUGEDriver.h"
+#include <gb/gb.h>
 
 extern const hUGESong_t gameover_jingle;
 extern const hUGESong_t boss_defeated_jingle;
@@ -8,6 +9,7 @@ extern const hUGESong_t boss_theme;
 extern const hUGESong_t camp_theme;
 extern const hUGESong_t intro_theme;
 extern const hUGESong_t ending_song;
+extern uint8_t current_song_bank;
 
 extern void init_sound() BANKED;
 extern void arrow_sfx() BANKED;

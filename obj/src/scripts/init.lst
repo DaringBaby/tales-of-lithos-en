@@ -1,0 +1,468 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module init
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _music_vbl_interrupt
+                                     11 	.globl b_start_sfx
+                                     12 	.globl _start_sfx
+                                     13 	.globl b_init_sound
+                                     14 	.globl _init_sound
+                                     15 	.globl _go_into_dungeon
+                                     16 	.globl _set_camp_map
+                                     17 	.globl _move_character
+                                     18 	.globl b_set_mini_menu
+                                     19 	.globl _set_mini_menu
+                                     20 	.globl b_insert_name
+                                     21 	.globl _insert_name
+                                     22 	.globl _set_tutorial
+                                     23 	.globl b_start_intro
+                                     24 	.globl _start_intro
+                                     25 	.globl _load_game
+                                     26 	.globl _hUGE_init
+                                     27 	.globl b_set_titlescreen
+                                     28 	.globl _set_titlescreen
+                                     29 	.globl _set_sprite_data
+                                     30 	.globl _set_bkg_tiles
+                                     31 	.globl _set_bkg_data
+                                     32 	.globl _delay
+                                     33 	.globl _add_VBL
+                                     34 	.globl _black
+                                     35 	.globl _blank
+                                     36 	.globl _game_init
+                                     37 	.globl _set_title_data
+                                     38 	.globl _set_game_sprites
+                                     39 	.globl _set_game_gui
+                                     40 ;--------------------------------------------------------
+                                     41 ; special function registers
+                                     42 ;--------------------------------------------------------
+                                     43 	.area _HRAM
+                                     44 ;--------------------------------------------------------
+                                     45 ; ram data
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _DATA
+                                     48 ;--------------------------------------------------------
+                                     49 ; ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _INITIALIZED
+                                     52 ;--------------------------------------------------------
+                                     53 ; absolute external ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _DABS (ABS)
+                                     56 ;--------------------------------------------------------
+                                     57 ; global & static initialisations
+                                     58 ;--------------------------------------------------------
+                                     59 	.area _HOME
+                                     60 	.area _GSINIT
+                                     61 	.area _GSFINAL
+                                     62 	.area _GSINIT
+                                     63 ;--------------------------------------------------------
+                                     64 ; Home
+                                     65 ;--------------------------------------------------------
+                                     66 	.area _HOME
+                                     67 	.area _HOME
+                                     68 ;--------------------------------------------------------
+                                     69 ; code
+                                     70 ;--------------------------------------------------------
+                                     71 	.area _CODE
+                                     72 ;src/scripts/init.c:25: void game_init() {
+                                     73 ;	---------------------------------
+                                     74 ; Function game_init
+                                     75 ; ---------------------------------
+    00000000                         76 _game_init::
+                                     77 ;src/scripts/init.c:26: cls();
+    00000000 CDr00r00         [24]   78 	call	_cls
+                                     79 ;src/scripts/init.c:27: init_sound();
+    00000003 1Er00            [ 8]   80 	ld	e, #b_init_sound
+    00000005 21r00r00         [12]   81 	ld	hl, #_init_sound
+    00000008 CDr00r00         [24]   82 	call	___sdcc_bcall_ehl
+                                     83 ;src/scripts/init.c:30: }
+    0000000B F3               [ 4]   84 	di
+                                     85 ;src/scripts/init.c:29: add_VBL(music_vbl_interrupt);
+    0000000C 11r00r00         [12]   86 	ld	de, #_music_vbl_interrupt
+    0000000F CDr00r00         [24]   87 	call	_add_VBL
+    00000012 FB               [ 4]   88 	ei
+                                     89 ;src/scripts/init.c:31: set_title_data();
+    00000013 CDrB0r00         [24]   90 	call	_set_title_data
+                                     91 ;src/scripts/init.c:32: DISPLAY_ON;
+    00000016 F0r00            [12]   92 	ldh	a, (_LCDC_REG + 0)
+    00000018 F6 80            [ 8]   93 	or	a, #0x80
+    0000001A E0r00            [12]   94 	ldh	(_LCDC_REG + 0), a
+                                     95 ;src/scripts/init.c:33: ng = set_titlescreen();
+    0000001C 1Er00            [ 8]   96 	ld	e, #b_set_titlescreen
+    0000001E 21r00r00         [12]   97 	ld	hl, #_set_titlescreen
+    00000021 CDr00r00         [24]   98 	call	___sdcc_bcall_ehl
+    00000024 EAr00r00         [16]   99 	ld	(#_ng),a
+                                    100 ;src/scripts/init.c:34: start_sfx();
+    00000027 1Er00            [ 8]  101 	ld	e, #b_start_sfx
+    00000029 21r00r00         [12]  102 	ld	hl, #_start_sfx
+    0000002C CDr00r00         [24]  103 	call	___sdcc_bcall_ehl
+                                    104 ;src/scripts/init.c:35: if (ng) {
+    0000002F FAr00r00         [16]  105 	ld	a, (#_ng)
+    00000032 B7               [ 4]  106 	or	a, a
+    00000033 28 08            [12]  107 	jr	Z, 00102$
+                                    108 ;src/scripts/init.c:36: start_intro();
+    00000035 1Er00            [ 8]  109 	ld	e, #b_start_intro
+    00000037 21r00r00         [12]  110 	ld	hl, #_start_intro
+    0000003A CDr00r00         [24]  111 	call	___sdcc_bcall_ehl
+    0000003D                        112 00102$:
+                                    113 ;src/scripts/init.c:38: set_game_sprites();
+    0000003D CDr0Ar01         [24]  114 	call	_set_game_sprites
+                                    115 ;src/scripts/init.c:39: set_game_gui();
+    00000040 CDrA7r01         [24]  116 	call	_set_game_gui
+                                    117 ;src/scripts/init.c:40: if (!load_game()) {
+    00000043 CDr00r00         [24]  118 	call	_load_game
+    00000046 B7               [ 4]  119 	or	a, a
+    00000047 20 08            [12]  120 	jr	NZ, 00104$
+                                    121 ;src/scripts/init.c:41: insert_name();
+    00000049 1Er00            [ 8]  122 	ld	e, #b_insert_name
+    0000004B 21r00r00         [12]  123 	ld	hl, #_insert_name
+    0000004E CDr00r00         [24]  124 	call	___sdcc_bcall_ehl
+    00000051                        125 00104$:
+                                    126 ;src/scripts/init.c:43: set_sprite_data(4, 4, MC_up);
+    00000051 11r00r00         [12]  127 	ld	de, #_MC_up
+    00000054 D5               [16]  128 	push	de
+    00000055 21 04 04         [12]  129 	ld	hl, #0x404
+    00000058 E5               [16]  130 	push	hl
+    00000059 CDr00r00         [24]  131 	call	_set_sprite_data
+    0000005C E8 04            [16]  132 	add	sp, #4
+                                    133 ;src/scripts/init.c:44: if (current_location == 0){
+    0000005E FAr00r00         [16]  134 	ld	a, (#_current_location)
+    00000061 B7               [ 4]  135 	or	a, a
+    00000062 20 05            [12]  136 	jr	NZ, 00106$
+                                    137 ;src/scripts/init.c:45: set_camp_map();
+    00000064 CDr00r00         [24]  138 	call	_set_camp_map
+    00000067 18 03            [12]  139 	jr	00107$
+    00000069                        140 00106$:
+                                    141 ;src/scripts/init.c:48: go_into_dungeon();
+    00000069 CDr00r00         [24]  142 	call	_go_into_dungeon
+    0000006C                        143 00107$:
+                                    144 ;src/scripts/init.c:50: if (ng) { // tutorial
+    0000006C FAr00r00         [16]  145 	ld	a, (#_ng)
+    0000006F B7               [ 4]  146 	or	a, a
+    00000070 28 03            [12]  147 	jr	Z, 00109$
+                                    148 ;src/scripts/init.c:51: set_tutorial();
+    00000072 CDr00r00         [24]  149 	call	_set_tutorial
+    00000075                        150 00109$:
+                                    151 ;src/scripts/init.c:54: move_character();
+    00000075 CDr00r00         [24]  152 	call	_move_character
+                                    153 ;src/scripts/init.c:55: SHOW_SPRITES;
+    00000078 F0r00            [12]  154 	ldh	a, (_LCDC_REG + 0)
+    0000007A F6 02            [ 8]  155 	or	a, #0x02
+    0000007C E0r00            [12]  156 	ldh	(_LCDC_REG + 0), a
+                                    157 ;src/scripts/init.c:56: SHOW_BKG;
+    0000007E F0r00            [12]  158 	ldh	a, (_LCDC_REG + 0)
+    00000080 F6 01            [ 8]  159 	or	a, #0x01
+    00000082 E0r00            [12]  160 	ldh	(_LCDC_REG + 0), a
+                                    161 ;src/scripts/init.c:57: SHOW_WIN;
+    00000084 F0r00            [12]  162 	ldh	a, (_LCDC_REG + 0)
+    00000086 F6 20            [ 8]  163 	or	a, #0x20
+    00000088 E0r00            [12]  164 	ldh	(_LCDC_REG + 0), a
+                                    165 ;src/scripts/init.c:58: delay(100);
+    0000008A 11 64 00         [12]  166 	ld	de, #0x0064
+                                    167 ;src/scripts/init.c:59: }
+    0000008D C3r00r00         [16]  168 	jp	_delay
+    00000090                        169 _blank:
+    00000090 00                     170 	.db #0x00	; 0
+    00000091 00                     171 	.db #0x00	; 0
+    00000092 00                     172 	.db #0x00	; 0
+    00000093 00                     173 	.db #0x00	; 0
+    00000094 00                     174 	.db #0x00	; 0
+    00000095 00                     175 	.db #0x00	; 0
+    00000096 00                     176 	.db #0x00	; 0
+    00000097 00                     177 	.db #0x00	; 0
+    00000098 00                     178 	.db #0x00	; 0
+    00000099 00                     179 	.db #0x00	; 0
+    0000009A 00                     180 	.db #0x00	; 0
+    0000009B 00                     181 	.db #0x00	; 0
+    0000009C 00                     182 	.db #0x00	; 0
+    0000009D 00                     183 	.db #0x00	; 0
+    0000009E 00                     184 	.db #0x00	; 0
+    0000009F 00                     185 	.db #0x00	; 0
+    000000A0                        186 _black:
+    000000A0 FF                     187 	.db #0xff	; 255
+    000000A1 FF                     188 	.db #0xff	; 255
+    000000A2 FF                     189 	.db #0xff	; 255
+    000000A3 FF                     190 	.db #0xff	; 255
+    000000A4 FF                     191 	.db #0xff	; 255
+    000000A5 FF                     192 	.db #0xff	; 255
+    000000A6 FF                     193 	.db #0xff	; 255
+    000000A7 FF                     194 	.db #0xff	; 255
+    000000A8 FF                     195 	.db #0xff	; 255
+    000000A9 FF                     196 	.db #0xff	; 255
+    000000AA FF                     197 	.db #0xff	; 255
+    000000AB FF                     198 	.db #0xff	; 255
+    000000AC FF                     199 	.db #0xff	; 255
+    000000AD FF                     200 	.db #0xff	; 255
+    000000AE FF                     201 	.db #0xff	; 255
+    000000AF FF                     202 	.db #0xff	; 255
+                                    203 ;src/scripts/init.c:61: void set_title_data() {
+                                    204 ;	---------------------------------
+                                    205 ; Function set_title_data
+                                    206 ; ---------------------------------
+    000000B0                        207 _set_title_data::
+                                    208 ;src/scripts/init.c:62: SWITCH_ROM(2);
+    000000B0 3E 02            [ 8]  209 	ld	a, #0x02
+    000000B2 E0r00            [12]  210 	ldh	(__current_bank + 0), a
+    000000B4 21r00r00         [12]  211 	ld	hl, #_rROMB0
+    000000B7 36 02            [12]  212 	ld	(hl), #0x02
+                                    213 ;src/scripts/init.c:63: set_bkg_data(0, 241, Titlescreen);
+    000000B9 11r00r00         [12]  214 	ld	de, #_Titlescreen
+    000000BC D5               [16]  215 	push	de
+    000000BD 21 00 F1         [12]  216 	ld	hl, #0xf100
+    000000C0 E5               [16]  217 	push	hl
+    000000C1 CDr00r00         [24]  218 	call	_set_bkg_data
+    000000C4 E8 04            [16]  219 	add	sp, #4
+                                    220 ;src/scripts/init.c:64: set_bkg_data(241, 8, TitleText);
+    000000C6 11r00r00         [12]  221 	ld	de, #_TitleText
+    000000C9 D5               [16]  222 	push	de
+    000000CA 21 F1 08         [12]  223 	ld	hl, #0x8f1
+    000000CD E5               [16]  224 	push	hl
+    000000CE CDr00r00         [24]  225 	call	_set_bkg_data
+    000000D1 E8 04            [16]  226 	add	sp, #4
+                                    227 ;src/scripts/init.c:65: set_bkg_tiles(0, 0, 20, 18, Title);
+    000000D3 11r00r00         [12]  228 	ld	de, #_Title
+    000000D6 D5               [16]  229 	push	de
+    000000D7 21 14 12         [12]  230 	ld	hl, #0x1214
+    000000DA E5               [16]  231 	push	hl
+    000000DB AF               [ 4]  232 	xor	a, a
+    000000DC 0F               [ 4]  233 	rrca
+    000000DD F5               [16]  234 	push	af
+    000000DE CDr00r00         [24]  235 	call	_set_bkg_tiles
+    000000E1 E8 06            [16]  236 	add	sp, #6
+                                    237 ;src/scripts/init.c:66: SWITCH_ROM(1);
+    000000E3 3E 01            [ 8]  238 	ld	a, #0x01
+    000000E5 E0r00            [12]  239 	ldh	(__current_bank + 0), a
+    000000E7 21r00r00         [12]  240 	ld	hl, #_rROMB0
+    000000EA 36 01            [12]  241 	ld	(hl), #0x01
+                                    242 ;src/scripts/init.c:67: current_song_bank = 5;
+    000000EC 21r00r00         [12]  243 	ld	hl, #_current_song_bank
+    000000EF 36 05            [12]  244 	ld	(hl), #0x05
+                                    245 ;src/scripts/init.c:68: SWITCH_ROM(current_song_bank);
+    000000F1 3E 05            [ 8]  246 	ld	a, #0x05
+    000000F3 E0r00            [12]  247 	ldh	(__current_bank + 0), a
+    000000F5 21r00r00         [12]  248 	ld	hl, #_rROMB0
+    000000F8 36 05            [12]  249 	ld	(hl), #0x05
+                                    250 ;src/scripts/init.c:69: hUGE_init(&intro_theme);
+    000000FA 11r00r00         [12]  251 	ld	de, #_intro_theme
+    000000FD CDr00r00         [24]  252 	call	_hUGE_init
+                                    253 ;src/scripts/init.c:70: SWITCH_ROM(1);
+    00000100 3E 01            [ 8]  254 	ld	a, #0x01
+    00000102 E0r00            [12]  255 	ldh	(__current_bank + 0), a
+    00000104 21r00r00         [12]  256 	ld	hl, #_rROMB0
+    00000107 36 01            [12]  257 	ld	(hl), #0x01
+                                    258 ;src/scripts/init.c:71: }
+    00000109 C9               [16]  259 	ret
+                                    260 ;src/scripts/init.c:73: void set_game_sprites() {
+                                    261 ;	---------------------------------
+                                    262 ; Function set_game_sprites
+                                    263 ; ---------------------------------
+    0000010A                        264 _set_game_sprites::
+                                    265 ;src/scripts/init.c:74: set_sprite_data(0, 4, MC_down);
+    0000010A 11r00r00         [12]  266 	ld	de, #_MC_down
+    0000010D D5               [16]  267 	push	de
+    0000010E 21 00 04         [12]  268 	ld	hl, #0x400
+    00000111 E5               [16]  269 	push	hl
+    00000112 CDr00r00         [24]  270 	call	_set_sprite_data
+    00000115 E8 04            [16]  271 	add	sp, #4
+                                    272 ;src/scripts/init.c:75: set_sprite_data(8, 4, MC_right);
+    00000117 11r00r00         [12]  273 	ld	de, #_MC_right
+    0000011A D5               [16]  274 	push	de
+    0000011B 21 08 04         [12]  275 	ld	hl, #0x408
+    0000011E E5               [16]  276 	push	hl
+    0000011F CDr00r00         [24]  277 	call	_set_sprite_data
+    00000122 E8 04            [16]  278 	add	sp, #4
+                                    279 ;src/scripts/init.c:76: set_sprite_data(12, 4, MC_left);
+    00000124 11r00r00         [12]  280 	ld	de, #_MC_left
+    00000127 D5               [16]  281 	push	de
+    00000128 21 0C 04         [12]  282 	ld	hl, #0x40c
+    0000012B E5               [16]  283 	push	hl
+    0000012C CDr00r00         [24]  284 	call	_set_sprite_data
+    0000012F E8 04            [16]  285 	add	sp, #4
+                                    286 ;src/scripts/init.c:77: set_sprite_data(16, 4, Hector);
+    00000131 11r00r00         [12]  287 	ld	de, #_Hector
+    00000134 D5               [16]  288 	push	de
+    00000135 21 10 04         [12]  289 	ld	hl, #0x410
+    00000138 E5               [16]  290 	push	hl
+    00000139 CDr00r00         [24]  291 	call	_set_sprite_data
+    0000013C E8 04            [16]  292 	add	sp, #4
+                                    293 ;src/scripts/init.c:78: set_sprite_data(20, 4, Safy);
+    0000013E 11r00r00         [12]  294 	ld	de, #_Safy
+    00000141 D5               [16]  295 	push	de
+    00000142 21 14 04         [12]  296 	ld	hl, #0x414
+    00000145 E5               [16]  297 	push	hl
+    00000146 CDr00r00         [24]  298 	call	_set_sprite_data
+    00000149 E8 04            [16]  299 	add	sp, #4
+                                    300 ;src/scripts/init.c:79: set_sprite_data(50, 1, blank);
+    0000014B 11r90r00         [12]  301 	ld	de, #_blank
+    0000014E D5               [16]  302 	push	de
+    0000014F 21 32 01         [12]  303 	ld	hl, #0x132
+    00000152 E5               [16]  304 	push	hl
+    00000153 CDr00r00         [24]  305 	call	_set_sprite_data
+    00000156 E8 04            [16]  306 	add	sp, #4
+                                    307 ;src/scripts/init.c:80: set_sprite_data(51, 8, Lock);
+    00000158 11r00r00         [12]  308 	ld	de, #_Lock
+    0000015B D5               [16]  309 	push	de
+    0000015C 21 33 08         [12]  310 	ld	hl, #0x833
+    0000015F E5               [16]  311 	push	hl
+    00000160 CDr00r00         [24]  312 	call	_set_sprite_data
+    00000163 E8 04            [16]  313 	add	sp, #4
+                                    314 ;src/scripts/init.c:81: set_sprite_data(59, 2, Key);
+    00000165 11r00r00         [12]  315 	ld	de, #_Key
+    00000168 D5               [16]  316 	push	de
+    00000169 21 3B 02         [12]  317 	ld	hl, #0x23b
+    0000016C E5               [16]  318 	push	hl
+    0000016D CDr00r00         [24]  319 	call	_set_sprite_data
+    00000170 E8 04            [16]  320 	add	sp, #4
+                                    321 ;src/scripts/init.c:82: set_sprite_data(61, 4, Mythril);
+    00000172 11r00r00         [12]  322 	ld	de, #_Mythril
+    00000175 D5               [16]  323 	push	de
+    00000176 21 3D 04         [12]  324 	ld	hl, #0x43d
+    00000179 E5               [16]  325 	push	hl
+    0000017A CDr00r00         [24]  326 	call	_set_sprite_data
+    0000017D E8 04            [16]  327 	add	sp, #4
+                                    328 ;src/scripts/init.c:83: set_sprite_data(65, 12, Numbers);
+    0000017F 11r00r00         [12]  329 	ld	de, #_Numbers
+    00000182 D5               [16]  330 	push	de
+    00000183 21 41 0C         [12]  331 	ld	hl, #0xc41
+    00000186 E5               [16]  332 	push	hl
+    00000187 CDr00r00         [24]  333 	call	_set_sprite_data
+    0000018A E8 04            [16]  334 	add	sp, #4
+                                    335 ;src/scripts/init.c:84: set_sprite_data(80, 2, Arrow);
+    0000018C 11r00r00         [12]  336 	ld	de, #_Arrow
+    0000018F D5               [16]  337 	push	de
+    00000190 21 50 02         [12]  338 	ld	hl, #0x250
+    00000193 E5               [16]  339 	push	hl
+    00000194 CDr00r00         [24]  340 	call	_set_sprite_data
+    00000197 E8 04            [16]  341 	add	sp, #4
+                                    342 ;src/scripts/init.c:85: set_sprite_data(82, 2, Drops);
+    00000199 11r00r00         [12]  343 	ld	de, #_Drops
+    0000019C D5               [16]  344 	push	de
+    0000019D 21 52 02         [12]  345 	ld	hl, #0x252
+    000001A0 E5               [16]  346 	push	hl
+    000001A1 CDr00r00         [24]  347 	call	_set_sprite_data
+    000001A4 E8 04            [16]  348 	add	sp, #4
+                                    349 ;src/scripts/init.c:86: }
+    000001A6 C9               [16]  350 	ret
+                                    351 ;src/scripts/init.c:88: void set_game_gui() {
+                                    352 ;	---------------------------------
+                                    353 ; Function set_game_gui
+                                    354 ; ---------------------------------
+    000001A7                        355 _set_game_gui::
+                                    356 ;src/scripts/init.c:89: SWITCH_ROM(3);
+    000001A7 3E 03            [ 8]  357 	ld	a, #0x03
+    000001A9 E0r00            [12]  358 	ldh	(__current_bank + 0), a
+    000001AB 21r00r00         [12]  359 	ld	hl, #_rROMB0
+    000001AE 36 03            [12]  360 	ld	(hl), #0x03
+                                    361 ;src/scripts/init.c:90: set_bkg_data(108, 17, Minimap);
+    000001B0 11r00r00         [12]  362 	ld	de, #_Minimap
+    000001B3 D5               [16]  363 	push	de
+    000001B4 21 6C 11         [12]  364 	ld	hl, #0x116c
+    000001B7 E5               [16]  365 	push	hl
+    000001B8 CDr00r00         [24]  366 	call	_set_bkg_data
+    000001BB E8 04            [16]  367 	add	sp, #4
+                                    368 ;src/scripts/init.c:91: SWITCH_ROM(2);
+    000001BD 3E 02            [ 8]  369 	ld	a, #0x02
+    000001BF E0r00            [12]  370 	ldh	(__current_bank + 0), a
+    000001C1 21r00r00         [12]  371 	ld	hl, #_rROMB0
+    000001C4 36 02            [12]  372 	ld	(hl), #0x02
+                                    373 ;src/scripts/init.c:92: set_bkg_data(128, 51, Text);
+    000001C6 11r00r00         [12]  374 	ld	de, #_Text
+    000001C9 D5               [16]  375 	push	de
+    000001CA 21 80 33         [12]  376 	ld	hl, #0x3380
+    000001CD E5               [16]  377 	push	hl
+    000001CE CDr00r00         [24]  378 	call	_set_bkg_data
+    000001D1 E8 04            [16]  379 	add	sp, #4
+                                    380 ;src/scripts/init.c:93: SWITCH_ROM(1);
+    000001D3 3E 01            [ 8]  381 	ld	a, #0x01
+    000001D5 E0r00            [12]  382 	ldh	(__current_bank + 0), a
+    000001D7 21r00r00         [12]  383 	ld	hl, #_rROMB0
+    000001DA 36 01            [12]  384 	ld	(hl), #0x01
+                                    385 ;src/scripts/init.c:94: set_bkg_data(179, 9, Textbox);
+    000001DC 11r00r00         [12]  386 	ld	de, #_Textbox
+    000001DF D5               [16]  387 	push	de
+    000001E0 21 B3 09         [12]  388 	ld	hl, #0x9b3
+    000001E3 E5               [16]  389 	push	hl
+    000001E4 CDr00r00         [24]  390 	call	_set_bkg_data
+    000001E7 E8 04            [16]  391 	add	sp, #4
+                                    392 ;src/scripts/init.c:95: set_bkg_data(188, 16, Mugshot);
+    000001E9 11r00r00         [12]  393 	ld	de, #_Mugshot
+    000001EC D5               [16]  394 	push	de
+    000001ED 21 BC 10         [12]  395 	ld	hl, #0x10bc
+    000001F0 E5               [16]  396 	push	hl
+    000001F1 CDr00r00         [24]  397 	call	_set_bkg_data
+    000001F4 E8 04            [16]  398 	add	sp, #4
+                                    399 ;src/scripts/init.c:96: SWITCH_ROM(2);
+    000001F6 3E 02            [ 8]  400 	ld	a, #0x02
+    000001F8 E0r00            [12]  401 	ldh	(__current_bank + 0), a
+    000001FA 21r00r00         [12]  402 	ld	hl, #_rROMB0
+    000001FD 36 02            [12]  403 	ld	(hl), #0x02
+                                    404 ;src/scripts/init.c:97: set_bkg_data(220, 4, MiniGUI);
+    000001FF 11r00r00         [12]  405 	ld	de, #_MiniGUI
+    00000202 D5               [16]  406 	push	de
+    00000203 21 DC 04         [12]  407 	ld	hl, #0x4dc
+    00000206 E5               [16]  408 	push	hl
+    00000207 CDr00r00         [24]  409 	call	_set_bkg_data
+    0000020A E8 04            [16]  410 	add	sp, #4
+                                    411 ;src/scripts/init.c:98: SWITCH_ROM(1);
+    0000020C 3E 01            [ 8]  412 	ld	a, #0x01
+    0000020E E0r00            [12]  413 	ldh	(__current_bank + 0), a
+    00000210 21r00r00         [12]  414 	ld	hl, #_rROMB0
+    00000213 36 01            [12]  415 	ld	(hl), #0x01
+                                    416 ;src/scripts/init.c:99: set_bkg_data(225, 20, Objects);
+    00000215 11r00r00         [12]  417 	ld	de, #_Objects
+    00000218 D5               [16]  418 	push	de
+    00000219 21 E1 14         [12]  419 	ld	hl, #0x14e1
+    0000021C E5               [16]  420 	push	hl
+    0000021D CDr00r00         [24]  421 	call	_set_bkg_data
+    00000220 E8 04            [16]  422 	add	sp, #4
+                                    423 ;src/scripts/init.c:100: set_bkg_data(245, 1, arrow);
+    00000222 11r00r00         [12]  424 	ld	de, #_arrow
+    00000225 D5               [16]  425 	push	de
+    00000226 21 F5 01         [12]  426 	ld	hl, #0x1f5
+    00000229 E5               [16]  427 	push	hl
+    0000022A CDr00r00         [24]  428 	call	_set_bkg_data
+    0000022D E8 04            [16]  429 	add	sp, #4
+                                    430 ;src/scripts/init.c:101: set_bkg_data(246, 1, black);
+    0000022F 11rA0r00         [12]  431 	ld	de, #_black
+    00000232 D5               [16]  432 	push	de
+    00000233 21 F6 01         [12]  433 	ld	hl, #0x1f6
+    00000236 E5               [16]  434 	push	hl
+    00000237 CDr00r00         [24]  435 	call	_set_bkg_data
+    0000023A E8 04            [16]  436 	add	sp, #4
+                                    437 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    0000023C 3E 07            [ 8]  438 	ld	a, #0x07
+    0000023E E0r00            [12]  439 	ldh	(_WX_REG + 0), a
+    00000240 3E 88            [ 8]  440 	ld	a, #0x88
+    00000242 E0r00            [12]  441 	ldh	(_WY_REG + 0), a
+                                    442 ;src/scripts/init.c:103: set_mini_menu();
+    00000244 1Er00            [ 8]  443 	ld	e, #b_set_mini_menu
+    00000246 21r00r00         [12]  444 	ld	hl, #_set_mini_menu
+    00000249 CDr00r00         [24]  445 	call	___sdcc_bcall_ehl
+                                    446 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000024C 21r12r00         [12]  447 	ld	hl, #(_shadow_OAM + 18)
+    0000024F 36 00            [12]  448 	ld	(hl), #0x00
+    00000251 21r16r00         [12]  449 	ld	hl, #(_shadow_OAM + 22)
+    00000254 36 01            [12]  450 	ld	(hl), #0x01
+    00000256 21r1Ar00         [12]  451 	ld	hl, #(_shadow_OAM + 26)
+    00000259 36 02            [12]  452 	ld	(hl), #0x02
+    0000025B 21r1Er00         [12]  453 	ld	hl, #(_shadow_OAM + 30)
+    0000025E 36 03            [12]  454 	ld	(hl), #0x03
+    00000260 21r8Er00         [12]  455 	ld	hl, #(_shadow_OAM + 142)
+    00000263 36 3D            [12]  456 	ld	(hl), #0x3d
+    00000265 21r92r00         [12]  457 	ld	hl, #(_shadow_OAM + 146)
+    00000268 36 3E            [12]  458 	ld	(hl), #0x3e
+    0000026A 21r96r00         [12]  459 	ld	hl, #(_shadow_OAM + 150)
+    0000026D 36 3F            [12]  460 	ld	(hl), #0x3f
+    0000026F 21r9Ar00         [12]  461 	ld	hl, #(_shadow_OAM + 154)
+    00000272 36 40            [12]  462 	ld	(hl), #0x40
+                                    463 ;src/scripts/init.c:115: set_sprite_tile(38, 64);
+                                    464 ;src/scripts/init.c:116: }
+    00000274 C9               [16]  465 	ret
+                                    466 	.area _CODE
+                                    467 	.area _INITIALIZER
+                                    468 	.area _CABS (ABS)

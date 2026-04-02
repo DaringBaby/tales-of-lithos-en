@@ -1,0 +1,119 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _Camp                                                           ******** GX
+    _CampTiles                                                      ******** GX
+    _DungeonTiles                                                   ******** GX
+    _DungeonTiles2                                                  ******** GX
+    _DungeonTiles3                                                  ******** GX
+    _DungeonTiles4                                                  ******** GX
+    _DungeonTiles5                                                  ******** GX
+    _Hector                                                         ******** GX
+    _LCDC_REG                                                       ******** GX
+    _NoExit                                                         ******** GX
+    _Safy                                                           ******** GX
+    _WX_REG                                                         ******** GX
+    _WY_REG                                                         ******** GX
+    ___sdcc_bcall_ehl                                               ******** GX
+    __current_bank                                                  ******** GX
+    __moduchar                                                      ******** GX
+    _boss                                                           ******** GX
+    _boss_battle                                                    ******** GX
+    _boss_floor_defeated                                            ******** GX
+    _boss_theme                                                     ******** GX
+    _camp_theme                                                     ******** GX
+  0 _change_room                                                    00000440 GR
+  0 _chest_closed                                                   000000EB GR
+  0 _chest_opened                                                   000000F3 GR
+    _clear_drops                                                    ******** GX
+    _current_enemies                                                ******** GX
+    _current_floor                                                  ******** GX
+    _current_room                                                   ******** GX
+    _current_song_bank                                              ******** GX
+    _delay                                                          ******** GX
+    _display_off                                                    ******** GX
+    _doors                                                          ******** GX
+    _draw_flip_lock_h                                               ******** GX
+    _draw_flip_lock_v                                               ******** GX
+    _draw_lock_h                                                    ******** GX
+    _draw_lock_v                                                    ******** GX
+    _dungeon                                                        ******** GX
+    _empty_map_tiles                                                ******** GX
+    _game_over                                                      ******** GX
+    _gameover_jingle                                                ******** GX
+    _generate_dungeon                                               ******** GX
+  0 _go_into_dungeon                                                0000052B GR
+  0 _go_next_floor                                                  000005B5 GR
+    _hUGE_init                                                      ******** GX
+  0 _hide_camp_sprites                                              000000FB GR
+    _hide_door                                                      ******** GX
+    _key_obtained                                                   ******** GX
+    _last_direction                                                 ******** GX
+    _lock_opened                                                    ******** GX
+    _locked_door                                                    ******** GX
+    _max_floor                                                      ******** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    _menu_opened                                                    ******** GX
+    _move_character                                                 ******** GX
+    _player_coords                                                  ******** GX
+    _rROMB0                                                         ******** GX
+  0 _return_to_camp                                                 000004CF GR
+    _set_bkg_data                                                   ******** GX
+    _set_bkg_tiles                                                  ******** GX
+  0 _set_camp_map                                                   00000000 GR
+  0 _set_dungeon_map                                                00000154 GR
+    _set_enemy_sprite                                               ******** GX
+    _set_mini_menu                                                  ******** GX
+  0 _set_room                                                       000001F4 GR
+    _set_room_tiles                                                 ******** GX
+    _set_sprite_data                                                ******** GX
+    _shadow_OAM                                                     ******** GX
+    _smooth_movement                                                ******** GX
+    _spawn_boss                                                     ******** GX
+    _spawn_enemies_in_room                                          ******** GX
+    _stairs                                                         ******** GX
+    _treasure_obtained                                              ******** GX
+    _wait_vbl_done                                                  ******** GX
+    _x                                                              ******** GX
+    _y                                                              ******** GX
+    b_draw_flip_lock_h                                              ******** GX
+    b_draw_flip_lock_v                                              ******** GX
+    b_draw_lock_h                                                   ******** GX
+    b_draw_lock_v                                                   ******** GX
+    b_empty_map_tiles                                               ******** GX
+    b_game_over                                                     ******** GX
+    b_generate_dungeon                                              ******** GX
+    b_hide_door                                                     ******** GX
+    b_set_enemy_sprite                                              ******** GX
+    b_set_mini_menu                                                 ******** GX
+    b_set_room_tiles                                                ******** GX
+    b_spawn_boss                                                    ******** GX
+    b_spawn_enemies_in_room                                         ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      65F   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        0   flags    0
+   9 _CABS                                      size        0   flags    8
+

@@ -36,6 +36,9 @@
 	.globl _frames
 	.globl _tile_id
 	.globl _debug
+	.globl _boss
+	.globl _enemy
+	.globl _current_enemies
 	.globl _map
 	.globl _seed
 ;--------------------------------------------------------
@@ -50,6 +53,12 @@ _seed::
 	.ds 2
 _map::
 	.ds 16
+_current_enemies::
+	.ds 24
+_enemy::
+	.ds 12
+_boss::
+	.ds 10
 ;--------------------------------------------------------
 ; ram data
 ;--------------------------------------------------------

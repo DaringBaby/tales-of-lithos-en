@@ -1,0 +1,96 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    _Arrow                                                          ******** GX
+    _Drops                                                          ******** GX
+    _Hector                                                         ******** GX
+    _Key                                                            ******** GX
+    _LCDC_REG                                                       ******** GX
+    _Lock                                                           ******** GX
+    _MC_down                                                        ******** GX
+    _MC_left                                                        ******** GX
+    _MC_right                                                       ******** GX
+    _MC_up                                                          ******** GX
+    _MiniGUI                                                        ******** GX
+    _Minimap                                                        ******** GX
+    _Mugshot                                                        ******** GX
+    _Mythril                                                        ******** GX
+    _Numbers                                                        ******** GX
+    _Objects                                                        ******** GX
+    _Safy                                                           ******** GX
+    _Text                                                           ******** GX
+    _Textbox                                                        ******** GX
+    _Title                                                          ******** GX
+    _TitleText                                                      ******** GX
+    _Titlescreen                                                    ******** GX
+    _WX_REG                                                         ******** GX
+    _WY_REG                                                         ******** GX
+    ___sdcc_bcall_ehl                                               ******** GX
+    __current_bank                                                  ******** GX
+    _add_VBL                                                        ******** GX
+    _arrow                                                          ******** GX
+  0 _black                                                          000000A0 GR
+  0 _blank                                                          00000090 GR
+    _cls                                                            ******** GX
+    _current_location                                               ******** GX
+    _current_song_bank                                              ******** GX
+    _delay                                                          ******** GX
+  0 _game_init                                                      00000000 GR
+    _go_into_dungeon                                                ******** GX
+    _hUGE_init                                                      ******** GX
+    _init_sound                                                     ******** GX
+    _insert_name                                                    ******** GX
+    _intro_theme                                                    ******** GX
+    _load_game                                                      ******** GX
+    _move_character                                                 ******** GX
+    _music_vbl_interrupt                                            ******** GX
+    _ng                                                             ******** GX
+    _rROMB0                                                         ******** GX
+    _set_bkg_data                                                   ******** GX
+    _set_bkg_tiles                                                  ******** GX
+    _set_camp_map                                                   ******** GX
+  0 _set_game_gui                                                   000001A7 GR
+  0 _set_game_sprites                                               0000010A GR
+    _set_mini_menu                                                  ******** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    _set_sprite_data                                                ******** GX
+  0 _set_title_data                                                 000000B0 GR
+    _set_titlescreen                                                ******** GX
+    _set_tutorial                                                   ******** GX
+    _shadow_OAM                                                     ******** GX
+    _start_intro                                                    ******** GX
+    _start_sfx                                                      ******** GX
+    b_init_sound                                                    ******** GX
+    b_insert_name                                                   ******** GX
+    b_set_mini_menu                                                 ******** GX
+    b_set_titlescreen                                               ******** GX
+    b_start_intro                                                   ******** GX
+    b_start_sfx                                                     ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      275   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        0   flags    0
+   9 _CABS                                      size        0   flags    8
+

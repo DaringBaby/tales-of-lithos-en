@@ -1,0 +1,719 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module player_utils
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl b_check_enemy
+                                     11 	.globl _check_enemy
+                                     12 	.globl b_set_character_sprite
+                                     13 	.globl _set_character_sprite
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 	.area _HRAM
+                                     18 ;--------------------------------------------------------
+                                     19 ; ram data
+                                     20 ;--------------------------------------------------------
+                                     21 	.area _DATA
+                                     22 ;--------------------------------------------------------
+                                     23 ; ram data
+                                     24 ;--------------------------------------------------------
+                                     25 	.area _INITIALIZED
+                                     26 ;--------------------------------------------------------
+                                     27 ; absolute external ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _DABS (ABS)
+                                     30 ;--------------------------------------------------------
+                                     31 ; global & static initialisations
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HOME
+                                     34 	.area _GSINIT
+                                     35 	.area _GSFINAL
+                                     36 	.area _GSINIT
+                                     37 ;--------------------------------------------------------
+                                     38 ; Home
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _HOME
+                                     42 ;--------------------------------------------------------
+                                     43 ; code
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _CODE_3
+                                     46 ;src/scripts/player_utils.c:8: uint8_t check_enemy(uint8_t dir) BANKED {
+                                     47 ;	---------------------------------
+                                     48 ; Function check_enemy
+                                     49 ; ---------------------------------
+                         00000003    50 	b_check_enemy	= 3
+    00000000                         51 _check_enemy::
+    00000000 E8 F1            [16]   52 	add	sp, #-15
+                                     53 ;src/scripts/player_utils.c:9: for (int i=0; i<2; i++) {
+    00000002 F8 0C            [12]   54 	ldhl	sp,	#12
+    00000004 36 00            [12]   55 	ld	(hl), #0x00
+    00000006 F8 15            [12]   56 	ldhl	sp,	#21
+    00000008 7E               [ 8]   57 	ld	a, (hl)
+    00000009 3D               [ 4]   58 	dec	a
+    0000000A 3E 01            [ 8]   59 	ld	a, #0x01
+    0000000C 28 01            [12]   60 	jr	Z, 00360$
+    0000000E AF               [ 4]   61 	xor	a, a
+    0000000F                         62 00360$:
+    0000000F F8 00            [12]   63 	ldhl	sp,	#0
+    00000011 77               [ 8]   64 	ld	(hl), a
+    00000012 F8 15            [12]   65 	ldhl	sp,	#21
+    00000014 7E               [ 8]   66 	ld	a, (hl)
+    00000015 D6 02            [ 8]   67 	sub	a, #0x02
+    00000017 3E 01            [ 8]   68 	ld	a, #0x01
+    00000019 28 01            [12]   69 	jr	Z, 00362$
+    0000001B AF               [ 4]   70 	xor	a, a
+    0000001C                         71 00362$:
+    0000001C F8 01            [12]   72 	ldhl	sp,	#1
+    0000001E 77               [ 8]   73 	ld	(hl), a
+    0000001F F8 15            [12]   74 	ldhl	sp,	#21
+    00000021 7E               [ 8]   75 	ld	a, (hl)
+    00000022 D6 04            [ 8]   76 	sub	a, #0x04
+    00000024 3E 01            [ 8]   77 	ld	a, #0x01
+    00000026 28 01            [12]   78 	jr	Z, 00364$
+    00000028 AF               [ 4]   79 	xor	a, a
+    00000029                         80 00364$:
+    00000029 F8 02            [12]   81 	ldhl	sp,	#2
+    0000002B 77               [ 8]   82 	ld	(hl), a
+    0000002C F8 15            [12]   83 	ldhl	sp,	#21
+    0000002E 7E               [ 8]   84 	ld	a, (hl)
+    0000002F D6 08            [ 8]   85 	sub	a, #0x08
+    00000031 3E 01            [ 8]   86 	ld	a, #0x01
+    00000033 28 01            [12]   87 	jr	Z, 00366$
+    00000035 AF               [ 4]   88 	xor	a, a
+    00000036                         89 00366$:
+    00000036 F8 03            [12]   90 	ldhl	sp,	#3
+    00000038 77               [ 8]   91 	ld	(hl), a
+    00000039 AF               [ 4]   92 	xor	a, a
+    0000003A F8 0D            [12]   93 	ldhl	sp,	#13
+    0000003C 22               [ 8]   94 	ld	(hl+), a
+    0000003D 77               [ 8]   95 	ld	(hl), a
+    0000003E                         96 00145$:
+                                     97 ;src/scripts/player_utils.c:14: if (x == enemy_x && y - enemy_y == 16 && y > enemy_y) {
+    0000003E FAr00r00         [16]   98 	ld	a, (#_y)
+    00000041 F8 04            [12]   99 	ldhl	sp,	#4
+    00000043 22               [ 8]  100 	ld	(hl+), a
+    00000044 36 00            [12]  101 	ld	(hl), #0x00
+                                    102 ;src/scripts/player_utils.c:19: if (y == enemy_y && enemy_x - x == 16 && enemy_x > x) {
+    00000046 FAr00r00         [16]  103 	ld	a, (#_x)
+    00000049 F8 06            [12]  104 	ldhl	sp,	#6
+    0000004B 22               [ 8]  105 	ld	(hl+), a
+    0000004C 36 00            [12]  106 	ld	(hl), #0x00
+                                    107 ;src/scripts/player_utils.c:9: for (int i=0; i<2; i++) {
+    0000004E F8 0D            [12]  108 	ldhl	sp,	#13
+    00000050 2A               [ 8]  109 	ld	a, (hl+)
+    00000051 D6 02            [ 8]  110 	sub	a, #0x02
+    00000053 7E               [ 8]  111 	ld	a, (hl)
+    00000054 DE 00            [ 8]  112 	sbc	a, #0x00
+    00000056 D2r52r01         [16]  113 	jp	NC, 00122$
+                                    114 ;src/scripts/player_utils.c:10: uint8_t enemy_x = current_enemies[i].x;
+    00000059 2B               [ 8]  115 	dec	hl
+    0000005A 2A               [ 8]  116 	ld	a, (hl+)
+    0000005B 4F               [ 4]  117 	ld	c, a
+    0000005C 46               [ 8]  118 	ld	b, (hl)
+    0000005D 69               [ 4]  119 	ld	l, c
+    0000005E 60               [ 4]  120 	ld	h, b
+    0000005F 29               [ 8]  121 	add	hl, hl
+    00000060 09               [ 8]  122 	add	hl, bc
+    00000061 29               [ 8]  123 	add	hl, hl
+    00000062 29               [ 8]  124 	add	hl, hl
+    00000063 11r00r00         [12]  125 	ld	de, #_current_enemies
+    00000066 19               [ 8]  126 	add	hl, de
+    00000067 7E               [ 8]  127 	ld	a, (hl)
+    00000068 E5               [16]  128 	push	hl
+    00000069 F8 0A            [12]  129 	ldhl	sp,	#10
+    0000006B 77               [ 8]  130 	ld	(hl), a
+    0000006C E1               [12]  131 	pop	hl
+                                    132 ;src/scripts/player_utils.c:11: uint8_t enemy_y = current_enemies[i].y;
+    0000006D 23               [ 8]  133 	inc	hl
+    0000006E 7E               [ 8]  134 	ld	a, (hl)
+    0000006F F8 09            [12]  135 	ldhl	sp,	#9
+    00000071 77               [ 8]  136 	ld	(hl), a
+                                    137 ;src/scripts/player_utils.c:14: if (x == enemy_x && y - enemy_y == 16 && y > enemy_y) {
+    00000072 FAr00r00         [16]  138 	ld	a, (#_x)
+    00000075 F8 08            [12]  139 	ldhl	sp,	#8
+    00000077 96               [ 8]  140 	sub	a, (hl)
+    00000078 3E 01            [ 8]  141 	ld	a, #0x01
+    0000007A 28 01            [12]  142 	jr	Z, 00368$
+    0000007C AF               [ 4]  143 	xor	a, a
+    0000007D                        144 00368$:
+    0000007D 5F               [ 4]  145 	ld	e, a
+    0000007E F8 09            [12]  146 	ldhl	sp,	#9
+    00000080 2A               [ 8]  147 	ld	a, (hl+)
+    00000081 22               [ 8]  148 	ld	(hl+), a
+                                    149 ;src/scripts/player_utils.c:15: return i+1;
+    00000082 AF               [ 4]  150 	xor	a, a
+    00000083 22               [ 8]  151 	ld	(hl+), a
+    00000084 34               [12]  152 	inc	(hl)
+                                    153 ;src/scripts/player_utils.c:12: switch (dir) {
+    00000085 F8 00            [12]  154 	ldhl	sp,	#0
+    00000087 7E               [ 8]  155 	ld	a, (hl)
+    00000088 B7               [ 4]  156 	or	a, a
+    00000089 20 24            [12]  157 	jr	NZ, 00101$
+                                    158 ;src/scripts/player_utils.c:19: if (y == enemy_y && enemy_x - x == 16 && enemy_x > x) {
+    0000008B FAr00r00         [16]  159 	ld	a, (#_y)
+    0000008E F8 09            [12]  160 	ldhl	sp,	#9
+    00000090 96               [ 8]  161 	sub	a, (hl)
+    00000091 3E 01            [ 8]  162 	ld	a, #0x01
+    00000093 28 01            [12]  163 	jr	Z, 00370$
+    00000095 AF               [ 4]  164 	xor	a, a
+    00000096                        165 00370$:
+    00000096 57               [ 4]  166 	ld	d, a
+    00000097 F8 08            [12]  167 	ldhl	sp,	#8
+    00000099 4E               [ 8]  168 	ld	c, (hl)
+    0000009A 06 00            [ 8]  169 	ld	b, #0x00
+                                    170 ;src/scripts/player_utils.c:12: switch (dir) {
+    0000009C F8 01            [12]  171 	ldhl	sp,	#1
+    0000009E 7E               [ 8]  172 	ld	a, (hl)
+    0000009F B7               [ 4]  173 	or	a, a
+    000000A0 20 38            [12]  174 	jr	NZ, 00106$
+    000000A2 23               [ 8]  175 	inc	hl
+    000000A3 7E               [ 8]  176 	ld	a, (hl)
+    000000A4 B7               [ 4]  177 	or	a, a
+    000000A5 20 56            [12]  178 	jr	NZ, 00111$
+    000000A7 23               [ 8]  179 	inc	hl
+    000000A8 7E               [ 8]  180 	ld	a, (hl)
+    000000A9 B7               [ 4]  181 	or	a, a
+    000000AA 20 79            [12]  182 	jr	NZ, 00116$
+    000000AC C3r48r01         [16]  183 	jp	00146$
+                                    184 ;src/scripts/player_utils.c:13: case 1:
+    000000AF                        185 00101$:
+                                    186 ;src/scripts/player_utils.c:14: if (x == enemy_x && y - enemy_y == 16 && y > enemy_y) {
+    000000AF 7B               [ 4]  187 	ld	a, e
+    000000B0 B7               [ 4]  188 	or	a, a
+    000000B1 CAr48r01         [16]  189 	jp	Z, 00146$
+    000000B4 F8 04            [12]  190 	ldhl	sp,#4
+    000000B6 2A               [ 8]  191 	ld	a, (hl+)
+    000000B7 5F               [ 4]  192 	ld	e, a
+    000000B8 56               [ 8]  193 	ld	d, (hl)
+    000000B9 F8 0A            [12]  194 	ldhl	sp,	#10
+    000000BB 2A               [ 8]  195 	ld	a,	(hl+)
+    000000BC 66               [ 8]  196 	ld	h, (hl)
+    000000BD 6F               [ 4]  197 	ld	l, a
+    000000BE 7B               [ 4]  198 	ld	a, e
+    000000BF 95               [ 4]  199 	sub	a, l
+    000000C0 5F               [ 4]  200 	ld	e, a
+    000000C1 7A               [ 4]  201 	ld	a, d
+    000000C2 9C               [ 4]  202 	sbc	a, h
+    000000C3 47               [ 4]  203 	ld	b, a
+    000000C4 7B               [ 4]  204 	ld	a, e
+    000000C5 D6 10            [ 8]  205 	sub	a, #0x10
+    000000C7 B0               [ 4]  206 	or	a, b
+    000000C8 C2r48r01         [16]  207 	jp	NZ, 00146$
+    000000CB F8 09            [12]  208 	ldhl	sp,	#9
+    000000CD 7E               [ 8]  209 	ld	a, (hl)
+    000000CE 21r00r00         [12]  210 	ld	hl, #_y
+    000000D1 96               [ 8]  211 	sub	a, (hl)
+    000000D2 30 74            [12]  212 	jr	NC, 00146$
+                                    213 ;src/scripts/player_utils.c:15: return i+1;
+    000000D4 F8 0C            [12]  214 	ldhl	sp,	#12
+    000000D6 7E               [ 8]  215 	ld	a, (hl)
+    000000D7 C3rF9r02         [16]  216 	jp	00147$
+                                    217 ;src/scripts/player_utils.c:18: case 2:
+    000000DA                        218 00106$:
+                                    219 ;src/scripts/player_utils.c:19: if (y == enemy_y && enemy_x - x == 16 && enemy_x > x) {
+    000000DA 7A               [ 4]  220 	ld	a, d
+    000000DB B7               [ 4]  221 	or	a, a
+    000000DC 28 6A            [12]  222 	jr	Z, 00146$
+    000000DE F8 06            [12]  223 	ldhl	sp,#6
+    000000E0 2A               [ 8]  224 	ld	a, (hl+)
+    000000E1 5F               [ 4]  225 	ld	e, a
+    000000E2 56               [ 8]  226 	ld	d, (hl)
+    000000E3 79               [ 4]  227 	ld	a, c
+    000000E4 93               [ 4]  228 	sub	a, e
+    000000E5 5F               [ 4]  229 	ld	e, a
+    000000E6 78               [ 4]  230 	ld	a, b
+    000000E7 9A               [ 4]  231 	sbc	a, d
+    000000E8 47               [ 4]  232 	ld	b, a
+    000000E9 7B               [ 4]  233 	ld	a, e
+    000000EA D6 10            [ 8]  234 	sub	a, #0x10
+    000000EC B0               [ 4]  235 	or	a, b
+    000000ED 20 59            [12]  236 	jr	NZ, 00146$
+    000000EF FAr00r00         [16]  237 	ld	a, (#_x)
+    000000F2 F8 08            [12]  238 	ldhl	sp,	#8
+    000000F4 96               [ 8]  239 	sub	a, (hl)
+    000000F5 30 51            [12]  240 	jr	NC, 00146$
+                                    241 ;src/scripts/player_utils.c:20: return i+1;
+    000000F7 F8 0C            [12]  242 	ldhl	sp,	#12
+    000000F9 7E               [ 8]  243 	ld	a, (hl)
+    000000FA C3rF9r02         [16]  244 	jp	00147$
+                                    245 ;src/scripts/player_utils.c:23: case 4:
+    000000FD                        246 00111$:
+                                    247 ;src/scripts/player_utils.c:24: if (x == enemy_x && enemy_y - y == 16 && enemy_y > y) {
+    000000FD 7B               [ 4]  248 	ld	a, e
+    000000FE B7               [ 4]  249 	or	a, a
+    000000FF 28 47            [12]  250 	jr	Z, 00146$
+    00000101 F8 0A            [12]  251 	ldhl	sp,#10
+    00000103 2A               [ 8]  252 	ld	a, (hl+)
+    00000104 5F               [ 4]  253 	ld	e, a
+    00000105 56               [ 8]  254 	ld	d, (hl)
+    00000106 F8 04            [12]  255 	ldhl	sp,	#4
+    00000108 2A               [ 8]  256 	ld	a,	(hl+)
+    00000109 66               [ 8]  257 	ld	h, (hl)
+    0000010A 6F               [ 4]  258 	ld	l, a
+    0000010B 7B               [ 4]  259 	ld	a, e
+    0000010C 95               [ 4]  260 	sub	a, l
+    0000010D 5F               [ 4]  261 	ld	e, a
+    0000010E 7A               [ 4]  262 	ld	a, d
+    0000010F 9C               [ 4]  263 	sbc	a, h
+    00000110 47               [ 4]  264 	ld	b, a
+    00000111 7B               [ 4]  265 	ld	a, e
+    00000112 D6 10            [ 8]  266 	sub	a, #0x10
+    00000114 B0               [ 4]  267 	or	a, b
+    00000115 20 31            [12]  268 	jr	NZ, 00146$
+    00000117 FAr00r00         [16]  269 	ld	a, (#_y)
+    0000011A F8 09            [12]  270 	ldhl	sp,	#9
+    0000011C 96               [ 8]  271 	sub	a, (hl)
+    0000011D 30 29            [12]  272 	jr	NC, 00146$
+                                    273 ;src/scripts/player_utils.c:25: return i+1;
+    0000011F F8 0C            [12]  274 	ldhl	sp,	#12
+    00000121 7E               [ 8]  275 	ld	a, (hl)
+    00000122 C3rF9r02         [16]  276 	jp	00147$
+                                    277 ;src/scripts/player_utils.c:28: case 8:
+    00000125                        278 00116$:
+                                    279 ;src/scripts/player_utils.c:29: if (y == enemy_y && x - enemy_x == 16 && x > enemy_x) {
+    00000125 7A               [ 4]  280 	ld	a, d
+    00000126 B7               [ 4]  281 	or	a, a
+    00000127 28 1F            [12]  282 	jr	Z, 00146$
+    00000129 F8 06            [12]  283 	ldhl	sp,#6
+    0000012B 2A               [ 8]  284 	ld	a, (hl+)
+    0000012C 5F               [ 4]  285 	ld	e, a
+    0000012D 56               [ 8]  286 	ld	d, (hl)
+    0000012E 7B               [ 4]  287 	ld	a, e
+    0000012F 91               [ 4]  288 	sub	a, c
+    00000130 5F               [ 4]  289 	ld	e, a
+    00000131 7A               [ 4]  290 	ld	a, d
+    00000132 98               [ 4]  291 	sbc	a, b
+    00000133 47               [ 4]  292 	ld	b, a
+    00000134 7B               [ 4]  293 	ld	a, e
+    00000135 D6 10            [ 8]  294 	sub	a, #0x10
+    00000137 B0               [ 4]  295 	or	a, b
+    00000138 20 0E            [12]  296 	jr	NZ, 00146$
+    0000013A 23               [ 8]  297 	inc	hl
+    0000013B 7E               [ 8]  298 	ld	a, (hl)
+    0000013C 21r00r00         [12]  299 	ld	hl, #_x
+    0000013F 96               [ 8]  300 	sub	a, (hl)
+    00000140 30 06            [12]  301 	jr	NC, 00146$
+                                    302 ;src/scripts/player_utils.c:30: return i+1;
+    00000142 F8 0C            [12]  303 	ldhl	sp,	#12
+    00000144 7E               [ 8]  304 	ld	a, (hl)
+    00000145 C3rF9r02         [16]  305 	jp	00147$
+                                    306 ;src/scripts/player_utils.c:33: }
+    00000148                        307 00146$:
+                                    308 ;src/scripts/player_utils.c:9: for (int i=0; i<2; i++) {
+    00000148 F8 0D            [12]  309 	ldhl	sp,	#13
+    0000014A 34               [12]  310 	inc	(hl)
+    0000014B F8 0D            [12]  311 	ldhl	sp,	#13
+    0000014D 3A               [ 8]  312 	ld	a, (hl-)
+    0000014E 77               [ 8]  313 	ld	(hl), a
+    0000014F C3r3Er00         [16]  314 	jp	00145$
+    00000152                        315 00122$:
+                                    316 ;src/scripts/player_utils.c:35: switch(dir) {
+    00000152 F8 00            [12]  317 	ldhl	sp,	#0
+    00000154 7E               [ 8]  318 	ld	a, (hl)
+    00000155 B7               [ 4]  319 	or	a, a
+    00000156 20 14            [12]  320 	jr	NZ, 00123$
+    00000158 23               [ 8]  321 	inc	hl
+    00000159 7E               [ 8]  322 	ld	a, (hl)
+    0000015A B7               [ 4]  323 	or	a, a
+    0000015B 20 75            [12]  324 	jr	NZ, 00128$
+    0000015D 23               [ 8]  325 	inc	hl
+    0000015E 7E               [ 8]  326 	ld	a, (hl)
+    0000015F B7               [ 4]  327 	or	a, a
+    00000160 C2r36r02         [16]  328 	jp	NZ, 00133$
+    00000163 23               [ 8]  329 	inc	hl
+    00000164 7E               [ 8]  330 	ld	a, (hl)
+    00000165 B7               [ 4]  331 	or	a, a
+    00000166 C2r97r02         [16]  332 	jp	NZ, 00138$
+    00000169 C3rF8r02         [16]  333 	jp	00143$
+                                    334 ;src/scripts/player_utils.c:36: case 1:
+    0000016C                        335 00123$:
+                                    336 ;src/scripts/player_utils.c:37: if ((x == boss.x || x == boss.x+16) && y == boss.y+32) {
+    0000016C FAr01r00         [16]  337 	ld	a, (#(_boss + 1) + 0)
+    0000016F F8 0E            [12]  338 	ldhl	sp,	#14
+    00000171 77               [ 8]  339 	ld	(hl), a
+    00000172 FAr00r00         [16]  340 	ld	a, (#_x)
+    00000175 F8 0E            [12]  341 	ldhl	sp,	#14
+    00000177 96               [ 8]  342 	sub	a, (hl)
+    00000178 28 28            [12]  343 	jr	Z, 00127$
+    0000017A F8 0E            [12]  344 	ldhl	sp,	#14
+    0000017C 7E               [ 8]  345 	ld	a, (hl)
+    0000017D F8 0B            [12]  346 	ldhl	sp,	#11
+    0000017F 22               [ 8]  347 	ld	(hl+), a
+    00000180 AF               [ 4]  348 	xor	a, a
+    00000181 32               [ 8]  349 	ld	(hl-), a
+    00000182 2A               [ 8]  350 	ld	a, (hl+)
+    00000183 5F               [ 4]  351 	ld	e, a
+    00000184 56               [ 8]  352 	ld	d, (hl)
+    00000185 21 10 00         [12]  353 	ld	hl, #0x0010
+    00000188 19               [ 8]  354 	add	hl, de
+    00000189 E5               [16]  355 	push	hl
+    0000018A 7D               [ 4]  356 	ld	a, l
+    0000018B F8 0F            [12]  357 	ldhl	sp,	#15
+    0000018D 77               [ 8]  358 	ld	(hl), a
+    0000018E E1               [12]  359 	pop	hl
+    0000018F 7C               [ 4]  360 	ld	a, h
+    00000190 F8 0E            [12]  361 	ldhl	sp,	#14
+    00000192 77               [ 8]  362 	ld	(hl), a
+    00000193 F8 06            [12]  363 	ldhl	sp,	#6
+    00000195 7E               [ 8]  364 	ld	a, (hl)
+    00000196 F8 0D            [12]  365 	ldhl	sp,	#13
+    00000198 96               [ 8]  366 	sub	a, (hl)
+    00000199 C2rF8r02         [16]  367 	jp	NZ, 00143$
+    0000019C 23               [ 8]  368 	inc	hl
+    0000019D AF               [ 4]  369 	xor	a, a
+    0000019E 96               [ 8]  370 	sub	a, (hl)
+    0000019F C2rF8r02         [16]  371 	jp	NZ, 00143$
+    000001A2                        372 00127$:
+    000001A2 FAr02r00         [16]  373 	ld	a, (#(_boss + 2) + 0)
+    000001A5 F8 0E            [12]  374 	ldhl	sp,#14
+    000001A7 77               [ 8]  375 	ld	(hl), a
+    000001A8 F8 0B            [12]  376 	ldhl	sp,	#11
+    000001AA 22               [ 8]  377 	ld	(hl+), a
+    000001AB AF               [ 4]  378 	xor	a, a
+    000001AC 32               [ 8]  379 	ld	(hl-), a
+    000001AD 2A               [ 8]  380 	ld	a, (hl+)
+    000001AE 5F               [ 4]  381 	ld	e, a
+    000001AF 56               [ 8]  382 	ld	d, (hl)
+    000001B0 21 20 00         [12]  383 	ld	hl, #0x0020
+    000001B3 19               [ 8]  384 	add	hl, de
+    000001B4 E5               [16]  385 	push	hl
+    000001B5 7D               [ 4]  386 	ld	a, l
+    000001B6 F8 0F            [12]  387 	ldhl	sp,	#15
+    000001B8 77               [ 8]  388 	ld	(hl), a
+    000001B9 E1               [12]  389 	pop	hl
+    000001BA 7C               [ 4]  390 	ld	a, h
+    000001BB F8 0E            [12]  391 	ldhl	sp,	#14
+    000001BD 77               [ 8]  392 	ld	(hl), a
+    000001BE F8 04            [12]  393 	ldhl	sp,	#4
+    000001C0 7E               [ 8]  394 	ld	a, (hl)
+    000001C1 F8 0D            [12]  395 	ldhl	sp,	#13
+    000001C3 96               [ 8]  396 	sub	a, (hl)
+    000001C4 C2rF8r02         [16]  397 	jp	NZ, 00143$
+    000001C7 23               [ 8]  398 	inc	hl
+    000001C8 AF               [ 4]  399 	xor	a, a
+    000001C9 96               [ 8]  400 	sub	a, (hl)
+    000001CA C2rF8r02         [16]  401 	jp	NZ, 00143$
+                                    402 ;src/scripts/player_utils.c:38: return 3;
+    000001CD 3E 03            [ 8]  403 	ld	a, #0x03
+    000001CF C3rF9r02         [16]  404 	jp	00147$
+                                    405 ;src/scripts/player_utils.c:41: case 2:
+    000001D2                        406 00128$:
+                                    407 ;src/scripts/player_utils.c:42: if (x == boss.x - 16 && (y == boss.y || y == boss.y + 16)) {
+    000001D2 FAr01r00         [16]  408 	ld	a, (#(_boss + 1) + 0)
+    000001D5 F8 0E            [12]  409 	ldhl	sp,#14
+    000001D7 77               [ 8]  410 	ld	(hl), a
+    000001D8 F8 0B            [12]  411 	ldhl	sp,	#11
+    000001DA 22               [ 8]  412 	ld	(hl+), a
+    000001DB AF               [ 4]  413 	xor	a, a
+    000001DC 32               [ 8]  414 	ld	(hl-), a
+    000001DD 2A               [ 8]  415 	ld	a, (hl+)
+    000001DE 5F               [ 4]  416 	ld	e, a
+    000001DF 56               [ 8]  417 	ld	d, (hl)
+    000001E0 21 10 00         [12]  418 	ld	hl, #0x0010
+    000001E3 7B               [ 4]  419 	ld	a, e
+    000001E4 95               [ 4]  420 	sub	a, l
+    000001E5 5F               [ 4]  421 	ld	e, a
+    000001E6 7A               [ 4]  422 	ld	a, d
+    000001E7 9C               [ 4]  423 	sbc	a, h
+    000001E8 F8 0E            [12]  424 	ldhl	sp,	#14
+    000001EA 32               [ 8]  425 	ld	(hl-), a
+    000001EB 73               [ 8]  426 	ld	(hl), e
+    000001EC F8 06            [12]  427 	ldhl	sp,	#6
+    000001EE 7E               [ 8]  428 	ld	a, (hl)
+    000001EF F8 0D            [12]  429 	ldhl	sp,	#13
+    000001F1 96               [ 8]  430 	sub	a, (hl)
+    000001F2 C2rF8r02         [16]  431 	jp	NZ, 00143$
+    000001F5 23               [ 8]  432 	inc	hl
+    000001F6 AF               [ 4]  433 	xor	a, a
+    000001F7 96               [ 8]  434 	sub	a, (hl)
+    000001F8 C2rF8r02         [16]  435 	jp	NZ, 00143$
+    000001FB FAr02r00         [16]  436 	ld	a, (#(_boss + 2) + 0)
+    000001FE F8 0E            [12]  437 	ldhl	sp,	#14
+    00000200 77               [ 8]  438 	ld	(hl), a
+    00000201 FAr00r00         [16]  439 	ld	a, (#_y)
+    00000204 F8 0E            [12]  440 	ldhl	sp,	#14
+    00000206 96               [ 8]  441 	sub	a, (hl)
+    00000207 28 28            [12]  442 	jr	Z, 00129$
+    00000209 F8 0E            [12]  443 	ldhl	sp,	#14
+    0000020B 7E               [ 8]  444 	ld	a, (hl)
+    0000020C F8 0B            [12]  445 	ldhl	sp,	#11
+    0000020E 22               [ 8]  446 	ld	(hl+), a
+    0000020F AF               [ 4]  447 	xor	a, a
+    00000210 32               [ 8]  448 	ld	(hl-), a
+    00000211 2A               [ 8]  449 	ld	a, (hl+)
+    00000212 5F               [ 4]  450 	ld	e, a
+    00000213 56               [ 8]  451 	ld	d, (hl)
+    00000214 21 10 00         [12]  452 	ld	hl, #0x0010
+    00000217 19               [ 8]  453 	add	hl, de
+    00000218 E5               [16]  454 	push	hl
+    00000219 7D               [ 4]  455 	ld	a, l
+    0000021A F8 0F            [12]  456 	ldhl	sp,	#15
+    0000021C 77               [ 8]  457 	ld	(hl), a
+    0000021D E1               [12]  458 	pop	hl
+    0000021E 7C               [ 4]  459 	ld	a, h
+    0000021F F8 0E            [12]  460 	ldhl	sp,	#14
+    00000221 77               [ 8]  461 	ld	(hl), a
+    00000222 F8 04            [12]  462 	ldhl	sp,	#4
+    00000224 7E               [ 8]  463 	ld	a, (hl)
+    00000225 F8 0D            [12]  464 	ldhl	sp,	#13
+    00000227 96               [ 8]  465 	sub	a, (hl)
+    00000228 C2rF8r02         [16]  466 	jp	NZ, 00143$
+    0000022B 23               [ 8]  467 	inc	hl
+    0000022C AF               [ 4]  468 	xor	a, a
+    0000022D 96               [ 8]  469 	sub	a, (hl)
+    0000022E C2rF8r02         [16]  470 	jp	NZ, 00143$
+    00000231                        471 00129$:
+                                    472 ;src/scripts/player_utils.c:43: return 3;
+    00000231 3E 03            [ 8]  473 	ld	a, #0x03
+    00000233 C3rF9r02         [16]  474 	jp	00147$
+                                    475 ;src/scripts/player_utils.c:46: case 4:
+    00000236                        476 00133$:
+                                    477 ;src/scripts/player_utils.c:47: if ((x == boss.x || x == boss.x + 16) && y == boss.y - 16) {
+    00000236 FAr01r00         [16]  478 	ld	a, (#(_boss + 1) + 0)
+    00000239 F8 0E            [12]  479 	ldhl	sp,	#14
+    0000023B 77               [ 8]  480 	ld	(hl), a
+    0000023C FAr00r00         [16]  481 	ld	a, (#_x)
+    0000023F F8 0E            [12]  482 	ldhl	sp,	#14
+    00000241 96               [ 8]  483 	sub	a, (hl)
+    00000242 28 28            [12]  484 	jr	Z, 00137$
+    00000244 F8 0E            [12]  485 	ldhl	sp,	#14
+    00000246 7E               [ 8]  486 	ld	a, (hl)
+    00000247 F8 0B            [12]  487 	ldhl	sp,	#11
+    00000249 22               [ 8]  488 	ld	(hl+), a
+    0000024A AF               [ 4]  489 	xor	a, a
+    0000024B 32               [ 8]  490 	ld	(hl-), a
+    0000024C 2A               [ 8]  491 	ld	a, (hl+)
+    0000024D 5F               [ 4]  492 	ld	e, a
+    0000024E 56               [ 8]  493 	ld	d, (hl)
+    0000024F 21 10 00         [12]  494 	ld	hl, #0x0010
+    00000252 19               [ 8]  495 	add	hl, de
+    00000253 E5               [16]  496 	push	hl
+    00000254 7D               [ 4]  497 	ld	a, l
+    00000255 F8 0F            [12]  498 	ldhl	sp,	#15
+    00000257 77               [ 8]  499 	ld	(hl), a
+    00000258 E1               [12]  500 	pop	hl
+    00000259 7C               [ 4]  501 	ld	a, h
+    0000025A F8 0E            [12]  502 	ldhl	sp,	#14
+    0000025C 77               [ 8]  503 	ld	(hl), a
+    0000025D F8 06            [12]  504 	ldhl	sp,	#6
+    0000025F 7E               [ 8]  505 	ld	a, (hl)
+    00000260 F8 0D            [12]  506 	ldhl	sp,	#13
+    00000262 96               [ 8]  507 	sub	a, (hl)
+    00000263 C2rF8r02         [16]  508 	jp	NZ, 00143$
+    00000266 23               [ 8]  509 	inc	hl
+    00000267 AF               [ 4]  510 	xor	a, a
+    00000268 96               [ 8]  511 	sub	a, (hl)
+    00000269 C2rF8r02         [16]  512 	jp	NZ, 00143$
+    0000026C                        513 00137$:
+    0000026C FAr02r00         [16]  514 	ld	a, (#(_boss + 2) + 0)
+    0000026F F8 0E            [12]  515 	ldhl	sp,#14
+    00000271 77               [ 8]  516 	ld	(hl), a
+    00000272 F8 0B            [12]  517 	ldhl	sp,	#11
+    00000274 22               [ 8]  518 	ld	(hl+), a
+    00000275 AF               [ 4]  519 	xor	a, a
+    00000276 32               [ 8]  520 	ld	(hl-), a
+    00000277 2A               [ 8]  521 	ld	a, (hl+)
+    00000278 5F               [ 4]  522 	ld	e, a
+    00000279 56               [ 8]  523 	ld	d, (hl)
+    0000027A 21 10 00         [12]  524 	ld	hl, #0x0010
+    0000027D 7B               [ 4]  525 	ld	a, e
+    0000027E 95               [ 4]  526 	sub	a, l
+    0000027F 5F               [ 4]  527 	ld	e, a
+    00000280 7A               [ 4]  528 	ld	a, d
+    00000281 9C               [ 4]  529 	sbc	a, h
+    00000282 F8 0E            [12]  530 	ldhl	sp,	#14
+    00000284 32               [ 8]  531 	ld	(hl-), a
+    00000285 73               [ 8]  532 	ld	(hl), e
+    00000286 F8 04            [12]  533 	ldhl	sp,	#4
+    00000288 7E               [ 8]  534 	ld	a, (hl)
+    00000289 F8 0D            [12]  535 	ldhl	sp,	#13
+    0000028B 96               [ 8]  536 	sub	a, (hl)
+    0000028C 20 6A            [12]  537 	jr	NZ, 00143$
+    0000028E 23               [ 8]  538 	inc	hl
+    0000028F AF               [ 4]  539 	xor	a, a
+    00000290 96               [ 8]  540 	sub	a, (hl)
+    00000291 20 65            [12]  541 	jr	NZ, 00143$
+                                    542 ;src/scripts/player_utils.c:48: return 3;
+    00000293 3E 03            [ 8]  543 	ld	a, #0x03
+    00000295 18 62            [12]  544 	jr	00147$
+                                    545 ;src/scripts/player_utils.c:51: case 8:
+    00000297                        546 00138$:
+                                    547 ;src/scripts/player_utils.c:52: if (x == boss.x + 32 && (y == boss.y || y == boss.y+16)) {
+    00000297 FAr01r00         [16]  548 	ld	a, (#(_boss + 1) + 0)
+    0000029A F8 0E            [12]  549 	ldhl	sp,#14
+    0000029C 77               [ 8]  550 	ld	(hl), a
+    0000029D F8 0B            [12]  551 	ldhl	sp,	#11
+    0000029F 22               [ 8]  552 	ld	(hl+), a
+    000002A0 AF               [ 4]  553 	xor	a, a
+    000002A1 32               [ 8]  554 	ld	(hl-), a
+    000002A2 2A               [ 8]  555 	ld	a, (hl+)
+    000002A3 5F               [ 4]  556 	ld	e, a
+    000002A4 56               [ 8]  557 	ld	d, (hl)
+    000002A5 21 20 00         [12]  558 	ld	hl, #0x0020
+    000002A8 19               [ 8]  559 	add	hl, de
+    000002A9 E5               [16]  560 	push	hl
+    000002AA 7D               [ 4]  561 	ld	a, l
+    000002AB F8 0F            [12]  562 	ldhl	sp,	#15
+    000002AD 77               [ 8]  563 	ld	(hl), a
+    000002AE E1               [12]  564 	pop	hl
+    000002AF 7C               [ 4]  565 	ld	a, h
+    000002B0 F8 0E            [12]  566 	ldhl	sp,	#14
+    000002B2 77               [ 8]  567 	ld	(hl), a
+    000002B3 F8 06            [12]  568 	ldhl	sp,	#6
+    000002B5 7E               [ 8]  569 	ld	a, (hl)
+    000002B6 F8 0D            [12]  570 	ldhl	sp,	#13
+    000002B8 96               [ 8]  571 	sub	a, (hl)
+    000002B9 20 3D            [12]  572 	jr	NZ, 00143$
+    000002BB 23               [ 8]  573 	inc	hl
+    000002BC AF               [ 4]  574 	xor	a, a
+    000002BD 96               [ 8]  575 	sub	a, (hl)
+    000002BE 20 38            [12]  576 	jr	NZ, 00143$
+    000002C0 FAr02r00         [16]  577 	ld	a, (#(_boss + 2) + 0)
+    000002C3 F8 0E            [12]  578 	ldhl	sp,	#14
+    000002C5 77               [ 8]  579 	ld	(hl), a
+    000002C6 FAr00r00         [16]  580 	ld	a, (#_y)
+    000002C9 F8 0E            [12]  581 	ldhl	sp,	#14
+    000002CB 96               [ 8]  582 	sub	a, (hl)
+    000002CC 28 26            [12]  583 	jr	Z, 00139$
+    000002CE F8 0E            [12]  584 	ldhl	sp,	#14
+    000002D0 7E               [ 8]  585 	ld	a, (hl)
+    000002D1 F8 0B            [12]  586 	ldhl	sp,	#11
+    000002D3 22               [ 8]  587 	ld	(hl+), a
+    000002D4 AF               [ 4]  588 	xor	a, a
+    000002D5 32               [ 8]  589 	ld	(hl-), a
+    000002D6 2A               [ 8]  590 	ld	a, (hl+)
+    000002D7 5F               [ 4]  591 	ld	e, a
+    000002D8 56               [ 8]  592 	ld	d, (hl)
+    000002D9 21 10 00         [12]  593 	ld	hl, #0x0010
+    000002DC 19               [ 8]  594 	add	hl, de
+    000002DD E5               [16]  595 	push	hl
+    000002DE 7D               [ 4]  596 	ld	a, l
+    000002DF F8 0F            [12]  597 	ldhl	sp,	#15
+    000002E1 77               [ 8]  598 	ld	(hl), a
+    000002E2 E1               [12]  599 	pop	hl
+    000002E3 7C               [ 4]  600 	ld	a, h
+    000002E4 F8 0E            [12]  601 	ldhl	sp,	#14
+    000002E6 77               [ 8]  602 	ld	(hl), a
+    000002E7 F8 04            [12]  603 	ldhl	sp,	#4
+    000002E9 7E               [ 8]  604 	ld	a, (hl)
+    000002EA F8 0D            [12]  605 	ldhl	sp,	#13
+    000002EC 96               [ 8]  606 	sub	a, (hl)
+    000002ED 20 09            [12]  607 	jr	NZ, 00143$
+    000002EF 23               [ 8]  608 	inc	hl
+    000002F0 AF               [ 4]  609 	xor	a, a
+    000002F1 96               [ 8]  610 	sub	a, (hl)
+    000002F2 20 04            [12]  611 	jr	NZ, 00143$
+    000002F4                        612 00139$:
+                                    613 ;src/scripts/player_utils.c:53: return 3;
+    000002F4 3E 03            [ 8]  614 	ld	a, #0x03
+    000002F6 18 01            [12]  615 	jr	00147$
+                                    616 ;src/scripts/player_utils.c:56: }
+    000002F8                        617 00143$:
+                                    618 ;src/scripts/player_utils.c:57: return 0;
+    000002F8 AF               [ 4]  619 	xor	a, a
+    000002F9                        620 00147$:
+                                    621 ;src/scripts/player_utils.c:58: }
+    000002F9 E8 0F            [16]  622 	add	sp, #15
+    000002FB C9               [16]  623 	ret
+                                    624 ;src/scripts/player_utils.c:60: void set_character_sprite(uint8_t dir) BANKED {
+                                    625 ;	---------------------------------
+                                    626 ; Function set_character_sprite
+                                    627 ; ---------------------------------
+                         00000003   628 	b_set_character_sprite	= 3
+    000002FC                        629 _set_character_sprite::
+                                    630 ;src/scripts/player_utils.c:61: switch (dir) {
+    000002FC F8 06            [12]  631 	ldhl	sp,	#6
+    000002FE 7E               [ 8]  632 	ld	a, (hl)
+    000002FF 3D               [ 4]  633 	dec	a
+    00000300 28 17            [12]  634 	jr	Z, 00101$
+    00000302 F8 06            [12]  635 	ldhl	sp,	#6
+    00000304 7E               [ 8]  636 	ld	a, (hl)
+    00000305 D6 02            [ 8]  637 	sub	a, #0x02
+    00000307 28 26            [12]  638 	jr	Z, 00102$
+    00000309 F8 06            [12]  639 	ldhl	sp,	#6
+    0000030B 7E               [ 8]  640 	ld	a, (hl)
+    0000030C D6 04            [ 8]  641 	sub	a, #0x04
+    0000030E 28 35            [12]  642 	jr	Z, 00103$
+    00000310 F8 06            [12]  643 	ldhl	sp,	#6
+    00000312 7E               [ 8]  644 	ld	a, (hl)
+    00000313 D6 08            [ 8]  645 	sub	a, #0x08
+    00000315 28 44            [12]  646 	jr	Z, 00104$
+    00000317 18 56            [12]  647 	jr	00105$
+                                    648 ;src/scripts/player_utils.c:62: case 1:
+    00000319                        649 00101$:
+                                    650 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000319 21r12r00         [12]  651 	ld	hl, #(_shadow_OAM + 18)
+    0000031C 36 04            [12]  652 	ld	(hl), #0x04
+    0000031E 21r16r00         [12]  653 	ld	hl, #(_shadow_OAM + 22)
+    00000321 36 05            [12]  654 	ld	(hl), #0x05
+    00000323 21r1Ar00         [12]  655 	ld	hl, #(_shadow_OAM + 26)
+    00000326 36 06            [12]  656 	ld	(hl), #0x06
+    00000328 21r1Er00         [12]  657 	ld	hl, #(_shadow_OAM + 30)
+    0000032B 36 07            [12]  658 	ld	(hl), #0x07
+                                    659 ;src/scripts/player_utils.c:67: break;
+    0000032D 18 40            [12]  660 	jr	00105$
+                                    661 ;src/scripts/player_utils.c:68: case 2:
+    0000032F                        662 00102$:
+                                    663 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000032F 21r12r00         [12]  664 	ld	hl, #(_shadow_OAM + 18)
+    00000332 36 08            [12]  665 	ld	(hl), #0x08
+    00000334 21r16r00         [12]  666 	ld	hl, #(_shadow_OAM + 22)
+    00000337 36 09            [12]  667 	ld	(hl), #0x09
+    00000339 21r1Ar00         [12]  668 	ld	hl, #(_shadow_OAM + 26)
+    0000033C 36 0A            [12]  669 	ld	(hl), #0x0a
+    0000033E 21r1Er00         [12]  670 	ld	hl, #(_shadow_OAM + 30)
+    00000341 36 0B            [12]  671 	ld	(hl), #0x0b
+                                    672 ;src/scripts/player_utils.c:73: break;
+    00000343 18 2A            [12]  673 	jr	00105$
+                                    674 ;src/scripts/player_utils.c:74: case 4:
+    00000345                        675 00103$:
+                                    676 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000345 21r12r00         [12]  677 	ld	hl, #(_shadow_OAM + 18)
+    00000348 36 00            [12]  678 	ld	(hl), #0x00
+    0000034A 21r16r00         [12]  679 	ld	hl, #(_shadow_OAM + 22)
+    0000034D 36 01            [12]  680 	ld	(hl), #0x01
+    0000034F 21r1Ar00         [12]  681 	ld	hl, #(_shadow_OAM + 26)
+    00000352 36 02            [12]  682 	ld	(hl), #0x02
+    00000354 21r1Er00         [12]  683 	ld	hl, #(_shadow_OAM + 30)
+    00000357 36 03            [12]  684 	ld	(hl), #0x03
+                                    685 ;src/scripts/player_utils.c:79: break;
+    00000359 18 14            [12]  686 	jr	00105$
+                                    687 ;src/scripts/player_utils.c:80: case 8:
+    0000035B                        688 00104$:
+                                    689 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000035B 21r12r00         [12]  690 	ld	hl, #(_shadow_OAM + 18)
+    0000035E 36 0C            [12]  691 	ld	(hl), #0x0c
+    00000360 21r16r00         [12]  692 	ld	hl, #(_shadow_OAM + 22)
+    00000363 36 0D            [12]  693 	ld	(hl), #0x0d
+    00000365 21r1Ar00         [12]  694 	ld	hl, #(_shadow_OAM + 26)
+    00000368 36 0E            [12]  695 	ld	(hl), #0x0e
+    0000036A 21r1Er00         [12]  696 	ld	hl, #(_shadow_OAM + 30)
+    0000036D 36 0F            [12]  697 	ld	(hl), #0x0f
+                                    698 ;src/scripts/player_utils.c:86: }
+    0000036F                        699 00105$:
+                                    700 ;src/scripts/player_utils.c:87: if (y == 144) {
+    0000036F FAr00r00         [16]  701 	ld	a, (#_y)
+    00000372 D6 90            [ 8]  702 	sub	a, #0x90
+    00000374 20 0A            [12]  703 	jr	NZ, 00107$
+                                    704 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000376 21r1Ar00         [12]  705 	ld	hl, #(_shadow_OAM + 26)
+    00000379 36 32            [12]  706 	ld	(hl), #0x32
+    0000037B 21r1Er00         [12]  707 	ld	hl, #(_shadow_OAM + 30)
+    0000037E 36 32            [12]  708 	ld	(hl), #0x32
+                                    709 ;src/scripts/player_utils.c:89: set_sprite_tile(7, 50);
+    00000380                        710 00107$:
+                                    711 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000380 21r0Er00         [12]  712 	ld	hl, #(_shadow_OAM + 14)
+    00000383 36 32            [12]  713 	ld	(hl), #0x32
+                                    714 ;src/scripts/player_utils.c:91: set_sprite_tile(3, 50);
+                                    715 ;src/scripts/player_utils.c:92: }
+    00000385 C9               [16]  716 	ret
+                                    717 	.area _CODE_3
+                                    718 	.area _INITIALIZER
+                                    719 	.area _CABS (ABS)

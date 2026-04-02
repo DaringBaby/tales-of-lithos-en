@@ -95,8 +95,8 @@ void check_input_movement() {
         check_drops(x, y);
         delay(20);
         if (current_location == 1) {
-            // move_enemy(&current_enemies[0]);
-            // move_enemy(&current_enemies[1]);
+            move_enemy(&current_enemies[0]);
+            move_enemy(&current_enemies[1]);
             move_boss(&boss);
 
             if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
@@ -220,5 +220,78 @@ void move_character() {
             set_sprite_tile(6, 50);
             set_sprite_tile(7, 50);
         }
+
+}
+
+uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
+
+    if (current_location != 0) {
+        if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
+            return 1;
+        }
+    }
+
+
+    int16_t gx = ((int16_t)new_x - 8) / 8;
+    int16_t gy = ((int16_t)new_y - 16) / 8;
+
+    if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
+        return 0;
+    }
+
+    uint16_t tile_index = (uint16_t)gy * 20 + gx;
+
+    if (current_location == 0) {
+        SWITCH_ROM(2);
+        uint8_t tile_id = Camp[tile_index];             // collisioni campo
+        uint8_t camp_colliding = camp_collisions[tile_id];
+        SWITCH_ROM(1);
+        if (camp_colliding == 1) return 0;
+    } else {
+        if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
+            if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
+                return 0;
+            }
+        }
+        if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
+            switch (locked_door) {
+                case 1:
+                    if (gy <= 1) {
+                        return 0;
+                    }
+                    break;
+                case 2:
+                    if (gx >= 18) {
+                        return 0;
+                    }
+                    break;
+                case 4:
+                    if (gy >= 16) {
+                        return 0;
+                    }
+                    break;
+                case 8:
+                    if (gx <= 1) {
+                        return 0;
+                    }
+                    break;
+            }
+        }
+        SWITCH_ROM(2);
+        uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
+        SWITCH_ROM(1);
+        if (tile_id > 3) return 0;
+    }
+
+    return 1;
+}
+
+uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
+    if (current_location == 0){
+        if (target_x == 120 && target_y == 64) {
+            return 1;
+        }
+    }
+    return 0;
 
 }

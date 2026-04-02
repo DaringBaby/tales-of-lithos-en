@@ -1,0 +1,92 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 1
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =   00002710 L
+    .__.ABS.                                                    =   00000000 G
+    .__.CPU.                                                    =   00000000 L
+    .__.H$L.                                                    =   00000000 L
+    ___sdcc_bcall_ehl                                               ******** GX
+    __current_bank                                                  ******** GX
+    _arrow_damage                                                   ******** GX
+    _arrow_sfx                                                      ******** GX
+    _attack                                                         ******** GX
+    _boss                                                           ******** GX
+    _boss_battle                                                    ******** GX
+    _boss_death                                                     ******** GX
+    _boss_defeated_jingle                                           ******** GX
+    _boss_floor_defeated                                            ******** GX
+    _check_terrain                                                  ******** GX
+    _current_enemies                                                ******** GX
+    _current_floor                                                  ******** GX
+    _current_hp                                                     ******** GX
+    _current_song_bank                                              ******** GX
+    _doors                                                          ******** GX
+    _dungeon_theme                                                  ******** GX
+    _ending_song                                                    ******** GX
+    _enemies_defeated                                               ******** GX
+    _enemy_death                                                    ******** GX
+    _enemy_death_sfx                                                ******** GX
+    _experience                                                     ******** GX
+    _hUGE_init                                                      ******** GX
+  0 _heal_player                                                    00000455 GR
+    _heal_quantity                                                  ******** GX
+    _hit_sfx                                                        ******** GX
+    _last_direction                                                 ******** GX
+    _max_hp                                                         ******** GX
+    _menu_opened                                                    ******** GX
+    _minerals                                                       ******** GX
+    _obt_exp                                                        ******** GX
+    _play_ending                                                    ******** GX
+    _play_explosion_animation                                       ******** GX
+    _play_heal_animation                                            ******** GX
+  0 _player_attack                                                  00000000 GR
+    _player_coords                                                  ******** GX
+    _rROMB0                                                         ******** GX
+    _reset                                                          ******** GX
+    _save_game                                                      ******** GX
+    _set_bkg_tiles                                                  ******** GX
+    _set_character_sprite                                           ******** GX
+    _set_room_tiles                                                 ******** GX
+    _set_textbox                                                    ******** GX
+    _shadow_OAM                                                     ******** GX
+  0 _shoot_arrow                                                    000002FD GR
+    _show_number                                                    ******** GX
+    _stairs                                                         ******** GX
+    _wait_vbl_done                                                  ******** GX
+    _x                                                              ******** GX
+    _y                                                              ******** GX
+    b_arrow_sfx                                                     ******** GX
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
+Hexadecimal [32-Bits]
+
+Symbol Table
+
+    b_boss_death                                                    ******** GX
+    b_enemy_death_sfx                                               ******** GX
+    b_hit_sfx                                                       ******** GX
+    b_play_ending                                                   ******** GX
+    b_play_explosion_animation                                      ******** GX
+    b_play_heal_animation                                           ******** GX
+    b_set_character_sprite                                          ******** GX
+    b_set_room_tiles                                                ******** GX
+    b_show_number                                                   ******** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
+Hexadecimal [32-Bits]
+
+Area Table
+
+   0 _CODE                                      size      497   flags    0
+   1 _HRAM                                      size        0   flags    0
+   2 _DATA                                      size        0   flags    0
+   3 _INITIALIZED                               size        0   flags    0
+   4 _DABS                                      size        0   flags    8
+   5 _HOME                                      size        0   flags    0
+   6 _GSINIT                                    size        0   flags    0
+   7 _GSFINAL                                   size        0   flags    0
+   8 _INITIALIZER                               size        0   flags    0
+   9 _CABS                                      size        0   flags    8
+

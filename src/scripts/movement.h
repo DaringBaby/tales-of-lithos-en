@@ -9,6 +9,8 @@
 void smooth_movement(uint8_t dir);
 void check_input_movement();
 void move_character();
+uint8_t check_terrain(uint8_t new_x, uint8_t new_y);
+uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y);
 
 // extern vars/functions
 
@@ -20,6 +22,9 @@ extern char dungeon[4][4];
 extern uint8_t boss_battle;
 extern uint8_t boss_floor_defeated;
 extern uint8_t key_obtained;
+extern const unsigned char Camp[];
+extern const unsigned char camp_collisions[];
+extern unsigned char current_room[360];
 
 extern void play_walk_animation(uint8_t dir) BANKED;
 extern void set_character_sprite(uint8_t dir) BANKED;
@@ -38,3 +43,4 @@ extern void clear_drops();
 extern void set_mini_menu() BANKED;
 extern void set_camp_map();
 extern void move_character();
+extern void game_over() BANKED;

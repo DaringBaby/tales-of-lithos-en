@@ -1,0 +1,975 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module combat
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _heal_player
+                                     11 	.globl _shoot_arrow
+                                     12 	.globl b_play_ending
+                                     13 	.globl _play_ending
+                                     14 	.globl _set_textbox
+                                     15 	.globl b_set_room_tiles
+                                     16 	.globl _set_room_tiles
+                                     17 	.globl _enemy_death
+                                     18 	.globl _save_game
+                                     19 	.globl _check_terrain
+                                     20 	.globl b_set_character_sprite
+                                     21 	.globl _set_character_sprite
+                                     22 	.globl b_enemy_death_sfx
+                                     23 	.globl _enemy_death_sfx
+                                     24 	.globl b_hit_sfx
+                                     25 	.globl _hit_sfx
+                                     26 	.globl b_arrow_sfx
+                                     27 	.globl _arrow_sfx
+                                     28 	.globl b_show_number
+                                     29 	.globl _show_number
+                                     30 	.globl b_boss_death
+                                     31 	.globl _boss_death
+                                     32 	.globl b_play_explosion_animation
+                                     33 	.globl _play_explosion_animation
+                                     34 	.globl b_play_heal_animation
+                                     35 	.globl _play_heal_animation
+                                     36 	.globl _hUGE_init
+                                     37 	.globl _set_bkg_tiles
+                                     38 	.globl _wait_vbl_done
+                                     39 	.globl _reset
+                                     40 	.globl _player_attack
+                                     41 ;--------------------------------------------------------
+                                     42 ; special function registers
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _HRAM
+                                     45 ;--------------------------------------------------------
+                                     46 ; ram data
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _DATA
+                                     49 ;--------------------------------------------------------
+                                     50 ; ram data
+                                     51 ;--------------------------------------------------------
+                                     52 	.area _INITIALIZED
+                                     53 ;--------------------------------------------------------
+                                     54 ; absolute external ram data
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _DABS (ABS)
+                                     57 ;--------------------------------------------------------
+                                     58 ; global & static initialisations
+                                     59 ;--------------------------------------------------------
+                                     60 	.area _HOME
+                                     61 	.area _GSINIT
+                                     62 	.area _GSFINAL
+                                     63 	.area _GSINIT
+                                     64 ;--------------------------------------------------------
+                                     65 ; Home
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _HOME
+                                     68 	.area _HOME
+                                     69 ;--------------------------------------------------------
+                                     70 ; code
+                                     71 ;--------------------------------------------------------
+                                     72 	.area _CODE
+                                     73 ;src/scripts/combat.c:3: void player_attack(uint8_t wpn, uint8_t index) {
+                                     74 ;	---------------------------------
+                                     75 ; Function player_attack
+                                     76 ; ---------------------------------
+    00000000                         77 _player_attack::
+    00000000 E8 F6            [16]   78 	add	sp, #-10
+    00000002 4F               [ 4]   79 	ld	c, a
+    00000003 F8 09            [12]   80 	ldhl	sp,	#9
+    00000005 73               [ 8]   81 	ld	(hl), e
+                                     82 ;src/scripts/combat.c:4: hit_sfx();
+    00000006 C5               [16]   83 	push	bc
+    00000007 1Er00            [ 8]   84 	ld	e, #b_hit_sfx
+    00000009 21r00r00         [12]   85 	ld	hl, #_hit_sfx
+    0000000C CDr00r00         [24]   86 	call	___sdcc_bcall_ehl
+    0000000F C1               [12]   87 	pop	bc
+                                     88 ;src/scripts/combat.c:7: if (wpn == 0) { // spada
+    00000010 79               [ 4]   89 	ld	a, c
+    00000011 B7               [ 4]   90 	or	a, a
+    00000012 20 08            [12]   91 	jr	NZ, 00102$
+                                     92 ;src/scripts/combat.c:8: atk_stat = attack;
+    00000014 FAr00r00         [16]   93 	ld	a, (#_attack)
+    00000017 F8 08            [12]   94 	ldhl	sp,	#8
+    00000019 77               [ 8]   95 	ld	(hl), a
+    0000001A 18 06            [12]   96 	jr	00103$
+    0000001C                         97 00102$:
+                                     98 ;src/scripts/combat.c:11: atk_stat = arrow_damage;
+    0000001C FAr00r00         [16]   99 	ld	a, (#_arrow_damage)
+    0000001F F8 08            [12]  100 	ldhl	sp,	#8
+    00000021 77               [ 8]  101 	ld	(hl), a
+    00000022                        102 00103$:
+                                    103 ;src/scripts/combat.c:13: if (index == 2) {
+    00000022 F8 09            [12]  104 	ldhl	sp,	#9
+    00000024 7E               [ 8]  105 	ld	a, (hl)
+    00000025 D6 02            [ 8]  106 	sub	a, #0x02
+    00000027 C2rC1r01         [16]  107 	jp	NZ, 00116$
+                                    108 ;src/scripts/combat.c:14: if (atk_stat > boss.def) {
+    0000002A 21r06r00         [12]  109 	ld	hl, #_boss + 6
+    0000002D 4E               [ 8]  110 	ld	c, (hl)
+    0000002E 79               [ 4]  111 	ld	a, c
+    0000002F F8 08            [12]  112 	ldhl	sp,	#8
+    00000031 96               [ 8]  113 	sub	a, (hl)
+    00000032 30 05            [12]  114 	jr	NC, 00105$
+                                    115 ;src/scripts/combat.c:15: damage = atk_stat - boss.def;
+    00000034 7E               [ 8]  116 	ld	a, (hl)
+    00000035 91               [ 4]  117 	sub	a, c
+    00000036 77               [ 8]  118 	ld	(hl), a
+    00000037 18 04            [12]  119 	jr	00106$
+    00000039                        120 00105$:
+                                    121 ;src/scripts/combat.c:18: damage = 1;
+    00000039 F8 08            [12]  122 	ldhl	sp,	#8
+    0000003B 36 01            [12]  123 	ld	(hl), #0x01
+    0000003D                        124 00106$:
+                                    125 ;src/scripts/combat.c:20: show_number(damage, 0, 1, index);
+    0000003D F8 09            [12]  126 	ldhl	sp,	#9
+    0000003F 3A               [ 8]  127 	ld	a, (hl-)
+    00000040 47               [ 4]  128 	ld	b, a
+    00000041 0E 01            [ 8]  129 	ld	c, #0x01
+    00000043 C5               [16]  130 	push	bc
+    00000044 AF               [ 4]  131 	xor	a, a
+    00000045 F5               [16]  132 	push	af
+    00000046 33               [ 8]  133 	inc	sp
+    00000047 7E               [ 8]  134 	ld	a, (hl)
+    00000048 F5               [16]  135 	push	af
+    00000049 33               [ 8]  136 	inc	sp
+    0000004A 1Er00            [ 8]  137 	ld	e, #b_show_number
+    0000004C 21r00r00         [12]  138 	ld	hl, #_show_number
+    0000004F CDr00r00         [24]  139 	call	___sdcc_bcall_ehl
+    00000052 E8 04            [16]  140 	add	sp, #4
+                                    141 ;src/scripts/combat.c:21: if (damage < boss.hp) {
+    00000054 11r03r00         [12]  142 	ld	de, #(_boss + 3)
+    00000057 1A               [ 8]  143 	ld	a, (de)
+    00000058 F8 06            [12]  144 	ldhl	sp,	#6
+    0000005A 22               [ 8]  145 	ld	(hl+), a
+    0000005B 13               [ 8]  146 	inc	de
+    0000005C 1A               [ 8]  147 	ld	a, (de)
+    0000005D 22               [ 8]  148 	ld	(hl+), a
+    0000005E 3A               [ 8]  149 	ld	a, (hl-)
+    0000005F 2B               [ 8]  150 	dec	hl
+    00000060 4F               [ 4]  151 	ld	c, a
+    00000061 06 00            [ 8]  152 	ld	b, #0x00
+    00000063 79               [ 4]  153 	ld	a, c
+    00000064 96               [ 8]  154 	sub	a, (hl)
+    00000065 23               [ 8]  155 	inc	hl
+    00000066 78               [ 4]  156 	ld	a, b
+    00000067 9E               [ 8]  157 	sbc	a, (hl)
+    00000068 30 24            [12]  158 	jr	NC, 00108$
+                                    159 ;src/scripts/combat.c:22: boss.hp -= damage;
+    0000006A F8 08            [12]  160 	ldhl	sp,	#8
+    0000006C 7E               [ 8]  161 	ld	a, (hl)
+    0000006D F8 04            [12]  162 	ldhl	sp,	#4
+    0000006F 22               [ 8]  163 	ld	(hl+), a
+    00000070 AF               [ 4]  164 	xor	a, a
+    00000071 22               [ 8]  165 	ld	(hl+), a
+    00000072 2A               [ 8]  166 	ld	a, (hl+)
+    00000073 5F               [ 4]  167 	ld	e, a
+    00000074 56               [ 8]  168 	ld	d, (hl)
+    00000075 F8 04            [12]  169 	ldhl	sp,	#4
+    00000077 2A               [ 8]  170 	ld	a,	(hl+)
+    00000078 66               [ 8]  171 	ld	h, (hl)
+    00000079 6F               [ 4]  172 	ld	l, a
+    0000007A 7B               [ 4]  173 	ld	a, e
+    0000007B 95               [ 4]  174 	sub	a, l
+    0000007C 5F               [ 4]  175 	ld	e, a
+    0000007D 7A               [ 4]  176 	ld	a, d
+    0000007E 9C               [ 4]  177 	sbc	a, h
+    0000007F F8 03            [12]  178 	ldhl	sp,	#3
+    00000081 32               [ 8]  179 	ld	(hl-), a
+    00000082 73               [ 8]  180 	ld	(hl), e
+    00000083 2A               [ 8]  181 	ld	a, (hl+)
+    00000084 4F               [ 4]  182 	ld	c, a
+    00000085 46               [ 8]  183 	ld	b, (hl)
+    00000086 21r03r00         [12]  184 	ld	hl, #(_boss + 3)
+    00000089 79               [ 4]  185 	ld	a, c
+    0000008A 22               [ 8]  186 	ld	(hl+), a
+    0000008B 70               [ 8]  187 	ld	(hl), b
+    0000008C 18 06            [12]  188 	jr	00109$
+    0000008E                        189 00108$:
+                                    190 ;src/scripts/combat.c:25: boss.hp = 0;
+    0000008E 21r03r00         [12]  191 	ld	hl, #(_boss + 3)
+    00000091 AF               [ 4]  192 	xor	a, a
+    00000092 22               [ 8]  193 	ld	(hl+), a
+    00000093 77               [ 8]  194 	ld	(hl), a
+    00000094                        195 00109$:
+                                    196 ;src/scripts/combat.c:27: if (boss.hp == 0) {
+    00000094 21r03r00         [12]  197 	ld	hl, #(_boss + 3)
+    00000097 2A               [ 8]  198 	ld	a, (hl+)
+    00000098 B6               [ 8]  199 	or	a, (hl)
+    00000099 C2rFAr02         [16]  200 	jp	NZ, 00125$
+                                    201 ;src/scripts/combat.c:28: enemy_death_sfx();
+    0000009C 1Er00            [ 8]  202 	ld	e, #b_enemy_death_sfx
+    0000009E 21r00r00         [12]  203 	ld	hl, #_enemy_death_sfx
+    000000A1 CDr00r00         [24]  204 	call	___sdcc_bcall_ehl
+                                    205 ;src/scripts/combat.c:29: uint8_t b_x = boss.x;
+    000000A4 21r01r00         [12]  206 	ld	hl, #_boss + 1
+    000000A7 4E               [ 8]  207 	ld	c, (hl)
+                                    208 ;src/scripts/combat.c:30: uint8_t b_y = boss.y;
+    000000A8 21r02r00         [12]  209 	ld	hl, #_boss + 2
+    000000AB 46               [ 8]  210 	ld	b, (hl)
+                                    211 ;src/scripts/combat.c:31: boss_death(&boss);
+    000000AC C5               [16]  212 	push	bc
+    000000AD 11r00r00         [12]  213 	ld	de, #_boss
+    000000B0 D5               [16]  214 	push	de
+    000000B1 1Er00            [ 8]  215 	ld	e, #b_boss_death
+    000000B3 21r00r00         [12]  216 	ld	hl, #_boss_death
+    000000B6 CDr00r00         [24]  217 	call	___sdcc_bcall_ehl
+    000000B9 E1               [12]  218 	pop	hl
+                                    219 ;src/scripts/combat.c:32: set_character_sprite(last_direction);
+    000000BA FAr00r00         [16]  220 	ld	a, (_last_direction)
+    000000BD F5               [16]  221 	push	af
+    000000BE 33               [ 8]  222 	inc	sp
+    000000BF 1Er00            [ 8]  223 	ld	e, #b_set_character_sprite
+    000000C1 21r00r00         [12]  224 	ld	hl, #_set_character_sprite
+    000000C4 CDr00r00         [24]  225 	call	___sdcc_bcall_ehl
+    000000C7 33               [ 8]  226 	inc	sp
+    000000C8 C1               [12]  227 	pop	bc
+                                    228 ;src/scripts/combat.c:33: wait_vbl_done();
+    000000C9 CDr00r00         [24]  229 	call	_wait_vbl_done
+                                    230 ;src/scripts/combat.c:34: play_explosion_animation(b_x, b_y);
+    000000CC C5               [16]  231 	push	bc
+    000000CD 33               [ 8]  232 	inc	sp
+    000000CE 79               [ 4]  233 	ld	a, c
+    000000CF F5               [16]  234 	push	af
+    000000D0 33               [ 8]  235 	inc	sp
+    000000D1 1Er00            [ 8]  236 	ld	e, #b_play_explosion_animation
+    000000D3 21r00r00         [12]  237 	ld	hl, #_play_explosion_animation
+    000000D6 CDr00r00         [24]  238 	call	___sdcc_bcall_ehl
+    000000D9 E1               [12]  239 	pop	hl
+                                    240 ;src/scripts/combat.c:35: boss_floor_defeated = 1;
+    000000DA 21r00r00         [12]  241 	ld	hl, #_boss_floor_defeated
+    000000DD 36 01            [12]  242 	ld	(hl), #0x01
+                                    243 ;src/scripts/combat.c:36: boss_battle = 0;
+    000000DF AF               [ 4]  244 	xor	a, a
+    000000E0 EAr00r00         [16]  245 	ld	(#_boss_battle),a
+                                    246 ;src/scripts/combat.c:37: enemies_defeated++;
+    000000E3 21r00r00         [12]  247 	ld	hl, #_enemies_defeated
+    000000E6 34               [12]  248 	inc	(hl)
+                                    249 ;src/scripts/combat.c:38: experience += boss.exp_reward;
+    000000E7 21r07r00         [12]  250 	ld	hl, #(_boss + 7)
+    000000EA 2A               [ 8]  251 	ld	a, (hl+)
+    000000EB 4F               [ 4]  252 	ld	c, a
+    000000EC 46               [ 8]  253 	ld	b, (hl)
+    000000ED 21r00r00         [12]  254 	ld	hl, #_experience
+    000000F0 7E               [ 8]  255 	ld	a, (hl)
+    000000F1 81               [ 4]  256 	add	a, c
+    000000F2 22               [ 8]  257 	ld	(hl+), a
+    000000F3 7E               [ 8]  258 	ld	a, (hl)
+    000000F4 88               [ 4]  259 	adc	a, b
+    000000F5 77               [ 8]  260 	ld	(hl), a
+                                    261 ;src/scripts/combat.c:39: obt_exp += boss.exp_reward;
+    000000F6 FAr07r00         [16]  262 	ld	a, (#(_boss + 7) + 0)
+    000000F9 21r00r00         [12]  263 	ld	hl, #_obt_exp
+    000000FC 86               [ 8]  264 	add	a, (hl)
+    000000FD 77               [ 8]  265 	ld	(hl), a
+                                    266 ;src/scripts/combat.c:40: minerals+=2;
+    000000FE FAr00r00         [16]  267 	ld	a, (_minerals)
+    00000101 C6 02            [ 8]  268 	add	a, #0x02
+    00000103 EAr00r00         [16]  269 	ld	(#_minerals),a
+                                    270 ;src/scripts/combat.c:41: menu_opened = 4;
+    00000106 21r00r00         [12]  271 	ld	hl, #_menu_opened
+    00000109 36 04            [12]  272 	ld	(hl), #0x04
+                                    273 ;src/scripts/combat.c:42: if (current_floor != 25) {
+    0000010B FAr00r00         [16]  274 	ld	a, (#_current_floor)
+    0000010E D6 19            [ 8]  275 	sub	a, #0x19
+    00000110 CAr93r01         [16]  276 	jp	Z, 00111$
+                                    277 ;src/scripts/combat.c:43: current_song_bank = 3;
+    00000113 21r00r00         [12]  278 	ld	hl, #_current_song_bank
+    00000116 36 03            [12]  279 	ld	(hl), #0x03
+                                    280 ;src/scripts/combat.c:44: SWITCH_ROM(3);
+    00000118 3E 03            [ 8]  281 	ld	a, #0x03
+    0000011A E0r00            [12]  282 	ldh	(__current_bank + 0), a
+    0000011C 21r00r00         [12]  283 	ld	hl, #_rROMB0
+    0000011F 36 03            [12]  284 	ld	(hl), #0x03
+                                    285 ;src/scripts/combat.c:45: hUGE_init(&boss_defeated_jingle);
+    00000121 11r00r00         [12]  286 	ld	de, #_boss_defeated_jingle
+    00000124 CDr00r00         [24]  287 	call	_hUGE_init
+                                    288 ;src/scripts/combat.c:46: SWITCH_ROM(1);
+    00000127 3E 01            [ 8]  289 	ld	a, #0x01
+    00000129 E0r00            [12]  290 	ldh	(__current_bank + 0), a
+    0000012B 21r00r00         [12]  291 	ld	hl, #_rROMB0
+    0000012E 36 01            [12]  292 	ld	(hl), #0x01
+                                    293 ;src/scripts/combat.c:47: set_textbox(3);
+    00000130 3E 03            [ 8]  294 	ld	a, #0x03
+    00000132 CDr00r00         [24]  295 	call	_set_textbox
+                                    296 ;src/scripts/combat.c:48: uint8_t door = doors[player_coords.x][player_coords.y];
+    00000135 01r00r00         [12]  297 	ld	bc, #_doors+0
+    00000138 FAr00r00         [16]  298 	ld	a, (#_player_coords + 0)
+    0000013B 6F               [ 4]  299 	ld	l, a
+    0000013C 07               [ 4]  300 	rlca
+    0000013D 9F               [ 4]  301 	sbc	a, a
+    0000013E 67               [ 4]  302 	ld	h, a
+    0000013F 29               [ 8]  303 	add	hl, hl
+    00000140 29               [ 8]  304 	add	hl, hl
+    00000141 09               [ 8]  305 	add	hl, bc
+    00000142 01r01r00         [12]  306 	ld	bc, #_player_coords + 1
+    00000145 0A               [ 8]  307 	ld	a, (bc)
+    00000146 5F               [ 4]  308 	ld	e, a
+    00000147 16 00            [ 8]  309 	ld	d, #0x00
+    00000149 19               [ 8]  310 	add	hl, de
+    0000014A 56               [ 8]  311 	ld	d, (hl)
+                                    312 ;src/scripts/combat.c:50: set_room_tiles(door, room_ptr, player_coords);
+    0000014B 21r00r00         [12]  313 	ld	hl, #_player_coords
+    0000014E 23               [ 8]  314 	inc	hl
+    0000014F 46               [ 8]  315 	ld	b, (hl)
+    00000150 2B               [ 8]  316 	dec	hl
+    00000151 4E               [ 8]  317 	ld	c, (hl)
+    00000152 C5               [16]  318 	push	bc
+    00000153 F8 02            [12]  319 	ldhl	sp,	#2
+    00000155 4E               [ 8]  320 	ld	c, (hl)
+    00000156 23               [ 8]  321 	inc	hl
+    00000157 46               [ 8]  322 	ld	b, (hl)
+    00000158 C5               [16]  323 	push	bc
+    00000159 D5               [16]  324 	push	de
+    0000015A 33               [ 8]  325 	inc	sp
+    0000015B 1Er00            [ 8]  326 	ld	e, #b_set_room_tiles
+    0000015D 21r00r00         [12]  327 	ld	hl, #_set_room_tiles
+    00000160 CDr00r00         [24]  328 	call	___sdcc_bcall_ehl
+    00000163 E8 05            [16]  329 	add	sp, #5
+                                    330 ;src/scripts/combat.c:51: set_bkg_tiles(2, 2, 2, 2, stairs);
+    00000165 11r00r00         [12]  331 	ld	de, #_stairs
+    00000168 D5               [16]  332 	push	de
+    00000169 21 02 02         [12]  333 	ld	hl, #0x202
+    0000016C E5               [16]  334 	push	hl
+    0000016D E5               [16]  335 	push	hl
+    0000016E CDr00r00         [24]  336 	call	_set_bkg_tiles
+    00000171 E8 06            [16]  337 	add	sp, #6
+                                    338 ;src/scripts/combat.c:52: current_song_bank = 4;
+    00000173 21r00r00         [12]  339 	ld	hl, #_current_song_bank
+    00000176 36 04            [12]  340 	ld	(hl), #0x04
+                                    341 ;src/scripts/combat.c:53: SWITCH_ROM(current_song_bank);
+    00000178 3E 04            [ 8]  342 	ld	a, #0x04
+    0000017A E0r00            [12]  343 	ldh	(__current_bank + 0), a
+    0000017C 21r00r00         [12]  344 	ld	hl, #_rROMB0
+    0000017F 36 04            [12]  345 	ld	(hl), #0x04
+                                    346 ;src/scripts/combat.c:54: hUGE_init(&dungeon_theme);
+    00000181 11r00r00         [12]  347 	ld	de, #_dungeon_theme
+    00000184 CDr00r00         [24]  348 	call	_hUGE_init
+                                    349 ;src/scripts/combat.c:55: SWITCH_ROM(1);
+    00000187 3E 01            [ 8]  350 	ld	a, #0x01
+    00000189 E0r00            [12]  351 	ldh	(__current_bank + 0), a
+    0000018B 21r00r00         [12]  352 	ld	hl, #_rROMB0
+    0000018E 36 01            [12]  353 	ld	(hl), #0x01
+    00000190 C3rFAr02         [16]  354 	jp	00125$
+    00000193                        355 00111$:
+                                    356 ;src/scripts/combat.c:58: current_song_bank = 5;
+    00000193 21r00r00         [12]  357 	ld	hl, #_current_song_bank
+    00000196 36 05            [12]  358 	ld	(hl), #0x05
+                                    359 ;src/scripts/combat.c:59: SWITCH_ROM(current_song_bank);
+    00000198 3E 05            [ 8]  360 	ld	a, #0x05
+    0000019A E0r00            [12]  361 	ldh	(__current_bank + 0), a
+    0000019C 21r00r00         [12]  362 	ld	hl, #_rROMB0
+    0000019F 36 05            [12]  363 	ld	(hl), #0x05
+                                    364 ;src/scripts/combat.c:60: hUGE_init(&ending_song);
+    000001A1 11r00r00         [12]  365 	ld	de, #_ending_song
+    000001A4 CDr00r00         [24]  366 	call	_hUGE_init
+                                    367 ;src/scripts/combat.c:61: SWITCH_ROM(1);
+    000001A7 3E 01            [ 8]  368 	ld	a, #0x01
+    000001A9 E0r00            [12]  369 	ldh	(__current_bank + 0), a
+    000001AB 21r00r00         [12]  370 	ld	hl, #_rROMB0
+    000001AE 36 01            [12]  371 	ld	(hl), #0x01
+                                    372 ;src/scripts/combat.c:62: play_ending();
+    000001B0 1Er00            [ 8]  373 	ld	e, #b_play_ending
+    000001B2 21r00r00         [12]  374 	ld	hl, #_play_ending
+    000001B5 CDr00r00         [24]  375 	call	___sdcc_bcall_ehl
+                                    376 ;src/scripts/combat.c:63: save_game();
+    000001B8 CDr00r00         [24]  377 	call	_save_game
+                                    378 ;src/scripts/combat.c:64: reset();
+    000001BB CDr00r00         [24]  379 	call	_reset
+                                    380 ;src/scripts/combat.c:67: return;
+    000001BE C3rFAr02         [16]  381 	jp	00125$
+    000001C1                        382 00116$:
+                                    383 ;src/scripts/combat.c:71: if (atk_stat > current_enemies[index].def) {
+    000001C1 F8 09            [12]  384 	ldhl	sp,	#9
+    000001C3 4E               [ 8]  385 	ld	c, (hl)
+    000001C4 06 00            [ 8]  386 	ld	b, #0x00
+    000001C6 69               [ 4]  387 	ld	l, c
+    000001C7 60               [ 4]  388 	ld	h, b
+    000001C8 29               [ 8]  389 	add	hl, hl
+    000001C9 09               [ 8]  390 	add	hl, bc
+    000001CA 29               [ 8]  391 	add	hl, hl
+    000001CB 29               [ 8]  392 	add	hl, hl
+    000001CC 01r00r00         [12]  393 	ld	bc, #_current_enemies
+    000001CF 09               [ 8]  394 	add	hl, bc
+    000001D0 E5               [16]  395 	push	hl
+    000001D1 7D               [ 4]  396 	ld	a, l
+    000001D2 F8 04            [12]  397 	ldhl	sp,	#4
+    000001D4 77               [ 8]  398 	ld	(hl), a
+    000001D5 E1               [12]  399 	pop	hl
+    000001D6 7C               [ 4]  400 	ld	a, h
+    000001D7 F8 03            [12]  401 	ldhl	sp,	#3
+    000001D9 32               [ 8]  402 	ld	(hl-), a
+    000001DA 2A               [ 8]  403 	ld	a, (hl+)
+    000001DB 5F               [ 4]  404 	ld	e, a
+    000001DC 56               [ 8]  405 	ld	d, (hl)
+    000001DD 21 05 00         [12]  406 	ld	hl, #0x0005
+    000001E0 19               [ 8]  407 	add	hl, de
+    000001E1 4D               [ 4]  408 	ld	c, l
+    000001E2 44               [ 4]  409 	ld	b, h
+    000001E3 0A               [ 8]  410 	ld	a, (bc)
+    000001E4 4F               [ 4]  411 	ld	c, a
+    000001E5 F8 08            [12]  412 	ldhl	sp,	#8
+    000001E7 96               [ 8]  413 	sub	a, (hl)
+    000001E8 30 07            [12]  414 	jr	NC, 00118$
+                                    415 ;src/scripts/combat.c:72: damage = atk_stat - current_enemies[index].def;
+    000001EA 7E               [ 8]  416 	ld	a, (hl)
+    000001EB 91               [ 4]  417 	sub	a, c
+    000001EC F8 04            [12]  418 	ldhl	sp,	#4
+    000001EE 77               [ 8]  419 	ld	(hl), a
+    000001EF 18 04            [12]  420 	jr	00119$
+    000001F1                        421 00118$:
+                                    422 ;src/scripts/combat.c:75: damage = 1;
+    000001F1 F8 04            [12]  423 	ldhl	sp,	#4
+    000001F3 36 01            [12]  424 	ld	(hl), #0x01
+    000001F5                        425 00119$:
+                                    426 ;src/scripts/combat.c:77: show_number(damage, 0, 1, index);
+    000001F5 F8 09            [12]  427 	ldhl	sp,	#9
+    000001F7 66               [ 8]  428 	ld	h, (hl)
+    000001F8 2E 01            [ 8]  429 	ld	l, #0x01
+    000001FA E5               [16]  430 	push	hl
+    000001FB AF               [ 4]  431 	xor	a, a
+    000001FC F5               [16]  432 	push	af
+    000001FD 33               [ 8]  433 	inc	sp
+    000001FE F8 07            [12]  434 	ldhl	sp,	#7
+    00000200 7E               [ 8]  435 	ld	a, (hl)
+    00000201 F5               [16]  436 	push	af
+    00000202 33               [ 8]  437 	inc	sp
+    00000203 1Er00            [ 8]  438 	ld	e, #b_show_number
+    00000205 21r00r00         [12]  439 	ld	hl, #_show_number
+    00000208 CDr00r00         [24]  440 	call	___sdcc_bcall_ehl
+    0000020B E8 04            [16]  441 	add	sp, #4
+                                    442 ;src/scripts/combat.c:78: if (damage < current_enemies[index].hp) {
+    0000020D F8 02            [12]  443 	ldhl	sp,#2
+    0000020F 2A               [ 8]  444 	ld	a, (hl+)
+    00000210 5F               [ 4]  445 	ld	e, a
+    00000211 56               [ 8]  446 	ld	d, (hl)
+    00000212 21 02 00         [12]  447 	ld	hl, #0x0002
+    00000215 19               [ 8]  448 	add	hl, de
+    00000216 E5               [16]  449 	push	hl
+    00000217 7D               [ 4]  450 	ld	a, l
+    00000218 F8 07            [12]  451 	ldhl	sp,	#7
+    0000021A 77               [ 8]  452 	ld	(hl), a
+    0000021B E1               [12]  453 	pop	hl
+    0000021C 7C               [ 4]  454 	ld	a, h
+    0000021D F8 06            [12]  455 	ldhl	sp,	#6
+    0000021F 32               [ 8]  456 	ld	(hl-), a
+    00000220 2A               [ 8]  457 	ld	a, (hl+)
+    00000221 5F               [ 4]  458 	ld	e, a
+    00000222 2A               [ 8]  459 	ld	a, (hl+)
+    00000223 57               [ 4]  460 	ld	d, a
+    00000224 1A               [ 8]  461 	ld	a, (de)
+    00000225 22               [ 8]  462 	ld	(hl+), a
+    00000226 13               [ 8]  463 	inc	de
+    00000227 1A               [ 8]  464 	ld	a, (de)
+    00000228 77               [ 8]  465 	ld	(hl), a
+    00000229 F8 04            [12]  466 	ldhl	sp,	#4
+    0000022B 4E               [ 8]  467 	ld	c, (hl)
+    0000022C 06 00            [ 8]  468 	ld	b, #0x00
+    0000022E F8 07            [12]  469 	ldhl	sp,	#7
+    00000230 79               [ 4]  470 	ld	a, c
+    00000231 96               [ 8]  471 	sub	a, (hl)
+    00000232 23               [ 8]  472 	inc	hl
+    00000233 78               [ 4]  473 	ld	a, b
+    00000234 9E               [ 8]  474 	sbc	a, (hl)
+    00000235 30 18            [12]  475 	jr	NC, 00121$
+                                    476 ;src/scripts/combat.c:79: current_enemies[index].hp -= damage;
+    00000237 F8 04            [12]  477 	ldhl	sp,	#4
+    00000239 4E               [ 8]  478 	ld	c, (hl)
+    0000023A F8 07            [12]  479 	ldhl	sp,	#7
+    0000023C 2A               [ 8]  480 	ld	a, (hl+)
+    0000023D 46               [ 8]  481 	ld	b, (hl)
+    0000023E 1E 00            [ 8]  482 	ld	e, #0x00
+    00000240 91               [ 4]  483 	sub	a, c
+    00000241 4F               [ 4]  484 	ld	c, a
+    00000242 78               [ 4]  485 	ld	a, b
+    00000243 9B               [ 4]  486 	sbc	a, e
+    00000244 47               [ 4]  487 	ld	b, a
+    00000245 F8 05            [12]  488 	ldhl	sp,	#5
+    00000247 2A               [ 8]  489 	ld	a, (hl+)
+    00000248 66               [ 8]  490 	ld	h, (hl)
+    00000249 6F               [ 4]  491 	ld	l, a
+    0000024A 79               [ 4]  492 	ld	a, c
+    0000024B 22               [ 8]  493 	ld	(hl+), a
+    0000024C 70               [ 8]  494 	ld	(hl), b
+    0000024D 18 15            [12]  495 	jr	00122$
+    0000024F                        496 00121$:
+                                    497 ;src/scripts/combat.c:82: current_enemies[index].hp = 0;
+    0000024F F8 05            [12]  498 	ldhl	sp,	#5
+    00000251 2A               [ 8]  499 	ld	a, (hl+)
+    00000252 66               [ 8]  500 	ld	h, (hl)
+    00000253 6F               [ 4]  501 	ld	l, a
+    00000254 AF               [ 4]  502 	xor	a, a
+    00000255 22               [ 8]  503 	ld	(hl+), a
+    00000256 77               [ 8]  504 	ld	(hl), a
+                                    505 ;src/scripts/combat.c:83: current_enemies[index].alive = 0;
+    00000257 F8 02            [12]  506 	ldhl	sp,#2
+    00000259 2A               [ 8]  507 	ld	a, (hl+)
+    0000025A 5F               [ 4]  508 	ld	e, a
+    0000025B 56               [ 8]  509 	ld	d, (hl)
+    0000025C 21 07 00         [12]  510 	ld	hl, #0x0007
+    0000025F 19               [ 8]  511 	add	hl, de
+    00000260 4D               [ 4]  512 	ld	c, l
+    00000261 44               [ 4]  513 	ld	b, h
+    00000262 AF               [ 4]  514 	xor	a, a
+    00000263 02               [ 8]  515 	ld	(bc), a
+    00000264                        516 00122$:
+                                    517 ;src/scripts/combat.c:85: if (current_enemies[index].hp == 0) {
+    00000264 F8 05            [12]  518 	ldhl	sp,#5
+    00000266 2A               [ 8]  519 	ld	a, (hl+)
+    00000267 5F               [ 4]  520 	ld	e, a
+    00000268 2A               [ 8]  521 	ld	a, (hl+)
+    00000269 57               [ 4]  522 	ld	d, a
+    0000026A 1A               [ 8]  523 	ld	a, (de)
+    0000026B 22               [ 8]  524 	ld	(hl+), a
+    0000026C 13               [ 8]  525 	inc	de
+    0000026D 1A               [ 8]  526 	ld	a, (de)
+    0000026E 77               [ 8]  527 	ld	(hl), a
+    0000026F 3A               [ 8]  528 	ld	a, (hl-)
+    00000270 B6               [ 8]  529 	or	a, (hl)
+    00000271 C2rFAr02         [16]  530 	jp	NZ, 00125$
+                                    531 ;src/scripts/combat.c:86: uint8_t e_x = current_enemies[index].x;
+    00000274 F8 02            [12]  532 	ldhl	sp,#2
+    00000276 2A               [ 8]  533 	ld	a, (hl+)
+    00000277 5F               [ 4]  534 	ld	e, a
+    00000278 56               [ 8]  535 	ld	d, (hl)
+    00000279 1A               [ 8]  536 	ld	a, (de)
+    0000027A F8 07            [12]  537 	ldhl	sp,	#7
+    0000027C 77               [ 8]  538 	ld	(hl), a
+                                    539 ;src/scripts/combat.c:87: uint8_t e_y = current_enemies[index].y;
+    0000027D F8 02            [12]  540 	ldhl	sp,	#2
+    0000027F 2A               [ 8]  541 	ld	a, (hl+)
+    00000280 4F               [ 4]  542 	ld	c, a
+    00000281 46               [ 8]  543 	ld	b, (hl)
+    00000282 03               [ 8]  544 	inc	bc
+    00000283 0A               [ 8]  545 	ld	a, (bc)
+    00000284 F8 08            [12]  546 	ldhl	sp,	#8
+    00000286 77               [ 8]  547 	ld	(hl), a
+                                    548 ;src/scripts/combat.c:88: set_character_sprite(last_direction);
+    00000287 FAr00r00         [16]  549 	ld	a, (_last_direction)
+    0000028A F5               [16]  550 	push	af
+    0000028B 33               [ 8]  551 	inc	sp
+    0000028C 1Er00            [ 8]  552 	ld	e, #b_set_character_sprite
+    0000028E 21r00r00         [12]  553 	ld	hl, #_set_character_sprite
+    00000291 CDr00r00         [24]  554 	call	___sdcc_bcall_ehl
+    00000294 33               [ 8]  555 	inc	sp
+                                    556 ;src/scripts/combat.c:89: wait_vbl_done();
+    00000295 CDr00r00         [24]  557 	call	_wait_vbl_done
+                                    558 ;src/scripts/combat.c:90: enemy_death(&current_enemies[index]);
+    00000298 F8 02            [12]  559 	ldhl	sp,	#2
+    0000029A 2A               [ 8]  560 	ld	a, (hl+)
+    0000029B 5F               [ 4]  561 	ld	e, a
+    0000029C 56               [ 8]  562 	ld	d, (hl)
+    0000029D CDr00r00         [24]  563 	call	_enemy_death
+                                    564 ;src/scripts/combat.c:91: enemy_death_sfx();
+    000002A0 1Er00            [ 8]  565 	ld	e, #b_enemy_death_sfx
+    000002A2 21r00r00         [12]  566 	ld	hl, #_enemy_death_sfx
+    000002A5 CDr00r00         [24]  567 	call	___sdcc_bcall_ehl
+                                    568 ;src/scripts/combat.c:92: play_explosion_animation(e_x, e_y);
+    000002A8 F8 08            [12]  569 	ldhl	sp,	#8
+    000002AA 3A               [ 8]  570 	ld	a, (hl-)
+    000002AB 47               [ 4]  571 	ld	b, a
+    000002AC 7E               [ 8]  572 	ld	a, (hl)
+    000002AD 4F               [ 4]  573 	ld	c, a
+    000002AE C5               [16]  574 	push	bc
+    000002AF 1Er00            [ 8]  575 	ld	e, #b_play_explosion_animation
+    000002B1 21r00r00         [12]  576 	ld	hl, #_play_explosion_animation
+    000002B4 CDr00r00         [24]  577 	call	___sdcc_bcall_ehl
+    000002B7 E1               [12]  578 	pop	hl
+                                    579 ;src/scripts/combat.c:93: enemies_defeated++;
+    000002B8 21r00r00         [12]  580 	ld	hl, #_enemies_defeated
+    000002BB 34               [12]  581 	inc	(hl)
+                                    582 ;src/scripts/combat.c:94: experience += current_enemies[index].exp_reward;
+    000002BC F8 02            [12]  583 	ldhl	sp,#2
+    000002BE 2A               [ 8]  584 	ld	a, (hl+)
+    000002BF 5F               [ 4]  585 	ld	e, a
+    000002C0 56               [ 8]  586 	ld	d, (hl)
+    000002C1 21 0A 00         [12]  587 	ld	hl, #0x000a
+    000002C4 19               [ 8]  588 	add	hl, de
+    000002C5 E5               [16]  589 	push	hl
+    000002C6 7D               [ 4]  590 	ld	a, l
+    000002C7 F8 09            [12]  591 	ldhl	sp,	#9
+    000002C9 77               [ 8]  592 	ld	(hl), a
+    000002CA E1               [12]  593 	pop	hl
+    000002CB 7C               [ 4]  594 	ld	a, h
+    000002CC F8 08            [12]  595 	ldhl	sp,	#8
+    000002CE 32               [ 8]  596 	ld	(hl-), a
+    000002CF 2A               [ 8]  597 	ld	a, (hl+)
+    000002D0 5F               [ 4]  598 	ld	e, a
+    000002D1 56               [ 8]  599 	ld	d, (hl)
+    000002D2 1A               [ 8]  600 	ld	a, (de)
+    000002D3 F8 05            [12]  601 	ldhl	sp,	#5
+    000002D5 22               [ 8]  602 	ld	(hl+), a
+    000002D6 13               [ 8]  603 	inc	de
+    000002D7 1A               [ 8]  604 	ld	a, (de)
+    000002D8 77               [ 8]  605 	ld	(hl), a
+    000002D9 21r00r00         [12]  606 	ld	hl, #_experience
+    000002DC 2A               [ 8]  607 	ld	a, (hl+)
+    000002DD 5F               [ 4]  608 	ld	e, a
+    000002DE 56               [ 8]  609 	ld	d, (hl)
+    000002DF F8 05            [12]  610 	ldhl	sp,	#5
+    000002E1 2A               [ 8]  611 	ld	a,	(hl+)
+    000002E2 66               [ 8]  612 	ld	h, (hl)
+    000002E3 6F               [ 4]  613 	ld	l, a
+    000002E4 19               [ 8]  614 	add	hl, de
+    000002E5 5D               [ 4]  615 	ld	e, l
+    000002E6 54               [ 4]  616 	ld	d, h
+    000002E7 21r00r00         [12]  617 	ld	hl, #_experience
+    000002EA 7B               [ 4]  618 	ld	a, e
+    000002EB 22               [ 8]  619 	ld	(hl+), a
+    000002EC 72               [ 8]  620 	ld	(hl), d
+                                    621 ;src/scripts/combat.c:95: obt_exp += current_enemies[index].exp_reward;
+    000002ED F8 07            [12]  622 	ldhl	sp,#7
+    000002EF 2A               [ 8]  623 	ld	a, (hl+)
+    000002F0 5F               [ 4]  624 	ld	e, a
+    000002F1 56               [ 8]  625 	ld	d, (hl)
+    000002F2 1A               [ 8]  626 	ld	a, (de)
+    000002F3 77               [ 8]  627 	ld	(hl), a
+    000002F4 7E               [ 8]  628 	ld	a, (hl)
+    000002F5 21r00r00         [12]  629 	ld	hl, #_obt_exp
+    000002F8 86               [ 8]  630 	add	a, (hl)
+    000002F9 77               [ 8]  631 	ld	(hl), a
+    000002FA                        632 00125$:
+                                    633 ;src/scripts/combat.c:97: }
+    000002FA E8 0A            [16]  634 	add	sp, #10
+    000002FC C9               [16]  635 	ret
+                                    636 ;src/scripts/combat.c:101: void shoot_arrow() {
+                                    637 ;	---------------------------------
+                                    638 ; Function shoot_arrow
+                                    639 ; ---------------------------------
+    000002FD                        640 _shoot_arrow::
+    000002FD E8 FD            [16]  641 	add	sp, #-3
+                                    642 ;src/scripts/combat.c:102: arrow_sfx();
+    000002FF 1Er00            [ 8]  643 	ld	e, #b_arrow_sfx
+    00000301 21r00r00         [12]  644 	ld	hl, #_arrow_sfx
+    00000304 CDr00r00         [24]  645 	call	___sdcc_bcall_ehl
+                                    646 ;src/scripts/combat.c:103: uint8_t arrow_x = x;
+    00000307 FAr00r00         [16]  647 	ld	a, (_x)
+    0000030A 4F               [ 4]  648 	ld	c, a
+                                    649 ;src/scripts/combat.c:104: uint8_t arrow_y = y;
+    0000030B FAr00r00         [16]  650 	ld	a, (_y)
+    0000030E 47               [ 4]  651 	ld	b, a
+                                    652 ;src/scripts/combat.c:105: switch (last_direction) {
+    0000030F FAr00r00         [16]  653 	ld	a, (#_last_direction)
+    00000312 3D               [ 4]  654 	dec	a
+    00000313 28 17            [12]  655 	jr	Z, 00101$
+    00000315 FAr00r00         [16]  656 	ld	a, (#_last_direction)
+    00000318 D6 02            [ 8]  657 	sub	a, #0x02
+    0000031A 28 1A            [12]  658 	jr	Z, 00102$
+    0000031C FAr00r00         [16]  659 	ld	a, (#_last_direction)
+    0000031F D6 04            [ 8]  660 	sub	a, #0x04
+    00000321 28 1D            [12]  661 	jr	Z, 00103$
+    00000323 FAr00r00         [16]  662 	ld	a, (#_last_direction)
+    00000326 D6 08            [ 8]  663 	sub	a, #0x08
+    00000328 28 20            [12]  664 	jr	Z, 00104$
+    0000032A 18 26            [12]  665 	jr	00127$
+                                    666 ;src/scripts/combat.c:106: case 1:
+    0000032C                        667 00101$:
+                                    668 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000032C 21r9Er00         [12]  669 	ld	hl, #(_shadow_OAM + 158)
+                                    670 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000032F 3E 50            [ 8]  671 	ld	a, #0x50
+    00000331 22               [ 8]  672 	ld	(hl+), a
+    00000332 36 00            [12]  673 	ld	(hl), #0x00
+                                    674 ;src/scripts/combat.c:109: break;
+    00000334 18 1C            [12]  675 	jr	00127$
+                                    676 ;src/scripts/combat.c:110: case 2:
+    00000336                        677 00102$:
+                                    678 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000336 21r9Er00         [12]  679 	ld	hl, #(_shadow_OAM + 158)
+                                    680 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000339 3E 51            [ 8]  681 	ld	a, #0x51
+    0000033B 22               [ 8]  682 	ld	(hl+), a
+    0000033C 36 00            [12]  683 	ld	(hl), #0x00
+                                    684 ;src/scripts/combat.c:113: break;
+    0000033E 18 12            [12]  685 	jr	00127$
+                                    686 ;src/scripts/combat.c:114: case 4:
+    00000340                        687 00103$:
+                                    688 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000340 21r9Er00         [12]  689 	ld	hl, #(_shadow_OAM + 158)
+                                    690 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
+    00000343 3E 50            [ 8]  691 	ld	a, #0x50
+    00000345 22               [ 8]  692 	ld	(hl+), a
+    00000346 36 40            [12]  693 	ld	(hl), #0x40
+                                    694 ;src/scripts/combat.c:117: break;
+    00000348 18 08            [12]  695 	jr	00127$
+                                    696 ;src/scripts/combat.c:118: case 8:
+    0000034A                        697 00104$:
+                                    698 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000034A 21r9Er00         [12]  699 	ld	hl, #(_shadow_OAM + 158)
+                                    700 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1946: shadow_OAM[nb].prop=prop;
+    0000034D 3E 51            [ 8]  701 	ld	a, #0x51
+    0000034F 22               [ 8]  702 	ld	(hl+), a
+    00000350 36 20            [12]  703 	ld	(hl), #0x20
+                                    704 ;src/scripts/combat.c:123: while (1) {
+    00000352                        705 00127$:
+                                    706 ;src/scripts/combat.c:124: wait_vbl_done();
+    00000352 CDr00r00         [24]  707 	call	_wait_vbl_done
+                                    708 ;src/scripts/combat.c:127: arrow_y-=2;
+    00000355 58               [ 4]  709 	ld	e, b
+                                    710 ;src/scripts/combat.c:125: switch (last_direction) {
+    00000356 FAr00r00         [16]  711 	ld	a, (#_last_direction)
+    00000359 3D               [ 4]  712 	dec	a
+    0000035A 28 18            [12]  713 	jr	Z, 00106$
+                                    714 ;src/scripts/combat.c:130: arrow_x+=2;
+    0000035C 51               [ 4]  715 	ld	d, c
+                                    716 ;src/scripts/combat.c:125: switch (last_direction) {
+    0000035D FAr00r00         [16]  717 	ld	a, (#_last_direction)
+    00000360 D6 02            [ 8]  718 	sub	a, #0x02
+    00000362 28 15            [12]  719 	jr	Z, 00107$
+    00000364 FAr00r00         [16]  720 	ld	a, (#_last_direction)
+    00000367 D6 04            [ 8]  721 	sub	a, #0x04
+    00000369 28 13            [12]  722 	jr	Z, 00108$
+    0000036B FAr00r00         [16]  723 	ld	a, (#_last_direction)
+    0000036E D6 08            [ 8]  724 	sub	a, #0x08
+    00000370 28 11            [12]  725 	jr	Z, 00109$
+    00000372 18 12            [12]  726 	jr	00110$
+                                    727 ;src/scripts/combat.c:126: case 1:
+    00000374                        728 00106$:
+                                    729 ;src/scripts/combat.c:127: arrow_y-=2;
+    00000374 43               [ 4]  730 	ld	b, e
+    00000375 05               [ 4]  731 	dec	b
+    00000376 05               [ 4]  732 	dec	b
+                                    733 ;src/scripts/combat.c:128: break;
+    00000377 18 0D            [12]  734 	jr	00110$
+                                    735 ;src/scripts/combat.c:129: case 2:
+    00000379                        736 00107$:
+                                    737 ;src/scripts/combat.c:130: arrow_x+=2;
+    00000379 4A               [ 4]  738 	ld	c, d
+    0000037A 0C               [ 4]  739 	inc	c
+    0000037B 0C               [ 4]  740 	inc	c
+                                    741 ;src/scripts/combat.c:131: break;
+    0000037C 18 08            [12]  742 	jr	00110$
+                                    743 ;src/scripts/combat.c:132: case 4:
+    0000037E                        744 00108$:
+                                    745 ;src/scripts/combat.c:133: arrow_y+=2;
+    0000037E 43               [ 4]  746 	ld	b, e
+    0000037F 04               [ 4]  747 	inc	b
+    00000380 04               [ 4]  748 	inc	b
+                                    749 ;src/scripts/combat.c:134: break;
+    00000381 18 03            [12]  750 	jr	00110$
+                                    751 ;src/scripts/combat.c:135: case 8:
+    00000383                        752 00109$:
+                                    753 ;src/scripts/combat.c:136: arrow_x-=2;
+    00000383 4A               [ 4]  754 	ld	c, d
+    00000384 0D               [ 4]  755 	dec	c
+    00000385 0D               [ 4]  756 	dec	c
+                                    757 ;src/scripts/combat.c:138: }
+    00000386                        758 00110$:
+                                    759 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000386 21r9Cr00         [12]  760 	ld	hl, #(_shadow_OAM + 156)
+                                    761 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000389 78               [ 4]  762 	ld	a, b
+    0000038A 22               [ 8]  763 	ld	(hl+), a
+    0000038B 71               [ 8]  764 	ld	(hl), c
+                                    765 ;src/scripts/combat.c:140: if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8 || !check_terrain(arrow_x, arrow_y)) { // pulu
+    0000038C 79               [ 4]  766 	ld	a, c
+    0000038D D6 01            [ 8]  767 	sub	a, #0x01
+    0000038F 38 19            [12]  768 	jr	C, 00111$
+    00000391 3E A8            [ 8]  769 	ld	a, #0xa8
+    00000393 91               [ 4]  770 	sub	a, c
+    00000394 38 14            [12]  771 	jr	C, 00111$
+    00000396 3E 90            [ 8]  772 	ld	a, #0x90
+    00000398 90               [ 4]  773 	sub	a, b
+    00000399 38 0F            [12]  774 	jr	C, 00111$
+    0000039B 78               [ 4]  775 	ld	a, b
+    0000039C D6 08            [ 8]  776 	sub	a, #0x08
+    0000039E 38 0A            [12]  777 	jr	C, 00111$
+    000003A0 C5               [16]  778 	push	bc
+    000003A1 58               [ 4]  779 	ld	e, b
+    000003A2 79               [ 4]  780 	ld	a, c
+    000003A3 CDr00r00         [24]  781 	call	_check_terrain
+    000003A6 C1               [12]  782 	pop	bc
+    000003A7 B7               [ 4]  783 	or	a, a
+    000003A8 20 0F            [12]  784 	jr	NZ, 00112$
+    000003AA                        785 00111$:
+                                    786 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000003AA 21r9Er00         [12]  787 	ld	hl, #(_shadow_OAM + 158)
+    000003AD 36 32            [12]  788 	ld	(hl), #0x32
+                                    789 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000003AF 2B               [ 8]  790 	dec	hl
+    000003B0 2B               [ 8]  791 	dec	hl
+                                    792 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000003B1 36 00            [12]  793 	ld	(hl), #0x00
+    000003B3 23               [ 8]  794 	inc	hl
+    000003B4 36 00            [12]  795 	ld	(hl), #0x00
+                                    796 ;src/scripts/combat.c:143: return;
+    000003B6 C3r52r04         [16]  797 	jp	00147$
+    000003B9                        798 00112$:
+                                    799 ;src/scripts/combat.c:145: for (int i=0; i<2; i++) {
+    000003B9 F8 00            [12]  800 	ldhl	sp,	#0
+    000003BB AF               [ 4]  801 	xor	a, a
+    000003BC 22               [ 8]  802 	ld	(hl+), a
+    000003BD 22               [ 8]  803 	ld	(hl+), a
+    000003BE 77               [ 8]  804 	ld	(hl), a
+    000003BF                        805 00145$:
+    000003BF F8 01            [12]  806 	ldhl	sp,	#1
+    000003C1 2A               [ 8]  807 	ld	a, (hl+)
+    000003C2 D6 02            [ 8]  808 	sub	a, #0x02
+    000003C4 7E               [ 8]  809 	ld	a, (hl)
+    000003C5 DE 00            [ 8]  810 	sbc	a, #0x00
+    000003C7 30 3C            [12]  811 	jr	NC, 00120$
+                                    812 ;src/scripts/combat.c:146: uint8_t enemy_x = current_enemies[i].x;
+    000003C9 2B               [ 8]  813 	dec	hl
+    000003CA 2A               [ 8]  814 	ld	a, (hl+)
+    000003CB 5F               [ 4]  815 	ld	e, a
+    000003CC 56               [ 8]  816 	ld	d, (hl)
+    000003CD 6B               [ 4]  817 	ld	l, e
+    000003CE 62               [ 4]  818 	ld	h, d
+    000003CF 29               [ 8]  819 	add	hl, hl
+    000003D0 19               [ 8]  820 	add	hl, de
+    000003D1 29               [ 8]  821 	add	hl, hl
+    000003D2 29               [ 8]  822 	add	hl, hl
+    000003D3 11r00r00         [12]  823 	ld	de, #_current_enemies
+    000003D6 19               [ 8]  824 	add	hl, de
+                                    825 ;src/scripts/combat.c:147: uint8_t enemy_y = current_enemies[i].y;
+    000003D7 2A               [ 8]  826 	ld	a, (hl+)
+    000003D8 5E               [ 8]  827 	ld	e, (hl)
+                                    828 ;src/scripts/combat.c:148: if (arrow_x == enemy_x && arrow_y == enemy_y) {
+    000003D9 91               [ 4]  829 	sub	a, c
+    000003DA 20 20            [12]  830 	jr	NZ, 00146$
+    000003DC 78               [ 4]  831 	ld	a, b
+    000003DD 93               [ 4]  832 	sub	a, e
+    000003DE 20 1C            [12]  833 	jr	NZ, 00146$
+                                    834 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000003E0 21r9Er00         [12]  835 	ld	hl, #(_shadow_OAM + 158)
+                                    836 ;src/scripts/combat.c:150: move_sprite(39, x, y);
+                                    837 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000003E3 3E 32            [ 8]  838 	ld	a, #0x32
+    000003E5 32               [ 8]  839 	ld	(hl-), a
+    000003E6 2B               [ 8]  840 	dec	hl
+    000003E7 FAr00r00         [16]  841 	ld	a, (_y)
+    000003EA 47               [ 4]  842 	ld	b, a
+    000003EB FAr00r00         [16]  843 	ld	a, (_x)
+    000003EE 4F               [ 4]  844 	ld	c, a
+                                    845 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000003EF 78               [ 4]  846 	ld	a, b
+    000003F0 22               [ 8]  847 	ld	(hl+), a
+    000003F1 71               [ 8]  848 	ld	(hl), c
+                                    849 ;src/scripts/combat.c:151: player_attack(1, i); // arrow atk
+    000003F2 F8 00            [12]  850 	ldhl	sp,	#0
+    000003F4 5E               [ 8]  851 	ld	e, (hl)
+    000003F5 3E 01            [ 8]  852 	ld	a, #0x01
+    000003F7 CDr00r00         [24]  853 	call	_player_attack
+                                    854 ;src/scripts/combat.c:152: return;
+    000003FA 18 56            [12]  855 	jr	00147$
+    000003FC                        856 00146$:
+                                    857 ;src/scripts/combat.c:145: for (int i=0; i<2; i++) {
+    000003FC F8 01            [12]  858 	ldhl	sp,	#1
+    000003FE 34               [12]  859 	inc	(hl)
+    000003FF F8 01            [12]  860 	ldhl	sp,	#1
+    00000401 3A               [ 8]  861 	ld	a, (hl-)
+    00000402 77               [ 8]  862 	ld	(hl), a
+    00000403 18 BA            [12]  863 	jr	00145$
+    00000405                        864 00120$:
+                                    865 ;src/scripts/combat.c:155: if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
+    00000405 FAr01r00         [16]  866 	ld	a, (#(_boss + 1) + 0)
+    00000408 B9               [ 4]  867 	cp	a, c
+    00000409 28 14            [12]  868 	jr	Z, 00125$
+    0000040B 26 00            [ 8]  869 	ld	h, #0x00
+    0000040D 6F               [ 4]  870 	ld	l, a
+    0000040E 11 10 00         [12]  871 	ld	de, #0x0010
+    00000411 19               [ 8]  872 	add	hl, de
+    00000412 59               [ 4]  873 	ld	e, c
+    00000413 16 00            [ 8]  874 	ld	d, #0x00
+    00000415 7D               [ 4]  875 	ld	a, l
+    00000416 93               [ 4]  876 	sub	a, e
+    00000417 C2r52r03         [16]  877 	jp	NZ, 00127$
+    0000041A 7C               [ 4]  878 	ld	a, h
+    0000041B 92               [ 4]  879 	sub	a, d
+    0000041C C2r52r03         [16]  880 	jp	NZ, 00127$
+    0000041F                        881 00125$:
+    0000041F FAr02r00         [16]  882 	ld	a, (#(_boss + 2) + 0)
+    00000422 B8               [ 4]  883 	cp	a, b
+    00000423 28 14            [12]  884 	jr	Z, 00121$
+    00000425 26 00            [ 8]  885 	ld	h, #0x00
+    00000427 6F               [ 4]  886 	ld	l, a
+    00000428 11 10 00         [12]  887 	ld	de, #0x0010
+    0000042B 19               [ 8]  888 	add	hl, de
+    0000042C 58               [ 4]  889 	ld	e, b
+    0000042D 16 00            [ 8]  890 	ld	d, #0x00
+    0000042F 7D               [ 4]  891 	ld	a, l
+    00000430 93               [ 4]  892 	sub	a, e
+    00000431 C2r52r03         [16]  893 	jp	NZ, 00127$
+    00000434 7C               [ 4]  894 	ld	a, h
+    00000435 92               [ 4]  895 	sub	a, d
+    00000436 C2r52r03         [16]  896 	jp	NZ, 00127$
+    00000439                        897 00121$:
+                                    898 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000439 21r9Er00         [12]  899 	ld	hl, #(_shadow_OAM + 158)
+                                    900 ;src/scripts/combat.c:157: move_sprite(39, x, y);
+                                    901 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000043C 3E 32            [ 8]  902 	ld	a, #0x32
+    0000043E 32               [ 8]  903 	ld	(hl-), a
+    0000043F 2B               [ 8]  904 	dec	hl
+    00000440 FAr00r00         [16]  905 	ld	a, (_y)
+    00000443 4F               [ 4]  906 	ld	c, a
+    00000444 FAr00r00         [16]  907 	ld	a, (_x)
+    00000447 47               [ 4]  908 	ld	b, a
+                                    909 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000448 79               [ 4]  910 	ld	a, c
+    00000449 22               [ 8]  911 	ld	(hl+), a
+    0000044A 70               [ 8]  912 	ld	(hl), b
+                                    913 ;src/scripts/combat.c:158: player_attack(1, 2);
+    0000044B 1E 02            [ 8]  914 	ld	e, #0x02
+    0000044D 3E 01            [ 8]  915 	ld	a, #0x01
+    0000044F CDr00r00         [24]  916 	call	_player_attack
+                                    917 ;src/scripts/combat.c:159: return;
+    00000452                        918 00147$:
+                                    919 ;src/scripts/combat.c:162: }
+    00000452 E8 03            [16]  920 	add	sp, #3
+    00000454 C9               [16]  921 	ret
+                                    922 ;src/scripts/combat.c:164: void heal_player() {
+                                    923 ;	---------------------------------
+                                    924 ; Function heal_player
+                                    925 ; ---------------------------------
+    00000455                        926 _heal_player::
+                                    927 ;src/scripts/combat.c:165: uint8_t heal = heal_quantity;
+    00000455 FAr00r00         [16]  928 	ld	a, (_heal_quantity)
+    00000458 47               [ 4]  929 	ld	b, a
+                                    930 ;src/scripts/combat.c:166: current_hp += heal;
+    00000459 21r00r00         [12]  931 	ld	hl, #_current_hp
+    0000045C 7E               [ 8]  932 	ld	a, (hl)
+    0000045D 80               [ 4]  933 	add	a, b
+                                    934 ;src/scripts/combat.c:167: if (current_hp >= max_hp) {
+    0000045E 77               [ 8]  935 	ld	(hl), a
+    0000045F 21r00r00         [12]  936 	ld	hl, #_max_hp
+    00000462 96               [ 8]  937 	sub	a, (hl)
+    00000463 38 13            [12]  938 	jr	C, 00102$
+                                    939 ;src/scripts/combat.c:168: heal = heal_quantity - (current_hp - max_hp);
+    00000465 FAr00r00         [16]  940 	ld	a, (#_current_hp)
+    00000468 21r00r00         [12]  941 	ld	hl, #_max_hp
+    0000046B 96               [ 8]  942 	sub	a, (hl)
+    0000046C 4F               [ 4]  943 	ld	c, a
+    0000046D FAr00r00         [16]  944 	ld	a, (#_heal_quantity)
+    00000470 91               [ 4]  945 	sub	a, c
+    00000471 47               [ 4]  946 	ld	b, a
+                                    947 ;src/scripts/combat.c:169: current_hp = max_hp;
+    00000472 FAr00r00         [16]  948 	ld	a, (#_max_hp)
+    00000475 EAr00r00         [16]  949 	ld	(#_current_hp),a
+    00000478                        950 00102$:
+                                    951 ;src/scripts/combat.c:171: play_heal_animation();
+    00000478 C5               [16]  952 	push	bc
+    00000479 1Er00            [ 8]  953 	ld	e, #b_play_heal_animation
+    0000047B 21r00r00         [12]  954 	ld	hl, #_play_heal_animation
+    0000047E CDr00r00         [24]  955 	call	___sdcc_bcall_ehl
+    00000481 C1               [12]  956 	pop	bc
+                                    957 ;src/scripts/combat.c:172: show_number(heal, 1, 0, 0);
+    00000482 AF               [ 4]  958 	xor	a, a
+    00000483 0F               [ 4]  959 	rrca
+    00000484 F5               [16]  960 	push	af
+    00000485 AF               [ 4]  961 	xor	a, a
+    00000486 3E 01            [ 8]  962 	ld	a, #0x01
+    00000488 F5               [16]  963 	push	af
+    00000489 33               [ 8]  964 	inc	sp
+    0000048A C5               [16]  965 	push	bc
+    0000048B 33               [ 8]  966 	inc	sp
+    0000048C 1Er00            [ 8]  967 	ld	e, #b_show_number
+    0000048E 21r00r00         [12]  968 	ld	hl, #_show_number
+    00000491 CDr00r00         [24]  969 	call	___sdcc_bcall_ehl
+    00000494 E8 04            [16]  970 	add	sp, #4
+                                    971 ;src/scripts/combat.c:173: }
+    00000496 C9               [16]  972 	ret
+                                    973 	.area _CODE
+                                    974 	.area _INITIALIZER
+                                    975 	.area _CABS (ABS)

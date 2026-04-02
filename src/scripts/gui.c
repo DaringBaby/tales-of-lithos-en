@@ -114,3 +114,128 @@ const unsigned char game_saved[] = {
     LEFT,       BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   BODY,   RIGHT,
     BOTTOMLEFT, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOM, BOTTOMRIGHT
 };
+
+
+void check_open_menu() {
+    current_joypad = joypad();
+    if ((current_joypad & J_START) && !(last_joypad & J_START)) {
+        if (menu_opened == 0){
+            DISPLAY_OFF;
+            move_win(7, 0);
+            set_win_tiles(0, 0, 20, 18, gui_map);
+            set_stats();
+            HIDE_SPRITES;
+            DISPLAY_ON;
+            menu_opened = 1;
+        }
+        else if (menu_opened == 1) {
+            DISPLAY_OFF;
+            move_win(7, 136);
+            set_mini_menu();
+
+            SHOW_SPRITES;
+            menu_opened = 0;
+            DISPLAY_ON;
+        }
+    }
+    if ((current_joypad & J_SELECT) && !(last_joypad & J_SELECT)) {
+        if (menu_opened == 0){
+            DISPLAY_OFF;
+            move_win(7, 0);
+            SWITCH_ROM(3);
+            set_win_tiles(0, 0, 20, 18, map_menu);
+            SWITCH_ROM(1);
+            set_map_menu();
+            map_option = 0;
+            set_win_tiles(2, 4, 1, 1, &arrow_tile);
+            HIDE_SPRITES;
+            menu_opened = 5;
+            DISPLAY_ON;
+        }
+        else if (menu_opened == 5) {
+            DISPLAY_OFF;
+            move_win(7, 136);
+            set_mini_menu();
+
+            SHOW_SPRITES;
+            menu_opened = 0;
+            DISPLAY_ON;
+        }
+    }
+    last_joypad = current_joypad;
+}
+
+
+void set_textbox(uint8_t item) {
+    menu_opened = 4;
+    move_win(7, 104);
+    if (item == 0) {
+        set_win_tiles(0, 0, 20, 5, game_saved);
+    }
+    else if (item == 1) {
+        move_sprite(33, x, y-32);
+        move_sprite(34, x+8, y-32);
+        set_win_tiles(0, 0, 20, 5, obtained_key);
+    }
+    else if (item == 2) {
+        move_sprite(35, x, y-32);
+        move_sprite(36, x+8, y-32);
+        move_sprite(37, x, y-24);
+        move_sprite(38, x+8, y-24);
+        set_win_tiles(0, 0, 20, 5, obtained_mythril);
+    }
+    else if (item == 3) {
+        HIDE_SPRITES;
+        set_win_tiles(0, 0, 20, 5, boss_defeated);
+    }
+
+    wait_vbl_done();
+
+    while(!(joypad() & (J_A))) {
+        wait_vbl_done();
+    }
+
+    while(joypad() & (J_A)) {
+        wait_vbl_done();
+    }
+
+    move_sprite(33, 0, 0);
+    move_sprite(34, 0, 0);
+    move_sprite(35, 0, 0);
+    move_sprite(36, 0, 0);
+    move_sprite(37, 0, 0);
+    move_sprite(38, 0, 0);
+    menu_opened = 0;
+    SHOW_SPRITES;
+    set_mini_menu();
+}
+
+void set_tutorial() {
+        move_win(7,0);
+        move_sprite(4, 0, 0);
+        move_sprite(8, 24, 40);
+        move_sprite(9, 32, 40);
+        move_sprite(10, 24, 48);
+        move_sprite(11, 32, 48);
+        move_sprite(12, 24, 80);
+        move_sprite(13, 32, 80);
+        move_sprite(14, 24, 88);
+        move_sprite(15, 32, 88);
+        SWITCH_ROM(3);
+        set_win_tiles(0, 0, 20, 18, TutorialMap);
+        SHOW_SPRITES;
+        SHOW_WIN;
+        while (1) {
+            if (joypad() & J_A) {
+                move_sprite(8, 40, 64);
+                move_sprite(9, 48, 64);
+                move_sprite(10, 40, 72);
+                move_sprite(11, 48, 72);
+                move_sprite(12, 120, 64);
+                move_sprite(13, 128, 64);
+                move_sprite(14, 120, 72);
+                move_sprite(15, 128, 72);
+                return;
+            }
+        }
+}

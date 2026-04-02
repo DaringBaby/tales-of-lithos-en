@@ -7,6 +7,7 @@ Symbol Table
     .__.ABS.                                                    =   00000000 G
     .__.CPU.                                                    =   00000000 L
     .__.H$L.                                                    =   00000000 L
+    _Camp                                                           ******** GX
     _LCDC_REG                                                       ******** GX
     _WX_REG                                                         ******** GX
     _WY_REG                                                         ******** GX
@@ -16,15 +17,17 @@ Symbol Table
     _boss_battle                                                    ******** GX
     _boss_death                                                     ******** GX
     _boss_floor_defeated                                            ******** GX
+    _camp_collisions                                                ******** GX
     _check_drops                                                    ******** GX
     _check_enemy                                                    ******** GX
   0 _check_input_movement                                           00000000 GR
-    _check_terrain                                                  ******** GX
+  0 _check_terrain                                                  00000566 GR
     _clear_drops                                                    ******** GX
     _current_enemies                                                ******** GX
     _current_floor                                                  ******** GX
     _current_hp                                                     ******** GX
     _current_location                                               ******** GX
+    _current_room                                                   ******** GX
     _current_song_bank                                              ******** GX
     _death_sfx                                                      ******** GX
     _delay                                                          ******** GX
@@ -37,12 +40,15 @@ Symbol Table
     _go_next_floor                                                  ******** GX
     _hUGE_init                                                      ******** GX
     _hide_camp_sprites                                              ******** GX
-    _is_sprite_at                                                   ******** GX
+  0 _is_sprite_at                                                   00000751 GR
     _joypad                                                         ******** GX
     _key_obtained                                                   ******** GX
     _last_direction                                                 ******** GX
+    _lock_opened                                                    ******** GX
+    _locked_door                                                    ******** GX
     _move_boss                                                      ******** GX
-  0 _move_character                                                 00000504 GR
+  0 _move_character                                                 00000515 GR
+    _move_enemy                                                     ******** GX
     _obt_exp                                                        ******** GX
     _obt_mythril                                                    ******** GX
     _play_attack_animation                                          ******** GX
@@ -52,22 +58,23 @@ Symbol Table
     _rROMB0                                                         ******** GX
     _save_game                                                      ******** GX
     _set_camp_map                                                   ******** GX
-    _set_character_sprite                                           ******** GX
-    _set_mini_menu                                                  ******** GX
-    _shadow_OAM                                                     ******** GX
-  0 _smooth_movement                                                00000383 GR
-    _stairs_sfx                                                     ******** GX
-    _wait_vbl_done                                                  ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
+    _set_character_sprite                                           ******** GX
+    _set_mini_menu                                                  ******** GX
+    _shadow_OAM                                                     ******** GX
+  0 _smooth_movement                                                00000394 GR
+    _stairs_sfx                                                     ******** GX
+    _wait_vbl_done                                                  ******** GX
     _x                                                              ******** GX
     _y                                                              ******** GX
     b_boss_death                                                    ******** GX
     b_check_enemy                                                   ******** GX
     b_death_sfx                                                     ******** GX
+    b_game_over                                                     ******** GX
     b_move_boss                                                     ******** GX
     b_play_attack_animation                                         ******** GX
     b_play_walk_animation                                           ******** GX
@@ -75,12 +82,13 @@ Symbol Table
     b_set_mini_menu                                                 ******** GX
     b_stairs_sfx                                                    ******** GX
 
+
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      555   flags    0
+   0 _CODE                                      size      765   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0

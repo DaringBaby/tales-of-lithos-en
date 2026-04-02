@@ -1,4 +1,6 @@
 #include <gb/gb.h>
+#include "enemy.h"
+#include "boss.h"
 
 extern uint8_t debug;
 extern int tile_id;
@@ -38,3 +40,7 @@ extern uint8_t map[4][4];
 extern const uint8_t upgrade_costs[];
 extern const uint16_t cure_upgrade_costs[];
 extern const uint16_t level_curve[];
+
+extern Enemy current_enemies[2];
+extern Enemy enemy;
+extern Boss boss;

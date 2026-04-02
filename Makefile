@@ -16,7 +16,7 @@ B5_SOURCES = src/songs/camp_song.c src/songs/intro_song.c src/tiles/DungeonTiles
 			 src/tiles/DungeonTiles5.c src/songs/ending_song.c
 B4_SOURCES = src/songs/dungeon_song.c src/songs/boss_song.c
 B3_SOURCES = src/scripts/titlescreen.c src/tiles/minimap.c src/scripts/gui_management.c \
-             src/scripts/spawn_enemy.c src/scripts/combat_system.c src/scripts/insert_name.c \
+             src/scripts/spawn_enemy.c src/scripts/player_utils.c src/scripts/insert_name.c \
              src/maps/NameScreenMap.c src/scripts/locked_doors.c src/tiles/bosses.c \
              src/scripts/boss.c src/scripts/sound.c src/songs/gameover_sound.c src/tiles/Enemies.c \
              src/songs/boss_defeated.c src/maps/TutorialMap.c
@@ -33,8 +33,9 @@ B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
              src/maps/GameOver.c src/tiles/GameOverText.c src/scripts/gameover.c \
              src/tiles/sword.c src/tiles/effects.c src/scripts/play_effects.c src/scripts/save_manager.c \
              src/songs/item_found.c
-B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c  src/scripts/drop.c src/scripts/movement.c src/scripts/player_vars.c \
-			 src/scripts/game_vars.c src/scripts/actions.c
+B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c src/scripts/drop.c src/scripts/movement.c src/scripts/player_vars.c \
+			 src/scripts/game_vars.c src/scripts/actions.c src/scripts/maps.c src/scripts/combat.c src/scripts/utils.c \
+			 src/scripts/init.c
 
 
 define make_obj_list

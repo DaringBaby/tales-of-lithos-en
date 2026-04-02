@@ -1,0 +1,1243 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ISO C Compiler
+                                      3 ; Version 4.5.1 #15267 (MINGW64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module maps
+                                      6 	
+                                      7 ;--------------------------------------------------------
+                                      8 ; Public variables in this module
+                                      9 ;--------------------------------------------------------
+                                     10 	.globl _clear_drops
+                                     11 	.globl b_set_enemy_sprite
+                                     12 	.globl _set_enemy_sprite
+                                     13 	.globl b_spawn_boss
+                                     14 	.globl _spawn_boss
+                                     15 	.globl b_spawn_enemies_in_room
+                                     16 	.globl _spawn_enemies_in_room
+                                     17 	.globl b_hide_door
+                                     18 	.globl _hide_door
+                                     19 	.globl b_set_room_tiles
+                                     20 	.globl _set_room_tiles
+                                     21 	.globl b_empty_map_tiles
+                                     22 	.globl _empty_map_tiles
+                                     23 	.globl b_game_over
+                                     24 	.globl _game_over
+                                     25 	.globl _move_character
+                                     26 	.globl b_set_mini_menu
+                                     27 	.globl _set_mini_menu
+                                     28 	.globl _smooth_movement
+                                     29 	.globl b_draw_flip_lock_h
+                                     30 	.globl _draw_flip_lock_h
+                                     31 	.globl b_draw_lock_h
+                                     32 	.globl _draw_lock_h
+                                     33 	.globl b_draw_flip_lock_v
+                                     34 	.globl _draw_flip_lock_v
+                                     35 	.globl b_draw_lock_v
+                                     36 	.globl _draw_lock_v
+                                     37 	.globl b_generate_dungeon
+                                     38 	.globl _generate_dungeon
+                                     39 	.globl _hUGE_init
+                                     40 	.globl _set_sprite_data
+                                     41 	.globl _set_bkg_tiles
+                                     42 	.globl _set_bkg_data
+                                     43 	.globl _display_off
+                                     44 	.globl _wait_vbl_done
+                                     45 	.globl _delay
+                                     46 	.globl _chest_opened
+                                     47 	.globl _chest_closed
+                                     48 	.globl _set_camp_map
+                                     49 	.globl _hide_camp_sprites
+                                     50 	.globl _set_dungeon_map
+                                     51 	.globl _set_room
+                                     52 	.globl _change_room
+                                     53 	.globl _return_to_camp
+                                     54 	.globl _go_into_dungeon
+                                     55 	.globl _go_next_floor
+                                     56 ;--------------------------------------------------------
+                                     57 ; special function registers
+                                     58 ;--------------------------------------------------------
+                                     59 	.area _HRAM
+                                     60 ;--------------------------------------------------------
+                                     61 ; ram data
+                                     62 ;--------------------------------------------------------
+                                     63 	.area _DATA
+                                     64 ;--------------------------------------------------------
+                                     65 ; ram data
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _INITIALIZED
+                                     68 ;--------------------------------------------------------
+                                     69 ; absolute external ram data
+                                     70 ;--------------------------------------------------------
+                                     71 	.area _DABS (ABS)
+                                     72 ;--------------------------------------------------------
+                                     73 ; global & static initialisations
+                                     74 ;--------------------------------------------------------
+                                     75 	.area _HOME
+                                     76 	.area _GSINIT
+                                     77 	.area _GSFINAL
+                                     78 	.area _GSINIT
+                                     79 ;--------------------------------------------------------
+                                     80 ; Home
+                                     81 ;--------------------------------------------------------
+                                     82 	.area _HOME
+                                     83 	.area _HOME
+                                     84 ;--------------------------------------------------------
+                                     85 ; code
+                                     86 ;--------------------------------------------------------
+                                     87 	.area _CODE
+                                     88 ;src/scripts/maps.c:17: void set_camp_map(){
+                                     89 ;	---------------------------------
+                                     90 ; Function set_camp_map
+                                     91 ; ---------------------------------
+    00000000                         92 _set_camp_map::
+                                     93 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000000 21r12r00         [12]   94 	ld	hl, #(_shadow_OAM + 18)
+    00000003 36 04            [12]   95 	ld	(hl), #0x04
+    00000005 21r16r00         [12]   96 	ld	hl, #(_shadow_OAM + 22)
+    00000008 36 05            [12]   97 	ld	(hl), #0x05
+    0000000A 21r1Ar00         [12]   98 	ld	hl, #(_shadow_OAM + 26)
+    0000000D 36 06            [12]   99 	ld	(hl), #0x06
+    0000000F 21r1Er00         [12]  100 	ld	hl, #(_shadow_OAM + 30)
+    00000012 36 07            [12]  101 	ld	(hl), #0x07
+                                    102 ;src/scripts/maps.c:22: set_sprite_data(16, 4, Hector);
+    00000014 11r00r00         [12]  103 	ld	de, #_Hector
+    00000017 D5               [16]  104 	push	de
+    00000018 21 10 04         [12]  105 	ld	hl, #0x410
+    0000001B E5               [16]  106 	push	hl
+    0000001C CDr00r00         [24]  107 	call	_set_sprite_data
+    0000001F E8 04            [16]  108 	add	sp, #4
+                                    109 ;src/scripts/maps.c:23: set_sprite_data(20, 4, Safy);
+    00000021 11r00r00         [12]  110 	ld	de, #_Safy
+    00000024 D5               [16]  111 	push	de
+    00000025 21 14 04         [12]  112 	ld	hl, #0x414
+    00000028 E5               [16]  113 	push	hl
+    00000029 CDr00r00         [24]  114 	call	_set_sprite_data
+    0000002C E8 04            [16]  115 	add	sp, #4
+                                    116 ;src/scripts/maps.c:24: SWITCH_ROM(2);
+    0000002E 3E 02            [ 8]  117 	ld	a, #0x02
+    00000030 E0r00            [12]  118 	ldh	(__current_bank + 0), a
+    00000032 21r00r00         [12]  119 	ld	hl, #_rROMB0
+    00000035 36 02            [12]  120 	ld	(hl), #0x02
+                                    121 ;src/scripts/maps.c:25: set_bkg_data(0, 108, CampTiles);
+    00000037 11r00r00         [12]  122 	ld	de, #_CampTiles
+    0000003A D5               [16]  123 	push	de
+    0000003B 21 00 6C         [12]  124 	ld	hl, #0x6c00
+    0000003E E5               [16]  125 	push	hl
+    0000003F CDr00r00         [24]  126 	call	_set_bkg_data
+    00000042 E8 04            [16]  127 	add	sp, #4
+                                    128 ;src/scripts/maps.c:26: set_bkg_tiles(0, 0, 20, 18, Camp);
+    00000044 11r00r00         [12]  129 	ld	de, #_Camp
+    00000047 D5               [16]  130 	push	de
+    00000048 21 14 12         [12]  131 	ld	hl, #0x1214
+    0000004B E5               [16]  132 	push	hl
+    0000004C AF               [ 4]  133 	xor	a, a
+    0000004D 0F               [ 4]  134 	rrca
+    0000004E F5               [16]  135 	push	af
+    0000004F CDr00r00         [24]  136 	call	_set_bkg_tiles
+    00000052 E8 06            [16]  137 	add	sp, #6
+                                    138 ;src/scripts/maps.c:27: SWITCH_ROM(1);
+    00000054 3E 01            [ 8]  139 	ld	a, #0x01
+    00000056 E0r00            [12]  140 	ldh	(__current_bank + 0), a
+    00000058 21r00r00         [12]  141 	ld	hl, #_rROMB0
+    0000005B 36 01            [12]  142 	ld	(hl), #0x01
+                                    143 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000005D 21r22r00         [12]  144 	ld	hl, #(_shadow_OAM + 34)
+    00000060 36 10            [12]  145 	ld	(hl), #0x10
+    00000062 21r26r00         [12]  146 	ld	hl, #(_shadow_OAM + 38)
+    00000065 36 11            [12]  147 	ld	(hl), #0x11
+    00000067 21r2Ar00         [12]  148 	ld	hl, #(_shadow_OAM + 42)
+    0000006A 36 12            [12]  149 	ld	(hl), #0x12
+    0000006C 21r2Er00         [12]  150 	ld	hl, #(_shadow_OAM + 46)
+    0000006F 36 13            [12]  151 	ld	(hl), #0x13
+    00000071 21r32r00         [12]  152 	ld	hl, #(_shadow_OAM + 50)
+    00000074 36 14            [12]  153 	ld	(hl), #0x14
+    00000076 21r36r00         [12]  154 	ld	hl, #(_shadow_OAM + 54)
+    00000079 36 15            [12]  155 	ld	(hl), #0x15
+    0000007B 21r3Ar00         [12]  156 	ld	hl, #(_shadow_OAM + 58)
+    0000007E 36 16            [12]  157 	ld	(hl), #0x16
+    00000080 21r3Er00         [12]  158 	ld	hl, #(_shadow_OAM + 62)
+    00000083 36 17            [12]  159 	ld	(hl), #0x17
+                                    160 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000085 21r20r00         [12]  161 	ld	hl, #(_shadow_OAM + 32)
+                                    162 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000088 3E 40            [ 8]  163 	ld	a, #0x40
+    0000008A 22               [ 8]  164 	ld	(hl+), a
+    0000008B 36 28            [12]  165 	ld	(hl), #0x28
+                                    166 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000008D 21r24r00         [12]  167 	ld	hl, #(_shadow_OAM + 36)
+                                    168 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000090 3E 40            [ 8]  169 	ld	a, #0x40
+    00000092 22               [ 8]  170 	ld	(hl+), a
+    00000093 36 30            [12]  171 	ld	(hl), #0x30
+                                    172 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000095 21r28r00         [12]  173 	ld	hl, #(_shadow_OAM + 40)
+                                    174 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000098 3E 48            [ 8]  175 	ld	a, #0x48
+    0000009A 22               [ 8]  176 	ld	(hl+), a
+    0000009B 36 28            [12]  177 	ld	(hl), #0x28
+                                    178 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000009D 21r2Cr00         [12]  179 	ld	hl, #(_shadow_OAM + 44)
+                                    180 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000A0 3E 48            [ 8]  181 	ld	a, #0x48
+    000000A2 22               [ 8]  182 	ld	(hl+), a
+    000000A3 36 30            [12]  183 	ld	(hl), #0x30
+                                    184 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000A5 21r30r00         [12]  185 	ld	hl, #(_shadow_OAM + 48)
+                                    186 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000A8 3E 40            [ 8]  187 	ld	a, #0x40
+    000000AA 22               [ 8]  188 	ld	(hl+), a
+    000000AB 36 78            [12]  189 	ld	(hl), #0x78
+                                    190 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000AD 21r34r00         [12]  191 	ld	hl, #(_shadow_OAM + 52)
+                                    192 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000B0 3E 40            [ 8]  193 	ld	a, #0x40
+    000000B2 22               [ 8]  194 	ld	(hl+), a
+    000000B3 36 80            [12]  195 	ld	(hl), #0x80
+                                    196 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000B5 21r38r00         [12]  197 	ld	hl, #(_shadow_OAM + 56)
+                                    198 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000B8 3E 48            [ 8]  199 	ld	a, #0x48
+    000000BA 22               [ 8]  200 	ld	(hl+), a
+    000000BB 36 78            [12]  201 	ld	(hl), #0x78
+                                    202 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000000BD 21r3Cr00         [12]  203 	ld	hl, #(_shadow_OAM + 60)
+                                    204 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000000C0 3E 48            [ 8]  205 	ld	a, #0x48
+    000000C2 22               [ 8]  206 	ld	(hl+), a
+    000000C3 36 80            [12]  207 	ld	(hl), #0x80
+                                    208 ;src/scripts/maps.c:50: empty_map_tiles();
+    000000C5 1Er00            [ 8]  209 	ld	e, #b_empty_map_tiles
+    000000C7 21r00r00         [12]  210 	ld	hl, #_empty_map_tiles
+    000000CA CDr00r00         [24]  211 	call	___sdcc_bcall_ehl
+                                    212 ;src/scripts/maps.c:51: current_song_bank = 5;
+    000000CD 21r00r00         [12]  213 	ld	hl, #_current_song_bank
+    000000D0 36 05            [12]  214 	ld	(hl), #0x05
+                                    215 ;src/scripts/maps.c:52: SWITCH_ROM(current_song_bank);
+    000000D2 3E 05            [ 8]  216 	ld	a, #0x05
+    000000D4 E0r00            [12]  217 	ldh	(__current_bank + 0), a
+    000000D6 21r00r00         [12]  218 	ld	hl, #_rROMB0
+    000000D9 36 05            [12]  219 	ld	(hl), #0x05
+                                    220 ;src/scripts/maps.c:53: hUGE_init(&camp_theme);
+    000000DB 11r00r00         [12]  221 	ld	de, #_camp_theme
+    000000DE CDr00r00         [24]  222 	call	_hUGE_init
+                                    223 ;src/scripts/maps.c:54: SWITCH_ROM(1);
+    000000E1 3E 01            [ 8]  224 	ld	a, #0x01
+    000000E3 E0r00            [12]  225 	ldh	(__current_bank + 0), a
+    000000E5 21r00r00         [12]  226 	ld	hl, #_rROMB0
+    000000E8 36 01            [12]  227 	ld	(hl), #0x01
+                                    228 ;src/scripts/maps.c:55: }
+    000000EA C9               [16]  229 	ret
+    000000EB                        230 _chest_closed:
+    000000EB E1                     231 	.db #0xe1	; 225
+    000000EC E2                     232 	.db #0xe2	; 226
+    000000ED E3                     233 	.db #0xe3	; 227
+    000000EE E4                     234 	.db #0xe4	; 228
+    000000EF E5                     235 	.db #0xe5	; 229
+    000000F0 E6                     236 	.db #0xe6	; 230
+    000000F1 E7                     237 	.db #0xe7	; 231
+    000000F2 E8                     238 	.db #0xe8	; 232
+    000000F3                        239 _chest_opened:
+    000000F3 E9                     240 	.db #0xe9	; 233
+    000000F4 EA                     241 	.db #0xea	; 234
+    000000F5 EB                     242 	.db #0xeb	; 235
+    000000F6 EC                     243 	.db #0xec	; 236
+    000000F7 ED                     244 	.db #0xed	; 237
+    000000F8 EE                     245 	.db #0xee	; 238
+    000000F9 EF                     246 	.db #0xef	; 239
+    000000FA F0                     247 	.db #0xf0	; 240
+                                    248 ;src/scripts/maps.c:58: void hide_camp_sprites() {
+                                    249 ;	---------------------------------
+                                    250 ; Function hide_camp_sprites
+                                    251 ; ---------------------------------
+    000000FB                        252 _hide_camp_sprites::
+                                    253 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    000000FB 21r22r00         [12]  254 	ld	hl, #(_shadow_OAM + 34)
+    000000FE 36 32            [12]  255 	ld	(hl), #0x32
+    00000100 21r26r00         [12]  256 	ld	hl, #(_shadow_OAM + 38)
+    00000103 36 32            [12]  257 	ld	(hl), #0x32
+    00000105 21r2Ar00         [12]  258 	ld	hl, #(_shadow_OAM + 42)
+    00000108 36 32            [12]  259 	ld	(hl), #0x32
+    0000010A 21r2Er00         [12]  260 	ld	hl, #(_shadow_OAM + 46)
+    0000010D 36 32            [12]  261 	ld	(hl), #0x32
+    0000010F 21r32r00         [12]  262 	ld	hl, #(_shadow_OAM + 50)
+    00000112 36 32            [12]  263 	ld	(hl), #0x32
+    00000114 21r36r00         [12]  264 	ld	hl, #(_shadow_OAM + 54)
+    00000117 36 32            [12]  265 	ld	(hl), #0x32
+    00000119 21r3Ar00         [12]  266 	ld	hl, #(_shadow_OAM + 58)
+    0000011C 36 32            [12]  267 	ld	(hl), #0x32
+    0000011E 21r3Er00         [12]  268 	ld	hl, #(_shadow_OAM + 62)
+    00000121 36 32            [12]  269 	ld	(hl), #0x32
+                                    270 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000123 21r20r00         [12]  271 	ld	hl, #(_shadow_OAM + 32)
+                                    272 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000126 AF               [ 4]  273 	xor	a, a
+    00000127 22               [ 8]  274 	ld	(hl+), a
+    00000128 77               [ 8]  275 	ld	(hl), a
+                                    276 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000129 21r24r00         [12]  277 	ld	hl, #(_shadow_OAM + 36)
+                                    278 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000012C AF               [ 4]  279 	xor	a, a
+    0000012D 22               [ 8]  280 	ld	(hl+), a
+    0000012E 77               [ 8]  281 	ld	(hl), a
+                                    282 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000012F 21r28r00         [12]  283 	ld	hl, #(_shadow_OAM + 40)
+                                    284 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000132 AF               [ 4]  285 	xor	a, a
+    00000133 22               [ 8]  286 	ld	(hl+), a
+    00000134 77               [ 8]  287 	ld	(hl), a
+                                    288 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000135 21r2Cr00         [12]  289 	ld	hl, #(_shadow_OAM + 44)
+                                    290 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000138 AF               [ 4]  291 	xor	a, a
+    00000139 22               [ 8]  292 	ld	(hl+), a
+    0000013A 77               [ 8]  293 	ld	(hl), a
+                                    294 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000013B 21r30r00         [12]  295 	ld	hl, #(_shadow_OAM + 48)
+                                    296 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000013E AF               [ 4]  297 	xor	a, a
+    0000013F 22               [ 8]  298 	ld	(hl+), a
+    00000140 77               [ 8]  299 	ld	(hl), a
+                                    300 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000141 21r34r00         [12]  301 	ld	hl, #(_shadow_OAM + 52)
+                                    302 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000144 AF               [ 4]  303 	xor	a, a
+    00000145 22               [ 8]  304 	ld	(hl+), a
+    00000146 77               [ 8]  305 	ld	(hl), a
+                                    306 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000147 21r38r00         [12]  307 	ld	hl, #(_shadow_OAM + 56)
+                                    308 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    0000014A AF               [ 4]  309 	xor	a, a
+    0000014B 22               [ 8]  310 	ld	(hl+), a
+    0000014C 77               [ 8]  311 	ld	(hl), a
+                                    312 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    0000014D 21r3Cr00         [12]  313 	ld	hl, #(_shadow_OAM + 60)
+                                    314 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000150 AF               [ 4]  315 	xor	a, a
+    00000151 22               [ 8]  316 	ld	(hl+), a
+    00000152 77               [ 8]  317 	ld	(hl), a
+                                    318 ;src/scripts/maps.c:77: move_sprite(15, 00, 0);
+                                    319 ;src/scripts/maps.c:78: }
+    00000153 C9               [16]  320 	ret
+                                    321 ;src/scripts/maps.c:80: void set_dungeon_map(){
+                                    322 ;	---------------------------------
+                                    323 ; Function set_dungeon_map
+                                    324 ; ---------------------------------
+    00000154                        325 _set_dungeon_map::
+                                    326 ;src/scripts/maps.c:81: if (current_floor <= 5) {
+    00000154 3E 05            [ 8]  327 	ld	a, #0x05
+    00000156 21r00r00         [12]  328 	ld	hl, #_current_floor
+    00000159 96               [ 8]  329 	sub	a, (hl)
+    0000015A 38 18            [12]  330 	jr	C, 00111$
+                                    331 ;src/scripts/maps.c:82: SWITCH_ROM(2);
+    0000015C 3E 02            [ 8]  332 	ld	a, #0x02
+    0000015E E0r00            [12]  333 	ldh	(__current_bank + 0), a
+    00000160 21r00r00         [12]  334 	ld	hl, #_rROMB0
+    00000163 36 02            [12]  335 	ld	(hl), #0x02
+                                    336 ;src/scripts/maps.c:83: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles);
+    00000165 01r00r00         [12]  337 	ld	bc, #_DungeonTiles+0
+    00000168 C5               [16]  338 	push	bc
+    00000169 21 00 35         [12]  339 	ld	hl, #0x3500
+    0000016C E5               [16]  340 	push	hl
+    0000016D CDr00r00         [24]  341 	call	_set_bkg_data
+    00000170 E8 04            [16]  342 	add	sp, #4
+    00000172 18 76            [12]  343 	jr	00112$
+    00000174                        344 00111$:
+                                    345 ;src/scripts/maps.c:85: else if (current_floor <= 10) {
+    00000174 3E 0A            [ 8]  346 	ld	a, #0x0a
+    00000176 21r00r00         [12]  347 	ld	hl, #_current_floor
+    00000179 96               [ 8]  348 	sub	a, (hl)
+    0000017A 38 18            [12]  349 	jr	C, 00108$
+                                    350 ;src/scripts/maps.c:86: SWITCH_ROM(2);
+    0000017C 3E 02            [ 8]  351 	ld	a, #0x02
+    0000017E E0r00            [12]  352 	ldh	(__current_bank + 0), a
+    00000180 21r00r00         [12]  353 	ld	hl, #_rROMB0
+    00000183 36 02            [12]  354 	ld	(hl), #0x02
+                                    355 ;src/scripts/maps.c:87: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles2);
+    00000185 01r00r00         [12]  356 	ld	bc, #_DungeonTiles2+0
+    00000188 C5               [16]  357 	push	bc
+    00000189 21 00 35         [12]  358 	ld	hl, #0x3500
+    0000018C E5               [16]  359 	push	hl
+    0000018D CDr00r00         [24]  360 	call	_set_bkg_data
+    00000190 E8 04            [16]  361 	add	sp, #4
+    00000192 18 56            [12]  362 	jr	00112$
+    00000194                        363 00108$:
+                                    364 ;src/scripts/maps.c:89: else if (current_floor <= 15) {
+    00000194 3E 0F            [ 8]  365 	ld	a, #0x0f
+    00000196 21r00r00         [12]  366 	ld	hl, #_current_floor
+    00000199 96               [ 8]  367 	sub	a, (hl)
+    0000019A 38 18            [12]  368 	jr	C, 00105$
+                                    369 ;src/scripts/maps.c:90: SWITCH_ROM(5);
+    0000019C 3E 05            [ 8]  370 	ld	a, #0x05
+    0000019E E0r00            [12]  371 	ldh	(__current_bank + 0), a
+    000001A0 21r00r00         [12]  372 	ld	hl, #_rROMB0
+    000001A3 36 05            [12]  373 	ld	(hl), #0x05
+                                    374 ;src/scripts/maps.c:91: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles3);
+    000001A5 01r00r00         [12]  375 	ld	bc, #_DungeonTiles3+0
+    000001A8 C5               [16]  376 	push	bc
+    000001A9 21 00 35         [12]  377 	ld	hl, #0x3500
+    000001AC E5               [16]  378 	push	hl
+    000001AD CDr00r00         [24]  379 	call	_set_bkg_data
+    000001B0 E8 04            [16]  380 	add	sp, #4
+    000001B2 18 36            [12]  381 	jr	00112$
+    000001B4                        382 00105$:
+                                    383 ;src/scripts/maps.c:93: else if (current_floor <= 20) {
+    000001B4 3E 14            [ 8]  384 	ld	a, #0x14
+    000001B6 21r00r00         [12]  385 	ld	hl, #_current_floor
+    000001B9 96               [ 8]  386 	sub	a, (hl)
+    000001BA 38 18            [12]  387 	jr	C, 00102$
+                                    388 ;src/scripts/maps.c:94: SWITCH_ROM(5);
+    000001BC 3E 05            [ 8]  389 	ld	a, #0x05
+    000001BE E0r00            [12]  390 	ldh	(__current_bank + 0), a
+    000001C0 21r00r00         [12]  391 	ld	hl, #_rROMB0
+    000001C3 36 05            [12]  392 	ld	(hl), #0x05
+                                    393 ;src/scripts/maps.c:95: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles4);
+    000001C5 01r00r00         [12]  394 	ld	bc, #_DungeonTiles4+0
+    000001C8 C5               [16]  395 	push	bc
+    000001C9 21 00 35         [12]  396 	ld	hl, #0x3500
+    000001CC E5               [16]  397 	push	hl
+    000001CD CDr00r00         [24]  398 	call	_set_bkg_data
+    000001D0 E8 04            [16]  399 	add	sp, #4
+    000001D2 18 16            [12]  400 	jr	00112$
+    000001D4                        401 00102$:
+                                    402 ;src/scripts/maps.c:98: SWITCH_ROM(5);
+    000001D4 3E 05            [ 8]  403 	ld	a, #0x05
+    000001D6 E0r00            [12]  404 	ldh	(__current_bank + 0), a
+    000001D8 21r00r00         [12]  405 	ld	hl, #_rROMB0
+    000001DB 36 05            [12]  406 	ld	(hl), #0x05
+                                    407 ;src/scripts/maps.c:99: set_bkg_data(0, 53, (const unsigned char *)(uint16_t)DungeonTiles5);
+    000001DD 01r00r00         [12]  408 	ld	bc, #_DungeonTiles5+0
+    000001E0 C5               [16]  409 	push	bc
+    000001E1 21 00 35         [12]  410 	ld	hl, #0x3500
+    000001E4 E5               [16]  411 	push	hl
+    000001E5 CDr00r00         [24]  412 	call	_set_bkg_data
+    000001E8 E8 04            [16]  413 	add	sp, #4
+    000001EA                        414 00112$:
+                                    415 ;src/scripts/maps.c:101: SWITCH_ROM(1);
+    000001EA 3E 01            [ 8]  416 	ld	a, #0x01
+    000001EC E0r00            [12]  417 	ldh	(__current_bank + 0), a
+    000001EE 21r00r00         [12]  418 	ld	hl, #_rROMB0
+    000001F1 36 01            [12]  419 	ld	(hl), #0x01
+                                    420 ;src/scripts/maps.c:102: }
+    000001F3 C9               [16]  421 	ret
+                                    422 ;src/scripts/maps.c:104: void set_room(Coords coord){
+                                    423 ;	---------------------------------
+                                    424 ; Function set_room
+                                    425 ; ---------------------------------
+    000001F4                        426 _set_room::
+    000001F4 E8 FC            [16]  427 	add	sp, #-4
+                                    428 ;src/scripts/maps.c:105: set_dungeon_map();
+    000001F6 CDr54r01         [24]  429 	call	_set_dungeon_map
+                                    430 ;src/scripts/maps.c:106: uint8_t door = doors[coord.x][coord.y];
+    000001F9 21 06 00         [12]  431 	ld	hl, #6
+    000001FC 39               [ 8]  432 	add	hl, sp
+    000001FD 4D               [ 4]  433 	ld	c, l
+    000001FE 44               [ 4]  434 	ld	b, h
+    000001FF 0A               [ 8]  435 	ld	a, (bc)
+    00000200 6F               [ 4]  436 	ld	l, a
+    00000201 07               [ 4]  437 	rlca
+    00000202 9F               [ 4]  438 	sbc	a, a
+    00000203 67               [ 4]  439 	ld	h, a
+    00000204 29               [ 8]  440 	add	hl, hl
+    00000205 29               [ 8]  441 	add	hl, hl
+    00000206 5D               [ 4]  442 	ld	e, l
+    00000207 54               [ 4]  443 	ld	d, h
+    00000208 21r00r00         [12]  444 	ld	hl, #_doors
+    0000020B 19               [ 8]  445 	add	hl, de
+    0000020C E5               [16]  446 	push	hl
+    0000020D 7D               [ 4]  447 	ld	a, l
+    0000020E F8 04            [12]  448 	ldhl	sp,	#4
+    00000210 77               [ 8]  449 	ld	(hl), a
+    00000211 E1               [12]  450 	pop	hl
+    00000212 7C               [ 4]  451 	ld	a, h
+    00000213 F8 03            [12]  452 	ldhl	sp,	#3
+    00000215 77               [ 8]  453 	ld	(hl), a
+    00000216 F8 07            [12]  454 	ldhl	sp,	#7
+    00000218 5E               [ 8]  455 	ld	e, (hl)
+    00000219 16 00            [ 8]  456 	ld	d, #0x00
+    0000021B F8 02            [12]  457 	ldhl	sp,	#2
+    0000021D 2A               [ 8]  458 	ld	a,	(hl+)
+    0000021E 66               [ 8]  459 	ld	h, (hl)
+    0000021F 6F               [ 4]  460 	ld	l, a
+    00000220 19               [ 8]  461 	add	hl, de
+    00000221 5D               [ 4]  462 	ld	e, l
+    00000222 54               [ 4]  463 	ld	d, h
+    00000223 1A               [ 8]  464 	ld	a, (de)
+    00000224 57               [ 4]  465 	ld	d, a
+                                    466 ;src/scripts/maps.c:108: set_room_tiles(door, room_ptr, coord);
+    00000225 C5               [16]  467 	push	bc
+    00000226 21 09 00         [12]  468 	ld	hl,#0x9
+    00000229 39               [ 8]  469 	add	hl,sp
+    0000022A 3A               [ 8]  470 	ld	a, (hl-)
+    0000022B 47               [ 4]  471 	ld	b, a
+    0000022C 4E               [ 8]  472 	ld	c, (hl)
+    0000022D C5               [16]  473 	push	bc
+    0000022E F8 04            [12]  474 	ldhl	sp,	#4
+    00000230 2A               [ 8]  475 	ld	a, (hl+)
+    00000231 66               [ 8]  476 	ld	h, (hl)
+    00000232 6F               [ 4]  477 	ld	l, a
+    00000233 E5               [16]  478 	push	hl
+    00000234 D5               [16]  479 	push	de
+    00000235 33               [ 8]  480 	inc	sp
+    00000236 1Er00            [ 8]  481 	ld	e, #b_set_room_tiles
+    00000238 21r00r00         [12]  482 	ld	hl, #_set_room_tiles
+    0000023B CDr00r00         [24]  483 	call	___sdcc_bcall_ehl
+    0000023E E8 05            [16]  484 	add	sp, #5
+                                    485 ;src/scripts/maps.c:109: hide_door();
+    00000240 1Er00            [ 8]  486 	ld	e, #b_hide_door
+    00000242 21r00r00         [12]  487 	ld	hl, #_hide_door
+    00000245 CDr00r00         [24]  488 	call	___sdcc_bcall_ehl
+    00000248 C1               [12]  489 	pop	bc
+                                    490 ;src/scripts/maps.c:110: if (dungeon[coord.x][coord.y] == 'K') {
+    00000249 0A               [ 8]  491 	ld	a, (bc)
+    0000024A 6F               [ 4]  492 	ld	l, a
+    0000024B 07               [ 4]  493 	rlca
+    0000024C 9F               [ 4]  494 	sbc	a, a
+    0000024D 67               [ 4]  495 	ld	h, a
+    0000024E 29               [ 8]  496 	add	hl, hl
+    0000024F 29               [ 8]  497 	add	hl, hl
+    00000250 5D               [ 4]  498 	ld	e, l
+    00000251 54               [ 4]  499 	ld	d, h
+    00000252 21r00r00         [12]  500 	ld	hl, #_dungeon
+    00000255 19               [ 8]  501 	add	hl, de
+    00000256 E5               [16]  502 	push	hl
+    00000257 7D               [ 4]  503 	ld	a, l
+    00000258 F8 04            [12]  504 	ldhl	sp,	#4
+    0000025A 77               [ 8]  505 	ld	(hl), a
+    0000025B E1               [12]  506 	pop	hl
+    0000025C 7C               [ 4]  507 	ld	a, h
+    0000025D F8 03            [12]  508 	ldhl	sp,	#3
+    0000025F 77               [ 8]  509 	ld	(hl), a
+    00000260 F8 07            [12]  510 	ldhl	sp,	#7
+    00000262 5E               [ 8]  511 	ld	e, (hl)
+    00000263 16 00            [ 8]  512 	ld	d, #0x00
+    00000265 F8 02            [12]  513 	ldhl	sp,	#2
+    00000267 2A               [ 8]  514 	ld	a,	(hl+)
+    00000268 66               [ 8]  515 	ld	h, (hl)
+    00000269 6F               [ 4]  516 	ld	l, a
+    0000026A 19               [ 8]  517 	add	hl, de
+    0000026B 5D               [ 4]  518 	ld	e, l
+    0000026C 54               [ 4]  519 	ld	d, h
+    0000026D 1A               [ 8]  520 	ld	a, (de)
+    0000026E FE 4B            [ 8]  521 	cp	a, #0x4b
+    00000270 20 2E            [12]  522 	jr	NZ, 00124$
+                                    523 ;src/scripts/maps.c:111: if (key_obtained == 0){
+    00000272 FAr00r00         [16]  524 	ld	a, (#_key_obtained)
+    00000275 B7               [ 4]  525 	or	a, a
+    00000276 20 14            [12]  526 	jr	NZ, 00102$
+                                    527 ;src/scripts/maps.c:112: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+    00000278 11rEBr00         [12]  528 	ld	de, #_chest_closed
+    0000027B D5               [16]  529 	push	de
+    0000027C 21 04 02         [12]  530 	ld	hl, #0x204
+    0000027F E5               [16]  531 	push	hl
+    00000280 21 08 06         [12]  532 	ld	hl, #0x608
+    00000283 E5               [16]  533 	push	hl
+    00000284 CDr00r00         [24]  534 	call	_set_bkg_tiles
+    00000287 E8 06            [16]  535 	add	sp, #6
+    00000289 C3r6Er03         [16]  536 	jp	00125$
+    0000028C                        537 00102$:
+                                    538 ;src/scripts/maps.c:115: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+    0000028C 11rF3r00         [12]  539 	ld	de, #_chest_opened
+    0000028F D5               [16]  540 	push	de
+    00000290 21 04 02         [12]  541 	ld	hl, #0x204
+    00000293 E5               [16]  542 	push	hl
+    00000294 21 08 06         [12]  543 	ld	hl, #0x608
+    00000297 E5               [16]  544 	push	hl
+    00000298 CDr00r00         [24]  545 	call	_set_bkg_tiles
+    0000029B E8 06            [16]  546 	add	sp, #6
+    0000029D C3r6Er03         [16]  547 	jp	00125$
+    000002A0                        548 00124$:
+                                    549 ;src/scripts/maps.c:118: else if (dungeon[coord.x][coord.y] == 'L') {
+    000002A0 FE 4C            [ 8]  550 	cp	a, #0x4c
+    000002A2 20 7A            [12]  551 	jr	NZ, 00121$
+                                    552 ;src/scripts/maps.c:119: if (lock_opened == 0) {
+    000002A4 FAr00r00         [16]  553 	ld	a, (#_lock_opened)
+    000002A7 B7               [ 4]  554 	or	a, a
+    000002A8 C2r6Er03         [16]  555 	jp	NZ, 00125$
+                                    556 ;src/scripts/maps.c:120: switch (locked_door) {
+    000002AB FAr00r00         [16]  557 	ld	a, (#_locked_door)
+    000002AE 3D               [ 4]  558 	dec	a
+    000002AF 28 18            [12]  559 	jr	Z, 00104$
+    000002B1 FAr00r00         [16]  560 	ld	a, (#_locked_door)
+    000002B4 D6 02            [ 8]  561 	sub	a, #0x02
+    000002B6 28 27            [12]  562 	jr	Z, 00105$
+    000002B8 FAr00r00         [16]  563 	ld	a, (#_locked_door)
+    000002BB D6 04            [ 8]  564 	sub	a, #0x04
+    000002BD 28 35            [12]  565 	jr	Z, 00106$
+    000002BF FAr00r00         [16]  566 	ld	a, (#_locked_door)
+    000002C2 D6 08            [ 8]  567 	sub	a, #0x08
+    000002C4 28 43            [12]  568 	jr	Z, 00107$
+    000002C6 C3r6Er03         [16]  569 	jp	00125$
+                                    570 ;src/scripts/maps.c:121: case 1:
+    000002C9                        571 00104$:
+                                    572 ;src/scripts/maps.c:122: draw_lock_v(72, 16);
+    000002C9 C5               [16]  573 	push	bc
+    000002CA 3E 10            [ 8]  574 	ld	a, #0x10
+    000002CC F5               [16]  575 	push	af
+    000002CD 33               [ 8]  576 	inc	sp
+    000002CE 3E 48            [ 8]  577 	ld	a, #0x48
+    000002D0 F5               [16]  578 	push	af
+    000002D1 33               [ 8]  579 	inc	sp
+    000002D2 1Er00            [ 8]  580 	ld	e, #b_draw_lock_v
+    000002D4 21r00r00         [12]  581 	ld	hl, #_draw_lock_v
+    000002D7 CDr00r00         [24]  582 	call	___sdcc_bcall_ehl
+    000002DA E1               [12]  583 	pop	hl
+    000002DB C1               [12]  584 	pop	bc
+                                    585 ;src/scripts/maps.c:123: break;
+    000002DC C3r6Er03         [16]  586 	jp	00125$
+                                    587 ;src/scripts/maps.c:124: case 2:
+    000002DF                        588 00105$:
+                                    589 ;src/scripts/maps.c:125: draw_lock_h(152, 80);
+    000002DF C5               [16]  590 	push	bc
+    000002E0 3E 50            [ 8]  591 	ld	a, #0x50
+    000002E2 F5               [16]  592 	push	af
+    000002E3 33               [ 8]  593 	inc	sp
+    000002E4 3E 98            [ 8]  594 	ld	a, #0x98
+    000002E6 F5               [16]  595 	push	af
+    000002E7 33               [ 8]  596 	inc	sp
+    000002E8 1Er00            [ 8]  597 	ld	e, #b_draw_lock_h
+    000002EA 21r00r00         [12]  598 	ld	hl, #_draw_lock_h
+    000002ED CDr00r00         [24]  599 	call	___sdcc_bcall_ehl
+    000002F0 E1               [12]  600 	pop	hl
+    000002F1 C1               [12]  601 	pop	bc
+                                    602 ;src/scripts/maps.c:126: break;
+    000002F2 18 7A            [12]  603 	jr	00125$
+                                    604 ;src/scripts/maps.c:127: case 4:
+    000002F4                        605 00106$:
+                                    606 ;src/scripts/maps.c:128: draw_flip_lock_v(72, 144);
+    000002F4 C5               [16]  607 	push	bc
+    000002F5 3E 90            [ 8]  608 	ld	a, #0x90
+    000002F7 F5               [16]  609 	push	af
+    000002F8 33               [ 8]  610 	inc	sp
+    000002F9 3E 48            [ 8]  611 	ld	a, #0x48
+    000002FB F5               [16]  612 	push	af
+    000002FC 33               [ 8]  613 	inc	sp
+    000002FD 1Er00            [ 8]  614 	ld	e, #b_draw_flip_lock_v
+    000002FF 21r00r00         [12]  615 	ld	hl, #_draw_flip_lock_v
+    00000302 CDr00r00         [24]  616 	call	___sdcc_bcall_ehl
+    00000305 E1               [12]  617 	pop	hl
+    00000306 C1               [12]  618 	pop	bc
+                                    619 ;src/scripts/maps.c:129: break;
+    00000307 18 65            [12]  620 	jr	00125$
+                                    621 ;src/scripts/maps.c:130: case 8:
+    00000309                        622 00107$:
+                                    623 ;src/scripts/maps.c:131: draw_flip_lock_h(8, 80);
+    00000309 C5               [16]  624 	push	bc
+    0000030A 3E 50            [ 8]  625 	ld	a, #0x50
+    0000030C F5               [16]  626 	push	af
+    0000030D 33               [ 8]  627 	inc	sp
+    0000030E 3E 08            [ 8]  628 	ld	a, #0x08
+    00000310 F5               [16]  629 	push	af
+    00000311 33               [ 8]  630 	inc	sp
+    00000312 1Er00            [ 8]  631 	ld	e, #b_draw_flip_lock_h
+    00000314 21r00r00         [12]  632 	ld	hl, #_draw_flip_lock_h
+    00000317 CDr00r00         [24]  633 	call	___sdcc_bcall_ehl
+    0000031A E1               [12]  634 	pop	hl
+    0000031B C1               [12]  635 	pop	bc
+                                    636 ;src/scripts/maps.c:133: }
+    0000031C 18 50            [12]  637 	jr	00125$
+    0000031E                        638 00121$:
+                                    639 ;src/scripts/maps.c:136: else if (dungeon[coord.x][coord.y] == 'T') {
+    0000031E FE 54            [ 8]  640 	cp	a, #0x54
+    00000320 20 2C            [12]  641 	jr	NZ, 00118$
+                                    642 ;src/scripts/maps.c:137: if (treasure_obtained == 0){
+    00000322 FAr00r00         [16]  643 	ld	a, (#_treasure_obtained)
+    00000325 B7               [ 4]  644 	or	a, a
+    00000326 20 13            [12]  645 	jr	NZ, 00112$
+                                    646 ;src/scripts/maps.c:138: set_bkg_tiles(8, 6, 4, 2, chest_closed);
+    00000328 11rEBr00         [12]  647 	ld	de, #_chest_closed
+    0000032B D5               [16]  648 	push	de
+    0000032C 21 04 02         [12]  649 	ld	hl, #0x204
+    0000032F E5               [16]  650 	push	hl
+    00000330 21 08 06         [12]  651 	ld	hl, #0x608
+    00000333 E5               [16]  652 	push	hl
+    00000334 CDr00r00         [24]  653 	call	_set_bkg_tiles
+    00000337 E8 06            [16]  654 	add	sp, #6
+    00000339 18 33            [12]  655 	jr	00125$
+    0000033B                        656 00112$:
+                                    657 ;src/scripts/maps.c:141: set_bkg_tiles(8, 6, 4, 2, chest_opened);
+    0000033B 11rF3r00         [12]  658 	ld	de, #_chest_opened
+    0000033E D5               [16]  659 	push	de
+    0000033F 21 04 02         [12]  660 	ld	hl, #0x204
+    00000342 E5               [16]  661 	push	hl
+    00000343 21 08 06         [12]  662 	ld	hl, #0x608
+    00000346 E5               [16]  663 	push	hl
+    00000347 CDr00r00         [24]  664 	call	_set_bkg_tiles
+    0000034A E8 06            [16]  665 	add	sp, #6
+    0000034C 18 20            [12]  666 	jr	00125$
+    0000034E                        667 00118$:
+                                    668 ;src/scripts/maps.c:144: else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
+    0000034E D6 45            [ 8]  669 	sub	a, #0x45
+    00000350 20 1C            [12]  670 	jr	NZ, 00125$
+    00000352 FAr00r00         [16]  671 	ld	a, (_current_floor)
+    00000355 C5               [16]  672 	push	bc
+    00000356 1E 05            [ 8]  673 	ld	e, #0x05
+    00000358 CDr00r00         [24]  674 	call	__moduchar
+    0000035B 79               [ 4]  675 	ld	a, c
+    0000035C C1               [12]  676 	pop	bc
+    0000035D B7               [ 4]  677 	or	a, a
+    0000035E 28 0E            [12]  678 	jr	Z, 00125$
+                                    679 ;src/scripts/maps.c:145: set_bkg_tiles(2, 2, 2, 2, stairs);
+    00000360 11r00r00         [12]  680 	ld	de, #_stairs
+    00000363 D5               [16]  681 	push	de
+    00000364 21 02 02         [12]  682 	ld	hl, #0x202
+    00000367 E5               [16]  683 	push	hl
+    00000368 E5               [16]  684 	push	hl
+    00000369 CDr00r00         [24]  685 	call	_set_bkg_tiles
+    0000036C E8 06            [16]  686 	add	sp, #6
+    0000036E                        687 00125$:
+                                    688 ;src/scripts/maps.c:148: spawn_enemies_in_room(coord.x, coord.y, current_enemies);
+    0000036E F8 07            [12]  689 	ldhl	sp,	#7
+    00000370 66               [ 8]  690 	ld	h, (hl)
+    00000371 0A               [ 8]  691 	ld	a, (bc)
+    00000372 6F               [ 4]  692 	ld	l, a
+    00000373 C5               [16]  693 	push	bc
+    00000374 11r00r00         [12]  694 	ld	de, #_current_enemies
+    00000377 D5               [16]  695 	push	de
+    00000378 E5               [16]  696 	push	hl
+    00000379 7D               [ 4]  697 	ld	a, l
+    0000037A 33               [ 8]  698 	inc	sp
+    0000037B F5               [16]  699 	push	af
+    0000037C 33               [ 8]  700 	inc	sp
+    0000037D 1Er00            [ 8]  701 	ld	e, #b_spawn_enemies_in_room
+    0000037F 21r00r00         [12]  702 	ld	hl, #_spawn_enemies_in_room
+    00000382 CDr00r00         [24]  703 	call	___sdcc_bcall_ehl
+    00000385 E8 04            [16]  704 	add	sp, #4
+                                    705 ;src/scripts/maps.c:149: clear_drops();
+    00000387 CDr00r00         [24]  706 	call	_clear_drops
+    0000038A C1               [12]  707 	pop	bc
+                                    708 ;src/scripts/maps.c:150: if (dungeon[coord.x][coord.y] != 'E') {
+    0000038B 0A               [ 8]  709 	ld	a, (bc)
+    0000038C 6F               [ 4]  710 	ld	l, a
+    0000038D 07               [ 4]  711 	rlca
+    0000038E 9F               [ 4]  712 	sbc	a, a
+    0000038F 67               [ 4]  713 	ld	h, a
+    00000390 29               [ 8]  714 	add	hl, hl
+    00000391 29               [ 8]  715 	add	hl, hl
+    00000392 7D               [ 4]  716 	ld	a, l
+    00000393 C6r00            [ 8]  717 	add	a, #<(_dungeon)
+    00000395 4F               [ 4]  718 	ld	c, a
+    00000396 7C               [ 4]  719 	ld	a, h
+    00000397 CEs00            [ 8]  720 	adc	a, #>(_dungeon)
+    00000399 47               [ 4]  721 	ld	b, a
+    0000039A F8 07            [12]  722 	ldhl	sp,	#7
+    0000039C 6E               [ 8]  723 	ld	l, (hl)
+    0000039D 26 00            [ 8]  724 	ld	h, #0x00
+    0000039F 09               [ 8]  725 	add	hl, bc
+    000003A0 7E               [ 8]  726 	ld	a, (hl)
+    000003A1 D6 45            [ 8]  727 	sub	a, #0x45
+    000003A3 28 0B            [12]  728 	jr	Z, 00131$
+                                    729 ;src/scripts/maps.c:151: set_enemy_sprite();
+    000003A5 1Er00            [ 8]  730 	ld	e, #b_set_enemy_sprite
+    000003A7 21r00r00         [12]  731 	ld	hl, #_set_enemy_sprite
+    000003AA CDr00r00         [24]  732 	call	___sdcc_bcall_ehl
+    000003AD C3r35r04         [16]  733 	jp	00132$
+    000003B0                        734 00131$:
+                                    735 ;src/scripts/maps.c:153: else if (current_floor % 5 == 0 && boss_floor_defeated == 0) {
+    000003B0 FAr00r00         [16]  736 	ld	a, (_current_floor)
+    000003B3 1E 05            [ 8]  737 	ld	e, #0x05
+    000003B5 CDr00r00         [24]  738 	call	__moduchar
+    000003B8 79               [ 4]  739 	ld	a, c
+    000003B9 B7               [ 4]  740 	or	a, a
+    000003BA 20 79            [12]  741 	jr	NZ, 00132$
+    000003BC FAr00r00         [16]  742 	ld	a, (#_boss_floor_defeated)
+    000003BF B7               [ 4]  743 	or	a, a
+    000003C0 20 73            [12]  744 	jr	NZ, 00132$
+                                    745 ;src/scripts/maps.c:154: boss_battle = 1;
+    000003C2 21r00r00         [12]  746 	ld	hl, #_boss_battle
+    000003C5 36 01            [12]  747 	ld	(hl), #0x01
+                                    748 ;src/scripts/maps.c:155: spawn_boss(&boss);
+    000003C7 11r00r00         [12]  749 	ld	de, #_boss
+    000003CA D5               [16]  750 	push	de
+    000003CB 1Er00            [ 8]  751 	ld	e, #b_spawn_boss
+    000003CD 21r00r00         [12]  752 	ld	hl, #_spawn_boss
+    000003D0 CDr00r00         [24]  753 	call	___sdcc_bcall_ehl
+    000003D3 E1               [12]  754 	pop	hl
+                                    755 ;src/scripts/maps.c:156: smooth_movement(last_direction);
+    000003D4 FAr00r00         [16]  756 	ld	a, (_last_direction)
+    000003D7 CDr00r00         [24]  757 	call	_smooth_movement
+                                    758 ;src/scripts/maps.c:157: SWITCH_ROM(2);
+    000003DA 3E 02            [ 8]  759 	ld	a, #0x02
+    000003DC E0r00            [12]  760 	ldh	(__current_bank + 0), a
+    000003DE 21r00r00         [12]  761 	ld	hl, #_rROMB0
+    000003E1 36 02            [12]  762 	ld	(hl), #0x02
+    000003E3 11 00 00         [12]  763 	ld	de, #0x0000
+    000003E6                        764 00134$:
+                                    765 ;src/scripts/maps.c:158: for (uint16_t i; i<360; i++) {
+    000003E6 4B               [ 4]  766 	ld	c, e
+    000003E7 42               [ 4]  767 	ld	b, d
+    000003E8 79               [ 4]  768 	ld	a, c
+    000003E9 D6 68            [ 8]  769 	sub	a, #0x68
+    000003EB 78               [ 4]  770 	ld	a, b
+    000003EC DE 01            [ 8]  771 	sbc	a, #0x01
+    000003EE 30 0F            [12]  772 	jr	NC, 00126$
+                                    773 ;src/scripts/maps.c:159: current_room[i] = NoExit[i];
+    000003F0 21r00r00         [12]  774 	ld	hl, #_current_room
+    000003F3 19               [ 8]  775 	add	hl, de
+    000003F4 4D               [ 4]  776 	ld	c, l
+    000003F5 44               [ 4]  777 	ld	b, h
+    000003F6 21r00r00         [12]  778 	ld	hl, #_NoExit
+    000003F9 19               [ 8]  779 	add	hl, de
+    000003FA 7E               [ 8]  780 	ld	a, (hl)
+    000003FB 02               [ 8]  781 	ld	(bc), a
+                                    782 ;src/scripts/maps.c:158: for (uint16_t i; i<360; i++) {
+    000003FC 13               [ 8]  783 	inc	de
+    000003FD 18 E7            [12]  784 	jr	00134$
+    000003FF                        785 00126$:
+                                    786 ;src/scripts/maps.c:161: set_bkg_tiles(0, 0, 20, 18, current_room);
+    000003FF 11r00r00         [12]  787 	ld	de, #_current_room
+    00000402 D5               [16]  788 	push	de
+    00000403 21 14 12         [12]  789 	ld	hl, #0x1214
+    00000406 E5               [16]  790 	push	hl
+    00000407 AF               [ 4]  791 	xor	a, a
+    00000408 0F               [ 4]  792 	rrca
+    00000409 F5               [16]  793 	push	af
+    0000040A CDr00r00         [24]  794 	call	_set_bkg_tiles
+    0000040D E8 06            [16]  795 	add	sp, #6
+                                    796 ;src/scripts/maps.c:162: SWITCH_ROM(1);
+    0000040F 3E 01            [ 8]  797 	ld	a, #0x01
+    00000411 E0r00            [12]  798 	ldh	(__current_bank + 0), a
+    00000413 21r00r00         [12]  799 	ld	hl, #_rROMB0
+    00000416 36 01            [12]  800 	ld	(hl), #0x01
+                                    801 ;src/scripts/maps.c:163: current_song_bank = 4;
+    00000418 21r00r00         [12]  802 	ld	hl, #_current_song_bank
+    0000041B 36 04            [12]  803 	ld	(hl), #0x04
+                                    804 ;src/scripts/maps.c:164: SWITCH_ROM(current_song_bank);
+    0000041D 3E 04            [ 8]  805 	ld	a, #0x04
+    0000041F E0r00            [12]  806 	ldh	(__current_bank + 0), a
+    00000421 21r00r00         [12]  807 	ld	hl, #_rROMB0
+    00000424 36 04            [12]  808 	ld	(hl), #0x04
+                                    809 ;src/scripts/maps.c:165: hUGE_init(&boss_theme);
+    00000426 11r00r00         [12]  810 	ld	de, #_boss_theme
+    00000429 CDr00r00         [24]  811 	call	_hUGE_init
+                                    812 ;src/scripts/maps.c:166: SWITCH_ROM(1);
+    0000042C 3E 01            [ 8]  813 	ld	a, #0x01
+    0000042E E0r00            [12]  814 	ldh	(__current_bank + 0), a
+    00000430 21r00r00         [12]  815 	ld	hl, #_rROMB0
+    00000433 36 01            [12]  816 	ld	(hl), #0x01
+    00000435                        817 00132$:
+                                    818 ;src/scripts/maps.c:168: DISPLAY_ON;
+    00000435 F0r00            [12]  819 	ldh	a, (_LCDC_REG + 0)
+    00000437 F6 80            [ 8]  820 	or	a, #0x80
+    00000439 E0r00            [12]  821 	ldh	(_LCDC_REG + 0), a
+                                    822 ;src/scripts/maps.c:169: }
+    0000043B E8 04            [16]  823 	add	sp, #4
+    0000043D E1               [12]  824 	pop	hl
+    0000043E F1               [12]  825 	pop	af
+    0000043F E9               [ 4]  826 	jp	(hl)
+                                    827 ;src/scripts/maps.c:171: void change_room() {
+                                    828 ;	---------------------------------
+                                    829 ; Function change_room
+                                    830 ; ---------------------------------
+    00000440                        831 _change_room::
+                                    832 ;src/scripts/maps.c:172: if (x > 160 && x < 240) {
+    00000440 3E A0            [ 8]  833 	ld	a, #0xa0
+    00000442 21r00r00         [12]  834 	ld	hl, #_x
+    00000445 96               [ 8]  835 	sub	a, (hl)
+    00000446 30 1D            [12]  836 	jr	NC, 00110$
+    00000448 7E               [ 8]  837 	ld	a, (hl)
+    00000449 D6 F0            [ 8]  838 	sub	a, #0xf0
+    0000044B 30 18            [12]  839 	jr	NC, 00110$
+                                    840 ;src/scripts/maps.c:173: player_coords.x++;
+    0000044D 21r00r00         [12]  841 	ld	hl, #_player_coords
+    00000450 34               [12]  842 	inc	(hl)
+    00000451 7E               [ 8]  843 	ld	a, (hl)
+                                    844 ;src/scripts/maps.c:174: x = 8;
+    00000452 21r00r00         [12]  845 	ld	hl, #_x
+    00000455 36 08            [12]  846 	ld	(hl), #0x08
+                                    847 ;src/scripts/maps.c:175: set_room(player_coords);
+    00000457 21r00r00         [12]  848 	ld	hl, #_player_coords
+    0000045A 23               [ 8]  849 	inc	hl
+    0000045B 3A               [ 8]  850 	ld	a, (hl-)
+    0000045C 47               [ 4]  851 	ld	b, a
+    0000045D 4E               [ 8]  852 	ld	c, (hl)
+    0000045E C5               [16]  853 	push	bc
+    0000045F CDrF4r01         [24]  854 	call	_set_room
+    00000462 C3r00r00         [16]  855 	jp	_move_character
+    00000465                        856 00110$:
+                                    857 ;src/scripts/maps.c:177: else if (x > 240) {
+    00000465 3E F0            [ 8]  858 	ld	a, #0xf0
+    00000467 21r00r00         [12]  859 	ld	hl, #_x
+    0000046A 96               [ 8]  860 	sub	a, (hl)
+    0000046B 30 18            [12]  861 	jr	NC, 00107$
+                                    862 ;src/scripts/maps.c:178: player_coords.x--;
+    0000046D 21r00r00         [12]  863 	ld	hl, #_player_coords
+    00000470 35               [12]  864 	dec	(hl)
+    00000471 7E               [ 8]  865 	ld	a, (hl)
+                                    866 ;src/scripts/maps.c:179: x = 152;
+    00000472 21r00r00         [12]  867 	ld	hl, #_x
+    00000475 36 98            [12]  868 	ld	(hl), #0x98
+                                    869 ;src/scripts/maps.c:180: set_room(player_coords);
+    00000477 21r00r00         [12]  870 	ld	hl, #_player_coords
+    0000047A 23               [ 8]  871 	inc	hl
+    0000047B 3A               [ 8]  872 	ld	a, (hl-)
+    0000047C 47               [ 4]  873 	ld	b, a
+    0000047D 4E               [ 8]  874 	ld	c, (hl)
+    0000047E C5               [16]  875 	push	bc
+    0000047F CDrF4r01         [24]  876 	call	_set_room
+    00000482 C3r00r00         [16]  877 	jp	_move_character
+    00000485                        878 00107$:
+                                    879 ;src/scripts/maps.c:182: else if (y > 144) {
+    00000485 3E 90            [ 8]  880 	ld	a, #0x90
+    00000487 21r00r00         [12]  881 	ld	hl, #_y
+    0000048A 96               [ 8]  882 	sub	a, (hl)
+    0000048B 30 22            [12]  883 	jr	NC, 00104$
+                                    884 ;src/scripts/maps.c:183: player_coords.y++;
+    0000048D 21r01r00         [12]  885 	ld	hl, #_player_coords + 1
+    00000490 34               [12]  886 	inc	(hl)
+    00000491 7E               [ 8]  887 	ld	a, (hl)
+                                    888 ;src/scripts/maps.c:184: y = 16;
+    00000492 21r00r00         [12]  889 	ld	hl, #_y
+    00000495 36 10            [12]  890 	ld	(hl), #0x10
+                                    891 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000497 21r1Ar00         [12]  892 	ld	hl, #(_shadow_OAM + 26)
+    0000049A 36 02            [12]  893 	ld	(hl), #0x02
+    0000049C 21r1Er00         [12]  894 	ld	hl, #(_shadow_OAM + 30)
+    0000049F 36 03            [12]  895 	ld	(hl), #0x03
+                                    896 ;src/scripts/maps.c:187: set_room(player_coords);
+    000004A1 21r00r00         [12]  897 	ld	hl, #_player_coords
+    000004A4 23               [ 8]  898 	inc	hl
+    000004A5 3A               [ 8]  899 	ld	a, (hl-)
+    000004A6 47               [ 4]  900 	ld	b, a
+    000004A7 4E               [ 8]  901 	ld	c, (hl)
+    000004A8 C5               [16]  902 	push	bc
+    000004A9 CDrF4r01         [24]  903 	call	_set_room
+    000004AC C3r00r00         [16]  904 	jp	_move_character
+    000004AF                        905 00104$:
+                                    906 ;src/scripts/maps.c:189: else if (y < 8) {
+    000004AF FAr00r00         [16]  907 	ld	a, (#_y)
+    000004B2 D6 08            [ 8]  908 	sub	a, #0x08
+    000004B4 D2r00r00         [16]  909 	jp	NC, _move_character
+                                    910 ;src/scripts/maps.c:190: player_coords.y--;
+    000004B7 21r01r00         [12]  911 	ld	hl, #_player_coords + 1
+    000004BA 35               [12]  912 	dec	(hl)
+    000004BB 7E               [ 8]  913 	ld	a, (hl)
+                                    914 ;src/scripts/maps.c:191: y = 144;
+    000004BC 21r00r00         [12]  915 	ld	hl, #_y
+    000004BF 36 90            [12]  916 	ld	(hl), #0x90
+                                    917 ;src/scripts/maps.c:192: set_room(player_coords);
+    000004C1 21r00r00         [12]  918 	ld	hl, #_player_coords
+    000004C4 23               [ 8]  919 	inc	hl
+    000004C5 3A               [ 8]  920 	ld	a, (hl-)
+    000004C6 47               [ 4]  921 	ld	b, a
+    000004C7 4E               [ 8]  922 	ld	c, (hl)
+    000004C8 C5               [16]  923 	push	bc
+    000004C9 CDrF4r01         [24]  924 	call	_set_room
+                                    925 ;src/scripts/maps.c:194: move_character();
+                                    926 ;src/scripts/maps.c:195: }
+    000004CC C3r00r00         [16]  927 	jp	_move_character
+                                    928 ;src/scripts/maps.c:197: void return_to_camp() {
+                                    929 ;	---------------------------------
+                                    930 ; Function return_to_camp
+                                    931 ; ---------------------------------
+    000004CF                        932 _return_to_camp::
+                                    933 ;src/scripts/maps.c:198: menu_opened = 0;
+    000004CF AF               [ 4]  934 	xor	a, a
+    000004D0 EAr00r00         [16]  935 	ld	(#_menu_opened),a
+                                    936 ;src/scripts/maps.c:199: current_song_bank = 3;
+    000004D3 21r00r00         [12]  937 	ld	hl, #_current_song_bank
+    000004D6 36 03            [12]  938 	ld	(hl), #0x03
+                                    939 ;src/scripts/maps.c:200: SWITCH_ROM(current_song_bank);
+    000004D8 3E 03            [ 8]  940 	ld	a, #0x03
+    000004DA E0r00            [12]  941 	ldh	(__current_bank + 0), a
+    000004DC 21r00r00         [12]  942 	ld	hl, #_rROMB0
+    000004DF 36 03            [12]  943 	ld	(hl), #0x03
+                                    944 ;src/scripts/maps.c:201: hUGE_init(&gameover_jingle);
+    000004E1 11r00r00         [12]  945 	ld	de, #_gameover_jingle
+    000004E4 CDr00r00         [24]  946 	call	_hUGE_init
+                                    947 ;src/scripts/maps.c:202: SWITCH_ROM(1);
+    000004E7 3E 01            [ 8]  948 	ld	a, #0x01
+    000004E9 E0r00            [12]  949 	ldh	(__current_bank + 0), a
+    000004EB 21r00r00         [12]  950 	ld	hl, #_rROMB0
+    000004EE 36 01            [12]  951 	ld	(hl), #0x01
+                                    952 ;src/scripts/maps.c:203: game_over();
+    000004F0 1Er00            [ 8]  953 	ld	e, #b_game_over
+    000004F2 21r00r00         [12]  954 	ld	hl, #_game_over
+    000004F5 CDr00r00         [24]  955 	call	___sdcc_bcall_ehl
+                                    956 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    000004F8 3E 07            [ 8]  957 	ld	a, #0x07
+    000004FA E0r00            [12]  958 	ldh	(_WX_REG + 0), a
+    000004FC 3E 88            [ 8]  959 	ld	a, #0x88
+    000004FE E0r00            [12]  960 	ldh	(_WY_REG + 0), a
+                                    961 ;src/scripts/maps.c:205: set_mini_menu();
+    00000500 1Er00            [ 8]  962 	ld	e, #b_set_mini_menu
+    00000502 21r00r00         [12]  963 	ld	hl, #_set_mini_menu
+    00000505 CDr00r00         [24]  964 	call	___sdcc_bcall_ehl
+                                    965 ;src/scripts/maps.c:206: set_camp_map();
+    00000508 CDr00r00         [24]  966 	call	_set_camp_map
+                                    967 ;src/scripts/maps.c:207: x = 120;
+    0000050B 21r00r00         [12]  968 	ld	hl, #_x
+    0000050E 36 78            [12]  969 	ld	(hl), #0x78
+                                    970 ;src/scripts/maps.c:208: y = 112;
+    00000510 21r00r00         [12]  971 	ld	hl, #_y
+    00000513 36 70            [12]  972 	ld	(hl), #0x70
+                                    973 ;src/scripts/maps.c:209: move_character();
+    00000515 CDr00r00         [24]  974 	call	_move_character
+                                    975 ;src/scripts/maps.c:210: delay(100);
+    00000518 11 64 00         [12]  976 	ld	de, #0x0064
+    0000051B CDr00r00         [24]  977 	call	_delay
+                                    978 ;src/scripts/maps.c:211: SHOW_WIN;
+    0000051E F0r00            [12]  979 	ldh	a, (_LCDC_REG + 0)
+    00000520 F6 20            [ 8]  980 	or	a, #0x20
+    00000522 E0r00            [12]  981 	ldh	(_LCDC_REG + 0), a
+                                    982 ;src/scripts/maps.c:212: DISPLAY_ON;
+    00000524 F0r00            [12]  983 	ldh	a, (_LCDC_REG + 0)
+    00000526 F6 80            [ 8]  984 	or	a, #0x80
+    00000528 E0r00            [12]  985 	ldh	(_LCDC_REG + 0), a
+                                    986 ;src/scripts/maps.c:213: return;
+                                    987 ;src/scripts/maps.c:214: }
+    0000052A C9               [16]  988 	ret
+                                    989 ;src/scripts/maps.c:216: void go_into_dungeon() {
+                                    990 ;	---------------------------------
+                                    991 ; Function go_into_dungeon
+                                    992 ; ---------------------------------
+    0000052B                        993 _go_into_dungeon::
+    0000052B E8 FA            [16]  994 	add	sp, #-6
+                                    995 ;src/scripts/maps.c:217: wait_vbl_done();
+    0000052D CDr00r00         [24]  996 	call	_wait_vbl_done
+                                    997 ;src/scripts/maps.c:218: DISPLAY_OFF;
+    00000530 CDr00r00         [24]  998 	call	_display_off
+                                    999 ;src/scripts/maps.c:219: generate_dungeon(current_floor);
+    00000533 FAr00r00         [16] 1000 	ld	a, (_current_floor)
+    00000536 F5               [16] 1001 	push	af
+    00000537 33               [ 8] 1002 	inc	sp
+    00000538 1Er00            [ 8] 1003 	ld	e, #b_generate_dungeon
+    0000053A 21r00r00         [12] 1004 	ld	hl, #_generate_dungeon
+    0000053D CDr00r00         [24] 1005 	call	___sdcc_bcall_ehl
+    00000540 33               [ 8] 1006 	inc	sp
+                                   1007 ;src/scripts/maps.c:221: for (int i = 0; i < 4; i++) {
+    00000541 01 00 00         [12] 1008 	ld	bc, #0x0000
+    00000544                       1009 00111$:
+                                   1010 ;src/scripts/maps.c:222: for (int j = 0; j < 4; j++) {
+    00000544 79               [ 4] 1011 	ld	a,c
+    00000545 FE 04            [ 8] 1012 	cp	a,#0x04
+    00000547 30 55            [12] 1013 	jr	NC, 00104$
+    00000549 50               [ 4] 1014 	ld	d, b
+    0000054A 87               [ 4] 1015 	add	a, a
+    0000054B CB 12            [ 8] 1016 	rl	d
+    0000054D 87               [ 4] 1017 	add	a, a
+    0000054E CB 12            [ 8] 1018 	rl	d
+    00000550 5F               [ 4] 1019 	ld	e, a
+    00000551 21r00r00         [12] 1020 	ld	hl, #_dungeon
+    00000554 19               [ 8] 1021 	add	hl, de
+    00000555 E5               [16] 1022 	push	hl
+    00000556 7D               [ 4] 1023 	ld	a, l
+    00000557 F8 04            [12] 1024 	ldhl	sp,	#4
+    00000559 77               [ 8] 1025 	ld	(hl), a
+    0000055A E1               [12] 1026 	pop	hl
+    0000055B 7C               [ 4] 1027 	ld	a, h
+    0000055C F8 03            [12] 1028 	ldhl	sp,	#3
+    0000055E 22               [ 8] 1029 	ld	(hl+), a
+    0000055F 23               [ 8] 1030 	inc	hl
+    00000560 36 00            [12] 1031 	ld	(hl), #0x00
+    00000562                       1032 00108$:
+    00000562 F8 05            [12] 1033 	ldhl	sp,	#5
+    00000564 7E               [ 8] 1034 	ld	a, (hl)
+    00000565 D6 04            [ 8] 1035 	sub	a, #0x04
+    00000567 30 32            [12] 1036 	jr	NC, 00112$
+                                   1037 ;src/scripts/maps.c:223: if (dungeon[i][j] == 'S') {
+    00000569 2B               [ 8] 1038 	dec	hl
+    0000056A 2B               [ 8] 1039 	dec	hl
+    0000056B 2B               [ 8] 1040 	dec	hl
+    0000056C 2A               [ 8] 1041 	ld	a, (hl+)
+    0000056D 5F               [ 4] 1042 	ld	e, a
+    0000056E 2A               [ 8] 1043 	ld	a, (hl+)
+    0000056F 23               [ 8] 1044 	inc	hl
+    00000570 57               [ 4] 1045 	ld	d, a
+    00000571 6E               [ 8] 1046 	ld	l, (hl)
+    00000572 26 00            [ 8] 1047 	ld	h, #0x00
+    00000574 19               [ 8] 1048 	add	hl, de
+    00000575 5D               [ 4] 1049 	ld	e, l
+    00000576 54               [ 4] 1050 	ld	d, h
+    00000577 1A               [ 8] 1051 	ld	a, (de)
+    00000578 D6 53            [ 8] 1052 	sub	a, #0x53
+    0000057A 20 1A            [12] 1053 	jr	NZ, 00109$
+                                   1054 ;src/scripts/maps.c:224: start.x = i;
+    0000057C F8 04            [12] 1055 	ldhl	sp,	#4
+    0000057E 71               [ 8] 1056 	ld	(hl), c
+    0000057F 7E               [ 8] 1057 	ld	a, (hl)
+    00000580 F8 00            [12] 1058 	ldhl	sp,	#0
+    00000582 77               [ 8] 1059 	ld	(hl), a
+                                   1060 ;src/scripts/maps.c:225: start.y = j;
+    00000583 F8 05            [12] 1061 	ldhl	sp,	#5
+    00000585 7E               [ 8] 1062 	ld	a, (hl)
+    00000586 F8 01            [12] 1063 	ldhl	sp,	#1
+    00000588 77               [ 8] 1064 	ld	(hl), a
+                                   1065 ;src/scripts/maps.c:226: player_coords.x = i;
+    00000589 11r00r00         [12] 1066 	ld	de, #_player_coords
+    0000058C F5               [16] 1067 	push	af
+    0000058D F8 06            [12] 1068 	ldhl	sp,	#6
+    0000058F 7E               [ 8] 1069 	ld	a, (hl)
+    00000590 12               [ 8] 1070 	ld	(de), a
+    00000591 F1               [12] 1071 	pop	af
+                                   1072 ;src/scripts/maps.c:227: player_coords.y = j;
+    00000592 11r01r00         [12] 1073 	ld	de, #_player_coords + 1
+    00000595 12               [ 8] 1074 	ld	(de), a
+    00000596                       1075 00109$:
+                                   1076 ;src/scripts/maps.c:222: for (int j = 0; j < 4; j++) {
+    00000596 F8 05            [12] 1077 	ldhl	sp,	#5
+    00000598 34               [12] 1078 	inc	(hl)
+    00000599 18 C7            [12] 1079 	jr	00108$
+    0000059B                       1080 00112$:
+                                   1081 ;src/scripts/maps.c:221: for (int i = 0; i < 4; i++) {
+    0000059B 03               [ 8] 1082 	inc	bc
+    0000059C 18 A6            [12] 1083 	jr	00111$
+    0000059E                       1084 00104$:
+                                   1085 ;src/scripts/maps.c:231: set_room(start);
+    0000059E 21 01 00         [12] 1086 	ld	hl,#0x1
+    000005A1 39               [ 8] 1087 	add	hl,sp
+    000005A2 3A               [ 8] 1088 	ld	a, (hl-)
+    000005A3 47               [ 4] 1089 	ld	b, a
+    000005A4 4E               [ 8] 1090 	ld	c, (hl)
+    000005A5 C5               [16] 1091 	push	bc
+    000005A6 CDrF4r01         [24] 1092 	call	_set_room
+                                   1093 ;src/scripts/maps.c:232: if (max_floor == 0) {
+    000005A9 21r00r00         [12] 1094 	ld	hl, #_max_floor
+    000005AC 7E               [ 8] 1095 	ld	a, (hl)
+    000005AD B7               [ 4] 1096 	or	a, a
+    000005AE 20 02            [12] 1097 	jr	NZ, 00113$
+                                   1098 ;src/scripts/maps.c:233: max_floor = 1;
+    000005B0 36 01            [12] 1099 	ld	(hl), #0x01
+    000005B2                       1100 00113$:
+                                   1101 ;src/scripts/maps.c:235: }
+    000005B2 E8 06            [16] 1102 	add	sp, #6
+    000005B4 C9               [16] 1103 	ret
+                                   1104 ;src/scripts/maps.c:237: void go_next_floor() {
+                                   1105 ;	---------------------------------
+                                   1106 ; Function go_next_floor
+                                   1107 ; ---------------------------------
+    000005B5                       1108 _go_next_floor::
+    000005B5 E8 FA            [16] 1109 	add	sp, #-6
+                                   1110 ;src/scripts/maps.c:238: current_floor++;
+    000005B7 21r00r00         [12] 1111 	ld	hl, #_current_floor
+    000005BA 34               [12] 1112 	inc	(hl)
+                                   1113 ;src/scripts/maps.c:239: if (current_floor % 5 == 0) {
+    000005BB 7E               [ 8] 1114 	ld	a, (hl)
+    000005BC 1E 05            [ 8] 1115 	ld	e, #0x05
+    000005BE CDr00r00         [24] 1116 	call	__moduchar
+    000005C1 79               [ 4] 1117 	ld	a, c
+    000005C2 B7               [ 4] 1118 	or	a, a
+    000005C3 20 09            [12] 1119 	jr	NZ, 00102$
+                                   1120 ;src/scripts/maps.c:240: boss.defeated = 1;
+    000005C5 21r09r00         [12] 1121 	ld	hl, #(_boss + 9)
+    000005C8 36 01            [12] 1122 	ld	(hl), #0x01
+                                   1123 ;src/scripts/maps.c:241: boss_floor_defeated = 0;
+    000005CA AF               [ 4] 1124 	xor	a, a
+    000005CB EAr00r00         [16] 1125 	ld	(#_boss_floor_defeated),a
+    000005CE                       1126 00102$:
+                                   1127 ;src/scripts/maps.c:243: if (current_floor > max_floor) {
+    000005CE FAr00r00         [16] 1128 	ld	a, (#_max_floor)
+    000005D1 21r00r00         [12] 1129 	ld	hl, #_current_floor
+    000005D4 96               [ 8] 1130 	sub	a, (hl)
+    000005D5 30 04            [12] 1131 	jr	NC, 00104$
+                                   1132 ;src/scripts/maps.c:244: max_floor = current_floor;
+    000005D7 7E               [ 8] 1133 	ld	a, (hl)
+    000005D8 EAr00r00         [16] 1134 	ld	(#_max_floor),a
+    000005DB                       1135 00104$:
+                                   1136 ;src/scripts/maps.c:246: key_obtained = 0;
+                                   1137 ;src/scripts/maps.c:247: treasure_obtained = 0;
+    000005DB AF               [ 4] 1138 	xor	a, a
+    000005DC EAr00r00         [16] 1139 	ld	(#_key_obtained), a
+    000005DF EAr00r00         [16] 1140 	ld	(#_treasure_obtained),a
+                                   1141 ;src/scripts/maps.c:248: lock_opened = 0;
+    000005E2 AF               [ 4] 1142 	xor	a, a
+    000005E3 EAr00r00         [16] 1143 	ld	(#_lock_opened),a
+                                   1144 ;src/scripts/maps.c:249: generate_dungeon(current_floor);
+    000005E6 FAr00r00         [16] 1145 	ld	a, (_current_floor)
+    000005E9 F5               [16] 1146 	push	af
+    000005EA 33               [ 8] 1147 	inc	sp
+    000005EB 1Er00            [ 8] 1148 	ld	e, #b_generate_dungeon
+    000005ED 21r00r00         [12] 1149 	ld	hl, #_generate_dungeon
+    000005F0 CDr00r00         [24] 1150 	call	___sdcc_bcall_ehl
+    000005F3 33               [ 8] 1151 	inc	sp
+                                   1152 ;src/scripts/maps.c:251: for (int i = 0; i < 4; i++) {
+    000005F4 01 00 00         [12] 1153 	ld	bc, #0x0000
+    000005F7                       1154 00113$:
+                                   1155 ;src/scripts/maps.c:252: for (int j = 0; j < 4; j++) {
+    000005F7 79               [ 4] 1156 	ld	a,c
+    000005F8 FE 04            [ 8] 1157 	cp	a,#0x04
+    000005FA 30 55            [12] 1158 	jr	NC, 00108$
+    000005FC 50               [ 4] 1159 	ld	d, b
+    000005FD 87               [ 4] 1160 	add	a, a
+    000005FE CB 12            [ 8] 1161 	rl	d
+    00000600 87               [ 4] 1162 	add	a, a
+    00000601 CB 12            [ 8] 1163 	rl	d
+    00000603 5F               [ 4] 1164 	ld	e, a
+    00000604 21r00r00         [12] 1165 	ld	hl, #_dungeon
+    00000607 19               [ 8] 1166 	add	hl, de
+    00000608 E5               [16] 1167 	push	hl
+    00000609 7D               [ 4] 1168 	ld	a, l
+    0000060A F8 04            [12] 1169 	ldhl	sp,	#4
+    0000060C 77               [ 8] 1170 	ld	(hl), a
+    0000060D E1               [12] 1171 	pop	hl
+    0000060E 7C               [ 4] 1172 	ld	a, h
+    0000060F F8 03            [12] 1173 	ldhl	sp,	#3
+    00000611 22               [ 8] 1174 	ld	(hl+), a
+    00000612 23               [ 8] 1175 	inc	hl
+    00000613 36 00            [12] 1176 	ld	(hl), #0x00
+    00000615                       1177 00110$:
+    00000615 F8 05            [12] 1178 	ldhl	sp,	#5
+    00000617 7E               [ 8] 1179 	ld	a, (hl)
+    00000618 D6 04            [ 8] 1180 	sub	a, #0x04
+    0000061A 30 32            [12] 1181 	jr	NC, 00114$
+                                   1182 ;src/scripts/maps.c:253: if (dungeon[i][j] == 'S') {
+    0000061C 2B               [ 8] 1183 	dec	hl
+    0000061D 2B               [ 8] 1184 	dec	hl
+    0000061E 2B               [ 8] 1185 	dec	hl
+    0000061F 2A               [ 8] 1186 	ld	a, (hl+)
+    00000620 5F               [ 4] 1187 	ld	e, a
+    00000621 2A               [ 8] 1188 	ld	a, (hl+)
+    00000622 23               [ 8] 1189 	inc	hl
+    00000623 57               [ 4] 1190 	ld	d, a
+    00000624 6E               [ 8] 1191 	ld	l, (hl)
+    00000625 26 00            [ 8] 1192 	ld	h, #0x00
+    00000627 19               [ 8] 1193 	add	hl, de
+    00000628 5D               [ 4] 1194 	ld	e, l
+    00000629 54               [ 4] 1195 	ld	d, h
+    0000062A 1A               [ 8] 1196 	ld	a, (de)
+    0000062B D6 53            [ 8] 1197 	sub	a, #0x53
+    0000062D 20 1A            [12] 1198 	jr	NZ, 00111$
+                                   1199 ;src/scripts/maps.c:254: start.x = i;
+    0000062F F8 04            [12] 1200 	ldhl	sp,	#4
+    00000631 71               [ 8] 1201 	ld	(hl), c
+    00000632 7E               [ 8] 1202 	ld	a, (hl)
+    00000633 F8 00            [12] 1203 	ldhl	sp,	#0
+    00000635 77               [ 8] 1204 	ld	(hl), a
+                                   1205 ;src/scripts/maps.c:255: start.y = j;
+    00000636 F8 05            [12] 1206 	ldhl	sp,	#5
+    00000638 7E               [ 8] 1207 	ld	a, (hl)
+    00000639 F8 01            [12] 1208 	ldhl	sp,	#1
+    0000063B 77               [ 8] 1209 	ld	(hl), a
+                                   1210 ;src/scripts/maps.c:256: player_coords.x = i;
+    0000063C 11r00r00         [12] 1211 	ld	de, #_player_coords
+    0000063F F5               [16] 1212 	push	af
+    00000640 F8 06            [12] 1213 	ldhl	sp,	#6
+    00000642 7E               [ 8] 1214 	ld	a, (hl)
+    00000643 12               [ 8] 1215 	ld	(de), a
+    00000644 F1               [12] 1216 	pop	af
+                                   1217 ;src/scripts/maps.c:257: player_coords.y = j;
+    00000645 11r01r00         [12] 1218 	ld	de, #_player_coords + 1
+    00000648 12               [ 8] 1219 	ld	(de), a
+    00000649                       1220 00111$:
+                                   1221 ;src/scripts/maps.c:252: for (int j = 0; j < 4; j++) {
+    00000649 F8 05            [12] 1222 	ldhl	sp,	#5
+    0000064B 34               [12] 1223 	inc	(hl)
+    0000064C 18 C7            [12] 1224 	jr	00110$
+    0000064E                       1225 00114$:
+                                   1226 ;src/scripts/maps.c:251: for (int i = 0; i < 4; i++) {
+    0000064E 03               [ 8] 1227 	inc	bc
+    0000064F 18 A6            [12] 1228 	jr	00113$
+    00000651                       1229 00108$:
+                                   1230 ;src/scripts/maps.c:261: set_room(start);
+    00000651 21 01 00         [12] 1231 	ld	hl,#0x1
+    00000654 39               [ 8] 1232 	add	hl,sp
+    00000655 3A               [ 8] 1233 	ld	a, (hl-)
+    00000656 47               [ 4] 1234 	ld	b, a
+    00000657 4E               [ 8] 1235 	ld	c, (hl)
+    00000658 C5               [16] 1236 	push	bc
+    00000659 CDrF4r01         [24] 1237 	call	_set_room
+                                   1238 ;src/scripts/maps.c:262: }
+    0000065C E8 06            [16] 1239 	add	sp, #6
+    0000065E C9               [16] 1240 	ret
+                                   1241 	.area _CODE
+                                   1242 	.area _INITIALIZER
+                                   1243 	.area _CABS (ABS)
