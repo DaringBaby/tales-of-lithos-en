@@ -1,6 +1,6 @@
-#include "enemy.h"
+#include "scripts/enemy.h"
 #include <stdio.h>
-#include "sound.h"
+#include "../include/scripts/sound.h"
 void move_enemy(Enemy *e) {
     uint8_t dx, dy;
     if (!e->alive) {
@@ -198,9 +198,9 @@ void set_enemy_stats(Enemy *e, uint8_t type, uint8_t sprite_id) {
             break;
     }
     /* DEBUG ENEMIES */
-    //e->hp = 1;
-    //e->atk = 1;
-    //e->def = 1;
+    // e->hp = 1;
+    // e->atk = 1;
+    // e->def = 1;
     ////////////////////
     e->sprite_id = sprite_id;
     e->alive = 1; // cambiato

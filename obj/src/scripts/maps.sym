@@ -26,16 +26,13 @@ Symbol Table
     _boss                                                           ******** GX
     _boss_battle                                                    ******** GX
     _boss_floor_defeated                                            ******** GX
-    _boss_theme                                                     ******** GX
-    _camp_theme                                                     ******** GX
-  0 _change_room                                                    00000440 GR
-  0 _chest_closed                                                   000000EB GR
-  0 _chest_opened                                                   000000F3 GR
+  0 _change_room                                                    00000432 GR
+  0 _chest_closed                                                   000000D2 GR
+  0 _chest_opened                                                   000000DA GR
     _clear_drops                                                    ******** GX
     _current_enemies                                                ******** GX
     _current_floor                                                  ******** GX
     _current_room                                                   ******** GX
-    _current_song_bank                                              ******** GX
     _delay                                                          ******** GX
     _display_off                                                    ******** GX
     _doors                                                          ******** GX
@@ -46,35 +43,34 @@ Symbol Table
     _dungeon                                                        ******** GX
     _empty_map_tiles                                                ******** GX
     _game_over                                                      ******** GX
-    _gameover_jingle                                                ******** GX
     _generate_dungeon                                               ******** GX
-  0 _go_into_dungeon                                                0000052B GR
-  0 _go_next_floor                                                  000005B5 GR
-    _hUGE_init                                                      ******** GX
-  0 _hide_camp_sprites                                              000000FB GR
+  0 _go_into_dungeon                                                00000503 GR
+  0 _go_next_floor                                                  0000058D GR
+  0 _hide_camp_sprites                                              000000E2 GR
     _hide_door                                                      ******** GX
     _key_obtained                                                   ******** GX
     _last_direction                                                 ******** GX
     _lock_opened                                                    ******** GX
     _locked_door                                                    ******** GX
     _max_floor                                                      ******** GX
+    _menu_opened                                                    ******** GX
+    _move_character                                                 ******** GX
+    _play_song                                                      ******** GX
+    _player_coords                                                  ******** GX
+    _rROMB0                                                         ******** GX
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 2
 Hexadecimal [32-Bits]
 
 Symbol Table
 
-    _menu_opened                                                    ******** GX
-    _move_character                                                 ******** GX
-    _player_coords                                                  ******** GX
-    _rROMB0                                                         ******** GX
-  0 _return_to_camp                                                 000004CF GR
+  0 _return_to_camp                                                 000004C1 GR
     _set_bkg_data                                                   ******** GX
     _set_bkg_tiles                                                  ******** GX
   0 _set_camp_map                                                   00000000 GR
-  0 _set_dungeon_map                                                00000154 GR
+  0 _set_dungeon_map                                                0000013B GR
     _set_enemy_sprite                                               ******** GX
     _set_mini_menu                                                  ******** GX
-  0 _set_room                                                       000001F4 GR
+  0 _set_room                                                       000001DB GR
     _set_room_tiles                                                 ******** GX
     _set_sprite_data                                                ******** GX
     _shadow_OAM                                                     ******** GX
@@ -100,13 +96,12 @@ Symbol Table
     b_spawn_boss                                                    ******** GX
     b_spawn_enemies_in_room                                         ******** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy)                  Page 3
 Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size      65F   flags    0
+   0 _CODE                                      size      637   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size        0   flags    0
    3 _INITIALIZED                               size        0   flags    0

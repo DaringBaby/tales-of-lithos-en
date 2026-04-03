@@ -1,6 +1,6 @@
 #include <gb/gb.h>
-#include "drop.h"
-#include "sound.h"
+#include "scripts/drop.h"
+#include "scripts/sound.h"
 Drop drops[2];
 
 void spawn_drop(uint8_t x, uint8_t y) {

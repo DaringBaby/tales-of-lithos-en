@@ -1,8 +1,8 @@
 #pragma bank 6
 #include <gb/gb.h>
-#include "../tiles/ending.h"
-#include "../maps/EndingMap.h"
-#include "ending_sequence.h"
+#include "tiles/ending.h"
+#include "maps/EndingMap.h"
+#include "scripts/ending_sequence.h"
 
 
 void play_ending() BANKED {

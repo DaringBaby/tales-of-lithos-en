@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "scripts/utils.h"
 
 void debug_value(uint8_t value) {
     debug = value;

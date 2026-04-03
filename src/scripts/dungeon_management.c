@@ -1,8 +1,9 @@
 #pragma bank 2
 #include <gb/gb.h>
-#include "generate_dungeon.h"
-#include "../maps/Obstacles.h"
-#include "dungeon_management.h"
+#include "scripts/generate_dungeon.h"
+#include "maps/Obstacles.h"
+#include "maps/Dungeon.h"
+#include "scripts/dungeon_management.h"
 
 void assign_obstacles(uint8_t x, uint8_t y) BANKED {
     Coords obj_coords;

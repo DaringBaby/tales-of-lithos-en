@@ -1,11 +1,12 @@
 #pragma bank 6
-#include "../tiles/IntroSlide1Tiles.h"
-#include "../maps/IntroSlide1.h"
-#include "../tiles/IntroSlide2Tiles.h"
-#include "../maps/IntroSlide2.h"
-#include "../tiles/IntroSlide3Tiles.h"
-#include "../maps/IntroSlide3.h"
-#include "../maps/IntroText.h"
+#include "scripts/intro.h"
+#include "tiles/IntroSlide1Tiles.h"
+#include "maps/IntroSlide1.h"
+#include "tiles/IntroSlide2Tiles.h"
+#include "maps/IntroSlide2.h"
+#include "tiles/IntroSlide3Tiles.h"
+#include "maps/IntroSlide3.h"
+#include "maps/IntroText.h"
 #include <gb/gb.h>
 
 void start_intro() BANKED {

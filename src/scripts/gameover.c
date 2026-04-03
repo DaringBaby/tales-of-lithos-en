@@ -1,9 +1,9 @@
 #pragma bank 1
 
-#include "gameover.h"
+#include "scripts/gameover.h"
 #include <gb/gb.h>
-#include "../tiles/GameOverText.h"
-#include "../maps/GameOver.h"
+#include "tiles/GameOverText.h"
+#include "maps/GameOver.h"
 
 void game_over() BANKED {
     enemy_death(&enemy);
@@ -37,7 +37,7 @@ void game_over() BANKED {
     current_hp = max_hp;
     num_arrows = max_num_arrows;
     heals = max_heals;
-    
+
     return;
 }
 
@@ -77,4 +77,3 @@ void black_spiral() {
         }
     }
 }
-

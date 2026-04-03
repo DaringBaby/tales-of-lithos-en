@@ -1,9 +1,7 @@
 #pragma bank 3
-
 #include <gb/gb.h>
-#include "gui_management.h"
-#include "../tiles/minimap.h"
-
+#include "scripts/gui_management.h"
+#include "tiles/minimap.h"
 
 void check_map_options() BANKED {
     if (joypad() & J_UP && map_option > 0) {

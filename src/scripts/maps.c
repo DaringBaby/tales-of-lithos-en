@@ -1,14 +1,15 @@
-#include "maps.h"
-#include "../tiles/DungeonTiles.h"
-#include "../tiles/DungeonTiles2.h"
-#include "../tiles/DungeonTiles3.h"
-#include "../tiles/DungeonTiles4.h"
-#include "../tiles/DungeonTiles5.h"
-#include "../maps/Dungeon.h"
-#include "../tiles/CampTiles.h"
-#include "../maps/CampMap.h"
-#include "../tiles/Hector.h"
-#include "../tiles/Safy.h"
+#include "scripts/maps.h"
+#include "scripts/game_vars.h"
+#include "tiles/DungeonTiles.h"
+#include "tiles/DungeonTiles2.h"
+#include "tiles/DungeonTiles3.h"
+#include "tiles/DungeonTiles4.h"
+#include "tiles/DungeonTiles5.h"
+#include "maps/Dungeon.h"
+#include "tiles/CampTiles.h"
+#include "maps/CampMap.h"
+#include "tiles/Hector.h"
+#include "tiles/Safy.h"
 
 const uint8_t chest_closed[] = {225, 226, 227, 228, 229, 230, 231, 232};
 const uint8_t chest_opened[] = {233, 234, 235, 236, 237, 238, 239, 240};
@@ -48,10 +49,7 @@ void set_camp_map(){
     move_sprite(14, 120, 72);
     move_sprite(15, 128, 72);
     empty_map_tiles();
-    current_song_bank = 5;
-    SWITCH_ROM(current_song_bank);
-    hUGE_init(&camp_theme);
-    SWITCH_ROM(1);
+    play_song(5);
 }
 
 
@@ -141,7 +139,7 @@ void set_room(Coords coord){
             set_bkg_tiles(8, 6, 4, 2, chest_opened);
         }
     }
-    else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0) {
+    else if (dungeon[coord.x][coord.y] == 'E' && current_floor % 5 != 0 || dungeon[coord.x][coord.y] == 'E' && current_floor % 5 == 0 && boss_floor_defeated) {
         set_bkg_tiles(2, 2, 2, 2, stairs);
     }
     // spawna nemici
@@ -160,10 +158,7 @@ void set_room(Coords coord){
         }
         set_bkg_tiles(0, 0, 20, 18, current_room);
         SWITCH_ROM(1);
-        current_song_bank = 4;
-        SWITCH_ROM(current_song_bank);
-        hUGE_init(&boss_theme);
-        SWITCH_ROM(1);
+        play_song(4);
     }
     DISPLAY_ON;
 }
@@ -196,10 +191,7 @@ void change_room() {
 
 void return_to_camp() {
     menu_opened = 0;
-    current_song_bank = 3;
-    SWITCH_ROM(current_song_bank);
-    hUGE_init(&gameover_jingle);
-    SWITCH_ROM(1);
+    play_song(0);
     game_over();
     move_win(7, 136);
     set_mini_menu();

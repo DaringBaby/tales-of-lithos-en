@@ -1,5 +1,5 @@
 #pragma bank 3
-#include "NameScreenMap.h"
+#include "maps/NameScreenMap.h"
 
 /* GUI TILES */
 #define OFFSET_UI 179

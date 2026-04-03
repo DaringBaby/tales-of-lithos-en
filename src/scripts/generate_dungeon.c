@@ -2,8 +2,8 @@
 #include <gb/gb.h>
 #include <rand.h>
 #include <stdio.h>
-#include "generate_dungeon.h"
-#include "spawn_enemy.h"
+#include "scripts/generate_dungeon.h"
+#include "scripts/spawn_enemy.h"
 
 const uint8_t min_length = 6;
 const uint8_t max_length = 10;

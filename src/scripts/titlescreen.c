@@ -1,10 +1,10 @@
 #pragma bank 3
 
 #include <gb/gb.h>
-#include "titlescreen.h"
-#include "../tiles/Titlescreen.h"
-#include "../tiles/TitleText.h"
-#include "../maps/Title.h"
+#include "scripts/titlescreen.h"
+#include "tiles/Titlescreen.h"
+#include "tiles/TitleText.h"
+#include "maps/Title.h"
 #include <rand.h>
 #include <stdio.h>
 

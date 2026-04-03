@@ -35,7 +35,7 @@ B1_SOURCES = src/tiles/character.c src/tiles/Hector.c src/tiles/Safy.c \
              src/songs/item_found.c
 B0_SOURCES = main.c src/scripts/gui.c src/scripts/enemy.c src/scripts/drop.c src/scripts/movement.c src/scripts/player_vars.c \
 			 src/scripts/game_vars.c src/scripts/actions.c src/scripts/maps.c src/scripts/combat.c src/scripts/utils.c \
-			 src/scripts/init.c
+			 src/scripts/init.c src/scripts/songs.c
 
 
 define make_obj_list
@@ -62,7 +62,7 @@ $(PROJECT_NAME): $(ALL_OBJS)
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@echo "Compiling $< -> $@"
-	$(CC) $(BANK_FLAGS) -c $< -o $@
+	$(CC) $(BANK_FLAGS) -Iinclude -c $< -o $@
 
 
 $(B6_OBJS): BANK_FLAGS = -Wf-bo6

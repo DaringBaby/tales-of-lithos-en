@@ -1,8 +1,8 @@
 #pragma bank 3
-#include "boss.h"
-#include "../tiles/bosses.h"
+#include "scripts/boss.h"
+#include "tiles/bosses.h"
 #include <gb/gb.h>
-#include "sound.h"
+#include "scripts/sound.h"
 
 
 void spawn_boss(Boss *boss) BANKED {
@@ -10,7 +10,6 @@ void spawn_boss(Boss *boss) BANKED {
         set_sprite_tile(8+1, 50);
         move_sprite(8+i, 0, 0);
     }
-    // solo 1 boss per ora
     switch (current_floor) {
         case 5:
             boss->id = 1;
@@ -70,9 +69,9 @@ void spawn_boss(Boss *boss) BANKED {
     }
 
     /* DEBUG BOSS */
-    //boss->hp = 1;
-    //boss->atk = 1;
-    //boss->def = 1;
+    // boss->hp = 1;
+    // boss->atk = 1;
+    // boss->def = 1;
     ////////////////
 
     for (uint8_t i=0; i<16; i++) {

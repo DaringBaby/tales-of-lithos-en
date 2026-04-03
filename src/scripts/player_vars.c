@@ -1,4 +1,4 @@
-#include "player_vars.h"
+#include "scripts/player_vars.h"
 
 /* PLAYER STATS */
 uint8_t x = 120;

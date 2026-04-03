@@ -1,9 +1,9 @@
 #pragma bank 1
-#include "../tiles/character.h"
+#include "tiles/character.h"
 #include <gb/gb.h>
-#include "../tiles/sword.h"
-#include "../tiles/effects.h"
-#include "play_effects.h"
+#include "tiles/sword.h"
+#include "tiles/effects.h"
+#include "scripts/play_effects.h"
 
 void play_attack_animation(uint8_t dir) BANKED {
     // sword = sprite 3

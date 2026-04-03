@@ -1,4 +1,4 @@
-#include "combat.h"
+#include "scripts/combat.h"
 
 void player_attack(uint8_t wpn, uint8_t index) {
     hit_sfx();
@@ -40,25 +40,16 @@ void player_attack(uint8_t wpn, uint8_t index) {
             minerals+=2;
             menu_opened = 4;
             if (current_floor != 25) {
-                current_song_bank = 3;
-                SWITCH_ROM(3);
-                hUGE_init(&boss_defeated_jingle);
-                SWITCH_ROM(1);
+                play_song(1);
                 set_textbox(3);
                 uint8_t door = doors[player_coords.x][player_coords.y];
                 const unsigned char* room_ptr;
                 set_room_tiles(door, room_ptr, player_coords);
                 set_bkg_tiles(2, 2, 2, 2, stairs);
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
+                play_song(3);
             }
             else {
-                current_song_bank = 5;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&ending_song);
-                SWITCH_ROM(1);
+                play_song(7);
                 play_ending();
                 save_game();
                 reset();

@@ -11,7 +11,7 @@ Symbol Table
     _WX_REG                                                         ******** GX
     _WY_REG                                                         ******** GX
     ___sdcc_bcall_ehl                                               ******** GX
-  0 _arrow_tile                                                     000000CE GR
+  0 _arrow_tile                                                     000000C8 GR
     _change_room                                                    ******** GX
     _check_input_keys                                               ******** GX
     _check_input_movement                                           ******** GX
@@ -25,13 +25,13 @@ Symbol Table
     _game_init                                                      ******** GX
     _joypad                                                         ******** GX
   0 _main                                                           00000000 GR
-  0 _menu_body                                                      000000CD GR
+  0 _menu_body                                                      000000C7 GR
     _menu_opened                                                    ******** GX
     _return_to_camp                                                 ******** GX
     _returning_to_camp                                              ******** GX
     _set_mini_menu                                                  ******** GX
     _show_time                                                      ******** GX
-  0 _stairs                                                         000000C9 GR
+  0 _stairs                                                         000000C3 GR
     _wait_vbl_done                                                  ******** GX
     b_check_map_options                                             ******** GX
     b_check_menu_options                                            ******** GX
@@ -45,7 +45,7 @@ Hexadecimal [32-Bits]
 
 Area Table
 
-   0 _CODE                                      size       CF   flags    0
+   0 _CODE                                      size       C9   flags    0
    1 _HRAM                                      size        0   flags    0
    2 _DATA                                      size      168   flags    0
    3 _INITIALIZED                               size        0   flags    0

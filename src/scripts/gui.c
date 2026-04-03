@@ -1,5 +1,5 @@
 #include <gb/gb.h>
-#include "gui.h"
+#include "scripts/gui.h"
 /* GUI TILES */
 #define OFFSET_UI 179
 #define TOPLEFT     (OFFSET_UI + 0)

@@ -7,23 +7,24 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl b_load_game
+	.globl _load_game
 	.globl _music_vbl_interrupt
 	.globl b_start_sfx
 	.globl _start_sfx
 	.globl b_init_sound
 	.globl _init_sound
+	.globl _play_song
+	.globl b_set_mini_menu
+	.globl _set_mini_menu
 	.globl _go_into_dungeon
 	.globl _set_camp_map
 	.globl _move_character
-	.globl b_set_mini_menu
-	.globl _set_mini_menu
 	.globl b_insert_name
 	.globl _insert_name
 	.globl _set_tutorial
 	.globl b_start_intro
 	.globl _start_intro
-	.globl _load_game
-	.globl _hUGE_init
 	.globl b_set_titlescreen
 	.globl _set_titlescreen
 	.globl _set_sprite_data
@@ -115,7 +116,9 @@ _game_init::
 ;src/scripts/init.c:39: set_game_gui();
 	call	_set_game_gui
 ;src/scripts/init.c:40: if (!load_game()) {
-	call	_load_game
+	ld	e, #b_load_game
+	ld	hl, #_load_game
+	call	___sdcc_bcall_ehl
 	or	a, a
 	jr	NZ, 00104$
 ;src/scripts/init.c:41: insert_name();
@@ -239,195 +242,181 @@ _set_title_data::
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;src/scripts/init.c:67: current_song_bank = 5;
-	ld	hl, #_current_song_bank
-	ld	(hl), #0x05
-;src/scripts/init.c:68: SWITCH_ROM(current_song_bank);
-	ld	a, #0x05
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x05
-;src/scripts/init.c:69: hUGE_init(&intro_theme);
-	ld	de, #_intro_theme
-	call	_hUGE_init
-;src/scripts/init.c:70: SWITCH_ROM(1);
-	ld	a, #0x01
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x01
-;src/scripts/init.c:71: }
-	ret
-;src/scripts/init.c:73: void set_game_sprites() {
+;src/scripts/init.c:67: play_song(6);
+	ld	a, #0x06
+;src/scripts/init.c:68: }
+	jp	_play_song
+;src/scripts/init.c:70: void set_game_sprites() {
 ;	---------------------------------
 ; Function set_game_sprites
 ; ---------------------------------
 _set_game_sprites::
-;src/scripts/init.c:74: set_sprite_data(0, 4, MC_down);
+;src/scripts/init.c:71: set_sprite_data(0, 4, MC_down);
 	ld	de, #_MC_down
 	push	de
 	ld	hl, #0x400
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:75: set_sprite_data(8, 4, MC_right);
+;src/scripts/init.c:72: set_sprite_data(8, 4, MC_right);
 	ld	de, #_MC_right
 	push	de
 	ld	hl, #0x408
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:76: set_sprite_data(12, 4, MC_left);
+;src/scripts/init.c:73: set_sprite_data(12, 4, MC_left);
 	ld	de, #_MC_left
 	push	de
 	ld	hl, #0x40c
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:77: set_sprite_data(16, 4, Hector);
+;src/scripts/init.c:74: set_sprite_data(16, 4, Hector);
 	ld	de, #_Hector
 	push	de
 	ld	hl, #0x410
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:78: set_sprite_data(20, 4, Safy);
+;src/scripts/init.c:75: set_sprite_data(20, 4, Safy);
 	ld	de, #_Safy
 	push	de
 	ld	hl, #0x414
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:79: set_sprite_data(50, 1, blank);
+;src/scripts/init.c:76: set_sprite_data(50, 1, blank);
 	ld	de, #_blank
 	push	de
 	ld	hl, #0x132
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:80: set_sprite_data(51, 8, Lock);
+;src/scripts/init.c:77: set_sprite_data(51, 8, Lock);
 	ld	de, #_Lock
 	push	de
 	ld	hl, #0x833
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:81: set_sprite_data(59, 2, Key);
+;src/scripts/init.c:78: set_sprite_data(59, 2, Key);
 	ld	de, #_Key
 	push	de
 	ld	hl, #0x23b
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:82: set_sprite_data(61, 4, Mythril);
+;src/scripts/init.c:79: set_sprite_data(61, 4, Mythril);
 	ld	de, #_Mythril
 	push	de
 	ld	hl, #0x43d
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:83: set_sprite_data(65, 12, Numbers);
+;src/scripts/init.c:80: set_sprite_data(65, 12, Numbers);
 	ld	de, #_Numbers
 	push	de
 	ld	hl, #0xc41
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:84: set_sprite_data(80, 2, Arrow);
+;src/scripts/init.c:81: set_sprite_data(80, 2, Arrow);
 	ld	de, #_Arrow
 	push	de
 	ld	hl, #0x250
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:85: set_sprite_data(82, 2, Drops);
+;src/scripts/init.c:82: set_sprite_data(82, 2, Drops);
 	ld	de, #_Drops
 	push	de
 	ld	hl, #0x252
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
-;src/scripts/init.c:86: }
+;src/scripts/init.c:83: }
 	ret
-;src/scripts/init.c:88: void set_game_gui() {
+;src/scripts/init.c:85: void set_game_gui() {
 ;	---------------------------------
 ; Function set_game_gui
 ; ---------------------------------
 _set_game_gui::
-;src/scripts/init.c:89: SWITCH_ROM(3);
+;src/scripts/init.c:86: SWITCH_ROM(3);
 	ld	a, #0x03
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x03
-;src/scripts/init.c:90: set_bkg_data(108, 17, Minimap);
+;src/scripts/init.c:87: set_bkg_data(108, 17, Minimap);
 	ld	de, #_Minimap
 	push	de
 	ld	hl, #0x116c
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:91: SWITCH_ROM(2);
+;src/scripts/init.c:88: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;src/scripts/init.c:92: set_bkg_data(128, 51, Text);
+;src/scripts/init.c:89: set_bkg_data(128, 51, Text);
 	ld	de, #_Text
 	push	de
 	ld	hl, #0x3380
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:93: SWITCH_ROM(1);
+;src/scripts/init.c:90: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;src/scripts/init.c:94: set_bkg_data(179, 9, Textbox);
+;src/scripts/init.c:91: set_bkg_data(179, 9, Textbox);
 	ld	de, #_Textbox
 	push	de
 	ld	hl, #0x9b3
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:95: set_bkg_data(188, 16, Mugshot);
+;src/scripts/init.c:92: set_bkg_data(188, 16, Mugshot);
 	ld	de, #_Mugshot
 	push	de
 	ld	hl, #0x10bc
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:96: SWITCH_ROM(2);
+;src/scripts/init.c:93: SWITCH_ROM(2);
 	ld	a, #0x02
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x02
-;src/scripts/init.c:97: set_bkg_data(220, 4, MiniGUI);
+;src/scripts/init.c:94: set_bkg_data(220, 4, MiniGUI);
 	ld	de, #_MiniGUI
 	push	de
 	ld	hl, #0x4dc
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:98: SWITCH_ROM(1);
+;src/scripts/init.c:95: SWITCH_ROM(1);
 	ld	a, #0x01
 	ldh	(__current_bank + 0), a
 	ld	hl, #_rROMB0
 	ld	(hl), #0x01
-;src/scripts/init.c:99: set_bkg_data(225, 20, Objects);
+;src/scripts/init.c:96: set_bkg_data(225, 20, Objects);
 	ld	de, #_Objects
 	push	de
 	ld	hl, #0x14e1
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:100: set_bkg_data(245, 1, arrow);
+;src/scripts/init.c:97: set_bkg_data(245, 1, arrow);
 	ld	de, #_arrow
 	push	de
 	ld	hl, #0x1f5
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;src/scripts/init.c:101: set_bkg_data(246, 1, black);
+;src/scripts/init.c:98: set_bkg_data(246, 1, black);
 	ld	de, #_black
 	push	de
 	ld	hl, #0x1f6
@@ -439,7 +428,7 @@ _set_game_gui::
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;src/scripts/init.c:103: set_mini_menu();
+;src/scripts/init.c:100: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
@@ -460,8 +449,8 @@ _set_game_gui::
 	ld	(hl), #0x3f
 	ld	hl, #(_shadow_OAM + 154)
 	ld	(hl), #0x40
-;src/scripts/init.c:115: set_sprite_tile(38, 64);
-;src/scripts/init.c:116: }
+;src/scripts/init.c:112: set_sprite_tile(38, 64);
+;src/scripts/init.c:113: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

@@ -1,7 +1,8 @@
 #pragma bank 1
 
-#include "save_manager.h"
+#include "scripts/save_manager.h"
 #include <gb/gb.h>
+
 __at(0xA000) SaveSlot sram_data;
 
 uint8_t load_game() BANKED {

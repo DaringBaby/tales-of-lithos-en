@@ -1,4 +1,4 @@
-#include "game_vars.h"
+#include "scripts/game_vars.h"
 uint8_t debug = 0;
 int tile_id = 0;
 

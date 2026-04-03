@@ -2,8 +2,8 @@
 
 #include <gb/gb.h>
 #include <stdio.h>
-#include "../maps/NameScreenMap.h"
-#include "insert_name.h"
+#include "maps/NameScreenMap.h"
+#include "scripts/insert_name.h"
 
 uint8_t char_option = 0;
 uint8_t option_x = 24;
@@ -38,18 +38,18 @@ void insert_name() BANKED {
         check_name_input();
         move_sprite(4, option_x, option_y);
         if (joypad() & J_START && player_name[0] != 164) {
-        for (int i = 0; i < 5; i++) {
-            if (player_name[i] == 164) {
-                player_name[i] = 187;
+            for (int i = 0; i < 5; i++) {
+                if (player_name[i] == 164) {
+                    player_name[i] = 187;
+                }
             }
+            delay(150);
+            set_sprite_tile(0, 50); // player
+            set_sprite_tile(1, 50);
+            set_sprite_tile(2, 50);
+            set_sprite_tile(3, 50);
+            return;
         }
-        delay(150);
-        set_sprite_tile(0, 50); // player
-        set_sprite_tile(1, 50);
-        set_sprite_tile(2, 50);
-        set_sprite_tile(3, 50);
-        return;
-    }
         wait_vbl_done();
     }
 }
@@ -91,7 +91,7 @@ void check_name_input() {
         delay(150);
     }
     else if (joypad() & J_B && curr_letter >= 0) {
-        
+
         player_name[curr_letter] = 164;
         curr_letter--;
         set_bkg_tiles(8, 4, 5, 1, player_name);

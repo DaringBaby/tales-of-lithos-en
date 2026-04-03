@@ -1,22 +1,22 @@
-#include "init.h"
-#include "../maps/Title.h"
-#include "../tiles/Titlescreen.h"
-#include "../tiles/TitleText.h"
-#include "../tiles/character.h"
-#include "../tiles/Hector.h"
-#include "../tiles/Safy.h"
-#include "../tiles/Lock.h"
-#include "../tiles/key.h"
-#include "../tiles/mythril.h"
-#include "../tiles/Arrow.h"
-#include "../tiles/wpn_arrow.h"
-#include "../tiles/enemyDrops.h"
-#include "../tiles/numbers.h"
-#include "../tiles/minimap.h"
-#include "../tiles/Text.h"
-#include "../tiles/textbox.h"
-#include "../tiles/mugshot.h"
-#include "../tiles/DungeonObjects.h"
+#include "scripts/init.h"
+#include "maps/Title.h"
+#include "tiles/Titlescreen.h"
+#include "tiles/TitleText.h"
+#include "tiles/character.h"
+#include "tiles/Hector.h"
+#include "tiles/Safy.h"
+#include "tiles/Lock.h"
+#include "tiles/key.h"
+#include "tiles/mythril.h"
+#include "tiles/Arrow.h"
+#include "tiles/wpn_arrow.h"
+#include "tiles/enemyDrops.h"
+#include "tiles/numbers.h"
+#include "tiles/minimap.h"
+#include "tiles/Text.h"
+#include "tiles/textbox.h"
+#include "tiles/mugshot.h"
+#include "tiles/DungeonObjects.h"
 
 
 const unsigned char blank[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -64,10 +64,7 @@ void set_title_data() {
     set_bkg_data(241, 8, TitleText);
     set_bkg_tiles(0, 0, 20, 18, Title);
     SWITCH_ROM(1);
-    current_song_bank = 5;
-    SWITCH_ROM(current_song_bank);
-    hUGE_init(&intro_theme);
-    SWITCH_ROM(1);
+    play_song(6);
 }
 
 void set_game_sprites() {

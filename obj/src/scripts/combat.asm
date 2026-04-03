@@ -7,16 +7,18 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _heal_player
-	.globl _shoot_arrow
 	.globl b_play_ending
 	.globl _play_ending
 	.globl _set_textbox
 	.globl b_set_room_tiles
 	.globl _set_room_tiles
-	.globl _enemy_death
+	.globl b_save_game
 	.globl _save_game
 	.globl _check_terrain
+	.globl b_play_explosion_animation
+	.globl _play_explosion_animation
+	.globl b_play_heal_animation
+	.globl _play_heal_animation
 	.globl b_set_character_sprite
 	.globl _set_character_sprite
 	.globl b_enemy_death_sfx
@@ -25,19 +27,18 @@
 	.globl _hit_sfx
 	.globl b_arrow_sfx
 	.globl _arrow_sfx
+	.globl _play_song
 	.globl b_show_number
 	.globl _show_number
+	.globl _enemy_death
 	.globl b_boss_death
 	.globl _boss_death
-	.globl b_play_explosion_animation
-	.globl _play_explosion_animation
-	.globl b_play_heal_animation
-	.globl _play_heal_animation
-	.globl _hUGE_init
 	.globl _set_bkg_tiles
 	.globl _wait_vbl_done
 	.globl _reset
 	.globl _player_attack
+	.globl _shoot_arrow
+	.globl _heal_player
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -273,27 +274,14 @@ _player_attack::
 ;src/scripts/combat.c:42: if (current_floor != 25) {
 	ld	a, (#_current_floor)
 	sub	a, #0x19
-	jp	Z, 00111$
-;src/scripts/combat.c:43: current_song_bank = 3;
-	ld	hl, #_current_song_bank
-	ld	(hl), #0x03
-;src/scripts/combat.c:44: SWITCH_ROM(3);
-	ld	a, #0x03
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x03
-;src/scripts/combat.c:45: hUGE_init(&boss_defeated_jingle);
-	ld	de, #_boss_defeated_jingle
-	call	_hUGE_init
-;src/scripts/combat.c:46: SWITCH_ROM(1);
+	jr	Z, 00111$
+;src/scripts/combat.c:43: play_song(1);
 	ld	a, #0x01
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x01
-;src/scripts/combat.c:47: set_textbox(3);
+	call	_play_song
+;src/scripts/combat.c:44: set_textbox(3);
 	ld	a, #0x03
 	call	_set_textbox
-;src/scripts/combat.c:48: uint8_t door = doors[player_coords.x][player_coords.y];
+;src/scripts/combat.c:45: uint8_t door = doors[player_coords.x][player_coords.y];
 	ld	bc, #_doors+0
 	ld	a, (#_player_coords + 0)
 	ld	l, a
@@ -309,7 +297,7 @@ _player_attack::
 	ld	d, #0x00
 	add	hl, de
 	ld	d, (hl)
-;src/scripts/combat.c:50: set_room_tiles(door, room_ptr, player_coords);
+;src/scripts/combat.c:47: set_room_tiles(door, room_ptr, player_coords);
 	ld	hl, #_player_coords
 	inc	hl
 	ld	b, (hl)
@@ -327,7 +315,7 @@ _player_attack::
 	ld	hl, #_set_room_tiles
 	call	___sdcc_bcall_ehl
 	add	sp, #5
-;src/scripts/combat.c:51: set_bkg_tiles(2, 2, 2, 2, stairs);
+;src/scripts/combat.c:48: set_bkg_tiles(2, 2, 2, 2, stairs);
 	ld	de, #_stairs
 	push	de
 	ld	hl, #0x202
@@ -335,52 +323,28 @@ _player_attack::
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
-;src/scripts/combat.c:52: current_song_bank = 4;
-	ld	hl, #_current_song_bank
-	ld	(hl), #0x04
-;src/scripts/combat.c:53: SWITCH_ROM(current_song_bank);
-	ld	a, #0x04
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x04
-;src/scripts/combat.c:54: hUGE_init(&dungeon_theme);
-	ld	de, #_dungeon_theme
-	call	_hUGE_init
-;src/scripts/combat.c:55: SWITCH_ROM(1);
-	ld	a, #0x01
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x01
+;src/scripts/combat.c:49: play_song(3);
+	ld	a, #0x03
+	call	_play_song
 	jp	00125$
 00111$:
-;src/scripts/combat.c:58: current_song_bank = 5;
-	ld	hl, #_current_song_bank
-	ld	(hl), #0x05
-;src/scripts/combat.c:59: SWITCH_ROM(current_song_bank);
-	ld	a, #0x05
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x05
-;src/scripts/combat.c:60: hUGE_init(&ending_song);
-	ld	de, #_ending_song
-	call	_hUGE_init
-;src/scripts/combat.c:61: SWITCH_ROM(1);
-	ld	a, #0x01
-	ldh	(__current_bank + 0), a
-	ld	hl, #_rROMB0
-	ld	(hl), #0x01
-;src/scripts/combat.c:62: play_ending();
+;src/scripts/combat.c:52: play_song(7);
+	ld	a, #0x07
+	call	_play_song
+;src/scripts/combat.c:53: play_ending();
 	ld	e, #b_play_ending
 	ld	hl, #_play_ending
 	call	___sdcc_bcall_ehl
-;src/scripts/combat.c:63: save_game();
-	call	_save_game
-;src/scripts/combat.c:64: reset();
+;src/scripts/combat.c:54: save_game();
+	ld	e, #b_save_game
+	ld	hl, #_save_game
+	call	___sdcc_bcall_ehl
+;src/scripts/combat.c:55: reset();
 	call	_reset
-;src/scripts/combat.c:67: return;
+;src/scripts/combat.c:58: return;
 	jp	00125$
 00116$:
-;src/scripts/combat.c:71: if (atk_stat > current_enemies[index].def) {
+;src/scripts/combat.c:62: if (atk_stat > current_enemies[index].def) {
 	ldhl	sp,	#9
 	ld	c, (hl)
 	ld	b, #0x00
@@ -412,18 +376,18 @@ _player_attack::
 	ldhl	sp,	#8
 	sub	a, (hl)
 	jr	NC, 00118$
-;src/scripts/combat.c:72: damage = atk_stat - current_enemies[index].def;
+;src/scripts/combat.c:63: damage = atk_stat - current_enemies[index].def;
 	ld	a, (hl)
 	sub	a, c
 	ldhl	sp,	#4
 	ld	(hl), a
 	jr	00119$
 00118$:
-;src/scripts/combat.c:75: damage = 1;
+;src/scripts/combat.c:66: damage = 1;
 	ldhl	sp,	#4
 	ld	(hl), #0x01
 00119$:
-;src/scripts/combat.c:77: show_number(damage, 0, 1, index);
+;src/scripts/combat.c:68: show_number(damage, 0, 1, index);
 	ldhl	sp,	#9
 	ld	h, (hl)
 	ld	l, #0x01
@@ -439,7 +403,7 @@ _player_attack::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;src/scripts/combat.c:78: if (damage < current_enemies[index].hp) {
+;src/scripts/combat.c:69: if (damage < current_enemies[index].hp) {
 	ldhl	sp,#2
 	ld	a, (hl+)
 	ld	e, a
@@ -473,7 +437,7 @@ _player_attack::
 	ld	a, b
 	sbc	a, (hl)
 	jr	NC, 00121$
-;src/scripts/combat.c:79: current_enemies[index].hp -= damage;
+;src/scripts/combat.c:70: current_enemies[index].hp -= damage;
 	ldhl	sp,	#4
 	ld	c, (hl)
 	ldhl	sp,	#7
@@ -494,7 +458,7 @@ _player_attack::
 	ld	(hl), b
 	jr	00122$
 00121$:
-;src/scripts/combat.c:82: current_enemies[index].hp = 0;
+;src/scripts/combat.c:73: current_enemies[index].hp = 0;
 	ldhl	sp,	#5
 	ld	a, (hl+)
 	ld	h, (hl)
@@ -502,7 +466,7 @@ _player_attack::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;src/scripts/combat.c:83: current_enemies[index].alive = 0;
+;src/scripts/combat.c:74: current_enemies[index].alive = 0;
 	ldhl	sp,#2
 	ld	a, (hl+)
 	ld	e, a
@@ -514,7 +478,7 @@ _player_attack::
 	xor	a, a
 	ld	(bc), a
 00122$:
-;src/scripts/combat.c:85: if (current_enemies[index].hp == 0) {
+;src/scripts/combat.c:76: if (current_enemies[index].hp == 0) {
 	ldhl	sp,#5
 	ld	a, (hl+)
 	ld	e, a
@@ -528,7 +492,7 @@ _player_attack::
 	ld	a, (hl-)
 	or	a, (hl)
 	jp	NZ, 00125$
-;src/scripts/combat.c:86: uint8_t e_x = current_enemies[index].x;
+;src/scripts/combat.c:77: uint8_t e_x = current_enemies[index].x;
 	ldhl	sp,#2
 	ld	a, (hl+)
 	ld	e, a
@@ -536,7 +500,7 @@ _player_attack::
 	ld	a, (de)
 	ldhl	sp,	#7
 	ld	(hl), a
-;src/scripts/combat.c:87: uint8_t e_y = current_enemies[index].y;
+;src/scripts/combat.c:78: uint8_t e_y = current_enemies[index].y;
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	c, a
@@ -545,7 +509,7 @@ _player_attack::
 	ld	a, (bc)
 	ldhl	sp,	#8
 	ld	(hl), a
-;src/scripts/combat.c:88: set_character_sprite(last_direction);
+;src/scripts/combat.c:79: set_character_sprite(last_direction);
 	ld	a, (_last_direction)
 	push	af
 	inc	sp
@@ -553,19 +517,19 @@ _player_attack::
 	ld	hl, #_set_character_sprite
 	call	___sdcc_bcall_ehl
 	inc	sp
-;src/scripts/combat.c:89: wait_vbl_done();
+;src/scripts/combat.c:80: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/combat.c:90: enemy_death(&current_enemies[index]);
+;src/scripts/combat.c:81: enemy_death(&current_enemies[index]);
 	ldhl	sp,	#2
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	call	_enemy_death
-;src/scripts/combat.c:91: enemy_death_sfx();
+;src/scripts/combat.c:82: enemy_death_sfx();
 	ld	e, #b_enemy_death_sfx
 	ld	hl, #_enemy_death_sfx
 	call	___sdcc_bcall_ehl
-;src/scripts/combat.c:92: play_explosion_animation(e_x, e_y);
+;src/scripts/combat.c:83: play_explosion_animation(e_x, e_y);
 	ldhl	sp,	#8
 	ld	a, (hl-)
 	ld	b, a
@@ -576,10 +540,10 @@ _player_attack::
 	ld	hl, #_play_explosion_animation
 	call	___sdcc_bcall_ehl
 	pop	hl
-;src/scripts/combat.c:93: enemies_defeated++;
+;src/scripts/combat.c:84: enemies_defeated++;
 	ld	hl, #_enemies_defeated
 	inc	(hl)
-;src/scripts/combat.c:94: experience += current_enemies[index].exp_reward;
+;src/scripts/combat.c:85: experience += current_enemies[index].exp_reward;
 	ldhl	sp,#2
 	ld	a, (hl+)
 	ld	e, a
@@ -618,38 +582,37 @@ _player_attack::
 	ld	a, e
 	ld	(hl+), a
 	ld	(hl), d
-;src/scripts/combat.c:95: obt_exp += current_enemies[index].exp_reward;
+;src/scripts/combat.c:86: obt_exp += current_enemies[index].exp_reward;
 	ldhl	sp,#7
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
 	ld	(hl), a
-	ld	a, (hl)
 	ld	hl, #_obt_exp
 	add	a, (hl)
 	ld	(hl), a
 00125$:
-;src/scripts/combat.c:97: }
+;src/scripts/combat.c:88: }
 	add	sp, #10
 	ret
-;src/scripts/combat.c:101: void shoot_arrow() {
+;src/scripts/combat.c:92: void shoot_arrow() {
 ;	---------------------------------
 ; Function shoot_arrow
 ; ---------------------------------
 _shoot_arrow::
 	add	sp, #-3
-;src/scripts/combat.c:102: arrow_sfx();
+;src/scripts/combat.c:93: arrow_sfx();
 	ld	e, #b_arrow_sfx
 	ld	hl, #_arrow_sfx
 	call	___sdcc_bcall_ehl
-;src/scripts/combat.c:103: uint8_t arrow_x = x;
+;src/scripts/combat.c:94: uint8_t arrow_x = x;
 	ld	a, (_x)
 	ld	c, a
-;src/scripts/combat.c:104: uint8_t arrow_y = y;
+;src/scripts/combat.c:95: uint8_t arrow_y = y;
 	ld	a, (_y)
 	ld	b, a
-;src/scripts/combat.c:105: switch (last_direction) {
+;src/scripts/combat.c:96: switch (last_direction) {
 	ld	a, (#_last_direction)
 	dec	a
 	jr	Z, 00101$
@@ -663,7 +626,7 @@ _shoot_arrow::
 	sub	a, #0x08
 	jr	Z, 00104$
 	jr	00127$
-;src/scripts/combat.c:106: case 1:
+;src/scripts/combat.c:97: case 1:
 00101$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -671,9 +634,9 @@ _shoot_arrow::
 	ld	a, #0x50
 	ld	(hl+), a
 	ld	(hl), #0x00
-;src/scripts/combat.c:109: break;
+;src/scripts/combat.c:100: break;
 	jr	00127$
-;src/scripts/combat.c:110: case 2:
+;src/scripts/combat.c:101: case 2:
 00102$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -681,9 +644,9 @@ _shoot_arrow::
 	ld	a, #0x51
 	ld	(hl+), a
 	ld	(hl), #0x00
-;src/scripts/combat.c:113: break;
+;src/scripts/combat.c:104: break;
 	jr	00127$
-;src/scripts/combat.c:114: case 4:
+;src/scripts/combat.c:105: case 4:
 00103$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -691,9 +654,9 @@ _shoot_arrow::
 	ld	a, #0x50
 	ld	(hl+), a
 	ld	(hl), #0x40
-;src/scripts/combat.c:117: break;
+;src/scripts/combat.c:108: break;
 	jr	00127$
-;src/scripts/combat.c:118: case 8:
+;src/scripts/combat.c:109: case 8:
 00104$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
@@ -701,19 +664,19 @@ _shoot_arrow::
 	ld	a, #0x51
 	ld	(hl+), a
 	ld	(hl), #0x20
-;src/scripts/combat.c:123: while (1) {
+;src/scripts/combat.c:114: while (1) {
 00127$:
-;src/scripts/combat.c:124: wait_vbl_done();
+;src/scripts/combat.c:115: wait_vbl_done();
 	call	_wait_vbl_done
-;src/scripts/combat.c:127: arrow_y-=2;
+;src/scripts/combat.c:118: arrow_y-=2;
 	ld	e, b
-;src/scripts/combat.c:125: switch (last_direction) {
+;src/scripts/combat.c:116: switch (last_direction) {
 	ld	a, (#_last_direction)
 	dec	a
 	jr	Z, 00106$
-;src/scripts/combat.c:130: arrow_x+=2;
+;src/scripts/combat.c:121: arrow_x+=2;
 	ld	d, c
-;src/scripts/combat.c:125: switch (last_direction) {
+;src/scripts/combat.c:116: switch (last_direction) {
 	ld	a, (#_last_direction)
 	sub	a, #0x02
 	jr	Z, 00107$
@@ -724,37 +687,37 @@ _shoot_arrow::
 	sub	a, #0x08
 	jr	Z, 00109$
 	jr	00110$
-;src/scripts/combat.c:126: case 1:
+;src/scripts/combat.c:117: case 1:
 00106$:
-;src/scripts/combat.c:127: arrow_y-=2;
+;src/scripts/combat.c:118: arrow_y-=2;
 	ld	b, e
 	dec	b
 	dec	b
-;src/scripts/combat.c:128: break;
+;src/scripts/combat.c:119: break;
 	jr	00110$
-;src/scripts/combat.c:129: case 2:
+;src/scripts/combat.c:120: case 2:
 00107$:
-;src/scripts/combat.c:130: arrow_x+=2;
+;src/scripts/combat.c:121: arrow_x+=2;
 	ld	c, d
 	inc	c
 	inc	c
-;src/scripts/combat.c:131: break;
+;src/scripts/combat.c:122: break;
 	jr	00110$
-;src/scripts/combat.c:132: case 4:
+;src/scripts/combat.c:123: case 4:
 00108$:
-;src/scripts/combat.c:133: arrow_y+=2;
+;src/scripts/combat.c:124: arrow_y+=2;
 	ld	b, e
 	inc	b
 	inc	b
-;src/scripts/combat.c:134: break;
+;src/scripts/combat.c:125: break;
 	jr	00110$
-;src/scripts/combat.c:135: case 8:
+;src/scripts/combat.c:126: case 8:
 00109$:
-;src/scripts/combat.c:136: arrow_x-=2;
+;src/scripts/combat.c:127: arrow_x-=2;
 	ld	c, d
 	dec	c
 	dec	c
-;src/scripts/combat.c:138: }
+;src/scripts/combat.c:129: }
 00110$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 156)
@@ -762,7 +725,7 @@ _shoot_arrow::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;src/scripts/combat.c:140: if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8 || !check_terrain(arrow_x, arrow_y)) { // pulu
+;src/scripts/combat.c:131: if (arrow_x < 1 || arrow_x > 168 || arrow_y > 144 || arrow_y < 8 || !check_terrain(arrow_x, arrow_y)) { // pulu
 	ld	a, c
 	sub	a, #0x01
 	jr	C, 00111$
@@ -793,10 +756,10 @@ _shoot_arrow::
 	ld	(hl), #0x00
 	inc	hl
 	ld	(hl), #0x00
-;src/scripts/combat.c:143: return;
+;src/scripts/combat.c:134: return;
 	jp	00147$
 00112$:
-;src/scripts/combat.c:145: for (int i=0; i<2; i++) {
+;src/scripts/combat.c:136: for (int i=0; i<2; i++) {
 	ldhl	sp,	#0
 	xor	a, a
 	ld	(hl+), a
@@ -809,7 +772,7 @@ _shoot_arrow::
 	ld	a, (hl)
 	sbc	a, #0x00
 	jr	NC, 00120$
-;src/scripts/combat.c:146: uint8_t enemy_x = current_enemies[i].x;
+;src/scripts/combat.c:137: uint8_t enemy_x = current_enemies[i].x;
 	dec	hl
 	ld	a, (hl+)
 	ld	e, a
@@ -822,10 +785,10 @@ _shoot_arrow::
 	add	hl, hl
 	ld	de, #_current_enemies
 	add	hl, de
-;src/scripts/combat.c:147: uint8_t enemy_y = current_enemies[i].y;
+;src/scripts/combat.c:138: uint8_t enemy_y = current_enemies[i].y;
 	ld	a, (hl+)
 	ld	e, (hl)
-;src/scripts/combat.c:148: if (arrow_x == enemy_x && arrow_y == enemy_y) {
+;src/scripts/combat.c:139: if (arrow_x == enemy_x && arrow_y == enemy_y) {
 	sub	a, c
 	jr	NZ, 00146$
 	ld	a, b
@@ -833,7 +796,7 @@ _shoot_arrow::
 	jr	NZ, 00146$
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
-;src/scripts/combat.c:150: move_sprite(39, x, y);
+;src/scripts/combat.c:141: move_sprite(39, x, y);
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	a, #0x32
 	ld	(hl-), a
@@ -846,15 +809,15 @@ _shoot_arrow::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;src/scripts/combat.c:151: player_attack(1, i); // arrow atk
+;src/scripts/combat.c:142: player_attack(1, i); // arrow atk
 	ldhl	sp,	#0
 	ld	e, (hl)
 	ld	a, #0x01
 	call	_player_attack
-;src/scripts/combat.c:152: return;
+;src/scripts/combat.c:143: return;
 	jr	00147$
 00146$:
-;src/scripts/combat.c:145: for (int i=0; i<2; i++) {
+;src/scripts/combat.c:136: for (int i=0; i<2; i++) {
 	ldhl	sp,	#1
 	inc	(hl)
 	ldhl	sp,	#1
@@ -862,7 +825,7 @@ _shoot_arrow::
 	ld	(hl), a
 	jr	00145$
 00120$:
-;src/scripts/combat.c:155: if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
+;src/scripts/combat.c:146: if ((arrow_x == boss.x || arrow_x == boss.x+16) && (arrow_y == boss.y || arrow_y == boss.y + 16)) {
 	ld	a, (#(_boss + 1) + 0)
 	cp	a, c
 	jr	Z, 00125$
@@ -897,7 +860,7 @@ _shoot_arrow::
 00121$:
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 158)
-;src/scripts/combat.c:157: move_sprite(39, x, y);
+;src/scripts/combat.c:148: move_sprite(39, x, y);
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	a, #0x32
 	ld	(hl-), a
@@ -910,33 +873,33 @@ _shoot_arrow::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;src/scripts/combat.c:158: player_attack(1, 2);
+;src/scripts/combat.c:149: player_attack(1, 2);
 	ld	e, #0x02
 	ld	a, #0x01
 	call	_player_attack
-;src/scripts/combat.c:159: return;
+;src/scripts/combat.c:150: return;
 00147$:
-;src/scripts/combat.c:162: }
+;src/scripts/combat.c:153: }
 	add	sp, #3
 	ret
-;src/scripts/combat.c:164: void heal_player() {
+;src/scripts/combat.c:155: void heal_player() {
 ;	---------------------------------
 ; Function heal_player
 ; ---------------------------------
 _heal_player::
-;src/scripts/combat.c:165: uint8_t heal = heal_quantity;
+;src/scripts/combat.c:156: uint8_t heal = heal_quantity;
 	ld	a, (_heal_quantity)
 	ld	b, a
-;src/scripts/combat.c:166: current_hp += heal;
+;src/scripts/combat.c:157: current_hp += heal;
 	ld	hl, #_current_hp
 	ld	a, (hl)
 	add	a, b
-;src/scripts/combat.c:167: if (current_hp >= max_hp) {
+;src/scripts/combat.c:158: if (current_hp >= max_hp) {
 	ld	(hl), a
 	ld	hl, #_max_hp
 	sub	a, (hl)
 	jr	C, 00102$
-;src/scripts/combat.c:168: heal = heal_quantity - (current_hp - max_hp);
+;src/scripts/combat.c:159: heal = heal_quantity - (current_hp - max_hp);
 	ld	a, (#_current_hp)
 	ld	hl, #_max_hp
 	sub	a, (hl)
@@ -944,17 +907,17 @@ _heal_player::
 	ld	a, (#_heal_quantity)
 	sub	a, c
 	ld	b, a
-;src/scripts/combat.c:169: current_hp = max_hp;
+;src/scripts/combat.c:160: current_hp = max_hp;
 	ld	a, (#_max_hp)
 	ld	(#_current_hp),a
 00102$:
-;src/scripts/combat.c:171: play_heal_animation();
+;src/scripts/combat.c:162: play_heal_animation();
 	push	bc
 	ld	e, #b_play_heal_animation
 	ld	hl, #_play_heal_animation
 	call	___sdcc_bcall_ehl
 	pop	bc
-;src/scripts/combat.c:172: show_number(heal, 1, 0, 0);
+;src/scripts/combat.c:163: show_number(heal, 1, 0, 0);
 	xor	a, a
 	rrca
 	push	af
@@ -968,7 +931,7 @@ _heal_player::
 	ld	hl, #_show_number
 	call	___sdcc_bcall_ehl
 	add	sp, #4
-;src/scripts/combat.c:173: }
+;src/scripts/combat.c:164: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

@@ -1,6 +1,6 @@
 #pragma bank 3
 
-#include "player_utils.h"
+#include "scripts/player_utils.h"
 #include <gb/gb.h>
 
 

@@ -10,10 +10,10 @@
 	.globl _main
 	.globl _check_input_keys
 	.globl _game_init
-	.globl _return_to_camp
-	.globl _change_room
 	.globl b_set_mini_menu
 	.globl _set_mini_menu
+	.globl _return_to_camp
+	.globl _change_room
 	.globl _check_input_movement
 	.globl _check_open_menu
 	.globl b_check_time
@@ -78,30 +78,49 @@ _main::
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
 ;main.c:16: while(1) {
-00124$:
+00113$:
 ;main.c:17: check_open_menu();
 	call	_check_open_menu
-;main.c:18: if (menu_opened == 0){
-	ld	a, (#_menu_opened)
-	or	a, a
-	jr	NZ, 00119$
-;main.c:19: check_input_movement();
+;main.c:18: switch (menu_opened) {
+	ld	a, #0x06
+	ld	hl, #_menu_opened
+	sub	a, (hl)
+	jp	C, 00109$
+	ld	c, (hl)
+	ld	b, #0x00
+	ld	hl, #00146$
+	add	hl, bc
+	add	hl, bc
+	ld	c, (hl)
+	inc	hl
+	ld	h, (hl)
+	ld	l, c
+	jp	(hl)
+00146$:
+	.dw	00101$
+	.dw	00109$
+	.dw	00102$
+	.dw	00103$
+	.dw	00109$
+	.dw	00104$
+	.dw	00105$
+;main.c:19: case 0:
+00101$:
+;main.c:20: check_input_movement();
 	call	_check_input_movement
-;main.c:20: check_input_keys();
+;main.c:21: check_input_keys();
 	call	_check_input_keys
-;main.c:21: set_mini_menu();
+;main.c:22: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:22: change_room();
+;main.c:23: change_room();
 	call	_change_room
-	jp	00120$
-00119$:
-;main.c:24: else if (menu_opened == 2) {
-	ld	a, (#_menu_opened)
-	sub	a, #0x02
-	jr	NZ, 00116$
-;main.c:25: check_menu_options(0);
+;main.c:24: break;
+	jr	00109$
+;main.c:25: case 2:
+00102$:
+;main.c:26: check_menu_options(0);
 	xor	a, a
 	push	af
 	inc	sp
@@ -109,13 +128,11 @@ _main::
 	ld	hl, #_check_menu_options
 	call	___sdcc_bcall_ehl
 	inc	sp
-	jr	00120$
-00116$:
-;main.c:27: else if (menu_opened == 3) {
-	ld	a, (#_menu_opened)
-	sub	a, #0x03
-	jr	NZ, 00113$
-;main.c:28: check_menu_options(1);
+;main.c:27: break;
+	jr	00109$
+;main.c:28: case 3:
+00103$:
+;main.c:29: check_menu_options(1);
 	ld	a, #0x01
 	push	af
 	inc	sp
@@ -123,75 +140,68 @@ _main::
 	ld	hl, #_check_menu_options
 	call	___sdcc_bcall_ehl
 	inc	sp
-	jr	00120$
-00113$:
-;main.c:30: else if (menu_opened == 4) {
-	ld	a, (#_menu_opened)
-	sub	a, #0x04
-	jr	Z, 00120$
-;main.c:33: else if (menu_opened == 5) {
-	ld	a, (#_menu_opened)
-	sub	a, #0x05
-	jr	NZ, 00107$
-;main.c:34: check_map_options();
+;main.c:30: break;
+	jr	00109$
+;main.c:31: case 5:
+00104$:
+;main.c:32: check_map_options();
 	ld	e, #b_check_map_options
 	ld	hl, #_check_map_options
 	call	___sdcc_bcall_ehl
-	jr	00120$
-00107$:
-;main.c:36: else if (menu_opened == 6) {
-	ld	a, (#_menu_opened)
-	sub	a, #0x06
-	jr	NZ, 00120$
-;main.c:37: if (joypad() & J_A || joypad() & J_B) {
+;main.c:33: break;
+	jr	00109$
+;main.c:34: case 6:
+00105$:
+;main.c:35: if (joypad() & J_A || joypad() & J_B) {
 	call	_joypad
 	bit	4, a
-	jr	NZ, 00101$
+	jr	NZ, 00106$
 	call	_joypad
 	bit	5, a
-	jr	Z, 00102$
-00101$:
-;main.c:38: DISPLAY_OFF;
+	jr	Z, 00107$
+00106$:
+;main.c:36: DISPLAY_OFF;
 	call	_display_off
 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
 	ld	a, #0x07
 	ldh	(_WX_REG + 0), a
 	ld	a, #0x88
 	ldh	(_WY_REG + 0), a
-;main.c:40: menu_opened = 0;
+;main.c:38: menu_opened = 0;
 	xor	a, a
 	ld	(#_menu_opened),a
-;main.c:41: set_mini_menu();
+;main.c:39: set_mini_menu();
 	ld	e, #b_set_mini_menu
 	ld	hl, #_set_mini_menu
 	call	___sdcc_bcall_ehl
-;main.c:42: SHOW_SPRITES;
+;main.c:40: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;main.c:43: DISPLAY_ON;
+;main.c:41: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;main.c:44: delay(300);
+;main.c:42: delay(300);
 	ld	de, #0x012c
 	call	_delay
-00102$:
-;main.c:46: show_time();
+00107$:
+;main.c:44: show_time();
 	ld	e, #b_show_time
 	ld	hl, #_show_time
 	call	___sdcc_bcall_ehl
-00120$:
-;main.c:49: if (returning_to_camp) {
+;main.c:46: }
+00109$:
+;main.c:48: if (returning_to_camp) {
 	ld	hl, #_returning_to_camp
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00122$
-;main.c:50: returning_to_camp = 0;
+	jr	Z, 00111$
+;main.c:49: returning_to_camp = 0;
 	ld	(hl), #0x00
-;main.c:51: return_to_camp();
+;main.c:50: return_to_camp();
 	call	_return_to_camp
-00122$:
+00111$:
 ;main.c:53: check_time();
 	ld	e, #b_check_time
 	ld	hl, #_check_time
@@ -199,7 +209,7 @@ _main::
 ;main.c:54: wait_vbl_done();
 	call	_wait_vbl_done
 ;main.c:56: }
-	jp	00124$
+	jp	00113$
 _stairs:
 	.db #0xf1	; 241
 	.db #0xf2	; 242

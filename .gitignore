@@ -1,0 +1,7 @@
+*.gb
+*.o
+*.map
+*.sym
+*.ihx
+bin/
+obj/

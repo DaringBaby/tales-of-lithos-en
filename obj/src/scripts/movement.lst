@@ -7,1428 +7,1405 @@
                                       7 ;--------------------------------------------------------
                                       8 ; Public variables in this module
                                       9 ;--------------------------------------------------------
-                                     10 	.globl b_game_over
-                                     11 	.globl _game_over
-                                     12 	.globl _set_camp_map
-                                     13 	.globl b_set_mini_menu
-                                     14 	.globl _set_mini_menu
-                                     15 	.globl _clear_drops
-                                     16 	.globl _enemy_death
-                                     17 	.globl _go_next_floor
-                                     18 	.globl _check_drops
-                                     19 	.globl _go_into_dungeon
-                                     20 	.globl _save_game
+                                     10 	.globl b_save_game
+                                     11 	.globl _save_game
+                                     12 	.globl _check_drops
+                                     13 	.globl _player_attack
+                                     14 	.globl b_set_mini_menu
+                                     15 	.globl _set_mini_menu
+                                     16 	.globl b_game_over
+                                     17 	.globl _game_over
+                                     18 	.globl _clear_drops
+                                     19 	.globl _go_next_floor
+                                     20 	.globl _go_into_dungeon
                                      21 	.globl _hide_camp_sprites
-                                     22 	.globl _player_attack
-                                     23 	.globl b_play_attack_animation
-                                     24 	.globl _play_attack_animation
-                                     25 	.globl b_check_enemy
-                                     26 	.globl _check_enemy
+                                     22 	.globl _set_camp_map
+                                     23 	.globl b_play_walk_animation
+                                     24 	.globl _play_walk_animation
+                                     25 	.globl b_play_attack_animation
+                                     26 	.globl _play_attack_animation
                                      27 	.globl b_set_character_sprite
                                      28 	.globl _set_character_sprite
-                                     29 	.globl b_play_walk_animation
-                                     30 	.globl _play_walk_animation
+                                     29 	.globl b_check_enemy
+                                     30 	.globl _check_enemy
                                      31 	.globl b_death_sfx
                                      32 	.globl _death_sfx
                                      33 	.globl b_stairs_sfx
                                      34 	.globl _stairs_sfx
-                                     35 	.globl _hUGE_init
-                                     36 	.globl b_boss_death
-                                     37 	.globl _boss_death
-                                     38 	.globl b_move_boss
-                                     39 	.globl _move_boss
-                                     40 	.globl _move_enemy
-                                     41 	.globl _wait_vbl_done
-                                     42 	.globl _joypad
-                                     43 	.globl _delay
-                                     44 	.globl _check_input_movement
-                                     45 	.globl _smooth_movement
-                                     46 	.globl _move_character
-                                     47 	.globl _check_terrain
-                                     48 	.globl _is_sprite_at
-                                     49 ;--------------------------------------------------------
-                                     50 ; special function registers
-                                     51 ;--------------------------------------------------------
-                                     52 	.area _HRAM
-                                     53 ;--------------------------------------------------------
-                                     54 ; ram data
-                                     55 ;--------------------------------------------------------
-                                     56 	.area _DATA
-                                     57 ;--------------------------------------------------------
-                                     58 ; ram data
-                                     59 ;--------------------------------------------------------
-                                     60 	.area _INITIALIZED
-                                     61 ;--------------------------------------------------------
-                                     62 ; absolute external ram data
-                                     63 ;--------------------------------------------------------
-                                     64 	.area _DABS (ABS)
-                                     65 ;--------------------------------------------------------
-                                     66 ; global & static initialisations
-                                     67 ;--------------------------------------------------------
-                                     68 	.area _HOME
-                                     69 	.area _GSINIT
-                                     70 	.area _GSFINAL
-                                     71 	.area _GSINIT
-                                     72 ;--------------------------------------------------------
-                                     73 ; Home
-                                     74 ;--------------------------------------------------------
-                                     75 	.area _HOME
+                                     35 	.globl _play_song
+                                     36 	.globl _enemy_death
+                                     37 	.globl _move_enemy
+                                     38 	.globl b_boss_death
+                                     39 	.globl _boss_death
+                                     40 	.globl b_move_boss
+                                     41 	.globl _move_boss
+                                     42 	.globl _wait_vbl_done
+                                     43 	.globl _joypad
+                                     44 	.globl _delay
+                                     45 	.globl _check_input_movement
+                                     46 	.globl _smooth_movement
+                                     47 	.globl _move_character
+                                     48 	.globl _check_terrain
+                                     49 	.globl _is_sprite_at
+                                     50 ;--------------------------------------------------------
+                                     51 ; special function registers
+                                     52 ;--------------------------------------------------------
+                                     53 	.area _HRAM
+                                     54 ;--------------------------------------------------------
+                                     55 ; ram data
+                                     56 ;--------------------------------------------------------
+                                     57 	.area _DATA
+                                     58 ;--------------------------------------------------------
+                                     59 ; ram data
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _INITIALIZED
+                                     62 ;--------------------------------------------------------
+                                     63 ; absolute external ram data
+                                     64 ;--------------------------------------------------------
+                                     65 	.area _DABS (ABS)
+                                     66 ;--------------------------------------------------------
+                                     67 ; global & static initialisations
+                                     68 ;--------------------------------------------------------
+                                     69 	.area _HOME
+                                     70 	.area _GSINIT
+                                     71 	.area _GSFINAL
+                                     72 	.area _GSINIT
+                                     73 ;--------------------------------------------------------
+                                     74 ; Home
+                                     75 ;--------------------------------------------------------
                                      76 	.area _HOME
-                                     77 ;--------------------------------------------------------
-                                     78 ; code
-                                     79 ;--------------------------------------------------------
-                                     80 	.area _CODE
-                                     81 ;src/scripts/movement.c:4: void check_input_movement() {
-                                     82 ;	---------------------------------
-                                     83 ; Function check_input_movement
-                                     84 ; ---------------------------------
-    00000000                         85 _check_input_movement::
-    00000000 3B               [ 8]   86 	dec	sp
-                                     87 ;src/scripts/movement.c:5: uint8_t moved = 0;
-    00000001 F8 00            [12]   88 	ldhl	sp,	#0
-    00000003 36 00            [12]   89 	ld	(hl), #0x00
-                                     90 ;src/scripts/movement.c:7: if (joypad() & J_DOWN) {
-    00000005 CDr00r00         [24]   91 	call	_joypad
-    00000008 CB 5F            [ 8]   92 	bit	3, a
-    0000000A CAr8Fr00         [16]   93 	jp	Z, 00137$
-                                     94 ;src/scripts/movement.c:8: last_direction = 4;
-    0000000D 21r00r00         [12]   95 	ld	hl, #_last_direction
-    00000010 36 04            [12]   96 	ld	(hl), #0x04
-                                     97 ;src/scripts/movement.c:9: set_character_sprite(4);
-    00000012 3E 04            [ 8]   98 	ld	a, #0x04
-    00000014 F5               [16]   99 	push	af
-    00000015 33               [ 8]  100 	inc	sp
-    00000016 1Er00            [ 8]  101 	ld	e, #b_set_character_sprite
-    00000018 21r00r00         [12]  102 	ld	hl, #_set_character_sprite
-    0000001B CDr00r00         [24]  103 	call	___sdcc_bcall_ehl
-    0000001E 33               [ 8]  104 	inc	sp
-                                    105 ;src/scripts/movement.c:10: if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
-    0000001F FAr00r00         [16]  106 	ld	a, (_y)
-    00000022 C6 18            [ 8]  107 	add	a, #0x18
-    00000024 5F               [ 4]  108 	ld	e, a
-    00000025 FAr00r00         [16]  109 	ld	a, (_x)
-    00000028 C6 08            [ 8]  110 	add	a, #0x08
-    0000002A CDr66r05         [24]  111 	call	_check_terrain
-    0000002D B7               [ 4]  112 	or	a, a
-    0000002E CAr8Er02         [16]  113 	jp	Z, 00138$
-    00000031 FAr00r00         [16]  114 	ld	a, (_y)
-    00000034 C6 10            [ 8]  115 	add	a, #0x10
-    00000036 5F               [ 4]  116 	ld	e, a
-    00000037 FAr00r00         [16]  117 	ld	a, (_x)
-    0000003A CDr51r07         [24]  118 	call	_is_sprite_at
-    0000003D B7               [ 4]  119 	or	a, a
-    0000003E C2r8Er02         [16]  120 	jp	NZ, 00138$
-                                    121 ;src/scripts/movement.c:11: moved = 1;
-    00000041 F8 00            [12]  122 	ldhl	sp,	#0
-    00000043 36 01            [12]  123 	ld	(hl), #0x01
-                                    124 ;src/scripts/movement.c:12: if (!check_enemy(4)) {
-    00000045 3E 04            [ 8]  125 	ld	a, #0x04
-    00000047 F5               [16]  126 	push	af
-    00000048 33               [ 8]  127 	inc	sp
-    00000049 1Er00            [ 8]  128 	ld	e, #b_check_enemy
-    0000004B 21r00r00         [12]  129 	ld	hl, #_check_enemy
-    0000004E CDr00r00         [24]  130 	call	___sdcc_bcall_ehl
-    00000051 33               [ 8]  131 	inc	sp
-    00000052 B7               [ 4]  132 	or	a, a
-    00000053 20 08            [12]  133 	jr	NZ, 00102$
-                                    134 ;src/scripts/movement.c:13: smooth_movement(4);
-    00000055 3E 04            [ 8]  135 	ld	a, #0x04
-    00000057 CDr94r03         [24]  136 	call	_smooth_movement
-    0000005A C3r8Er02         [16]  137 	jp	00138$
-    0000005D                        138 00102$:
-                                    139 ;src/scripts/movement.c:16: uint8_t enemy_idx = check_enemy(4);
-    0000005D 3E 04            [ 8]  140 	ld	a, #0x04
-    0000005F F5               [16]  141 	push	af
-    00000060 33               [ 8]  142 	inc	sp
-    00000061 1Er00            [ 8]  143 	ld	e, #b_check_enemy
-    00000063 21r00r00         [12]  144 	ld	hl, #_check_enemy
-    00000066 CDr00r00         [24]  145 	call	___sdcc_bcall_ehl
-    00000069 33               [ 8]  146 	inc	sp
-    0000006A 5F               [ 4]  147 	ld	e, a
-                                    148 ;src/scripts/movement.c:17: play_attack_animation(4);
-    0000006B D5               [16]  149 	push	de
-    0000006C 3E 04            [ 8]  150 	ld	a, #0x04
-    0000006E F5               [16]  151 	push	af
-    0000006F 33               [ 8]  152 	inc	sp
-    00000070 1Er00            [ 8]  153 	ld	e, #b_play_attack_animation
-    00000072 21r00r00         [12]  154 	ld	hl, #_play_attack_animation
-    00000075 CDr00r00         [24]  155 	call	___sdcc_bcall_ehl
-    00000078 33               [ 8]  156 	inc	sp
-    00000079 D1               [12]  157 	pop	de
-                                    158 ;src/scripts/movement.c:18: player_attack(0, enemy_idx-1);
-    0000007A 1D               [ 4]  159 	dec	e
-    0000007B AF               [ 4]  160 	xor	a, a
-    0000007C CDr00r00         [24]  161 	call	_player_attack
-                                    162 ;src/scripts/movement.c:19: set_character_sprite(4);
-    0000007F 3E 04            [ 8]  163 	ld	a, #0x04
-    00000081 F5               [16]  164 	push	af
-    00000082 33               [ 8]  165 	inc	sp
-    00000083 1Er00            [ 8]  166 	ld	e, #b_set_character_sprite
-    00000085 21r00r00         [12]  167 	ld	hl, #_set_character_sprite
-    00000088 CDr00r00         [24]  168 	call	___sdcc_bcall_ehl
-    0000008B 33               [ 8]  169 	inc	sp
-    0000008C C3r8Er02         [16]  170 	jp	00138$
-    0000008F                        171 00137$:
-                                    172 ;src/scripts/movement.c:23: else if (joypad() & J_UP) {
-    0000008F CDr00r00         [24]  173 	call	_joypad
-    00000092 CB 57            [ 8]  174 	bit	2, a
-    00000094 CAr82r01         [16]  175 	jp	Z, 00134$
-                                    176 ;src/scripts/movement.c:24: set_character_sprite(1);
-    00000097 3E 01            [ 8]  177 	ld	a, #0x01
-    00000099 F5               [16]  178 	push	af
-    0000009A 33               [ 8]  179 	inc	sp
-    0000009B 1Er00            [ 8]  180 	ld	e, #b_set_character_sprite
-    0000009D 21r00r00         [12]  181 	ld	hl, #_set_character_sprite
-    000000A0 CDr00r00         [24]  182 	call	___sdcc_bcall_ehl
-    000000A3 33               [ 8]  183 	inc	sp
-                                    184 ;src/scripts/movement.c:25: if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
-    000000A4 FAr00r00         [16]  185 	ld	a, (_y)
-    000000A7 C6 F8            [ 8]  186 	add	a, #0xf8
-    000000A9 5F               [ 4]  187 	ld	e, a
-    000000AA FAr00r00         [16]  188 	ld	a, (_x)
-    000000AD C6 08            [ 8]  189 	add	a, #0x08
-    000000AF CDr66r05         [24]  190 	call	_check_terrain
-    000000B2 B7               [ 4]  191 	or	a, a
-    000000B3 CAr8Er02         [16]  192 	jp	Z, 00138$
-    000000B6 FAr00r00         [16]  193 	ld	a, (_y)
-    000000B9 C6 F0            [ 8]  194 	add	a, #0xf0
-    000000BB 5F               [ 4]  195 	ld	e, a
-    000000BC FAr00r00         [16]  196 	ld	a, (_x)
-    000000BF CDr51r07         [24]  197 	call	_is_sprite_at
-    000000C2 B7               [ 4]  198 	or	a, a
-    000000C3 C2r8Er02         [16]  199 	jp	NZ, 00138$
-                                    200 ;src/scripts/movement.c:26: last_direction = 1;
-    000000C6 21r00r00         [12]  201 	ld	hl, #_last_direction
-    000000C9 36 01            [12]  202 	ld	(hl), #0x01
-                                    203 ;src/scripts/movement.c:27: moved = 1;
-    000000CB F8 00            [12]  204 	ldhl	sp,	#0
-    000000CD 36 01            [12]  205 	ld	(hl), #0x01
-                                    206 ;src/scripts/movement.c:28: if (!check_enemy(1)) {
-    000000CF 3E 01            [ 8]  207 	ld	a, #0x01
-    000000D1 F5               [16]  208 	push	af
-    000000D2 33               [ 8]  209 	inc	sp
-    000000D3 1Er00            [ 8]  210 	ld	e, #b_check_enemy
-    000000D5 21r00r00         [12]  211 	ld	hl, #_check_enemy
-    000000D8 CDr00r00         [24]  212 	call	___sdcc_bcall_ehl
-    000000DB 33               [ 8]  213 	inc	sp
-    000000DC B7               [ 4]  214 	or	a, a
-    000000DD 20 07            [12]  215 	jr	NZ, 00108$
-                                    216 ;src/scripts/movement.c:29: smooth_movement(1);
-    000000DF 3E 01            [ 8]  217 	ld	a, #0x01
-    000000E1 CDr94r03         [24]  218 	call	_smooth_movement
-    000000E4 18 2F            [12]  219 	jr	00109$
-    000000E6                        220 00108$:
-                                    221 ;src/scripts/movement.c:32: uint8_t enemy_idx = check_enemy(1);
-    000000E6 3E 01            [ 8]  222 	ld	a, #0x01
-    000000E8 F5               [16]  223 	push	af
-    000000E9 33               [ 8]  224 	inc	sp
-    000000EA 1Er00            [ 8]  225 	ld	e, #b_check_enemy
-    000000EC 21r00r00         [12]  226 	ld	hl, #_check_enemy
-    000000EF CDr00r00         [24]  227 	call	___sdcc_bcall_ehl
-    000000F2 33               [ 8]  228 	inc	sp
-    000000F3 5F               [ 4]  229 	ld	e, a
-                                    230 ;src/scripts/movement.c:33: play_attack_animation(1);
-    000000F4 D5               [16]  231 	push	de
-    000000F5 3E 01            [ 8]  232 	ld	a, #0x01
-    000000F7 F5               [16]  233 	push	af
-    000000F8 33               [ 8]  234 	inc	sp
-    000000F9 1Er00            [ 8]  235 	ld	e, #b_play_attack_animation
-    000000FB 21r00r00         [12]  236 	ld	hl, #_play_attack_animation
-    000000FE CDr00r00         [24]  237 	call	___sdcc_bcall_ehl
-    00000101 33               [ 8]  238 	inc	sp
-    00000102 D1               [12]  239 	pop	de
-                                    240 ;src/scripts/movement.c:34: player_attack(0, enemy_idx-1);
-    00000103 1D               [ 4]  241 	dec	e
-    00000104 AF               [ 4]  242 	xor	a, a
-    00000105 CDr00r00         [24]  243 	call	_player_attack
-                                    244 ;src/scripts/movement.c:35: set_character_sprite(1);
-    00000108 3E 01            [ 8]  245 	ld	a, #0x01
-    0000010A F5               [16]  246 	push	af
-    0000010B 33               [ 8]  247 	inc	sp
-    0000010C 1Er00            [ 8]  248 	ld	e, #b_set_character_sprite
-    0000010E 21r00r00         [12]  249 	ld	hl, #_set_character_sprite
-    00000111 CDr00r00         [24]  250 	call	___sdcc_bcall_ehl
-    00000114 33               [ 8]  251 	inc	sp
-    00000115                        252 00109$:
-                                    253 ;src/scripts/movement.c:37: if (current_location == 0 && y <= 40) {
-    00000115 FAr00r00         [16]  254 	ld	a, (#_current_location)
-    00000118 B7               [ 4]  255 	or	a, a
-    00000119 C2r8Er02         [16]  256 	jp	NZ, 00138$
-    0000011C 3E 28            [ 8]  257 	ld	a, #0x28
-    0000011E 21r00r00         [12]  258 	ld	hl, #_y
-    00000121 96               [ 8]  259 	sub	a, (hl)
-    00000122 DAr8Er02         [16]  260 	jp	C, 00138$
-                                    261 ;src/scripts/movement.c:38: current_location = 1;
-    00000125 21r00r00         [12]  262 	ld	hl, #_current_location
-    00000128 36 01            [12]  263 	ld	(hl), #0x01
-                                    264 ;src/scripts/movement.c:39: current_floor = 5;
-    0000012A 21r00r00         [12]  265 	ld	hl, #_current_floor
-    0000012D 36 05            [12]  266 	ld	(hl), #0x05
-                                    267 ;src/scripts/movement.c:40: obt_mythril = 0;
-                                    268 ;src/scripts/movement.c:41: obt_exp = 0;
-    0000012F AF               [ 4]  269 	xor	a, a
-    00000130 EAr00r00         [16]  270 	ld	(#_obt_mythril), a
-    00000133 EAr00r00         [16]  271 	ld	(#_obt_exp),a
-                                    272 ;src/scripts/movement.c:42: boss.defeated = 1;
-    00000136 21r09r00         [12]  273 	ld	hl, #(_boss + 9)
-    00000139 36 01            [12]  274 	ld	(hl), #0x01
-                                    275 ;src/scripts/movement.c:43: hide_camp_sprites();
-    0000013B CDr00r00         [24]  276 	call	_hide_camp_sprites
-                                    277 ;src/scripts/movement.c:44: save_game();
-    0000013E CDr00r00         [24]  278 	call	_save_game
-                                    279 ;src/scripts/movement.c:45: go_into_dungeon();
-    00000141 CDr00r00         [24]  280 	call	_go_into_dungeon
-                                    281 ;src/scripts/movement.c:46: current_song_bank = 4;
-    00000144 21r00r00         [12]  282 	ld	hl, #_current_song_bank
-    00000147 36 04            [12]  283 	ld	(hl), #0x04
-                                    284 ;src/scripts/movement.c:47: SWITCH_ROM(current_song_bank);
-    00000149 3E 04            [ 8]  285 	ld	a, #0x04
-    0000014B E0r00            [12]  286 	ldh	(__current_bank + 0), a
-    0000014D 21r00r00         [12]  287 	ld	hl, #_rROMB0
-    00000150 36 04            [12]  288 	ld	(hl), #0x04
-                                    289 ;src/scripts/movement.c:48: hUGE_init(&dungeon_theme);
-    00000152 11r00r00         [12]  290 	ld	de, #_dungeon_theme
-    00000155 CDr00r00         [24]  291 	call	_hUGE_init
-                                    292 ;src/scripts/movement.c:49: SWITCH_ROM(1);
-    00000158 3E 01            [ 8]  293 	ld	a, #0x01
-    0000015A E0r00            [12]  294 	ldh	(__current_bank + 0), a
-    0000015C 21r00r00         [12]  295 	ld	hl, #_rROMB0
-    0000015F 36 01            [12]  296 	ld	(hl), #0x01
-                                    297 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000161 21r12r00         [12]  298 	ld	hl, #(_shadow_OAM + 18)
-    00000164 36 00            [12]  299 	ld	(hl), #0x00
-    00000166 21r16r00         [12]  300 	ld	hl, #(_shadow_OAM + 22)
-    00000169 36 01            [12]  301 	ld	(hl), #0x01
-    0000016B 21r1Ar00         [12]  302 	ld	hl, #(_shadow_OAM + 26)
-    0000016E 36 02            [12]  303 	ld	(hl), #0x02
-    00000170 21r1Er00         [12]  304 	ld	hl, #(_shadow_OAM + 30)
-    00000173 36 03            [12]  305 	ld	(hl), #0x03
-                                    306 ;src/scripts/movement.c:54: x = 120;
-    00000175 21r00r00         [12]  307 	ld	hl, #_x
-    00000178 36 78            [12]  308 	ld	(hl), #0x78
-                                    309 ;src/scripts/movement.c:55: y = 112;
-    0000017A 21r00r00         [12]  310 	ld	hl, #_y
-    0000017D 36 70            [12]  311 	ld	(hl), #0x70
-                                    312 ;src/scripts/movement.c:56: return;
-    0000017F C3r92r03         [16]  313 	jp	00155$
-    00000182                        314 00134$:
-                                    315 ;src/scripts/movement.c:60: else if (joypad() & J_LEFT) {
-    00000182 CDr00r00         [24]  316 	call	_joypad
-    00000185 CB 4F            [ 8]  317 	bit	1, a
-    00000187 CAr0Cr02         [16]  318 	jp	Z, 00131$
-                                    319 ;src/scripts/movement.c:61: last_direction = 8;
-    0000018A 21r00r00         [12]  320 	ld	hl, #_last_direction
-    0000018D 36 08            [12]  321 	ld	(hl), #0x08
-                                    322 ;src/scripts/movement.c:62: set_character_sprite(8);
-    0000018F 3E 08            [ 8]  323 	ld	a, #0x08
-    00000191 F5               [16]  324 	push	af
-    00000192 33               [ 8]  325 	inc	sp
-    00000193 1Er00            [ 8]  326 	ld	e, #b_set_character_sprite
-    00000195 21r00r00         [12]  327 	ld	hl, #_set_character_sprite
-    00000198 CDr00r00         [24]  328 	call	___sdcc_bcall_ehl
-    0000019B 33               [ 8]  329 	inc	sp
-                                    330 ;src/scripts/movement.c:63: if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
-    0000019C FAr00r00         [16]  331 	ld	a, (_y)
-    0000019F C6 08            [ 8]  332 	add	a, #0x08
-    000001A1 5F               [ 4]  333 	ld	e, a
-    000001A2 FAr00r00         [16]  334 	ld	a, (_x)
-    000001A5 C6 F8            [ 8]  335 	add	a, #0xf8
-    000001A7 CDr66r05         [24]  336 	call	_check_terrain
-    000001AA B7               [ 4]  337 	or	a, a
-    000001AB CAr8Er02         [16]  338 	jp	Z, 00138$
-    000001AE FAr00r00         [16]  339 	ld	a, (_x)
-    000001B1 C6 F0            [ 8]  340 	add	a, #0xf0
-    000001B3 21r00r00         [12]  341 	ld	hl, #_y
-    000001B6 5E               [ 8]  342 	ld	e, (hl)
-    000001B7 CDr51r07         [24]  343 	call	_is_sprite_at
-    000001BA B7               [ 4]  344 	or	a, a
-    000001BB C2r8Er02         [16]  345 	jp	NZ, 00138$
-                                    346 ;src/scripts/movement.c:64: moved = 1;
-    000001BE F8 00            [12]  347 	ldhl	sp,	#0
-    000001C0 36 01            [12]  348 	ld	(hl), #0x01
-                                    349 ;src/scripts/movement.c:65: if (!check_enemy(8)) {
-    000001C2 3E 08            [ 8]  350 	ld	a, #0x08
-    000001C4 F5               [16]  351 	push	af
-    000001C5 33               [ 8]  352 	inc	sp
-    000001C6 1Er00            [ 8]  353 	ld	e, #b_check_enemy
-    000001C8 21r00r00         [12]  354 	ld	hl, #_check_enemy
-    000001CB CDr00r00         [24]  355 	call	___sdcc_bcall_ehl
-    000001CE 33               [ 8]  356 	inc	sp
-    000001CF B7               [ 4]  357 	or	a, a
-    000001D0 20 08            [12]  358 	jr	NZ, 00117$
-                                    359 ;src/scripts/movement.c:66: smooth_movement(8);
-    000001D2 3E 08            [ 8]  360 	ld	a, #0x08
-    000001D4 CDr94r03         [24]  361 	call	_smooth_movement
-    000001D7 C3r8Er02         [16]  362 	jp	00138$
-    000001DA                        363 00117$:
-                                    364 ;src/scripts/movement.c:69: uint8_t enemy_idx = check_enemy(8);
-    000001DA 3E 08            [ 8]  365 	ld	a, #0x08
-    000001DC F5               [16]  366 	push	af
-    000001DD 33               [ 8]  367 	inc	sp
-    000001DE 1Er00            [ 8]  368 	ld	e, #b_check_enemy
-    000001E0 21r00r00         [12]  369 	ld	hl, #_check_enemy
-    000001E3 CDr00r00         [24]  370 	call	___sdcc_bcall_ehl
-    000001E6 33               [ 8]  371 	inc	sp
-    000001E7 5F               [ 4]  372 	ld	e, a
-                                    373 ;src/scripts/movement.c:70: play_attack_animation(8);
-    000001E8 D5               [16]  374 	push	de
-    000001E9 3E 08            [ 8]  375 	ld	a, #0x08
-    000001EB F5               [16]  376 	push	af
-    000001EC 33               [ 8]  377 	inc	sp
-    000001ED 1Er00            [ 8]  378 	ld	e, #b_play_attack_animation
-    000001EF 21r00r00         [12]  379 	ld	hl, #_play_attack_animation
-    000001F2 CDr00r00         [24]  380 	call	___sdcc_bcall_ehl
-    000001F5 33               [ 8]  381 	inc	sp
-    000001F6 D1               [12]  382 	pop	de
-                                    383 ;src/scripts/movement.c:71: player_attack(0, enemy_idx-1);
-    000001F7 1D               [ 4]  384 	dec	e
-    000001F8 AF               [ 4]  385 	xor	a, a
-    000001F9 CDr00r00         [24]  386 	call	_player_attack
-                                    387 ;src/scripts/movement.c:72: set_character_sprite(8);
-    000001FC 3E 08            [ 8]  388 	ld	a, #0x08
-    000001FE F5               [16]  389 	push	af
-    000001FF 33               [ 8]  390 	inc	sp
-    00000200 1Er00            [ 8]  391 	ld	e, #b_set_character_sprite
-    00000202 21r00r00         [12]  392 	ld	hl, #_set_character_sprite
-    00000205 CDr00r00         [24]  393 	call	___sdcc_bcall_ehl
-    00000208 33               [ 8]  394 	inc	sp
-    00000209 C3r8Er02         [16]  395 	jp	00138$
-    0000020C                        396 00131$:
-                                    397 ;src/scripts/movement.c:76: else if (joypad() & J_RIGHT) {
-    0000020C CDr00r00         [24]  398 	call	_joypad
-    0000020F 0F               [ 4]  399 	rrca
-    00000210 30 7C            [12]  400 	jr	NC, 00138$
-                                    401 ;src/scripts/movement.c:77: set_character_sprite(2);
-    00000212 3E 02            [ 8]  402 	ld	a, #0x02
-    00000214 F5               [16]  403 	push	af
-    00000215 33               [ 8]  404 	inc	sp
-    00000216 1Er00            [ 8]  405 	ld	e, #b_set_character_sprite
-    00000218 21r00r00         [12]  406 	ld	hl, #_set_character_sprite
-    0000021B CDr00r00         [24]  407 	call	___sdcc_bcall_ehl
-    0000021E 33               [ 8]  408 	inc	sp
-                                    409 ;src/scripts/movement.c:78: last_direction = 2;
-    0000021F 21r00r00         [12]  410 	ld	hl, #_last_direction
-    00000222 36 02            [12]  411 	ld	(hl), #0x02
-                                    412 ;src/scripts/movement.c:79: if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
-    00000224 FAr00r00         [16]  413 	ld	a, (_y)
-    00000227 C6 08            [ 8]  414 	add	a, #0x08
-    00000229 5F               [ 4]  415 	ld	e, a
-    0000022A FAr00r00         [16]  416 	ld	a, (_x)
-    0000022D C6 18            [ 8]  417 	add	a, #0x18
-    0000022F CDr66r05         [24]  418 	call	_check_terrain
-    00000232 B7               [ 4]  419 	or	a, a
-    00000233 28 59            [12]  420 	jr	Z, 00138$
-    00000235 FAr00r00         [16]  421 	ld	a, (_x)
-    00000238 C6 10            [ 8]  422 	add	a, #0x10
-    0000023A 21r00r00         [12]  423 	ld	hl, #_y
-    0000023D 5E               [ 8]  424 	ld	e, (hl)
-    0000023E CDr51r07         [24]  425 	call	_is_sprite_at
-    00000241 B7               [ 4]  426 	or	a, a
-    00000242 20 4A            [12]  427 	jr	NZ, 00138$
-                                    428 ;src/scripts/movement.c:80: moved = 1;
-    00000244 F8 00            [12]  429 	ldhl	sp,	#0
-    00000246 36 01            [12]  430 	ld	(hl), #0x01
-                                    431 ;src/scripts/movement.c:81: if (!check_enemy(2)) {
-    00000248 3E 02            [ 8]  432 	ld	a, #0x02
-    0000024A F5               [16]  433 	push	af
-    0000024B 33               [ 8]  434 	inc	sp
-    0000024C 1Er00            [ 8]  435 	ld	e, #b_check_enemy
-    0000024E 21r00r00         [12]  436 	ld	hl, #_check_enemy
-    00000251 CDr00r00         [24]  437 	call	___sdcc_bcall_ehl
-    00000254 33               [ 8]  438 	inc	sp
-    00000255 B7               [ 4]  439 	or	a, a
-    00000256 20 07            [12]  440 	jr	NZ, 00123$
-                                    441 ;src/scripts/movement.c:82: smooth_movement(2);
-    00000258 3E 02            [ 8]  442 	ld	a, #0x02
-    0000025A CDr94r03         [24]  443 	call	_smooth_movement
-    0000025D 18 2F            [12]  444 	jr	00138$
-    0000025F                        445 00123$:
-                                    446 ;src/scripts/movement.c:85: uint8_t enemy_idx = check_enemy(2);
-    0000025F 3E 02            [ 8]  447 	ld	a, #0x02
-    00000261 F5               [16]  448 	push	af
-    00000262 33               [ 8]  449 	inc	sp
-    00000263 1Er00            [ 8]  450 	ld	e, #b_check_enemy
-    00000265 21r00r00         [12]  451 	ld	hl, #_check_enemy
-    00000268 CDr00r00         [24]  452 	call	___sdcc_bcall_ehl
-    0000026B 33               [ 8]  453 	inc	sp
-    0000026C 5F               [ 4]  454 	ld	e, a
-                                    455 ;src/scripts/movement.c:86: play_attack_animation(2);
-    0000026D D5               [16]  456 	push	de
-    0000026E 3E 02            [ 8]  457 	ld	a, #0x02
-    00000270 F5               [16]  458 	push	af
-    00000271 33               [ 8]  459 	inc	sp
-    00000272 1Er00            [ 8]  460 	ld	e, #b_play_attack_animation
-    00000274 21r00r00         [12]  461 	ld	hl, #_play_attack_animation
-    00000277 CDr00r00         [24]  462 	call	___sdcc_bcall_ehl
-    0000027A 33               [ 8]  463 	inc	sp
-    0000027B D1               [12]  464 	pop	de
-                                    465 ;src/scripts/movement.c:87: player_attack(0, enemy_idx-1);
-    0000027C 1D               [ 4]  466 	dec	e
-    0000027D AF               [ 4]  467 	xor	a, a
-    0000027E CDr00r00         [24]  468 	call	_player_attack
-                                    469 ;src/scripts/movement.c:88: set_character_sprite(2);
-    00000281 3E 02            [ 8]  470 	ld	a, #0x02
-    00000283 F5               [16]  471 	push	af
-    00000284 33               [ 8]  472 	inc	sp
-    00000285 1Er00            [ 8]  473 	ld	e, #b_set_character_sprite
-    00000287 21r00r00         [12]  474 	ld	hl, #_set_character_sprite
-    0000028A CDr00r00         [24]  475 	call	___sdcc_bcall_ehl
-    0000028D 33               [ 8]  476 	inc	sp
-    0000028E                        477 00138$:
-                                    478 ;src/scripts/movement.c:93: if (moved) {
-    0000028E F8 00            [12]  479 	ldhl	sp,	#0
-    00000290 7E               [ 8]  480 	ld	a, (hl)
-    00000291 B7               [ 4]  481 	or	a, a
-    00000292 CAr92r03         [16]  482 	jp	Z, 00155$
-                                    483 ;src/scripts/movement.c:95: check_drops(x, y);
-    00000295 FAr00r00         [16]  484 	ld	a, (_y)
-    00000298 5F               [ 4]  485 	ld	e, a
-    00000299 FAr00r00         [16]  486 	ld	a, (_x)
-    0000029C CDr00r00         [24]  487 	call	_check_drops
-                                    488 ;src/scripts/movement.c:96: delay(20);
-    0000029F 11 14 00         [12]  489 	ld	de, #0x0014
-    000002A2 CDr00r00         [24]  490 	call	_delay
-                                    491 ;src/scripts/movement.c:97: if (current_location == 1) {
-    000002A5 FAr00r00         [16]  492 	ld	a, (#_current_location)
-    000002A8 3D               [ 4]  493 	dec	a
-    000002A9 C2r92r03         [16]  494 	jp	NZ, 00155$
-                                    495 ;src/scripts/movement.c:98: move_enemy(&current_enemies[0]);
-    000002AC 11r00r00         [12]  496 	ld	de, #_current_enemies
-    000002AF CDr00r00         [24]  497 	call	_move_enemy
-                                    498 ;src/scripts/movement.c:99: move_enemy(&current_enemies[1]);
-    000002B2 11r0Cr00         [12]  499 	ld	de, #(_current_enemies + 12)
-    000002B5 CDr00r00         [24]  500 	call	_move_enemy
-                                    501 ;src/scripts/movement.c:100: move_boss(&boss);
-    000002B8 11r00r00         [12]  502 	ld	de, #_boss
-    000002BB D5               [16]  503 	push	de
-    000002BC 1Er00            [ 8]  504 	ld	e, #b_move_boss
-    000002BE 21r00r00         [12]  505 	ld	hl, #_move_boss
-    000002C1 CDr00r00         [24]  506 	call	___sdcc_bcall_ehl
-    000002C4 E1               [12]  507 	pop	hl
-                                    508 ;src/scripts/movement.c:102: if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
-    000002C5 11r00r00         [12]  509 	ld	de, #_dungeon+0
-    000002C8 01r00r00         [12]  510 	ld	bc, #_player_coords+0
-    000002CB 0A               [ 8]  511 	ld	a, (bc)
-    000002CC 6F               [ 4]  512 	ld	l, a
-    000002CD 07               [ 4]  513 	rlca
-    000002CE 9F               [ 4]  514 	sbc	a, a
-    000002CF 67               [ 4]  515 	ld	h, a
-    000002D0 29               [ 8]  516 	add	hl, hl
-    000002D1 29               [ 8]  517 	add	hl, hl
-    000002D2 19               [ 8]  518 	add	hl, de
-    000002D3 03               [ 8]  519 	inc	bc
-    000002D4 0A               [ 8]  520 	ld	a, (bc)
-    000002D5 5F               [ 4]  521 	ld	e, a
-    000002D6 16 00            [ 8]  522 	ld	d, #0x00
-    000002D8 19               [ 8]  523 	add	hl, de
-    000002D9 7E               [ 8]  524 	ld	a, (hl)
-    000002DA D6 45            [ 8]  525 	sub	a, #0x45
-    000002DC 20 21            [12]  526 	jr	NZ, 00140$
-    000002DE 3E 20            [ 8]  527 	ld	a, #0x20
-    000002E0 21r00r00         [12]  528 	ld	hl, #_x
-    000002E3 96               [ 8]  529 	sub	a, (hl)
-    000002E4 38 19            [12]  530 	jr	C, 00140$
-    000002E6 3E 28            [ 8]  531 	ld	a, #0x28
-    000002E8 21r00r00         [12]  532 	ld	hl, #_y
-    000002EB 96               [ 8]  533 	sub	a, (hl)
-    000002EC 38 11            [12]  534 	jr	C, 00140$
-    000002EE FAr00r00         [16]  535 	ld	a, (#_boss_battle)
-    000002F1 B7               [ 4]  536 	or	a, a
-    000002F2 20 0B            [12]  537 	jr	NZ, 00140$
-                                    538 ;src/scripts/movement.c:103: stairs_sfx();
-    000002F4 1Er00            [ 8]  539 	ld	e, #b_stairs_sfx
-    000002F6 21r00r00         [12]  540 	ld	hl, #_stairs_sfx
-    000002F9 CDr00r00         [24]  541 	call	___sdcc_bcall_ehl
-                                    542 ;src/scripts/movement.c:104: go_next_floor();
-    000002FC CDr00r00         [24]  543 	call	_go_next_floor
-    000002FF                        544 00140$:
-                                    545 ;src/scripts/movement.c:107: if (current_hp == 0) {
-    000002FF FAr00r00         [16]  546 	ld	a, (#_current_hp)
-    00000302 B7               [ 4]  547 	or	a, a
-    00000303 C2r92r03         [16]  548 	jp	NZ, 00155$
-                                    549 ;src/scripts/movement.c:108: death_sfx();
-    00000306 1Er00            [ 8]  550 	ld	e, #b_death_sfx
-    00000308 21r00r00         [12]  551 	ld	hl, #_death_sfx
-    0000030B CDr00r00         [24]  552 	call	___sdcc_bcall_ehl
-                                    553 ;src/scripts/movement.c:109: delay(100);
-    0000030E 11 64 00         [12]  554 	ld	de, #0x0064
-    00000311 CDr00r00         [24]  555 	call	_delay
-                                    556 ;src/scripts/movement.c:110: current_song_bank = 3;
-    00000314 21r00r00         [12]  557 	ld	hl, #_current_song_bank
-    00000317 36 03            [12]  558 	ld	(hl), #0x03
-                                    559 ;src/scripts/movement.c:111: SWITCH_ROM(current_song_bank);
-    00000319 3E 03            [ 8]  560 	ld	a, #0x03
-    0000031B E0r00            [12]  561 	ldh	(__current_bank + 0), a
-    0000031D 21r00r00         [12]  562 	ld	hl, #_rROMB0
-    00000320 36 03            [12]  563 	ld	(hl), #0x03
-                                    564 ;src/scripts/movement.c:112: hUGE_init(&gameover_jingle);
-    00000322 11r00r00         [12]  565 	ld	de, #_gameover_jingle
-    00000325 CDr00r00         [24]  566 	call	_hUGE_init
-                                    567 ;src/scripts/movement.c:113: SWITCH_ROM(1);
-    00000328 3E 01            [ 8]  568 	ld	a, #0x01
-    0000032A E0r00            [12]  569 	ldh	(__current_bank + 0), a
-    0000032C 21r00r00         [12]  570 	ld	hl, #_rROMB0
-    0000032F 36 01            [12]  571 	ld	(hl), #0x01
-                                    572 ;src/scripts/movement.c:114: game_over();
-    00000331 1Er00            [ 8]  573 	ld	e, #b_game_over
-    00000333 21r00r00         [12]  574 	ld	hl, #_game_over
-    00000336 CDr00r00         [24]  575 	call	___sdcc_bcall_ehl
-                                    576 ;src/scripts/movement.c:115: enemy_death(&current_enemies[0]);
-    00000339 11r00r00         [12]  577 	ld	de, #_current_enemies
-    0000033C CDr00r00         [24]  578 	call	_enemy_death
-                                    579 ;src/scripts/movement.c:116: enemy_death(&current_enemies[1]);
-    0000033F 11r0Cr00         [12]  580 	ld	de, #(_current_enemies + 12)
-    00000342 CDr00r00         [24]  581 	call	_enemy_death
-                                    582 ;src/scripts/movement.c:117: boss_death(&boss);
-    00000345 11r00r00         [12]  583 	ld	de, #_boss
-    00000348 D5               [16]  584 	push	de
-    00000349 1Er00            [ 8]  585 	ld	e, #b_boss_death
-    0000034B 21r00r00         [12]  586 	ld	hl, #_boss_death
-    0000034E CDr00r00         [24]  587 	call	___sdcc_bcall_ehl
-    00000351 E1               [12]  588 	pop	hl
-                                    589 ;src/scripts/movement.c:118: clear_drops();
-    00000352 CDr00r00         [24]  590 	call	_clear_drops
-                                    591 ;src/scripts/movement.c:119: boss_floor_defeated = 0;
-                                    592 ;src/scripts/movement.c:120: key_obtained = 0;
-    00000355 AF               [ 4]  593 	xor	a, a
-    00000356 EAr00r00         [16]  594 	ld	(#_boss_floor_defeated), a
-    00000359 EAr00r00         [16]  595 	ld	(#_key_obtained),a
-                                    596 ;src/scripts/movement.c:121: boss_battle = 0;
-    0000035C AF               [ 4]  597 	xor	a, a
-    0000035D EAr00r00         [16]  598 	ld	(#_boss_battle),a
-                                    599 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
-    00000360 3E 07            [ 8]  600 	ld	a, #0x07
-    00000362 E0r00            [12]  601 	ldh	(_WX_REG + 0), a
-    00000364 3E 88            [ 8]  602 	ld	a, #0x88
-    00000366 E0r00            [12]  603 	ldh	(_WY_REG + 0), a
-                                    604 ;src/scripts/movement.c:123: set_mini_menu();
-    00000368 1Er00            [ 8]  605 	ld	e, #b_set_mini_menu
-    0000036A 21r00r00         [12]  606 	ld	hl, #_set_mini_menu
-    0000036D CDr00r00         [24]  607 	call	___sdcc_bcall_ehl
-                                    608 ;src/scripts/movement.c:124: set_camp_map();
-    00000370 CDr00r00         [24]  609 	call	_set_camp_map
-                                    610 ;src/scripts/movement.c:125: x = 120;
-    00000373 21r00r00         [12]  611 	ld	hl, #_x
-    00000376 36 78            [12]  612 	ld	(hl), #0x78
-                                    613 ;src/scripts/movement.c:126: y = 112;
-    00000378 21r00r00         [12]  614 	ld	hl, #_y
-    0000037B 36 70            [12]  615 	ld	(hl), #0x70
-                                    616 ;src/scripts/movement.c:127: move_character();
-    0000037D CDr15r05         [24]  617 	call	_move_character
-                                    618 ;src/scripts/movement.c:128: delay(100);
-    00000380 11 64 00         [12]  619 	ld	de, #0x0064
-    00000383 CDr00r00         [24]  620 	call	_delay
-                                    621 ;src/scripts/movement.c:129: SHOW_WIN;
-    00000386 F0r00            [12]  622 	ldh	a, (_LCDC_REG + 0)
-    00000388 F6 20            [ 8]  623 	or	a, #0x20
-    0000038A E0r00            [12]  624 	ldh	(_LCDC_REG + 0), a
-                                    625 ;src/scripts/movement.c:130: DISPLAY_ON;
-    0000038C F0r00            [12]  626 	ldh	a, (_LCDC_REG + 0)
-    0000038E F6 80            [ 8]  627 	or	a, #0x80
-    00000390 E0r00            [12]  628 	ldh	(_LCDC_REG + 0), a
-    00000392                        629 00155$:
-                                    630 ;src/scripts/movement.c:135: }
-    00000392 33               [ 8]  631 	inc	sp
-    00000393 C9               [16]  632 	ret
-                                    633 ;src/scripts/movement.c:138: void smooth_movement(uint8_t dir) {
-                                    634 ;	---------------------------------
-                                    635 ; Function smooth_movement
-                                    636 ; ---------------------------------
-    00000394                        637 _smooth_movement::
-    00000394 E8 F5            [16]  638 	add	sp, #-11
-    00000396 F8 09            [12]  639 	ldhl	sp,	#9
-    00000398 77               [ 8]  640 	ld	(hl), a
-                                    641 ;src/scripts/movement.c:140: mov_x = x;
-    00000399 FAr00r00         [16]  642 	ld	a, (#_x)
-    0000039C F8 00            [12]  643 	ldhl	sp,	#0
-    0000039E 77               [ 8]  644 	ld	(hl), a
-                                    645 ;src/scripts/movement.c:141: mov_y = y;
-    0000039F FAr00r00         [16]  646 	ld	a, (#_y)
-    000003A2 F8 01            [12]  647 	ldhl	sp,	#1
-    000003A4 77               [ 8]  648 	ld	(hl), a
-                                    649 ;src/scripts/movement.c:143: switch (dir) {
-    000003A5 F8 09            [12]  650 	ldhl	sp,	#9
-    000003A7 7E               [ 8]  651 	ld	a, (hl)
-    000003A8 3D               [ 4]  652 	dec	a
-    000003A9 3E 01            [ 8]  653 	ld	a, #0x01
-    000003AB 28 01            [12]  654 	jr	Z, 00263$
-    000003AD AF               [ 4]  655 	xor	a, a
-    000003AE                        656 00263$:
-    000003AE F8 02            [12]  657 	ldhl	sp,	#2
-    000003B0 77               [ 8]  658 	ld	(hl), a
-    000003B1 F8 09            [12]  659 	ldhl	sp,	#9
-    000003B3 7E               [ 8]  660 	ld	a, (hl)
-    000003B4 D6 02            [ 8]  661 	sub	a, #0x02
-    000003B6 3E 01            [ 8]  662 	ld	a, #0x01
-    000003B8 28 01            [12]  663 	jr	Z, 00265$
-    000003BA AF               [ 4]  664 	xor	a, a
-    000003BB                        665 00265$:
-    000003BB 5F               [ 4]  666 	ld	e, a
-    000003BC F8 09            [12]  667 	ldhl	sp,	#9
-    000003BE 7E               [ 8]  668 	ld	a, (hl)
-    000003BF D6 04            [ 8]  669 	sub	a, #0x04
-    000003C1 3E 01            [ 8]  670 	ld	a, #0x01
-    000003C3 28 01            [12]  671 	jr	Z, 00267$
-    000003C5 AF               [ 4]  672 	xor	a, a
-    000003C6                        673 00267$:
-    000003C6 47               [ 4]  674 	ld	b, a
-    000003C7 F8 09            [12]  675 	ldhl	sp,	#9
-    000003C9 7E               [ 8]  676 	ld	a, (hl)
-    000003CA D6 08            [ 8]  677 	sub	a, #0x08
-    000003CC 3E 01            [ 8]  678 	ld	a, #0x01
-    000003CE 28 01            [12]  679 	jr	Z, 00269$
-    000003D0 AF               [ 4]  680 	xor	a, a
-    000003D1                        681 00269$:
-    000003D1 4F               [ 4]  682 	ld	c, a
-                                    683 ;src/scripts/movement.c:145: y-=16;
-    000003D2 FAr00r00         [16]  684 	ld	a, (_y)
-    000003D5 57               [ 4]  685 	ld	d, a
-                                    686 ;src/scripts/movement.c:143: switch (dir) {
-    000003D6 F8 02            [12]  687 	ldhl	sp,	#2
-    000003D8 7E               [ 8]  688 	ld	a, (hl)
-    000003D9 B7               [ 4]  689 	or	a, a
-    000003DA 20 11            [12]  690 	jr	NZ, 00101$
-                                    691 ;src/scripts/movement.c:148: x+=16;
-    000003DC FAr00r00         [16]  692 	ld	a, (_x)
-                                    693 ;src/scripts/movement.c:143: switch (dir) {
-    000003DF 1C               [ 4]  694 	inc	e
-    000003E0 1D               [ 4]  695 	dec	e
-    000003E1 20 12            [12]  696 	jr	NZ, 00102$
-    000003E3 04               [ 4]  697 	inc	b
-    000003E4 05               [ 4]  698 	dec	b
-    000003E5 20 15            [12]  699 	jr	NZ, 00103$
-    000003E7 0C               [ 4]  700 	inc	c
-    000003E8 0D               [ 4]  701 	dec	c
-    000003E9 20 19            [12]  702 	jr	NZ, 00104$
-    000003EB 18 1C            [12]  703 	jr	00105$
-                                    704 ;src/scripts/movement.c:144: case 1:
-    000003ED                        705 00101$:
-                                    706 ;src/scripts/movement.c:145: y-=16;
-    000003ED 7A               [ 4]  707 	ld	a, d
-    000003EE C6 F0            [ 8]  708 	add	a, #0xf0
-    000003F0 EAr00r00         [16]  709 	ld	(#_y),a
-                                    710 ;src/scripts/movement.c:146: break;
-    000003F3 18 14            [12]  711 	jr	00105$
-                                    712 ;src/scripts/movement.c:147: case 2:
-    000003F5                        713 00102$:
-                                    714 ;src/scripts/movement.c:148: x+=16;
-    000003F5 C6 10            [ 8]  715 	add	a, #0x10
-    000003F7 EAr00r00         [16]  716 	ld	(#_x),a
-                                    717 ;src/scripts/movement.c:149: break;
-    000003FA 18 0D            [12]  718 	jr	00105$
-                                    719 ;src/scripts/movement.c:150: case 4:
-    000003FC                        720 00103$:
-                                    721 ;src/scripts/movement.c:151: y+=16;
-    000003FC 7A               [ 4]  722 	ld	a, d
-    000003FD C6 10            [ 8]  723 	add	a, #0x10
-    000003FF EAr00r00         [16]  724 	ld	(#_y),a
-                                    725 ;src/scripts/movement.c:152: break;
-    00000402 18 05            [12]  726 	jr	00105$
-                                    727 ;src/scripts/movement.c:153: case 8:
-    00000404                        728 00104$:
-                                    729 ;src/scripts/movement.c:154: x-=16;
-    00000404 C6 F0            [ 8]  730 	add	a, #0xf0
-    00000406 EAr00r00         [16]  731 	ld	(#_x),a
-                                    732 ;src/scripts/movement.c:156: }
-    00000409                        733 00105$:
-                                    734 ;src/scripts/movement.c:158: play_walk_animation(dir);
-    00000409 C5               [16]  735 	push	bc
-    0000040A D5               [16]  736 	push	de
-    0000040B F8 0D            [12]  737 	ldhl	sp,	#13
-    0000040D 7E               [ 8]  738 	ld	a, (hl)
-    0000040E F5               [16]  739 	push	af
-    0000040F 33               [ 8]  740 	inc	sp
-    00000410 1Er00            [ 8]  741 	ld	e, #b_play_walk_animation
-    00000412 21r00r00         [12]  742 	ld	hl, #_play_walk_animation
-    00000415 CDr00r00         [24]  743 	call	___sdcc_bcall_ehl
-    00000418 33               [ 8]  744 	inc	sp
-    00000419 D1               [12]  745 	pop	de
-    0000041A C1               [12]  746 	pop	bc
-                                    747 ;src/scripts/movement.c:160: while (frame < 16) {
-    0000041B F8 03            [12]  748 	ldhl	sp,	#3
-    0000041D 7B               [ 4]  749 	ld	a, e
-    0000041E 22               [ 8]  750 	ld	(hl+), a
-    0000041F 78               [ 4]  751 	ld	a, b
-    00000420 22               [ 8]  752 	ld	(hl+), a
-    00000421 79               [ 4]  753 	ld	a, c
-    00000422 22               [ 8]  754 	ld	(hl+), a
-    00000423 7B               [ 4]  755 	ld	a, e
-    00000424 22               [ 8]  756 	ld	(hl+), a
-    00000425 78               [ 4]  757 	ld	a, b
-    00000426 22               [ 8]  758 	ld	(hl+), a
-    00000427 79               [ 4]  759 	ld	a, c
-    00000428 22               [ 8]  760 	ld	(hl+), a
-    00000429 23               [ 8]  761 	inc	hl
-    0000042A 36 00            [12]  762 	ld	(hl), #0x00
-    0000042C                        763 00123$:
-    0000042C F8 0A            [12]  764 	ldhl	sp,	#10
-    0000042E 7E               [ 8]  765 	ld	a, (hl)
-    0000042F D6 10            [ 8]  766 	sub	a, #0x10
-    00000431 D2r12r05         [16]  767 	jp	NC, 00140$
-                                    768 ;src/scripts/movement.c:161: if (frame > 7) {
-    00000434 3E 07            [ 8]  769 	ld	a, #0x07
-    00000436 96               [ 8]  770 	sub	a, (hl)
-    00000437 30 0D            [12]  771 	jr	NC, 00107$
-                                    772 ;src/scripts/movement.c:162: set_character_sprite(dir);
-    00000439 2B               [ 8]  773 	dec	hl
-    0000043A 7E               [ 8]  774 	ld	a, (hl)
-    0000043B F5               [16]  775 	push	af
-    0000043C 33               [ 8]  776 	inc	sp
-    0000043D 1Er00            [ 8]  777 	ld	e, #b_set_character_sprite
-    0000043F 21r00r00         [12]  778 	ld	hl, #_set_character_sprite
-    00000442 CDr00r00         [24]  779 	call	___sdcc_bcall_ehl
-    00000445 33               [ 8]  780 	inc	sp
-    00000446                        781 00107$:
-                                    782 ;src/scripts/movement.c:164: if (mov_y >= 136) {
-    00000446 F8 01            [12]  783 	ldhl	sp,	#1
-    00000448 7E               [ 8]  784 	ld	a, (hl)
-    00000449 D6 88            [ 8]  785 	sub	a, #0x88
-    0000044B 38 0C            [12]  786 	jr	C, 00116$
-                                    787 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    0000044D 21r1Ar00         [12]  788 	ld	hl, #(_shadow_OAM + 26)
-    00000450 36 32            [12]  789 	ld	(hl), #0x32
-    00000452 21r1Er00         [12]  790 	ld	hl, #(_shadow_OAM + 30)
-    00000455 36 32            [12]  791 	ld	(hl), #0x32
-                                    792 ;src/scripts/movement.c:166: set_sprite_tile(7, 50);
-    00000457 18 4C            [12]  793 	jr	00117$
-    00000459                        794 00116$:
-                                    795 ;src/scripts/movement.c:168: else if (mov_y == 134){
-    00000459 F8 01            [12]  796 	ldhl	sp,	#1
-    0000045B 7E               [ 8]  797 	ld	a, (hl)
-    0000045C D6 86            [ 8]  798 	sub	a, #0x86
-    0000045E 20 45            [12]  799 	jr	NZ, 00117$
-                                    800 ;src/scripts/movement.c:169: switch (dir) {
-    00000460 F8 02            [12]  801 	ldhl	sp,	#2
-    00000462 7E               [ 8]  802 	ld	a, (hl)
-    00000463 B7               [ 4]  803 	or	a, a
-    00000464 20 11            [12]  804 	jr	NZ, 00108$
-    00000466 23               [ 8]  805 	inc	hl
-    00000467 7E               [ 8]  806 	ld	a, (hl)
-    00000468 B7               [ 4]  807 	or	a, a
-    00000469 20 18            [12]  808 	jr	NZ, 00109$
-    0000046B 23               [ 8]  809 	inc	hl
-    0000046C 7E               [ 8]  810 	ld	a, (hl)
-    0000046D B7               [ 4]  811 	or	a, a
-    0000046E 20 1F            [12]  812 	jr	NZ, 00110$
-    00000470 23               [ 8]  813 	inc	hl
-    00000471 7E               [ 8]  814 	ld	a, (hl)
-    00000472 B7               [ 4]  815 	or	a, a
-    00000473 20 26            [12]  816 	jr	NZ, 00111$
-    00000475 18 2E            [12]  817 	jr	00117$
-                                    818 ;src/scripts/movement.c:170: case 1:
-    00000477                        819 00108$:
-                                    820 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000477 21r1Ar00         [12]  821 	ld	hl, #(_shadow_OAM + 26)
-    0000047A 36 06            [12]  822 	ld	(hl), #0x06
-    0000047C 21r1Er00         [12]  823 	ld	hl, #(_shadow_OAM + 30)
-    0000047F 36 07            [12]  824 	ld	(hl), #0x07
-                                    825 ;src/scripts/movement.c:173: break;
-    00000481 18 22            [12]  826 	jr	00117$
-                                    827 ;src/scripts/movement.c:174: case 2:
-    00000483                        828 00109$:
-                                    829 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    00000483 21r1Ar00         [12]  830 	ld	hl, #(_shadow_OAM + 26)
-    00000486 36 0A            [12]  831 	ld	(hl), #0x0a
-    00000488 21r1Er00         [12]  832 	ld	hl, #(_shadow_OAM + 30)
-    0000048B 36 0B            [12]  833 	ld	(hl), #0x0b
-                                    834 ;src/scripts/movement.c:177: break;
-    0000048D 18 16            [12]  835 	jr	00117$
-                                    836 ;src/scripts/movement.c:178: case 4:
-    0000048F                        837 00110$:
-                                    838 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    0000048F 21r1Ar00         [12]  839 	ld	hl, #(_shadow_OAM + 26)
-    00000492 36 02            [12]  840 	ld	(hl), #0x02
-    00000494 21r1Er00         [12]  841 	ld	hl, #(_shadow_OAM + 30)
-    00000497 36 03            [12]  842 	ld	(hl), #0x03
-                                    843 ;src/scripts/movement.c:181: break;
-    00000499 18 0A            [12]  844 	jr	00117$
-                                    845 ;src/scripts/movement.c:182: case 8:
-    0000049B                        846 00111$:
-                                    847 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    0000049B 21r1Ar00         [12]  848 	ld	hl, #(_shadow_OAM + 26)
-    0000049E 36 0E            [12]  849 	ld	(hl), #0x0e
-    000004A0 21r1Er00         [12]  850 	ld	hl, #(_shadow_OAM + 30)
-    000004A3 36 0F            [12]  851 	ld	(hl), #0x0f
-                                    852 ;src/scripts/movement.c:186: }
-    000004A5                        853 00117$:
-                                    854 ;src/scripts/movement.c:188: wait_vbl_done();
-    000004A5 CDr00r00         [24]  855 	call	_wait_vbl_done
-                                    856 ;src/scripts/movement.c:191: mov_y-=1;
-    000004A8 F8 01            [12]  857 	ldhl	sp,	#1
-                                    858 ;src/scripts/movement.c:189: switch (dir) {
-    000004AA 2A               [ 8]  859 	ld	a, (hl+)
-    000004AB 4F               [ 4]  860 	ld	c, a
-    000004AC 7E               [ 8]  861 	ld	a, (hl)
-    000004AD B7               [ 4]  862 	or	a, a
-    000004AE 20 15            [12]  863 	jr	NZ, 00118$
-                                    864 ;src/scripts/movement.c:194: mov_x+=1;
-    000004B0 2B               [ 8]  865 	dec	hl
-    000004B1 2B               [ 8]  866 	dec	hl
-    000004B2 46               [ 8]  867 	ld	b, (hl)
-                                    868 ;src/scripts/movement.c:189: switch (dir) {
-    000004B3 F8 06            [12]  869 	ldhl	sp,	#6
-    000004B5 7E               [ 8]  870 	ld	a, (hl)
-    000004B6 B7               [ 4]  871 	or	a, a
-    000004B7 20 13            [12]  872 	jr	NZ, 00119$
-    000004B9 23               [ 8]  873 	inc	hl
-    000004BA 7E               [ 8]  874 	ld	a, (hl)
-    000004BB B7               [ 4]  875 	or	a, a
-    000004BC 20 15            [12]  876 	jr	NZ, 00120$
-    000004BE 23               [ 8]  877 	inc	hl
-    000004BF 7E               [ 8]  878 	ld	a, (hl)
-    000004C0 B7               [ 4]  879 	or	a, a
-    000004C1 20 17            [12]  880 	jr	NZ, 00121$
-    000004C3 18 1A            [12]  881 	jr	00122$
-                                    882 ;src/scripts/movement.c:190: case 1:
-    000004C5                        883 00118$:
-                                    884 ;src/scripts/movement.c:191: mov_y-=1;
-    000004C5 79               [ 4]  885 	ld	a, c
-    000004C6 3D               [ 4]  886 	dec	a
-    000004C7 F8 01            [12]  887 	ldhl	sp,	#1
-    000004C9 77               [ 8]  888 	ld	(hl), a
-                                    889 ;src/scripts/movement.c:192: break;
-    000004CA 18 13            [12]  890 	jr	00122$
-                                    891 ;src/scripts/movement.c:193: case 2:
-    000004CC                        892 00119$:
-                                    893 ;src/scripts/movement.c:194: mov_x+=1;
-    000004CC 78               [ 4]  894 	ld	a, b
-    000004CD 3C               [ 4]  895 	inc	a
-    000004CE F8 00            [12]  896 	ldhl	sp,	#0
-    000004D0 77               [ 8]  897 	ld	(hl), a
-                                    898 ;src/scripts/movement.c:195: break;
-    000004D1 18 0C            [12]  899 	jr	00122$
-                                    900 ;src/scripts/movement.c:196: case 4:
-    000004D3                        901 00120$:
-                                    902 ;src/scripts/movement.c:197: mov_y+=1;
-    000004D3 79               [ 4]  903 	ld	a, c
-    000004D4 3C               [ 4]  904 	inc	a
-    000004D5 F8 01            [12]  905 	ldhl	sp,	#1
-    000004D7 77               [ 8]  906 	ld	(hl), a
-                                    907 ;src/scripts/movement.c:198: break;
-    000004D8 18 05            [12]  908 	jr	00122$
-                                    909 ;src/scripts/movement.c:199: case 8:
-    000004DA                        910 00121$:
-                                    911 ;src/scripts/movement.c:200: mov_x-=1;
-    000004DA 78               [ 4]  912 	ld	a, b
-    000004DB 3D               [ 4]  913 	dec	a
-    000004DC F8 00            [12]  914 	ldhl	sp,	#0
-    000004DE 77               [ 8]  915 	ld	(hl), a
-                                    916 ;src/scripts/movement.c:202: }
-    000004DF                        917 00122$:
-                                    918 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000004DF 01r10r00         [12]  919 	ld	bc, #(_shadow_OAM + 16)
-                                    920 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000004E2 F8 01            [12]  921 	ldhl	sp,	#1
-    000004E4 3A               [ 8]  922 	ld	a, (hl-)
-    000004E5 02               [ 8]  923 	ld	(bc), a
-    000004E6 03               [ 8]  924 	inc	bc
-    000004E7 7E               [ 8]  925 	ld	a, (hl)
-    000004E8 02               [ 8]  926 	ld	(bc), a
-                                    927 ;src/scripts/movement.c:204: move_sprite(5, mov_x+8, mov_y);
-                                    928 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-                                    929 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000004E9 2A               [ 8]  930 	ld	a, (hl+)
-    000004EA C6 08            [ 8]  931 	add	a, #0x08
-    000004EC 4F               [ 4]  932 	ld	c, a
-    000004ED 41               [ 4]  933 	ld	b, c
-    000004EE 11r14r00         [12]  934 	ld	de, #(_shadow_OAM + 20)
-    000004F1 7E               [ 8]  935 	ld	a, (hl)
-    000004F2 12               [ 8]  936 	ld	(de), a
-    000004F3 13               [ 8]  937 	inc	de
-    000004F4 78               [ 4]  938 	ld	a, b
-    000004F5 12               [ 8]  939 	ld	(de), a
-                                    940 ;src/scripts/movement.c:205: move_sprite(6, mov_x, mov_y + 8);
-    000004F6 7E               [ 8]  941 	ld	a, (hl)
-    000004F7 C6 08            [ 8]  942 	add	a, #0x08
-    000004F9 47               [ 4]  943 	ld	b, a
-    000004FA 58               [ 4]  944 	ld	e, b
-                                    945 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    000004FB 21r18r00         [12]  946 	ld	hl, #(_shadow_OAM + 24)
-                                    947 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    000004FE 73               [ 8]  948 	ld	(hl), e
-    000004FF 11r19r00         [12]  949 	ld	de, #(_shadow_OAM + 25)
-    00000502 F8 00            [12]  950 	ldhl	sp,	#0
-    00000504 7E               [ 8]  951 	ld	a, (hl)
-    00000505 12               [ 8]  952 	ld	(de), a
-                                    953 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    00000506 21r1Cr00         [12]  954 	ld	hl, #(_shadow_OAM + 28)
-                                    955 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000509 78               [ 4]  956 	ld	a, b
-    0000050A 22               [ 8]  957 	ld	(hl+), a
-    0000050B 71               [ 8]  958 	ld	(hl), c
-                                    959 ;src/scripts/movement.c:207: frame++;
-    0000050C F8 0A            [12]  960 	ldhl	sp,	#10
-    0000050E 34               [12]  961 	inc	(hl)
-    0000050F C3r2Cr04         [16]  962 	jp	00123$
-    00000512                        963 00140$:
-                                    964 ;src/scripts/movement.c:210: }
-    00000512 E8 0B            [16]  965 	add	sp, #11
-    00000514 C9               [16]  966 	ret
-                                    967 ;src/scripts/movement.c:213: void move_character() {
-                                    968 ;	---------------------------------
-                                    969 ; Function move_character
-                                    970 ; ---------------------------------
-    00000515                        971 _move_character::
-                                    972 ;src/scripts/movement.c:214: move_sprite(4, x, y);
-    00000515 FAr00r00         [16]  973 	ld	a, (_y)
-    00000518 47               [ 4]  974 	ld	b, a
-    00000519 FAr00r00         [16]  975 	ld	a, (_x)
-    0000051C 4F               [ 4]  976 	ld	c, a
-                                    977 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000051D 21r10r00         [12]  978 	ld	hl, #(_shadow_OAM + 16)
-                                    979 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000520 78               [ 4]  980 	ld	a, b
-    00000521 22               [ 8]  981 	ld	(hl+), a
-    00000522 71               [ 8]  982 	ld	(hl), c
-                                    983 ;src/scripts/movement.c:215: move_sprite(5, x+8, y);
-    00000523 FAr00r00         [16]  984 	ld	a, (_y)
-    00000526 47               [ 4]  985 	ld	b, a
-    00000527 FAr00r00         [16]  986 	ld	a, (_x)
-    0000052A C6 08            [ 8]  987 	add	a, #0x08
-    0000052C 4F               [ 4]  988 	ld	c, a
-                                    989 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000052D 21r14r00         [12]  990 	ld	hl, #(_shadow_OAM + 20)
-                                    991 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000530 78               [ 4]  992 	ld	a, b
-    00000531 22               [ 8]  993 	ld	(hl+), a
-    00000532 71               [ 8]  994 	ld	(hl), c
-                                    995 ;src/scripts/movement.c:216: move_sprite(6, x, y + 8);
-    00000533 FAr00r00         [16]  996 	ld	a, (_y)
-    00000536 C6 08            [ 8]  997 	add	a, #0x08
-    00000538 47               [ 4]  998 	ld	b, a
-    00000539 FAr00r00         [16]  999 	ld	a, (_x)
-    0000053C 4F               [ 4] 1000 	ld	c, a
-                                   1001 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000053D 21r18r00         [12] 1002 	ld	hl, #(_shadow_OAM + 24)
-                                   1003 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000540 78               [ 4] 1004 	ld	a, b
-    00000541 22               [ 8] 1005 	ld	(hl+), a
-    00000542 71               [ 8] 1006 	ld	(hl), c
-                                   1007 ;src/scripts/movement.c:217: move_sprite(7, x + 8, y + 8);
-    00000543 FAr00r00         [16] 1008 	ld	a, (_y)
-    00000546 C6 08            [ 8] 1009 	add	a, #0x08
-    00000548 47               [ 4] 1010 	ld	b, a
-    00000549 FAr00r00         [16] 1011 	ld	a, (_x)
-    0000054C C6 08            [ 8] 1012 	add	a, #0x08
-    0000054E 4F               [ 4] 1013 	ld	c, a
-                                   1014 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
-    0000054F 21r1Cr00         [12] 1015 	ld	hl, #(_shadow_OAM + 28)
-                                   1016 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
-    00000552 78               [ 4] 1017 	ld	a, b
-    00000553 22               [ 8] 1018 	ld	(hl+), a
-    00000554 71               [ 8] 1019 	ld	(hl), c
-                                   1020 ;src/scripts/movement.c:219: if (y == 144) {
-    00000555 FAr00r00         [16] 1021 	ld	a, (#_y)
-    00000558 D6 90            [ 8] 1022 	sub	a, #0x90
-    0000055A C0               [20] 1023 	ret	NZ
-                                   1024 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
-    0000055B 21r1Ar00         [12] 1025 	ld	hl, #(_shadow_OAM + 26)
-    0000055E 36 32            [12] 1026 	ld	(hl), #0x32
-    00000560 21r1Er00         [12] 1027 	ld	hl, #(_shadow_OAM + 30)
-    00000563 36 32            [12] 1028 	ld	(hl), #0x32
-                                   1029 ;src/scripts/movement.c:221: set_sprite_tile(7, 50);
-                                   1030 ;src/scripts/movement.c:224: }
-    00000565 C9               [16] 1031 	ret
-                                   1032 ;src/scripts/movement.c:226: uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
-                                   1033 ;	---------------------------------
-                                   1034 ; Function check_terrain
-                                   1035 ; ---------------------------------
-    00000566                       1036 _check_terrain::
-    00000566 E8 F8            [16] 1037 	add	sp, #-8
-    00000568 4F               [ 4] 1038 	ld	c, a
-    00000569 F8 07            [12] 1039 	ldhl	sp,	#7
-    0000056B 73               [ 8] 1040 	ld	(hl), e
-                                   1041 ;src/scripts/movement.c:228: if (current_location != 0) {
-    0000056C FAr00r00         [16] 1042 	ld	a, (#_current_location)
-    0000056F B7               [ 4] 1043 	or	a, a
-    00000570 28 1B            [12] 1044 	jr	Z, 00107$
-                                   1045 ;src/scripts/movement.c:229: if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
-    00000572 79               [ 4] 1046 	ld	a, c
-    00000573 D6 08            [ 8] 1047 	sub	a, #0x08
-    00000575 38 11            [12] 1048 	jr	C, 00101$
-    00000577 3E A0            [ 8] 1049 	ld	a, #0xa0
-    00000579 91               [ 4] 1050 	sub	a, c
-    0000057A 38 0C            [12] 1051 	jr	C, 00101$
-    0000057C F8 07            [12] 1052 	ldhl	sp,	#7
-    0000057E 7E               [ 8] 1053 	ld	a, (hl)
-    0000057F D6 10            [ 8] 1054 	sub	a, #0x10
-    00000581 38 05            [12] 1055 	jr	C, 00101$
-    00000583 3E 98            [ 8] 1056 	ld	a, #0x98
-    00000585 96               [ 8] 1057 	sub	a, (hl)
-    00000586 30 05            [12] 1058 	jr	NC, 00107$
-    00000588                       1059 00101$:
-                                   1060 ;src/scripts/movement.c:230: return 1;
-    00000588 3E 01            [ 8] 1061 	ld	a, #0x01
-    0000058A C3r4Er07         [16] 1062 	jp	00144$
-    0000058D                       1063 00107$:
-                                   1064 ;src/scripts/movement.c:235: int16_t gx = ((int16_t)new_x - 8) / 8;
-    0000058D 06 00            [ 8] 1065 	ld	b, #0x00
-    0000058F 11 08 00         [12] 1066 	ld	de, #0x0008
-    00000592 79               [ 4] 1067 	ld	a, c
-    00000593 93               [ 4] 1068 	sub	a, e
-    00000594 5F               [ 4] 1069 	ld	e, a
-    00000595 78               [ 4] 1070 	ld	a, b
-    00000596 9A               [ 4] 1071 	sbc	a, d
-    00000597 F8 04            [12] 1072 	ldhl	sp,	#4
-    00000599 32               [ 8] 1073 	ld	(hl-), a
-    0000059A 73               [ 8] 1074 	ld	(hl), e
-    0000059B 2A               [ 8] 1075 	ld	a, (hl+)
-    0000059C 23               [ 8] 1076 	inc	hl
-    0000059D 32               [ 8] 1077 	ld	(hl-), a
-    0000059E 2A               [ 8] 1078 	ld	a, (hl+)
-    0000059F 23               [ 8] 1079 	inc	hl
-    000005A0 32               [ 8] 1080 	ld	(hl-), a
-    000005A1 2B               [ 8] 1081 	dec	hl
-    000005A2 CB 7E            [12] 1082 	bit	7, (hl)
-    000005A4 28 0E            [12] 1083 	jr	Z, 00146$
-    000005A6 21 FF FF         [12] 1084 	ld	hl, #0xffff
-    000005A9 09               [ 8] 1085 	add	hl, bc
-    000005AA E5               [16] 1086 	push	hl
-    000005AB 7D               [ 4] 1087 	ld	a, l
-    000005AC F8 07            [12] 1088 	ldhl	sp,	#7
-    000005AE 77               [ 8] 1089 	ld	(hl), a
-    000005AF E1               [12] 1090 	pop	hl
-    000005B0 7C               [ 4] 1091 	ld	a, h
-    000005B1 F8 06            [12] 1092 	ldhl	sp,	#6
-    000005B3 77               [ 8] 1093 	ld	(hl), a
-    000005B4                       1094 00146$:
-    000005B4 F8 05            [12] 1095 	ldhl	sp,#5
-    000005B6 2A               [ 8] 1096 	ld	a, (hl+)
-    000005B7 4F               [ 4] 1097 	ld	c, a
-    000005B8 3A               [ 8] 1098 	ld	a, (hl-)
-    000005B9 47               [ 4] 1099 	ld	b, a
-    000005BA CB 28            [ 8] 1100 	sra	b
-    000005BC CB 19            [ 8] 1101 	rr	c
-    000005BE CB 28            [ 8] 1102 	sra	b
-    000005C0 CB 19            [ 8] 1103 	rr	c
-    000005C2 CB 28            [ 8] 1104 	sra	b
-    000005C4 CB 19            [ 8] 1105 	rr	c
-    000005C6 79               [ 4] 1106 	ld	a, c
-    000005C7 22               [ 8] 1107 	ld	(hl+), a
-                                   1108 ;src/scripts/movement.c:236: int16_t gy = ((int16_t)new_y - 16) / 8;
-    000005C8 78               [ 4] 1109 	ld	a, b
-    000005C9 22               [ 8] 1110 	ld	(hl+), a
-    000005CA 7E               [ 8] 1111 	ld	a, (hl)
-    000005CB F8 01            [12] 1112 	ldhl	sp,	#1
-    000005CD 22               [ 8] 1113 	ld	(hl+), a
-    000005CE AF               [ 4] 1114 	xor	a, a
-    000005CF 32               [ 8] 1115 	ld	(hl-), a
-    000005D0 2A               [ 8] 1116 	ld	a, (hl+)
-    000005D1 5F               [ 4] 1117 	ld	e, a
-    000005D2 56               [ 8] 1118 	ld	d, (hl)
-    000005D3 21 10 00         [12] 1119 	ld	hl, #0x0010
-    000005D6 7B               [ 4] 1120 	ld	a, e
-    000005D7 95               [ 4] 1121 	sub	a, l
-    000005D8 5F               [ 4] 1122 	ld	e, a
-    000005D9 7A               [ 4] 1123 	ld	a, d
-    000005DA 9C               [ 4] 1124 	sbc	a, h
-    000005DB F8 04            [12] 1125 	ldhl	sp,	#4
-    000005DD 32               [ 8] 1126 	ld	(hl-), a
-    000005DE 73               [ 8] 1127 	ld	(hl), e
-    000005DF 2A               [ 8] 1128 	ld	a, (hl+)
-    000005E0 4F               [ 4] 1129 	ld	c, a
-    000005E1 46               [ 8] 1130 	ld	b, (hl)
-    000005E2 CB 7E            [12] 1131 	bit	7, (hl)
-    000005E4 28 0C            [12] 1132 	jr	Z, 00147$
-    000005E6 2B               [ 8] 1133 	dec	hl
-    000005E7 2B               [ 8] 1134 	dec	hl
-    000005E8 2B               [ 8] 1135 	dec	hl
-    000005E9 2A               [ 8] 1136 	ld	a, (hl+)
-    000005EA 5F               [ 4] 1137 	ld	e, a
-    000005EB 56               [ 8] 1138 	ld	d, (hl)
-    000005EC 21 F7 FF         [12] 1139 	ld	hl, #0xfff7
-    000005EF 19               [ 8] 1140 	add	hl, de
-    000005F0 4D               [ 4] 1141 	ld	c, l
-    000005F1 44               [ 4] 1142 	ld	b, h
-    000005F2                       1143 00147$:
-    000005F2 CB 28            [ 8] 1144 	sra	b
-    000005F4 CB 19            [ 8] 1145 	rr	c
-    000005F6 CB 28            [ 8] 1146 	sra	b
-    000005F8 CB 19            [ 8] 1147 	rr	c
-    000005FA CB 28            [ 8] 1148 	sra	b
-    000005FC CB 19            [ 8] 1149 	rr	c
-    000005FE 33               [ 8] 1150 	inc	sp
-    000005FF 33               [ 8] 1151 	inc	sp
-    00000600 C5               [16] 1152 	push	bc
-                                   1153 ;src/scripts/movement.c:238: if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
-    00000601 F8 05            [12] 1154 	ldhl	sp,	#5
-    00000603 2A               [ 8] 1155 	ld	a, (hl+)
-    00000604 4F               [ 4] 1156 	ld	c, a
-    00000605 46               [ 8] 1157 	ld	b, (hl)
-    00000606 CB 78            [ 8] 1158 	bit	7, b
-    00000608 20 1D            [12] 1159 	jr	NZ, 00108$
-    0000060A 79               [ 4] 1160 	ld	a, c
-    0000060B D6 14            [ 8] 1161 	sub	a, #0x14
-    0000060D 78               [ 4] 1162 	ld	a, b
-    0000060E DE 00            [ 8] 1163 	sbc	a, #0x00
-    00000610 30 15            [12] 1164 	jr	NC, 00108$
-    00000612 F8 00            [12] 1165 	ldhl	sp,	#0
-    00000614 2A               [ 8] 1166 	ld	a, (hl+)
-    00000615 23               [ 8] 1167 	inc	hl
-    00000616 32               [ 8] 1168 	ld	(hl-), a
-    00000617 2A               [ 8] 1169 	ld	a, (hl+)
-    00000618 23               [ 8] 1170 	inc	hl
-    00000619 77               [ 8] 1171 	ld	(hl), a
-    0000061A CB 7E            [12] 1172 	bit	7, (hl)
-    0000061C 20 09            [12] 1173 	jr	NZ, 00108$
-    0000061E 2B               [ 8] 1174 	dec	hl
-    0000061F 2A               [ 8] 1175 	ld	a, (hl+)
-    00000620 D6 12            [ 8] 1176 	sub	a, #0x12
-    00000622 7E               [ 8] 1177 	ld	a, (hl)
-    00000623 DE 00            [ 8] 1178 	sbc	a, #0x00
-    00000625 38 04            [12] 1179 	jr	C, 00109$
-    00000627                       1180 00108$:
-                                   1181 ;src/scripts/movement.c:239: return 0;
-    00000627 AF               [ 4] 1182 	xor	a, a
-    00000628 C3r4Er07         [16] 1183 	jp	00144$
-    0000062B                       1184 00109$:
-                                   1185 ;src/scripts/movement.c:242: uint16_t tile_index = (uint16_t)gy * 20 + gx;
-    0000062B F8 00            [12] 1186 	ldhl	sp,	#0
-    0000062D 2A               [ 8] 1187 	ld	a, (hl+)
-    0000062E 5E               [ 8] 1188 	ld	e, (hl)
-    0000062F 6F               [ 4] 1189 	ld	l, a
-    00000630 63               [ 4] 1190 	ld	h, e
-    00000631 5D               [ 4] 1191 	ld	e, l
-    00000632 54               [ 4] 1192 	ld	d, h
-    00000633 29               [ 8] 1193 	add	hl, hl
-    00000634 29               [ 8] 1194 	add	hl, hl
-    00000635 19               [ 8] 1195 	add	hl, de
-    00000636 29               [ 8] 1196 	add	hl, hl
-    00000637 29               [ 8] 1197 	add	hl, hl
-    00000638 5D               [ 4] 1198 	ld	e, l
-    00000639 54               [ 4] 1199 	ld	d, h
-    0000063A F8 05            [12] 1200 	ldhl	sp,	#5
-    0000063C 7E               [ 8] 1201 	ld	a, (hl)
-    0000063D F8 00            [12] 1202 	ldhl	sp,	#0
-    0000063F 77               [ 8] 1203 	ld	(hl), a
-    00000640 F8 06            [12] 1204 	ldhl	sp,	#6
-    00000642 7E               [ 8] 1205 	ld	a, (hl)
-    00000643 F8 01            [12] 1206 	ldhl	sp,	#1
-    00000645 77               [ 8] 1207 	ld	(hl), a
-    00000646 E1               [12] 1208 	pop	hl
-    00000647 E5               [16] 1209 	push	hl
-    00000648 19               [ 8] 1210 	add	hl, de
-    00000649 E5               [16] 1211 	push	hl
-    0000064A 7D               [ 4] 1212 	ld	a, l
-    0000064B F8 06            [12] 1213 	ldhl	sp,	#6
-    0000064D 77               [ 8] 1214 	ld	(hl), a
-    0000064E E1               [12] 1215 	pop	hl
-    0000064F 7C               [ 4] 1216 	ld	a, h
-    00000650 F8 05            [12] 1217 	ldhl	sp,	#5
-    00000652 77               [ 8] 1218 	ld	(hl), a
-                                   1219 ;src/scripts/movement.c:244: if (current_location == 0) {
-    00000653 FAr00r00         [16] 1220 	ld	a, (#_current_location)
-    00000656 B7               [ 4] 1221 	or	a, a
-    00000657 20 2E            [12] 1222 	jr	NZ, 00142$
-                                   1223 ;src/scripts/movement.c:245: SWITCH_ROM(2);
-    00000659 3E 02            [ 8] 1224 	ld	a, #0x02
-    0000065B E0r00            [12] 1225 	ldh	(__current_bank + 0), a
-    0000065D 21r00r00         [12] 1226 	ld	hl, #_rROMB0
-    00000660 36 02            [12] 1227 	ld	(hl), #0x02
-                                   1228 ;src/scripts/movement.c:246: uint8_t tile_id = Camp[tile_index];             // collisioni campo
-    00000662 11r00r00         [12] 1229 	ld	de, #_Camp
-    00000665 F8 04            [12] 1230 	ldhl	sp,	#4
-    00000667 2A               [ 8] 1231 	ld	a,	(hl+)
-    00000668 66               [ 8] 1232 	ld	h, (hl)
-    00000669 6F               [ 4] 1233 	ld	l, a
-    0000066A 19               [ 8] 1234 	add	hl, de
-    0000066B 4D               [ 4] 1235 	ld	c, l
-    0000066C 44               [ 4] 1236 	ld	b, h
-    0000066D 0A               [ 8] 1237 	ld	a, (bc)
-    0000066E 4F               [ 4] 1238 	ld	c, a
-                                   1239 ;src/scripts/movement.c:247: uint8_t camp_colliding = camp_collisions[tile_id];
-    0000066F 21r00r00         [12] 1240 	ld	hl, #_camp_collisions
-    00000672 06 00            [ 8] 1241 	ld	b, #0x00
-    00000674 09               [ 8] 1242 	add	hl, bc
-    00000675 4E               [ 8] 1243 	ld	c, (hl)
-                                   1244 ;src/scripts/movement.c:248: SWITCH_ROM(1);
-    00000676 3E 01            [ 8] 1245 	ld	a, #0x01
-    00000678 E0r00            [12] 1246 	ldh	(__current_bank + 0), a
-    0000067A 21r00r00         [12] 1247 	ld	hl, #_rROMB0
-    0000067D 36 01            [12] 1248 	ld	(hl), #0x01
-                                   1249 ;src/scripts/movement.c:249: if (camp_colliding == 1) return 0;
-    0000067F 0D               [ 4] 1250 	dec	c
-    00000680 C2r4Cr07         [16] 1251 	jp	NZ,00143$
-    00000683 79               [ 4] 1252 	ld	a, c
-    00000684 C3r4Er07         [16] 1253 	jp	00144$
-    00000687                       1254 00142$:
-                                   1255 ;src/scripts/movement.c:251: if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
-    00000687 FAr00r00         [16] 1256 	ld	a, (#_player_coords + 0)
-    0000068A 6F               [ 4] 1257 	ld	l, a
-    0000068B 07               [ 4] 1258 	rlca
-    0000068C 9F               [ 4] 1259 	sbc	a, a
-    0000068D 67               [ 4] 1260 	ld	h, a
-    0000068E 29               [ 8] 1261 	add	hl, hl
-    0000068F 29               [ 8] 1262 	add	hl, hl
-    00000690 11r00r00         [12] 1263 	ld	de, #_dungeon
-    00000693 19               [ 8] 1264 	add	hl, de
-    00000694 11r01r00         [12] 1265 	ld	de, #_player_coords + 1
-    00000697 1A               [ 8] 1266 	ld	a, (de)
-    00000698 85               [ 4] 1267 	add	a, l
-    00000699 5F               [ 4] 1268 	ld	e, a
-    0000069A 3E 00            [ 8] 1269 	ld	a, #0x00
-    0000069C 8C               [ 4] 1270 	adc	a, h
-    0000069D 57               [ 4] 1271 	ld	d, a
-    0000069E 1A               [ 8] 1272 	ld	a, (de)
-    0000069F F8 06            [12] 1273 	ldhl	sp,	#6
-    000006A1 77               [ 8] 1274 	ld	(hl), a
-    000006A2 7E               [ 8] 1275 	ld	a, (hl)
-    000006A3 D6 54            [ 8] 1276 	sub	a, #0x54
-    000006A5 28 07            [12] 1277 	jr	Z, 00120$
-    000006A7 F8 06            [12] 1278 	ldhl	sp,	#6
-    000006A9 7E               [ 8] 1279 	ld	a, (hl)
-    000006AA D6 4B            [ 8] 1280 	sub	a, #0x4b
-    000006AC 20 22            [12] 1281 	jr	NZ, 00121$
-    000006AE                       1282 00120$:
-                                   1283 ;src/scripts/movement.c:252: if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
-    000006AE 79               [ 4] 1284 	ld	a, c
-    000006AF D6 08            [ 8] 1285 	sub	a, #0x08
-    000006B1 38 1D            [12] 1286 	jr	C, 00121$
-    000006B3 3E 0B            [ 8] 1287 	ld	a, #0x0b
-    000006B5 B9               [ 4] 1288 	cp	a, c
-    000006B6 38 18            [12] 1289 	jr	C, 00121$
-    000006B8 F8 02            [12] 1290 	ldhl	sp,	#2
-    000006BA 2A               [ 8] 1291 	ld	a, (hl+)
-    000006BB D6 06            [ 8] 1292 	sub	a, #0x06
-    000006BD 7E               [ 8] 1293 	ld	a, (hl)
-    000006BE DE 00            [ 8] 1294 	sbc	a, #0x00
-    000006C0 38 0E            [12] 1295 	jr	C, 00121$
-    000006C2 2B               [ 8] 1296 	dec	hl
-    000006C3 3E 07            [ 8] 1297 	ld	a, #0x07
-    000006C5 96               [ 8] 1298 	sub	a, (hl)
-    000006C6 23               [ 8] 1299 	inc	hl
-    000006C7 3E 00            [ 8] 1300 	ld	a, #0x00
-    000006C9 9E               [ 8] 1301 	sbc	a, (hl)
-    000006CA 38 04            [12] 1302 	jr	C, 00121$
-                                   1303 ;src/scripts/movement.c:253: return 0;
-    000006CC AF               [ 4] 1304 	xor	a, a
-    000006CD C3r4Er07         [16] 1305 	jp	00144$
-    000006D0                       1306 00121$:
-                                   1307 ;src/scripts/movement.c:256: if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
-    000006D0 F8 06            [12] 1308 	ldhl	sp,	#6
-    000006D2 7E               [ 8] 1309 	ld	a, (hl)
-    000006D3 D6 4C            [ 8] 1310 	sub	a, #0x4c
-    000006D5 20 4E            [12] 1311 	jr	NZ, 00137$
-    000006D7 FAr00r00         [16] 1312 	ld	a, (#_lock_opened)
-    000006DA B7               [ 4] 1313 	or	a, a
-    000006DB 20 48            [12] 1314 	jr	NZ, 00137$
-                                   1315 ;src/scripts/movement.c:257: switch (locked_door) {
-    000006DD FAr00r00         [16] 1316 	ld	a, (#_locked_door)
-    000006E0 3D               [ 4] 1317 	dec	a
-    000006E1 28 17            [12] 1318 	jr	Z, 00123$
-    000006E3 FAr00r00         [16] 1319 	ld	a, (#_locked_door)
-    000006E6 D6 02            [ 8] 1320 	sub	a, #0x02
-    000006E8 28 1E            [12] 1321 	jr	Z, 00126$
-    000006EA FAr00r00         [16] 1322 	ld	a, (#_locked_door)
-    000006ED D6 04            [ 8] 1323 	sub	a, #0x04
-    000006EF 28 1F            [12] 1324 	jr	Z, 00129$
-    000006F1 FAr00r00         [16] 1325 	ld	a, (#_locked_door)
-    000006F4 D6 08            [ 8] 1326 	sub	a, #0x08
-    000006F6 28 25            [12] 1327 	jr	Z, 00132$
-    000006F8 18 2B            [12] 1328 	jr	00137$
-                                   1329 ;src/scripts/movement.c:258: case 1:
-    000006FA                       1330 00123$:
-                                   1331 ;src/scripts/movement.c:259: if (gy <= 1) {
-    000006FA F8 02            [12] 1332 	ldhl	sp,	#2
-    000006FC 3E 01            [ 8] 1333 	ld	a, #0x01
-    000006FE 96               [ 8] 1334 	sub	a, (hl)
-    000006FF 23               [ 8] 1335 	inc	hl
-    00000700 3E 00            [ 8] 1336 	ld	a, #0x00
-    00000702 9E               [ 8] 1337 	sbc	a, (hl)
-    00000703 38 20            [12] 1338 	jr	C, 00137$
-                                   1339 ;src/scripts/movement.c:260: return 0;
-    00000705 AF               [ 4] 1340 	xor	a, a
-    00000706 18 46            [12] 1341 	jr	00144$
-                                   1342 ;src/scripts/movement.c:263: case 2:
-    00000708                       1343 00126$:
-                                   1344 ;src/scripts/movement.c:264: if (gx >= 18) {
-    00000708 79               [ 4] 1345 	ld	a, c
-    00000709 D6 12            [ 8] 1346 	sub	a, #0x12
-    0000070B 38 18            [12] 1347 	jr	C, 00137$
-                                   1348 ;src/scripts/movement.c:265: return 0;
-    0000070D AF               [ 4] 1349 	xor	a, a
-    0000070E 18 3E            [12] 1350 	jr	00144$
-                                   1351 ;src/scripts/movement.c:268: case 4:
-    00000710                       1352 00129$:
-                                   1353 ;src/scripts/movement.c:269: if (gy >= 16) {
-    00000710 F8 02            [12] 1354 	ldhl	sp,	#2
-    00000712 2A               [ 8] 1355 	ld	a, (hl+)
-    00000713 D6 10            [ 8] 1356 	sub	a, #0x10
-    00000715 7E               [ 8] 1357 	ld	a, (hl)
-    00000716 DE 00            [ 8] 1358 	sbc	a, #0x00
-    00000718 38 0B            [12] 1359 	jr	C, 00137$
-                                   1360 ;src/scripts/movement.c:270: return 0;
-    0000071A AF               [ 4] 1361 	xor	a, a
-    0000071B 18 31            [12] 1362 	jr	00144$
-                                   1363 ;src/scripts/movement.c:273: case 8:
-    0000071D                       1364 00132$:
-                                   1365 ;src/scripts/movement.c:274: if (gx <= 1) {
-    0000071D 3E 01            [ 8] 1366 	ld	a, #0x01
-    0000071F B9               [ 4] 1367 	cp	a, c
-    00000720 38 03            [12] 1368 	jr	C, 00137$
-                                   1369 ;src/scripts/movement.c:275: return 0;
-    00000722 AF               [ 4] 1370 	xor	a, a
-    00000723 18 29            [12] 1371 	jr	00144$
-                                   1372 ;src/scripts/movement.c:278: }
-    00000725                       1373 00137$:
-                                   1374 ;src/scripts/movement.c:280: SWITCH_ROM(2);
-    00000725 3E 02            [ 8] 1375 	ld	a, #0x02
-    00000727 E0r00            [12] 1376 	ldh	(__current_bank + 0), a
-    00000729 21r00r00         [12] 1377 	ld	hl, #_rROMB0
-    0000072C 36 02            [12] 1378 	ld	(hl), #0x02
-                                   1379 ;src/scripts/movement.c:281: uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
-    0000072E 11r00r00         [12] 1380 	ld	de, #_current_room
-    00000731 F8 04            [12] 1381 	ldhl	sp,	#4
-    00000733 2A               [ 8] 1382 	ld	a,	(hl+)
-    00000734 66               [ 8] 1383 	ld	h, (hl)
-    00000735 6F               [ 4] 1384 	ld	l, a
-    00000736 19               [ 8] 1385 	add	hl, de
-    00000737 4D               [ 4] 1386 	ld	c, l
-    00000738 44               [ 4] 1387 	ld	b, h
-    00000739 0A               [ 8] 1388 	ld	a, (bc)
-    0000073A 4F               [ 4] 1389 	ld	c, a
-                                   1390 ;src/scripts/movement.c:282: SWITCH_ROM(1);
-    0000073B 3E 01            [ 8] 1391 	ld	a, #0x01
-    0000073D E0r00            [12] 1392 	ldh	(__current_bank + 0), a
-    0000073F 21r00r00         [12] 1393 	ld	hl, #_rROMB0
-    00000742 36 01            [12] 1394 	ld	(hl), #0x01
-                                   1395 ;src/scripts/movement.c:283: if (tile_id > 3) return 0;
-    00000744 3E 03            [ 8] 1396 	ld	a, #0x03
-    00000746 91               [ 4] 1397 	sub	a, c
-    00000747 30 03            [12] 1398 	jr	NC, 00143$
-    00000749 AF               [ 4] 1399 	xor	a, a
-    0000074A 18 02            [12] 1400 	jr	00144$
-    0000074C                       1401 00143$:
-                                   1402 ;src/scripts/movement.c:286: return 1;
-    0000074C 3E 01            [ 8] 1403 	ld	a, #0x01
-    0000074E                       1404 00144$:
-                                   1405 ;src/scripts/movement.c:287: }
-    0000074E E8 08            [16] 1406 	add	sp, #8
-    00000750 C9               [16] 1407 	ret
-                                   1408 ;src/scripts/movement.c:289: uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
-                                   1409 ;	---------------------------------
-                                   1410 ; Function is_sprite_at
-                                   1411 ; ---------------------------------
-    00000751                       1412 _is_sprite_at::
-    00000751 4F               [ 4] 1413 	ld	c, a
-                                   1414 ;src/scripts/movement.c:290: if (current_location == 0){
-    00000752 FAr00r00         [16] 1415 	ld	a, (#_current_location)
-    00000755 B7               [ 4] 1416 	or	a, a
-    00000756 20 0B            [12] 1417 	jr	NZ, 00105$
-                                   1418 ;src/scripts/movement.c:291: if (target_x == 120 && target_y == 64) {
-    00000758 79               [ 4] 1419 	ld	a, c
-    00000759 D6 78            [ 8] 1420 	sub	a, #0x78
-    0000075B 20 06            [12] 1421 	jr	NZ, 00105$
-    0000075D 7B               [ 4] 1422 	ld	a, e
-    0000075E D6 40            [ 8] 1423 	sub	a, #0x40
-                                   1424 ;src/scripts/movement.c:292: return 1;
-                                   1425 ;src/scripts/movement.c:295: return 0;
-    00000760 3E 01            [ 8] 1426 	ld	a, #0x01
-    00000762 C8               [20] 1427 	ret	Z
-    00000763                       1428 00105$:
-    00000763 AF               [ 4] 1429 	xor	a, a
-                                   1430 ;src/scripts/movement.c:297: }
-    00000764 C9               [16] 1431 	ret
-                                   1432 	.area _CODE
-                                   1433 	.area _INITIALIZER
-                                   1434 	.area _CABS (ABS)
+                                     77 	.area _HOME
+                                     78 ;--------------------------------------------------------
+                                     79 ; code
+                                     80 ;--------------------------------------------------------
+                                     81 	.area _CODE
+                                     82 ;src/scripts/movement.c:4: void check_input_movement() {
+                                     83 ;	---------------------------------
+                                     84 ; Function check_input_movement
+                                     85 ; ---------------------------------
+    00000000                         86 _check_input_movement::
+    00000000 3B               [ 8]   87 	dec	sp
+                                     88 ;src/scripts/movement.c:5: uint8_t moved = 0;
+    00000001 F8 00            [12]   89 	ldhl	sp,	#0
+    00000003 36 00            [12]   90 	ld	(hl), #0x00
+                                     91 ;src/scripts/movement.c:7: if (joypad() & J_DOWN) {
+    00000005 CDr00r00         [24]   92 	call	_joypad
+    00000008 CB 5F            [ 8]   93 	bit	3, a
+    0000000A CAr8Fr00         [16]   94 	jp	Z, 00137$
+                                     95 ;src/scripts/movement.c:8: last_direction = 4;
+    0000000D 21r00r00         [12]   96 	ld	hl, #_last_direction
+    00000010 36 04            [12]   97 	ld	(hl), #0x04
+                                     98 ;src/scripts/movement.c:9: set_character_sprite(4);
+    00000012 3E 04            [ 8]   99 	ld	a, #0x04
+    00000014 F5               [16]  100 	push	af
+    00000015 33               [ 8]  101 	inc	sp
+    00000016 1Er00            [ 8]  102 	ld	e, #b_set_character_sprite
+    00000018 21r00r00         [12]  103 	ld	hl, #_set_character_sprite
+    0000001B CDr00r00         [24]  104 	call	___sdcc_bcall_ehl
+    0000001E 33               [ 8]  105 	inc	sp
+                                    106 ;src/scripts/movement.c:10: if (check_terrain(x + 8, y + 24) && !is_sprite_at(x, y + 16)) {
+    0000001F FAr00r00         [16]  107 	ld	a, (_y)
+    00000022 C6 18            [ 8]  108 	add	a, #0x18
+    00000024 5F               [ 4]  109 	ld	e, a
+    00000025 FAr00r00         [16]  110 	ld	a, (_x)
+    00000028 C6 08            [ 8]  111 	add	a, #0x08
+    0000002A CDr39r05         [24]  112 	call	_check_terrain
+    0000002D B7               [ 4]  113 	or	a, a
+    0000002E CAr7Br02         [16]  114 	jp	Z, 00138$
+    00000031 FAr00r00         [16]  115 	ld	a, (_y)
+    00000034 C6 10            [ 8]  116 	add	a, #0x10
+    00000036 5F               [ 4]  117 	ld	e, a
+    00000037 FAr00r00         [16]  118 	ld	a, (_x)
+    0000003A CDr24r07         [24]  119 	call	_is_sprite_at
+    0000003D B7               [ 4]  120 	or	a, a
+    0000003E C2r7Br02         [16]  121 	jp	NZ, 00138$
+                                    122 ;src/scripts/movement.c:11: moved = 1;
+    00000041 F8 00            [12]  123 	ldhl	sp,	#0
+    00000043 36 01            [12]  124 	ld	(hl), #0x01
+                                    125 ;src/scripts/movement.c:12: if (!check_enemy(4)) {
+    00000045 3E 04            [ 8]  126 	ld	a, #0x04
+    00000047 F5               [16]  127 	push	af
+    00000048 33               [ 8]  128 	inc	sp
+    00000049 1Er00            [ 8]  129 	ld	e, #b_check_enemy
+    0000004B 21r00r00         [12]  130 	ld	hl, #_check_enemy
+    0000004E CDr00r00         [24]  131 	call	___sdcc_bcall_ehl
+    00000051 33               [ 8]  132 	inc	sp
+    00000052 B7               [ 4]  133 	or	a, a
+    00000053 20 08            [12]  134 	jr	NZ, 00102$
+                                    135 ;src/scripts/movement.c:13: smooth_movement(4);
+    00000055 3E 04            [ 8]  136 	ld	a, #0x04
+    00000057 CDr67r03         [24]  137 	call	_smooth_movement
+    0000005A C3r7Br02         [16]  138 	jp	00138$
+    0000005D                        139 00102$:
+                                    140 ;src/scripts/movement.c:16: uint8_t enemy_idx = check_enemy(4);
+    0000005D 3E 04            [ 8]  141 	ld	a, #0x04
+    0000005F F5               [16]  142 	push	af
+    00000060 33               [ 8]  143 	inc	sp
+    00000061 1Er00            [ 8]  144 	ld	e, #b_check_enemy
+    00000063 21r00r00         [12]  145 	ld	hl, #_check_enemy
+    00000066 CDr00r00         [24]  146 	call	___sdcc_bcall_ehl
+    00000069 33               [ 8]  147 	inc	sp
+    0000006A 5F               [ 4]  148 	ld	e, a
+                                    149 ;src/scripts/movement.c:17: play_attack_animation(4);
+    0000006B D5               [16]  150 	push	de
+    0000006C 3E 04            [ 8]  151 	ld	a, #0x04
+    0000006E F5               [16]  152 	push	af
+    0000006F 33               [ 8]  153 	inc	sp
+    00000070 1Er00            [ 8]  154 	ld	e, #b_play_attack_animation
+    00000072 21r00r00         [12]  155 	ld	hl, #_play_attack_animation
+    00000075 CDr00r00         [24]  156 	call	___sdcc_bcall_ehl
+    00000078 33               [ 8]  157 	inc	sp
+    00000079 D1               [12]  158 	pop	de
+                                    159 ;src/scripts/movement.c:18: player_attack(0, enemy_idx-1);
+    0000007A 1D               [ 4]  160 	dec	e
+    0000007B AF               [ 4]  161 	xor	a, a
+    0000007C CDr00r00         [24]  162 	call	_player_attack
+                                    163 ;src/scripts/movement.c:19: set_character_sprite(4);
+    0000007F 3E 04            [ 8]  164 	ld	a, #0x04
+    00000081 F5               [16]  165 	push	af
+    00000082 33               [ 8]  166 	inc	sp
+    00000083 1Er00            [ 8]  167 	ld	e, #b_set_character_sprite
+    00000085 21r00r00         [12]  168 	ld	hl, #_set_character_sprite
+    00000088 CDr00r00         [24]  169 	call	___sdcc_bcall_ehl
+    0000008B 33               [ 8]  170 	inc	sp
+    0000008C C3r7Br02         [16]  171 	jp	00138$
+    0000008F                        172 00137$:
+                                    173 ;src/scripts/movement.c:23: else if (joypad() & J_UP) {
+    0000008F CDr00r00         [24]  174 	call	_joypad
+    00000092 CB 57            [ 8]  175 	bit	2, a
+    00000094 CAr6Fr01         [16]  176 	jp	Z, 00134$
+                                    177 ;src/scripts/movement.c:24: set_character_sprite(1);
+    00000097 3E 01            [ 8]  178 	ld	a, #0x01
+    00000099 F5               [16]  179 	push	af
+    0000009A 33               [ 8]  180 	inc	sp
+    0000009B 1Er00            [ 8]  181 	ld	e, #b_set_character_sprite
+    0000009D 21r00r00         [12]  182 	ld	hl, #_set_character_sprite
+    000000A0 CDr00r00         [24]  183 	call	___sdcc_bcall_ehl
+    000000A3 33               [ 8]  184 	inc	sp
+                                    185 ;src/scripts/movement.c:25: if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
+    000000A4 FAr00r00         [16]  186 	ld	a, (_y)
+    000000A7 C6 F8            [ 8]  187 	add	a, #0xf8
+    000000A9 5F               [ 4]  188 	ld	e, a
+    000000AA FAr00r00         [16]  189 	ld	a, (_x)
+    000000AD C6 08            [ 8]  190 	add	a, #0x08
+    000000AF CDr39r05         [24]  191 	call	_check_terrain
+    000000B2 B7               [ 4]  192 	or	a, a
+    000000B3 CAr7Br02         [16]  193 	jp	Z, 00138$
+    000000B6 FAr00r00         [16]  194 	ld	a, (_y)
+    000000B9 C6 F0            [ 8]  195 	add	a, #0xf0
+    000000BB 5F               [ 4]  196 	ld	e, a
+    000000BC FAr00r00         [16]  197 	ld	a, (_x)
+    000000BF CDr24r07         [24]  198 	call	_is_sprite_at
+    000000C2 B7               [ 4]  199 	or	a, a
+    000000C3 C2r7Br02         [16]  200 	jp	NZ, 00138$
+                                    201 ;src/scripts/movement.c:26: last_direction = 1;
+    000000C6 21r00r00         [12]  202 	ld	hl, #_last_direction
+    000000C9 36 01            [12]  203 	ld	(hl), #0x01
+                                    204 ;src/scripts/movement.c:27: moved = 1;
+    000000CB F8 00            [12]  205 	ldhl	sp,	#0
+    000000CD 36 01            [12]  206 	ld	(hl), #0x01
+                                    207 ;src/scripts/movement.c:28: if (!check_enemy(1)) {
+    000000CF 3E 01            [ 8]  208 	ld	a, #0x01
+    000000D1 F5               [16]  209 	push	af
+    000000D2 33               [ 8]  210 	inc	sp
+    000000D3 1Er00            [ 8]  211 	ld	e, #b_check_enemy
+    000000D5 21r00r00         [12]  212 	ld	hl, #_check_enemy
+    000000D8 CDr00r00         [24]  213 	call	___sdcc_bcall_ehl
+    000000DB 33               [ 8]  214 	inc	sp
+    000000DC B7               [ 4]  215 	or	a, a
+    000000DD 20 07            [12]  216 	jr	NZ, 00108$
+                                    217 ;src/scripts/movement.c:29: smooth_movement(1);
+    000000DF 3E 01            [ 8]  218 	ld	a, #0x01
+    000000E1 CDr67r03         [24]  219 	call	_smooth_movement
+    000000E4 18 2F            [12]  220 	jr	00109$
+    000000E6                        221 00108$:
+                                    222 ;src/scripts/movement.c:32: uint8_t enemy_idx = check_enemy(1);
+    000000E6 3E 01            [ 8]  223 	ld	a, #0x01
+    000000E8 F5               [16]  224 	push	af
+    000000E9 33               [ 8]  225 	inc	sp
+    000000EA 1Er00            [ 8]  226 	ld	e, #b_check_enemy
+    000000EC 21r00r00         [12]  227 	ld	hl, #_check_enemy
+    000000EF CDr00r00         [24]  228 	call	___sdcc_bcall_ehl
+    000000F2 33               [ 8]  229 	inc	sp
+    000000F3 5F               [ 4]  230 	ld	e, a
+                                    231 ;src/scripts/movement.c:33: play_attack_animation(1);
+    000000F4 D5               [16]  232 	push	de
+    000000F5 3E 01            [ 8]  233 	ld	a, #0x01
+    000000F7 F5               [16]  234 	push	af
+    000000F8 33               [ 8]  235 	inc	sp
+    000000F9 1Er00            [ 8]  236 	ld	e, #b_play_attack_animation
+    000000FB 21r00r00         [12]  237 	ld	hl, #_play_attack_animation
+    000000FE CDr00r00         [24]  238 	call	___sdcc_bcall_ehl
+    00000101 33               [ 8]  239 	inc	sp
+    00000102 D1               [12]  240 	pop	de
+                                    241 ;src/scripts/movement.c:34: player_attack(0, enemy_idx-1);
+    00000103 1D               [ 4]  242 	dec	e
+    00000104 AF               [ 4]  243 	xor	a, a
+    00000105 CDr00r00         [24]  244 	call	_player_attack
+                                    245 ;src/scripts/movement.c:35: set_character_sprite(1);
+    00000108 3E 01            [ 8]  246 	ld	a, #0x01
+    0000010A F5               [16]  247 	push	af
+    0000010B 33               [ 8]  248 	inc	sp
+    0000010C 1Er00            [ 8]  249 	ld	e, #b_set_character_sprite
+    0000010E 21r00r00         [12]  250 	ld	hl, #_set_character_sprite
+    00000111 CDr00r00         [24]  251 	call	___sdcc_bcall_ehl
+    00000114 33               [ 8]  252 	inc	sp
+    00000115                        253 00109$:
+                                    254 ;src/scripts/movement.c:37: if (current_location == 0 && y <= 40) {
+    00000115 FAr00r00         [16]  255 	ld	a, (#_current_location)
+    00000118 B7               [ 4]  256 	or	a, a
+    00000119 C2r7Br02         [16]  257 	jp	NZ, 00138$
+    0000011C 3E 28            [ 8]  258 	ld	a, #0x28
+    0000011E 21r00r00         [12]  259 	ld	hl, #_y
+    00000121 96               [ 8]  260 	sub	a, (hl)
+    00000122 DAr7Br02         [16]  261 	jp	C, 00138$
+                                    262 ;src/scripts/movement.c:38: current_location = 1;
+    00000125 21r00r00         [12]  263 	ld	hl, #_current_location
+    00000128 36 01            [12]  264 	ld	(hl), #0x01
+                                    265 ;src/scripts/movement.c:39: current_floor = 1;
+    0000012A 21r00r00         [12]  266 	ld	hl, #_current_floor
+    0000012D 36 01            [12]  267 	ld	(hl), #0x01
+                                    268 ;src/scripts/movement.c:40: obt_mythril = 0;
+                                    269 ;src/scripts/movement.c:41: obt_exp = 0;
+    0000012F AF               [ 4]  270 	xor	a, a
+    00000130 EAr00r00         [16]  271 	ld	(#_obt_mythril), a
+    00000133 EAr00r00         [16]  272 	ld	(#_obt_exp),a
+                                    273 ;src/scripts/movement.c:42: boss.defeated = 1;
+    00000136 21r09r00         [12]  274 	ld	hl, #(_boss + 9)
+    00000139 36 01            [12]  275 	ld	(hl), #0x01
+                                    276 ;src/scripts/movement.c:43: hide_camp_sprites();
+    0000013B CDr00r00         [24]  277 	call	_hide_camp_sprites
+                                    278 ;src/scripts/movement.c:44: save_game();
+    0000013E 1Er00            [ 8]  279 	ld	e, #b_save_game
+    00000140 21r00r00         [12]  280 	ld	hl, #_save_game
+    00000143 CDr00r00         [24]  281 	call	___sdcc_bcall_ehl
+                                    282 ;src/scripts/movement.c:45: go_into_dungeon();
+    00000146 CDr00r00         [24]  283 	call	_go_into_dungeon
+                                    284 ;src/scripts/movement.c:46: play_song(3);
+    00000149 3E 03            [ 8]  285 	ld	a, #0x03
+    0000014B CDr00r00         [24]  286 	call	_play_song
+                                    287 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000014E 21r12r00         [12]  288 	ld	hl, #(_shadow_OAM + 18)
+    00000151 36 00            [12]  289 	ld	(hl), #0x00
+    00000153 21r16r00         [12]  290 	ld	hl, #(_shadow_OAM + 22)
+    00000156 36 01            [12]  291 	ld	(hl), #0x01
+    00000158 21r1Ar00         [12]  292 	ld	hl, #(_shadow_OAM + 26)
+    0000015B 36 02            [12]  293 	ld	(hl), #0x02
+    0000015D 21r1Er00         [12]  294 	ld	hl, #(_shadow_OAM + 30)
+    00000160 36 03            [12]  295 	ld	(hl), #0x03
+                                    296 ;src/scripts/movement.c:51: x = 120;
+    00000162 21r00r00         [12]  297 	ld	hl, #_x
+    00000165 36 78            [12]  298 	ld	(hl), #0x78
+                                    299 ;src/scripts/movement.c:52: y = 112;
+    00000167 21r00r00         [12]  300 	ld	hl, #_y
+    0000016A 36 70            [12]  301 	ld	(hl), #0x70
+                                    302 ;src/scripts/movement.c:53: return;
+    0000016C C3r65r03         [16]  303 	jp	00155$
+    0000016F                        304 00134$:
+                                    305 ;src/scripts/movement.c:57: else if (joypad() & J_LEFT) {
+    0000016F CDr00r00         [24]  306 	call	_joypad
+    00000172 CB 4F            [ 8]  307 	bit	1, a
+    00000174 CArF9r01         [16]  308 	jp	Z, 00131$
+                                    309 ;src/scripts/movement.c:58: last_direction = 8;
+    00000177 21r00r00         [12]  310 	ld	hl, #_last_direction
+    0000017A 36 08            [12]  311 	ld	(hl), #0x08
+                                    312 ;src/scripts/movement.c:59: set_character_sprite(8);
+    0000017C 3E 08            [ 8]  313 	ld	a, #0x08
+    0000017E F5               [16]  314 	push	af
+    0000017F 33               [ 8]  315 	inc	sp
+    00000180 1Er00            [ 8]  316 	ld	e, #b_set_character_sprite
+    00000182 21r00r00         [12]  317 	ld	hl, #_set_character_sprite
+    00000185 CDr00r00         [24]  318 	call	___sdcc_bcall_ehl
+    00000188 33               [ 8]  319 	inc	sp
+                                    320 ;src/scripts/movement.c:60: if (check_terrain(x - 8, y + 8) && !is_sprite_at(x - 16, y)) {
+    00000189 FAr00r00         [16]  321 	ld	a, (_y)
+    0000018C C6 08            [ 8]  322 	add	a, #0x08
+    0000018E 5F               [ 4]  323 	ld	e, a
+    0000018F FAr00r00         [16]  324 	ld	a, (_x)
+    00000192 C6 F8            [ 8]  325 	add	a, #0xf8
+    00000194 CDr39r05         [24]  326 	call	_check_terrain
+    00000197 B7               [ 4]  327 	or	a, a
+    00000198 CAr7Br02         [16]  328 	jp	Z, 00138$
+    0000019B FAr00r00         [16]  329 	ld	a, (_x)
+    0000019E C6 F0            [ 8]  330 	add	a, #0xf0
+    000001A0 21r00r00         [12]  331 	ld	hl, #_y
+    000001A3 5E               [ 8]  332 	ld	e, (hl)
+    000001A4 CDr24r07         [24]  333 	call	_is_sprite_at
+    000001A7 B7               [ 4]  334 	or	a, a
+    000001A8 C2r7Br02         [16]  335 	jp	NZ, 00138$
+                                    336 ;src/scripts/movement.c:61: moved = 1;
+    000001AB F8 00            [12]  337 	ldhl	sp,	#0
+    000001AD 36 01            [12]  338 	ld	(hl), #0x01
+                                    339 ;src/scripts/movement.c:62: if (!check_enemy(8)) {
+    000001AF 3E 08            [ 8]  340 	ld	a, #0x08
+    000001B1 F5               [16]  341 	push	af
+    000001B2 33               [ 8]  342 	inc	sp
+    000001B3 1Er00            [ 8]  343 	ld	e, #b_check_enemy
+    000001B5 21r00r00         [12]  344 	ld	hl, #_check_enemy
+    000001B8 CDr00r00         [24]  345 	call	___sdcc_bcall_ehl
+    000001BB 33               [ 8]  346 	inc	sp
+    000001BC B7               [ 4]  347 	or	a, a
+    000001BD 20 08            [12]  348 	jr	NZ, 00117$
+                                    349 ;src/scripts/movement.c:63: smooth_movement(8);
+    000001BF 3E 08            [ 8]  350 	ld	a, #0x08
+    000001C1 CDr67r03         [24]  351 	call	_smooth_movement
+    000001C4 C3r7Br02         [16]  352 	jp	00138$
+    000001C7                        353 00117$:
+                                    354 ;src/scripts/movement.c:66: uint8_t enemy_idx = check_enemy(8);
+    000001C7 3E 08            [ 8]  355 	ld	a, #0x08
+    000001C9 F5               [16]  356 	push	af
+    000001CA 33               [ 8]  357 	inc	sp
+    000001CB 1Er00            [ 8]  358 	ld	e, #b_check_enemy
+    000001CD 21r00r00         [12]  359 	ld	hl, #_check_enemy
+    000001D0 CDr00r00         [24]  360 	call	___sdcc_bcall_ehl
+    000001D3 33               [ 8]  361 	inc	sp
+    000001D4 5F               [ 4]  362 	ld	e, a
+                                    363 ;src/scripts/movement.c:67: play_attack_animation(8);
+    000001D5 D5               [16]  364 	push	de
+    000001D6 3E 08            [ 8]  365 	ld	a, #0x08
+    000001D8 F5               [16]  366 	push	af
+    000001D9 33               [ 8]  367 	inc	sp
+    000001DA 1Er00            [ 8]  368 	ld	e, #b_play_attack_animation
+    000001DC 21r00r00         [12]  369 	ld	hl, #_play_attack_animation
+    000001DF CDr00r00         [24]  370 	call	___sdcc_bcall_ehl
+    000001E2 33               [ 8]  371 	inc	sp
+    000001E3 D1               [12]  372 	pop	de
+                                    373 ;src/scripts/movement.c:68: player_attack(0, enemy_idx-1);
+    000001E4 1D               [ 4]  374 	dec	e
+    000001E5 AF               [ 4]  375 	xor	a, a
+    000001E6 CDr00r00         [24]  376 	call	_player_attack
+                                    377 ;src/scripts/movement.c:69: set_character_sprite(8);
+    000001E9 3E 08            [ 8]  378 	ld	a, #0x08
+    000001EB F5               [16]  379 	push	af
+    000001EC 33               [ 8]  380 	inc	sp
+    000001ED 1Er00            [ 8]  381 	ld	e, #b_set_character_sprite
+    000001EF 21r00r00         [12]  382 	ld	hl, #_set_character_sprite
+    000001F2 CDr00r00         [24]  383 	call	___sdcc_bcall_ehl
+    000001F5 33               [ 8]  384 	inc	sp
+    000001F6 C3r7Br02         [16]  385 	jp	00138$
+    000001F9                        386 00131$:
+                                    387 ;src/scripts/movement.c:73: else if (joypad() & J_RIGHT) {
+    000001F9 CDr00r00         [24]  388 	call	_joypad
+    000001FC 0F               [ 4]  389 	rrca
+    000001FD 30 7C            [12]  390 	jr	NC, 00138$
+                                    391 ;src/scripts/movement.c:74: set_character_sprite(2);
+    000001FF 3E 02            [ 8]  392 	ld	a, #0x02
+    00000201 F5               [16]  393 	push	af
+    00000202 33               [ 8]  394 	inc	sp
+    00000203 1Er00            [ 8]  395 	ld	e, #b_set_character_sprite
+    00000205 21r00r00         [12]  396 	ld	hl, #_set_character_sprite
+    00000208 CDr00r00         [24]  397 	call	___sdcc_bcall_ehl
+    0000020B 33               [ 8]  398 	inc	sp
+                                    399 ;src/scripts/movement.c:75: last_direction = 2;
+    0000020C 21r00r00         [12]  400 	ld	hl, #_last_direction
+    0000020F 36 02            [12]  401 	ld	(hl), #0x02
+                                    402 ;src/scripts/movement.c:76: if (check_terrain(x + 24, y + 8) && !is_sprite_at(x + 16, y)) {
+    00000211 FAr00r00         [16]  403 	ld	a, (_y)
+    00000214 C6 08            [ 8]  404 	add	a, #0x08
+    00000216 5F               [ 4]  405 	ld	e, a
+    00000217 FAr00r00         [16]  406 	ld	a, (_x)
+    0000021A C6 18            [ 8]  407 	add	a, #0x18
+    0000021C CDr39r05         [24]  408 	call	_check_terrain
+    0000021F B7               [ 4]  409 	or	a, a
+    00000220 28 59            [12]  410 	jr	Z, 00138$
+    00000222 FAr00r00         [16]  411 	ld	a, (_x)
+    00000225 C6 10            [ 8]  412 	add	a, #0x10
+    00000227 21r00r00         [12]  413 	ld	hl, #_y
+    0000022A 5E               [ 8]  414 	ld	e, (hl)
+    0000022B CDr24r07         [24]  415 	call	_is_sprite_at
+    0000022E B7               [ 4]  416 	or	a, a
+    0000022F 20 4A            [12]  417 	jr	NZ, 00138$
+                                    418 ;src/scripts/movement.c:77: moved = 1;
+    00000231 F8 00            [12]  419 	ldhl	sp,	#0
+    00000233 36 01            [12]  420 	ld	(hl), #0x01
+                                    421 ;src/scripts/movement.c:78: if (!check_enemy(2)) {
+    00000235 3E 02            [ 8]  422 	ld	a, #0x02
+    00000237 F5               [16]  423 	push	af
+    00000238 33               [ 8]  424 	inc	sp
+    00000239 1Er00            [ 8]  425 	ld	e, #b_check_enemy
+    0000023B 21r00r00         [12]  426 	ld	hl, #_check_enemy
+    0000023E CDr00r00         [24]  427 	call	___sdcc_bcall_ehl
+    00000241 33               [ 8]  428 	inc	sp
+    00000242 B7               [ 4]  429 	or	a, a
+    00000243 20 07            [12]  430 	jr	NZ, 00123$
+                                    431 ;src/scripts/movement.c:79: smooth_movement(2);
+    00000245 3E 02            [ 8]  432 	ld	a, #0x02
+    00000247 CDr67r03         [24]  433 	call	_smooth_movement
+    0000024A 18 2F            [12]  434 	jr	00138$
+    0000024C                        435 00123$:
+                                    436 ;src/scripts/movement.c:82: uint8_t enemy_idx = check_enemy(2);
+    0000024C 3E 02            [ 8]  437 	ld	a, #0x02
+    0000024E F5               [16]  438 	push	af
+    0000024F 33               [ 8]  439 	inc	sp
+    00000250 1Er00            [ 8]  440 	ld	e, #b_check_enemy
+    00000252 21r00r00         [12]  441 	ld	hl, #_check_enemy
+    00000255 CDr00r00         [24]  442 	call	___sdcc_bcall_ehl
+    00000258 33               [ 8]  443 	inc	sp
+    00000259 5F               [ 4]  444 	ld	e, a
+                                    445 ;src/scripts/movement.c:83: play_attack_animation(2);
+    0000025A D5               [16]  446 	push	de
+    0000025B 3E 02            [ 8]  447 	ld	a, #0x02
+    0000025D F5               [16]  448 	push	af
+    0000025E 33               [ 8]  449 	inc	sp
+    0000025F 1Er00            [ 8]  450 	ld	e, #b_play_attack_animation
+    00000261 21r00r00         [12]  451 	ld	hl, #_play_attack_animation
+    00000264 CDr00r00         [24]  452 	call	___sdcc_bcall_ehl
+    00000267 33               [ 8]  453 	inc	sp
+    00000268 D1               [12]  454 	pop	de
+                                    455 ;src/scripts/movement.c:84: player_attack(0, enemy_idx-1);
+    00000269 1D               [ 4]  456 	dec	e
+    0000026A AF               [ 4]  457 	xor	a, a
+    0000026B CDr00r00         [24]  458 	call	_player_attack
+                                    459 ;src/scripts/movement.c:85: set_character_sprite(2);
+    0000026E 3E 02            [ 8]  460 	ld	a, #0x02
+    00000270 F5               [16]  461 	push	af
+    00000271 33               [ 8]  462 	inc	sp
+    00000272 1Er00            [ 8]  463 	ld	e, #b_set_character_sprite
+    00000274 21r00r00         [12]  464 	ld	hl, #_set_character_sprite
+    00000277 CDr00r00         [24]  465 	call	___sdcc_bcall_ehl
+    0000027A 33               [ 8]  466 	inc	sp
+    0000027B                        467 00138$:
+                                    468 ;src/scripts/movement.c:90: if (moved) {
+    0000027B F8 00            [12]  469 	ldhl	sp,	#0
+    0000027D 7E               [ 8]  470 	ld	a, (hl)
+    0000027E B7               [ 4]  471 	or	a, a
+    0000027F CAr65r03         [16]  472 	jp	Z, 00155$
+                                    473 ;src/scripts/movement.c:92: check_drops(x, y);
+    00000282 FAr00r00         [16]  474 	ld	a, (_y)
+    00000285 5F               [ 4]  475 	ld	e, a
+    00000286 FAr00r00         [16]  476 	ld	a, (_x)
+    00000289 CDr00r00         [24]  477 	call	_check_drops
+                                    478 ;src/scripts/movement.c:93: delay(20);
+    0000028C 11 14 00         [12]  479 	ld	de, #0x0014
+    0000028F CDr00r00         [24]  480 	call	_delay
+                                    481 ;src/scripts/movement.c:94: if (current_location == 1) {
+    00000292 FAr00r00         [16]  482 	ld	a, (#_current_location)
+    00000295 3D               [ 4]  483 	dec	a
+    00000296 C2r65r03         [16]  484 	jp	NZ, 00155$
+                                    485 ;src/scripts/movement.c:95: move_enemy(&current_enemies[0]);
+    00000299 11r00r00         [12]  486 	ld	de, #_current_enemies
+    0000029C CDr00r00         [24]  487 	call	_move_enemy
+                                    488 ;src/scripts/movement.c:96: move_enemy(&current_enemies[1]);
+    0000029F 11r0Cr00         [12]  489 	ld	de, #(_current_enemies + 12)
+    000002A2 CDr00r00         [24]  490 	call	_move_enemy
+                                    491 ;src/scripts/movement.c:97: move_boss(&boss);
+    000002A5 11r00r00         [12]  492 	ld	de, #_boss
+    000002A8 D5               [16]  493 	push	de
+    000002A9 1Er00            [ 8]  494 	ld	e, #b_move_boss
+    000002AB 21r00r00         [12]  495 	ld	hl, #_move_boss
+    000002AE CDr00r00         [24]  496 	call	___sdcc_bcall_ehl
+    000002B1 E1               [12]  497 	pop	hl
+                                    498 ;src/scripts/movement.c:99: if (dungeon[player_coords.x][player_coords.y] == 'E' && x <= 32 && y <= 40 && !boss_battle) {
+    000002B2 11r00r00         [12]  499 	ld	de, #_dungeon+0
+    000002B5 01r00r00         [12]  500 	ld	bc, #_player_coords+0
+    000002B8 0A               [ 8]  501 	ld	a, (bc)
+    000002B9 6F               [ 4]  502 	ld	l, a
+    000002BA 07               [ 4]  503 	rlca
+    000002BB 9F               [ 4]  504 	sbc	a, a
+    000002BC 67               [ 4]  505 	ld	h, a
+    000002BD 29               [ 8]  506 	add	hl, hl
+    000002BE 29               [ 8]  507 	add	hl, hl
+    000002BF 19               [ 8]  508 	add	hl, de
+    000002C0 03               [ 8]  509 	inc	bc
+    000002C1 0A               [ 8]  510 	ld	a, (bc)
+    000002C2 5F               [ 4]  511 	ld	e, a
+    000002C3 16 00            [ 8]  512 	ld	d, #0x00
+    000002C5 19               [ 8]  513 	add	hl, de
+    000002C6 7E               [ 8]  514 	ld	a, (hl)
+    000002C7 D6 45            [ 8]  515 	sub	a, #0x45
+    000002C9 20 21            [12]  516 	jr	NZ, 00140$
+    000002CB 3E 20            [ 8]  517 	ld	a, #0x20
+    000002CD 21r00r00         [12]  518 	ld	hl, #_x
+    000002D0 96               [ 8]  519 	sub	a, (hl)
+    000002D1 38 19            [12]  520 	jr	C, 00140$
+    000002D3 3E 28            [ 8]  521 	ld	a, #0x28
+    000002D5 21r00r00         [12]  522 	ld	hl, #_y
+    000002D8 96               [ 8]  523 	sub	a, (hl)
+    000002D9 38 11            [12]  524 	jr	C, 00140$
+    000002DB FAr00r00         [16]  525 	ld	a, (#_boss_battle)
+    000002DE B7               [ 4]  526 	or	a, a
+    000002DF 20 0B            [12]  527 	jr	NZ, 00140$
+                                    528 ;src/scripts/movement.c:100: stairs_sfx();
+    000002E1 1Er00            [ 8]  529 	ld	e, #b_stairs_sfx
+    000002E3 21r00r00         [12]  530 	ld	hl, #_stairs_sfx
+    000002E6 CDr00r00         [24]  531 	call	___sdcc_bcall_ehl
+                                    532 ;src/scripts/movement.c:101: go_next_floor();
+    000002E9 CDr00r00         [24]  533 	call	_go_next_floor
+    000002EC                        534 00140$:
+                                    535 ;src/scripts/movement.c:104: if (current_hp == 0) {
+    000002EC FAr00r00         [16]  536 	ld	a, (#_current_hp)
+    000002EF B7               [ 4]  537 	or	a, a
+    000002F0 20 73            [12]  538 	jr	NZ, 00155$
+                                    539 ;src/scripts/movement.c:105: death_sfx();
+    000002F2 1Er00            [ 8]  540 	ld	e, #b_death_sfx
+    000002F4 21r00r00         [12]  541 	ld	hl, #_death_sfx
+    000002F7 CDr00r00         [24]  542 	call	___sdcc_bcall_ehl
+                                    543 ;src/scripts/movement.c:106: delay(100);
+    000002FA 11 64 00         [12]  544 	ld	de, #0x0064
+    000002FD CDr00r00         [24]  545 	call	_delay
+                                    546 ;src/scripts/movement.c:107: play_song(0);
+    00000300 AF               [ 4]  547 	xor	a, a
+    00000301 CDr00r00         [24]  548 	call	_play_song
+                                    549 ;src/scripts/movement.c:108: game_over();
+    00000304 1Er00            [ 8]  550 	ld	e, #b_game_over
+    00000306 21r00r00         [12]  551 	ld	hl, #_game_over
+    00000309 CDr00r00         [24]  552 	call	___sdcc_bcall_ehl
+                                    553 ;src/scripts/movement.c:109: enemy_death(&current_enemies[0]);
+    0000030C 11r00r00         [12]  554 	ld	de, #_current_enemies
+    0000030F CDr00r00         [24]  555 	call	_enemy_death
+                                    556 ;src/scripts/movement.c:110: enemy_death(&current_enemies[1]);
+    00000312 11r0Cr00         [12]  557 	ld	de, #(_current_enemies + 12)
+    00000315 CDr00r00         [24]  558 	call	_enemy_death
+                                    559 ;src/scripts/movement.c:111: boss_death(&boss);
+    00000318 11r00r00         [12]  560 	ld	de, #_boss
+    0000031B D5               [16]  561 	push	de
+    0000031C 1Er00            [ 8]  562 	ld	e, #b_boss_death
+    0000031E 21r00r00         [12]  563 	ld	hl, #_boss_death
+    00000321 CDr00r00         [24]  564 	call	___sdcc_bcall_ehl
+    00000324 E1               [12]  565 	pop	hl
+                                    566 ;src/scripts/movement.c:112: clear_drops();
+    00000325 CDr00r00         [24]  567 	call	_clear_drops
+                                    568 ;src/scripts/movement.c:113: boss_floor_defeated = 0;
+                                    569 ;src/scripts/movement.c:114: key_obtained = 0;
+    00000328 AF               [ 4]  570 	xor	a, a
+    00000329 EAr00r00         [16]  571 	ld	(#_boss_floor_defeated), a
+    0000032C EAr00r00         [16]  572 	ld	(#_key_obtained),a
+                                    573 ;src/scripts/movement.c:115: boss_battle = 0;
+    0000032F AF               [ 4]  574 	xor	a, a
+    00000330 EAr00r00         [16]  575 	ld	(#_boss_battle),a
+                                    576 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1739: WX_REG=x, WY_REG=y;
+    00000333 3E 07            [ 8]  577 	ld	a, #0x07
+    00000335 E0r00            [12]  578 	ldh	(_WX_REG + 0), a
+    00000337 3E 88            [ 8]  579 	ld	a, #0x88
+    00000339 E0r00            [12]  580 	ldh	(_WY_REG + 0), a
+                                    581 ;src/scripts/movement.c:117: set_mini_menu();
+    0000033B 1Er00            [ 8]  582 	ld	e, #b_set_mini_menu
+    0000033D 21r00r00         [12]  583 	ld	hl, #_set_mini_menu
+    00000340 CDr00r00         [24]  584 	call	___sdcc_bcall_ehl
+                                    585 ;src/scripts/movement.c:118: set_camp_map();
+    00000343 CDr00r00         [24]  586 	call	_set_camp_map
+                                    587 ;src/scripts/movement.c:119: x = 120;
+    00000346 21r00r00         [12]  588 	ld	hl, #_x
+    00000349 36 78            [12]  589 	ld	(hl), #0x78
+                                    590 ;src/scripts/movement.c:120: y = 112;
+    0000034B 21r00r00         [12]  591 	ld	hl, #_y
+    0000034E 36 70            [12]  592 	ld	(hl), #0x70
+                                    593 ;src/scripts/movement.c:121: move_character();
+    00000350 CDrE8r04         [24]  594 	call	_move_character
+                                    595 ;src/scripts/movement.c:122: delay(100);
+    00000353 11 64 00         [12]  596 	ld	de, #0x0064
+    00000356 CDr00r00         [24]  597 	call	_delay
+                                    598 ;src/scripts/movement.c:123: SHOW_WIN;
+    00000359 F0r00            [12]  599 	ldh	a, (_LCDC_REG + 0)
+    0000035B F6 20            [ 8]  600 	or	a, #0x20
+    0000035D E0r00            [12]  601 	ldh	(_LCDC_REG + 0), a
+                                    602 ;src/scripts/movement.c:124: DISPLAY_ON;
+    0000035F F0r00            [12]  603 	ldh	a, (_LCDC_REG + 0)
+    00000361 F6 80            [ 8]  604 	or	a, #0x80
+    00000363 E0r00            [12]  605 	ldh	(_LCDC_REG + 0), a
+    00000365                        606 00155$:
+                                    607 ;src/scripts/movement.c:129: }
+    00000365 33               [ 8]  608 	inc	sp
+    00000366 C9               [16]  609 	ret
+                                    610 ;src/scripts/movement.c:132: void smooth_movement(uint8_t dir) {
+                                    611 ;	---------------------------------
+                                    612 ; Function smooth_movement
+                                    613 ; ---------------------------------
+    00000367                        614 _smooth_movement::
+    00000367 E8 F5            [16]  615 	add	sp, #-11
+    00000369 F8 09            [12]  616 	ldhl	sp,	#9
+    0000036B 77               [ 8]  617 	ld	(hl), a
+                                    618 ;src/scripts/movement.c:134: mov_x = x;
+    0000036C FAr00r00         [16]  619 	ld	a, (#_x)
+    0000036F F8 00            [12]  620 	ldhl	sp,	#0
+    00000371 77               [ 8]  621 	ld	(hl), a
+                                    622 ;src/scripts/movement.c:135: mov_y = y;
+    00000372 FAr00r00         [16]  623 	ld	a, (#_y)
+    00000375 F8 01            [12]  624 	ldhl	sp,	#1
+    00000377 77               [ 8]  625 	ld	(hl), a
+                                    626 ;src/scripts/movement.c:137: switch (dir) {
+    00000378 F8 09            [12]  627 	ldhl	sp,	#9
+    0000037A 7E               [ 8]  628 	ld	a, (hl)
+    0000037B 3D               [ 4]  629 	dec	a
+    0000037C 3E 01            [ 8]  630 	ld	a, #0x01
+    0000037E 28 01            [12]  631 	jr	Z, 00263$
+    00000380 AF               [ 4]  632 	xor	a, a
+    00000381                        633 00263$:
+    00000381 F8 02            [12]  634 	ldhl	sp,	#2
+    00000383 77               [ 8]  635 	ld	(hl), a
+    00000384 F8 09            [12]  636 	ldhl	sp,	#9
+    00000386 7E               [ 8]  637 	ld	a, (hl)
+    00000387 D6 02            [ 8]  638 	sub	a, #0x02
+    00000389 3E 01            [ 8]  639 	ld	a, #0x01
+    0000038B 28 01            [12]  640 	jr	Z, 00265$
+    0000038D AF               [ 4]  641 	xor	a, a
+    0000038E                        642 00265$:
+    0000038E 5F               [ 4]  643 	ld	e, a
+    0000038F F8 09            [12]  644 	ldhl	sp,	#9
+    00000391 7E               [ 8]  645 	ld	a, (hl)
+    00000392 D6 04            [ 8]  646 	sub	a, #0x04
+    00000394 3E 01            [ 8]  647 	ld	a, #0x01
+    00000396 28 01            [12]  648 	jr	Z, 00267$
+    00000398 AF               [ 4]  649 	xor	a, a
+    00000399                        650 00267$:
+    00000399 47               [ 4]  651 	ld	b, a
+    0000039A F8 09            [12]  652 	ldhl	sp,	#9
+    0000039C 7E               [ 8]  653 	ld	a, (hl)
+    0000039D D6 08            [ 8]  654 	sub	a, #0x08
+    0000039F 3E 01            [ 8]  655 	ld	a, #0x01
+    000003A1 28 01            [12]  656 	jr	Z, 00269$
+    000003A3 AF               [ 4]  657 	xor	a, a
+    000003A4                        658 00269$:
+    000003A4 4F               [ 4]  659 	ld	c, a
+                                    660 ;src/scripts/movement.c:139: y-=16;
+    000003A5 FAr00r00         [16]  661 	ld	a, (_y)
+    000003A8 57               [ 4]  662 	ld	d, a
+                                    663 ;src/scripts/movement.c:137: switch (dir) {
+    000003A9 F8 02            [12]  664 	ldhl	sp,	#2
+    000003AB 7E               [ 8]  665 	ld	a, (hl)
+    000003AC B7               [ 4]  666 	or	a, a
+    000003AD 20 11            [12]  667 	jr	NZ, 00101$
+                                    668 ;src/scripts/movement.c:142: x+=16;
+    000003AF FAr00r00         [16]  669 	ld	a, (_x)
+                                    670 ;src/scripts/movement.c:137: switch (dir) {
+    000003B2 1C               [ 4]  671 	inc	e
+    000003B3 1D               [ 4]  672 	dec	e
+    000003B4 20 12            [12]  673 	jr	NZ, 00102$
+    000003B6 04               [ 4]  674 	inc	b
+    000003B7 05               [ 4]  675 	dec	b
+    000003B8 20 15            [12]  676 	jr	NZ, 00103$
+    000003BA 0C               [ 4]  677 	inc	c
+    000003BB 0D               [ 4]  678 	dec	c
+    000003BC 20 19            [12]  679 	jr	NZ, 00104$
+    000003BE 18 1C            [12]  680 	jr	00105$
+                                    681 ;src/scripts/movement.c:138: case 1:
+    000003C0                        682 00101$:
+                                    683 ;src/scripts/movement.c:139: y-=16;
+    000003C0 7A               [ 4]  684 	ld	a, d
+    000003C1 C6 F0            [ 8]  685 	add	a, #0xf0
+    000003C3 EAr00r00         [16]  686 	ld	(#_y),a
+                                    687 ;src/scripts/movement.c:140: break;
+    000003C6 18 14            [12]  688 	jr	00105$
+                                    689 ;src/scripts/movement.c:141: case 2:
+    000003C8                        690 00102$:
+                                    691 ;src/scripts/movement.c:142: x+=16;
+    000003C8 C6 10            [ 8]  692 	add	a, #0x10
+    000003CA EAr00r00         [16]  693 	ld	(#_x),a
+                                    694 ;src/scripts/movement.c:143: break;
+    000003CD 18 0D            [12]  695 	jr	00105$
+                                    696 ;src/scripts/movement.c:144: case 4:
+    000003CF                        697 00103$:
+                                    698 ;src/scripts/movement.c:145: y+=16;
+    000003CF 7A               [ 4]  699 	ld	a, d
+    000003D0 C6 10            [ 8]  700 	add	a, #0x10
+    000003D2 EAr00r00         [16]  701 	ld	(#_y),a
+                                    702 ;src/scripts/movement.c:146: break;
+    000003D5 18 05            [12]  703 	jr	00105$
+                                    704 ;src/scripts/movement.c:147: case 8:
+    000003D7                        705 00104$:
+                                    706 ;src/scripts/movement.c:148: x-=16;
+    000003D7 C6 F0            [ 8]  707 	add	a, #0xf0
+    000003D9 EAr00r00         [16]  708 	ld	(#_x),a
+                                    709 ;src/scripts/movement.c:150: }
+    000003DC                        710 00105$:
+                                    711 ;src/scripts/movement.c:152: play_walk_animation(dir);
+    000003DC C5               [16]  712 	push	bc
+    000003DD D5               [16]  713 	push	de
+    000003DE F8 0D            [12]  714 	ldhl	sp,	#13
+    000003E0 7E               [ 8]  715 	ld	a, (hl)
+    000003E1 F5               [16]  716 	push	af
+    000003E2 33               [ 8]  717 	inc	sp
+    000003E3 1Er00            [ 8]  718 	ld	e, #b_play_walk_animation
+    000003E5 21r00r00         [12]  719 	ld	hl, #_play_walk_animation
+    000003E8 CDr00r00         [24]  720 	call	___sdcc_bcall_ehl
+    000003EB 33               [ 8]  721 	inc	sp
+    000003EC D1               [12]  722 	pop	de
+    000003ED C1               [12]  723 	pop	bc
+                                    724 ;src/scripts/movement.c:154: while (frame < 16) {
+    000003EE F8 03            [12]  725 	ldhl	sp,	#3
+    000003F0 7B               [ 4]  726 	ld	a, e
+    000003F1 22               [ 8]  727 	ld	(hl+), a
+    000003F2 78               [ 4]  728 	ld	a, b
+    000003F3 22               [ 8]  729 	ld	(hl+), a
+    000003F4 79               [ 4]  730 	ld	a, c
+    000003F5 22               [ 8]  731 	ld	(hl+), a
+    000003F6 7B               [ 4]  732 	ld	a, e
+    000003F7 22               [ 8]  733 	ld	(hl+), a
+    000003F8 78               [ 4]  734 	ld	a, b
+    000003F9 22               [ 8]  735 	ld	(hl+), a
+    000003FA 79               [ 4]  736 	ld	a, c
+    000003FB 22               [ 8]  737 	ld	(hl+), a
+    000003FC 23               [ 8]  738 	inc	hl
+    000003FD 36 00            [12]  739 	ld	(hl), #0x00
+    000003FF                        740 00123$:
+    000003FF F8 0A            [12]  741 	ldhl	sp,	#10
+    00000401 7E               [ 8]  742 	ld	a, (hl)
+    00000402 D6 10            [ 8]  743 	sub	a, #0x10
+    00000404 D2rE5r04         [16]  744 	jp	NC, 00140$
+                                    745 ;src/scripts/movement.c:155: if (frame > 7) {
+    00000407 3E 07            [ 8]  746 	ld	a, #0x07
+    00000409 96               [ 8]  747 	sub	a, (hl)
+    0000040A 30 0D            [12]  748 	jr	NC, 00107$
+                                    749 ;src/scripts/movement.c:156: set_character_sprite(dir);
+    0000040C 2B               [ 8]  750 	dec	hl
+    0000040D 7E               [ 8]  751 	ld	a, (hl)
+    0000040E F5               [16]  752 	push	af
+    0000040F 33               [ 8]  753 	inc	sp
+    00000410 1Er00            [ 8]  754 	ld	e, #b_set_character_sprite
+    00000412 21r00r00         [12]  755 	ld	hl, #_set_character_sprite
+    00000415 CDr00r00         [24]  756 	call	___sdcc_bcall_ehl
+    00000418 33               [ 8]  757 	inc	sp
+    00000419                        758 00107$:
+                                    759 ;src/scripts/movement.c:158: if (mov_y >= 136) {
+    00000419 F8 01            [12]  760 	ldhl	sp,	#1
+    0000041B 7E               [ 8]  761 	ld	a, (hl)
+    0000041C D6 88            [ 8]  762 	sub	a, #0x88
+    0000041E 38 0C            [12]  763 	jr	C, 00116$
+                                    764 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000420 21r1Ar00         [12]  765 	ld	hl, #(_shadow_OAM + 26)
+    00000423 36 32            [12]  766 	ld	(hl), #0x32
+    00000425 21r1Er00         [12]  767 	ld	hl, #(_shadow_OAM + 30)
+    00000428 36 32            [12]  768 	ld	(hl), #0x32
+                                    769 ;src/scripts/movement.c:160: set_sprite_tile(7, 50);
+    0000042A 18 4C            [12]  770 	jr	00117$
+    0000042C                        771 00116$:
+                                    772 ;src/scripts/movement.c:162: else if (mov_y == 134){
+    0000042C F8 01            [12]  773 	ldhl	sp,	#1
+    0000042E 7E               [ 8]  774 	ld	a, (hl)
+    0000042F D6 86            [ 8]  775 	sub	a, #0x86
+    00000431 20 45            [12]  776 	jr	NZ, 00117$
+                                    777 ;src/scripts/movement.c:163: switch (dir) {
+    00000433 F8 02            [12]  778 	ldhl	sp,	#2
+    00000435 7E               [ 8]  779 	ld	a, (hl)
+    00000436 B7               [ 4]  780 	or	a, a
+    00000437 20 11            [12]  781 	jr	NZ, 00108$
+    00000439 23               [ 8]  782 	inc	hl
+    0000043A 7E               [ 8]  783 	ld	a, (hl)
+    0000043B B7               [ 4]  784 	or	a, a
+    0000043C 20 18            [12]  785 	jr	NZ, 00109$
+    0000043E 23               [ 8]  786 	inc	hl
+    0000043F 7E               [ 8]  787 	ld	a, (hl)
+    00000440 B7               [ 4]  788 	or	a, a
+    00000441 20 1F            [12]  789 	jr	NZ, 00110$
+    00000443 23               [ 8]  790 	inc	hl
+    00000444 7E               [ 8]  791 	ld	a, (hl)
+    00000445 B7               [ 4]  792 	or	a, a
+    00000446 20 26            [12]  793 	jr	NZ, 00111$
+    00000448 18 2E            [12]  794 	jr	00117$
+                                    795 ;src/scripts/movement.c:164: case 1:
+    0000044A                        796 00108$:
+                                    797 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000044A 21r1Ar00         [12]  798 	ld	hl, #(_shadow_OAM + 26)
+    0000044D 36 06            [12]  799 	ld	(hl), #0x06
+    0000044F 21r1Er00         [12]  800 	ld	hl, #(_shadow_OAM + 30)
+    00000452 36 07            [12]  801 	ld	(hl), #0x07
+                                    802 ;src/scripts/movement.c:167: break;
+    00000454 18 22            [12]  803 	jr	00117$
+                                    804 ;src/scripts/movement.c:168: case 2:
+    00000456                        805 00109$:
+                                    806 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000456 21r1Ar00         [12]  807 	ld	hl, #(_shadow_OAM + 26)
+    00000459 36 0A            [12]  808 	ld	(hl), #0x0a
+    0000045B 21r1Er00         [12]  809 	ld	hl, #(_shadow_OAM + 30)
+    0000045E 36 0B            [12]  810 	ld	(hl), #0x0b
+                                    811 ;src/scripts/movement.c:171: break;
+    00000460 18 16            [12]  812 	jr	00117$
+                                    813 ;src/scripts/movement.c:172: case 4:
+    00000462                        814 00110$:
+                                    815 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    00000462 21r1Ar00         [12]  816 	ld	hl, #(_shadow_OAM + 26)
+    00000465 36 02            [12]  817 	ld	(hl), #0x02
+    00000467 21r1Er00         [12]  818 	ld	hl, #(_shadow_OAM + 30)
+    0000046A 36 03            [12]  819 	ld	(hl), #0x03
+                                    820 ;src/scripts/movement.c:175: break;
+    0000046C 18 0A            [12]  821 	jr	00117$
+                                    822 ;src/scripts/movement.c:176: case 8:
+    0000046E                        823 00111$:
+                                    824 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000046E 21r1Ar00         [12]  825 	ld	hl, #(_shadow_OAM + 26)
+    00000471 36 0E            [12]  826 	ld	(hl), #0x0e
+    00000473 21r1Er00         [12]  827 	ld	hl, #(_shadow_OAM + 30)
+    00000476 36 0F            [12]  828 	ld	(hl), #0x0f
+                                    829 ;src/scripts/movement.c:180: }
+    00000478                        830 00117$:
+                                    831 ;src/scripts/movement.c:182: wait_vbl_done();
+    00000478 CDr00r00         [24]  832 	call	_wait_vbl_done
+                                    833 ;src/scripts/movement.c:185: mov_y-=1;
+    0000047B F8 01            [12]  834 	ldhl	sp,	#1
+                                    835 ;src/scripts/movement.c:183: switch (dir) {
+    0000047D 2A               [ 8]  836 	ld	a, (hl+)
+    0000047E 4F               [ 4]  837 	ld	c, a
+    0000047F 7E               [ 8]  838 	ld	a, (hl)
+    00000480 B7               [ 4]  839 	or	a, a
+    00000481 20 15            [12]  840 	jr	NZ, 00118$
+                                    841 ;src/scripts/movement.c:188: mov_x+=1;
+    00000483 2B               [ 8]  842 	dec	hl
+    00000484 2B               [ 8]  843 	dec	hl
+    00000485 46               [ 8]  844 	ld	b, (hl)
+                                    845 ;src/scripts/movement.c:183: switch (dir) {
+    00000486 F8 06            [12]  846 	ldhl	sp,	#6
+    00000488 7E               [ 8]  847 	ld	a, (hl)
+    00000489 B7               [ 4]  848 	or	a, a
+    0000048A 20 13            [12]  849 	jr	NZ, 00119$
+    0000048C 23               [ 8]  850 	inc	hl
+    0000048D 7E               [ 8]  851 	ld	a, (hl)
+    0000048E B7               [ 4]  852 	or	a, a
+    0000048F 20 15            [12]  853 	jr	NZ, 00120$
+    00000491 23               [ 8]  854 	inc	hl
+    00000492 7E               [ 8]  855 	ld	a, (hl)
+    00000493 B7               [ 4]  856 	or	a, a
+    00000494 20 17            [12]  857 	jr	NZ, 00121$
+    00000496 18 1A            [12]  858 	jr	00122$
+                                    859 ;src/scripts/movement.c:184: case 1:
+    00000498                        860 00118$:
+                                    861 ;src/scripts/movement.c:185: mov_y-=1;
+    00000498 79               [ 4]  862 	ld	a, c
+    00000499 3D               [ 4]  863 	dec	a
+    0000049A F8 01            [12]  864 	ldhl	sp,	#1
+    0000049C 77               [ 8]  865 	ld	(hl), a
+                                    866 ;src/scripts/movement.c:186: break;
+    0000049D 18 13            [12]  867 	jr	00122$
+                                    868 ;src/scripts/movement.c:187: case 2:
+    0000049F                        869 00119$:
+                                    870 ;src/scripts/movement.c:188: mov_x+=1;
+    0000049F 78               [ 4]  871 	ld	a, b
+    000004A0 3C               [ 4]  872 	inc	a
+    000004A1 F8 00            [12]  873 	ldhl	sp,	#0
+    000004A3 77               [ 8]  874 	ld	(hl), a
+                                    875 ;src/scripts/movement.c:189: break;
+    000004A4 18 0C            [12]  876 	jr	00122$
+                                    877 ;src/scripts/movement.c:190: case 4:
+    000004A6                        878 00120$:
+                                    879 ;src/scripts/movement.c:191: mov_y+=1;
+    000004A6 79               [ 4]  880 	ld	a, c
+    000004A7 3C               [ 4]  881 	inc	a
+    000004A8 F8 01            [12]  882 	ldhl	sp,	#1
+    000004AA 77               [ 8]  883 	ld	(hl), a
+                                    884 ;src/scripts/movement.c:192: break;
+    000004AB 18 05            [12]  885 	jr	00122$
+                                    886 ;src/scripts/movement.c:193: case 8:
+    000004AD                        887 00121$:
+                                    888 ;src/scripts/movement.c:194: mov_x-=1;
+    000004AD 78               [ 4]  889 	ld	a, b
+    000004AE 3D               [ 4]  890 	dec	a
+    000004AF F8 00            [12]  891 	ldhl	sp,	#0
+    000004B1 77               [ 8]  892 	ld	(hl), a
+                                    893 ;src/scripts/movement.c:196: }
+    000004B2                        894 00122$:
+                                    895 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000004B2 01r10r00         [12]  896 	ld	bc, #(_shadow_OAM + 16)
+                                    897 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000004B5 F8 01            [12]  898 	ldhl	sp,	#1
+    000004B7 3A               [ 8]  899 	ld	a, (hl-)
+    000004B8 02               [ 8]  900 	ld	(bc), a
+    000004B9 03               [ 8]  901 	inc	bc
+    000004BA 7E               [ 8]  902 	ld	a, (hl)
+    000004BB 02               [ 8]  903 	ld	(bc), a
+                                    904 ;src/scripts/movement.c:198: move_sprite(5, mov_x+8, mov_y);
+                                    905 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+                                    906 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000004BC 2A               [ 8]  907 	ld	a, (hl+)
+    000004BD C6 08            [ 8]  908 	add	a, #0x08
+    000004BF 4F               [ 4]  909 	ld	c, a
+    000004C0 41               [ 4]  910 	ld	b, c
+    000004C1 11r14r00         [12]  911 	ld	de, #(_shadow_OAM + 20)
+    000004C4 7E               [ 8]  912 	ld	a, (hl)
+    000004C5 12               [ 8]  913 	ld	(de), a
+    000004C6 13               [ 8]  914 	inc	de
+    000004C7 78               [ 4]  915 	ld	a, b
+    000004C8 12               [ 8]  916 	ld	(de), a
+                                    917 ;src/scripts/movement.c:199: move_sprite(6, mov_x, mov_y + 8);
+    000004C9 7E               [ 8]  918 	ld	a, (hl)
+    000004CA C6 08            [ 8]  919 	add	a, #0x08
+    000004CC 47               [ 4]  920 	ld	b, a
+    000004CD 58               [ 4]  921 	ld	e, b
+                                    922 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000004CE 21r18r00         [12]  923 	ld	hl, #(_shadow_OAM + 24)
+                                    924 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000004D1 73               [ 8]  925 	ld	(hl), e
+    000004D2 11r19r00         [12]  926 	ld	de, #(_shadow_OAM + 25)
+    000004D5 F8 00            [12]  927 	ldhl	sp,	#0
+    000004D7 7E               [ 8]  928 	ld	a, (hl)
+    000004D8 12               [ 8]  929 	ld	(de), a
+                                    930 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000004D9 21r1Cr00         [12]  931 	ld	hl, #(_shadow_OAM + 28)
+                                    932 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000004DC 78               [ 4]  933 	ld	a, b
+    000004DD 22               [ 8]  934 	ld	(hl+), a
+    000004DE 71               [ 8]  935 	ld	(hl), c
+                                    936 ;src/scripts/movement.c:201: frame++;
+    000004DF F8 0A            [12]  937 	ldhl	sp,	#10
+    000004E1 34               [12]  938 	inc	(hl)
+    000004E2 C3rFFr03         [16]  939 	jp	00123$
+    000004E5                        940 00140$:
+                                    941 ;src/scripts/movement.c:204: }
+    000004E5 E8 0B            [16]  942 	add	sp, #11
+    000004E7 C9               [16]  943 	ret
+                                    944 ;src/scripts/movement.c:207: void move_character() {
+                                    945 ;	---------------------------------
+                                    946 ; Function move_character
+                                    947 ; ---------------------------------
+    000004E8                        948 _move_character::
+                                    949 ;src/scripts/movement.c:208: move_sprite(4, x, y);
+    000004E8 FAr00r00         [16]  950 	ld	a, (_y)
+    000004EB 47               [ 4]  951 	ld	b, a
+    000004EC FAr00r00         [16]  952 	ld	a, (_x)
+    000004EF 4F               [ 4]  953 	ld	c, a
+                                    954 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    000004F0 21r10r00         [12]  955 	ld	hl, #(_shadow_OAM + 16)
+                                    956 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    000004F3 78               [ 4]  957 	ld	a, b
+    000004F4 22               [ 8]  958 	ld	(hl+), a
+    000004F5 71               [ 8]  959 	ld	(hl), c
+                                    960 ;src/scripts/movement.c:209: move_sprite(5, x+8, y);
+    000004F6 FAr00r00         [16]  961 	ld	a, (_y)
+    000004F9 47               [ 4]  962 	ld	b, a
+    000004FA FAr00r00         [16]  963 	ld	a, (_x)
+    000004FD C6 08            [ 8]  964 	add	a, #0x08
+    000004FF 4F               [ 4]  965 	ld	c, a
+                                    966 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000500 21r14r00         [12]  967 	ld	hl, #(_shadow_OAM + 20)
+                                    968 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000503 78               [ 4]  969 	ld	a, b
+    00000504 22               [ 8]  970 	ld	(hl+), a
+    00000505 71               [ 8]  971 	ld	(hl), c
+                                    972 ;src/scripts/movement.c:210: move_sprite(6, x, y + 8);
+    00000506 FAr00r00         [16]  973 	ld	a, (_y)
+    00000509 C6 08            [ 8]  974 	add	a, #0x08
+    0000050B 47               [ 4]  975 	ld	b, a
+    0000050C FAr00r00         [16]  976 	ld	a, (_x)
+    0000050F 4F               [ 4]  977 	ld	c, a
+                                    978 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000510 21r18r00         [12]  979 	ld	hl, #(_shadow_OAM + 24)
+                                    980 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000513 78               [ 4]  981 	ld	a, b
+    00000514 22               [ 8]  982 	ld	(hl+), a
+    00000515 71               [ 8]  983 	ld	(hl), c
+                                    984 ;src/scripts/movement.c:211: move_sprite(7, x + 8, y + 8);
+    00000516 FAr00r00         [16]  985 	ld	a, (_y)
+    00000519 C6 08            [ 8]  986 	add	a, #0x08
+    0000051B 47               [ 4]  987 	ld	b, a
+    0000051C FAr00r00         [16]  988 	ld	a, (_x)
+    0000051F C6 08            [ 8]  989 	add	a, #0x08
+    00000521 4F               [ 4]  990 	ld	c, a
+                                    991 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1973: OAM_item_t * itm = &shadow_OAM[nb];
+    00000522 21r1Cr00         [12]  992 	ld	hl, #(_shadow_OAM + 28)
+                                    993 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1974: itm->y=y, itm->x=x;
+    00000525 78               [ 4]  994 	ld	a, b
+    00000526 22               [ 8]  995 	ld	(hl+), a
+    00000527 71               [ 8]  996 	ld	(hl), c
+                                    997 ;src/scripts/movement.c:213: if (y == 144) {
+    00000528 FAr00r00         [16]  998 	ld	a, (#_y)
+    0000052B D6 90            [ 8]  999 	sub	a, #0x90
+    0000052D C0               [20] 1000 	ret	NZ
+                                   1001 ;c:\users\utente\desktop\tirocinio\gbdk-win64\gbdk\include\gb\gb.h:1887: shadow_OAM[nb].tile=tile;
+    0000052E 21r1Ar00         [12] 1002 	ld	hl, #(_shadow_OAM + 26)
+    00000531 36 32            [12] 1003 	ld	(hl), #0x32
+    00000533 21r1Er00         [12] 1004 	ld	hl, #(_shadow_OAM + 30)
+    00000536 36 32            [12] 1005 	ld	(hl), #0x32
+                                   1006 ;src/scripts/movement.c:215: set_sprite_tile(7, 50);
+                                   1007 ;src/scripts/movement.c:218: }
+    00000538 C9               [16] 1008 	ret
+                                   1009 ;src/scripts/movement.c:220: uint8_t check_terrain(uint8_t new_x, uint8_t new_y) {
+                                   1010 ;	---------------------------------
+                                   1011 ; Function check_terrain
+                                   1012 ; ---------------------------------
+    00000539                       1013 _check_terrain::
+    00000539 E8 F8            [16] 1014 	add	sp, #-8
+    0000053B 4F               [ 4] 1015 	ld	c, a
+    0000053C F8 07            [12] 1016 	ldhl	sp,	#7
+    0000053E 73               [ 8] 1017 	ld	(hl), e
+                                   1018 ;src/scripts/movement.c:222: if (current_location != 0) {
+    0000053F FAr00r00         [16] 1019 	ld	a, (#_current_location)
+    00000542 B7               [ 4] 1020 	or	a, a
+    00000543 28 1B            [12] 1021 	jr	Z, 00107$
+                                   1022 ;src/scripts/movement.c:223: if (new_x < 8 || new_x > 160 || new_y < 16 || new_y > 152) {
+    00000545 79               [ 4] 1023 	ld	a, c
+    00000546 D6 08            [ 8] 1024 	sub	a, #0x08
+    00000548 38 11            [12] 1025 	jr	C, 00101$
+    0000054A 3E A0            [ 8] 1026 	ld	a, #0xa0
+    0000054C 91               [ 4] 1027 	sub	a, c
+    0000054D 38 0C            [12] 1028 	jr	C, 00101$
+    0000054F F8 07            [12] 1029 	ldhl	sp,	#7
+    00000551 7E               [ 8] 1030 	ld	a, (hl)
+    00000552 D6 10            [ 8] 1031 	sub	a, #0x10
+    00000554 38 05            [12] 1032 	jr	C, 00101$
+    00000556 3E 98            [ 8] 1033 	ld	a, #0x98
+    00000558 96               [ 8] 1034 	sub	a, (hl)
+    00000559 30 05            [12] 1035 	jr	NC, 00107$
+    0000055B                       1036 00101$:
+                                   1037 ;src/scripts/movement.c:224: return 1;
+    0000055B 3E 01            [ 8] 1038 	ld	a, #0x01
+    0000055D C3r21r07         [16] 1039 	jp	00144$
+    00000560                       1040 00107$:
+                                   1041 ;src/scripts/movement.c:229: int16_t gx = ((int16_t)new_x - 8) / 8;
+    00000560 06 00            [ 8] 1042 	ld	b, #0x00
+    00000562 11 08 00         [12] 1043 	ld	de, #0x0008
+    00000565 79               [ 4] 1044 	ld	a, c
+    00000566 93               [ 4] 1045 	sub	a, e
+    00000567 5F               [ 4] 1046 	ld	e, a
+    00000568 78               [ 4] 1047 	ld	a, b
+    00000569 9A               [ 4] 1048 	sbc	a, d
+    0000056A F8 04            [12] 1049 	ldhl	sp,	#4
+    0000056C 32               [ 8] 1050 	ld	(hl-), a
+    0000056D 73               [ 8] 1051 	ld	(hl), e
+    0000056E 2A               [ 8] 1052 	ld	a, (hl+)
+    0000056F 23               [ 8] 1053 	inc	hl
+    00000570 32               [ 8] 1054 	ld	(hl-), a
+    00000571 2A               [ 8] 1055 	ld	a, (hl+)
+    00000572 23               [ 8] 1056 	inc	hl
+    00000573 32               [ 8] 1057 	ld	(hl-), a
+    00000574 2B               [ 8] 1058 	dec	hl
+    00000575 CB 7E            [12] 1059 	bit	7, (hl)
+    00000577 28 0E            [12] 1060 	jr	Z, 00146$
+    00000579 21 FF FF         [12] 1061 	ld	hl, #0xffff
+    0000057C 09               [ 8] 1062 	add	hl, bc
+    0000057D E5               [16] 1063 	push	hl
+    0000057E 7D               [ 4] 1064 	ld	a, l
+    0000057F F8 07            [12] 1065 	ldhl	sp,	#7
+    00000581 77               [ 8] 1066 	ld	(hl), a
+    00000582 E1               [12] 1067 	pop	hl
+    00000583 7C               [ 4] 1068 	ld	a, h
+    00000584 F8 06            [12] 1069 	ldhl	sp,	#6
+    00000586 77               [ 8] 1070 	ld	(hl), a
+    00000587                       1071 00146$:
+    00000587 F8 05            [12] 1072 	ldhl	sp,#5
+    00000589 2A               [ 8] 1073 	ld	a, (hl+)
+    0000058A 4F               [ 4] 1074 	ld	c, a
+    0000058B 3A               [ 8] 1075 	ld	a, (hl-)
+    0000058C 47               [ 4] 1076 	ld	b, a
+    0000058D CB 28            [ 8] 1077 	sra	b
+    0000058F CB 19            [ 8] 1078 	rr	c
+    00000591 CB 28            [ 8] 1079 	sra	b
+    00000593 CB 19            [ 8] 1080 	rr	c
+    00000595 CB 28            [ 8] 1081 	sra	b
+    00000597 CB 19            [ 8] 1082 	rr	c
+    00000599 79               [ 4] 1083 	ld	a, c
+    0000059A 22               [ 8] 1084 	ld	(hl+), a
+                                   1085 ;src/scripts/movement.c:230: int16_t gy = ((int16_t)new_y - 16) / 8;
+    0000059B 78               [ 4] 1086 	ld	a, b
+    0000059C 22               [ 8] 1087 	ld	(hl+), a
+    0000059D 7E               [ 8] 1088 	ld	a, (hl)
+    0000059E F8 01            [12] 1089 	ldhl	sp,	#1
+    000005A0 22               [ 8] 1090 	ld	(hl+), a
+    000005A1 AF               [ 4] 1091 	xor	a, a
+    000005A2 32               [ 8] 1092 	ld	(hl-), a
+    000005A3 2A               [ 8] 1093 	ld	a, (hl+)
+    000005A4 5F               [ 4] 1094 	ld	e, a
+    000005A5 56               [ 8] 1095 	ld	d, (hl)
+    000005A6 21 10 00         [12] 1096 	ld	hl, #0x0010
+    000005A9 7B               [ 4] 1097 	ld	a, e
+    000005AA 95               [ 4] 1098 	sub	a, l
+    000005AB 5F               [ 4] 1099 	ld	e, a
+    000005AC 7A               [ 4] 1100 	ld	a, d
+    000005AD 9C               [ 4] 1101 	sbc	a, h
+    000005AE F8 04            [12] 1102 	ldhl	sp,	#4
+    000005B0 32               [ 8] 1103 	ld	(hl-), a
+    000005B1 73               [ 8] 1104 	ld	(hl), e
+    000005B2 2A               [ 8] 1105 	ld	a, (hl+)
+    000005B3 4F               [ 4] 1106 	ld	c, a
+    000005B4 46               [ 8] 1107 	ld	b, (hl)
+    000005B5 CB 7E            [12] 1108 	bit	7, (hl)
+    000005B7 28 0C            [12] 1109 	jr	Z, 00147$
+    000005B9 2B               [ 8] 1110 	dec	hl
+    000005BA 2B               [ 8] 1111 	dec	hl
+    000005BB 2B               [ 8] 1112 	dec	hl
+    000005BC 2A               [ 8] 1113 	ld	a, (hl+)
+    000005BD 5F               [ 4] 1114 	ld	e, a
+    000005BE 56               [ 8] 1115 	ld	d, (hl)
+    000005BF 21 F7 FF         [12] 1116 	ld	hl, #0xfff7
+    000005C2 19               [ 8] 1117 	add	hl, de
+    000005C3 4D               [ 4] 1118 	ld	c, l
+    000005C4 44               [ 4] 1119 	ld	b, h
+    000005C5                       1120 00147$:
+    000005C5 CB 28            [ 8] 1121 	sra	b
+    000005C7 CB 19            [ 8] 1122 	rr	c
+    000005C9 CB 28            [ 8] 1123 	sra	b
+    000005CB CB 19            [ 8] 1124 	rr	c
+    000005CD CB 28            [ 8] 1125 	sra	b
+    000005CF CB 19            [ 8] 1126 	rr	c
+    000005D1 33               [ 8] 1127 	inc	sp
+    000005D2 33               [ 8] 1128 	inc	sp
+    000005D3 C5               [16] 1129 	push	bc
+                                   1130 ;src/scripts/movement.c:232: if (gx < 0 || gx >= 20 || gy < 0 || gy >= 18) {
+    000005D4 F8 05            [12] 1131 	ldhl	sp,	#5
+    000005D6 2A               [ 8] 1132 	ld	a, (hl+)
+    000005D7 4F               [ 4] 1133 	ld	c, a
+    000005D8 46               [ 8] 1134 	ld	b, (hl)
+    000005D9 CB 78            [ 8] 1135 	bit	7, b
+    000005DB 20 1D            [12] 1136 	jr	NZ, 00108$
+    000005DD 79               [ 4] 1137 	ld	a, c
+    000005DE D6 14            [ 8] 1138 	sub	a, #0x14
+    000005E0 78               [ 4] 1139 	ld	a, b
+    000005E1 DE 00            [ 8] 1140 	sbc	a, #0x00
+    000005E3 30 15            [12] 1141 	jr	NC, 00108$
+    000005E5 F8 00            [12] 1142 	ldhl	sp,	#0
+    000005E7 2A               [ 8] 1143 	ld	a, (hl+)
+    000005E8 23               [ 8] 1144 	inc	hl
+    000005E9 32               [ 8] 1145 	ld	(hl-), a
+    000005EA 2A               [ 8] 1146 	ld	a, (hl+)
+    000005EB 23               [ 8] 1147 	inc	hl
+    000005EC 77               [ 8] 1148 	ld	(hl), a
+    000005ED CB 7E            [12] 1149 	bit	7, (hl)
+    000005EF 20 09            [12] 1150 	jr	NZ, 00108$
+    000005F1 2B               [ 8] 1151 	dec	hl
+    000005F2 2A               [ 8] 1152 	ld	a, (hl+)
+    000005F3 D6 12            [ 8] 1153 	sub	a, #0x12
+    000005F5 7E               [ 8] 1154 	ld	a, (hl)
+    000005F6 DE 00            [ 8] 1155 	sbc	a, #0x00
+    000005F8 38 04            [12] 1156 	jr	C, 00109$
+    000005FA                       1157 00108$:
+                                   1158 ;src/scripts/movement.c:233: return 0;
+    000005FA AF               [ 4] 1159 	xor	a, a
+    000005FB C3r21r07         [16] 1160 	jp	00144$
+    000005FE                       1161 00109$:
+                                   1162 ;src/scripts/movement.c:236: uint16_t tile_index = (uint16_t)gy * 20 + gx;
+    000005FE F8 00            [12] 1163 	ldhl	sp,	#0
+    00000600 2A               [ 8] 1164 	ld	a, (hl+)
+    00000601 5E               [ 8] 1165 	ld	e, (hl)
+    00000602 6F               [ 4] 1166 	ld	l, a
+    00000603 63               [ 4] 1167 	ld	h, e
+    00000604 5D               [ 4] 1168 	ld	e, l
+    00000605 54               [ 4] 1169 	ld	d, h
+    00000606 29               [ 8] 1170 	add	hl, hl
+    00000607 29               [ 8] 1171 	add	hl, hl
+    00000608 19               [ 8] 1172 	add	hl, de
+    00000609 29               [ 8] 1173 	add	hl, hl
+    0000060A 29               [ 8] 1174 	add	hl, hl
+    0000060B 5D               [ 4] 1175 	ld	e, l
+    0000060C 54               [ 4] 1176 	ld	d, h
+    0000060D F8 05            [12] 1177 	ldhl	sp,	#5
+    0000060F 7E               [ 8] 1178 	ld	a, (hl)
+    00000610 F8 00            [12] 1179 	ldhl	sp,	#0
+    00000612 77               [ 8] 1180 	ld	(hl), a
+    00000613 F8 06            [12] 1181 	ldhl	sp,	#6
+    00000615 7E               [ 8] 1182 	ld	a, (hl)
+    00000616 F8 01            [12] 1183 	ldhl	sp,	#1
+    00000618 77               [ 8] 1184 	ld	(hl), a
+    00000619 E1               [12] 1185 	pop	hl
+    0000061A E5               [16] 1186 	push	hl
+    0000061B 19               [ 8] 1187 	add	hl, de
+    0000061C E5               [16] 1188 	push	hl
+    0000061D 7D               [ 4] 1189 	ld	a, l
+    0000061E F8 06            [12] 1190 	ldhl	sp,	#6
+    00000620 77               [ 8] 1191 	ld	(hl), a
+    00000621 E1               [12] 1192 	pop	hl
+    00000622 7C               [ 4] 1193 	ld	a, h
+    00000623 F8 05            [12] 1194 	ldhl	sp,	#5
+    00000625 77               [ 8] 1195 	ld	(hl), a
+                                   1196 ;src/scripts/movement.c:238: if (current_location == 0) {
+    00000626 FAr00r00         [16] 1197 	ld	a, (#_current_location)
+    00000629 B7               [ 4] 1198 	or	a, a
+    0000062A 20 2E            [12] 1199 	jr	NZ, 00142$
+                                   1200 ;src/scripts/movement.c:239: SWITCH_ROM(2);
+    0000062C 3E 02            [ 8] 1201 	ld	a, #0x02
+    0000062E E0r00            [12] 1202 	ldh	(__current_bank + 0), a
+    00000630 21r00r00         [12] 1203 	ld	hl, #_rROMB0
+    00000633 36 02            [12] 1204 	ld	(hl), #0x02
+                                   1205 ;src/scripts/movement.c:240: uint8_t tile_id = Camp[tile_index];             // collisioni campo
+    00000635 11r00r00         [12] 1206 	ld	de, #_Camp
+    00000638 F8 04            [12] 1207 	ldhl	sp,	#4
+    0000063A 2A               [ 8] 1208 	ld	a,	(hl+)
+    0000063B 66               [ 8] 1209 	ld	h, (hl)
+    0000063C 6F               [ 4] 1210 	ld	l, a
+    0000063D 19               [ 8] 1211 	add	hl, de
+    0000063E 4D               [ 4] 1212 	ld	c, l
+    0000063F 44               [ 4] 1213 	ld	b, h
+    00000640 0A               [ 8] 1214 	ld	a, (bc)
+    00000641 4F               [ 4] 1215 	ld	c, a
+                                   1216 ;src/scripts/movement.c:241: uint8_t camp_colliding = camp_collisions[tile_id];
+    00000642 21r00r00         [12] 1217 	ld	hl, #_camp_collisions
+    00000645 06 00            [ 8] 1218 	ld	b, #0x00
+    00000647 09               [ 8] 1219 	add	hl, bc
+    00000648 4E               [ 8] 1220 	ld	c, (hl)
+                                   1221 ;src/scripts/movement.c:242: SWITCH_ROM(1);
+    00000649 3E 01            [ 8] 1222 	ld	a, #0x01
+    0000064B E0r00            [12] 1223 	ldh	(__current_bank + 0), a
+    0000064D 21r00r00         [12] 1224 	ld	hl, #_rROMB0
+    00000650 36 01            [12] 1225 	ld	(hl), #0x01
+                                   1226 ;src/scripts/movement.c:243: if (camp_colliding == 1) return 0;
+    00000652 0D               [ 4] 1227 	dec	c
+    00000653 C2r1Fr07         [16] 1228 	jp	NZ,00143$
+    00000656 79               [ 4] 1229 	ld	a, c
+    00000657 C3r21r07         [16] 1230 	jp	00144$
+    0000065A                       1231 00142$:
+                                   1232 ;src/scripts/movement.c:245: if (dungeon[player_coords.x][player_coords.y] == 'T' || dungeon[player_coords.x][player_coords.y] == 'K') {
+    0000065A FAr00r00         [16] 1233 	ld	a, (#_player_coords + 0)
+    0000065D 6F               [ 4] 1234 	ld	l, a
+    0000065E 07               [ 4] 1235 	rlca
+    0000065F 9F               [ 4] 1236 	sbc	a, a
+    00000660 67               [ 4] 1237 	ld	h, a
+    00000661 29               [ 8] 1238 	add	hl, hl
+    00000662 29               [ 8] 1239 	add	hl, hl
+    00000663 11r00r00         [12] 1240 	ld	de, #_dungeon
+    00000666 19               [ 8] 1241 	add	hl, de
+    00000667 11r01r00         [12] 1242 	ld	de, #_player_coords + 1
+    0000066A 1A               [ 8] 1243 	ld	a, (de)
+    0000066B 85               [ 4] 1244 	add	a, l
+    0000066C 5F               [ 4] 1245 	ld	e, a
+    0000066D 3E 00            [ 8] 1246 	ld	a, #0x00
+    0000066F 8C               [ 4] 1247 	adc	a, h
+    00000670 57               [ 4] 1248 	ld	d, a
+    00000671 1A               [ 8] 1249 	ld	a, (de)
+    00000672 F8 06            [12] 1250 	ldhl	sp,	#6
+    00000674 77               [ 8] 1251 	ld	(hl), a
+    00000675 7E               [ 8] 1252 	ld	a, (hl)
+    00000676 D6 54            [ 8] 1253 	sub	a, #0x54
+    00000678 28 07            [12] 1254 	jr	Z, 00120$
+    0000067A F8 06            [12] 1255 	ldhl	sp,	#6
+    0000067C 7E               [ 8] 1256 	ld	a, (hl)
+    0000067D D6 4B            [ 8] 1257 	sub	a, #0x4b
+    0000067F 20 22            [12] 1258 	jr	NZ, 00121$
+    00000681                       1259 00120$:
+                                   1260 ;src/scripts/movement.c:246: if (gx >= 8 && gx <= 11 && gy >= 6 && gy <= 7) {
+    00000681 79               [ 4] 1261 	ld	a, c
+    00000682 D6 08            [ 8] 1262 	sub	a, #0x08
+    00000684 38 1D            [12] 1263 	jr	C, 00121$
+    00000686 3E 0B            [ 8] 1264 	ld	a, #0x0b
+    00000688 B9               [ 4] 1265 	cp	a, c
+    00000689 38 18            [12] 1266 	jr	C, 00121$
+    0000068B F8 02            [12] 1267 	ldhl	sp,	#2
+    0000068D 2A               [ 8] 1268 	ld	a, (hl+)
+    0000068E D6 06            [ 8] 1269 	sub	a, #0x06
+    00000690 7E               [ 8] 1270 	ld	a, (hl)
+    00000691 DE 00            [ 8] 1271 	sbc	a, #0x00
+    00000693 38 0E            [12] 1272 	jr	C, 00121$
+    00000695 2B               [ 8] 1273 	dec	hl
+    00000696 3E 07            [ 8] 1274 	ld	a, #0x07
+    00000698 96               [ 8] 1275 	sub	a, (hl)
+    00000699 23               [ 8] 1276 	inc	hl
+    0000069A 3E 00            [ 8] 1277 	ld	a, #0x00
+    0000069C 9E               [ 8] 1278 	sbc	a, (hl)
+    0000069D 38 04            [12] 1279 	jr	C, 00121$
+                                   1280 ;src/scripts/movement.c:247: return 0;
+    0000069F AF               [ 4] 1281 	xor	a, a
+    000006A0 C3r21r07         [16] 1282 	jp	00144$
+    000006A3                       1283 00121$:
+                                   1284 ;src/scripts/movement.c:250: if (dungeon[player_coords.x][player_coords.y] == 'L' && lock_opened == 0) {
+    000006A3 F8 06            [12] 1285 	ldhl	sp,	#6
+    000006A5 7E               [ 8] 1286 	ld	a, (hl)
+    000006A6 D6 4C            [ 8] 1287 	sub	a, #0x4c
+    000006A8 20 4E            [12] 1288 	jr	NZ, 00137$
+    000006AA FAr00r00         [16] 1289 	ld	a, (#_lock_opened)
+    000006AD B7               [ 4] 1290 	or	a, a
+    000006AE 20 48            [12] 1291 	jr	NZ, 00137$
+                                   1292 ;src/scripts/movement.c:251: switch (locked_door) {
+    000006B0 FAr00r00         [16] 1293 	ld	a, (#_locked_door)
+    000006B3 3D               [ 4] 1294 	dec	a
+    000006B4 28 17            [12] 1295 	jr	Z, 00123$
+    000006B6 FAr00r00         [16] 1296 	ld	a, (#_locked_door)
+    000006B9 D6 02            [ 8] 1297 	sub	a, #0x02
+    000006BB 28 1E            [12] 1298 	jr	Z, 00126$
+    000006BD FAr00r00         [16] 1299 	ld	a, (#_locked_door)
+    000006C0 D6 04            [ 8] 1300 	sub	a, #0x04
+    000006C2 28 1F            [12] 1301 	jr	Z, 00129$
+    000006C4 FAr00r00         [16] 1302 	ld	a, (#_locked_door)
+    000006C7 D6 08            [ 8] 1303 	sub	a, #0x08
+    000006C9 28 25            [12] 1304 	jr	Z, 00132$
+    000006CB 18 2B            [12] 1305 	jr	00137$
+                                   1306 ;src/scripts/movement.c:252: case 1:
+    000006CD                       1307 00123$:
+                                   1308 ;src/scripts/movement.c:253: if (gy <= 1) {
+    000006CD F8 02            [12] 1309 	ldhl	sp,	#2
+    000006CF 3E 01            [ 8] 1310 	ld	a, #0x01
+    000006D1 96               [ 8] 1311 	sub	a, (hl)
+    000006D2 23               [ 8] 1312 	inc	hl
+    000006D3 3E 00            [ 8] 1313 	ld	a, #0x00
+    000006D5 9E               [ 8] 1314 	sbc	a, (hl)
+    000006D6 38 20            [12] 1315 	jr	C, 00137$
+                                   1316 ;src/scripts/movement.c:254: return 0;
+    000006D8 AF               [ 4] 1317 	xor	a, a
+    000006D9 18 46            [12] 1318 	jr	00144$
+                                   1319 ;src/scripts/movement.c:257: case 2:
+    000006DB                       1320 00126$:
+                                   1321 ;src/scripts/movement.c:258: if (gx >= 18) {
+    000006DB 79               [ 4] 1322 	ld	a, c
+    000006DC D6 12            [ 8] 1323 	sub	a, #0x12
+    000006DE 38 18            [12] 1324 	jr	C, 00137$
+                                   1325 ;src/scripts/movement.c:259: return 0;
+    000006E0 AF               [ 4] 1326 	xor	a, a
+    000006E1 18 3E            [12] 1327 	jr	00144$
+                                   1328 ;src/scripts/movement.c:262: case 4:
+    000006E3                       1329 00129$:
+                                   1330 ;src/scripts/movement.c:263: if (gy >= 16) {
+    000006E3 F8 02            [12] 1331 	ldhl	sp,	#2
+    000006E5 2A               [ 8] 1332 	ld	a, (hl+)
+    000006E6 D6 10            [ 8] 1333 	sub	a, #0x10
+    000006E8 7E               [ 8] 1334 	ld	a, (hl)
+    000006E9 DE 00            [ 8] 1335 	sbc	a, #0x00
+    000006EB 38 0B            [12] 1336 	jr	C, 00137$
+                                   1337 ;src/scripts/movement.c:264: return 0;
+    000006ED AF               [ 4] 1338 	xor	a, a
+    000006EE 18 31            [12] 1339 	jr	00144$
+                                   1340 ;src/scripts/movement.c:267: case 8:
+    000006F0                       1341 00132$:
+                                   1342 ;src/scripts/movement.c:268: if (gx <= 1) {
+    000006F0 3E 01            [ 8] 1343 	ld	a, #0x01
+    000006F2 B9               [ 4] 1344 	cp	a, c
+    000006F3 38 03            [12] 1345 	jr	C, 00137$
+                                   1346 ;src/scripts/movement.c:269: return 0;
+    000006F5 AF               [ 4] 1347 	xor	a, a
+    000006F6 18 29            [12] 1348 	jr	00144$
+                                   1349 ;src/scripts/movement.c:272: }
+    000006F8                       1350 00137$:
+                                   1351 ;src/scripts/movement.c:274: SWITCH_ROM(2);
+    000006F8 3E 02            [ 8] 1352 	ld	a, #0x02
+    000006FA E0r00            [12] 1353 	ldh	(__current_bank + 0), a
+    000006FC 21r00r00         [12] 1354 	ld	hl, #_rROMB0
+    000006FF 36 02            [12] 1355 	ld	(hl), #0x02
+                                   1356 ;src/scripts/movement.c:275: uint8_t tile_id = current_room[tile_index];     // collisioni dungeon
+    00000701 11r00r00         [12] 1357 	ld	de, #_current_room
+    00000704 F8 04            [12] 1358 	ldhl	sp,	#4
+    00000706 2A               [ 8] 1359 	ld	a,	(hl+)
+    00000707 66               [ 8] 1360 	ld	h, (hl)
+    00000708 6F               [ 4] 1361 	ld	l, a
+    00000709 19               [ 8] 1362 	add	hl, de
+    0000070A 4D               [ 4] 1363 	ld	c, l
+    0000070B 44               [ 4] 1364 	ld	b, h
+    0000070C 0A               [ 8] 1365 	ld	a, (bc)
+    0000070D 4F               [ 4] 1366 	ld	c, a
+                                   1367 ;src/scripts/movement.c:276: SWITCH_ROM(1);
+    0000070E 3E 01            [ 8] 1368 	ld	a, #0x01
+    00000710 E0r00            [12] 1369 	ldh	(__current_bank + 0), a
+    00000712 21r00r00         [12] 1370 	ld	hl, #_rROMB0
+    00000715 36 01            [12] 1371 	ld	(hl), #0x01
+                                   1372 ;src/scripts/movement.c:277: if (tile_id > 3) return 0;
+    00000717 3E 03            [ 8] 1373 	ld	a, #0x03
+    00000719 91               [ 4] 1374 	sub	a, c
+    0000071A 30 03            [12] 1375 	jr	NC, 00143$
+    0000071C AF               [ 4] 1376 	xor	a, a
+    0000071D 18 02            [12] 1377 	jr	00144$
+    0000071F                       1378 00143$:
+                                   1379 ;src/scripts/movement.c:280: return 1;
+    0000071F 3E 01            [ 8] 1380 	ld	a, #0x01
+    00000721                       1381 00144$:
+                                   1382 ;src/scripts/movement.c:281: }
+    00000721 E8 08            [16] 1383 	add	sp, #8
+    00000723 C9               [16] 1384 	ret
+                                   1385 ;src/scripts/movement.c:283: uint8_t is_sprite_at(uint8_t target_x, uint8_t target_y) {
+                                   1386 ;	---------------------------------
+                                   1387 ; Function is_sprite_at
+                                   1388 ; ---------------------------------
+    00000724                       1389 _is_sprite_at::
+    00000724 4F               [ 4] 1390 	ld	c, a
+                                   1391 ;src/scripts/movement.c:284: if (current_location == 0){
+    00000725 FAr00r00         [16] 1392 	ld	a, (#_current_location)
+    00000728 B7               [ 4] 1393 	or	a, a
+    00000729 20 0B            [12] 1394 	jr	NZ, 00105$
+                                   1395 ;src/scripts/movement.c:285: if (target_x == 120 && target_y == 64) {
+    0000072B 79               [ 4] 1396 	ld	a, c
+    0000072C D6 78            [ 8] 1397 	sub	a, #0x78
+    0000072E 20 06            [12] 1398 	jr	NZ, 00105$
+    00000730 7B               [ 4] 1399 	ld	a, e
+    00000731 D6 40            [ 8] 1400 	sub	a, #0x40
+                                   1401 ;src/scripts/movement.c:286: return 1;
+                                   1402 ;src/scripts/movement.c:289: return 0;
+    00000733 3E 01            [ 8] 1403 	ld	a, #0x01
+    00000735 C8               [20] 1404 	ret	Z
+    00000736                       1405 00105$:
+    00000736 AF               [ 4] 1406 	xor	a, a
+                                   1407 ;src/scripts/movement.c:291: }
+    00000737 C9               [16] 1408 	ret
+                                   1409 	.area _CODE
+                                   1410 	.area _INITIALIZER
+                                   1411 	.area _CABS (ABS)

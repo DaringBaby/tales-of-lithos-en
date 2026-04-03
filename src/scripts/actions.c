@@ -1,4 +1,4 @@
-#include "actions.h"
+#include "scripts/actions.h"
 
 void check_input_keys() {
     if (joypad() & J_A) {
@@ -7,38 +7,10 @@ void check_input_keys() {
         uint8_t gy = (y - 16) / 8;
         if (current_location == 1) {
             if (dungeon[player_coords.x][player_coords.y] == 'T' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && treasure_obtained == 0) {
-                current_song_bank = 1;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&item_found);
-                SWITCH_ROM(1);
-                treasure_obtained = 1;
-                minerals++;
-                obt_mythril++;
-                set_bkg_tiles(8, 6, 4, 2, chest_opened);
-                delay(150);
-                menu_opened = 4;
-                set_textbox(2);
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
+                open_chest(2);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'K' && gx >= 8 && gx <= 11 && gy >= 8 && gy <= 9 && key_obtained == 0) {
-                current_song_bank = 1;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&item_found);
-                SWITCH_ROM(1);
-                set_sprite_tile(33, 59);
-                set_sprite_tile(34, 60);
-                key_obtained = 1;
-                set_bkg_tiles(8, 6, 4, 2, chest_opened);
-                delay(150);
-                menu_opened = 4;
-                set_textbox(1);
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
+                open_chest(1);
             }
             else if (dungeon[player_coords.x][player_coords.y] == 'L' && key_obtained == 1) {
                 switch (locked_door) {
@@ -82,22 +54,10 @@ void check_input_keys() {
         }
         else if (current_location == 0) {
             if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
-                while(joypad() & J_A) { wait_vbl_done(); }
-                menu_opened = 2;
-                HIDE_SPRITES;
-                move_win(7, 32);
-                set_win_tiles(0, 0, 20, 14, hector_menu);
-                set_win_tiles(1, 1, 1, 1, &arrow_tile);
-                delay(300);
+                open_npc_menu(1);       // hector
             }
             else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
-                while(joypad() & J_A) { wait_vbl_done(); }
-                menu_opened = 3;
-                HIDE_SPRITES;
-                move_win(7, 32);
-                set_win_tiles(0, 0, 20, 14, safy_menu);
-                set_win_tiles(1, 1, 1, 1, &arrow_tile);
-                delay(300);
+                open_npc_menu(2);       // safy
             }
             else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
                 save_game();
@@ -120,4 +80,43 @@ void check_input_keys() {
             move_boss(&boss);
         }
     }
+}
+
+void open_chest(uint8_t type) {
+    play_song(2);
+    if (type == 2) {
+        // tesoro
+        treasure_obtained = 1;
+        minerals++;
+        obt_mythril++;
+    }
+    else if (type == 1) {
+        set_sprite_tile(33, 59);
+        set_sprite_tile(34, 60);
+        key_obtained = 1;
+    }
+    set_bkg_tiles(8, 6, 4, 2, chest_opened);
+    delay(150);
+    menu_opened = 4;
+    set_textbox(type);
+    play_song(3);
+}
+
+void open_npc_menu(uint8_t npc_id) {
+    while(joypad() & J_A) { wait_vbl_done(); }
+    HIDE_SPRITES;
+
+    if (npc_id == 1) {
+        menu_opened = 2;
+        set_win_tiles(0, 0, 20, 14, hector_menu);
+    }
+
+    else if (npc_id == 2) {
+        menu_opened = 3;
+        set_win_tiles(0, 0, 20, 14, safy_menu);
+    }
+
+    move_win(7, 32);
+    set_win_tiles(1, 1, 1, 1, &arrow_tile);
+    delay(300);
 }

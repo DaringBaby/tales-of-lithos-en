@@ -1,5 +1,5 @@
 #pragma bank 2
-#include "Obstacles.h"
+#include "maps/Obstacles.h"
 
 /* DECORAZIONI 8X8: in basso a sinistra, in basso a destra, in alto a destra, in alto a sinistra */
 

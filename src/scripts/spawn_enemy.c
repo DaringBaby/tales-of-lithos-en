@@ -1,8 +1,8 @@
 #pragma bank 3
 #include "gb/gb.h"
-#include "enemy.h"
-#include "spawn_enemy.h"
-#include "../tiles/Enemies.h"
+#include "scripts/enemy.h"
+#include "scripts/spawn_enemy.h"
+#include "tiles/Enemies.h"
 
 uint8_t room_enemies[4][4];
 

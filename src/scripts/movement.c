@@ -1,5 +1,5 @@
 #include <gb/gb.h>
-#include "movement.h"
+#include "scripts/movement.h"
 
 void check_input_movement() {
     uint8_t moved = 0;
@@ -36,17 +36,14 @@ void check_input_movement() {
             }
             if (current_location == 0 && y <= 40) {
                 current_location = 1;
-                current_floor = 5;
+                current_floor = 1;
                 obt_mythril = 0;
                 obt_exp = 0;
                 boss.defeated = 1;
                 hide_camp_sprites();
                 save_game();
                 go_into_dungeon();
-                current_song_bank = 4;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&dungeon_theme);
-                SWITCH_ROM(1);
+                play_song(3);
                 set_sprite_tile(4, 0);
                 set_sprite_tile(5, 1);
                 set_sprite_tile(6, 2);
@@ -107,10 +104,7 @@ void check_input_movement() {
             if (current_hp == 0) {
                 death_sfx();
                 delay(100);
-                current_song_bank = 3;
-                SWITCH_ROM(current_song_bank);
-                hUGE_init(&gameover_jingle);
-                SWITCH_ROM(1);
+                play_song(0);
                 game_over();
                 enemy_death(&current_enemies[0]);
                 enemy_death(&current_enemies[1]);

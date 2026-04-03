@@ -7,14 +7,14 @@
                                       7 ;--------------------------------------------------------
                                       8 ; Public variables in this module
                                       9 ;--------------------------------------------------------
-                                     10 	.globl _wait_next
-                                     11 	.globl b_start_intro
-                                     12 	.globl _start_intro
-                                     13 	.globl _set_bkg_tiles
-                                     14 	.globl _set_bkg_data
-                                     15 	.globl _display_off
-                                     16 	.globl _joypad
-                                     17 	.globl _delay
+                                     10 	.globl _set_bkg_tiles
+                                     11 	.globl _set_bkg_data
+                                     12 	.globl _display_off
+                                     13 	.globl _joypad
+                                     14 	.globl _delay
+                                     15 	.globl b_start_intro
+                                     16 	.globl _start_intro
+                                     17 	.globl _wait_next
                                      18 ;--------------------------------------------------------
                                      19 ; special function registers
                                      20 ;--------------------------------------------------------
@@ -47,20 +47,20 @@
                                      47 ; code
                                      48 ;--------------------------------------------------------
                                      49 	.area _CODE_6
-                                     50 ;src/scripts/intro.c:11: void start_intro() BANKED {
+                                     50 ;src/scripts/intro.c:12: void start_intro() BANKED {
                                      51 ;	---------------------------------
                                      52 ; Function start_intro
                                      53 ; ---------------------------------
                          00000006    54 	b_start_intro	= 6
     00000000                         55 _start_intro::
-                                     56 ;src/scripts/intro.c:12: set_bkg_data(0, 236, Slide1);
+                                     56 ;src/scripts/intro.c:13: set_bkg_data(0, 236, Slide1);
     00000000 11r00r00         [12]   57 	ld	de, #_Slide1
     00000003 D5               [16]   58 	push	de
     00000004 21 00 EC         [12]   59 	ld	hl, #0xec00
     00000007 E5               [16]   60 	push	hl
     00000008 CDr00r00         [24]   61 	call	_set_bkg_data
     0000000B E8 04            [16]   62 	add	sp, #4
-                                     63 ;src/scripts/intro.c:13: set_bkg_tiles(0, 0, 20, 18, IntroSlide1);
+                                     63 ;src/scripts/intro.c:14: set_bkg_tiles(0, 0, 20, 18, IntroSlide1);
     0000000D 11r00r00         [12]   64 	ld	de, #_IntroSlide1
     00000010 D5               [16]   65 	push	de
     00000011 21 14 12         [12]   66 	ld	hl, #0x1214
@@ -70,7 +70,7 @@
     00000017 F5               [16]   70 	push	af
     00000018 CDr00r00         [24]   71 	call	_set_bkg_tiles
     0000001B E8 06            [16]   72 	add	sp, #6
-                                     73 ;src/scripts/intro.c:14: set_bkg_tiles(1, 14, 18, 1, line1);
+                                     73 ;src/scripts/intro.c:15: set_bkg_tiles(1, 14, 18, 1, line1);
     0000001D 11r00r00         [12]   74 	ld	de, #_line1
     00000020 D5               [16]   75 	push	de
     00000021 21 12 01         [12]   76 	ld	hl, #0x112
@@ -79,7 +79,7 @@
     00000028 E5               [16]   79 	push	hl
     00000029 CDr00r00         [24]   80 	call	_set_bkg_tiles
     0000002C E8 06            [16]   81 	add	sp, #6
-                                     82 ;src/scripts/intro.c:15: set_bkg_tiles(1, 16, 18, 1, line2);
+                                     82 ;src/scripts/intro.c:16: set_bkg_tiles(1, 16, 18, 1, line2);
     0000002E 11r00r00         [12]   83 	ld	de, #_line2
     00000031 D5               [16]   84 	push	de
     00000032 21 12 01         [12]   85 	ld	hl, #0x112
@@ -88,17 +88,17 @@
     00000039 E5               [16]   88 	push	hl
     0000003A CDr00r00         [24]   89 	call	_set_bkg_tiles
     0000003D E8 06            [16]   90 	add	sp, #6
-                                     91 ;src/scripts/intro.c:16: SHOW_BKG;
+                                     91 ;src/scripts/intro.c:17: SHOW_BKG;
     0000003F F0r00            [12]   92 	ldh	a, (_LCDC_REG + 0)
     00000041 F6 01            [ 8]   93 	or	a, #0x01
     00000043 E0r00            [12]   94 	ldh	(_LCDC_REG + 0), a
-                                     95 ;src/scripts/intro.c:17: DISPLAY_ON;
+                                     95 ;src/scripts/intro.c:18: DISPLAY_ON;
     00000045 F0r00            [12]   96 	ldh	a, (_LCDC_REG + 0)
     00000047 F6 80            [ 8]   97 	or	a, #0x80
     00000049 E0r00            [12]   98 	ldh	(_LCDC_REG + 0), a
-                                     99 ;src/scripts/intro.c:18: wait_next();
+                                     99 ;src/scripts/intro.c:19: wait_next();
     0000004B CDr3Er02         [24]  100 	call	_wait_next
-                                    101 ;src/scripts/intro.c:19: set_bkg_tiles(1, 14, 18, 1, line3);
+                                    101 ;src/scripts/intro.c:20: set_bkg_tiles(1, 14, 18, 1, line3);
     0000004E 11r00r00         [12]  102 	ld	de, #_line3
     00000051 D5               [16]  103 	push	de
     00000052 21 12 01         [12]  104 	ld	hl, #0x112
@@ -107,7 +107,7 @@
     00000059 E5               [16]  107 	push	hl
     0000005A CDr00r00         [24]  108 	call	_set_bkg_tiles
     0000005D E8 06            [16]  109 	add	sp, #6
-                                    110 ;src/scripts/intro.c:20: set_bkg_tiles(1, 16, 18, 1, line4);
+                                    110 ;src/scripts/intro.c:21: set_bkg_tiles(1, 16, 18, 1, line4);
     0000005F 11r00r00         [12]  111 	ld	de, #_line4
     00000062 D5               [16]  112 	push	de
     00000063 21 12 01         [12]  113 	ld	hl, #0x112
@@ -116,18 +116,18 @@
     0000006A E5               [16]  116 	push	hl
     0000006B CDr00r00         [24]  117 	call	_set_bkg_tiles
     0000006E E8 06            [16]  118 	add	sp, #6
-                                    119 ;src/scripts/intro.c:21: wait_next();
+                                    119 ;src/scripts/intro.c:22: wait_next();
     00000070 CDr3Er02         [24]  120 	call	_wait_next
-                                    121 ;src/scripts/intro.c:22: DISPLAY_OFF;
+                                    121 ;src/scripts/intro.c:23: DISPLAY_OFF;
     00000073 CDr00r00         [24]  122 	call	_display_off
-                                    123 ;src/scripts/intro.c:23: set_bkg_data(0, 242, Slide3);
+                                    123 ;src/scripts/intro.c:24: set_bkg_data(0, 242, Slide3);
     00000076 11r00r00         [12]  124 	ld	de, #_Slide3
     00000079 D5               [16]  125 	push	de
     0000007A 21 00 F2         [12]  126 	ld	hl, #0xf200
     0000007D E5               [16]  127 	push	hl
     0000007E CDr00r00         [24]  128 	call	_set_bkg_data
     00000081 E8 04            [16]  129 	add	sp, #4
-                                    130 ;src/scripts/intro.c:24: set_bkg_tiles(0, 0, 20, 18, IntroSlide3);
+                                    130 ;src/scripts/intro.c:25: set_bkg_tiles(0, 0, 20, 18, IntroSlide3);
     00000083 11r00r00         [12]  131 	ld	de, #_IntroSlide3
     00000086 D5               [16]  132 	push	de
     00000087 21 14 12         [12]  133 	ld	hl, #0x1214
@@ -137,7 +137,7 @@
     0000008D F5               [16]  137 	push	af
     0000008E CDr00r00         [24]  138 	call	_set_bkg_tiles
     00000091 E8 06            [16]  139 	add	sp, #6
-                                    140 ;src/scripts/intro.c:25: set_bkg_tiles(1, 14, 18, 1, line5);
+                                    140 ;src/scripts/intro.c:26: set_bkg_tiles(1, 14, 18, 1, line5);
     00000093 11r00r00         [12]  141 	ld	de, #_line5
     00000096 D5               [16]  142 	push	de
     00000097 21 12 01         [12]  143 	ld	hl, #0x112
@@ -146,7 +146,7 @@
     0000009E E5               [16]  146 	push	hl
     0000009F CDr00r00         [24]  147 	call	_set_bkg_tiles
     000000A2 E8 06            [16]  148 	add	sp, #6
-                                    149 ;src/scripts/intro.c:26: set_bkg_tiles(1, 16, 18, 1, line6);
+                                    149 ;src/scripts/intro.c:27: set_bkg_tiles(1, 16, 18, 1, line6);
     000000A4 11r00r00         [12]  150 	ld	de, #_line6
     000000A7 D5               [16]  151 	push	de
     000000A8 21 12 01         [12]  152 	ld	hl, #0x112
@@ -155,13 +155,13 @@
     000000AF E5               [16]  155 	push	hl
     000000B0 CDr00r00         [24]  156 	call	_set_bkg_tiles
     000000B3 E8 06            [16]  157 	add	sp, #6
-                                    158 ;src/scripts/intro.c:27: DISPLAY_ON;
+                                    158 ;src/scripts/intro.c:28: DISPLAY_ON;
     000000B5 F0r00            [12]  159 	ldh	a, (_LCDC_REG + 0)
     000000B7 F6 80            [ 8]  160 	or	a, #0x80
     000000B9 E0r00            [12]  161 	ldh	(_LCDC_REG + 0), a
-                                    162 ;src/scripts/intro.c:28: wait_next();
+                                    162 ;src/scripts/intro.c:29: wait_next();
     000000BB CDr3Er02         [24]  163 	call	_wait_next
-                                    164 ;src/scripts/intro.c:29: set_bkg_tiles(1, 14, 18, 1, line7);
+                                    164 ;src/scripts/intro.c:30: set_bkg_tiles(1, 14, 18, 1, line7);
     000000BE 11r00r00         [12]  165 	ld	de, #_line7
     000000C1 D5               [16]  166 	push	de
     000000C2 21 12 01         [12]  167 	ld	hl, #0x112
@@ -170,7 +170,7 @@
     000000C9 E5               [16]  170 	push	hl
     000000CA CDr00r00         [24]  171 	call	_set_bkg_tiles
     000000CD E8 06            [16]  172 	add	sp, #6
-                                    173 ;src/scripts/intro.c:30: set_bkg_tiles(1, 16, 18, 1, line8);
+                                    173 ;src/scripts/intro.c:31: set_bkg_tiles(1, 16, 18, 1, line8);
     000000CF 11r00r00         [12]  174 	ld	de, #_line8
     000000D2 D5               [16]  175 	push	de
     000000D3 21 12 01         [12]  176 	ld	hl, #0x112
@@ -179,9 +179,9 @@
     000000DA E5               [16]  179 	push	hl
     000000DB CDr00r00         [24]  180 	call	_set_bkg_tiles
     000000DE E8 06            [16]  181 	add	sp, #6
-                                    182 ;src/scripts/intro.c:31: wait_next();
+                                    182 ;src/scripts/intro.c:32: wait_next();
     000000E0 CDr3Er02         [24]  183 	call	_wait_next
-                                    184 ;src/scripts/intro.c:32: set_bkg_tiles(1, 14, 18, 1, line9);
+                                    184 ;src/scripts/intro.c:33: set_bkg_tiles(1, 14, 18, 1, line9);
     000000E3 11r00r00         [12]  185 	ld	de, #_line9
     000000E6 D5               [16]  186 	push	de
     000000E7 21 12 01         [12]  187 	ld	hl, #0x112
@@ -190,7 +190,7 @@
     000000EE E5               [16]  190 	push	hl
     000000EF CDr00r00         [24]  191 	call	_set_bkg_tiles
     000000F2 E8 06            [16]  192 	add	sp, #6
-                                    193 ;src/scripts/intro.c:33: set_bkg_tiles(1, 16, 18, 1, line10);
+                                    193 ;src/scripts/intro.c:34: set_bkg_tiles(1, 16, 18, 1, line10);
     000000F4 11r00r00         [12]  194 	ld	de, #_line10
     000000F7 D5               [16]  195 	push	de
     000000F8 21 12 01         [12]  196 	ld	hl, #0x112
@@ -199,9 +199,9 @@
     000000FF E5               [16]  199 	push	hl
     00000100 CDr00r00         [24]  200 	call	_set_bkg_tiles
     00000103 E8 06            [16]  201 	add	sp, #6
-                                    202 ;src/scripts/intro.c:34: wait_next();
+                                    202 ;src/scripts/intro.c:35: wait_next();
     00000105 CDr3Er02         [24]  203 	call	_wait_next
-                                    204 ;src/scripts/intro.c:35: set_bkg_tiles(1, 14, 18, 1, line11);
+                                    204 ;src/scripts/intro.c:36: set_bkg_tiles(1, 14, 18, 1, line11);
     00000108 11r00r00         [12]  205 	ld	de, #_line11
     0000010B D5               [16]  206 	push	de
     0000010C 21 12 01         [12]  207 	ld	hl, #0x112
@@ -210,7 +210,7 @@
     00000113 E5               [16]  210 	push	hl
     00000114 CDr00r00         [24]  211 	call	_set_bkg_tiles
     00000117 E8 06            [16]  212 	add	sp, #6
-                                    213 ;src/scripts/intro.c:36: set_bkg_tiles(1, 16, 18, 1, line_empty);
+                                    213 ;src/scripts/intro.c:37: set_bkg_tiles(1, 16, 18, 1, line_empty);
     00000119 11r00r00         [12]  214 	ld	de, #_line_empty
     0000011C D5               [16]  215 	push	de
     0000011D 21 12 01         [12]  216 	ld	hl, #0x112
@@ -219,18 +219,18 @@
     00000124 E5               [16]  219 	push	hl
     00000125 CDr00r00         [24]  220 	call	_set_bkg_tiles
     00000128 E8 06            [16]  221 	add	sp, #6
-                                    222 ;src/scripts/intro.c:37: wait_next();
+                                    222 ;src/scripts/intro.c:38: wait_next();
     0000012A CDr3Er02         [24]  223 	call	_wait_next
-                                    224 ;src/scripts/intro.c:38: DISPLAY_OFF;
+                                    224 ;src/scripts/intro.c:39: DISPLAY_OFF;
     0000012D CDr00r00         [24]  225 	call	_display_off
-                                    226 ;src/scripts/intro.c:39: set_bkg_data(0, 180, Slide2);
+                                    226 ;src/scripts/intro.c:40: set_bkg_data(0, 180, Slide2);
     00000130 11r00r00         [12]  227 	ld	de, #_Slide2
     00000133 D5               [16]  228 	push	de
     00000134 21 00 B4         [12]  229 	ld	hl, #0xb400
     00000137 E5               [16]  230 	push	hl
     00000138 CDr00r00         [24]  231 	call	_set_bkg_data
     0000013B E8 04            [16]  232 	add	sp, #4
-                                    233 ;src/scripts/intro.c:40: set_bkg_tiles(0, 0, 20, 18, IntroSlide2);
+                                    233 ;src/scripts/intro.c:41: set_bkg_tiles(0, 0, 20, 18, IntroSlide2);
     0000013D 11r00r00         [12]  234 	ld	de, #_IntroSlide2
     00000140 D5               [16]  235 	push	de
     00000141 21 14 12         [12]  236 	ld	hl, #0x1214
@@ -240,7 +240,7 @@
     00000147 F5               [16]  240 	push	af
     00000148 CDr00r00         [24]  241 	call	_set_bkg_tiles
     0000014B E8 06            [16]  242 	add	sp, #6
-                                    243 ;src/scripts/intro.c:41: set_bkg_tiles(1, 14, 18, 1, line12);
+                                    243 ;src/scripts/intro.c:42: set_bkg_tiles(1, 14, 18, 1, line12);
     0000014D 11r00r00         [12]  244 	ld	de, #_line12
     00000150 D5               [16]  245 	push	de
     00000151 21 12 01         [12]  246 	ld	hl, #0x112
@@ -249,7 +249,7 @@
     00000158 E5               [16]  249 	push	hl
     00000159 CDr00r00         [24]  250 	call	_set_bkg_tiles
     0000015C E8 06            [16]  251 	add	sp, #6
-                                    252 ;src/scripts/intro.c:42: set_bkg_tiles(1, 16, 18, 1, line13);
+                                    252 ;src/scripts/intro.c:43: set_bkg_tiles(1, 16, 18, 1, line13);
     0000015E 11r00r00         [12]  253 	ld	de, #_line13
     00000161 D5               [16]  254 	push	de
     00000162 21 12 01         [12]  255 	ld	hl, #0x112
@@ -258,13 +258,13 @@
     00000169 E5               [16]  258 	push	hl
     0000016A CDr00r00         [24]  259 	call	_set_bkg_tiles
     0000016D E8 06            [16]  260 	add	sp, #6
-                                    261 ;src/scripts/intro.c:43: DISPLAY_ON;
+                                    261 ;src/scripts/intro.c:44: DISPLAY_ON;
     0000016F F0r00            [12]  262 	ldh	a, (_LCDC_REG + 0)
     00000171 F6 80            [ 8]  263 	or	a, #0x80
     00000173 E0r00            [12]  264 	ldh	(_LCDC_REG + 0), a
-                                    265 ;src/scripts/intro.c:44: wait_next();
+                                    265 ;src/scripts/intro.c:45: wait_next();
     00000175 CDr3Er02         [24]  266 	call	_wait_next
-                                    267 ;src/scripts/intro.c:45: set_bkg_tiles(1, 14, 18, 1, line14);
+                                    267 ;src/scripts/intro.c:46: set_bkg_tiles(1, 14, 18, 1, line14);
     00000178 11r00r00         [12]  268 	ld	de, #_line14
     0000017B D5               [16]  269 	push	de
     0000017C 21 12 01         [12]  270 	ld	hl, #0x112
@@ -273,7 +273,7 @@
     00000183 E5               [16]  273 	push	hl
     00000184 CDr00r00         [24]  274 	call	_set_bkg_tiles
     00000187 E8 06            [16]  275 	add	sp, #6
-                                    276 ;src/scripts/intro.c:46: set_bkg_tiles(1, 16, 18, 1, line15);
+                                    276 ;src/scripts/intro.c:47: set_bkg_tiles(1, 16, 18, 1, line15);
     00000189 11r00r00         [12]  277 	ld	de, #_line15
     0000018C D5               [16]  278 	push	de
     0000018D 21 12 01         [12]  279 	ld	hl, #0x112
@@ -282,9 +282,9 @@
     00000194 E5               [16]  282 	push	hl
     00000195 CDr00r00         [24]  283 	call	_set_bkg_tiles
     00000198 E8 06            [16]  284 	add	sp, #6
-                                    285 ;src/scripts/intro.c:47: wait_next();
+                                    285 ;src/scripts/intro.c:48: wait_next();
     0000019A CDr3Er02         [24]  286 	call	_wait_next
-                                    287 ;src/scripts/intro.c:48: set_bkg_tiles(1, 14, 18, 1, line16);
+                                    287 ;src/scripts/intro.c:49: set_bkg_tiles(1, 14, 18, 1, line16);
     0000019D 11r00r00         [12]  288 	ld	de, #_line16
     000001A0 D5               [16]  289 	push	de
     000001A1 21 12 01         [12]  290 	ld	hl, #0x112
@@ -293,7 +293,7 @@
     000001A8 E5               [16]  293 	push	hl
     000001A9 CDr00r00         [24]  294 	call	_set_bkg_tiles
     000001AC E8 06            [16]  295 	add	sp, #6
-                                    296 ;src/scripts/intro.c:49: set_bkg_tiles(1, 16, 18, 1, line17);
+                                    296 ;src/scripts/intro.c:50: set_bkg_tiles(1, 16, 18, 1, line17);
     000001AE 11r00r00         [12]  297 	ld	de, #_line17
     000001B1 D5               [16]  298 	push	de
     000001B2 21 12 01         [12]  299 	ld	hl, #0x112
@@ -302,9 +302,9 @@
     000001B9 E5               [16]  302 	push	hl
     000001BA CDr00r00         [24]  303 	call	_set_bkg_tiles
     000001BD E8 06            [16]  304 	add	sp, #6
-                                    305 ;src/scripts/intro.c:50: wait_next();
+                                    305 ;src/scripts/intro.c:51: wait_next();
     000001BF CDr3Er02         [24]  306 	call	_wait_next
-                                    307 ;src/scripts/intro.c:51: set_bkg_tiles(1, 14, 18, 1, line18);
+                                    307 ;src/scripts/intro.c:52: set_bkg_tiles(1, 14, 18, 1, line18);
     000001C2 11r00r00         [12]  308 	ld	de, #_line18
     000001C5 D5               [16]  309 	push	de
     000001C6 21 12 01         [12]  310 	ld	hl, #0x112
@@ -313,7 +313,7 @@
     000001CD E5               [16]  313 	push	hl
     000001CE CDr00r00         [24]  314 	call	_set_bkg_tiles
     000001D1 E8 06            [16]  315 	add	sp, #6
-                                    316 ;src/scripts/intro.c:52: set_bkg_tiles(1, 16, 18, 1, line19);
+                                    316 ;src/scripts/intro.c:53: set_bkg_tiles(1, 16, 18, 1, line19);
     000001D3 11r00r00         [12]  317 	ld	de, #_line19
     000001D6 D5               [16]  318 	push	de
     000001D7 21 12 01         [12]  319 	ld	hl, #0x112
@@ -322,9 +322,9 @@
     000001DE E5               [16]  322 	push	hl
     000001DF CDr00r00         [24]  323 	call	_set_bkg_tiles
     000001E2 E8 06            [16]  324 	add	sp, #6
-                                    325 ;src/scripts/intro.c:53: wait_next();
+                                    325 ;src/scripts/intro.c:54: wait_next();
     000001E4 CDr3Er02         [24]  326 	call	_wait_next
-                                    327 ;src/scripts/intro.c:54: set_bkg_tiles(1, 14, 18, 1, line20);
+                                    327 ;src/scripts/intro.c:55: set_bkg_tiles(1, 14, 18, 1, line20);
     000001E7 11r00r00         [12]  328 	ld	de, #_line20
     000001EA D5               [16]  329 	push	de
     000001EB 21 12 01         [12]  330 	ld	hl, #0x112
@@ -333,7 +333,7 @@
     000001F2 E5               [16]  333 	push	hl
     000001F3 CDr00r00         [24]  334 	call	_set_bkg_tiles
     000001F6 E8 06            [16]  335 	add	sp, #6
-                                    336 ;src/scripts/intro.c:55: set_bkg_tiles(1, 16, 18, 1, line21);
+                                    336 ;src/scripts/intro.c:56: set_bkg_tiles(1, 16, 18, 1, line21);
     000001F8 11r00r00         [12]  337 	ld	de, #_line21
     000001FB D5               [16]  338 	push	de
     000001FC 21 12 01         [12]  339 	ld	hl, #0x112
@@ -342,9 +342,9 @@
     00000203 E5               [16]  342 	push	hl
     00000204 CDr00r00         [24]  343 	call	_set_bkg_tiles
     00000207 E8 06            [16]  344 	add	sp, #6
-                                    345 ;src/scripts/intro.c:56: wait_next();
+                                    345 ;src/scripts/intro.c:57: wait_next();
     00000209 CDr3Er02         [24]  346 	call	_wait_next
-                                    347 ;src/scripts/intro.c:57: set_bkg_tiles(1, 14, 18, 1, line22);
+                                    347 ;src/scripts/intro.c:58: set_bkg_tiles(1, 14, 18, 1, line22);
     0000020C 11r00r00         [12]  348 	ld	de, #_line22
     0000020F D5               [16]  349 	push	de
     00000210 21 12 01         [12]  350 	ld	hl, #0x112
@@ -353,7 +353,7 @@
     00000217 E5               [16]  353 	push	hl
     00000218 CDr00r00         [24]  354 	call	_set_bkg_tiles
     0000021B E8 06            [16]  355 	add	sp, #6
-                                    356 ;src/scripts/intro.c:58: set_bkg_tiles(1, 16, 18, 1, line23);
+                                    356 ;src/scripts/intro.c:59: set_bkg_tiles(1, 16, 18, 1, line23);
     0000021D 11r00r00         [12]  357 	ld	de, #_line23
     00000220 D5               [16]  358 	push	de
     00000221 21 12 01         [12]  359 	ld	hl, #0x112
@@ -362,42 +362,42 @@
     00000228 E5               [16]  362 	push	hl
     00000229 CDr00r00         [24]  363 	call	_set_bkg_tiles
     0000022C E8 06            [16]  364 	add	sp, #6
-                                    365 ;src/scripts/intro.c:60: while (!next) {
+                                    365 ;src/scripts/intro.c:61: while (!next) {
     0000022E                        366 00103$:
-                                    367 ;src/scripts/intro.c:61: if (joypad() & J_A) {
+                                    367 ;src/scripts/intro.c:62: if (joypad() & J_A) {
     0000022E CDr00r00         [24]  368 	call	_joypad
     00000231 CB 67            [ 8]  369 	bit	4, a
     00000233 28 F9            [12]  370 	jr	Z, 00103$
-                                    371 ;src/scripts/intro.c:63: delay(50);
+                                    371 ;src/scripts/intro.c:64: delay(50);
     00000235 11 32 00         [12]  372 	ld	de, #0x0032
     00000238 CDr00r00         [24]  373 	call	_delay
-                                    374 ;src/scripts/intro.c:64: DISPLAY_OFF;
-                                    375 ;src/scripts/intro.c:65: return;
-                                    376 ;src/scripts/intro.c:68: }
+                                    374 ;src/scripts/intro.c:65: DISPLAY_OFF;
+                                    375 ;src/scripts/intro.c:66: return;
+                                    376 ;src/scripts/intro.c:69: }
     0000023B C3r00r00         [16]  377 	jp	_display_off
-                                    378 ;src/scripts/intro.c:70: void wait_next() {
+                                    378 ;src/scripts/intro.c:71: void wait_next() {
                                     379 ;	---------------------------------
                                     380 ; Function wait_next
                                     381 ; ---------------------------------
     0000023E                        382 _wait_next::
-                                    383 ;src/scripts/intro.c:71: uint8_t next = 0;
+                                    383 ;src/scripts/intro.c:72: uint8_t next = 0;
     0000023E 0E 00            [ 8]  384 	ld	c, #0x00
-                                    385 ;src/scripts/intro.c:72: while (!next) {
+                                    385 ;src/scripts/intro.c:73: while (!next) {
     00000240                        386 00103$:
     00000240 79               [ 4]  387 	ld	a, c
     00000241 B7               [ 4]  388 	or	a, a
     00000242 20 0B            [12]  389 	jr	NZ, 00105$
-                                    390 ;src/scripts/intro.c:73: if (joypad() & J_A) {
+                                    390 ;src/scripts/intro.c:74: if (joypad() & J_A) {
     00000244 CDr00r00         [24]  391 	call	_joypad
     00000247 CB 67            [ 8]  392 	bit	4, a
     00000249 28 F5            [12]  393 	jr	Z, 00103$
-                                    394 ;src/scripts/intro.c:74: next = 1;
+                                    394 ;src/scripts/intro.c:75: next = 1;
     0000024B 0E 01            [ 8]  395 	ld	c, #0x01
     0000024D 18 F1            [12]  396 	jr	00103$
     0000024F                        397 00105$:
-                                    398 ;src/scripts/intro.c:77: delay(150);
+                                    398 ;src/scripts/intro.c:78: delay(150);
     0000024F 11 96 00         [12]  399 	ld	de, #0x0096
-                                    400 ;src/scripts/intro.c:78: }
+                                    400 ;src/scripts/intro.c:79: }
     00000252 C3r00r00         [16]  401 	jp	_delay
                                     402 	.area _CODE_6
                                     403 	.area _INITIALIZER

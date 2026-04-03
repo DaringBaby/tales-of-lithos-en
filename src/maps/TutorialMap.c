@@ -1,5 +1,5 @@
 #pragma bank 3
-#include "TutorialMap.h"
+#include "maps/TutorialMap.h"
 
 /* GUI TILES */
 #define OFFSET_UI 179
