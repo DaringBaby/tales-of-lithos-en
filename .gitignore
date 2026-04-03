@@ -3,5 +3,7 @@
 *.map
 *.sym
 *.ihx
+*.sav
+*.bat
 bin/
 obj/
