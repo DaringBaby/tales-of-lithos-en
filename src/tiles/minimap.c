@@ -1,6 +1,6 @@
 #pragma bank 3
 
-#include "minimap.h"
+#include "tiles/minimap.h"
 #include <gb/gb.h>
 
 #define WHITESPACE 175
@@ -115,7 +115,7 @@ void set_map_menu() BANKED {
     set_win_tiles(13, 11, 4, 4, (uint8_t *)map);
     if (current_location == 1) {
         set_win_tiles(13+player_coords.x, 11+player_coords.y, 1, 1, &p_pos);
-    }   
+    }
 }
 
 void empty_map_tiles() BANKED {
@@ -127,5 +127,3 @@ void empty_map_tiles() BANKED {
 }
 
 /* End of MINIMAP.C */
-
-

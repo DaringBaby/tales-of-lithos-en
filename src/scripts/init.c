@@ -31,13 +31,14 @@ void game_init() {
     set_title_data();
     DISPLAY_ON;
     ng = set_titlescreen();
+    ng = !load_game();
     start_sfx();
     if (ng) {
         start_intro();
     }
     set_game_sprites();
     set_game_gui();
-    if (!load_game()) {
+    if (ng) {
         insert_name();
     }
     set_sprite_data(4, 4, MC_up);

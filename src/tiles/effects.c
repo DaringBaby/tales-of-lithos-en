@@ -1,5 +1,5 @@
 #pragma bank 1
-#include "effects.h"
+#include "tiles/effects.h"
 
 const unsigned char ExplosionEff[] =
 {

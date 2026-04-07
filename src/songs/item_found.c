@@ -1,5 +1,5 @@
 #pragma bank 1
-#include "hUGEDriver.h"
+#include "songs/hUGEDriver.h"
 #include <stddef.h>
 
 static const unsigned char order_cnt = 4;
