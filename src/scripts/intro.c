@@ -51,12 +51,6 @@ void start_intro() BANKED {
     wait_next();
     set_bkg_tiles(1, 14, 18, 1, line18);
     set_bkg_tiles(1, 16, 18, 1, line19);
-    wait_next();
-    set_bkg_tiles(1, 14, 18, 1, line20);
-    set_bkg_tiles(1, 16, 18, 1, line21);
-    wait_next();
-    set_bkg_tiles(1, 14, 18, 1, line22);
-    set_bkg_tiles(1, 16, 18, 1, line23);
     uint8_t next = 0;
     while (!next) {
         if (joypad() & J_A) {

@@ -12,6 +12,7 @@ void game_over() BANKED {
     black_spiral();
     DISPLAY_OFF;
     delay(500);
+    // da cambiare obt_e qui e nella tesi
     uint8_t obt_m[2];
     uint8_t obt_e[3];
     obt_m[0] = obt_mythril / 10 + 26;

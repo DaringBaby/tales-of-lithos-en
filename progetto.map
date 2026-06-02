@@ -48,7 +48,7 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      000000AB  l__HEADER |    00000200  s__CODE   |    000002BF  l__DATA  
      0000087F  l__HOME   |    00002000  _rROMB0   |    000025EA  l__CODE_1
      00003000  _rROMB1   |    00003444  l__CODE   |    00003644  s__HOME  
-     00003C0A  l__CODE_6 |    00003C1A  l__CODE_4 |    00003D6A  l__CODE_5
+     00003B71  l__CODE_6 |    00003C1A  l__CODE_4 |    00003D6A  l__CODE_5
      00003DAE  l__CODE_3 |    00003DF5  l__CODE_2 |    00003EC3  s__BASE  
      00003EC3  s__CODE_0 |    00003EC3  s__INITIA |    00003EC3  s__LIT   
      00003F06  s__GSINIT |    00003F12  s__GSFINA |    00004000  _rMBC7_SR
@@ -530,23 +530,22 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE_6                00064000    00003C0A =       15370. bytes (REL,CON)
+_CODE_6                00064000    00003B71 =       15217. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
      00064000  _Slide1   |    00064EB0  _IntroSli |    00065018  _start_in
-     00065256  _wait_nex |    0006526D  _Slide2   |    00065D9D  _IntroSli
-     00065F05  _Slide3   |    00066E25  _IntroSli |    00066F8D  _line_emp
-     00066F9F  _line1    |    00066FB3  _line2    |    00066FC7  _line3   
-     00066FDB  _line4    |    00066FEE  _line5    |    00067000  _line6   
-     00067012  _line7    |    00067024  _line8    |    00067036  _line9   
-     00067048  _line10   |    0006705A  _line11   |    0006706C  _line12  
-     0006707E  _line13   |    00067090  _line14   |    000670A2  _line15  
-     000670B4  _line16   |    000670C6  _line17   |    000670D8  _line18  
-     000670EA  _line19   |    000670FC  _line20   |    0006710E  _line21  
-     00067120  _line22   |    00067132  _line23   |    00067144  _EndingTi
-     00067794  _Ending1  |    000678FC  _Ending2  |    00067A64  _play_end
-     00067ABB  _set_slid |    00067B70  _set_slid
+     0006520C  _wait_nex |    00065223  _Slide2   |    00065D53  _IntroSli
+     00065EBB  _Slide3   |    00066DDB  _IntroSli |    00066F43  _line_emp
+     00066F55  _line1    |    00066F67  _line2    |    00066F79  _line3   
+     00066F8B  _line4    |    00066F9D  _line5    |    00066FAF  _line6   
+     00066FC1  _line7    |    00066FD3  _line8    |    00066FE5  _line9   
+     00066FF7  _line10   |    00067009  _line11   |    0006701B  _line12  
+     0006702D  _line13   |    0006703F  _line14   |    00067051  _line15  
+     00067063  _line16   |    00067075  _line17   |    00067087  _line18  
+     00067099  _line19   |    000670AB  _EndingTi |    000676FB  _Ending1 
+     00067863  _Ending2  |    000679CB  _play_end |    00067A22  _set_slid
+     00067AD7  _set_slid
 ASxxxx Linker V03.00/V05.40 + sdld,  page 35.
 Hexadecimal  [32-Bits]
 
