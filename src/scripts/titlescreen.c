@@ -10,7 +10,7 @@
 
 
 uint8_t set_titlescreen() BANKED {
-    uint8_t press_start[] = {241, 242, 243, 244, 245, 1, 1, 246, 247, 248, 242, 247};
+    uint8_t press_start[] = {241, 242, 243, 246, 246, 1, 1, 246, 247, 248, 242, 247};
     uint8_t empty[] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
     set_bkg_tiles(4, 16, 12, 1, press_start);
     uint8_t frame = 0;

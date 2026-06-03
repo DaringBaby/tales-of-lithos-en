@@ -1,7 +1,6 @@
 #include <gb/gb.h>
 #include "scripts/init.h"
 #include "scripts/actions.h"
-
 const uint8_t stairs[] = {241, 242, 243, 244};
 const uint8_t menu_body[] = {187};
 const uint8_t arrow_tile = 245;
@@ -14,6 +13,7 @@ void main(void) {
 
 
     while(1) {
+
         check_open_menu();
         switch (menu_opened) {
             case 0:

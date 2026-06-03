@@ -1,4 +1,1 @@
-6|1780429693|testo premi start|0
-7|1780429696|testo crediti|0
-10|1780429718|testo game over|0
-11|1780433366|testo inserisci nome|0
+0|1780515199|fix bug where when you fire arrow you don't die|0

@@ -49,7 +49,7 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000087F  l__HOME   |    00002000  _rROMB0   |    000025EA  l__CODE_1
      00003000  _rROMB1   |    00003444  l__CODE   |    00003644  s__HOME  
      00003B71  l__CODE_6 |    00003C1A  l__CODE_4 |    00003D6A  l__CODE_5
-     00003DAE  l__CODE_3 |    00003DF5  l__CODE_2 |    00003EC3  s__BASE  
+     00003DAC  l__CODE_3 |    00003DF5  l__CODE_2 |    00003EC3  s__BASE  
      00003EC3  s__CODE_0 |    00003EC3  s__INITIA |    00003EC3  s__LIT   
      00003F06  s__GSINIT |    00003F12  s__GSFINA |    00004000  _rMBC7_SR
      00004000  _rRAMB    |    00008000  __VRAM    |    00008000  __VRAM800
@@ -476,34 +476,34 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE_3                00034000    00003DAE =       15790. bytes (REL,CON)
+_CODE_3                00034000    00003DAC =       15788. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00034000  _set_titl |    000340F5  _set_map_ |    00034187  _Minimap 
-     00034297  _map_menu |    000343FF  _stats_me |    00034567  _empty_ma
-     00034589  _check_ma |    0003462E  _check_ma |    0003473D  _show_tim
-     000347AA  _check_me |    000348E7  _hector_u |    00034A8D  _safy_upg
-     00034CDB  _set_stat |    00034F9A  _set_mini |    000350BD  _show_num
-     000351BD  _print_de |    00035203  _check_ti |    0003523C  _get_num_
-     00035281  _add_enem |    0003537E  _generate |    0003541A  _spawn_en
-     0003549B  _set_enem |    000354C4  _set_enem |    00035672  _set_enem
-     000356D9  _set_enem |    0003573A  _check_en |    00035A36  _set_char
-     00035AC0  _insert_n |    00035B77  _name_arr |    00035B87  _check_na
-     00035CCF  _NameMap  |    00035E37  _draw_loc |    00035ED6  _draw_fli
-     00035F78  _draw_loc |    00035FDE  _draw_fli |    0003604C  _hide_doo
-     00036075  _EyeBoss  |    00036175  _BossArmo |    00036275  _BossDrag
-     00036375  _BossMant |    00036475  _BossOrb  |    00036575  _spawn_bo
-     000368CD  _move_bos |    00036A1C  _boss_che |    00036A24  _boss_che
-     00036A2D  _boss_att |    00036A77  _boss_smo |    00036BA9  _boss_dea
-     00036BE4  _init_sou |    00036BF1  _arrow_sf |    00036C05  _hit_sfx 
-     00036C16  _heal_sfx |    00036C2B  _stairs_s |    00036C52  _unlock_s
-     00036C63  _start_sf |    00036C78  _death_sf |    00036C8D  _enemy_de
-     000370FF  _gameover |    00037114  _LarvaOsc |    00037154  _Predator
-     00037194  _Trisguar |    000371D4  _Armatura |    00037214  _Ragnocch
-     00037254  _Pipistre |    00037294  _Dragocch |    000372D4  _OcchioIn
-     00037314  _Quadrato |    00037354  _Cervelli |    00037394  _Cristall
-     00037C31  _boss_def |    00037C46  _Tutorial
+     00034000  _set_titl |    000340F3  _set_map_ |    00034185  _Minimap 
+     00034295  _map_menu |    000343FD  _stats_me |    00034565  _empty_ma
+     00034587  _check_ma |    0003462C  _check_ma |    0003473B  _show_tim
+     000347A8  _check_me |    000348E5  _hector_u |    00034A8B  _safy_upg
+     00034CD9  _set_stat |    00034F98  _set_mini |    000350BB  _show_num
+     000351BB  _print_de |    00035201  _check_ti |    0003523A  _get_num_
+     0003527F  _add_enem |    0003537C  _generate |    00035418  _spawn_en
+     00035499  _set_enem |    000354C2  _set_enem |    00035670  _set_enem
+     000356D7  _set_enem |    00035738  _check_en |    00035A34  _set_char
+     00035ABE  _insert_n |    00035B75  _name_arr |    00035B85  _check_na
+     00035CCD  _NameMap  |    00035E35  _draw_loc |    00035ED4  _draw_fli
+     00035F76  _draw_loc |    00035FDC  _draw_fli |    0003604A  _hide_doo
+     00036073  _EyeBoss  |    00036173  _BossArmo |    00036273  _BossDrag
+     00036373  _BossMant |    00036473  _BossOrb  |    00036573  _spawn_bo
+     000368CB  _move_bos |    00036A1A  _boss_che |    00036A22  _boss_che
+     00036A2B  _boss_att |    00036A75  _boss_smo |    00036BA7  _boss_dea
+     00036BE2  _init_sou |    00036BEF  _arrow_sf |    00036C03  _hit_sfx 
+     00036C14  _heal_sfx |    00036C29  _stairs_s |    00036C50  _unlock_s
+     00036C61  _start_sf |    00036C76  _death_sf |    00036C8B  _enemy_de
+     000370FD  _gameover |    00037112  _LarvaOsc |    00037152  _Predator
+     00037192  _Trisguar |    000371D2  _Armatura |    00037212  _Ragnocch
+     00037252  _Pipistre |    00037292  _Dragocch |    000372D2  _OcchioIn
+     00037312  _Quadrato |    00037352  _Cervelli |    00037392  _Cristall
+     00037C2F  _boss_def |    00037C44  _Tutorial
 ASxxxx Linker V03.00/V05.40 + sdld,  page 32.
 Hexadecimal  [32-Bits]
 
