@@ -56,16 +56,35 @@ void check_input_keys() {
             if (gx >= 4 && gx <= 5 && gy >= 10 && gy <= 11) {
                 open_npc_menu(1);       // hector
             }
-            else if (gx >= 14 && gx <= 15 && gy >= 8 && gy <= 9) {
-                open_npc_menu(2);       // safy
-            }
-            else if (gx>=12 && gx <=13 && gy >= 10 && gy <= 11) {
-                save_game();
-                delay(150);
-                heal_sfx();
-                menu_opened = 4;
-                set_textbox(0);
-            }
+            else {
+
+                    uint8_t tx = gx;
+                    uint8_t ty = gy;
+
+                    switch (last_direction) {
+                        case 1: ty -= 2; break;
+                        case 4: ty += 2; break;
+                        case 2: tx += 2; break;
+                        case 8: tx -= 2; break;
+                    }
+
+                    uint8_t bx = tx >> 1;
+                    uint8_t by = ty >> 1;
+
+                    // check if is in front of
+                    if (bx == 7 && by == 3) {
+                        open_npc_menu(2); // safy (gx: 14-15, gy: 6-7)
+                    }
+                    else if (bx == 7 && by == 5) {
+                        save_game();      // save point (gx: 14-15, gy: 10-11)
+                        delay(150);
+                        heal_sfx();
+                        menu_opened = 4;
+                        HIDE_SPRITES;
+                        set_textbox(0);
+                        SHOW_SPRITES;
+                    }
+                }
         }
     }
 

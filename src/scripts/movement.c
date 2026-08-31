@@ -21,6 +21,7 @@ void check_input_movement() {
         }
     }
     else if (joypad() & J_UP) {
+        last_direction = 1;
         set_character_sprite(1);
         if (check_terrain(x + 8, y - 8) && !is_sprite_at(x, y - 16)) {
             last_direction = 1;

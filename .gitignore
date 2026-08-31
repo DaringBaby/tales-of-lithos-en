@@ -1,6 +1,4 @@
-*.gb
 *.o
-*.map
 *.sym
 *.ihx
 *.sav
